@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee"
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   
+ 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+ 	
+ 	<context-param>
+ 		<param-name>contextConfigLocation</param-name>
+ 		<param-value>classpath:spring.xml</param-value>
+ 		<!--<param-value>classpath:config/spring-cxf.xml,classpath:spring.xml</param-value>-->
+ 		<!--<param-value>classpath:org/codehaus/xfire/spring/xfire.xml,classpath:config/spring-xfire.xml,classpath:spring.xml</param-value>--> 
+ 	</context-param>
+ 	
+ 	<!-- struts2 -->
+ 	<filter>
+    	<filter-name>struts2</filter-name>
+        <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>struts2</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+ 	
+ 	<!-- spring -->
+ 	<listener>
+  		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+ 	</listener>
+ 	
+ 	<!-- spring，负责处理由JavaBean Introspector使用而引起的缓冲泄露 -->
+ 	<!--  
+ 	<listener>
+ 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+ 	</listener>
+ 	-->
+	
+	<!-- wicket -->
+	<!--
+	<filter>
+        <filter-name>wicket</filter-name>
+        <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+        <init-param>
+            <param-name>applicationClassName</param-name>
+            <param-value>page.WicketSpringApplication</param-value>
+        </init-param>        
+    </filter>
+	
+    <filter-mapping>
+		<filter-name>wicket</filter-name> 
+		<url-pattern>/*</url-pattern>
+    </filter-mapping>
+	-->
+ 	
+ 	<!-- Acegi2 -->
+ 	<!--  
+ 	<filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+      <filter-name>springSecurityFilterChain</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <listener>
+        <listener-class>org.springframework.security.ui.session.HttpSessionEventPublisher</listener-class>
+    </listener>
+    -->
+ 	
+ 	<!--  
+ 	<servlet>
+		<servlet-name>context</servlet-name>
+		<servlet-class>org.springframework.web.context.ContextLoaderServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	-->
+	
+	<!-- WebService配置信息，对XFire好像不起作用，不过网上有哥们这么用 -->
+	<!--  
+	<servlet>      
+   		<servlet-name>xfire</servlet-name>      
+   		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
+	</servlet>   
+	   
+	<servlet-mapping>    
+   		<servlet-name>xfire</servlet-name>  
+   		<url-pattern>/*</url-pattern>  
+	</servlet-mapping>
+	-->
+	
+	<!-- XFire配置信息 -->
+	<!--
+	<servlet>
+    	<servlet-name>XFireServlet</servlet-name>
+    	<servlet-class>org.codehaus.xfire.spring.XFireSpringServlet</servlet-class>
+  	</servlet>
+  
+	<servlet-mapping>
+    	<servlet-name>XFireServlet</servlet-name>
+    	<url-pattern>/services/*</url-pattern>
+  	</servlet-mapping>
+  
+  	<servlet-mapping>
+    	<servlet-name>XFireServlet</servlet-name>
+    	<url-pattern>/servlet/XFireServlet/*</url-pattern>
+  	</servlet-mapping> 
+  	-->  
+  	
+  	<!-- CXF配置信息 -->
+  	<!--  
+  	<servlet>    
+        <servlet-name>CXFServlet</servlet-name>    
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>    
+    </servlet>    
+    
+    <servlet-mapping>    
+        <servlet-name>CXFServlet</servlet-name>    
+        <url-pattern>/*</url-pattern>    
+    </servlet-mapping>
+    -->    
+    
+    <!-- hibernate -->
+    <!--  
+    <filter>
+		<filter-name>hibernateOpenSessionInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+		<init-param>  
+	        <param-name>sessionFactoryBeanName</param-name>  
+	        <param-value>localSessionFactory</param-value>  
+    	</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>hibernateOpenSessionInViewFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	-->
+ 	
+ 	<welcome-file-list>
+  		<welcome-file>index.jsp</welcome-file>
+ 	</welcome-file-list>
+ 
+ 	<!--
+ 	<login-config>
+  		<auth-method>BASIC</auth-method>
+ 	</login-config>
+ 	-->
+</web-app>

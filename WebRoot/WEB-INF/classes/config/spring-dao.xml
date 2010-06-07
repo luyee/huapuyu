@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+	<!-- jdbc -->
+	<!--  
+  	<bean id="tb_userDao" class="dao.jdbc.Tb_userDao">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	-->
+  	
+  	<!-- hibernate -->
+  	<!--  
+  	<bean id="tb_userDao" class="dao.hibernate.Tb_userDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	-->
+	
+	<!-- ibatis -->
+	<!--  
+	<bean id="tb_userDao" class="dao.ibatis.Tb_userDao">
+    	<property name="sqlMapClient" ref="sqlMapClient"/>
+  	</bean>
+  	-->
+  	
+  	<!-- jpa -->
+	<bean id="tb_departDao" class="dao.jpa.Tb_departDao">
+    	<property name="entityManagerFactory" ref="entityManagerFactory"/>
+  	</bean>
+</beans>

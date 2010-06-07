@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+	<!-- 普通POJO对象 -->
+	<bean id="pojo" class="test.Pojo">
+		<property name="id" value="123"/>
+		<property name="name" value="zhuzhen"/>
+		<property name="score" value="95"/>
+	</bean>
+	
+	<!-- Setter注入 -->  
+	<bean id="setterInjection" class="test.SetterInjection">
+		<property name="pojo" ref="pojo"/>
+	</bean>
+	
+	<!-- 构造器注入 -->   
+	<bean id="constructorInjection" class="test.ConstructorInjection">
+		<constructor-arg index="0" ref="pojo"/>
+		<constructor-arg index="1" type="int" value="10000"/>
+		<constructor-arg index="2" type="java.lang.String" value="cme"/>
+	</bean> 
+	
+	<!-- 静态工厂注入 -->
+	<bean id="factoryInjection" class="test.FactoryInjection" factory-method="createInstance">
+  		<constructor-arg index="0" ref="pojo"/>
+		<constructor-arg index="1" type="int" value="20000"/>
+		<constructor-arg index="2" type="java.lang.String" value="pm"/> 
+	</bean>
+</beans>

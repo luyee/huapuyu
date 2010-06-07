@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jee="http://www.springframework.org/schema/jee" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       	   				   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       	   				   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       	   				   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd">
+
+	<context:annotation-config/>
+	<context:component-scan base-package="annotation"/>
+	<context:component-scan base-package="others"/>
+	  
+	<!--
+	<bean id="zhuRongbao" class="annotation.ZhuRongbao"/>
+	<bean class="annotation.HuangXiaoyan"/>
+	<bean class="annotation.ZhuZhen"/>
+	<bean class="annotation.GuoLili"/>
+	-->
+	
+	<!-- AutowiredAnnotationBeanPostProcessor主要用于@Autowired注解和@Qualifier -->
+	<!--  
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+	-->
+
+	<!-- 
+	<context:annotation-config/>会自动注册如下四种bean：
+	org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
+	-->
+	
+	<!--  
+	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor">   
+		当@Resource没有显式提供名字的时候，如果根据默认名字找不到对应的Spring管理对象，注入机制会回滚至类型匹配（type-match）。
+		<property name="fallbackToDefaultTypeMatch" value="false"/>
+		强制对所有使用@Resource注解的依赖进行JNDI lookup
+		<property name="alwaysUseJndiLookup" value="true"/>
+	</bean>
+	-->
+	
+	<!--  
+	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/petclinic"/>
+	-->
+</beans>

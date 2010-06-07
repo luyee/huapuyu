@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Tb_user">
+
+  <typeAlias alias="Tb_user" type="model.Tb_user"/>
+
+  <resultMap id="Tb_userMap" class="Tb_user">
+    <result property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="pwd" column="pwd"/>
+  </resultMap>
+
+  <select id="tb_usersGetAll" resultMap="Tb_userMap">
+    select id, name, pwd from tb_user
+  </select>
+
+  <select id="tb_userGetById" parameterClass="int" resultClass="Tb_user">
+    select id, name, pwd from tb_user where id = #id#
+  </select>
+   
+  <insert id="tb_userInsert" parameterClass="Tb_user">
+    insert into tb_user (id, name, pwd) values (#id#, #name#, #pwd#)
+  </insert>
+
+  <update id="tb_userUpdate" parameterClass="Tb_user">
+    update tb_user set name = #name#, pwd = #pwd# where id = #id#
+  </update>
+
+  <delete id="tb_userDeleteById" parameterClass="int">
+    delete from tb_user where id = #id#
+  </delete>
+  
+  <delete id="tb_userDelete" parameterClass="Tb_user">
+    delete from tb_user where id = #id#
+  </delete>
+
+</sqlMap>
