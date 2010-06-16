@@ -20,6 +20,8 @@ JMX
 Thread
 
 Struts 2.1.8.1
+Wicket
+Tapestry
 Velocity
 FreeMaker
 
@@ -38,5 +40,8 @@ TestNG
 
 Lucent
 
+JBoss Portal
+jBPM
+JBoss Seam
 
 
