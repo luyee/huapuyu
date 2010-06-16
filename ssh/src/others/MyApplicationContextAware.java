@@ -10,7 +10,7 @@ public class MyApplicationContextAware implements ApplicationContextAware
 {
 	private ApplicationContext ctx;
 
-	// 继承了ApplicationContextAware借口后，
+	// 继承了ApplicationContextAware接口后，
 	// setApplicationContext方法会在MyApplicationContextAware实例化时自动调用
 	@Override
 	public void setApplicationContext(ApplicationContext ctx) throws BeansException
