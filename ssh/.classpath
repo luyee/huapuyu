@@ -3,8 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/aspectjrt.jar"/>
 	<classpathentry kind="lib" path="lib/aspectjweaver.jar"/>
-	<classpathentry kind="lib" path="lib/cglib-2.2.jar"/>
-	<classpathentry kind="lib" path="lib/cglib-nodep-2.1_3.jar"/>
 	<classpathentry kind="lib" path="lib/commons-beanutils-1.7.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-chain-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-dbcp-1.2.2.jar"/>
@@ -103,7 +101,6 @@
 	<classpathentry kind="lib" path="lib/abdera-parser-0.4.0-incubating.jar"/>
 	<classpathentry kind="lib" path="lib/ant-1.6.5.jar"/>
 	<classpathentry kind="lib" path="lib/antlr-2.7.7.jar"/>
-	<classpathentry kind="lib" path="lib/asm-2.2.3.jar"/>
 	<classpathentry kind="lib" path="lib/axiom-api-1.2.7.jar"/>
 	<classpathentry kind="lib" path="lib/axiom-impl-1.2.7.jar"/>
 	<classpathentry kind="lib" path="lib/bcprov-jdk15-1.43.jar"/>
@@ -150,19 +147,21 @@
 	<classpathentry kind="lib" path="lib/cxf-2.2.6.jar"/>
 	<classpathentry kind="lib" path="lib/cxf-rt-frontend-jaxws-2.2.6.jar"/>
 	<classpathentry kind="lib" path="lib/cxf-rt-frontend-simple-2.2.6.jar"/>
-	<classpathentry kind="lib" path="lib/spring-security-acl-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/spring-security-cas-client-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/spring-security-catalina-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/spring-security-core-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/spring-security-core-tiger-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/spring-security-jetty-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/spring-security-ntlm-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/spring-security-openid-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/spring-security-taglibs-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/spring-security-jboss-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/spring-security-portlet-2.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/spring-security-resin-2.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/ejb3-persistence.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_19"/>
+	<classpathentry kind="lib" path="lib/asm-all-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/wicket-1.4.9.jar"/>
+	<classpathentry kind="lib" path="lib/wicket-datetime-1.4.9.jar"/>
+	<classpathentry kind="lib" path="lib/wicket-extensions-1.4.9.jar"/>
+	<classpathentry kind="lib" path="lib/wicket-ioc-1.4.9.jar"/>
+	<classpathentry kind="lib" path="lib/wicket-spring-1.4.9.jar"/>
+	<classpathentry kind="lib" path="lib/cglib-2.2.jar"/>
+	<classpathentry kind="lib" path="lib/cglib-nodep-2.2.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-core-2.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-acl-2.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-cas-client-2.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-ntlm-2.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-openid-2.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-security-taglibs-2.0.5.RELEASE.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
