@@ -4,6 +4,9 @@ import java.util.List;
 
 import model.Tb_user;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import dao.interf.ITb_userDao;
@@ -63,6 +66,17 @@ public class Tb_userDao extends HibernateDaoSupport implements ITb_userDao
 	@SuppressWarnings("unchecked")
 	public List getAll()
 	{
-		return getHibernateTemplate().find("from Tb_user");
+		// return getHibernateTemplate().find("from Tb_user");
+		// http://kewb.javaeye.com/blog/128708
+		return (List) getHibernateTemplate().execute(new HibernateCallback()
+		{
+			public Object doInHibernate(Session session) throws HibernateException
+			{
+				// List result = session.createCriteria(Tb_user.class).add(Restrictions.like("name", name+"%").list();
+				// return result;
+				return null;
+			}
+		});
+
 	}
 }
