@@ -18,12 +18,12 @@
 	<import resource="classpath:config/spring-annotation.xml"/>
 	
 	<!-- test -->
+	<!--
 	<import resource="classpath:config/spring-test.xml"/>
-	
-	<!-- acegi -->
-	<!-- 
-	<import resource="classpath:config/spring-acegi.xml"/>
 	-->
+	
+	<!-- security -->
+	<import resource="classpath:config/spring-security.xml"/>
 	
 	<!-- xfire -->
 	<!--  
@@ -51,17 +51,25 @@
 	-->
 	
 	<!-- jpa -->
+	<!--
 	<import resource="classpath:config/spring-jpa.xml"/>
+	-->
 	
 	<!-- dao -->
+	<!--
   	<import resource="classpath:config/spring-dao.xml"/>
+  	-->
   	
   	<!-- service -->
+  	<!--
   	<import resource="classpath:config/spring-service.xml"/>
+  	-->
   	
   	<!-- action -->
+  	<!--
   	<import resource="classpath:config/spring-action.xml"/>
-  	
+	-->
+	
 	<!-- aop -->
 	<!-- 
 	<import resource="classpath:config/spring-aop.xml"/>
