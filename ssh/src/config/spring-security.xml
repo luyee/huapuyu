@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       	   				   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       	   				   http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+
+	<!--  
+	<security:http auto-config="true" realm="Contacts Realm">
+        <security:intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <security:intercept-url pattern="/index.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <security:intercept-url pattern="/hello.htm" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <security:intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>        
+        <security:intercept-url pattern="/switchuser.jsp" access="ROLE_SUPERVISOR"/>
+        <security:intercept-url pattern="/j_spring_security_switch_user" access="ROLE_SUPERVISOR"/>
+        <security:intercept-url pattern="/**" access="ROLE_USER"/>
+        <security:form-login login-page="/login.jsp" authentication-failure-url="/login.jsp?login_error=1"/>
+        <security:logout logout-success-url="/index.jsp"/>
+    </security:http>
+    
+    <security:http auto-config="true">   
+        <security:intercept-url pattern="/index.jsp*" access="ROLE_ANONYMOUS"/>   
+        <security:intercept-url pattern="/logout.jsp*" access="ROLE_ANONYMOUS"/>   
+        <security:intercept-url pattern="/**/*.jsp*" access="ROLE_USER"/>            
+        <security:intercept-url pattern="/**/*.htm*" access="ROLE_USER"/>   
+        <security:intercept-url pattern="/**/*.html*" access="ROLE_USER"/>   
+        <security:intercept-url pattern="/**/*.do*" access="ROLE_USER"/>   
+        <security:intercept-url pattern="/**/*.ftl*" access="ROLE_USER"/>   
+        <security:form-login login-page="/login.jsp"/>   
+        <security:logout logout-success-url="/index.jsp"/>   
+	</security:http>
+	-->
+	
+	<security:http auto-config="true">
+        <security:intercept-url pattern="/admin.jsp" access="ROLE_ADMIN"/>
+        <security:intercept-url pattern="/**" access="ROLE_USER"/>
+    </security:http>
+
+    <security:authentication-provider>
+        <security:user-service>
+            <security:user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN"/>
+            <security:user name="user" password="user" authorities="ROLE_USER"/>
+        </security:user-service>
+    </security:authentication-provider>
+</beans>

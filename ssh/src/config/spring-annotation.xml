@@ -12,6 +12,7 @@
 	<context:annotation-config/>
 	<context:component-scan base-package="annotation"/>
 	<context:component-scan base-package="others"/>
+	<context:component-scan base-package="wicket"/>
 	  
 	<!--
 	<bean id="zhuRongbao" class="annotation.ZhuRongbao"/>
