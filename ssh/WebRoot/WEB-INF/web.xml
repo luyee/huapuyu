@@ -12,13 +12,13 @@
  		<!--<param-value>classpath:org/codehaus/xfire/spring/xfire.xml,classpath:config/spring-xfire.xml,classpath:spring.xml</param-value>--> 
  	</context-param>
  	
- 	 <!-- struts1基础配置文件开始 迟轩-->
+ 	 <!-- struts1 -->
     <servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
 		<init-param>
 			<param-name>config</param-name>
-			<param-value>/WEB-INF/struts-config.xml</param-value>
+			<param-value>struts1.xml</param-value>
 		</init-param>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
@@ -27,7 +27,6 @@
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-	<!-- struts1基础配置文件结束 迟轩-->
  	
  	<!-- struts2 -->
  	<!-- 
