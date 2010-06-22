@@ -10,19 +10,22 @@ import org.apache.struts.action.ActionMapping;
 
 import struts.one.form.LoginForm;
 
-public class LoginAction extends Action {
-
-	public ActionForward execute(ActionMapping mapping, ActionForm argForm,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+public class LoginAction extends Action
+{
+	public ActionForward execute(ActionMapping mapping, ActionForm argForm, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
 		LoginForm form = (LoginForm) argForm;
-		if ("exception".equals(form.getName())) {
+		if ("exception".equals(form.getName()))
+		{
 			throw new MyException("in my exception");
 		}
 
-		if ("chixuan".equals(form.getName()) && "1".equals(form.getPassWord())) {
+		if ("chixuan".equals(form.getName()) && "1".equals(form.getPassWord()))
+		{
 			return mapping.findForward("submit");
-		} else {
+		}
+		else
+		{
 			return mapping.findForward("error");
 		}
 	}
