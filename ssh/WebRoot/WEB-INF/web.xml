@@ -20,7 +20,6 @@
 			<param-name>config</param-name>
 			<param-value>struts1.xml</param-value>
 		</init-param>
-		<load-on-startup>0</load-on-startup>
 	</servlet>
 	
     <servlet-mapping>
