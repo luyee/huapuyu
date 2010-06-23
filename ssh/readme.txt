@@ -1,4 +1,4 @@
-http://localhost:8888/ssh100111/Tb_userlist.do
+http://localhost:8888/ssh/Tb_userlist.do
 
 Oracle 9i
 JDBC
