@@ -2,8 +2,9 @@
 <project-module
   type="WEB"
   name="ssh"
-  id="myeclipse.1277306930750"
-  j2ee-spec="1.4"
+  id="myeclipse.1263191756421"
+  context-root="/ssh"
+  j2ee-spec="5.0"
   archive="ssh.war">
   <attributes>
     <attribute name="webrootdir" value="WebRoot" />
