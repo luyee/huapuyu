@@ -1,4 +1,4 @@
-package action;
+package struts.two.action;
 
 import java.util.List;
 

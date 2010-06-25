@@ -3,17 +3,17 @@
 
 <beans>
 	<!--  
-	<bean id="indexAction" class="action.IndexAction">
+	<bean id="indexAction" class="struts.two.action.IndexAction">
 		<property name="dao" ref="tb_userDao"/>
 	</bean>
 	
-	<bean id="tb_userAction" class="action.Tb_userAction">
+	<bean id="tb_userAction" class="struts.two.action.Tb_userAction">
 		<property name="service" ref="tb_userService"/>
 	</bean>
 	-->
 	
 	<!--  
-	<bean id="indexAction" class="action.IndexAction" scope="prototype">
+	<bean id="indexAction" class="struts.two.action.IndexAction" scope="prototype">
 		<property name="is" ref="indexService"/>
 	</bean>
 	-->
@@ -22,7 +22,7 @@
 	<bean id="is" class="service.impl.IndexService"/>
 	-->
 	
-	<bean id="tb_departAction" class="action.Tb_departAction">
+	<bean id="tb_departAction" class="struts.two.action.Tb_departAction">
 		<property name="service" ref="tb_departService"/>
 	</bean>
 </beans>
