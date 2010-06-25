@@ -1,4 +1,4 @@
-package junit;
+package test;
 
 import java.sql.SQLException;
 
@@ -14,7 +14,7 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 
 import dao.hibernate.Tb_userDao;
 
-public class MainTest
+public class MainTest11
 {
 	public void Test1()
 	{
