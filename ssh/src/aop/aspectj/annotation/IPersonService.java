@@ -1,4 +1,4 @@
-package aspectj;
+package aop.aspectj.annotation;
 
 public interface IPersonService
 {

@@ -1,4 +1,4 @@
-package aop;
+package aop.spring;
 
 interface IProxyTarget
 {

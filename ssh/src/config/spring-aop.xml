@@ -3,20 +3,20 @@
 
 <beans>
 	<!-- 目标对象 -->
-	<bean id="manualProxyTarget" class="aop.ManualProxyTarget"/>
-	<bean id="autoProxyTarget" class="aop.AutoProxyTarget"/>
+	<bean id="manualProxyTarget" class="aop.spring.ManualProxyTarget"/>
+	<bean id="autoProxyTarget" class="aop.spring.AutoProxyTarget"/>
 	
 	<!-- 环绕 -->
-	<bean id="aroundAdvice" class="aop.AroundAdvice"/>
+	<bean id="aroundAdvice" class="aop.spring.AroundAdvice"/>
 	
 	<!-- 前置 -->
-	<bean id="beforeAdvice" class="aop.BeforeAdvice"/>
+	<bean id="beforeAdvice" class="aop.spring.BeforeAdvice"/>
 	
 	<!-- 后置 -->
-	<bean id="afterAdvice" class="aop.AfterAdvice"/>
+	<bean id="afterAdvice" class="aop.spring.AfterAdvice"/>
 	
 	<!-- 异常 -->
-	<bean id="throwAdvice" class="aop.ThrowAdvice"/>
+	<bean id="throwAdvice" class="aop.spring.ThrowAdvice"/>
 	
 	<!-- 
  	如果一个需要被代理的目标对象的类（后面将简单地称它为目标类）没有实现任何接口，

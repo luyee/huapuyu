@@ -1,4 +1,4 @@
-package aspectjxml;
+package aop.aspectj.xml;
 
 public interface IPersonService
 {

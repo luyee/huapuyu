@@ -1,4 +1,4 @@
-package aop;
+package aop.spring;
 
 public class AutoProxyTarget implements IProxyTarget
 {

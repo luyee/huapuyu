@@ -1,4 +1,4 @@
-package aspectjxml;
+package aop.aspectj.annotation;
 
 public class PersonService implements IPersonService
 {
@@ -6,7 +6,7 @@ public class PersonService implements IPersonService
 	public void get(String name, long i)
 	{
 		System.out.println("get:" + name);
-		throw new RuntimeException("错误");
+		// throw new RuntimeException("错误");
 	}
 
 	@Override

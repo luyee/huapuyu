@@ -1,4 +1,4 @@
-package aspectj;
+package aop.aspectj.xml;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -13,9 +13,9 @@ public class MainTest
 		// BeanFactory bf = new XmlBeanFactory(new
 		// ClassPathResource("spring.xml"));
 
-		IPersonService ps = (IPersonService) ctx.getBean("personService");
+		IPersonService ps = (IPersonService) ctx.getBean("personServicexml");
 		ps.save("zhuzhen", 1);
-		ps.update("zhuzhen");
-		ps.get("zhuzhen", 2);
+		// ps.update("zhuzhen");
+		// ps.get("zhuzhen", 2);
 	}
 }

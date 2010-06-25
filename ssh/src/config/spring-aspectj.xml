@@ -12,21 +12,21 @@
 	
 	<!-- 方法一：注解进行配置，不需要在配置文件写任何配置信息，只需要写入如下bean信息就可以了 -->
 	<!--  
-	<bean id="personService" class="aspectj.PersonService"/>
-	<bean id="loggerAspect" class="aspectj.LoggerAspect"/>
+	<bean id="personService" class="aop.aspectj.annotation.PersonService"/>
+	<bean id="loggerAspect" class="aop.aspectj.annotation.LoggerAspect"/>
 	-->
 	
 	<!-- 方法二：xml配置，详细配置如下 -->
-	<bean id="personServicexml" class="aspectjxml.PersonService"/>
-	<bean id="loggerAspectxml" class="aspectjxml.LoggerAspect"/>
+	<bean id="personServicexml" class="aop.aspectj.xml.PersonService"/>
+	<bean id="loggerAspectxml" class="aop.aspectj.xml.LoggerAspect"/>
 	
 	<aop:config>
   		<aop:aspect id="loggerAspect" ref="loggerAspectxml">
   			<aop:pointcut id="anyMethod" expression="execution(* aspectjxml.PersonService.*(..))"/>
   			<!--  
-  			<aop:pointcut id="anyMethod" expression="execution(java.lang.String aspectjxml.PersonService.*(..))"/>
-  			<aop:pointcut id="anyMethod" expression="execution(* aspectjxml.PersonService.*(java.lang.String, ..))"/>
-  			<aop:pointcut id="anyMethod" expression="execution(!void aspectjxml.PersonService.*(..))"/>
+  			<aop:pointcut id="anyMethod" expression="execution(java.lang.String aop.aspectj.xml.PersonService.*(..))"/>
+  			<aop:pointcut id="anyMethod" expression="execution(* aop.aspectj.xml.PersonService.*(java.lang.String, ..))"/>
+  			<aop:pointcut id="anyMethod" expression="execution(!void aop.aspectj.xml.PersonService.*(..))"/>
   			-->
   			<aop:before pointcut-ref="anyMethod" method="loggerBefore"/>
   			<aop:after-returning pointcut-ref="anyMethod" method="loggerAfterReturning"/>
