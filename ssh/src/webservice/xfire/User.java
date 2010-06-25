@@ -1,4 +1,4 @@
-package xfire;
+package webservice.xfire;
 
 import java.io.Serializable;
 

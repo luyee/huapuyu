@@ -14,7 +14,7 @@
  	<!-- 注意：abstract="true"的话，启动会报错 -->
  	<bean id="testWS" class="org.codehaus.xfire.spring.remoting.XFireExporter" lazy-init="false" abstract="false">  
    		<property name="serviceFactory">
-   			<ref bean="xfire.serviceFactory"/>
+   			<ref bean="webservice.xfire.serviceFactory"/>
    		</property>  
 	   	<property name="xfire">
             <ref bean="xfire"/>
@@ -23,7 +23,7 @@
             <ref bean="testImpl"/>
         </property>
         <property name="serviceClass">
-            <value>xfire.ITest</value>
+            <value>webservice.xfire.ITest</value>
         </property>
 	</bean>  
 	
@@ -47,7 +47,7 @@
 			<value>http://simple.xfire.webservice/Test</value>
 		</property>
 		<property name="serviceClass">
-			<value>xfire.TestImpl</value>
+			<value>webservice.xfire.TestImpl</value>
 		</property>
 		<property name="serviceBean">
 			<ref bean="testImpl"/>
@@ -55,5 +55,5 @@
 	</bean>
 	-->
 	
-	<bean id="testImpl" class="xfire.TestImpl"/>
+	<bean id="testImpl" class="webservice.xfire.TestImpl"/>
 </beans>
