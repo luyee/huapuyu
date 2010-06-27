@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+"http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+	<!--  filter一定要 放在比较前面-->
+ 	<filter>
+    	<filter-name>log</filter-name>
+    	<filter-class>jsp1.LogFilter</filter-class>
+    </filter>
+    <filter-mapping>
+    	<filter-name>log</filter-name>
+    	<url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <!-- 一开始自动加载的家伙 只是抄袭具体什么用没有体会出来 -->
+  <!-- <listener>
+    	<listener-class>jsp1.UsingListener</listener-class>
+       </listener>
+    -->  
+    
+    <servlet>
+        <servlet-name>firstServlet</servlet-name>
+        <servlet-class>jsp1.MyServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>firstServlet</servlet-name>
+        <url-pattern>/firstServlet</url-pattern>
+    </servlet-mapping>
+    
+    <taglib>
+    	<taglib-uri>/tag/first.tld</taglib-uri>
+    	<taglib-location>/WEB-INF/jsp1TLD/first.tld</taglib-location>
+    </taglib>
+    <taglib>
+    	<taglib-uri>/tag/TagHaveProperty.tld</taglib-uri>
+    	<taglib-location>/WEB-INF/jsp1TLD/TagHaveProperty.tld</taglib-location>
+    </taglib>
+    <taglib>
+    	<taglib-uri>/tag/TagHaveBody.tld</taglib-uri>
+    	<taglib-location>/WEB-INF/jsp1TLD/TagHaveBody.tld</taglib-location>
+    </taglib>
+    <!-- <servlet-name>firstServlet</servlet-name>制定特定的Servlet  -->
+   
+</web-app>

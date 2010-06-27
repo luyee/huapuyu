@@ -12,13 +12,14 @@
  		<!--<param-value>classpath:org/codehaus/xfire/spring/xfire.xml,classpath:config/spring-xfire.xml,classpath:spring.xml</param-value>--> 
  	</context-param>
  	
+ 	
  	 <!-- struts1 -->
     <servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
 		<init-param>
 			<param-name>config</param-name>
-			<param-value>struts1.xml</param-value>
+			<param-value>/WEB-INF/classes/struts1.xml</param-value>
 		</init-param>
 	</servlet>
 	
@@ -53,6 +54,8 @@
  	-->
 	
 	<!-- wicket -->
+	
+	<!-- 
 	<filter>
         <filter-name>wicket</filter-name>
         <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
@@ -66,8 +69,11 @@
 		<filter-name>wicket</filter-name> 
 		<url-pattern>/*</url-pattern>
     </filter-mapping>
- 	
+ 	 -->
+ 	 
+ 	 
  	<!-- spring security -->
+ 	<!-- 
  	<filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -78,7 +84,7 @@
       <url-pattern>/*</url-pattern>
     </filter-mapping>
     
-   
+    -->
 	
     <!--
     <listener>
