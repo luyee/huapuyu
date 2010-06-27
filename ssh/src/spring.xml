@@ -23,7 +23,9 @@
 	-->
 	
 	<!-- security -->
+	
 	<import resource="classpath:config/spring-security.xml"/>
+	
 	
 	<!-- xfire -->
 	<!--  
@@ -84,4 +86,6 @@
 	<!--  
 	<import resource="classpath:config/spring-tx.xml"/>
 	-->	
+	<!-- struts1 ActionBean -->
+	<import resource="classpath:config/spring-struts1.xml"/>
 </beans>
