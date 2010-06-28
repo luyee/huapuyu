@@ -9,12 +9,22 @@ import org.apache.struts.action.ActionMessage;
 
 import common.Tools;
 
-
 public class LoginForm extends ActionForm
 {
 	private static final long serialVersionUID = 123396843686374620L;
 	private String name;
 	private String passWord;
+	private String pageSize;
+
+	public String getPageSize()
+	{
+		return pageSize;
+	}
+
+	public void setPageSize(String pageSize)
+	{
+		this.pageSize = pageSize;
+	}
 
 	public String getName()
 	{
@@ -49,7 +59,8 @@ public class LoginForm extends ActionForm
 		{
 			error.add("passWord", new ActionMessage("error.password.required"));
 		}
-		// return error;
-		return null;
+
+		return error;
+		// return null;
 	}
 }
