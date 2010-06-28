@@ -9,11 +9,6 @@ public class CrudDaoImpl implements CrudDao
 	private int pageSize;
 	private List<Object> record = new ArrayList<Object>();
 
-	public CrudDaoImpl()
-	{
-		System.out.println("wo kuai ");
-	}
-
 	@Override
 	public Pager getPage(int pageSize, int startIndex, String sql)
 	{
@@ -49,7 +44,12 @@ public class CrudDaoImpl implements CrudDao
 			// 模拟limit 1,10这种东西。
 			for (int i = 0; i < pageSize; i++)
 			{
-				returnList.add(record.get(startIndex + i));
+				try
+				{
+					returnList.add(record.get(startIndex + i));
+				} catch (Exception e)
+				{
+				}
 			}
 		}
 		return returnList;

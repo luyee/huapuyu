@@ -1,5 +1,7 @@
 package common;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * 放置公共使用方法
  * 
@@ -17,7 +19,8 @@ public class Tools
 	 */
 	public static boolean isBlank(String str)
 	{
-		if ("".equals(str) || null == str)
+
+		if (StringUtils.isBlank(str))
 		{
 			return true;
 		}

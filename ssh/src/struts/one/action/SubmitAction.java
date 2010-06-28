@@ -10,10 +10,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
+import struts.one.form.LoginForm;
+
 public class SubmitAction extends DispatchAction
 {
 	private CrudDao crudDao;
 	private Pager pager;
+	private int pageSize = 10;
 
 	public void setCrudDao(CrudDao crudDao)
 	{
@@ -22,10 +25,28 @@ public class SubmitAction extends DispatchAction
 
 	public ActionForward retrieve(ActionMapping mapping, ActionForm argForm, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
-		String sql = "select * from mmhouse";
-		if (pager == null)
+
+		LoginForm form = (LoginForm) argForm;
+		// 因为直接回车，page这个filed是不提交的
+		try
 		{
-			pager = crudDao.getPage(10, 0, sql);
+			if (form.getPageSize().equals("undefined"))
+			{
+				form.setPageSize(request.getParameter("pageSize").toString());
+			}
+		} catch (RuntimeException e1)
+		{
+		}
+		String sql = "select * from mmhouse";
+		if (pager == null || form.getPageSize() == null || pageSize != Integer.parseInt(form.getPageSize()))
+		{
+			try
+			{
+				pageSize = Integer.parseInt(request.getParameter("pageSize").toString());
+			} catch (Exception e)
+			{
+			}
+			pager = crudDao.getPage(pageSize, 0, sql);
 		}
 		else
 		{
@@ -54,6 +75,7 @@ public class SubmitAction extends DispatchAction
 		List<Object> record = crudDao.getListFromSql(sql, pager.getStartIndex());
 		pager.setItemList(record);
 		pager.init();
+		pager.setPageSize(pageSize);
 		request.setAttribute("pager", pager);
 		return mapping.findForward("pager");
 	}

@@ -51,7 +51,7 @@ public class Pager
 		}
 		else
 		{
-			endIndex = (this.getTotalCount() / this.getPageSize()) * this.getPageSize() + 1;
+			endIndex = (this.getTotalCount() / this.getPageSize()) * this.getPageSize();
 		}
 		this.endStartIndex = endIndex;
 	}
