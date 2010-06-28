@@ -3,15 +3,17 @@
 "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
 "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
 <struts-config>
-
- <!-- forms -->
+<!-- 注意，对于xml中的配置，一定按照格式我MyException"写成可MyException " 执行正常，但是就是不返回页面！ -->
+ <!-- forms 可以将loginAction的form替换成LearnValidatorForm感受一下xml的validation的厉害-->
  <form-beans>
   <form-bean name="loginForm" type="struts.one.form.LoginForm"/>
+  <form-bean name="LearnValidatorForm" type="struts.one.form.LearnValidatorForm"/><!-- 使用ValidatorForm -->
  </form-beans>
 
  <action-mappings>
   <action path="/LoginAction" input="/struts1jsp/index.jsp"  type="org.springframework.web.struts.DelegatingActionProxy" scope="request"
    name="loginForm" validate="true">
+   		<exception key="exception.show" type="struts.one.action.MyException" path="/struts1jsp/error.jsp"></exception>
    		<forward name="submit" path="/struts1jsp/submit.jsp"/>
    		<forward name="error" path="/struts1jsp/error.jsp"/>
   </action>
@@ -31,5 +33,9 @@
       "contextConfigLocation" value="/WEB-INF/classes/spring.xml"/>
  </plug-in>
 
+<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+  <set-property property="pathnames"
+   value="/struts1jsp/validator-rules.xml,/struts1jsp/validation.xml"/><!-- 一定要先把rule配置了 ，有点像导入jar包-->
+ </plug-in>
  
 </struts-config>
