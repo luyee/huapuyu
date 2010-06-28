@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" %>
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <!-- 
  struts1的登陆
  -->
@@ -15,8 +16,10 @@
 			<form action="/LoginAction.do" method="post">
 		 -->
 		<form action="<%=request.getContextPath()%>/LoginAction.do" method="post">
-			name : <input type="text" name="name"><br/>
+			name : <input type="text" name="name">
+				<font color="red"> <html:errors property="name" /></font><br />	
 			pass : <input type="passWord" name="passWord"/>
+			<font color="red"><html:errors	property="passWord" /></font>
 					<input type="submit" value="确定">
 		</form>
 	</body>
