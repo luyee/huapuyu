@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:aop="http://www.springframework.net/aop"
+         xmlns:db="http://www.springframework.net/database"
+         xmlns:ems="http://www.springframework.net/ems"
+         xmlns:nms="http://www.springframework.net/nms"
+         xmlns:nvelocity="http://www.springframework.net/nvelocity"
+         xmlns:remoting="http://www.springframework.net/remoting"
+         xmlns:tool="http://www.springframework.net/tool"
+         xmlns:tx="http://www.springframework.net/tx"
+         xmlns:validation="http://www.springframework.net/validation"
+         xsi:schemaLocation="http://www.springframework.net/schema/objects 
+                             http://www.springframework.net/schema/objects/spring-objects-1.3.xsd
+                             http://www.springframework.net/schema/aop
+                             http://www.springframework.net/schema/aop/spring-aop-1.1.xsd
+                             http://www.springframework.net/schema/db 
+                             http://www.springframework.net/schema/db/spring-database-1.1.xsd
+                             http://www.springframework.net/schema/ems
+                             http://www.springframework.net/schema/ems/spring-ems-1.3.xsd
+                             http://www.springframework.net/schema/nms
+                             http://www.springframework.net/schema/nms/spring-nms-1.3.xsd
+                             http://www.springframework.net/schema/nvelocity
+                             http://www.springframework.net/schema/nvelocity/spring-nvelocity-1.3.xsd
+                             http://www.springframework.net/schema/remoting
+                             http://www.springframework.net/schema/remoting/spring-remoting-1.1.xsd
+                             http://www.springframework.net/schema/tool
+                             http://www.springframework.net/schema/tool/spring-tool-1.1.xsd
+                             http://www.springframework.net/schema/tx 
+                             http://www.springframework.net/schema/tx/spring-tx-1.1.xsd
+                             http://www.springframework.net/schema/validation
+                             http://www.springframework.net/schema/validation/spring-validation-1.3.xsd">
+
+  <!-- action -->
+  <import resource="~/Config/spring-action.xml"/>
+  
+  <!-- service -->
+  <import resource="~/Config/spring-service.xml"/>
+  
+  <!-- tx -->
+  <import resource="~/Config/spring-tx.xml"/>
+  
+  <!-- ado -->
+  <import resource="~/Config/spring-ado.xml"/>
+  
+  <!-- hibernate -->
+  <import resource="~/Config/spring-hibernate.xml"/>
+
+  <!-- dao -->
+  <import resource="~/Config/spring-dao.xml"/>
+  
+</objects>

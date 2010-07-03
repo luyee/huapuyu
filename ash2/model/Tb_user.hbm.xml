@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="model" assembly="model">
+	
+  <class name="Tb_user" table="tb_user">
+		<id name="id" column="id">
+      <!--<generator class="identity"/>-->
+      <!--<generator class="assigned"/>-->
+      <generator class="sequence">
+        <param name="sequence">seq_user</param>
+      </generator>
+		</id>
+
+		<property name="name" column="name" unique="true"/>
+
+		<property name="pwd" column="pwd" unique="true"/>
+	</class>
+
+</hibernate-mapping>
