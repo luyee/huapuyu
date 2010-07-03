@@ -1,0 +1,5 @@
+D:\code\vs.net\ash2\model\bin\Debug\model.dll
+D:\code\vs.net\ash2\model\bin\Debug\model.pdb
+D:\code\vs.net\ash2\model\obj\Debug\ResolveAssemblyReference.cache
+D:\code\vs.net\ash2\model\obj\Debug\model.dll
+D:\code\vs.net\ash2\model\obj\Debug\model.pdb

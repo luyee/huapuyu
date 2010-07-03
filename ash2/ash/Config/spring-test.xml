@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:tx="http://www.springframework.net/tx"
+         xmlns:db="http://www.springframework.net/database"
+         xmlns:aop="http://www.springframework.net/aop"
+         xsi:schemaLocation="http://www.springframework.net/schema/objects 
+                             http://www.springframework.net/schema/objects/spring-objects-1.3.xsd 
+                             http://www.springframework.net/schema/tx 
+                             http://www.springframework.net/schema/tx/spring-tx-1.1.xsd
+                             http://www.springframework.net/schema/db 
+                             http://www.springframework.net/schema/db/spring-database-1.1.xsd
+                             http://www.springframework.net/schema/aop
+                             http://www.springframework.net/schema/aop/spring-aop-1.1.xsd">
+
+  <object id="Tb_userController" type="ash.Controllers.Tb_userController, ash">
+    <property name="service" ref="tb_userService"/>
+  </object>
+
+  <import resource="config://"/>
+
+  <object id="HomeController" type="ash.Controllers.HomeController, ash" singleton="false">
+    <property name="name" value="zhuzhen"/>
+    <property name="dao" ref="tb_userDao"/>
+    <property name="service" ref="tb_userService"/>
+  </object>
+
+</objects>
