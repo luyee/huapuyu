@@ -1,30 +1,38 @@
-#include <ace/UUID.h>
 #include <ace/Log_Msg.h>
+#include <ace/Configuration.h>
+#include <ace/Configuration_Import_Export.h>
 #include <iostream>
 #include <map>
 #include <string>
 using namespace std;
-#include <stdio.h>
+
+#include <stdio.h>
 
 int main()
 {
-	ACE_Utils::UUID str_uuid;
-	ACE_Utils::UUID_GENERATOR::instance()->generate_UUID(str_uuid);
+	ACE_Configuration_Heap config;
+	
+	if (config.open() == -1)
+		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%P\n"), ACE_TEXT("config")), -1);
+	
+	//ACE_Registry_ImpExp impExp(config);
+	ACE_Ini_ImpExp impExp(config);
+	
+	if (impExp.import_config(ACE_TEXT("config.ini")) == -1)
+		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%P\n"), ACE_TEXT("config")), -1);
+	
+	ACE_Configuration_Section_Key section;
+	
+	config.open_section(config.root_section(), ACE_TEXT("oracle"), 0, section);
+	
+	ACE_TString user, pwd, db;
+	config.get_string_value(section, ACE_TEXT("user"), user);
+	config.get_string_value(section, ACE_TEXT("pwd"), pwd);
+	config.get_string_value(section, ACE_TEXT("database"), db);
 
-	cout<<str_uuid.to_string()<<endl;
+	cout<<user<<pwd<<db<<endl;
 
 	getchar();
 
-	/*
-	map<string, string> m;
-	m.insert(pair<string, string>("zhuzhen", "test"));
-	iterator<string, string> it = m.begin();
-	while (it != m.end())
-	{
-		cout<<it.second<<endl;
-
-	}
-	*/	
-
-	return 0;
+    return 0;
 }
