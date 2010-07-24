@@ -23,9 +23,9 @@
 	-->
 	
 	<!-- security -->
-	
+	<!--  
 	<import resource="classpath:config/spring-security.xml"/>
-	
+	-->
 	
 	<!-- xfire -->
 	<!--  
@@ -67,10 +67,13 @@
   	<import resource="classpath:config/spring-service.xml"/>
   	-->
   	
-  	<!-- action -->
+  	<!-- struts2 -->
   	<!--
-  	<import resource="classpath:config/spring-action.xml"/>
+  	<import resource="classpath:config/spring-struts2.xml"/>
 	-->
+	
+	<!-- struts1 -->
+	<import resource="classpath:config/spring-struts1.xml"/>
 	
 	<!-- aop -->
 	<!-- 
@@ -86,6 +89,4 @@
 	<!--  
 	<import resource="classpath:config/spring-tx.xml"/>
 	-->	
-	<!-- struts1 ActionBean -->
-	<import resource="classpath:config/spring-struts1.xml"/>
 </beans>
