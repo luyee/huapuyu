@@ -10,10 +10,13 @@ using namespace std;
 int main()
 {
 	ACE_Configuration_Heap config;
-	config.open();
+	if (-1 == config.open())
+		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("config")), -1);
 	//ACE_Registry_ImpExp impExp(config);  
-	ACE_Ini_ImpExp impExp(config);     
-    impExp.import_config(ACE_TEXT("config.ini")); 
+	ACE_Ini_ImpExp impExp(config);    
+	 
+    if (-1 == impExp.import_config(ACE_TEXT("config.ini")))
+		ACE_ERROR_RETURN((LM_ERROR, ACE_TEXT("%p\n"), ACE_TEXT("config.ini")), -1);    	 
 	
 	ACE_Configuration_Section_Key rootKey = config.root_section();  
 	ACE_Configuration_Section_Key valueKey;
