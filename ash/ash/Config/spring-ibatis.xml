@@ -13,19 +13,8 @@
                              http://www.springframework.net/schema/aop
                              http://www.springframework.net/schema/aop/spring-aop-1.1.xsd">
 
- 
-  <object id="tb_userDao1" type="ash.Dao.Hibernate.Tb_userDao, ash">
-    <property name="SessionFactory" ref="NHibernateSessionFactory"/>
+  <object id="sqlMap" type="Spring.Data.IBatis.SqlMapperFactoryObject, Spring.Data.IBatis">
+    <property name="Config" value="~/Config/ibatis.config"/>
   </object>
-
-  <object id="tb_userDao" type="ash.Dao.Ibatis.Tb_userDao, ash">
-    <property name="sqlMap" ref="sqlMap"/>
-  </object>
-
-  <!--
-  <object id="tb_userDao" type="ash.Dao.Ado.Tb_userDao, ash">
-    <property name="DbProvider" ref="DbProvider"/>
-  </object>
-  -->
 
 </objects>

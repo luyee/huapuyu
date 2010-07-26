@@ -34,3 +34,40 @@ D:\code\vs.net\ash2\ash\bin\Spring.Web.Extensions.dll
 D:\code\vs.net\ash2\ash\bin\model.pdb
 D:\code\vs.net\ash2\ash\obj\Debug\ash.dll
 D:\code\vs.net\ash2\ash\obj\Debug\ash.pdb
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\ash.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\ash.pdb
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Antlr3.Runtime.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Castle.DynamicProxy.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Common.Logging.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\IBatisNet.Common.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\IBatisNet.Common.Logging.Log4Net.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\IBatisNet.DataAccess.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\IBatisNet.DataMapper.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Iesi.Collections.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\LinFu.DynamicProxy.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\log4net.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\model.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\MvcContrib.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\NHibernate.ByteCode.LinFu.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\NHibernate.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\NHibernate.DomainModel.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\NHibernate.Test.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Aop.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Core.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Data.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Data.NHibernate21.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Messaging.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Messaging.Ems.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Messaging.Nms.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Scheduling.Quartz.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Services.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Template.Velocity.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Testing.Microsoft.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Testing.NUnit.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Web.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Web.Extensions.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\model.pdb
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\obj\Debug\ash.dll
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\obj\Debug\ash.pdb
+C:\Documents and Settings\Anders\My Documents\Visual Studio 2010\Projects\ash\ash\bin\Spring.Data.IBatis.dll

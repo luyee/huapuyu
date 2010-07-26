@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Tb_user" xmlns="http://ibatis.apache.org/mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="Tb_user" type="model.Tb_user, model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="Tb_userResult" class="Tb_user">
+      <result property="id" column="id" type="int" />
+      <result property="name" column="name" type="string" />
+      <result property="pwd" column="pwd" type="string" />
+    </resultMap>
+  </resultMaps>
+
+  <!--注意：如果下面一行不加resultMap="Tb_userResult"，则会报错“could not be auto mapped to a property on [ibatis.net.Tb_user]”-->
+  <statements>
+    <select id="Tb_userGetById" parameterClass="int" resultClass="Tb_user" resultMap="Tb_userResult">
+      select id, name, pwd from tb_user where id = #id#
+    </select>
+
+    <select id="Tb_userGetAll" resultClass="Tb_user" resultMap="Tb_userResult">
+      select id, name, pwd from tb_user
+    </select>
+
+    <insert id ="Tb_userInsert" parameterClass="Tb_user">
+      insert into tb_user (id, name, pwd) values (#id#, #name#, #pwd#)
+    </insert>
+  </statements>
+
+
+</sqlMap>

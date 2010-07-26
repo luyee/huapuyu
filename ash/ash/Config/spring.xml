@@ -45,6 +45,9 @@
   
   <!-- hibernate -->
   <import resource="~/Config/spring-hibernate.xml"/>
+  
+  <!-- ibatis -->
+  <import resource="~/Config/spring-ibatis.xml"/>
 
   <!-- dao -->
   <import resource="~/Config/spring-dao.xml"/>
