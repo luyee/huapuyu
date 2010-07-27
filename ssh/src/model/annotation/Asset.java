@@ -43,7 +43,7 @@ public class Asset implements Serializable
 	private Set<ScreenShots> screenShotses = new HashSet<ScreenShots>(0);
 	private Set<Rating> ratings = new HashSet<Rating>(0);
 	private Set<Comments> commentses = new HashSet<Comments>(0);
-	private Set<Tag> tags = new HashSet<Tag>(0);
+	private Set<TagRelation> tagRelations = new HashSet<TagRelation>(0);
 	private Set<Category> categories = new HashSet<Category>(0);
 	private Set<Platform> platforms = new HashSet<Platform>(0);
 	private Set<Price> prices = new HashSet<Price>(0);
@@ -117,7 +117,7 @@ public class Asset implements Serializable
 		this.name = name;
 	}
 
-	@Column(length = 4000)
+	@Column(length = 1000)
 	public String getDescription()
 	{
 		return description;
@@ -156,7 +156,7 @@ public class Asset implements Serializable
 		return averageRating;
 	}
 
-	public void setAverageUserRating(Double averageRating)
+	public void setAverageRating(Double averageRating)
 	{
 		this.averageRating = averageRating;
 	}
@@ -173,7 +173,7 @@ public class Asset implements Serializable
 		this.provider = provider;
 	}
 
-	@Column
+	@Column(name = "RECOMMEND_ORDER")
 	public Long getRecommendOrder()
 	{
 		return recommendOrder;
@@ -203,7 +203,7 @@ public class Asset implements Serializable
 		return recommendEndDate;
 	}
 
-	public void setRecommendDueDate(Date recommendEndDate)
+	public void setRecommendEndDate(Date recommendEndDate)
 	{
 		this.recommendEndDate = recommendEndDate;
 	}
@@ -230,15 +230,15 @@ public class Asset implements Serializable
 		this.commentses = commentses;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER)
-	public Set<Tag> getTags()
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "asset")
+	public Set<TagRelation> getTagRelations()
 	{
-		return tags;
+		return tagRelations;
 	}
 
-	public void setTags(Set<Tag> tags)
+	public void setTagRelations(Set<TagRelation> tagRelations)
 	{
-		this.tags = tags;
+		this.tagRelations = tagRelations;
 	}
 
 	@OneToMany(fetch = FetchType.EAGER)

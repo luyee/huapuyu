@@ -104,7 +104,7 @@ public class Category implements Serializable
 		return sonCategorys;
 	}
 
-	public void setSubCategorys(Set<Category> sonCategorys)
+	public void setSonCategorys(Set<Category> sonCategorys)
 	{
 		this.sonCategorys = sonCategorys;
 	}
