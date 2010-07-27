@@ -53,9 +53,7 @@
 	-->
 	
 	<!-- jpa -->
-	<!--
 	<import resource="classpath:config/spring-jpa.xml"/>
-	-->
 	
 	<!-- dao -->
 	<!--
