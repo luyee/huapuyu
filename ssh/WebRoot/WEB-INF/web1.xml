@@ -6,7 +6,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 	<!--  filter一定要 放在比较前面-->
  	<filter>
     	<filter-name>log</filter-name>
-    	<filter-class>jsp1.LogFilter</filter-class>
+    	<filter-class>jsp.one.LogFilter</filter-class>
     </filter>
     <filter-mapping>
     	<filter-name>log</filter-name>
@@ -15,13 +15,13 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
     
     <!-- 一开始自动加载的家伙 只是抄袭具体什么用没有体会出来 -->
   <!-- <listener>
-    	<listener-class>jsp1.UsingListener</listener-class>
+    	<listener-class>jsp.one.UsingListener</listener-class>
        </listener>
     -->  
     
     <servlet>
         <servlet-name>firstServlet</servlet-name>
-        <servlet-class>jsp1.MyServlet</servlet-class>
+        <servlet-class>jsp.one.MyServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>
@@ -31,15 +31,15 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
     
     <taglib>
     	<taglib-uri>/tag/first.tld</taglib-uri>
-    	<taglib-location>/jspTap/jsp1TLD/first.tld</taglib-location>
+    	<taglib-location>/jspTag/jsp1TLD/first.tld</taglib-location>
     </taglib>
     <taglib>
     	<taglib-uri>/tag/TagHaveProperty.tld</taglib-uri>
-    	<taglib-location>/jspTap/jsp1TLD/TagHaveProperty.tld</taglib-location>
+    	<taglib-location>/jspTag/jsp1TLD/TagHaveProperty.tld</taglib-location>
     </taglib>
     <taglib>
     	<taglib-uri>/tag/TagHaveBody.tld</taglib-uri>
-    	<taglib-location>/jspTap/jsp1TLD/TagHaveBody.tld</taglib-location>
+    	<taglib-location>/jspTag/jsp1TLD/TagHaveBody.tld</taglib-location>
     </taglib>
     <!-- <servlet-name>firstServlet</servlet-name>制定特定的Servlet  -->
    
