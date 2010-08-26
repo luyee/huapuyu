@@ -5,15 +5,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        	   				   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
+	<!-- 
 	<context:property-placeholder location="classpath:jdbc.properties"/>
+	-->
 	
-	<!--  
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean id="property-placeholder" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>jdbc.properties</value>
+				<value>classpath:system.properties</value>
 			</list>
 		</property>
 	</bean>
-	-->
 </beans>

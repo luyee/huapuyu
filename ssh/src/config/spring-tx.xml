@@ -11,6 +11,7 @@
 	<tx:annotation-driven transaction-manager="txManager"/>
 	
 	<!-- 以下用来配置事务 -->
+	<!--
 	<aop:config>
   		<aop:pointcut id="txPointcut" expression="execution(* dao.jpa.Tb_departDao.*(..))"/>
   		<aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice"/>
@@ -26,4 +27,5 @@
             <tx:method name="*" read-only="true" />
   		</tx:attributes>
 	</tx:advice>
+	-->
 </beans>

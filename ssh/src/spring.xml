@@ -38,14 +38,10 @@
     -->
 	
 	<!-- jdbc -->
-	<!--
 	<import resource="classpath:config/spring-jdbc.xml"/>
-	-->
 	
 	<!-- hibernate -->
-	<!--  
 	<import resource="classpath:config/spring-hibernate.xml"/>
-	-->
 	
 	<!-- ibatis -->
 	<!--
@@ -53,17 +49,15 @@
 	-->
 	
 	<!-- jpa -->
+	<!--  
 	<import resource="classpath:config/spring-jpa.xml"/>
+	-->
 	
 	<!-- dao -->
-	<!--
   	<import resource="classpath:config/spring-dao.xml"/>
-  	-->
   	
   	<!-- service -->
-  	<!--
   	<import resource="classpath:config/spring-service.xml"/>
-  	-->
   	
   	<!-- struts2 -->
   	<!--
@@ -71,7 +65,9 @@
 	-->
 	
 	<!-- struts1 -->
+	<!--  
 	<import resource="classpath:config/spring-struts1.xml"/>
+	-->
 	
 	<!-- aop -->
 	<!-- 
@@ -84,7 +80,5 @@
 	-->
 	
 	<!-- tx -->
-	<!--  
 	<import resource="classpath:config/spring-tx.xml"/>
-	-->	
 </beans>

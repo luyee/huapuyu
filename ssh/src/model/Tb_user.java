@@ -12,6 +12,16 @@ public class Tb_user
 	private String name;
 	private String pwd;
 
+	public Tb_user()
+	{
+	}
+
+	public Tb_user(String name, String pwd)
+	{
+		this.name = name;
+		this.pwd = pwd;
+	}
+
 	public int getId()
 	{
 		return id;

@@ -13,7 +13,8 @@
  	</context-param>
  	
  	
- 	 <!-- struts1 -->
+ 	<!-- struts1 -->
+    <!--  
     <servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
@@ -27,6 +28,7 @@
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+	-->
  	
  	<!-- struts2 -->
  	<!-- 
@@ -54,23 +56,54 @@
  	-->
 	
 	<!-- wicket -->
-	
-	<!-- 
+	<!--  
 	<filter>
         <filter-name>wicket</filter-name>
         <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
         <init-param>
             <param-name>applicationClassName</param-name>
-            <param-value>wicket.WicketSpringApplication</param-value>
+            <param-value>wicket.WicketApplication</param-value>
         </init-param>        
     </filter>
 	
     <filter-mapping>
 		<filter-name>wicket</filter-name> 
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/wicket/*</url-pattern>
     </filter-mapping>
- 	 -->
- 	 
+ 	-->
+ 	
+ 	<servlet>
+		<servlet-name>wicket</servlet-name>
+		<servlet-class>org.apache.wicket.protocol.http.WicketServlet</servlet-class>
+		<init-param>
+			<param-name>applicationFactoryClassName</param-name>
+			<param-value>org.apache.wicket.spring.SpringWebApplicationFactory</param-value>
+		</init-param>
+		<init-param>
+			<param-name>applicationBean</param-name>
+			<param-value>wicketApplication</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>wicket</servlet-name>
+		<url-pattern>/wicket/*</url-pattern>
+	</servlet-mapping>
+ 	
+ 	<!-- tapestry -->
+ 	<!--  
+ 	<context-param>
+		<param-name>tapestry.app-package</param-name>
+		<param-value>tapestry</param-value>
+	</context-param>
+	<filter>
+		<filter-name>app</filter-name>
+		<filter-class>org.apache.tapestry5.spring.TapestrySpringFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>app</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	--> 
  	 
  	<!-- spring security -->
  	<!-- 

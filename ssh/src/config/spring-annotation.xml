@@ -13,6 +13,7 @@
 	<context:component-scan base-package="annotation"/>
 	<context:component-scan base-package="others"/>
 	<context:component-scan base-package="wicket"/>
+	<context:component-scan base-package="dao"/>
 	  
 	<!--
 	<bean id="zhuRongbao" class="annotation.ZhuRongbao"/>

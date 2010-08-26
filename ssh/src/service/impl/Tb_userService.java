@@ -46,7 +46,7 @@ public class Tb_userService implements ITb_userService
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public List getAll()
 	{
 		return dao.getAll();

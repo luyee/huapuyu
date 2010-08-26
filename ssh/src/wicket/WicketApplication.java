@@ -3,13 +3,16 @@ package wicket;
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import org.springframework.stereotype.Component;
+import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
-public class WicketSpringApplication extends WebApplication
+@Component
+public class WicketApplication extends WebApplication
 {
 	@Override
 	public Class<? extends Page> getHomePage()
 	{
-		return ListPage.class;
+		return HomePage.class;
 	}
 
 	// 此方法返回WebApplication的全局实例
@@ -28,8 +31,10 @@ public class WicketSpringApplication extends WebApplication
 	protected void init()
 	{
 		super.init();
-		super.getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
 		addComponentInstantiationListener(new SpringComponentInjector(this));
+		getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
+		new AnnotatedMountScanner().scanPackage("wicket").mount(this);
+		getDebugSettings().setAjaxDebugModeEnabled(false);
 	}
 
 	// 此方法返回applicationContext.xml文件定义的bean

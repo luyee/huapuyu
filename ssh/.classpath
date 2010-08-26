@@ -165,5 +165,13 @@
 	<classpathentry kind="lib" path="lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="lib/struts-extras-1.3.10.jar"/>
 	<classpathentry kind="lib" path="lib/struts-taglib-1.3.10.jar"/>
+	<classpathentry kind="lib" path="lib/wicketstuff-annotation-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/tapestry-core-5.1.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/tapestry-ioc-5.1.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/tapestry-spring-5.1.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/antlr-runtime-3.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/stax2-api-3.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/tapestry5-annotations-5.1.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/woodstox-core-asl-4.0.3.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

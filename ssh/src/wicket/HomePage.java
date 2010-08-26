@@ -3,7 +3,6 @@ package wicket;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.wicket.RequestCycle;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -12,20 +11,18 @@ import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.RadioGroup;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.target.resource.ResourceStreamRequestTarget;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.util.resource.StringResourceStream;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import annotation.ZhuZhen;
 
-@MountPath(path = "list")
-public class ListPage extends WebPage
+@MountPath(path = "home")
+public class HomePage extends WebPage
 {
 	@SpringBean
 	private ZhuZhen zhuZhen;
 
-	public ListPage()
+	public HomePage()
 	{
 		add(new Label("countLabel", zhuZhen.getName()));
 		add(new MyForm("form"));
@@ -56,15 +53,9 @@ public class ListPage extends WebPage
 		@Override
 		protected void onSubmit()
 		{
+			System.out.println(radioChoice);
 			System.out.println(radioGroup);
-			CharSequence export = "zhuzhen,lusong," + radioGroup.toString();
-			ResourceStreamRequestTarget target = new ResourceStreamRequestTarget(new StringResourceStream(export, "text/csv"));
-			target.setFileName("discounts.csv");
-			RequestCycle.get().setRequestTarget(target);
-			// getRequestCycle().setRequestTarget(target);
-
 			super.onSubmit();
 		}
-
 	}
 }
