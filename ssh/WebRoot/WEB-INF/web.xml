@@ -12,6 +12,12 @@
  		<!--<param-value>classpath:org/codehaus/xfire/spring/xfire.xml,classpath:config/spring-xfire.xml,classpath:spring.xml</param-value>--> 
  	</context-param>
  	
+ 	<!--  
+ 	<context-param>    
+ 		<param-name>contextClass</param-name>    
+ 		<param-value>org.springframework.osgi.web.context.support.OsgiBundleXmlWebApplicationContext</param-value>  
+ 	</context-param>
+ 	-->
  	
  	<!-- struts1 -->
     <!--  
