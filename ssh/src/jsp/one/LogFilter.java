@@ -40,7 +40,8 @@ public class LogFilter implements Filter
 		{
 			// 到下一个Filter中��Filter��
 			arg2.doFilter(arg0, arg1);
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			// TODO: handle exception
 		}
@@ -53,5 +54,4 @@ public class LogFilter implements Filter
 	{
 		this.config = arg0;
 	}
-
 }
