@@ -1,0 +1,18 @@
+2010-9-12 星期日
+	
+2010-9-19 星期日
+	3张表的Dao-登陆界面使用到jQuary_基于struts2.0(A)
+	用Dao完善，spring_security，登陆界面使用到jQuary_基于struts2.0(F)
+	
+附录：
+	搭建一个seam工程上传到SVN(A)
+	自己搭建一个seam,HelloWorld,export svn 的seam工程(F)
+		
+2010-9-26 
+	确定需求，3张用户表之外的其他表要出来！-其中一张表的CRUD(A)
+	其中一张表的CRUD，jQuaeyUI界面整体框架(F)
+
+2010-10-1 假期
+	验证(F)框架，引入sitemesh，完成主表（book）的功能(A)
+	resource表的功能(F)例如downLoad的功能
+	
