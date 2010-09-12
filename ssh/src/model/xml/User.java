@@ -1,11 +1,25 @@
 package model.xml;
 
+import java.util.Set;
+
 public class User
 {
 	private Integer id;
 	private String name;
 	private String pwd;
-	private Boolean enabled = true;
+	private Integer status;
+	private String desc;
+	private Set<Role> roles;
+
+	public Set<Role> getRoles()
+	{
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles)
+	{
+		this.roles = roles;
+	}
 
 	public User()
 	{
@@ -47,13 +61,23 @@ public class User
 		this.pwd = pwd;
 	}
 
-	public Boolean getEnabled()
+	public Integer getStatus()
 	{
-		return enabled;
+		return status;
 	}
 
-	public void setEnabled(Boolean enabled)
+	public void setStatus(Integer status)
 	{
-		this.enabled = enabled;
+		this.status = status;
+	}
+
+	public String getDesc()
+	{
+		return desc;
+	}
+
+	public void setDesc(String desc)
+	{
+		this.desc = desc;
 	}
 }

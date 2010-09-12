@@ -2,26 +2,26 @@ package model.xml;
 
 public class UserRoleRelation
 {
-	private Integer userId;
-	private Integer roleId;
+	private User user;
+	private Role role;
 
-	public Integer getUserId()
+	public User getUser()
 	{
-		return userId;
+		return user;
 	}
 
-	public void setUserId(Integer userId)
+	public void setUser(User user)
 	{
-		this.userId = userId;
+		this.user = user;
 	}
 
-	public Integer getRoleId()
+	public Role getRole()
 	{
-		return roleId;
+		return role;
 	}
 
-	public void setRoleId(Integer roleId)
+	public void setRole(Role role)
 	{
-		this.roleId = roleId;
+		this.role = role;
 	}
 }

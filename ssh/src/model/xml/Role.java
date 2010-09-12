@@ -1,9 +1,23 @@
 package model.xml;
 
+import java.util.Set;
+
 public class Role
 {
 	private Integer id;
 	private String name;
+	private String desc;
+	private Set<User> users;
+
+	public Set<User> getUsers()
+	{
+		return users;
+	}
+
+	public void setUsers(Set<User> users)
+	{
+		this.users = users;
+	}
 
 	public Integer getId()
 	{
@@ -23,5 +37,15 @@ public class Role
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	public String getDesc()
+	{
+		return desc;
+	}
+
+	public void setDesc(String desc)
+	{
+		this.desc = desc;
 	}
 }
