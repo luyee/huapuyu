@@ -2,7 +2,7 @@ package dao.interf;
 
 import java.util.List;
 
-import model.Tb_depart;
+import model.test.Tb_depart;
 
 public interface ITb_departDao
 {

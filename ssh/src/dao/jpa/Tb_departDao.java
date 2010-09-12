@@ -2,7 +2,7 @@ package dao.jpa;
 
 import java.util.List;
 
-import model.Tb_depart;
+import model.test.Tb_depart;
 
 import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.transaction.annotation.Propagation;

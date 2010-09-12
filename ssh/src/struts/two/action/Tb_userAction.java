@@ -2,7 +2,7 @@ package struts.two.action;
 
 import java.util.List;
 
-import model.Tb_user;
+import model.test.Tb_user;
 import service.interf.ITb_userService;
 
 import com.opensymphony.xwork2.ActionSupport;

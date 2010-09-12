@@ -2,7 +2,7 @@ package service.interf;
 
 import java.util.List;
 
-import model.Tb_user;
+import model.test.Tb_user;
 
 public interface ITb_userService
 {

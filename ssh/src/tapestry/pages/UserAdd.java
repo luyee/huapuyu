@@ -1,6 +1,6 @@
 package tapestry.pages;
 
-import model.Tb_user;
+import model.test.Tb_user;
 
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;

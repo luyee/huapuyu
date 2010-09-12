@@ -2,7 +2,7 @@ package service.impl;
 
 import java.util.List;
 
-import model.Tb_depart;
+import model.test.Tb_depart;
 import service.interf.ITb_departService;
 import dao.interf.ITb_departDao;
 

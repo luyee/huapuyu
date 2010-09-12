@@ -2,7 +2,7 @@ package test;
 
 import java.sql.SQLException;
 
-import model.Tb_user;
+import model.test.Tb_user;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

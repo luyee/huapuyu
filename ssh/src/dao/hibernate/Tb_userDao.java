@@ -2,7 +2,7 @@ package dao.hibernate;
 
 import java.util.List;
 
-import model.Tb_user;
+import model.test.Tb_user;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

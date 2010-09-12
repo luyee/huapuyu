@@ -8,13 +8,14 @@
         AnnotationSessionFactoryBean了.因为AnnotationSessionFactoryBean它支持实体的注入
         方式setAnnotatedClasses,即对应Hibernate中的mapping class.参见这两个类的源代码. -->
 	<!--
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-	-->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+	-->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">	
 		<property name="dataSource" ref="dataSource"/>
 		<property name="mappingResources">
 			<list>
-		    	<value>model/Tb_user.hbm.xml</value>
+		    	<value>model/xml/User.hbm.xml</value>
+		    	<value>model/xml/Role.hbm.xml</value>
 		    </list>
 		</property>
 		<!--  
@@ -33,7 +34,7 @@
 	    	</props>
 	    </property>
 	    <!--  
-	    <property name="packagesToScan" value="model"/>
+	    <property name="packagesToScan" value="model.xml"/>
 	    -->
 	</bean>
 	

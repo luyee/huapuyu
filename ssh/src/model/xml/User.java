@@ -7,8 +7,8 @@ public class User
 	private Integer id;
 	private String name;
 	private String pwd;
-	private Integer status;
-	private String desc;
+	private Byte status;
+	private String describe;
 	private Set<Role> roles;
 
 	public Set<Role> getRoles()
@@ -61,23 +61,23 @@ public class User
 		this.pwd = pwd;
 	}
 
-	public Integer getStatus()
+	public Byte getStatus()
 	{
 		return status;
 	}
 
-	public void setStatus(Integer status)
+	public void setStatus(Byte status)
 	{
 		this.status = status;
 	}
 
-	public String getDesc()
+	public String getDescribe()
 	{
-		return desc;
+		return describe;
 	}
 
-	public void setDesc(String desc)
+	public void setDescribe(String describe)
 	{
-		this.desc = desc;
+		this.describe = describe;
 	}
 }
