@@ -24,7 +24,7 @@ public class MyServlet extends HttpServlet
 	{
 
 		System.out.println("1111111111111111111111" + xx);
-		if (xx == null)
+		if (null == xx)
 		{
 			xx = "xxxx";
 		}
