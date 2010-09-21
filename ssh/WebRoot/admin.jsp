@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-admin.jsp
+我是admin 我只能被admin看见~~~
 </body>
 </html>
