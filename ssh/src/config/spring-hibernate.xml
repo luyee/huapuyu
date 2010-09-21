@@ -30,7 +30,7 @@
 	    		<prop key="hibernate.dialect">${dialect}</prop>
 	    		<prop key="hibernate.show_sql">${show.sql}</prop>
 	    		<prop key="hibernate.format_sql">${format.sql}</prop>
-	    		<prop key="hibernate.hbm2ddl.auto">${hbm2ddl}</prop>
+	    		<!-- <prop key="hibernate.hbm2ddl.auto">${hbm2ddl}</prop> -->
 	    	</props>
 	    </property>
 	    <!--  

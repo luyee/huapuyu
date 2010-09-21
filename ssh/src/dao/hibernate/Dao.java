@@ -8,6 +8,7 @@ import dao.interf.IDao;
 
 public class Dao<PK extends Serializable, T> extends HibernateDaoSupport implements IDao<PK, T>
 {
+
 	private Class<T> entityClass;
 
 	public Dao()

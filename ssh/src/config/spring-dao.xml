@@ -13,7 +13,9 @@
   	<bean id="tb_userDao" class="dao.hibernate.Tb_userDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-	
+	<bean id="userDao" class="dao.hibernate.UserDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 	<!-- ibatis -->
 	<!--  
 	<bean id="tb_userDao" class="dao.ibatis.Tb_userDao">

@@ -2,12 +2,11 @@ package struts.one.form;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-
-import common.Tools;
 
 public class LoginForm extends ActionForm
 {
@@ -51,11 +50,11 @@ public class LoginForm extends ActionForm
 	{
 		System.out.println("in the validation");
 		ActionErrors error = new ActionErrors();
-		if (Tools.isBlank(this.getName()))
+		if (StringUtils.isBlank(this.getName()))
 		{
 			error.add("name", new ActionMessage("error.username.required"));
 		}
-		if (Tools.isBlank(this.getPassWord()))
+		if (StringUtils.isBlank(this.getPassWord()))
 		{
 			error.add("passWord", new ActionMessage("error.password.required"));
 		}
