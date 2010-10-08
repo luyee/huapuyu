@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:security="http://www.springframework.org/schema/security"   
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       	   				   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           				   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           				   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+           				   http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+
+	<!-- property -->
+	<import resource="classpath:config/spring-property.xml"/>
+	
+	<!-- annotation -->
+	<import resource="classpath:config/spring-annotation.xml"/>
+	
+	<!-- test -->
+	<!--
+	<import resource="classpath:config/spring-test.xml"/>
+	-->
+	
+	<!-- security -->
+	<!--  
+	<import resource="classpath:config/spring-security.xml"/>
+	-->
+	
+	<!-- xfire -->
+	<!--  
+	<import resource="classpath:config/spring-xfire.xml"/>
+	-->
+	
+	<!-- cxf -->
+	<!--
+	<import resource="classpath:config/spring-cxf.xml"/>
+    -->
+	
+	<!-- jdbc -->
+	<import resource="classpath:config/spring-jdbc.xml"/>
+	
+	<!-- hibernate -->
+	<import resource="classpath:config/spring-hibernate.xml"/>
+	
+	<!-- ibatis -->
+	<!--
+	<import resource="classpath:config/spring-ibatis.xml"/>
+	-->
+	
+	<!-- jpa -->
+	<!--  
+	<import resource="classpath:config/spring-jpa.xml"/>
+	-->
+	
+	<!-- dao -->
+  	<import resource="classpath:config/spring-dao.xml"/>
+  	
+  	<!-- service -->
+  	<import resource="classpath:config/spring-service.xml"/>
+  	
+  	<!-- struts2 -->
+  	<!--
+  	<import resource="classpath:config/spring-struts2.xml"/>
+	-->
+	
+	<!-- struts1 -->
+	<!--  
+	<import resource="classpath:config/spring-struts1.xml"/>
+	-->
+	
+	<!-- aop -->
+	<!-- 
+	<import resource="classpath:config/spring-aop.xml"/>
+	-->
+	
+	<!-- aspectj -->
+	<!--  
+	<import resource="classpath:config/spring-aspectj.xml"/>
+	-->
+	
+	<!-- tx -->
+	<import resource="classpath:config/spring-tx.xml"/>
+</beans>
