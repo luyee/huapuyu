@@ -6,7 +6,7 @@ public class Role
 {
 	private Integer id;
 	private String name;
-	private String describe;
+	private String remark;
 	private Set<User> users;
 
 	public Set<User> getUsers()
@@ -39,13 +39,13 @@ public class Role
 		this.name = name;
 	}
 
-	public String getDescribe()
+	public String getRemark()
 	{
-		return describe;
+		return remark;
 	}
 
-	public void setDescribe(String describe)
+	public void setRemark(String remark)
 	{
-		this.describe = describe;
+		this.remark = remark;
 	}
 }

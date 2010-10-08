@@ -13,7 +13,8 @@
 		<property name="name" column="name" length="20"/>
 		<property name="pwd" column="pwd" length="20"/>
 		<property name="status" column="status"/>
-		<property name="describe" column="describe" length="100"/>
+		<property name="remark" column="remark" length="100"/>
+		
 		<set name="roles" table="tb_user_role">  
         	<key column="user_id"/>  
         	<many-to-many class="Role" column="role_id"/>  

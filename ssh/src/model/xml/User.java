@@ -8,7 +8,7 @@ public class User
 	private String name;
 	private String pwd;
 	private Byte status;
-	private String describe;
+	private String remark;
 	private Set<Role> roles;
 
 	public Set<Role> getRoles()
@@ -71,13 +71,13 @@ public class User
 		this.status = status;
 	}
 
-	public String getDescribe()
+	public String getRemark()
 	{
-		return describe;
+		return remark;
 	}
 
-	public void setDescribe(String describe)
+	public void setRemark(String remark)
 	{
-		this.describe = describe;
+		this.remark = remark;
 	}
 }

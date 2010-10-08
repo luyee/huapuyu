@@ -11,7 +11,7 @@
 		</id>
 
 		<property name="name" column="name" length="20"/>
-		<property name="describe" column="describe" length="100"/>
+		<property name="remark" column="remark" length="100"/>
 		
 		<set name="users" table="tb_user_role">  
         	<key column="role_id"/>
