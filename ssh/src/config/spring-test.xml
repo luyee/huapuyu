@@ -27,4 +27,8 @@
 		<constructor-arg index="1" type="int" value="20000"/>
 		<constructor-arg index="2" type="java.lang.String" value="pm"/> 
 	</bean>
+	
+	<bean id="testDao" class="test.junit.TestDao">
+		<property name="dao"/>
+	</bean>
 </beans>
