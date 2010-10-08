@@ -5,11 +5,8 @@ import org.springframework.security.userdetails.UserDetails;
 
 public class UserLoginDetails implements UserDetails
 {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -971765342475233938L;
+
 	private String username;
 	private String password;
 	private boolean enabled;
@@ -69,5 +66,4 @@ public class UserLoginDetails implements UserDetails
 	{
 		return enabled;
 	}
-
 }

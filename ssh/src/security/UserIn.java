@@ -9,8 +9,6 @@ import java.util.Set;
 import model.xml.Role;
 import model.xml.User;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
@@ -18,28 +16,29 @@ import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 
+import dao.hibernate.UserDao;
+
 public class UserIn implements UserDetailsService
 {
+	private UserDao userDao;
 
 	@Override
 	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException, DataAccessException
 	{
-		Session session = FilterUser.sessionFactory.openSession();
-		Transaction transa = session.beginTransaction();
-		List<User> userRecord = session.createQuery("from User user").list();
+		List<User> userList = userDao.loadAll();
 		User userLogin = null;
-		for (int i = 0; i < userRecord.size(); i++)
+		for (int i = 0; i < userList.size(); i++)
 		{
-			if (userRecord.get(i).getName().equals(name))
+			if (userList.get(i).getName().equals(name))
 			{
-				userLogin = userRecord.get(i);
+				userLogin = userList.get(i);
 			}
 		}
 
 		Map<String, String> map = new LinkedHashMap<String, String>();
-		for (int i = 0; i < userRecord.size(); i++)
+		for (int i = 0; i < userList.size(); i++)
 		{
-			User user = userRecord.get(i);
+			User user = userList.get(i);
 			Set<Role> userRoleSet = user.getRoles();
 			Iterator<Role> iterator = userRoleSet.iterator();
 			while (iterator.hasNext())
