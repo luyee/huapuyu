@@ -106,10 +106,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\Spring.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Spring.Data.IBatis, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libs\Spring.Data.IBatis.dll</HintPath>
-    </Reference>
     <Reference Include="Spring.Data.NHibernate21, Version=1.3.0.20349, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\Spring.Data.NHibernate21.dll</HintPath>
@@ -208,7 +204,9 @@
     <Compile Include="Service\Tb_userService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\spring-ibatis.xml" />
+    <Content Include="Config\spring-ibatis.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Config\spring-action.xml" />
     <Content Include="Config\spring-ado.xml" />
     <Content Include="Config\spring-aop.xml" />
@@ -242,7 +240,6 @@
     <Content Include="Libs\Spring.Aop.dll" />
     <Content Include="Libs\Spring.Core.dll" />
     <Content Include="Libs\Spring.Data.dll" />
-    <Content Include="Libs\Spring.Data.IBatis.dll" />
     <Content Include="Libs\Spring.Data.NHibernate12.dll" />
     <Content Include="Libs\Spring.Data.NHibernate20.dll" />
     <Content Include="Libs\Spring.Data.NHibernate21.dll" />
@@ -296,6 +293,10 @@
     <ProjectReference Include="..\model\model.csproj">
       <Project>{1F610117-C0CF-4831-8EF2-9528107DA0F6}</Project>
       <Name>model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\spring.ibatis\spring.ibatis.csproj">
+      <Project>{72D35B78-6168-4C2F-AA9C-79B2B9DC1508}</Project>
+      <Name>spring.ibatis</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

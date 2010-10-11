@@ -13,7 +13,7 @@
                              http://www.springframework.net/schema/aop
                              http://www.springframework.net/schema/aop/spring-aop-1.1.xsd">
 
-  <object id="sqlMap" type="Spring.Data.IBatis.SqlMapperFactoryObject, Spring.Data.IBatis">
+  <object id="sqlMap" type="spring.ibatis.SqlMapperFactoryObject, spring.ibatis">
     <property name="Config" value="~/Config/ibatis.config"/>
   </object>
 
