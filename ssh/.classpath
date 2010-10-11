@@ -115,7 +115,6 @@
 	<classpathentry kind="lib" path="lib/tapestry-ioc-5.1.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/tapestry-spring-5.1.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/testng-5.1.jar"/>
-	<classpathentry kind="lib" path="lib/testng-5.1-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/tiles-api-2.0.6.jar"/>
 	<classpathentry kind="lib" path="lib/tiles-core-2.0.6.jar"/>
 	<classpathentry kind="lib" path="lib/tiles-jsp-2.0.6.jar"/>
