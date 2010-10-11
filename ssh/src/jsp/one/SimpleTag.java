@@ -20,7 +20,8 @@ public class SimpleTag extends TagSupport
 		{
 			pageContext.getOut().write("我是一个没有参数和标签体的标签");
 
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			throw new JspTagException("����错误");
 		}
@@ -31,7 +32,6 @@ public class SimpleTag extends TagSupport
 	@Override
 	public int doStartTag() throws JspException
 	{
-		// TODO Auto-generated method stub
 		return super.doStartTag();
 	}
 

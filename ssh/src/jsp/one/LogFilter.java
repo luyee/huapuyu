@@ -43,7 +43,6 @@ public class LogFilter implements Filter
 		}
 		catch (Exception e)
 		{
-			// TODO: handle exception
 		}
 		long after = System.currentTimeMillis();
 		context.log("���󱻶�请求被定为到��" + hrequest.getRequestURI());

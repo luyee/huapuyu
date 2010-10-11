@@ -39,7 +39,6 @@ class MyTask extends TimerTask
 	@Override
 	public void run()
 	{
-		// TODO Auto-generated method stub
 		if (!isRunning)
 		{
 			isRunning = true;
@@ -49,9 +48,9 @@ class MyTask extends TimerTask
 				try
 				{
 					Thread.sleep(80);
-				} catch (InterruptedException e)
+				}
+				catch (InterruptedException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
