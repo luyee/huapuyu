@@ -1,10 +1,6 @@
 <?php
 require_once 'IModel.php';
-/**
- * 
- * @author Anders
- *
- */
+
 class Tb_test implements IModel
 {
 	private $id;
