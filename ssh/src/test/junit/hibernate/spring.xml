@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:security="http://www.springframework.org/schema/security"   
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       	   				   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           				   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           				   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+           				   http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+
+	<bean id="property-placeholder" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:system.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${test.driver}"/>
+	    <property name="url" value="${test.url}"/>
+	    <property name="username" value="${test.username}"/>
+	    <property name="password" value="${test.password}"/>
+	</bean>
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">	
+		<property name="dataSource" ref="dataSource"/>
+	    <property name="hibernateProperties">
+	    	<props>
+	    		<prop key="hibernate.dialect">${test.dialect}</prop>
+	    		<prop key="hibernate.show_sql">${test.show.sql}</prop>
+	    		<prop key="hibernate.format_sql">${test.format.sql}</prop>
+	    		<prop key="hibernate.hbm2ddl.auto">${test.hbm2ddl}</prop>
+	    	</props>
+	    </property>
+	    <property name="packagesToScan" value="model.xml"/>
+	    <property name="mappingResources">
+			<list>
+		    	<value>model/xml/User.hbm.xml</value>
+		    	<value>model/xml/Role.hbm.xml</value>
+		    </list>
+		</property>
+	</bean>
+	
+	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	  	<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<context:annotation-config/>
+	
+	<context:component-scan base-package="dao.hibernate"/>
+	<context:component-scan base-package="test.junit"/>
+  	
+	<tx:annotation-driven transaction-manager="txManager"/>
+	
+	<bean id="userDao" class="dao.hibernate.UserDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+</beans>
