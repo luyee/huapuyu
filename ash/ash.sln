@@ -4,6 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ash", "ash\ash.csproj", "{247EBD6E-579A-4C52-9377-C6B1C133106B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1F610117-C0CF-4831-8EF2-9528107DA0F6} = {1F610117-C0CF-4831-8EF2-9528107DA0F6}
+		{72D35B78-6168-4C2F-AA9C-79B2B9DC1508} = {72D35B78-6168-4C2F-AA9C-79B2B9DC1508}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "model", "model\model.csproj", "{1F610117-C0CF-4831-8EF2-9528107DA0F6}"

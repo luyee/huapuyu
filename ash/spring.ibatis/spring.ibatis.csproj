@@ -68,14 +68,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SqlMapClientFactoryBean1.cs" />
+    <Compile Include="DateTypeHandlerCallback.cs" />
+    <Compile Include="IbatisPlatformTransactionManager.cs" />
+    <Compile Include="IbatisTransactionObject.cs" />
+    <Compile Include="IbatisTransactionObjectSupport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlMapClientFactoryBean.cs" />
+    <Compile Include="SqlMapperFactoryObject.cs" />
+    <Compile Include="SqlMapperHolder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Libs\Common.Logging.dll" />
     <Content Include="Libs\IBatisNet.Common.dll" />
-    <Content Include="Libs\IBatisNet.Common.Logging.Log4Net.dll" />
-    <Content Include="Libs\IBatisNet.DataAccess.dll" />
     <Content Include="Libs\IBatisNet.DataMapper.dll" />
     <Content Include="Libs\Spring.Core.dll" />
     <Content Include="Libs\Spring.Data.dll" />
