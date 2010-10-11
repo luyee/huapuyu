@@ -9,7 +9,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import dao.interf.IDao;
 
-public class Dao<PK extends Serializable, T> extends HibernateDaoSupport implements IDao<PK, T>
+public abstract class Dao<PK extends Serializable, T> extends HibernateDaoSupport implements IDao<PK, T>
 {
 	private Class<T> entityClass;
 
