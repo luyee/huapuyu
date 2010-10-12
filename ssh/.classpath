@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_19"/>
 	<classpathentry kind="lib" path="lib/abdera-core-0.4.0-incubating.jar"/>
 	<classpathentry kind="lib" path="lib/abdera-extensions-json-0.4.0-incubating.jar"/>
 	<classpathentry kind="lib" path="lib/abdera-extensions-main-0.4.0-incubating.jar"/>
@@ -174,5 +173,6 @@
 	<classpathentry kind="lib" path="lib/security/2.0.5/spring-security-taglibs-2.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring/3.0.4/org.springframework.test-3.0.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.10-bin.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_20"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
