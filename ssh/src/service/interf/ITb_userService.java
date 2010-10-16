@@ -4,9 +4,8 @@ import java.util.List;
 
 import model.test.Tb_user;
 
-public interface ITb_userService
-{
-	public Tb_user get(int id);
+public interface ITb_userService {
+	public Tb_user getById(int id);
 
 	public void save(Tb_user model);
 

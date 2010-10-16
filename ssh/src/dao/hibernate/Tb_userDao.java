@@ -11,8 +11,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import dao.interf.ITb_userDao;
 
-public class Tb_userDao extends HibernateDaoSupport implements ITb_userDao
-{
+public class Tb_userDao extends HibernateDaoSupport implements ITb_userDao {
 	// private HibernateTemplate ht;
 	// private SessionFactory sessionFactory;
 	//
@@ -29,15 +28,13 @@ public class Tb_userDao extends HibernateDaoSupport implements ITb_userDao
 	// this.sessionFactory = sessionFactory;get
 	// }
 
-	public void delete(Tb_user model)
-	{
+	public void delete(Tb_user model) {
 		// setHibernateTemplate();
 		// ht.delete(model);
 		getHibernateTemplate().delete(model);
 	}
 
-	public void deleteById(int id)
-	{
+	public void deleteById(int id) {
 		// setHibernateTemplate();
 		// ht.delete(model);
 		Tb_user model = new Tb_user();
@@ -45,34 +42,32 @@ public class Tb_userDao extends HibernateDaoSupport implements ITb_userDao
 		delete(model);
 	}
 
-	public Tb_user get(int id)
-	{
+	public Tb_user getById(int id) {
 		// Session session =
 		// getHibernateTemplate().getSessionFactory().openSession();
 		// session.get(Tb_user.class, new Integer(id));
-		return (Tb_user) getHibernateTemplate().get(Tb_user.class, new Integer(id));
+		return (Tb_user) getHibernateTemplate().get(Tb_user.class,
+				new Integer(id));
 	}
 
-	public void save(Tb_user model)
-	{
+	public void save(Tb_user model) {
 		getHibernateTemplate().save(model);
 	}
 
-	public void update(Tb_user model)
-	{
+	public void update(Tb_user model) {
 		getHibernateTemplate().update(model);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List getAll()
-	{
+	public List getAll() {
 		// return getHibernateTemplate().find("from Tb_user");
 		// http://kewb.javaeye.com/blog/128708
-		return (List) getHibernateTemplate().execute(new HibernateCallback()
-		{
-			public Object doInHibernate(Session session) throws HibernateException
-			{
-				// List result = session.createCriteria(Tb_user.class).add(Restrictions.like("name", name+"%").list();
+		return (List) getHibernateTemplate().execute(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException {
+				// List result =
+				// session.createCriteria(Tb_user.class).add(Restrictions.like("name",
+				// name+"%").list();
 				// return result;
 				return null;
 			}
