@@ -10,9 +10,11 @@ import org.springframework.stereotype.Component;
 import dao.interf.ITb_userDao;
 
 @Component
-public class Tb_userDao extends SqlMapClientDaoSupport implements ITb_userDao {
+public class Tb_userDao extends SqlMapClientDaoSupport implements ITb_userDao
+{
 	@Override
-	public void delete(Tb_user model) {
+	public void delete(Tb_user model)
+	{
 		getSqlMapClientTemplate().delete("userDelete", model);
 		// try
 		// {
@@ -25,13 +27,14 @@ public class Tb_userDao extends SqlMapClientDaoSupport implements ITb_userDao {
 	}
 
 	@Override
-	public Tb_user getById(int id) {
-		return (Tb_user) getSqlMapClientTemplate().queryForObject(
-				"userGetById", id);
+	public Tb_user getById(int id)
+	{
+		return (Tb_user) getSqlMapClientTemplate().queryForObject("userGetById", id);
 	}
 
 	@Override
-	public void save(Tb_user model) {
+	public void save(Tb_user model)
+	{
 		getSqlMapClientTemplate().insert("userInsert", model);
 
 		Tb_user user = new Tb_user();
@@ -41,18 +44,21 @@ public class Tb_userDao extends SqlMapClientDaoSupport implements ITb_userDao {
 	}
 
 	@Override
-	public void update(Tb_user model) {
+	public void update(Tb_user model)
+	{
 		getSqlMapClientTemplate().update("userUpdate", model);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List getAll() {
+	public List getAll()
+	{
 		return getSqlMapClientTemplate().queryForList("userGetAll");
 	}
 
 	@Override
-	public void deleteById(int id) {
+	public void deleteById(int id)
+	{
 		getSqlMapClientTemplate().delete("userDeleteById", id);
 	}
 

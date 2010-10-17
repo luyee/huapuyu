@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import dao.hibernate.UserDao;
-import dao.ibatis.Tb_userDao;
+import dao.interf.ITb_userDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:test/junit/hibernate/spring.xml" })
@@ -20,8 +20,10 @@ public class TestHibernate
 	@Resource
 	private UserDao userDao;
 
+	// Caused by: org.springframework.beans.factory.BeanNotOfRequiredTypeException: Bean named 'tb_userDao' must be of type [dao.ibatis.Tb_userDao], but was actually of type [$Proxy10]
+	// 如果使用private Tb_userDao tb_userDao;这种方式注入，会报上面的error。必须使用下面接口的注入方式
 	@Resource
-	private Tb_userDao tb_userDao;
+	private ITb_userDao tb_userDao;
 
 	@Test
 	public void testUserAdd()
