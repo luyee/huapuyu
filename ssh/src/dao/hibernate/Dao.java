@@ -14,6 +14,7 @@ import dao.interf.IDao;
 
 public abstract class Dao<PK extends Serializable, T> extends HibernateDaoSupport implements IDao<PK, T>
 {
+	// 增加setSessionFactoryMocker方法，避免在XML文件中给DAO方法注入SessionFactory。
 	@Resource
 	public void setSessionFactoryMocker(SessionFactory sessionFactory)
 	{
