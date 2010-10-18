@@ -83,17 +83,4 @@
 	<context:component-scan base-package="dao.hibernate"/>
 	<context:component-scan base-package="dao.ibatis"/>
 	<context:component-scan base-package="test.junit"/>
-	
-	<!-- dao -->
-	<bean id="userDao" class="dao.hibernate.UserDao">
-		<property name="sessionFactory" ref="sessionFactory"/>
-	</bean>
-	
-	<bean id="roleDao" class="dao.hibernate.RoleDao">
-		<property name="sessionFactory" ref="sessionFactory"/>
-	</bean>
-	
-	<bean id="tb_userDao" class="dao.ibatis.Tb_userDao">
-    	<property name="sqlMapClient" ref="sqlMapClient"/>
-  	</bean>
 </beans>
