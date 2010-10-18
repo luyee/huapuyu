@@ -5,12 +5,21 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import dao.interf.IDao;
 
 public abstract class Dao<PK extends Serializable, T> extends HibernateDaoSupport implements IDao<PK, T>
 {
+	@Resource
+	public void setSessionFactoryMocker(SessionFactory sessionFactory)
+	{
+		super.setSessionFactory(sessionFactory);
+	}
+
 	private Class<T> entityClass;
 
 	public Dao()
@@ -18,7 +27,6 @@ public abstract class Dao<PK extends Serializable, T> extends HibernateDaoSuppor
 		entityClass = getSuperClassGenricType();
 	}
 
-	@SuppressWarnings("unchecked")
 	public Class<T> getSuperClassGenricType()
 	{
 		Type type = getClass().getGenericSuperclass();
