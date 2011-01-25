@@ -1,6 +1,6 @@
 package dao.hibernate;
 
-import model.xml.User;
+import model.User;
 
 import org.springframework.stereotype.Component;
 

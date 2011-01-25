@@ -1,6 +1,6 @@
 package dao.hibernate;
 
-import model.xml.Role;
+import model.Role;
 
 import org.springframework.stereotype.Component;
 

@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import model.xml.Role;
-import model.xml.User;
+import model.Role;
+import model.User;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.GrantedAuthority;

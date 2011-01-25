@@ -2,8 +2,8 @@ package test.junit.hibernate;
 
 import javax.annotation.Resource;
 
+import model.User;
 import model.test.Tb_user;
-import model.xml.User;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -2,7 +2,7 @@ package test.testng.hibernate;
 
 import javax.annotation.Resource;
 
-import model.xml.User;
+import model.User;
 
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;

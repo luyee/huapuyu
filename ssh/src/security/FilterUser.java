@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import model.xml.Role;
+import model.Role;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.security.ConfigAttributeDefinition;
