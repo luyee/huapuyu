@@ -74,10 +74,6 @@
       <HintPath>Libs\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MvcContrib, Version=2.0.36.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libs\MvcContrib.dll</HintPath>
-    </Reference>
     <Reference Include="NHibernate, Version=2.1.2.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\NHibernate.dll</HintPath>
@@ -106,17 +102,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\Spring.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Spring.Data.NHibernate21, Version=1.3.0.20349, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+    <Reference Include="Spring.Data.NHibernate30, Version=1.3.1.40711, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libs\Spring.Data.NHibernate21.dll</HintPath>
+      <HintPath>Libs\Spring.Data.NHibernate30.dll</HintPath>
     </Reference>
     <Reference Include="Spring.Messaging, Version=1.3.0.20349, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\Spring.Messaging.dll</HintPath>
-    </Reference>
-    <Reference Include="Spring.Messaging.Ems, Version=1.3.0.20349, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libs\Spring.Messaging.Ems.dll</HintPath>
     </Reference>
     <Reference Include="Spring.Messaging.Nms, Version=1.3.0.20349, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -149,6 +141,10 @@
     <Reference Include="Spring.Web.Extensions, Version=1.3.0.20349, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\Spring.Web.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Web.Mvc, Version=1.3.1.40711, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\Spring.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -185,8 +181,6 @@
     <Compile Include="Aop\AroundAdvice.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\SpringControllerFactory.cs" />
-    <Compile Include="Controllers\SpringDependencyResolver.cs" />
     <Compile Include="Controllers\Tb_userController.cs" />
     <Compile Include="Dao\Ado\Tb_userDao.cs" />
     <Compile Include="Dao\Ado\Tb_userRowMapper.cs" />
@@ -223,8 +217,13 @@
     <Content Include="Dao\Ibatis\Tb_user.xml" />
     <Content Include="Global.asax" />
     <Content Include="Libs\Antlr3.Runtime.dll" />
+    <Content Include="Libs\Apache.NMS.ActiveMQ.dll" />
+    <Content Include="Libs\Apache.NMS.dll" />
+    <Content Include="Libs\Castle.Core.dll" />
     <Content Include="Libs\Castle.DynamicProxy.dll" />
     <Content Include="Libs\Common.Logging.dll" />
+    <Content Include="Libs\DotNetMock.dll" />
+    <Content Include="Libs\DotNetMock.Framework.dll" />
     <Content Include="Libs\IBatisNet.Common.dll" />
     <Content Include="Libs\IBatisNet.Common.Logging.Log4Net.dll" />
     <Content Include="Libs\IBatisNet.DataAccess.dll" />
@@ -232,19 +231,30 @@
     <Content Include="Libs\Iesi.Collections.dll" />
     <Content Include="Libs\LinFu.DynamicProxy.dll" />
     <Content Include="Libs\log4net.dll" />
-    <Content Include="Libs\MvcContrib.dll" />
+    <Content Include="Libs\NHibernate.ByteCode.Castle.dll" />
     <Content Include="Libs\NHibernate.ByteCode.LinFu.dll" />
+    <Content Include="Libs\NHibernate.ByteCode.Spring.dll" />
     <Content Include="Libs\NHibernate.dll" />
     <Content Include="Libs\NHibernate.DomainModel.dll" />
     <Content Include="Libs\NHibernate.Test.dll" />
+    <Content Include="Libs\NHibernate.TestDatabaseSetup.dll" />
+    <Content Include="Libs\nunit.core.dll" />
+    <Content Include="Libs\nunit.core.interfaces.dll" />
+    <Content Include="Libs\nunit.framework.dll" />
+    <Content Include="Libs\NUnitAsp.dll" />
+    <Content Include="Libs\NUnitAspEx.dll" />
+    <Content Include="Libs\NVelocity.dll" />
+    <Content Include="Libs\Quartz.dll" />
+    <Content Include="Libs\Remotion.Data.Linq.dll" />
+    <Content Include="Libs\Rhino.Mocks.dll" />
+    <Content Include="Libs\SharpTestsEx.NUnit.dll" />
     <Content Include="Libs\Spring.Aop.dll" />
     <Content Include="Libs\Spring.Core.dll" />
     <Content Include="Libs\Spring.Data.dll" />
-    <Content Include="Libs\Spring.Data.NHibernate12.dll" />
     <Content Include="Libs\Spring.Data.NHibernate20.dll" />
     <Content Include="Libs\Spring.Data.NHibernate21.dll" />
+    <Content Include="Libs\Spring.Data.NHibernate30.dll" />
     <Content Include="Libs\Spring.Messaging.dll" />
-    <Content Include="Libs\Spring.Messaging.Ems.dll" />
     <Content Include="Libs\Spring.Messaging.Nms.dll" />
     <Content Include="Libs\Spring.Scheduling.Quartz.dll" />
     <Content Include="Libs\Spring.Services.dll" />
@@ -253,9 +263,12 @@
     <Content Include="Libs\Spring.Testing.NUnit.dll" />
     <Content Include="Libs\Spring.Web.dll" />
     <Content Include="Libs\Spring.Web.Extensions.dll" />
+    <Content Include="Libs\Spring.Web.Mvc.dll" />
     <Content Include="Views\Tb_user\Create.aspx" />
     <Content Include="Views\Tb_user\List.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

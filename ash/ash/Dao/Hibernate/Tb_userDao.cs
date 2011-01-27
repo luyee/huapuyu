@@ -2,14 +2,13 @@
 using System.Collections;
 using System.Linq;
 using System.Web;
-using Spring.Data.NHibernate;
 using NHibernate;
 using ash.Dao.Interf;
 using model;
-using Spring.Data.NHibernate.Support;
 using Spring.Transaction;
 using Spring.Stereotype;
 using Spring.Transaction.Interceptor;
+using Spring.Data.NHibernate.Support;
 
 namespace ash.Dao.Hibernate
 {
