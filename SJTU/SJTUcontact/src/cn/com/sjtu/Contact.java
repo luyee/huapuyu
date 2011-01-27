@@ -43,7 +43,7 @@ public class Contact extends ListActivity {
 	private ListView myListView;
 	private Button backToGroup;
 	private Button add;
-	private Button search;
+	private Button search; 
 	private EditText searchArea;
 
 	private static final int AddContact_ID = Menu.FIRST;
