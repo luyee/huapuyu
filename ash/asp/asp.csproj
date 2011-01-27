@@ -80,7 +80,7 @@
     <Content Include="Account\ChangePasswordSuccess.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Register.aspx" />
-    <Content Include="Data.xml" />
+    <Content Include="Ibatis\Data.xml" />
     <Content Include="Libs\Castle.DynamicProxy.dll" />
     <Content Include="Libs\IBatisNet.Common.dll" />
     <Content Include="Libs\IBatisNet.Common.Logging.Log4Net.dll" />
@@ -158,7 +158,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Ibatis\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\Web.config" />
