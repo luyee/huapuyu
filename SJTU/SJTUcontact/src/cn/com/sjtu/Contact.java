@@ -19,8 +19,6 @@
 
 package cn.com.sjtu;
 
-
-
 import android.app.ListActivity;
 import android.content.ContentUris;
 import android.content.Intent;
@@ -40,212 +38,208 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-
 public class Contact extends ListActivity {
 	private static final String TAG = "Contacts";
-	private ListView myListView;  
+	private ListView myListView;
 	private Button backToGroup;
 	private Button add;
 	private Button search;
 	private EditText searchArea;
-	
+
 	private static final int AddContact_ID = Menu.FIRST;
-	private static final int EditContact_ID = Menu.FIRST+1;
-	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);  
-//        myListView = (ListView)findViewById(android.R.id.list);  
-        search = (Button) findViewById(R.id.submitId);
-        add = (Button) findViewById(R.id.add);
-        backToGroup = (Button) findViewById(R.id.backToGroup);
-        searchArea = (EditText)findViewById(R.id.searchArea);
-        
-        //启用快捷键支持
-        setDefaultKeyMode(DEFAULT_KEYS_SHORTCUT);
-        
-        //获取/设置Intent，用于从ContactsProvider中提取通讯录内容
-        Intent intent = getIntent();
-        if (intent.getData() == null) {
-            intent.setData(ContactsProvider.CONTENT_URI);
-        }
-        
-        //启用长按支持，弹出的上下文菜单在
-        getListView().setOnCreateContextMenuListener(this);
-        
-        //使用managedQuery获取ContactsProvider的Cursor
-        Cursor cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, null, null,null);
-        //使用SimpleCursorAdapter建立Cursor的Adapter以便使用，数据表示形式为：姓名 - 手机号码
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.contact_list_item, cursor,
-                new String[] { ContactColumn.NAME,ContactColumn.MOBILE }, new int[] { R.id.name, R.id.contactinfo });
+	private static final int EditContact_ID = Menu.FIRST + 1;
 
-        //为当前ListView关联Adapter
-        setListAdapter(adapter);
-//        myListView.setAdapter(adapter);
-        initButtonAction();
-        initEditAction();
-        Log.e(TAG+"onCreate"," is ok");
-        
-       
-    }
-    
-	//目录建立的回调函数
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        
-        // 在目录中增加“添加”按钮并为之设定快捷键及图标
-        menu.add(0, AddContact_ID, 0, R.string.menu_add)
-        	.setShortcut('3', 'a')
-        	.setIcon(android.R.drawable.ic_menu_add);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		// myListView = (ListView)findViewById(android.R.id.list);
+		search = (Button) findViewById(R.id.submitId);
+		add = (Button) findViewById(R.id.add);
+		backToGroup = (Button) findViewById(R.id.backToGroup);
+		searchArea = (EditText) findViewById(R.id.searchArea);
 
-        return true;
-        
-    }
-    
-    //目录显示之前的回调函数
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        final boolean haveItems = getListAdapter().getCount() > 0;
+		// 启用快捷键支持
+		setDefaultKeyMode(DEFAULT_KEYS_SHORTCUT);
 
-        //如果当前列表不为空
-        if (haveItems) {
-            Uri uri = ContentUris.withAppendedId(getIntent().getData(), getSelectedItemId());
+		// 获取/设置Intent，用于从ContactsProvider中提取通讯录内容
+		Intent intent = getIntent();
+		if (intent.getData() == null) {
+			intent.setData(ContactsProvider.CONTENT_URI);
+		}
 
-            Intent[] specifics = new Intent[1];
-            specifics[0] = new Intent(Intent.ACTION_EDIT, uri);
-            MenuItem[] items = new MenuItem[1];
+		// 启用长按支持，弹出的上下文菜单在
+		getListView().setOnCreateContextMenuListener(this);
 
-            Intent intent = new Intent(null, uri);
-            intent.addCategory(Intent.CATEGORY_ALTERNATIVE);
-            menu.addIntentOptions(Menu.CATEGORY_ALTERNATIVE, 0, 0, 
-            		null, specifics, intent, 0,items);
+		// 使用managedQuery获取ContactsProvider的Cursor
+		Cursor cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, null, null, null);
+		// 使用SimpleCursorAdapter建立Cursor的Adapter以便使用，数据表示形式为：姓名 - 手机号码
+		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.contact_list_item, cursor, new String[] { ContactColumn.NAME, ContactColumn.MOBILE }, new int[] { R.id.name, R.id.contactinfo });
 
-            //如果有CATEGORY_ALTERNATIVE类型的菜单项,即编辑选项，被加入，则为之添加快捷键
-            if (items[0] != null) {
-                items[0].setShortcut('1', 'e');
-            }
-        } else {
-            menu.removeGroup(Menu.CATEGORY_ALTERNATIVE);
-        }
+		// 为当前ListView关联Adapter
+		setListAdapter(adapter);
+		// myListView.setAdapter(adapter);
+		initButtonAction();
+		initEditAction();
+		Log.e(TAG + "onCreate", " is ok");
 
-        return true;
-    }
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case AddContact_ID:
-            //添加条目
-            startActivity(new Intent(Intent.ACTION_INSERT, getIntent().getData()));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+	// 目录建立的回调函数
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
 
-    //上下文菜单，本例会通过长按条目激活上下文菜单
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-        AdapterView.AdapterContextMenuInfo info;
-        try {
-             info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        } catch (ClassCastException e) {
-            return;
-        }
+		// 在目录中增加“添加”按钮并为之设定快捷键及图标
+		menu.add(0, AddContact_ID, 0, R.string.menu_add).setShortcut('3', 'a').setIcon(android.R.drawable.ic_menu_add);
 
-        Cursor cursor = (Cursor) getListAdapter().getItem(info.position);
-        if (cursor == null) {
-            return;
-        }
+		return true;
 
-        menu.setHeaderTitle(cursor.getString(1));
+	}
 
-        menu.add(0, EditContact_ID, 0, R.string.menu_delete);
-    }
-    
-    //上下文菜单选择的回调函数
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info;
-        try {
-             info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        } catch (ClassCastException e) {
-            return false;
-        }
+	// 目录显示之前的回调函数
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+		final boolean haveItems = getListAdapter().getCount() > 0;
 
-        switch (item.getItemId()) {
-        	//选择编辑条目
-            case EditContact_ID: {
-                Uri noteUri = ContentUris.withAppendedId(getIntent().getData(), info.id);
-                getContentResolver().delete(noteUri, null, null);
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
-        
-        String action = getIntent().getAction();
-        if (Intent.ACTION_PICK.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
-        	// 如果通讯录列表的Activity是被其他Activity调用以返回选择的通讯信息
-        	// 比如，短信程序通过本例来获取某人的电话号码
-            setResult(RESULT_OK, new Intent().setData(uri));
-        } else {
-            //编辑 联系人
-            startActivity(new Intent(Intent.ACTION_EDIT, uri));
-        }
-    }
-    
-    private void initButtonAction(){
-    	backToGroup.setOnClickListener(new BackToGroupAction());
-    	add.setOnClickListener(new AddAction());
-    	search.setOnClickListener(new SearchAction(this));
-    }
+		// 如果当前列表不为空
+		if (haveItems) {
+			Uri uri = ContentUris.withAppendedId(getIntent().getData(), getSelectedItemId());
 
-    private void initEditAction() {
-    	searchArea.setOnClickListener(new OnClickListener() {
+			Intent[] specifics = new Intent[1];
+			specifics[0] = new Intent(Intent.ACTION_EDIT, uri);
+			MenuItem[] items = new MenuItem[1];
+
+			Intent intent = new Intent(null, uri);
+			intent.addCategory(Intent.CATEGORY_ALTERNATIVE);
+			menu.addIntentOptions(Menu.CATEGORY_ALTERNATIVE, 0, 0, null, specifics, intent, 0, items);
+
+			// 如果有CATEGORY_ALTERNATIVE类型的菜单项,即编辑选项，被加入，则为之添加快捷键
+			if (items[0] != null) {
+				items[0].setShortcut('1', 'e');
+			}
+		} else {
+			menu.removeGroup(Menu.CATEGORY_ALTERNATIVE);
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case AddContact_ID:
+			// 添加条目
+			startActivity(new Intent(Intent.ACTION_INSERT, getIntent().getData()));
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	// 上下文菜单，本例会通过长按条目激活上下文菜单
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+		AdapterView.AdapterContextMenuInfo info;
+		try {
+			info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+		} catch (ClassCastException e) {
+			return;
+		}
+
+		Cursor cursor = (Cursor) getListAdapter().getItem(info.position);
+		if (cursor == null) {
+			return;
+		}
+
+		menu.setHeaderTitle(cursor.getString(1));
+
+		menu.add(0, EditContact_ID, 0, R.string.menu_delete);
+	}
+
+	// 上下文菜单选择的回调函数
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info;
+		try {
+			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		} catch (ClassCastException e) {
+			return false;
+		}
+
+		switch (item.getItemId()) {
+		// 选择编辑条目
+		case EditContact_ID: {
+			Uri noteUri = ContentUris.withAppendedId(getIntent().getData(), info.id);
+			getContentResolver().delete(noteUri, null, null);
+			return true;
+		}
+		}
+		return false;
+	}
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
+
+		String action = getIntent().getAction();
+		if (Intent.ACTION_PICK.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
+			// 如果通讯录列表的Activity是被其他Activity调用以返回选择的通讯信息
+			// 比如，短信程序通过本例来获取某人的电话号码
+			setResult(RESULT_OK, new Intent().setData(uri));
+		} else {
+			// 编辑 联系人
+			startActivity(new Intent(Intent.ACTION_EDIT, uri));
+		}
+	}
+
+	private void initButtonAction() {
+		backToGroup.setOnClickListener(new BackToGroupAction());
+		add.setOnClickListener(new AddAction());
+		search.setOnClickListener(new SearchAction(this));
+	}
+
+	private void initEditAction() {
+		searchArea.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if(searchArea.getText().toString().equals("查询区域")) searchArea.setText("");
+				if (searchArea.getText().toString().equals("查询区域"))
+					searchArea.setText("");
 			}
 		});
 	}
-    
-    class SearchAction implements OnClickListener{
-    	
-    	private Contact contact;
-    	public SearchAction(Contact contact) {
-    		this.contact = contact;
-    	}
-    	public void onClick(View v) {
-    		String str = searchArea.getText().toString();
-    		
-    		  Cursor cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME+" like ?", new String[]{"%"+str+"%"},null);
-    		  
-    	        //使用SimpleCursorAdapter建立Cursor的Adapter以便使用，数据表示形式为：姓名 - 手机号码
-    	      SimpleCursorAdapter adapter = new SimpleCursorAdapter(contact, R.layout.contact_list_item, cursor,
-    	                new String[] { ContactColumn.NAME,ContactColumn.MOBILE }, new int[] { R.id.name, R.id.contactinfo });
 
-    	        //为当前ListView关联Adapter
-    	      setListAdapter(adapter);
-    	}
-    }
-    
-    class BackToGroupAction implements OnClickListener{
+	class SearchAction implements OnClickListener {
+
+		private Contact contact;
+
+		public SearchAction(Contact contact) {
+			this.contact = contact;
+		}
+
+		public void onClick(View v) {
+			String str = searchArea.getText().toString();
+
+			Cursor cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME + " like ?", new String[] { "%" + str + "%" }, null);
+
+			// 使用SimpleCursorAdapter建立Cursor的Adapter以便使用，数据表示形式为：姓名 - 手机号码
+			SimpleCursorAdapter adapter = new SimpleCursorAdapter(contact, R.layout.contact_list_item, cursor, new String[] { ContactColumn.NAME, ContactColumn.MOBILE }, new int[] { R.id.name, R.id.contactinfo });
+
+			// 为当前ListView关联Adapter
+			setListAdapter(adapter);
+		}
+	}
+
+	class BackToGroupAction implements OnClickListener {
 		public void onClick(View arg0) {
 			Intent intent = new Intent();
 			intent.setClass(Contact.this, ShowGroup.class);
 			Contact.this.startActivity(intent);
 		}
-    }
-    
-    class AddAction implements OnClickListener{
-    	public void onClick(View v) {
-    		
-    	}
-    }
+	}
+
+	class AddAction implements OnClickListener {
+		public void onClick(View v) {
+
+		}
+	}
 }

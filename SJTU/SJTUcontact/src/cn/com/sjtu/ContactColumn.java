@@ -33,7 +33,7 @@ public class ContactColumn implements BaseColumns {
 	public static final String MODIFIED = "modifiedDate";
 	public static final String GROUP = "groupnum";
 
-	//Group 列名
+	// Group 列名
 	public static final String GROUP_NAME = "group_name";
 	// 列 索引值
 	public static final int _ID_COLUMN = 0;
@@ -43,17 +43,15 @@ public class ContactColumn implements BaseColumns {
 	public static final int CREATED_COLUMN = 4;
 	public static final int MODIFIED_COLUMN = 5;
 	public static final int GROUP_COLUMN = 6;
-	
+
 	// 查询结果
 	public static final String[] PROJECTION = { _ID,// 0
 			NAME,// 1
 			MOBILE,// 2
-			EMAIL ,// 3
-			GROUP //6
+			EMAIL,// 3
+			GROUP // 6
 	};
-	
-	public static final String[] GROUPPRO = {_ID,
-		GROUP_NAME 
-	};
+
+	public static final String[] GROUPPRO = { _ID, GROUP_NAME };
 
 }

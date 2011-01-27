@@ -29,23 +29,13 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final int DATABASE_VERSION = 2;
 	public static final String CONTACTS_USER_TABLE = "contacts_user";
 	public static final String CONTACTS_GROUP_TABLE = "contacts_group";
-	//创建数据库
-	private static final String DATABASE_User_CREATE = "CREATE TABLE " + CONTACTS_USER_TABLE +" ("
-												+ ContactColumn._ID+" integer primary key autoincrement,"
-												+ ContactColumn.NAME+" text,"
-												+ ContactColumn.MOBILE+" text,"
-												+ ContactColumn.EMAIL+" text,"
-												+ ContactColumn.CREATED+" long,"
-												+ ContactColumn.MODIFIED+" long,"
-												+ ContactColumn.GROUP + " integer);";
-	private static final String DATABASE_GROUP_CREATE = "CREATE TABLE "+CONTACTS_GROUP_TABLE+"(" 
-				+ ContactColumn._ID+" integer primary key autoincrement,"
-				+ ContactColumn.GROUP_NAME + " text)";
-	
-	
+	// 创建数据库
+	private static final String DATABASE_User_CREATE = "CREATE TABLE " + CONTACTS_USER_TABLE + " (" + ContactColumn._ID + " integer primary key autoincrement," + ContactColumn.NAME + " text," + ContactColumn.MOBILE + " text," + ContactColumn.EMAIL + " text," + ContactColumn.CREATED + " long," + ContactColumn.MODIFIED + " long," + ContactColumn.GROUP + " integer);";
+	private static final String DATABASE_GROUP_CREATE = "CREATE TABLE " + CONTACTS_GROUP_TABLE + "(" + ContactColumn._ID + " integer primary key autoincrement," + ContactColumn.GROUP_NAME + " text)";
+
 	public DBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		
+
 	}
 
 	@Override

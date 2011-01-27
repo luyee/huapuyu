@@ -72,8 +72,7 @@ public class ContactEditor extends Activity {
 			mUri = getContentResolver().insert(intent.getData(), null);
 
 			if (mUri == null) {
-				Log.e(TAG + ":onCreate", "Failed to insert new Contact into "
-						+ getIntent().getData());
+				Log.e(TAG + ":onCreate", "Failed to insert new Contact into " + getIntent().getData());
 				finish();
 				return;
 			}
@@ -150,8 +149,7 @@ public class ContactEditor extends Activity {
 			String mPhone = mCursor.getString(ContactColumn.MOBILE_COLUMN);
 			String email = mCursor.getString(ContactColumn.EMAIL_COLUMN);
 
-			Log.e(TAG + ":onResume", "name:" + name + "mPhone:" + mPhone
-					+ "email:" + email);
+			Log.e(TAG + ":onResume", "name:" + name + "mPhone:" + mPhone + "email:" + email);
 
 			nameText.setText(name);
 			mPhoneText.setText(mPhone);
@@ -179,8 +177,7 @@ public class ContactEditor extends Activity {
 			} else {
 				ContentValues values = new ContentValues();
 				values.put(ContactColumn.NAME, nameText.getText().toString());
-				values.put(ContactColumn.MOBILE, mPhoneText.getText()
-						.toString());
+				values.put(ContactColumn.MOBILE, mPhoneText.getText().toString());
 				values.put(ContactColumn.EMAIL, emailText.getText().toString());
 				Log.e(TAG + ":onPause", mUri.toString());
 				Log.e(TAG + ":onPause", values.toString());
@@ -194,14 +191,11 @@ public class ContactEditor extends Activity {
 		super.onCreateOptionsMenu(menu);
 
 		if (mState == STATE_EDIT) {
-			menu.add(0, REVERT_ID, 0, R.string.menu_revert).setShortcut('0',
-					'r').setIcon(android.R.drawable.ic_menu_revert);
-			menu.add(0, DELETE_ID, 0, R.string.menu_delete).setShortcut('0',
-					'd').setIcon(android.R.drawable.ic_menu_delete);
+			menu.add(0, REVERT_ID, 0, R.string.menu_revert).setShortcut('0', 'r').setIcon(android.R.drawable.ic_menu_revert);
+			menu.add(0, DELETE_ID, 0, R.string.menu_delete).setShortcut('0', 'd').setIcon(android.R.drawable.ic_menu_delete);
 
 		} else {
-			menu.add(0, DISCARD_ID, 0, R.string.menu_discard).setShortcut('0',
-					'd').setIcon(android.R.drawable.ic_menu_delete);
+			menu.add(0, DISCARD_ID, 0, R.string.menu_discard).setShortcut('0', 'd').setIcon(android.R.drawable.ic_menu_delete);
 		}
 		return true;
 	}
