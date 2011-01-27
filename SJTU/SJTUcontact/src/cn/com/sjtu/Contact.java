@@ -239,7 +239,7 @@ public class Contact extends ListActivity {
 
 	class AddAction implements OnClickListener {
 		public void onClick(View v) {
-
+			startActivity(new Intent(Intent.ACTION_INSERT, getIntent().getData()));
 		}
 	}
 }
