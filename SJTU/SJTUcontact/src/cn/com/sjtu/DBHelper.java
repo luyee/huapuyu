@@ -27,10 +27,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	public static final String DATABASE_NAME = "gcontacts.db";
 	public static final int DATABASE_VERSION = 2;
-	public static final String CONTACTS_User_TABLE = "contacts_user";
+	public static final String CONTACTS_USER_TABLE = "contacts_user";
 	public static final String CONTACTS_GROUP_TABLE = "contacts_group";
 	//创建数据库
-	private static final String DATABASE_User_CREATE = "CREATE TABLE " + CONTACTS_User_TABLE +" ("
+	private static final String DATABASE_User_CREATE = "CREATE TABLE " + CONTACTS_USER_TABLE +" ("
 												+ ContactColumn._ID+" integer primary key autoincrement,"
 												+ ContactColumn.NAME+" text,"
 												+ ContactColumn.MOBILE+" text,"
@@ -56,7 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS " + CONTACTS_User_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + CONTACTS_USER_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + CONTACTS_GROUP_TABLE);
 		onCreate(db);
 	}

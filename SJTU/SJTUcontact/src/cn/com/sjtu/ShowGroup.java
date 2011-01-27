@@ -13,9 +13,10 @@ public class ShowGroup extends ListActivity{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.group_list);
-		Cursor cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, null, null,null);
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.contact_list_item, cursor,
-                new String[] { ContactColumn.NAME,ContactColumn.MOBILE }, new int[] { R.id.name, R.id.contactinfo });
+		Cursor cursor = managedQuery(GroupProvider.GROUP_URI, ContactColumn.PROJECTION, null, null,null);
+		
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.group_list_item, cursor,
+                new String[] { ContactColumn.NAME}, new int[] { R.id.name});
         setListAdapter(adapter);
 	}
 }

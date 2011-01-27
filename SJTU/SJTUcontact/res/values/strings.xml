@@ -21,4 +21,7 @@
 <string name="searchArea">查询区域</string>
 <string name="add">+</string>
 <string name="backToGroup">←</string>
+
+
+<string name="showgroup">分组信息</string>
 </resources>

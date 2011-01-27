@@ -1,24 +1,4 @@
-/*
- * [程序名称] Android 通讯录
- * [作者] xmobileapp团队
- * [参考资料] Google Android Samples 
- * [开源协议] Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package cn.com.sjtu;
-
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -32,16 +12,15 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class ContactsProvider extends ContentProvider {
+public class GroupProvider extends ContentProvider {
 	private static final String TAG= "ContactsProvider"; 
 
 	private DBHelper dbHelper;
 	private SQLiteDatabase contactsDB;
 	
-	public static final String AUTHORITY = "cn.com.sjtu.provider.contact";
+	public static final String AUTHORITY = "cn.com.sjtu.provider.group";
 	
-	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/contacts");
-	public static final Uri GROUP_URI = Uri.parse("content://" + "cn.com.sjtu.provider.group" + "/contacts");
+	public static final Uri GROUP_URI = Uri.parse("content://" + AUTHORITY + "/contacts");
 	
 	
 	public static final int CONTACTS = 1;
@@ -131,7 +110,7 @@ public class ContactsProvider extends ContentProvider {
 		Log.e(TAG+"insert",values.toString());
 		long rowId = contactsDB.insert(DBHelper.CONTACTS_USER_TABLE, null, values);
 		if (rowId > 0) {
-			Uri noteUri = ContentUris.withAppendedId(CONTENT_URI,rowId);
+			Uri noteUri = ContentUris.withAppendedId(GROUP_URI,rowId);
 			getContext().getContentResolver().notifyChange(noteUri, null);
 			Log.e(TAG+"insert",noteUri.toString());
 			return noteUri;
