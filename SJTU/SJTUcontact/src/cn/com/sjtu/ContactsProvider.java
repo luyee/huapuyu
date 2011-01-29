@@ -19,6 +19,8 @@
 
 package cn.com.sjtu;
 
+import com.util.Tools;
+
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -40,10 +42,11 @@ public class ContactsProvider extends ContentProvider {
 	public static final String AUTHORITY = "cn.com.sjtu.provider.contact";
 
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/contacts");
-	public static final Uri GROUP_URI = Uri.parse("content://" + "cn.com.sjtu.provider.group" + "/contacts");
 
 	public static final int CONTACTS = 1;
 	public static final int CONTACT_ID = 2;
+	public static final int GROUP_ID = 3;
+	
 	private static final UriMatcher uriMatcher;
 
 	static {
@@ -51,6 +54,8 @@ public class ContactsProvider extends ContentProvider {
 		uriMatcher.addURI(AUTHORITY, "contacts", CONTACTS);
 		// 单独列
 		uriMatcher.addURI(AUTHORITY, "contacts/#", CONTACT_ID);
+		uriMatcher.addURI(GroupProvider.AUTHORITY, "groups/#", GROUP_ID);
+		
 	}
 
 	@Override
@@ -89,6 +94,8 @@ public class ContactsProvider extends ContentProvider {
 			return "vnd.android.cursor.dir/vnd.xmobileapp.contact";
 		case CONTACT_ID:
 			return "vnd.android.cursor.item/vnd.xmobileapp.contact";
+		case GROUP_ID:
+			return "vnd.android.cursor.item/cn.com.sjtu.group";
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}
@@ -109,7 +116,7 @@ public class ContactsProvider extends ContentProvider {
 		} else {
 			values = new ContentValues();
 		}
-		Long now = Long.valueOf(System.currentTimeMillis());
+		String now = Tools.getTime();
 		// 设置默认值
 		if (values.containsKey(ContactColumn.CREATED) == false) {
 			values.put(ContactColumn.CREATED, now);
@@ -151,6 +158,9 @@ public class ContactsProvider extends ContentProvider {
 		case CONTACT_ID:
 			qb.appendWhere(ContactColumn._ID + "=" + uri.getPathSegments().get(1));
 			break;
+		case GROUP_ID:
+			qb.appendWhere(ContactColumn.GROUP + "=" + uri.getPathSegments().get(1));
+			break;
 		default:
 			break;
 		}
@@ -184,7 +194,11 @@ public class ContactsProvider extends ContentProvider {
 		case CONTACT_ID:
 			String contactID = uri.getPathSegments().get(1);
 			Log.e(TAG + "update", contactID + "");
-			count = contactsDB.update(DBHelper.CONTACTS_USER_TABLE, values, ContactColumn._ID + "=" + contactID + (!TextUtils.isEmpty(where) ? " AND (" + where + ")" : ""), selectionArgs);
+			count = contactsDB.update(DBHelper.CONTACTS_USER_TABLE, values,
+					ContactColumn._ID
+							+ "= ?"
+							+ (!TextUtils.isEmpty(where) ? " AND (" + where
+									+ ")" : ""), new String[] { contactID });
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);

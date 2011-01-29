@@ -20,7 +20,7 @@ public class GroupProvider extends ContentProvider {
 
 	public static final String AUTHORITY = "cn.com.sjtu.provider.group";
 
-	public static final Uri GROUP_URI = Uri.parse("content://" + AUTHORITY + "/contacts");
+	public static final Uri GROUP_URI = Uri.parse("content://" + AUTHORITY + "/groups");
 
 	public static final int CONTACTS = 1;
 	public static final int CONTACT_ID = 2;
@@ -28,9 +28,9 @@ public class GroupProvider extends ContentProvider {
 
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		uriMatcher.addURI(AUTHORITY, "contacts", CONTACTS);
+		uriMatcher.addURI(AUTHORITY, "groups", CONTACTS);
 		// 单独列
-		uriMatcher.addURI(AUTHORITY, "contacts/#", CONTACT_ID);
+		uriMatcher.addURI(AUTHORITY, "groups/#", CONTACT_ID);
 	}
 
 	@Override
@@ -47,11 +47,15 @@ public class GroupProvider extends ContentProvider {
 		int count;
 		switch (uriMatcher.match(uri)) {
 		case CONTACTS:
-			count = contactsDB.delete(DBHelper.CONTACTS_USER_TABLE, where, selectionArgs);
+			count = contactsDB.delete(DBHelper.CONTACTS_GROUP_TABLE, where, selectionArgs);
 			break;
 		case CONTACT_ID:
 			String contactID = uri.getPathSegments().get(1);
-			count = contactsDB.delete(DBHelper.CONTACTS_USER_TABLE, ContactColumn._ID + "=" + contactID + (!TextUtils.isEmpty(where) ? " AND (" + where + ")" : ""), selectionArgs);
+			count = contactsDB.delete(DBHelper.CONTACTS_GROUP_TABLE, ContactColumn._ID + "=" + contactID + (!TextUtils.isEmpty(where) ? " AND (" + where + ")" : ""), selectionArgs);
+			
+			ContentValues values = new ContentValues();
+			values.put(ContactColumn.GROUP, 1);
+			contactsDB.update(DBHelper.CONTACTS_USER_TABLE, values, ContactColumn.GROUP + " = ?", new String[]{contactID});
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -89,26 +93,12 @@ public class GroupProvider extends ContentProvider {
 		} else {
 			values = new ContentValues();
 		}
-		Long now = Long.valueOf(System.currentTimeMillis());
-		// 设置默认值
-		if (values.containsKey(ContactColumn.CREATED) == false) {
-			values.put(ContactColumn.CREATED, now);
-		}
-		if (values.containsKey(ContactColumn.MODIFIED) == false) {
-			values.put(ContactColumn.MODIFIED, now);
-		}
-		if (values.containsKey(ContactColumn.NAME) == false) {
+		if (values.containsKey(ContactColumn.GROUP_NAME) == false) {
 			values.put(ContactColumn.NAME, "");
 			Log.e(TAG + "insert", "NAME is null");
 		}
-		if (values.containsKey(ContactColumn.MOBILE) == false) {
-			values.put(ContactColumn.MOBILE, "");
-		}
-		if (values.containsKey(ContactColumn.EMAIL) == false) {
-			values.put(ContactColumn.EMAIL, "");
-		}
 		Log.e(TAG + "insert", values.toString());
-		long rowId = contactsDB.insert(DBHelper.CONTACTS_USER_TABLE, null, values);
+		long rowId = contactsDB.insert(DBHelper.CONTACTS_GROUP_TABLE, null, values);
 		if (rowId > 0) {
 			Uri noteUri = ContentUris.withAppendedId(GROUP_URI, rowId);
 			getContext().getContentResolver().notifyChange(noteUri, null);
@@ -125,7 +115,7 @@ public class GroupProvider extends ContentProvider {
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		Log.e(TAG + ":query", " in Query");
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-		qb.setTables(DBHelper.CONTACTS_USER_TABLE);
+		qb.setTables(DBHelper.CONTACTS_GROUP_TABLE);
 
 		switch (uriMatcher.match(uri)) {
 		case CONTACT_ID:
@@ -148,29 +138,10 @@ public class GroupProvider extends ContentProvider {
 
 	}
 
-	// 更新数据库
 	@Override
-	public int update(Uri uri, ContentValues values, String where, String[] selectionArgs) {
-
-		int count;
-		Log.e(TAG + "update", values.toString());
-		Log.e(TAG + "update", uri.toString());
-		Log.e(TAG + "update :match", "" + uriMatcher.match(uri));
-		switch (uriMatcher.match(uri)) {
-		case CONTACTS:
-			Log.e(TAG + "update", CONTACTS + "");
-			count = contactsDB.update(DBHelper.CONTACTS_USER_TABLE, values, where, selectionArgs);
-			break;
-		case CONTACT_ID:
-			String contactID = uri.getPathSegments().get(1);
-			Log.e(TAG + "update", contactID + "");
-			count = contactsDB.update(DBHelper.CONTACTS_USER_TABLE, values, ContactColumn._ID + "=" + contactID + (!TextUtils.isEmpty(where) ? " AND (" + where + ")" : ""), selectionArgs);
-			break;
-		default:
-			throw new IllegalArgumentException("Unsupported URI: " + uri);
-		}
-		getContext().getContentResolver().notifyChange(uri, null);
-		return count;
+	public int update(Uri uri, ContentValues values, String selection,
+			String[] selectionArgs) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
-
 }

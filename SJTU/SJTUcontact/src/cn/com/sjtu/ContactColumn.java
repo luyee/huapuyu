@@ -51,7 +51,16 @@ public class ContactColumn implements BaseColumns {
 			EMAIL,// 3
 			GROUP // 6
 	};
-
+	
+	public static final String[] USER = { _ID,// 0
+		NAME,// 1
+		MOBILE,// 2
+		EMAIL,// 3
+		CREATED ,// 6
+		MODIFIED,
+		GROUP
+	};
+	
 	public static final String[] GROUPPRO = { _ID, GROUP_NAME };
 
 }

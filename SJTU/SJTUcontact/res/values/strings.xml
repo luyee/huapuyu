@@ -16,6 +16,10 @@
 <string name="menu_discard">放弃</string>
 <string name="menu_add">增加联系人</string>
 <string name="menu_edit">编辑联系人</string>
+<string name="menu_export">导出联系人</string>
+<string name="is_export">确认导出</string>
+<string name="code_export">加密导出</string>
+<string name="uncode_export">一般导出</string>
 
 <string name="submit">查询</string>
 <string name="searchArea">查询区域</string>
@@ -24,4 +28,7 @@
 
 
 <string name="showgroup">分组信息</string>
+<string name="group_add">增加分组</string>
+<string name="group_name">分组名</string>
+<string name="allGroup">All</string>
 </resources>

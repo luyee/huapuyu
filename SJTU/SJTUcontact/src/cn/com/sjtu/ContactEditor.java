@@ -19,6 +19,12 @@
 
 package cn.com.sjtu;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import com.util.Tools;
+
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -30,8 +36,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 public class ContactEditor extends Activity {
 
@@ -51,6 +59,7 @@ public class ContactEditor extends Activity {
 	private EditText nameText;
 	private EditText mPhoneText;
 	private EditText emailText;
+	private Spinner spaSpinner;
 	private Button saveButton;
 	private Button cancelButton;
 
@@ -58,6 +67,10 @@ public class ContactEditor extends Activity {
 	private String originalMPhoneText = "";
 	private String originalEmailText = "";
 
+	private ArrayAdapter<String> groupAdapter;
+	
+	private Map<Integer, Integer> groupIndexMap;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -85,10 +98,29 @@ public class ContactEditor extends Activity {
 		}
 
 		setContentView(R.layout.contact_editor);
+		
+		Cursor cursor = managedQuery(GroupProvider.GROUP_URI, ContactColumn.GROUPPRO, null, null, null);
+		groupIndexMap = new HashMap<Integer, Integer>();
+		String[] strs = new String[cursor.getCount()];
+		int nameColumnIndex = cursor.getColumnIndex(ContactColumn.GROUP_NAME);
+		int idColumnIndex = cursor.getColumnIndex(ContactColumn._ID);
+		cursor.moveToFirst();
+		for (int i = 0; i < strs.length; i++) {
+			strs[i] = cursor.getString(nameColumnIndex);
+			groupIndexMap.put(i, cursor.getInt(idColumnIndex));
+			cursor.moveToNext();
+		}
+		groupAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strs);
+		
+		
 		nameText = (EditText) findViewById(R.id.EditText01);
 		mPhoneText = (EditText) findViewById(R.id.EditText02);
 		emailText = (EditText) findViewById(R.id.EditText03);
-
+		spaSpinner = (Spinner) findViewById(R.id.Spinner01);
+		
+		spaSpinner.setAdapter(groupAdapter);
+		
+		
 		saveButton = (Button) findViewById(R.id.Button01);
 		cancelButton = (Button) findViewById(R.id.Button02);
 
@@ -120,7 +152,9 @@ public class ContactEditor extends Activity {
 			}
 
 		});
-
+		
+		
+		
 		Log.e(TAG + ":onCreate", mUri.toString());
 		// 获得并保存原始联系人信息
 		mCursor = managedQuery(mUri, ContactColumn.PROJECTION, null, null, null);
@@ -154,7 +188,12 @@ public class ContactEditor extends Activity {
 			nameText.setText(name);
 			mPhoneText.setText(mPhone);
 			emailText.setText(email);
-
+			Set<Integer> keySet = groupIndexMap.keySet();
+			for (Integer key : keySet) {
+				if(groupIndexMap.get(key) == mCursor.getInt(mCursor.getColumnIndex(ContactColumn.GROUP))){
+					spaSpinner.setSelection(key);
+				}
+			}
 		} else {
 			setTitle(getText(R.string.error_msg));
 		}
@@ -247,6 +286,9 @@ public class ContactEditor extends Activity {
 			values.put(ContactColumn.NAME, nameText.getText().toString());
 			values.put(ContactColumn.MOBILE, mPhoneText.getText().toString());
 			values.put(ContactColumn.EMAIL, emailText.getText().toString());
+			values.put(ContactColumn.MODIFIED, Tools.getTime());
+			values.put(ContactColumn.GROUP, groupIndexMap.get(spaSpinner.getSelectedItemPosition()));
+			
 			Log.e(TAG + ":onPause", mUri.toString());
 			Log.e(TAG + ":onPause", values.toString());
 			getContentResolver().update(mUri, values, null, null);

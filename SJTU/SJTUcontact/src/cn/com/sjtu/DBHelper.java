@@ -42,6 +42,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(DATABASE_USER_CREATE);
 		db.execSQL(DATABASE_GROUP_CREATE);
+		db.execSQL("insert into "+CONTACTS_GROUP_TABLE+" ("+ContactColumn.GROUP_NAME+") values ('È«²¿');");
 	}
 
 	@Override
