@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.util.Tools;
-
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -40,6 +38,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.util.Tools;
 
 public class ContactEditor extends Activity {
 

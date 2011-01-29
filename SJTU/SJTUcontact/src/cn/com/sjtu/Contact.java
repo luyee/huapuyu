@@ -21,8 +21,6 @@ package cn.com.sjtu;
 
 import java.io.IOException;
 
-import com.util.Tools;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.ContentUris;
@@ -45,6 +43,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
+
+import com.util.Tools;
 
 public class Contact extends ListActivity {
 	private static final String TAG = "Contacts";

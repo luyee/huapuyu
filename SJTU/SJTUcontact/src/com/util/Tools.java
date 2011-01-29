@@ -1,15 +1,13 @@
 package com.util;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.com.sjtu.ContactColumn;
-
 import android.database.Cursor;
+import cn.com.sjtu.ContactColumn;
 
 public class Tools {
 	private static CodeUtils codeUtils;

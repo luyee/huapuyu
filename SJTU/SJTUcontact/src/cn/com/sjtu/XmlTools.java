@@ -2,14 +2,13 @@ package cn.com.sjtu;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.StringWriter;
 import java.util.List;
 
 import org.xmlpull.v1.XmlSerializer;
 
-import com.util.User;
-
 import android.util.Xml;
+
+import com.util.User;
 
 
 /**

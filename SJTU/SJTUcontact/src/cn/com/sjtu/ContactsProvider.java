@@ -19,8 +19,6 @@
 
 package cn.com.sjtu;
 
-import com.util.Tools;
-
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -32,6 +30,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.util.Tools;
 
 public class ContactsProvider extends ContentProvider {
 	private static final String TAG = "ContactsProvider";
