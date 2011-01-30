@@ -1,0 +1,60 @@
+unit main;
+
+interface
+
+uses Windows, SysUtils, Classes, Graphics, Forms, Controls, Menus,
+  StdCtrls, Dialogs, Buttons, Messages, ExtCtrls, ComCtrls, StdActns,
+  ActnList, ToolWin, ImgList, shh, about;
+
+type
+  TFrmMain = class(TForm)
+    mmMain: TMainMenu;
+    itemBargain: TMenuItem;
+    N1: TMenuItem;
+    itemSeller: TMenuItem; // 卖家管理
+    itemBuyer: TMenuItem;
+    itemHouse: TMenuItem; // 二手房管理
+    itemExit: TMenuItem;
+    // 帮助
+    itemHelp: TMenuItem;
+    itemAbout: TMenuItem;
+    sbMain: TStatusBar;
+    itemRent: TMenuItem;
+    itemSetting: TMenuItem;
+
+    procedure itemAboutClick(Sender: TObject);
+    procedure itemExitClick(Sender: TObject);
+    procedure itemHouseClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmMain: TFrmMain;
+  frmShh: TFrmShh;
+
+implementation
+
+{$R *.dfm}
+
+// exit
+procedure TFrmMain.itemExitClick(Sender: TObject);
+begin
+  Close;
+end;
+
+// about
+procedure TFrmMain.itemAboutClick(Sender: TObject);
+begin
+  frmAbout.ShowModal;
+end;
+
+// second-hand house manage
+procedure TFrmMain.itemHouseClick(Sender: TObject);
+begin
+  frmShh := TFrmShh.Create(Application);
+end;
+
+end.

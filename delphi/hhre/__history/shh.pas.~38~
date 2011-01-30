@@ -1,0 +1,28 @@
+unit shh;
+
+interface
+
+uses Windows, Classes, Graphics, Forms, Controls, StdCtrls, Dialogs, ComCtrls,
+  Grids, DBGrids, ExtCtrls;
+
+type
+  TFrmShh = class(TForm)
+    Panel1: TPanel;
+    DBGrid1: TDBGrid;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmShh.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Action := caFree;
+end;
+
+end.

@@ -1,0 +1,266 @@
+unit shhNew;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, DB, DBClient, Generics.Collections, config, sql, common,
+  CheckLst, RegularExpressionsCore, constant, validator, sqlScript, house;
+
+type
+  TFrmNew = class(TForm)
+    gbDetailInfo: TGroupBox;
+    Label21: TLabel;
+    Label23: TLabel;
+    Label24: TLabel;
+    Label25: TLabel;
+    Label26: TLabel;
+    cmbDecoration: TComboBox;
+    cmbConstructYear: TComboBox;
+    cmbPropType: TComboBox;
+    cmbConstructType: TComboBox;
+    cmbPropStruct: TComboBox;
+    gbEssentialInfo: TGroupBox;
+    Label27: TLabel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label20: TLabel;
+    Label22: TLabel;
+    Label28: TLabel;
+    Label29: TLabel;
+    Label30: TLabel;
+    Label6: TLabel;
+    Label9: TLabel;
+    edtName: TEdit;
+    cmbProvince: TComboBox;
+    cmbCity: TComboBox;
+    cmbDistrict: TComboBox;
+    edtPrice: TEdit;
+    edtUnitPrice: TEdit;
+    edtBuildingArea: TEdit;
+    edtAddress: TEdit;
+    edtBedroom: TEdit;
+    edtLivingRoom: TEdit;
+    edtKitchen: TEdit;
+    edtWashroom: TEdit;
+    edtUsableArea: TEdit;
+    cmbDirection: TComboBox;
+    edtTotalFloor: TEdit;
+    edtFloor: TEdit;
+    cmbPropety: TComboBox;
+    edtBalcony: TEdit;
+    Label31: TLabel;
+    cmbPropMgtType: TComboBox;
+    Label32: TLabel;
+    Label33: TLabel;
+    Label34: TLabel;
+    Label35: TLabel;
+    Label36: TLabel;
+    Label37: TLabel;
+    Label38: TLabel;
+    cmbVisitTime: TComboBox;
+    clbFacility: TCheckListBox;
+    clbFeature: TCheckListBox;
+    memTransport: TMemo;
+    memEnvironment: TMemo;
+    memRemark: TMemo;
+    Label39: TLabel;
+    Label40: TLabel;
+    btnNew: TButton;
+    procedure FormShow(Sender: TObject);
+    procedure cmbProvinceChange(Sender: TObject);
+    procedure cmbCityChange(Sender: TObject);
+    procedure btnNewClick(Sender: TObject);
+    procedure edtNameExit(Sender: TObject);
+  private
+    procedure Validate(Sender: TWinControl);
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmNew: TFrmNew;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmNew.btnNewClick(Sender: TObject);
+var
+  house: THouse;
+begin
+  TValidator.EmptyStrCheck(edtName, BUILDING_NAME);
+  TValidator.EmptyStrCheck(edtAddress, ADDRESS);
+  TValidator.EmptyStrCheck(edtPrice, PRICE);
+  TValidator.EmptyStrCheck(edtBuildingArea, BUILDING_AREA);
+  TValidator.EmptyStrCheck(edtUsableArea, USABLE_AREA);
+  TValidator.EmptyStrCheck(edtBedroom, BEDROOM);
+  TValidator.EmptyStrCheck(edtLivingRoom, LIVING_ROOM);
+  TValidator.EmptyStrCheck(edtKitchen, KITCHEN);
+  TValidator.EmptyStrCheck(edtWashroom, WASHROOM);
+  TValidator.EmptyStrCheck(edtBalcony, BALCONY);
+  TValidator.EmptyStrCheck(edtTotalFloor, TOTAL_FLOOR);
+  TValidator.EmptyStrCheck(edtFloor, FLOOR);
+
+  house := THouse.Create;
+  house.name := Trim(edtName.Text);
+  house.provinceId := Integer(cmbProvince.Items.Objects[cmbProvince.ItemIndex])
+  house.cityId: Integer read ACityId write ACityId;
+  house.districtId: Integer read ADistrictId write ADistrictId;
+  house.address: string read AAddress write AAddress;
+  house.bedroomCount: Integer read ABedroomCount write ABedroomCount;
+  house.livingRoomCount: Integer read ALivingRoomCount write ALivingRoomCount;
+  house.kitchenCount: Integer read AKitchenCount write AKitchenCount;
+  house.washroomCount: Integer read AWashroomCount write AWashroomCount;
+  house.balconyCount: Integer read ABalconyCount write ABalconyCount;
+  house.propMgtTypeId: Integer read APropMgtTypeId write APropMgtTypeId;
+  house.directionId: Integer read ADirectionId write ADirectionId;
+  house.decorationId: Integer read ADecorationId write ADecorationId;
+  house.totalFloor: Double read ATotalFloor write ATotalFloor;
+  house.floor: Double read AFloor write AFloor;
+  house.constructYearId: Integer read AConstructYearId write AConstructYearId;
+  house.transport: string read ATransport write ATransport;
+  house.environment: string read AEnvironment write AEnvironment;
+  house.remark: string read ARemark write ARemark;
+
+end;
+
+procedure TFrmNew.cmbCityChange(Sender: TObject);
+begin
+  TCommon.GenComboBoxItem(TSqlScript.GetDistrict(IntToStr(Integer(cmbCity.Items.Objects[cmbCity.ItemIndex]))), cmbDistrict);
+end;
+
+procedure TFrmNew.cmbProvinceChange(Sender: TObject);
+begin
+  TCommon.GenComboBoxItem(TSqlScript.GetCity(IntToStr(Integer(cmbProvince.Items.Objects[cmbProvince.ItemIndex]))), cmbCity);
+  TCommon.GenComboBoxItem(TSqlScript.GetDistrict(IntToStr(Integer(cmbCity.Items.Objects[cmbCity.ItemIndex]))), cmbDistrict);
+end;
+
+procedure TFrmNew.edtNameExit(Sender: TObject);
+begin
+  if Sender is TEdit then
+    Validate(Sender as TEdit);
+end;
+
+procedure TFrmNew.FormShow(Sender: TObject);
+begin
+  //基本资料
+  TCommon.GenComboBoxItem(TSqlScript.GetProvince, cmbProvince);
+  TCommon.GenComboBoxItem(TSqlScript.GetCity(IntToStr(Integer(cmbProvince.Items.Objects[cmbProvince.ItemIndex]))), cmbCity);
+  TCommon.GenComboBoxItem(TSqlScript.GetDistrict(IntToStr(Integer(cmbCity.Items.Objects[cmbCity.ItemIndex]))), cmbDistrict);
+  TCommon.GenComboBoxItem(TSqlScript.GetDirection, cmbDirection);
+  TCommon.GenComboBoxItem(TSqlScript.GetPropety, cmbPropety);
+
+  //详细资料
+  TCommon.ClearMemoLines(gbDetailInfo);
+  TCommon.GenComboBoxItem(TSqlScript.GetPropMgtType, cmbPropMgtType);
+  TCommon.GenComboBoxItem(TSqlScript.GetPropType, cmbPropType);
+  TCommon.GenComboBoxItem(TSqlScript.GetPropStruct, cmbPropStruct);
+  TCommon.GenComboBoxItem(TSqlScript.GetDecoration, cmbDecoration);
+  TCommon.GenComboBoxItem(TSqlScript.GetConstructType, cmbConstructType);
+  TCommon.GenComboBoxItem(TSqlScript.GetConstructYear, cmbConstructYear);
+  TCommon.GenComboBoxItem(TSqlScript.GetVisitTime, cmbVisitTime);
+  TCommon.GenCheckListBoxItem(TSqlScript.GetFacility, clbFacility);
+  TCommon.GenCheckListBoxItem(TSqlScript.GetFeature, clbFeature);
+end;
+
+procedure TFrmNew.Validate(Sender: TWinControl);
+begin
+  case Sender.TabOrder of
+    //楼盘名称
+    0:
+    begin
+      TValidator.EmptyStrCheck(edtName, BUILDING_NAME);
+    end;
+    //详细地址
+    4:
+    begin
+      TValidator.EmptyStrCheck(edtAddress, ADDRESS);
+    end;
+    //售价
+    5:
+    begin
+      TValidator.EmptyStrCheck(edtPrice, PRICE);
+      TValidator.TwoDecimalsCheck(edtPrice, PRICE);
+      if TCommon.ControlValueIsNotEmpty(edtBuildingArea) then
+        edtUnitPrice.Text := FormatFloat(FORMAT_TWO_DECIMALS, StrToFloat(Trim(edtPrice.Text)) * FORMAT_TEN_THOUSAND / StrToFloat(Trim(edtBuildingArea.Text)));
+    end;
+    //建筑面积
+    6:
+    begin
+      TValidator.EmptyStrCheck(edtBuildingArea, BUILDING_AREA);
+      TValidator.TwoDecimalsCheck(edtBuildingArea, BUILDING_AREA);
+      if TCommon.ControlValueIsNotEmpty(edtPrice) then
+        edtUnitPrice.Text := FormatFloat(FORMAT_TWO_DECIMALS, StrToFloat(Trim(edtPrice.Text)) * FORMAT_TEN_THOUSAND / StrToFloat(Trim(edtBuildingArea.Text)));
+    end;
+    //使用面积
+    7:
+    begin
+      TValidator.EmptyStrCheck(edtUsableArea, USABLE_AREA);
+      TValidator.TwoDecimalsCheck(edtUsableArea, USABLE_AREA);
+    end;
+    //室
+    9:
+    begin
+      TValidator.EmptyStrCheck(edtBedroom, BEDROOM);
+      TValidator.TwoFiguresCheck(edtBedroom, BEDROOM);
+    end;
+    //厅
+    10:
+    begin
+      TValidator.EmptyStrCheck(edtLivingRoom, LIVING_ROOM);
+      TValidator.TwoFiguresCheck(edtLivingRoom, LIVING_ROOM);
+    end;
+    //厨
+    11:
+    begin
+      TValidator.EmptyStrCheck(edtKitchen, KITCHEN);
+      TValidator.TwoFiguresCheck(edtKitchen, KITCHEN);
+    end;
+    //卫
+    12:
+    begin
+      TValidator.EmptyStrCheck(edtWashroom, WASHROOM);
+      TValidator.TwoFiguresCheck(edtWashroom, WASHROOM);
+    end;
+    //阳台
+    13:
+    begin
+      TValidator.EmptyStrCheck(edtBalcony, BALCONY);
+      TValidator.TwoFiguresCheck(edtBalcony, BALCONY);
+    end;
+    //总楼层
+    15:
+    begin
+      TValidator.EmptyStrCheck(edtTotalFloor, TOTAL_FLOOR);
+      TValidator.ThreeFiguresCheck(edtTotalFloor, TOTAL_FLOOR);
+      if TCommon.ControlValueIsNotEmpty(edtFloor) then
+        TValidator.TwoControlsIntGreatCheck(edtTotalFloor, edtFloor, TOTAL_FLOOR, FLOOR);
+    end;
+    //所在楼层
+    16:
+    begin
+      TValidator.EmptyStrCheck(edtFloor, FLOOR);
+      TValidator.ThreeFiguresCheck(edtFloor, FLOOR);
+      if TCommon.ControlValueIsNotEmpty(edtTotalFloor) then
+        TValidator.TwoControlsIntSmallCheck(edtFloor, edtTotalFloor, FLOOR, TOTAL_FLOOR);
+    end;
+  end;
+end;
+
+end.

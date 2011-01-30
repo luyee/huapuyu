@@ -1,0 +1,72 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{CF3B2132-393B-4FB5-918A-231AC30A911B}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="app.dproj">
+				<Dependencies>dao.dproj</Dependencies>
+			</Projects>
+			<Projects Include="dao.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="test.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="model.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="app" DependsOnTargets="dao">
+			<MSBuild Projects="app.dproj"/>
+		</Target>
+		<Target Name="app:Clean" DependsOnTargets="dao:Clean">
+			<MSBuild Projects="app.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="app:Make" DependsOnTargets="dao:Make">
+			<MSBuild Projects="app.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="dao">
+			<MSBuild Projects="dao.dproj"/>
+		</Target>
+		<Target Name="dao:Clean">
+			<MSBuild Projects="dao.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="dao:Make">
+			<MSBuild Projects="dao.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="test">
+			<MSBuild Projects="test.dproj"/>
+		</Target>
+		<Target Name="test:Clean">
+			<MSBuild Projects="test.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="test:Make">
+			<MSBuild Projects="test.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="model">
+			<MSBuild Projects="model.dproj"/>
+		</Target>
+		<Target Name="model:Clean">
+			<MSBuild Projects="model.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="model:Make">
+			<MSBuild Projects="model.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="app;dao;test;model"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="app:Clean;dao:Clean;test:Clean;model:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="app:Make;dao:Make;test:Make;model:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

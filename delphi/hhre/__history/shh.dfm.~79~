@@ -1,0 +1,18 @@
+object FrmShhNew: TFrmShhNew
+  Left = 197
+  Top = 117
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = #20108#25163#25151#31649#29702
+  ClientHeight = 640
+  ClientWidth = 964
+  Color = clBtnFace
+  ParentFont = True
+  FormStyle = fsStayOnTop
+  OldCreateOrder = False
+  Position = poScreenCenter
+  Visible = True
+  OnClose = FormClose
+  PixelsPerInch = 96
+  TextHeight = 13
+end
