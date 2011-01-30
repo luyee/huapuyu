@@ -77,7 +77,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'mydjango.urls'
 
-TEMPLATE_DIRS = ('/home/anders/PycharmProjects/mydjango/templates',)
+TEMPLATE_DIRS = ('/home/anders/code/django/mydjango/templates',)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
