@@ -5,7 +5,7 @@ using System.Web;
 
 namespace model
 {
-    public class Tb_user
+    public class Demo
     {
         public virtual int? id { set; get; }
         public virtual string name { set; get; }
