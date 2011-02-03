@@ -8,29 +8,24 @@ import org.jboss.seam.framework.EntityHome;
 import entity.User;
 
 @Name("userHome")
-public class UserHome extends EntityHome<User>
-{
+public class UserHome extends EntityHome<User> {
+	private static final long serialVersionUID = -3211501328545469051L;
+
 	@RequestParameter
 	Long userId;
 
 	@Override
-	public Object getId()
-	{
-		if (userId == null)
-		{
+	public Object getId() {
+		if (userId == null) {
 			return super.getId();
-		}
-		else
-		{
+		} else {
 			return userId;
 		}
 	}
 
 	@Override
 	@Begin
-	public void create()
-	{
+	public void create() {
 		super.create();
 	}
-
 }
