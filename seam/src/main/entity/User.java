@@ -10,8 +10,9 @@ import javax.persistence.Version;
 import org.hibernate.validator.Length;
 
 @Entity
-public class User implements Serializable
-{
+public class User implements Serializable {
+	private static final long serialVersionUID = 8690649423009994292L;
+
 	private Long id;
 	private Integer version;
 	private String name;
@@ -19,46 +20,38 @@ public class User implements Serializable
 
 	@Id
 	@GeneratedValue
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
 	@Version
-	public Integer getVersion()
-	{
+	public Integer getVersion() {
 		return version;
 	}
 
-	private void setVersion(Integer version)
-	{
+	private void setVersion(Integer version) {
 		this.version = version;
 	}
 
 	@Length(max = 20)
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	@Length(max = 20)
-	public String getPwd()
-	{
+	public String getPwd() {
 		return pwd;
 	}
 
-	public void setPwd(String pwd)
-	{
+	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
 }
