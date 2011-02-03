@@ -28,7 +28,8 @@ requires
   rtl;
 
 contains
-  house in 'house.pas';
+  mHouse in 'mHouse.pas',
+  mSecondHandHouse in 'mSecondHandHouse.pas';
 
 end.
 

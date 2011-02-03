@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, DB, DBClient, Generics.Collections, config, sql, common,
-  CheckLst, RegularExpressionsCore, constant, validator, sqlScript, house;
+  CheckLst, RegularExpressionsCore, constant, validator, sqlScript, mHouse, mSecondHandHouse;
 
 type
   TFrmNew = class(TForm)
@@ -103,6 +103,7 @@ implementation
 procedure TFrmNew.btnNewClick(Sender: TObject);
 var
   house: THouse;
+  secondHandHouse: TSecondHandHouse;
 begin
   TValidator.EmptyStrCheck(edtName, BUILDING_NAME);
   TValidator.EmptyStrCheck(edtAddress, ADDRESS);
@@ -140,7 +141,7 @@ begin
 
   ShowMessage(house.Insert);
 
-  ShowMessage(IntToStr(house.Id));
+
 
 end;
 
