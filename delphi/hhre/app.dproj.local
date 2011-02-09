@@ -1,44 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899-12-30 00:00:00.000.384,=C:\Documents and Settings\Anders\Desktop\hhre\New1.txt</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.049,C:\Documents and Settings\Anders\Desktop\hhre\Main.pas=C:\Documents and Settings\Anders\Desktop\hhre\main.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.515,C:\Documents and Settings\Anders\Desktop\hhre\sqlConstant.pas=C:\Documents and Settings\Anders\Desktop\hhre\sqlScript.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.753,C:\Documents and Settings\zzhen\Desktop\todo\hhre\shhNew.pas=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.437,=C:\Documents and Settings\Anders\Desktop\hhre\house.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.890,C:\Documents and Settings\Anders\Desktop\hhre\orm.pas=</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.235,C:\Documents and Settings\zzhen\Desktop\todo\hhre\buyer.pas=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.703,C:\Documents and Settings\Anders\Desktop\hhre\house.pas=</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.468,=C:\Documents and Settings\Anders\Desktop\hhre\orm.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.861,C:\Documents and Settings\Anders\Desktop\hhre\ChildWin.dfm=C:\Documents and Settings\Anders\Desktop\hhre\ssh.dfm</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.656,C:\Documents and Settings\zzhen\Desktop\todo\hhre\seller.pas=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Seller.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.552,C:\Documents and Settings\zzhen\Desktop\todo\hhre\Seller.pas=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.750,=C:\Documents and Settings\Anders\Desktop\hhre\constant.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.753,C:\Documents and Settings\zzhen\Desktop\todo\hhre\shhNew.dfm=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.dfm</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.218,=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.640,C:\Documents and Settings\Anders\Desktop\hhre\MDIAPP.dproj=C:\Documents and Settings\Anders\Desktop\hhre\hhre.dproj</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.235,C:\Documents and Settings\zzhen\Desktop\todo\hhre\buyer.dfm=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.552,C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.dfm=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Seller.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.656,C:\Documents and Settings\zzhen\Desktop\todo\hhre\Seller.pas=C:\Documents and Settings\zzhen\Desktop\todo\hhre\seller.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.753,C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas=C:\Documents and Settings\zzhen\Desktop\todo\hhre\shhNew.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.088,C:\Documents and Settings\Anders\Desktop\hhre\app.dproj=C:\Documents and Settings\Anders\Desktop\hhre\hhre.dproj</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.753,C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.dfm=C:\Documents and Settings\zzhen\Desktop\todo\hhre\shhNew.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.235,C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.dfm=C:\Documents and Settings\zzhen\Desktop\todo\hhre\buyer.dfm</Transaction>
     <Transaction>1899-12-30 00:00:00.000.142,=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.349,=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.875,C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas=C:\Documents and Settings\Anders\Desktop\hhre\common.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.437,C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas=C:\Documents and Settings\Anders\Desktop\hhre\sqlConstant.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.468,=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.890,=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.765,C:\Documents and Settings\Anders\Desktop\hhre\sql.pas=</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.656,C:\Documents and Settings\zzhen\Desktop\todo\hhre\seller.dfm=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Seller.dfm</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.552,C:\Documents and Settings\zzhen\Desktop\todo\hhre\Seller.dfm=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.dfm</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.125,=C:\Documents and Settings\Anders\Desktop\hhre\sql.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.000,C:\Documents and Settings\Anders\Desktop\hhre\stringBuilder.pas=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.750,=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.088,C:\Documents and Settings\Anders\Desktop\hhre\hhre.dproj=C:\Documents and Settings\Anders\Desktop\hhre\app.dproj</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.861,C:\Documents and Settings\Anders\Desktop\hhre\ChildWin.pas=C:\Documents and Settings\Anders\Desktop\hhre\ssh.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.431,C:\Documents and Settings\Anders\Desktop\hhre\ssh.dfm=C:\Documents and Settings\Anders\Desktop\hhre\shh.dfm</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.431,C:\Documents and Settings\Anders\Desktop\hhre\ssh.pas=C:\Documents and Settings\Anders\Desktop\hhre\shh.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.049,C:\Documents and Settings\Anders\Desktop\hhre\Main.dfm=C:\Documents and Settings\Anders\Desktop\hhre\main.dfm</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.437,C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas=C:\Documents and Settings\Anders\Desktop\hhre\config.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.593,=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.453,C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas=C:\Documents and Settings\Anders\Desktop\hhre\validator.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.093,=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.875,C:\Documents and Settings\Anders\Desktop\hhre\common.pas=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.235,C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas=C:\Documents and Settings\zzhen\Desktop\todo\hhre\buyer.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.552,C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Seller.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.218,=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.049,C:\Documents and Settings\Anders\Desktop\hhre\main.dfm=C:\Documents and Settings\Anders\Desktop\hhre\Main.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.640,C:\Documents and Settings\Anders\Desktop\hhre\hhre.dproj=C:\Documents and Settings\Anders\Desktop\hhre\MDIAPP.dproj</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.861,C:\Documents and Settings\Anders\Desktop\hhre\ssh.pas=C:\Documents and Settings\Anders\Desktop\hhre\ChildWin.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.656,C:\Documents and Settings\zzhen\Desktop\todo\hhre\Seller.dfm=C:\Documents and Settings\zzhen\Desktop\todo\hhre\seller.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.437,C:\Documents and Settings\Anders\Desktop\hhre\config.pas=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.453,C:\Documents and Settings\Anders\Desktop\hhre\validator.pas=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.049,C:\Documents and Settings\Anders\Desktop\hhre\main.pas=C:\Documents and Settings\Anders\Desktop\hhre\Main.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.437,C:\Documents and Settings\Anders\Desktop\hhre\sqlConstant.pas=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.431,C:\Documents and Settings\Anders\Desktop\hhre\shh.pas=C:\Documents and Settings\Anders\Desktop\hhre\ssh.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.861,C:\Documents and Settings\Anders\Desktop\hhre\ssh.dfm=C:\Documents and Settings\Anders\Desktop\hhre\ChildWin.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.515,C:\Documents and Settings\Anders\Desktop\hhre\sqlScript.pas=C:\Documents and Settings\Anders\Desktop\hhre\sqlConstant.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.431,C:\Documents and Settings\Anders\Desktop\hhre\shh.dfm=C:\Documents and Settings\Anders\Desktop\hhre\ssh.dfm</Transaction>
   </Transactions>
-	<ProjectSortOrder AutoSort="-1" SortType="1"/>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="about.pas"/>
+    <File Path="about.dfm"/>
+    <File Path="buyer.pas"/>
+    <File Path="buyer.dfm"/>
+    <File Path="common.pas"/>
+    <File Path="config.pas"/>
+    <File Path="constant.pas"/>
+    <File Path="main.pas"/>
+    <File Path="main.dfm"/>
+    <File Path="seller.pas"/>
+    <File Path="seller.dfm"/>
+    <File Path="shh.pas"/>
+    <File Path="shh.dfm"/>
+    <File Path="shhNew.pas"/>
+    <File Path="shhNew.dfm"/>
+    <File Path="sqlScript.pas"/>
+    <File Path="stringBuilder.pas"/>
+    <File Path="validator.pas"/>
+  </ProjectSortOrder>
 </BorlandProject>

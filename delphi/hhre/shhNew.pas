@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, DB, DBClient, Generics.Collections, config, sql, common,
-  CheckLst, RegularExpressionsCore, constant, validator, sqlScript, mHouse, mSecondHandHouse;
+  CheckLst, RegularExpressionsCore, constant, validator, sqlScript, mHouse,
+  mSecondHandHouse, mFacility, mFeature;
 
 type
   TFrmNew = class(TForm)
@@ -62,7 +63,7 @@ type
     cmbDirection: TComboBox;
     edtTotalFloor: TEdit;
     edtFloor: TEdit;
-    cmbPropety: TComboBox;
+    cmbProperty: TComboBox;
     edtBalconyCount: TEdit;
     Label31: TLabel;
     cmbPropMgtType: TComboBox;
@@ -104,6 +105,9 @@ procedure TFrmNew.btnNewClick(Sender: TObject);
 var
   house: THouse;
   secondHandHouse: TSecondHandHouse;
+  facility: TFacility;
+  feature: TFeature;
+  i: Integer;
 begin
   TValidator.EmptyStrCheck(edtName, BUILDING_NAME);
   TValidator.EmptyStrCheck(edtAddress, ADDRESS);
@@ -117,6 +121,18 @@ begin
   TValidator.EmptyStrCheck(edtBalconyCount, BALCONY);
   TValidator.EmptyStrCheck(edtTotalFloor, TOTAL_FLOOR);
   TValidator.EmptyStrCheck(edtFloor, FLOOR);
+
+  secondHandHouse := TSecondHandHouse.Create;
+  secondHandHouse.Price := StrToFloat(Trim(edtPrice.Text));
+  secondHandHouse.BuildingArea := StrToFloat(Trim(edtBuildingArea.Text));
+  secondHandHouse.UsableArea := StrToFloat(Trim(edtUsableArea.Text));
+  secondHandHouse.PropertyId := Integer(cmbProperty.Items.Objects[cmbProperty.ItemIndex]);
+  secondHandHouse.PropTypeId := Integer(cmbPropType.Items.Objects[cmbPropType.ItemIndex]);
+  secondHandHouse.PropStructId := Integer(cmbPropStruct.Items.Objects[cmbPropStruct.ItemIndex]);
+  secondHandHouse.ConstructTypeId := Integer(cmbConstructType.Items.Objects[cmbConstructType.ItemIndex]);
+  secondHandHouse.VisitTimeId := Integer(cmbVisitTime.Items.Objects[cmbVisitTime.ItemIndex]);
+
+  ShowMessage(secondHandHouse.Insert);
 
   house := THouse.Create;
   house.Name := Trim(edtName.Text);
@@ -138,11 +154,31 @@ begin
   house.Transport := Trim(memTransport.Text);
   house.Environment := Trim(memEnvironment.Text);
   house.Remark := Trim(memRemark.Text);
+  house.SecondHandHouseId := secondHandHouse.Id;
 
   ShowMessage(house.Insert);
 
+  facility := TFacility.Create;
+  facility.HouseId := house.Id;
+  for i := 0 to clbFacility.Items.Count - 1 do
+  begin
+    if clbFacility.Checked[i] then
+    begin
+      facility.FacilityId := Integer(clbFacility.Items.Objects[i]);
+      facility.InsertWithoutId;
+    end;
+  end;
 
-
+  feature := TFeature.Create;
+  feature.HouseId := house.Id;
+  for i := 0 to clbFeature.Items.Count - 1 do
+  begin
+    if clbFeature.Checked[i] then
+    begin
+      feature.FeatureId := Integer(clbFeature.Items.Objects[i]);
+      feature.InsertWithoutId;
+    end;
+  end;
 end;
 
 procedure TFrmNew.cmbCityChange(Sender: TObject);
@@ -169,7 +205,7 @@ begin
   TCommon.GenComboBoxItem(TSqlScript.GetCity(IntToStr(Integer(cmbProvince.Items.Objects[cmbProvince.ItemIndex]))), cmbCity);
   TCommon.GenComboBoxItem(TSqlScript.GetDistrict(IntToStr(Integer(cmbCity.Items.Objects[cmbCity.ItemIndex]))), cmbDistrict);
   TCommon.GenComboBoxItem(TSqlScript.GetDirection, cmbDirection);
-  TCommon.GenComboBoxItem(TSqlScript.GetPropety, cmbPropety);
+  TCommon.GenComboBoxItem(TSqlScript.GetPropety, cmbProperty);
 
   //ÏêÏ¸×ÊÁÏ
   TCommon.ClearMemoLines(gbDetailInfo);

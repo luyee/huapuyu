@@ -32,6 +32,7 @@ type
   public
     constructor Create;
     function Insert: string;
+    function InsertWithoutId: string;
     function InsertWithSql: string;
     function Update: string;
     function UpdateWithSql: string;
@@ -214,6 +215,82 @@ begin
           Result := (ca as TFieldInfo).title;
           Break;
         end;
+      end;
+    end;
+  finally
+    context.Free;
+  end;
+end;
+
+function TModel.InsertWithoutId: string;
+var
+  context: TRttiContext;
+  prop: TRttiProperty;
+  typ: TRttiType;
+  tableAttr, fieldAttr: TCustomAttribute;
+  fields, values, value, table, sql: string;
+  params: TParams;
+  param: TParam;
+begin
+  context := TRttiContext.Create;
+  fields := EmptyStr;
+  values := EmptyStr;
+  value := EmptyStr;
+  table := EmptyStr;
+  sql := EmptyStr;
+  params := TParams.Create(Application);
+  try
+    typ := context.GetType(ClassType);
+    for tableAttr in typ.GetAttributes do
+    begin
+      if tableAttr is TTableInfo then
+      begin
+        table := (tableAttr as TTableInfo).Name;
+        for prop in typ.GetProperties do
+        begin
+          for fieldAttr in prop.GetAttributes do
+          begin
+            if fieldAttr is TFieldInfo then
+            begin
+              case prop.GetValue(Self).Kind of
+                tkString, tkChar, tkWChar, tkWString, tkUString, tkLString:
+                begin
+                  if SameStr(prop.GetValue(Self).AsString, EmptyStr) then
+                    Continue;
+                  param := params.CreateParam(ftString, ':' + (fieldAttr as TFieldInfo).Name, ptInput);
+                end;
+                tkInteger, tkInt64:
+                begin
+                  if prop.GetValue(Self).AsInteger = -99 then
+                    Continue;
+                  param := params.CreateParam(ftInteger, ':' + (fieldAttr as TFieldInfo).Name, ptInput);
+                end;
+                tkFloat:
+                begin
+                  if StrToFloat(prop.GetValue(Self).ToString) = -99 then
+                    Continue;
+                  param := params.CreateParam(ftFloat, ':' + (fieldAttr as TFieldInfo).Name, ptInput);
+                end
+              else
+                param := params.CreateParam(ftString, ':' + (fieldAttr as TFieldInfo).Name, ptInput);
+              end;
+
+              fields := fields + ',' + (fieldAttr as TFieldInfo).Name;
+              values := values + ',:' + (fieldAttr as TFieldInfo).Name;
+              value := prop.GetValue(Self).ToString;
+              param.Value := value;
+            end;
+          end;
+        end;
+
+        Delete(fields, 1, 1);
+        Delete(values, 1, 1);
+
+        sql := Format(INSERT_WITHOUT_ID_TEMPLATE, [table, fields, values]);
+
+        TSql.ExecuteSql(sql, params);
+
+        Result := sql;
       end;
     end;
   finally

@@ -47,6 +47,7 @@ const
   //对象关系映射
   PRIMARY_KEY_NAME = 'ID';
   INSERT_TEMPLATE = 'insert into %s (%s) values (%s) returning ID;';
+  INSERT_WITHOUT_ID_TEMPLATE = 'insert into %s (%s) values (%s);';
   UPDATE_TEMPLATE = 'update %s set %s where %s;';
   DELETE_TEMPLATE = 'delete from %s where %s;';
 

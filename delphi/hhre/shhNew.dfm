@@ -564,7 +564,7 @@ object FrmNew: TFrmNew
       TabOrder = 16
       OnExit = edtNameExit
     end
-    object cmbPropety: TComboBox
+    object cmbProperty: TComboBox
       Left = 142
       Top = 420
       Width = 248

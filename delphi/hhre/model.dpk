@@ -29,7 +29,9 @@ requires
 
 contains
   mHouse in 'mHouse.pas',
-  mSecondHandHouse in 'mSecondHandHouse.pas';
+  mSecondHandHouse in 'mSecondHandHouse.pas',
+  mFacility in 'mFacility.pas',
+  mFeature in 'mFeature.pas';
 
 end.
 

@@ -57,23 +57,23 @@ class procedure TCommon.GenCheckListBoxItem(const sql: string; const clb: TCheck
 var
   ds: TDictionary<Integer, string>;
   it: TDictionary<Integer, string>.TPairEnumerator;
-  i: Integer;
-  selectedIndex: Integer;
+//  i: Integer;
+//  selectedIndex: Integer;
 begin
   clb.Items.Clear;
   ds := TSql.ExecuteQueryDS(sql);
   it := ds.GetEnumerator;
-  i := 0;
-  selectedIndex := 0;
+//  i := 0;
+//  selectedIndex := 0;
   while it.MoveNext do
   begin
     clb.AddItem(it.Current.Value, TObject(it.Current.Key));
-    if (CompareStr(it.Current.Value, TConfig.GetCustomizeProvince) = 0) or (CompareStr(it.Current.Value, TConfig.GetCustomizeCity) = 0) then
-      selectedIndex := i;
-    Inc(i);
+//    if (CompareStr(it.Current.Value, TConfig.GetCustomizeProvince) = 0) or (CompareStr(it.Current.Value, TConfig.GetCustomizeCity) = 0) then
+//      selectedIndex := i;
+//    Inc(i);
   end;
 
-  clb.ItemIndex := selectedIndex;
+//  clb.ItemIndex := selectedIndex;
 end;
 
 class procedure TCommon.GenComboBoxItem(const sql: string; const cmb: TComboBox);

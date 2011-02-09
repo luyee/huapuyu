@@ -5,7 +5,7 @@ interface
 uses Windows, Classes, Graphics, Forms, Controls, StdCtrls,
   Buttons, ExtCtrls, DBXFirebird, DB, SqlExpr, Dialogs, DBXOracle, DBXMySQL,
   Grids, DBGrids, DBClient, Provider, FMTBcd, DBCtrls, SimpleDS, SysUtils, sql,
-  ComCtrls, house;
+  ComCtrls, mHouse;
 
 type
   TFrmAbout = class(TForm)

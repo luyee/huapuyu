@@ -38,19 +38,33 @@ object FrmShh: TFrmShh
       Height = 25
       Caption = #26597#35810
       TabOrder = 1
+      OnClick = btnQueryClick
     end
   end
-  object DBGrid1: TDBGrid
+  object dbg: TDBGrid
     Left = 233
     Top = 0
     Width = 515
     Height = 582
     Align = alClient
+    DataSource = ds
+    Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+  end
+  object ds: TDataSource
+    DataSet = cds
+    Left = 392
+    Top = 264
+  end
+  object cds: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 536
+    Top = 312
   end
 end

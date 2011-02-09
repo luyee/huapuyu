@@ -1,27 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899-12-30 00:00:00.000.125,=vcl.dcp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.716,C:\Documents and Settings\Anders\My Documents\RAD Studio\Projects\Package1.dproj=C:\Documents and Settings\Anders\Desktop\hhre\dao.dproj</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.140,=DbxCommonDriver.dcp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.277,=rtl.dcp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.923,=rtl.dcp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.140,=dbexpress.dcp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.203,C:\Documents and Settings\Anders\Desktop\hhre\constant.pas=</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.949,=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.603,=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.601,=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.125,=dsnap.dcp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.640,=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.140,=dbrtl.dcp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.093,=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.341,C:\Documents and Settings\zzhen\Desktop\todo\hhre\utils.pas=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.062,C:\Documents and Settings\Anders\Desktop\hhre\dataset.pas=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.265,C:\Documents and Settings\Anders\Desktop\hhre\orm.pas=C:\Documents and Settings\Anders\Desktop\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.416,C:\Documents and Settings\zzhen\Desktop\todo\hhre\constant.pas=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.156,=dbxcds.dcp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.156,=DBXFirebirdDriver.dcp</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.555,C:\Documents and Settings\zzhen\Desktop\todo\hhre\sql.pas=C:\Documents and Settings\zzhen\Desktop\todo\hhre\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.716,C:\Documents and Settings\Anders\Desktop\hhre\dao.dproj=C:\Documents and Settings\Anders\My Documents\RAD Studio\Projects\Package1.dproj</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="-1" SortType="1"/>
 </BorlandProject>

@@ -54,6 +54,8 @@
 			<DCCReference Include="rtl.dcp"/>
 			<DCCReference Include="mHouse.pas"/>
 			<DCCReference Include="mSecondHandHouse.pas"/>
+			<DCCReference Include="mFacility.pas"/>
+			<DCCReference Include="mFeature.pas"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>
