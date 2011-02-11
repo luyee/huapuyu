@@ -7,6 +7,7 @@ uses
   about in 'about.pas' {FrmAbout},
   buyer in 'buyer.pas' {FrmBuyer},
   seller in 'seller.pas' {FrmSeller},
+  shhEdit in 'shhEdit.pas' {FrmEdit},
   shhNew in 'shhNew.pas' {FrmNew},
   config in 'config.pas',
   constant in 'constant.pas',

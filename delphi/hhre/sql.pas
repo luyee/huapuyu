@@ -15,7 +15,8 @@ type
     class function ExecuteInsert(const sql: string; const params: TParams = nil): Integer;
     class function ExecuteSqlNoTrans(const sql: string; const params: TParams = nil): Integer;
     class function ExecuteQuery(const sql: string; const params: TParams = nil): OleVariant;
-    class function ExecuteQueryDS(const sql: string; const params: TParams = nil): TDictionary<Integer, string>;
+    class function ExecuteQueryMap(const sql: string; const params: TParams = nil): TDictionary<Integer, string>;
+    class function ExecuteQueryRow(const sql: string; const params: TParams = nil): TDictionary<string, Variant>;
     class function ExecuteCount(const sql: string; const fieldAsName: string = 'c'): Integer;
   end;
 
@@ -164,13 +165,13 @@ begin
   end;
 end;
 
-class function TSql.ExecuteQueryDS(const sql: string; const params: TParams): TDictionary<Integer, string>;
+class function TSql.ExecuteQueryMap(const sql: string; const params: TParams): TDictionary<Integer, string>;
 var
   query: TSQLQuery;
-  ds: TDictionary<Integer, string>;
+  map: TDictionary<Integer, string>;
 begin
   Result := nil;
-  ds := TDictionary<Integer, string>.Create;
+  map := TDictionary<Integer, string>.Create;
 
   query := TUtils.GetInstance.GetQuery;
   query.SQL.Text := sql;
@@ -183,10 +184,40 @@ begin
       query.Open;
       while not query.Eof do
       begin
-        ds.Add(StrToInt(VarToStr(query.FieldValues['id'])), VarToStr(query.FieldValues['name']));
+        map.Add(StrToInt(VarToStr(query.FieldValues['ID'])), VarToStr(query.FieldValues['NAME']));
         query.Next;
       end;
-      Result := ds;
+      Result := map;
+    except
+      raise;
+    end;
+  finally
+    TUtils.Free(query);
+  end;
+end;
+
+class function TSql.ExecuteQueryRow(const sql: string; const params: TParams): TDictionary<string, Variant>;
+var
+  query: TSQLQuery;
+  map: TDictionary<string, Variant>;
+  field: TField;
+begin
+  Result := nil;
+  map := TDictionary<string, Variant>.Create;
+
+  query := TUtils.GetInstance.GetQuery;
+  query.SQL.Text := sql;
+
+  if params <> nil then
+    SetParams(params, query);
+
+  try
+    try
+      query.Open;
+      if not query.Eof then
+        for field in query.Fields do
+          map.Add(field.FieldName, query.FieldValues[field.FieldName]);
+      Result := map;
     except
       raise;
     end;

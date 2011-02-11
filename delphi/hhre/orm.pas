@@ -3,7 +3,7 @@ unit orm;
 interface
 
 uses
-  Rtti, SysUtils, TypInfo, stringBuilder, sql, DB, Forms, Dialogs, constant;
+  Rtti, SysUtils, TypInfo, stringBuilder, sql, DB, Forms, Dialogs, constant, Generics.Collections, Variants;
 
 type
   TTableInfo = class(TCustomAttribute)
@@ -38,9 +38,11 @@ type
     function UpdateWithSql: string;
     function DeleteById: string;
     function DeleteByIdWithSql: string;
+    procedure MappingData(const id: Integer);
 //    function Select: string;
 //    function SelectWithSql: string;
     function GetFieldTitle(const fieldName: string): string;
+    function ToString: string; override;
   end;
 
 implementation
@@ -195,12 +197,11 @@ begin
   end;
 end;
 
-{ TODO -oAnders : É¾³ý¸Ã·½·¨ }
 function TModel.GetFieldTitle(const fieldName: string): string;
 var
   context: TRttiContext;
   typ: TRttiType;
-  ca: TCustomAttribute;
+  attr: TCustomAttribute;
   prop: TRttiProperty;
 begin
   context := TRttiContext.Create;
@@ -208,11 +209,11 @@ begin
     typ := context.GetType(ClassType);
     for prop in typ.GetProperties do
     begin
-      for ca in prop.GetAttributes do
+      for attr in prop.GetAttributes do
       begin
-        if (ca is TFieldInfo) and SameText((ca as TFieldInfo).Name, fieldName) then
+        if (attr is TFieldInfo) and SameText((attr as TFieldInfo).Name, fieldName) then
         begin
-          Result := (ca as TFieldInfo).title;
+          Result := (attr as TFieldInfo).title;
           Break;
         end;
       end;
@@ -348,6 +349,109 @@ begin
         TSql.ExecuteSql(sql);
 
         Result := sql;
+      end;
+    end;
+  finally
+    context.Free;
+  end;
+end;
+
+procedure TModel.MappingData(const id: Integer);
+var
+  context: TRttiContext;
+  prop: TRttiProperty;
+  typ: TRttiType;
+  tableAttr, fieldAttr: TCustomAttribute;
+  table: string;
+  map: TDictionary<string, Variant>;
+begin
+  context := TRttiContext.Create;
+  table := EmptyStr;
+  try
+    typ := context.GetType(ClassType);
+    for tableAttr in typ.GetAttributes do
+    begin
+      if tableAttr is TTableInfo then
+      begin
+        table := (tableAttr as TTableInfo).Name;
+        map := TSql.ExecuteQueryRow(Format(SELECT_BY_ID_TEMPLATE, [table, IntToStr(id)]));
+
+        for prop in typ.GetProperties do
+        begin
+          for fieldAttr in prop.GetAttributes do
+          begin
+            if fieldAttr is TFieldInfo then
+            begin
+              case prop.GetValue(Self).Kind of
+                tkString, tkChar, tkWChar, tkWString, tkUString, tkLString:
+                begin
+                  try
+                    prop.SetValue(Self, VarToStr(map.Items[(fieldAttr as TFieldInfo).Name]));
+                  except
+                    Continue;
+                  end;
+                end;
+                tkInteger, tkInt64:
+                begin
+                  try
+                    prop.SetValue(Self, StrToInt(VarToStr(map.Items[(fieldAttr as TFieldInfo).Name])));
+                  except
+                    Continue;
+                  end;
+                end;
+                tkFloat:
+                begin
+                  try
+                    prop.SetValue(Self, StrToFloat(VarToStr(map.Items[(fieldAttr as TFieldInfo).Name])));
+                  except
+                    Continue;
+                  end;
+                end
+              else
+                try
+                  prop.SetValue(Self, VarToStr(map.Items[(fieldAttr as TFieldInfo).Name]));
+                except
+                  Continue;
+                end;
+              end;
+            end;
+          end;
+        end;
+      end;
+    end;
+  finally
+    context.Free;
+  end;
+end;
+
+function TModel.ToString: string;
+var
+  context: TRttiContext;
+  prop: TRttiProperty;
+  typ: TRttiType;
+  tableAttr, fieldAttr: TCustomAttribute;
+  sb: TStringBuilder;
+begin
+  context := TRttiContext.Create;
+  sb := TStringBuilder.Create;
+  try
+    typ := context.GetType(ClassType);
+    for tableAttr in typ.GetAttributes do
+    begin
+      if tableAttr is TTableInfo then
+      begin
+        for prop in typ.GetProperties do
+        begin
+          for fieldAttr in prop.GetAttributes do
+          begin
+            if fieldAttr is TFieldInfo then
+            begin
+              sb.Append((fieldAttr as TFieldInfo).Name + ':' + prop.GetValue(Self).ToString + #13#10);
+            end;
+          end;
+        end;
+
+        Result := sb.ToString;
       end;
     end;
   finally

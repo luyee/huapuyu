@@ -7,7 +7,7 @@
 			<Config Condition="'$(Config)'==''">Debug</Config>
 			<Platform>Win32</Platform>
 			<AppType>Package</AppType>
-			<FrameworkType>None</FrameworkType>
+			<FrameworkType>VCL</FrameworkType>
 			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -52,10 +52,17 @@
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<DCCReference Include="rtl.dcp"/>
+			<DCCReference Include="vcl.dcp"/>
+			<DCCReference Include="dsnap.dcp"/>
+			<DCCReference Include="dbrtl.dcp"/>
+			<DCCReference Include="dbexpress.dcp"/>
+			<DCCReference Include="DbxCommonDriver.dcp"/>
+			<DCCReference Include="dbxcds.dcp"/>
+			<DCCReference Include="DBXFirebirdDriver.dcp"/>
 			<DCCReference Include="mHouse.pas"/>
-			<DCCReference Include="mSecondHandHouse.pas"/>
 			<DCCReference Include="mFacility.pas"/>
 			<DCCReference Include="mFeature.pas"/>
+			<DCCReference Include="mSecondHandHouse.pas"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>

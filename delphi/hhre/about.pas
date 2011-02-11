@@ -115,7 +115,7 @@ begin
     Name := 'id';
     Value := '2';
   end;
-  TSql.ExecuteQueryDS('SELECT id, name FROM cfg_area WHERE type = 1 and parent_id = :id', params);
+  TSql.ExecuteQueryMap('SELECT id, name FROM cfg_area WHERE type = 1 and parent_id = :id', params);
 
 
   Self.SQLQuery1.Params.AddParameter;

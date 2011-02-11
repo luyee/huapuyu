@@ -25,13 +25,20 @@ package model;
 {$IMPLICITBUILD ON}
 
 requires
-  rtl;
+  rtl,
+  vcl,
+  dsnap,
+  dbrtl,
+  dbexpress,
+  DbxCommonDriver,
+  dbxcds,
+  DBXFirebirdDriver;
 
 contains
   mHouse in 'mHouse.pas',
-  mSecondHandHouse in 'mSecondHandHouse.pas',
   mFacility in 'mFacility.pas',
-  mFeature in 'mFeature.pas';
+  mFeature in 'mFeature.pas',
+  mSecondHandHouse in 'mSecondHandHouse.pas';
 
 end.
 

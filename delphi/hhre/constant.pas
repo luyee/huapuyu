@@ -50,6 +50,22 @@ const
   INSERT_WITHOUT_ID_TEMPLATE = 'insert into %s (%s) values (%s);';
   UPDATE_TEMPLATE = 'update %s set %s where %s;';
   DELETE_TEMPLATE = 'delete from %s where %s;';
+  SELECT_BY_ID_TEMPLATE = 'select * from %s where ID = %s;';
+
+  //查询
+  HOUSE_QUERY = 'select ID,'+
+  'NAME "楼盘名称",'+
+  'ADDRESS "地址",'+
+  'PRICE "价格（万元/套）",'+
+  'BUILDING_AREA "建筑面积（平方米）",'+
+  'USABLE_AREA "使用面积（平方米）",'+
+  'round(UNIT_PRICE,2) "单价（元/平方米）",'+
+  'HOUSING_TYPE "户型",'+
+  'DIRECTION "朝向",'+
+  'FLOOR "所在楼层/总楼层",'+
+  'DECORATION "装修程度",'+
+  'CONSTRUCT_YEAR "建筑年代"'+
+  'from VI_SECOND_HAND_HOUSE;';
 
 implementation
 

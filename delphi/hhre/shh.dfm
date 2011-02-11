@@ -14,17 +14,17 @@ object FrmShh: TFrmShh
   OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TPanel
+  object pnlControl: TPanel
     Left = 0
     Top = 0
-    Width = 233
-    Height = 582
-    Align = alLeft
+    Width = 748
+    Height = 65
+    Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
     object btnNew: TButton
-      Left = 24
-      Top = 24
+      Left = 16
+      Top = 21
       Width = 75
       Height = 25
       Caption = #26032#24314
@@ -32,29 +32,38 @@ object FrmShh: TFrmShh
       OnClick = btnNewClick
     end
     object btnQuery: TButton
-      Left = 128
-      Top = 24
+      Left = 104
+      Top = 21
       Width = 75
       Height = 25
-      Caption = #26597#35810
+      Caption = #26597#35810#20840#37096
       TabOrder = 1
       OnClick = btnQueryClick
     end
+    object btnAdvQry: TButton
+      Left = 192
+      Top = 21
+      Width = 75
+      Height = 25
+      Caption = #39640#32423#26597#35810
+      TabOrder = 2
+    end
   end
   object dbg: TDBGrid
-    Left = 233
-    Top = 0
-    Width = 515
-    Height = 582
+    Left = 0
+    Top = 65
+    Width = 748
+    Height = 517
     Align = alClient
     DataSource = ds
-    Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    OnCellClick = dbgCellClick
   end
   object ds: TDataSource
     DataSet = cds
@@ -64,7 +73,7 @@ object FrmShh: TFrmShh
   object cds: TClientDataSet
     Aggregates = <>
     Params = <>
-    Left = 536
-    Top = 312
+    Left = 440
+    Top = 264
   end
 end

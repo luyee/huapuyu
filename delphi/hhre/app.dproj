@@ -64,6 +64,9 @@
 			<DCCReference Include="seller.pas">
 				<Form>FrmSeller</Form>
 			</DCCReference>
+			<DCCReference Include="shhEdit.pas">
+				<Form>FrmEdit</Form>
+			</DCCReference>
 			<DCCReference Include="shhNew.pas">
 				<Form>FrmNew</Form>
 			</DCCReference>
