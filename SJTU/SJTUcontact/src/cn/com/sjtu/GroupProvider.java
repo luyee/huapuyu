@@ -54,8 +54,8 @@ public class GroupProvider extends ContentProvider {
 			count = contactsDB.delete(DBHelper.CONTACTS_GROUP_TABLE, ContactColumn._ID + "=" + contactID + (!TextUtils.isEmpty(where) ? " AND (" + where + ")" : ""), selectionArgs);
 			
 			ContentValues values = new ContentValues();
-			values.put(ContactColumn.GROUP, 1);
-			contactsDB.update(DBHelper.CONTACTS_USER_TABLE, values, ContactColumn.GROUP + " = ?", new String[]{contactID});
+			values.put(ContactColumn.GROUPNUM, 1);
+			contactsDB.update(DBHelper.CONTACTS_USER_TABLE, values, ContactColumn.GROUPNUM + " = ?", new String[]{contactID});
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -70,9 +70,9 @@ public class GroupProvider extends ContentProvider {
 		// TODO Auto-generated method stub
 		switch (uriMatcher.match(uri)) {
 		case CONTACTS:
-			return "vnd.android.cursor.dir/vnd.xmobileapp.contact";
+			return "vnd.android.cursor.dir/cn.com.sjtu.contact";
 		case CONTACT_ID:
-			return "vnd.android.cursor.item/vnd.xmobileapp.contact";
+			return "vnd.android.cursor.item/cn.com.sjtu.contact";
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}

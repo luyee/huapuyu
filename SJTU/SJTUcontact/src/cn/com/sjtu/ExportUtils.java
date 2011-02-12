@@ -18,24 +18,24 @@ import com.util.Tools;
  */
 public class ExportUtils {
 	
-	private String sdcardPath;
+	
 	
 
 	public File createSdFile(String fileName) throws IOException{
-		File file = new File(this.getSdcardPath() + fileName);
+		File file = new File(Tools.getContactSavePath() + fileName);
 		if(file.exists()) {file.delete();}
 		file.createNewFile();
 		return file;
 	}
 	
 	public OutputStream getOutPutStream(String fileName) throws FileNotFoundException, IOException{
-		OutputStream outputs = new FileOutputStream(createSdFile(fileName));
+		OutputStream outputs = new FileOutputStream(fileName==null?createSdFile():createSdFile(fileName));
 		return outputs;
 	}
 	
 	public File createSdFile() throws IOException{
 		String fileName = Tools.getTime()+".xml";
-		return createSdFile(this.getSdcardPath()+fileName.replace(":", ""));
+		return createSdFile(Tools.getContactSavePath()+fileName.replace(":", ""));
 	}
 	
 	public File writeToFile(String fileName,InputStream inputStream) throws IOException{
@@ -59,14 +59,6 @@ public class ExportUtils {
 		return writeToFile(null, inputStream);
 	}
 
-	public String getSdcardPath() {
-		if(null == this.sdcardPath){
-			this.sdcardPath = Environment.getExternalStorageDirectory() + "/";
-		}
-		return sdcardPath;
-	}
-
-	public void setSdcardPath(String sdcardPath) {
-		this.sdcardPath = sdcardPath;
-	}
+	
+	
 }

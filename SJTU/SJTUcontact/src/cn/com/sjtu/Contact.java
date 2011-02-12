@@ -53,20 +53,26 @@ public class Contact extends ListActivity {
 	private Button add;
 	private Button search;
 	private EditText searchArea;
-
+	private String fileName;
+	private LayoutInflater layoutInflater;
+	private View viewAddEmployee;
+	
 	private static final int ExportContact_ID = Menu.FIRST;
 	private static final int EditContact_ID = Menu.FIRST + 1;
+	private static final int CallContact_ID = Menu.FIRST + 2;
+	private static final int SendMess_ID = Menu.FIRST + 3;
+	private static final int IMPORT_ID = Menu.FIRST + 4;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		// myListView = (ListView)findViewById(android.R.id.list);
+		 myListView = (ListView)findViewById(android.R.id.list);
 		search = (Button) findViewById(R.id.submitId);
 		add = (Button) findViewById(R.id.add);
 		backToGroup = (Button) findViewById(R.id.backToGroup);
 		searchArea = (EditText) findViewById(R.id.searchArea);
-
+		
 		// 启用快捷键支持
 		setDefaultKeyMode(DEFAULT_KEYS_SHORTCUT);
 
@@ -82,9 +88,9 @@ public class Contact extends ListActivity {
 		// 使用managedQuery获取ContactsProvider的Cursor
 		Cursor cursor = null;
 		if (getIntent().getData().toString().indexOf(ContactsProvider.CONTENT_URI.toString()) != -1) {
-			cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, null, null, null);
+			cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, null, null, ContactColumn.NAME);
 		} else {
-			cursor = managedQuery(ContactsProvider.CONTENT_URI, ContactColumn.PROJECTION, ContactColumn.GROUP + " = ?", new String[] { getIntent().getData().getPathSegments().get(1) }, null);
+			cursor = managedQuery(ContactsProvider.CONTENT_URI, ContactColumn.PROJECTION, ContactColumn.GROUPNUM + " = ?", new String[] { getIntent().getData().getPathSegments().get(1) }, ContactColumn.NAME);
 			intent.setData(ContactsProvider.CONTENT_URI);
 		}
 
@@ -106,10 +112,13 @@ public class Contact extends ListActivity {
 		super.onCreateOptionsMenu(menu);
 
 		// 在目录中增加“添加”按钮并为之设定快捷键及图标
-		menu.add(0, ExportContact_ID, 0, R.string.menu_export).setShortcut('4', 'e').setIcon(android.R.drawable.ic_menu_more);
-
+		menu.add(0, ExportContact_ID, 0, R.string.menu_export).setShortcut('4', 'e').setIcon(android.R.drawable.ic_menu_set_as);
+		if(myListView.getSelectedItem() != null){
+			menu.add(0, CallContact_ID, 0, R.string.service_call).setShortcut('5', 'f').setIcon(android.R.drawable.ic_menu_call);
+			menu.add(0, SendMess_ID, 0, R.string.service_message).setShortcut('6', 'g').setIcon(android.R.drawable.ic_menu_agenda);
+		}
+		menu.add(0, IMPORT_ID, 0, R.string.menu_import).setShortcut('7', 'h').setIcon(android.R.drawable.ic_menu_upload);
 		return true;
-
 	}
 
 	// 目录显示之前的回调函数
@@ -143,29 +152,70 @@ public class Contact extends ListActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		long id;
+		Intent intent;
+		
+		
 		switch (item.getItemId()) {
-		case ExportContact_ID:
-			// 询问是否导出xml
-			LayoutInflater layoutInflater = LayoutInflater.from(this);
-			View viewAddEmployee = layoutInflater.inflate(R.layout.export, null);
-			new AlertDialog.Builder(this).setTitle(getText(R.string.is_export)).setView(viewAddEmployee).setPositiveButton(getText(R.string.code_export), new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					exportXML(true);
-				}
-
-			}).setNeutralButton(getText(R.string.uncode_export), new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					exportXML(false);
-				}
-
-			}).setNegativeButton(getText(R.string.cancel), new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-				}
-			}).show();
-
-			return true;
+			case ExportContact_ID:
+				initLayOutView();
+				
+				new AlertDialog.Builder(this).setTitle(getText(R.string.is_export)).setView(viewAddEmployee).setPositiveButton(getText(R.string.code_export), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						exportXML(fileName,true);
+					}
+	
+				}).setNeutralButton(getText(R.string.uncode_export), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						exportXML(fileName,false);
+					}
+	
+				}).setNegativeButton(getText(R.string.cancel), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						
+					}
+				}).show();
+				return true;
+			case CallContact_ID:
+				id = myListView.getSelectedItemId();
+				Cursor cursor = managedQuery(ContentUris.withAppendedId(ContactsProvider.CONTENT_URI, id), ContactColumn.PROJECTION, null,null, null);
+				cursor.moveToFirst();
+				intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+cursor.getString(cursor.getColumnIndex(ContactColumn.MOBILE))));   
+		        this.startActivity(intent);   
+				return true;
+			case SendMess_ID:
+				id = myListView.getSelectedItemId();
+				intent = new Intent(Intent.ACTION_SEND, ContentUris.withAppendedId(ContactsProvider.CONTENT_URI, id));
+				startActivity(intent);
+				return true;
+			case IMPORT_ID:
+				//TODO 导入
+				initLayOutView();
+				new AlertDialog.Builder(this).setTitle(getText(R.string.is_import)).setView(viewAddEmployee).setPositiveButton(getText(R.string.menu_import), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+					}
+	
+				}).setNegativeButton(getText(R.string.cancel), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						
+					}
+				}).show();
+				return true;
+			default :
+				break;
 		}
+			
+			
 		return super.onOptionsItemSelected(item);
+	}
+
+
+	private void initLayOutView() {
+		if(null == layoutInflater){
+			layoutInflater = LayoutInflater.from(this);
+			viewAddEmployee = layoutInflater.inflate(R.layout.export, null);
+			fileName = ((EditText)viewAddEmployee.findViewById(R.exportid.fileNameId)).getText().toString();
+		}
 	}
 
 	// 上下文菜单，本例会通过长按条目激活上下文菜单
@@ -250,7 +300,7 @@ public class Contact extends ListActivity {
 		public void onClick(View v) {
 			String str = searchArea.getText().toString();
 
-			Cursor cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME + " like ?", new String[] { "%" + str + "%" }, null);
+			Cursor cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME + " like ?", new String[] { "%" + str + "%" }, ContactColumn.NAME);
 
 			// 使用SimpleCursorAdapter建立Cursor的Adapter以便使用，数据表示形式为：姓名 - 手机号码
 			SimpleCursorAdapter adapter = new SimpleCursorAdapter(contact, R.layout.contact_list_item, cursor, new String[] { ContactColumn.NAME, ContactColumn.MOBILE }, new int[] { R.id.name, R.id.contactinfo });
@@ -274,22 +324,20 @@ public class Contact extends ListActivity {
 		}
 	}
 
-	private void exportXML(boolean isCode) {
+	private void exportXML(String fileName , boolean isCode) {
+		
 		int returnValue = 0;
 		XmlTools xmlTools = new XmlTools();
 		Cursor cur = getContentResolver().query(getIntent().getData(), ContactColumn.USER, null, null, null);
 		Cursor cursor = managedQuery(GroupProvider.GROUP_URI, ContactColumn.GROUPPRO, null, null, null);
 		try {
-			returnValue = xmlTools.writeXml("First.xml", Tools.cursor2User(cur, Tools.getIdColumnMap(cursor), isCode));
+			returnValue = xmlTools.writeXml(fileName.equals("")?null:fileName+".xml", Tools.cursor2User(cur, Tools.getIdColumnMap(cursor), isCode));
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (1 == returnValue)

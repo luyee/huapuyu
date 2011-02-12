@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -51,7 +52,9 @@ public class ContactEditor extends Activity {
 	private static final int REVERT_ID = Menu.FIRST;
 	private static final int DISCARD_ID = Menu.FIRST + 1;
 	private static final int DELETE_ID = Menu.FIRST + 2;
-
+	private static final int CALL_ID = Menu.FIRST + 3;
+	private static final int SENTMESS_ID = Menu.FIRST + 4;
+	
 	private int mState;
 	private Uri mUri;
 	private Cursor mCursor;
@@ -70,6 +73,8 @@ public class ContactEditor extends Activity {
 	private ArrayAdapter<String> groupAdapter;
 	
 	private Map<Integer, Integer> groupIndexMap;
+
+	private int id;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -184,13 +189,15 @@ public class ContactEditor extends Activity {
 			String email = mCursor.getString(ContactColumn.EMAIL_COLUMN);
 
 			Log.e(TAG + ":onResume", "name:" + name + "mPhone:" + mPhone + "email:" + email);
-
+			
+			id = mCursor.getInt(mCursor.getColumnIndex(ContactColumn._ID));
+			
 			nameText.setText(name);
 			mPhoneText.setText(mPhone);
 			emailText.setText(email);
 			Set<Integer> keySet = groupIndexMap.keySet();
 			for (Integer key : keySet) {
-				if(groupIndexMap.get(key) == mCursor.getInt(mCursor.getColumnIndex(ContactColumn.GROUP))){
+				if(groupIndexMap.get(key) == mCursor.getInt(mCursor.getColumnIndex(ContactColumn.GROUPNUM))){
 					spaSpinner.setSelection(key);
 				}
 			}
@@ -236,11 +243,14 @@ public class ContactEditor extends Activity {
 		} else {
 			menu.add(0, DISCARD_ID, 0, R.string.menu_discard).setShortcut('0', 'd').setIcon(android.R.drawable.ic_menu_delete);
 		}
+		menu.add(0, CALL_ID, 0, R.string.service_call).setShortcut('5', 'f').setIcon(android.R.drawable.ic_menu_call);
+		menu.add(0, SENTMESS_ID, 0, R.string.service_message).setShortcut('6', 'g').setIcon(android.R.drawable.ic_menu_agenda);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
 		switch (item.getItemId()) {
 		case DELETE_ID:
 			deleteContact();
@@ -252,6 +262,17 @@ public class ContactEditor extends Activity {
 		case REVERT_ID:
 			backupContact();
 			break;
+		case CALL_ID:
+			//TODO ²¦ºÅ
+			Cursor cursor = managedQuery(ContentUris.withAppendedId(ContactsProvider.CONTENT_URI, id), ContactColumn.PROJECTION, null,null, null);
+			cursor.moveToFirst();
+			intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+cursor.getString(cursor.getColumnIndex(ContactColumn.MOBILE))));   
+	        this.startActivity(intent);   
+	        return true;
+		case SENTMESS_ID:
+			intent = new Intent(Intent.ACTION_SEND, ContentUris.withAppendedId(ContactsProvider.CONTENT_URI, id));
+			startActivity(intent);
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -287,7 +308,7 @@ public class ContactEditor extends Activity {
 			values.put(ContactColumn.MOBILE, mPhoneText.getText().toString());
 			values.put(ContactColumn.EMAIL, emailText.getText().toString());
 			values.put(ContactColumn.MODIFIED, Tools.getTime());
-			values.put(ContactColumn.GROUP, groupIndexMap.get(spaSpinner.getSelectedItemPosition()));
+			values.put(ContactColumn.GROUPNUM, groupIndexMap.get(spaSpinner.getSelectedItemPosition()));
 			
 			Log.e(TAG + ":onPause", mUri.toString());
 			Log.e(TAG + ":onPause", values.toString());

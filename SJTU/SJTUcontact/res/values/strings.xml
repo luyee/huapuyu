@@ -17,9 +17,20 @@
 <string name="menu_add">增加联系人</string>
 <string name="menu_edit">编辑联系人</string>
 <string name="menu_export">导出联系人</string>
+<string name="menu_import">导入联系人</string>
 <string name="is_export">确认导出</string>
+<string name="is_import">确认导出</string>
 <string name="code_export">加密导出</string>
 <string name="uncode_export">一般导出</string>
+<string name="file_name">文件名</string>
+
+<string name="app_name_messaging">嵌联科技短信发送器</string>   
+<string name="phonetext">请输入号码：</string>   
+<string name="contexttext">请输入短信内容</string>   
+<string name="buttontext">发送短信</string>   
+<string name="info">短信发送成功</string>   
+<string name="null_error">短信为空发送失败</string>   
+
 
 <string name="submit">查询</string>
 <string name="searchArea">查询区域</string>
@@ -31,4 +42,8 @@
 <string name="group_add">增加分组</string>
 <string name="group_name">分组名</string>
 <string name="allGroup">All</string>
+
+<string name="service_call">拨叫此号码</string>
+<string name="service_message">发送短消息</string>
+
 </resources>

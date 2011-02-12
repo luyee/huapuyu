@@ -31,7 +31,7 @@ public class ContactColumn implements BaseColumns {
 	public static final String EMAIL = "email";
 	public static final String CREATED = "createdDate";
 	public static final String MODIFIED = "modifiedDate";
-	public static final String GROUP = "groupnum";
+	public static final String GROUPNUM = "groupnum";
 
 	// Group ÁÐÃû
 	public static final String GROUP_NAME = "group_name";
@@ -49,7 +49,7 @@ public class ContactColumn implements BaseColumns {
 			NAME,// 1
 			MOBILE,// 2
 			EMAIL,// 3
-			GROUP // 6
+			GROUPNUM // 6
 	};
 	
 	public static final String[] USER = { _ID,// 0
@@ -58,7 +58,7 @@ public class ContactColumn implements BaseColumns {
 		EMAIL,// 3
 		CREATED ,// 6
 		MODIFIED,
-		GROUP
+		GROUPNUM
 	};
 	
 	public static final String[] GROUPPRO = { _ID, GROUP_NAME };

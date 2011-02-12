@@ -91,9 +91,9 @@ public class ContactsProvider extends ContentProvider {
 		// TODO Auto-generated method stub
 		switch (uriMatcher.match(uri)) {
 		case CONTACTS:
-			return "vnd.android.cursor.dir/vnd.xmobileapp.contact";
+			return "vnd.android.cursor.dir/cn.com.sjtu.contact";
 		case CONTACT_ID:
-			return "vnd.android.cursor.item/vnd.xmobileapp.contact";
+			return "vnd.android.cursor.item/cn.com.sjtu.contact";
 		case GROUP_ID:
 			return "vnd.android.cursor.item/cn.com.sjtu.group";
 		default:
@@ -159,7 +159,7 @@ public class ContactsProvider extends ContentProvider {
 			qb.appendWhere(ContactColumn._ID + "=" + uri.getPathSegments().get(1));
 			break;
 		case GROUP_ID:
-			qb.appendWhere(ContactColumn.GROUP + "=" + uri.getPathSegments().get(1));
+			qb.appendWhere(ContactColumn.GROUPNUM + "=" + uri.getPathSegments().get(1));
 			break;
 		default:
 			break;

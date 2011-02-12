@@ -1,5 +1,6 @@
 package com.util;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,10 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import android.database.Cursor;
+import android.os.Environment;
 import cn.com.sjtu.ContactColumn;
+import cn.com.sjtu.ExportUtils;
 
 public class Tools {
 	private static CodeUtils codeUtils;
+	private static String sdcardPath;
+	
 	/**
 	 * 
 	 * @return 2001-11-11 11:11:11
@@ -32,7 +37,7 @@ public class Tools {
 			user.setName(cursor.getString(cursor.getColumnIndex(ContactColumn.NAME)));
 			user.setCreatedDate(cursor.getString(cursor.getColumnIndex(ContactColumn.CREATED)));
 			user.setModifiedDate(cursor.getString(cursor.getColumnIndex(ContactColumn.MODIFIED)));
-			user.setGroupnum(cursor.getInt(cursor.getColumnIndex(ContactColumn.GROUP)));
+			user.setGroupnum(cursor.getInt(cursor.getColumnIndex(ContactColumn.GROUPNUM)));
 			user.setGroupName(groupMap.get(user.getGroupnum()));
 			user.setIsCode(codeFlag);
 			
@@ -83,15 +88,30 @@ public class Tools {
 				codeUtils = new CodeUtils();
 			} catch (Exception e) {
 				e.printStackTrace();
-				return "加密出错"+e.getMessage();
+				return "解密出错"+e.getMessage();
 			}
 		}
 		try {
 			return codeUtils.decrypt(message);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "加密出错"+e.getMessage();
+			return "解密出错"+e.getMessage();
 		}
-		
+	}
+	
+	public static String getContactSavePath(){
+		String dir = getSdcardPath() + "contact/";
+		File dirFile = new File(dir);
+		if(!dirFile.isDirectory()){
+			dirFile.mkdir();
+		}
+		return dir;
+	}
+	
+	public static String getSdcardPath() {
+		if(null == sdcardPath){
+			sdcardPath = Environment.getExternalStorageDirectory() + "/";
+		}
+		return sdcardPath;
 	}
 }
