@@ -6,4 +6,3 @@ class Area(models.Model):
     type = models.SmallIntegerField(null=True)
     parentId = models.IntegerField
     enable = models.BooleanField(null=True)
-  
