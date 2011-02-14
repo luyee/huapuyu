@@ -37,17 +37,17 @@ CREATE TABLE "REMS"."CFG_AREA"
 (	
 "ID" NUMBER(10) NOT NULL, 
 "NAME" VARCHAR2(50) NOT NULL, 
-"TYPE" NUMBER(1) DEFAULT 0, 
+"TYPE" NUMBER(1) DEFAULT 0,  
+"ENABLE" NUMBER(1) DEFAULT 1,
 "PARENT_ID" NUMBER(10), 
-"ENABLE" NUMBER(1) DEFAULT 1, 
 PRIMARY KEY ("ID")
 );
 COMMENT ON TABLE "REMS"."CFG_AREA" IS '区域配置'; 
 COMMENT ON COLUMN "REMS"."CFG_AREA"."ID" IS '编号';
 COMMENT ON COLUMN "REMS"."CFG_AREA"."NAME" IS '名称';
 COMMENT ON COLUMN "REMS"."CFG_AREA"."TYPE" IS '类型（0：省、自治区、直辖市；1：城市；2：区、县、市）';
-COMMENT ON COLUMN "REMS"."CFG_AREA"."PARENT_ID" IS '父编号';
 COMMENT ON COLUMN "REMS"."CFG_AREA"."ENABLE" IS '启用符（1：启用；0：停用）';
+COMMENT ON COLUMN "REMS"."CFG_AREA"."PARENT_ID" IS '父编号';
 
 --创建数据配置表
 CREATE TABLE "REMS"."CFG_DATA" 
@@ -61,7 +61,7 @@ PRIMARY KEY ("ID")
 COMMENT ON TABLE "REMS"."CFG_DATA" IS '数据配置';
 COMMENT ON COLUMN "REMS"."CFG_DATA"."ID" IS '编号';
 COMMENT ON COLUMN "REMS"."CFG_DATA"."NAME" IS '名称';
-COMMENT ON COLUMN "REMS"."CFG_DATA"."TYPE" IS '类型（ 1：产权性质；2：朝向；3：物业类型；4：住宅类别；5：建筑类别；6：房屋结构；7：装修程度；8：看房时间；9：配套设施；10：房源特色；11：建筑年代；12：合租方式；13：合租人性别要求；14：支付方式；15：入住时间；16：房屋配套）';
+COMMENT ON COLUMN "REMS"."CFG_DATA"."TYPE" IS '类型（1：产权性质；2：朝向；3：物业类型；4：住宅类别；5：建筑类别；6：房屋结构；7：装修程度；8：看房时间；9：配套设施；10：房源特色；11：建筑年代；12：合租方式；13：合租人性别要求；14：支付方式；15：入住时间；16：房屋配套）';
 COMMENT ON COLUMN "REMS"."CFG_DATA"."ENABLE" IS '启用符（1：启用；0：停用）';
 
 --创建房屋序列
