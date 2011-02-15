@@ -4,6 +4,8 @@
 <string name="app_name">嵌联科技通讯录</string>
 <string name="name">姓名 :</string>
 <string name="mobile">手机 :</string>
+<string name="homenum">宅电 :</string>
+<string name="address">地址 :</string>
 <string name="email">邮箱 :</string>
 <string name="group">组别 :</string>
 <string name="save"> 保存 </string>
@@ -19,7 +21,7 @@
 <string name="menu_export">导出联系人</string>
 <string name="menu_import">导入联系人</string>
 <string name="is_export">确认导出</string>
-<string name="is_import">确认导出</string>
+<string name="is_import">确认导入</string>
 <string name="code_export">加密导出</string>
 <string name="uncode_export">一般导出</string>
 <string name="file_name">文件名</string>
