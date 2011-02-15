@@ -6,12 +6,16 @@ public class User {
 	private String name;
 	private String mobileNumber;
 	private String createdDate;
+	private String email;
 	private String modifiedDate;
 	private Integer groupnum;
+	private String homenum ;
+	private String address ;
+	
 	private Boolean isCode ;
 	
 	private String groupName;
-
+	
 	public User() {
 		this.isCode = false;
 	}
@@ -83,6 +87,32 @@ public class User {
 	public void setIsCode(Boolean isCode) {
 		this.isCode = isCode;
 	}
-	
+
+	public String getEmail() {
+		if(!isCode) return email;
+		return Tools.enCode(email);
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getHomenum() {
+		if(!isCode) return homenum;
+		return Tools.enCode(homenum);
+	}
+
+	public void setHomenum(String homenum) {
+		this.homenum = homenum;
+	}
+
+	public String getAddress() {
+		if(!isCode) return address;
+		return Tools.enCode(address);
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	
 }

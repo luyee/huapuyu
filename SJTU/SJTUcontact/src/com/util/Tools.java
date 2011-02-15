@@ -40,6 +40,9 @@ public class Tools {
 			user.setGroupnum(cursor.getInt(cursor.getColumnIndex(ContactColumn.GROUPNUM)));
 			user.setGroupName(groupMap.get(user.getGroupnum()));
 			user.setIsCode(codeFlag);
+			user.setEmail(cursor.getString(cursor.getColumnIndex(ContactColumn.EMAIL)));
+			user.setAddress(cursor.getString(cursor.getColumnIndex(ContactColumn.ADDRESS)));
+			user.setHomenum(cursor.getString(cursor.getColumnIndex(ContactColumn.HOMENUM)));
 			
 			userList.add(user);
 			cursor.moveToNext();

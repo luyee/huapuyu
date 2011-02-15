@@ -1,6 +1,7 @@
 package cn.com.sjtu;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,7 +33,10 @@ public class ExportUtils {
 		OutputStream outputs = new FileOutputStream(fileName==null?createSdFile():createSdFile(fileName));
 		return outputs;
 	}
-	
+	public InputStream getInPutStream(File file) throws FileNotFoundException, IOException{
+		InputStream inputs = new FileInputStream(file);
+		return inputs;
+	}
 	public File createSdFile() throws IOException{
 		String fileName = Tools.getTime()+".xml";
 		return createSdFile(Tools.getContactSavePath()+fileName.replace(":", ""));

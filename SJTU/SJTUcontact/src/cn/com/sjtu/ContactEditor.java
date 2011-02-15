@@ -1,21 +1,3 @@
-/*
- * [程序名称] Android 通讯录
- * [作者] xmobileapp团队
- * [参考资料] Google Android Samples 
- * [开源协议] Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package cn.com.sjtu;
 
@@ -62,6 +44,9 @@ public class ContactEditor extends Activity {
 	private EditText nameText;
 	private EditText mPhoneText;
 	private EditText emailText;
+	private EditText homeNumText;
+	private EditText addressText;
+	
 	private Spinner spaSpinner;
 	private Button saveButton;
 	private Button cancelButton;
@@ -122,6 +107,8 @@ public class ContactEditor extends Activity {
 		mPhoneText = (EditText) findViewById(R.id.EditText02);
 		emailText = (EditText) findViewById(R.id.EditText03);
 		spaSpinner = (Spinner) findViewById(R.id.Spinner01);
+		addressText = (EditText) findViewById(R.id.EditText04);
+		homeNumText = (EditText) findViewById(R.id.EditText05);
 		
 		spaSpinner.setAdapter(groupAdapter);
 		
@@ -187,7 +174,9 @@ public class ContactEditor extends Activity {
 			String name = mCursor.getString(ContactColumn.NAME_COLUMN);
 			String mPhone = mCursor.getString(ContactColumn.MOBILE_COLUMN);
 			String email = mCursor.getString(ContactColumn.EMAIL_COLUMN);
-
+			String address = mCursor.getString(mCursor.getColumnIndex(ContactColumn.ADDRESS));
+			String homenum = mCursor.getString(mCursor.getColumnIndex(ContactColumn.HOMENUM));
+			
 			Log.e(TAG + ":onResume", "name:" + name + "mPhone:" + mPhone + "email:" + email);
 			
 			id = mCursor.getInt(mCursor.getColumnIndex(ContactColumn._ID));
@@ -195,6 +184,9 @@ public class ContactEditor extends Activity {
 			nameText.setText(name);
 			mPhoneText.setText(mPhone);
 			emailText.setText(email);
+			addressText.setText(address);
+			homeNumText.setText(homenum);
+			
 			Set<Integer> keySet = groupIndexMap.keySet();
 			for (Integer key : keySet) {
 				if(groupIndexMap.get(key) == mCursor.getInt(mCursor.getColumnIndex(ContactColumn.GROUPNUM))){
@@ -308,6 +300,8 @@ public class ContactEditor extends Activity {
 			values.put(ContactColumn.MOBILE, mPhoneText.getText().toString());
 			values.put(ContactColumn.EMAIL, emailText.getText().toString());
 			values.put(ContactColumn.MODIFIED, Tools.getTime());
+			values.put(ContactColumn.ADDRESS, addressText.getText().toString());
+			values.put(ContactColumn.HOMENUM, homeNumText.getText().toString());
 			values.put(ContactColumn.GROUPNUM, groupIndexMap.get(spaSpinner.getSelectedItemPosition()));
 			
 			Log.e(TAG + ":onPause", mUri.toString());
