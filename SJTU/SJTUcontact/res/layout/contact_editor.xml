@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:background="@drawable/bg">
@@ -25,18 +30,6 @@
 
 	</TableRow>
 
-	<TableRow android:id="@+id/TableRow07" android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
-
-		<TextView android:id="@+id/TextView05" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="@string/homenum"
-			android:textSize="16px" android:paddingLeft="5px"
-			android:paddingRight="5px" />
-
-		<EditText android:id="@+id/EditText05" android:layout_height="wrap_content"
-			android:layout_width="fill_parent" android:numeric="integer" />
-	</TableRow>
-
 	<TableRow android:id="@+id/TableRow03" android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
 		<TextView android:id="@+id/TextView03" android:layout_width="wrap_content"
@@ -46,17 +39,8 @@
 		<EditText android:id="@+id/EditText03" android:layout_height="wrap_content"
 			android:layout_width="fill_parent" />
 	</TableRow>
-	<TableRow android:id="@+id/TableRow04" android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
-
-		<TextView android:id="@+id/TextView03" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="@string/group"
-			android:textSize="16px" android:paddingLeft="5px"
-			android:paddingRight="5px" />
-
-		<Spinner android:id="@+id/Spinner01" android:layout_width="fill_parent"
-			android:layout_height="wrap_content"></Spinner>
-	</TableRow>
+	
+	
 	<TableRow android:id="@+id/TableRow06" android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
 
@@ -68,9 +52,67 @@
 		<EditText android:id="@+id/EditText04" android:layout_height="wrap_content"
 			android:layout_width="fill_parent" />
 	</TableRow>
-	<TableRow android:id="@+id/TableRow05" android:layout_width="fill_parent"
+	<TableRow android:id="@+id/TableRow07" android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
 
+		<TextView android:id="@+id/TextView05" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/homenum"
+			android:textSize="16px" android:paddingLeft="5px"
+			android:paddingRight="5px" />
+
+		<EditText android:id="@+id/EditText05" android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:numeric="integer" />
+	</TableRow>
+	<TableRow android:id="@+id/TableRow08" android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<TextView android:id="@+id/TextView06" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/postnum"
+			android:textSize="16px" android:paddingLeft="5px"
+			android:paddingRight="5px" />
+		<EditText android:id="@+id/EditText06" android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:numeric="integer" />
+	</TableRow>
+	<TableRow android:id="@+id/TableRow09" android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<TextView android:id="@+id/TextView07" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/module"
+			android:textSize="16px" android:paddingLeft="5px"
+			android:paddingRight="5px" />
+		<EditText android:id="@+id/EditText07" android:layout_height="wrap_content"
+			android:layout_width="fill_parent"  />
+	</TableRow>
+	<TableRow android:id="@+id/TableRow10" android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<TextView android:id="@+id/TextView08" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/job"
+			android:textSize="16px" android:paddingLeft="5px"
+			android:paddingRight="5px" />
+		<EditText android:id="@+id/EditText08" android:layout_height="wrap_content"
+			android:layout_width="fill_parent" />
+	</TableRow>
+	<TableRow android:id="@+id/TableRow11" android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<TextView android:id="@+id/TextView09" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/jobnum"
+			android:textSize="16px" android:paddingLeft="5px"
+			android:paddingRight="5px" />
+		<EditText android:id="@+id/EditText09" android:layout_height="wrap_content"
+			android:layout_width="fill_parent"/>
+	</TableRow>
+	
+	<TableRow android:id="@+id/TableRow04" android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<TextView android:id="@+id/TextView03" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/group"
+			android:textSize="16px" android:paddingLeft="5px"
+			android:paddingRight="5px" />
+
+		<Spinner android:id="@+id/Spinner01" android:layout_width="fill_parent"
+			android:layout_height="wrap_content"></Spinner>
+	</TableRow>
+	<TableRow android:id="@+id/TableRow05" android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
 		<RelativeLayout android:layout_width="fill_parent"
 			android:layout_height="fill_parent">
 
@@ -83,6 +125,6 @@
 				android:layout_width="wrap_content" android:layout_toLeftOf="@id/Button02" />
 
 		</RelativeLayout>
-
 	</TableRow>
 </LinearLayout>
+</ScrollView>

@@ -229,8 +229,8 @@ public class Contact extends ListActivity {
 				value.put(ContactColumn.NAME, user.getName());
 				value.put(ContactColumn.MOBILE, user.getMobileNumber());
 				value.put(ContactColumn.EMAIL, user.getEmail());
-				value.put(ContactColumn.MODIFIED, user.getModifiedDate());
-				value.put(ContactColumn.CREATED, user.getCreatedDate());
+				value.put(ContactColumn.MODULE, user.getModifiedDate());
+				value.put(ContactColumn.POSTNUM, user.getCreatedDate());
 				value.put(ContactColumn.GROUPNUM, user.getGroupnum());
 				value.put(ContactColumn.ADDRESS, user.getAddress());
 				value.put(ContactColumn.HOMENUM, user.getHomenum());

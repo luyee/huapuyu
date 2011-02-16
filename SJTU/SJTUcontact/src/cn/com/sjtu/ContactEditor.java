@@ -299,7 +299,7 @@ public class ContactEditor extends Activity {
 			values.put(ContactColumn.NAME, nameText.getText().toString());
 			values.put(ContactColumn.MOBILE, mPhoneText.getText().toString());
 			values.put(ContactColumn.EMAIL, emailText.getText().toString());
-			values.put(ContactColumn.MODIFIED, Tools.getTime());
+			values.put(ContactColumn.MODULE, Tools.getTime());
 			values.put(ContactColumn.ADDRESS, addressText.getText().toString());
 			values.put(ContactColumn.HOMENUM, homeNumText.getText().toString());
 			values.put(ContactColumn.GROUPNUM, groupIndexMap.get(spaSpinner.getSelectedItemPosition()));

@@ -98,13 +98,12 @@ public class ContactsProvider extends ContentProvider {
 		} else {
 			values = new ContentValues();
 		}
-		String now = Tools.getTime();
 		// …Ë÷√ƒ¨»œ÷µ
-		if (values.containsKey(ContactColumn.CREATED) == false) {
-			values.put(ContactColumn.CREATED, now);
+		if (values.containsKey(ContactColumn.POSTNUM) == false) {
+			values.put(ContactColumn.POSTNUM, "");
 		}
-		if (values.containsKey(ContactColumn.MODIFIED) == false) {
-			values.put(ContactColumn.MODIFIED, now);
+		if (values.containsKey(ContactColumn.MODULE) == false) {
+			values.put(ContactColumn.MODULE, "");
 		}
 		if (values.containsKey(ContactColumn.NAME) == false) {
 			values.put(ContactColumn.NAME, "");

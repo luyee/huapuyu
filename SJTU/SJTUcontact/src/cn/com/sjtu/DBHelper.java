@@ -12,7 +12,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String CONTACTS_USER_TABLE = "contacts_user";
 	public static final String CONTACTS_GROUP_TABLE = "contacts_group";
 	// 创建数据库
-	private static final String DATABASE_USER_CREATE = "CREATE TABLE " + CONTACTS_USER_TABLE + " (" + ContactColumn._ID + " integer primary key autoincrement," + ContactColumn.NAME + " text," + ContactColumn.MOBILE + " text," + ContactColumn.EMAIL + " text," + ContactColumn.CREATED + " long," + ContactColumn.MODIFIED + " long," + ContactColumn.GROUPNUM + " integer,"+ ContactColumn.HOMENUM + " text,"+ ContactColumn.ADDRESS + " text);";
+	private static final String DATABASE_USER_CREATE = "CREATE TABLE " + CONTACTS_USER_TABLE + " (" + ContactColumn._ID + " integer primary key autoincrement," + ContactColumn.NAME + " text," + ContactColumn.MOBILE + " text," + ContactColumn.EMAIL + " text," + ContactColumn.POSTNUM + " test," + ContactColumn.MODULE + " test," + ContactColumn.JOB  + " test,"+ ContactColumn.JOBNUM  + " test," + ContactColumn.GROUPNUM + " integer,"+ ContactColumn.HOMENUM + " text,"+ ContactColumn.ADDRESS + " text);";
 	private static final String DATABASE_GROUP_CREATE = "CREATE TABLE " + CONTACTS_GROUP_TABLE + "(" + ContactColumn._ID + " integer primary key autoincrement," + ContactColumn.GROUP_NAME + " text)";
 
 	public DBHelper(Context context) {

@@ -11,12 +11,15 @@ public class ContactColumn implements BaseColumns {
 	public static final String NAME = "name";
 	public static final String MOBILE = "mobileNumber";
 	public static final String EMAIL = "email";
-	public static final String CREATED = "createdDate";
-	public static final String MODIFIED = "modifiedDate";
 	public static final String GROUPNUM = "groupnum";
 	public static final String HOMENUM = "homenum";
 	public static final String ADDRESS = "address";
-
+	
+	public static final String POSTNUM = "postnum";
+	public static final String MODULE = "module";
+	public static final String JOB = "job";
+	public static final String JOBNUM = "jobnum";
+	
 	// Group 列名
 	public static final String GROUP_NAME = "group_name";
 	// 列 索引值
@@ -42,11 +45,13 @@ public class ContactColumn implements BaseColumns {
 		NAME,// 1
 		MOBILE,// 2
 		EMAIL,// 3
-		CREATED ,// 6
-		MODIFIED,
+		POSTNUM ,// 6
+		MODULE,
 		GROUPNUM,
 		HOMENUM,
-		ADDRESS
+		ADDRESS,
+		JOB,
+		JOBNUM
 	};
 	
 	public static final String[] GROUPPRO = { _ID, GROUP_NAME };

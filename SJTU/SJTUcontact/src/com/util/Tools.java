@@ -35,8 +35,8 @@ public class Tools {
 			user.setId(cursor.getInt(cursor.getColumnIndex(ContactColumn._ID)));
 			user.setMobileNumber(cursor.getString(cursor.getColumnIndex(ContactColumn.MOBILE)));
 			user.setName(cursor.getString(cursor.getColumnIndex(ContactColumn.NAME)));
-			user.setCreatedDate(cursor.getString(cursor.getColumnIndex(ContactColumn.CREATED)));
-			user.setModifiedDate(cursor.getString(cursor.getColumnIndex(ContactColumn.MODIFIED)));
+			user.setCreatedDate(cursor.getString(cursor.getColumnIndex(ContactColumn.POSTNUM)));
+			user.setModifiedDate(cursor.getString(cursor.getColumnIndex(ContactColumn.MODULE)));
 			user.setGroupnum(cursor.getInt(cursor.getColumnIndex(ContactColumn.GROUPNUM)));
 			user.setGroupName(groupMap.get(user.getGroupnum()));
 			user.setIsCode(codeFlag);

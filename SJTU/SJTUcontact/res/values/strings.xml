@@ -2,12 +2,19 @@
 <resources>
     
 <string name="app_name">嵌联科技通讯录</string>
+
 <string name="name">姓名 :</string>
 <string name="mobile">手机 :</string>
 <string name="homenum">宅电 :</string>
 <string name="address">地址 :</string>
 <string name="email">邮箱 :</string>
 <string name="group">组别 :</string>
+
+<string name="postnum">邮编 :</string>
+<string name="module">单位 :</string>
+<string name="job">职务 :</string>
+<string name="jobnum">工电 :</string>
+
 <string name="save"> 保存 </string>
 <string name="cancel"> 取消 </string>
 <string name="contact_edit">编辑联系人</string>
