@@ -27,11 +27,19 @@
 			/>
 			
 		<Button 
+			android:id="@+id/sort" 
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:text="@string/sort"
+			android:layout_toLeftOf="@id/add"
+			/>
+			
+		<Button 
 			android:id="@+id/submitId" 
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content" 
 			android:text="@string/submit"
-			android:layout_toLeftOf="@id/add"
+			android:layout_toLeftOf="@id/sort"
 			/>
 			
 		<EditText 

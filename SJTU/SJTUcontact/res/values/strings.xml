@@ -42,6 +42,7 @@
 
 
 <string name="submit">查询</string>
+<string name="sort">排序</string>
 <string name="searchArea">查询区域</string>
 <string name="add">添加</string>
 <string name="backToGroup">←</string>
