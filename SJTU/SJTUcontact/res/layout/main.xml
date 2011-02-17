@@ -43,7 +43,7 @@
 			/>
 			
 		<EditText 
-			android:text="@string/searchArea" 
+			android:text="" 
 			android:id="@+id/searchArea"
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content"
