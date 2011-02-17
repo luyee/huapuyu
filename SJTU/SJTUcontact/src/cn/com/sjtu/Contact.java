@@ -67,9 +67,9 @@ public class Contact extends ListActivity {
 	private static final int IMPORT_ID = Menu.FIRST + 4;
 	
 	/**
-	 * 排序标志（-1：默认排序；0：姓名排序；1：手机排序）
+	 * 排序标志（0：姓名排序；1：手机排序）
 	 */
-	private int sortInt = -1;
+	private int sortInt = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -392,7 +392,7 @@ public class Contact extends ListActivity {
 			@Override
 			public void onClick(View v) {
 				final CharSequence[] items = {"姓名", "手机"};  
-				Dialog dialog = new AlertDialog.Builder(Contact.this).setTitle("设置排序").setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+				Dialog dialog = new AlertDialog.Builder(Contact.this).setTitle("设置排序").setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -408,7 +408,7 @@ public class Contact extends ListActivity {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						sortInt = -1;
+						sortInt = 0;
 					}
 				}).create();
 		
