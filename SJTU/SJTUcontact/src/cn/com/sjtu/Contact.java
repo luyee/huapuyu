@@ -404,21 +404,7 @@ public class Contact extends ListActivity {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						String str = searchArea.getText().toString();
-						
-						Cursor cursor;
-						if (sortInt == 0)
-							cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME + " like ?", new String[] { "%" + str + "%" }, ContactColumn.NAME);
-						else if (sortInt == 1)
-							cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME + " like ?", new String[] { "%" + str + "%" }, ContactColumn.MOBILE);
-						else
-							cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME + " like ?", new String[] { "%" + str + "%" }, ContactColumn.NAME);
-
-						// 使用SimpleCursorAdapter建立Cursor的Adapter以便使用，数据表示形式为：姓名 - 手机号码
-						SimpleCursorAdapter adapter = new SimpleCursorAdapter(Contact.this, R.layout.contact_list_item, cursor, new String[] { ContactColumn.NAME, ContactColumn.MOBILE }, new int[] { R.id.name, R.id.contactinfo });
-
-						// 为当前ListView关联Adapter
-						setListAdapter(adapter);
+						SearchMethod();
 					}
 				}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
 					
@@ -451,22 +437,26 @@ public class Contact extends ListActivity {
 		}
 
 		public void onClick(View v) {
-			String str = searchArea.getText().toString();
-			
-			Cursor cursor;
-			if (sortInt == 0)
-				cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME + " like ?", new String[] { "%" + str + "%" }, ContactColumn.NAME);
-			else if (sortInt == 1)
-				cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME + " like ?", new String[] { "%" + str + "%" }, ContactColumn.MOBILE);
-			else
-				cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME + " like ?", new String[] { "%" + str + "%" }, ContactColumn.NAME);
-
-			// 使用SimpleCursorAdapter建立Cursor的Adapter以便使用，数据表示形式为：姓名 - 手机号码
-			SimpleCursorAdapter adapter = new SimpleCursorAdapter(contact, R.layout.contact_list_item, cursor, new String[] { ContactColumn.NAME, ContactColumn.MOBILE }, new int[] { R.id.name, R.id.contactinfo });
-
-			// 为当前ListView关联Adapter
-			setListAdapter(adapter);
+			SearchMethod();
 		}
+	}
+	
+	private void SearchMethod() {
+		String str = searchArea.getText().toString();
+		
+		Cursor cursor;
+		if (sortInt == 0)
+			cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME + " like ?", new String[] { "%" + str + "%" }, ContactColumn.NAME);
+		else if (sortInt == 1)
+			cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME + " like ?", new String[] { "%" + str + "%" }, ContactColumn.MOBILE);
+		else
+			cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME + " like ?", new String[] { "%" + str + "%" }, ContactColumn.NAME);
+
+		// 使用SimpleCursorAdapter建立Cursor的Adapter以便使用，数据表示形式为：姓名 - 手机号码
+		SimpleCursorAdapter adapter = new SimpleCursorAdapter(Contact.this, R.layout.contact_list_item, cursor, new String[] { ContactColumn.NAME, ContactColumn.MOBILE }, new int[] { R.id.name, R.id.contactinfo });
+
+		// 为当前ListView关联Adapter
+		setListAdapter(adapter);
 	}
 
 	class BackToGroupAction implements OnClickListener {
