@@ -97,7 +97,7 @@
 			android:textSize="16px" android:paddingLeft="5px"
 			android:paddingRight="5px" />
 		<EditText android:id="@+id/EditText09" android:layout_height="wrap_content"
-			android:layout_width="fill_parent"/>
+			android:layout_width="fill_parent" android:numeric="integer" />
 	</TableRow>
 	
 	<TableRow android:id="@+id/TableRow04" android:layout_width="fill_parent"

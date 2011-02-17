@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -14,7 +13,6 @@ import jxl.write.WriteException;
 
 import org.xml.sax.SAXException;
 
-import android.R.integer;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -373,16 +371,16 @@ public class Contact extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
 
-		String action = getIntent().getAction();
-		if (Intent.ACTION_PICK.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
-			// 如果通讯录列表的Activity是被其他Activity调用以返回选择的通讯信息
-			// 比如，短信程序通过本例来获取某人的电话号码
-			setResult(RESULT_OK, new Intent().setData(uri));
-		}
-		else {
-			// 编辑 联系人
+//		String action = getIntent().getAction();
+//		if (Intent.ACTION_PICK.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
+//			// 如果通讯录列表的Activity是被其他Activity调用以返回选择的通讯信息
+//			// 比如，短信程序通过本例来获取某人的电话号码
+//			setResult(RESULT_OK, new Intent().setData(uri));
+//		}
+//		else {
+//			// 编辑 联系人
 			startActivity(new Intent(Intent.ACTION_EDIT, uri));
-		}
+//		}
 	}
 
 	private void initButtonAction() {

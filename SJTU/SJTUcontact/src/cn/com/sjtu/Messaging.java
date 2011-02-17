@@ -16,6 +16,7 @@ public class Messaging extends Activity {
 	private EditText phoneText;
 	private EditText contentText;
 	private Button button;
+	private Button cancel;
 	private Cursor mCursor;
 
 	@Override
@@ -26,6 +27,7 @@ public class Messaging extends Activity {
 		phoneText = (EditText) this.findViewById(R.messid.phoneNum);
 		contentText = (EditText) this.findViewById(R.messid.content);
 		button = (Button) this.findViewById(R.messid.sent);
+		cancel = (Button) this.findViewById(R.messid.cancel);
 		final Intent intent = getIntent();
 		mCursor = managedQuery(intent.getData(), ContactColumn.PROJECTION,
 				null, null, null);
@@ -35,6 +37,12 @@ public class Messaging extends Activity {
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				sendMessage();
+			}
+		});
+		
+		cancel.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				finish();
 			}
 		});
 	}
