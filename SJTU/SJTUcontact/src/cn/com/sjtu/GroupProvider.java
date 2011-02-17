@@ -20,7 +20,8 @@ public class GroupProvider extends ContentProvider {
 
 	public static final String AUTHORITY = "cn.com.sjtu.provider.group";
 
-	public static final Uri GROUP_URI = Uri.parse("content://" + AUTHORITY + "/groups");
+	public static final Uri GROUP_URI = Uri.parse("content://" + AUTHORITY
+			+ "/groups");
 
 	public static final int CONTACTS = 1;
 	public static final int CONTACT_ID = 2;
@@ -47,15 +48,24 @@ public class GroupProvider extends ContentProvider {
 		int count;
 		switch (uriMatcher.match(uri)) {
 		case CONTACTS:
-			count = contactsDB.delete(DBHelper.CONTACTS_GROUP_TABLE, where, selectionArgs);
+			count = contactsDB.delete(DBHelper.CONTACTS_GROUP_TABLE, where,
+					selectionArgs);
 			break;
 		case CONTACT_ID:
 			String contactID = uri.getPathSegments().get(1);
-			count = contactsDB.delete(DBHelper.CONTACTS_GROUP_TABLE, ContactColumn._ID + "=" + contactID + (!TextUtils.isEmpty(where) ? " AND (" + where + ")" : ""), selectionArgs);
-			
+			count = contactsDB.delete(DBHelper.CONTACTS_GROUP_TABLE,
+					ContactColumn._ID
+							+ "="
+							+ contactID
+							+ (!TextUtils.isEmpty(where) ? " AND (" + where
+									+ ")" : ""), selectionArgs);
+
 			ContentValues values = new ContentValues();
 			values.put(ContactColumn.GROUPNUM, 1);
-			contactsDB.update(DBHelper.CONTACTS_USER_TABLE, values, ContactColumn.GROUPNUM + " = ?", new String[]{contactID});
+			contactsDB
+					.update(DBHelper.CONTACTS_USER_TABLE, values,
+							ContactColumn.GROUPNUM + " = ?",
+							new String[] { contactID });
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -98,7 +108,8 @@ public class GroupProvider extends ContentProvider {
 			Log.e(TAG + "insert", "NAME is null");
 		}
 		Log.e(TAG + "insert", values.toString());
-		long rowId = contactsDB.insert(DBHelper.CONTACTS_GROUP_TABLE, null, values);
+		long rowId = contactsDB.insert(DBHelper.CONTACTS_GROUP_TABLE, null,
+				values);
 		if (rowId > 0) {
 			Uri noteUri = ContentUris.withAppendedId(GROUP_URI, rowId);
 			getContext().getContentResolver().notifyChange(noteUri, null);
@@ -112,14 +123,16 @@ public class GroupProvider extends ContentProvider {
 
 	// ²éÑ¯Êý¾Ý
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+	public Cursor query(Uri uri, String[] projection, String selection,
+			String[] selectionArgs, String sortOrder) {
 		Log.e(TAG + ":query", " in Query");
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		qb.setTables(DBHelper.CONTACTS_GROUP_TABLE);
 
 		switch (uriMatcher.match(uri)) {
 		case CONTACT_ID:
-			qb.appendWhere(ContactColumn._ID + "=" + uri.getPathSegments().get(1));
+			qb.appendWhere(ContactColumn._ID + "="
+					+ uri.getPathSegments().get(1));
 			break;
 		default:
 			break;
@@ -130,7 +143,8 @@ public class GroupProvider extends ContentProvider {
 		} else {
 			orderBy = sortOrder;
 		}
-		Cursor c = qb.query(contactsDB, projection, selection, selectionArgs, null, null, orderBy);
+		Cursor c = qb.query(contactsDB, projection, selection, selectionArgs,
+				null, null, orderBy);
 
 		c.setNotificationUri(getContext().getContentResolver(), uri);
 

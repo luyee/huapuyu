@@ -1,11 +1,14 @@
 package com.util;
 
+import java.io.UnsupportedEncodingException;
 import java.security.Key;
 
 import javax.crypto.Cipher;
 
+import android.util.Xml.Encoding;
+
 public class CodeUtils {
-	
+
 	private static String strDefaultKey = "national";
 
 	private Cipher encryptCipher = null;
@@ -88,5 +91,29 @@ public class CodeUtils {
 		Key key = new javax.crypto.spec.SecretKeySpec(arrB, "DES");
 
 		return key;
+	}
+
+	public String enUsual(String message) throws UnsupportedEncodingException {
+		byte[] bytes = message.getBytes(Encoding.UTF_8.toString());
+		String strs = "";
+		for (int i = 0; i < bytes.length; i++) {
+			if (0 == i) {
+				strs = bytes[0] + "";
+				continue;
+			}
+			strs = strs + Constants.CUT + bytes[i];
+		}
+		return strs;
+	}
+
+	public String deUsual(String message) throws UnsupportedEncodingException {
+		if (null == message || message.equals(""))
+			return "";
+		String[] strs = message.split(Constants.CUT);
+		byte[] bytes = new byte[strs.length];
+		for (int i = 0; i < bytes.length; i++) {
+			bytes[i] = Byte.parseByte(strs[i]);
+		}
+		return new String(bytes, Encoding.UTF_8.toString());
 	}
 }

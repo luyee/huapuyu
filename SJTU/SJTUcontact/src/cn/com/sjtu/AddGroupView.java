@@ -12,6 +12,7 @@ public class AddGroupView extends Activity {
 	private EditText nameText;
 	private Button saveButton;
 	private Button cancelButton;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -19,10 +20,7 @@ public class AddGroupView extends Activity {
 		nameText = (EditText) findViewById(R.id.group_name_text);
 		saveButton = (Button) findViewById(R.id.group_add_save);
 		cancelButton = (Button) findViewById(R.id.group_add_cancel);
-		
-		
-		
-		
+
 		saveButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				String text = nameText.getText().toString();

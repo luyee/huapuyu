@@ -1,7 +1,8 @@
-
 package cn.com.sjtu;
 
 import android.provider.BaseColumns;
+
+import com.util.Constants;
 
 public class ContactColumn implements BaseColumns {
 	public ContactColumn() {
@@ -14,12 +15,12 @@ public class ContactColumn implements BaseColumns {
 	public static final String GROUPNUM = "groupnum";
 	public static final String HOMENUM = "homenum";
 	public static final String ADDRESS = "address";
-	
-	public static final String POSTNUM = "postnum";
-	public static final String MODULE = "module";
-	public static final String JOB = "job";
-	public static final String JOBNUM = "jobnum";
-	
+
+	public static final String POSTNUM = Constants.POSTNUM;
+	public static final String MODULE = Constants.MODULE;
+	public static final String JOB = Constants.JOB;
+	public static final String JOBNUM = Constants.JOBNUM;
+
 	// Group 列名
 	public static final String GROUP_NAME = "group_name";
 	// 列 索引值
@@ -37,23 +38,16 @@ public class ContactColumn implements BaseColumns {
 			MOBILE,// 2
 			EMAIL,// 3
 			GROUPNUM, // 6
-			HOMENUM,
-			ADDRESS
-	};
-	
+			HOMENUM, ADDRESS, POSTNUM,// 6
+			MODULE, JOB, JOBNUM };
+
 	public static final String[] USER = { _ID,// 0
-		NAME,// 1
-		MOBILE,// 2
-		EMAIL,// 3
-		POSTNUM ,// 6
-		MODULE,
-		GROUPNUM,
-		HOMENUM,
-		ADDRESS,
-		JOB,
-		JOBNUM
-	};
-	
+			NAME,// 1
+			MOBILE,// 2
+			EMAIL,// 3
+			POSTNUM,// 6
+			MODULE, GROUPNUM, HOMENUM, ADDRESS, JOB, JOBNUM };
+
 	public static final String[] GROUPPRO = { _ID, GROUP_NAME };
 
 }

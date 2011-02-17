@@ -1,4 +1,3 @@
-
 package cn.com.sjtu;
 
 import android.content.ContentProvider;
@@ -13,8 +12,6 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.util.Tools;
-
 public class ContactsProvider extends ContentProvider {
 	private static final String TAG = "ContactsProvider";
 
@@ -23,12 +20,13 @@ public class ContactsProvider extends ContentProvider {
 
 	public static final String AUTHORITY = "cn.com.sjtu.provider.contact";
 
-	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/contacts");
+	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
+			+ "/contacts");
 
 	public static final int CONTACTS = 1;
 	public static final int CONTACT_ID = 2;
 	public static final int GROUP_ID = 3;
-	
+
 	private static final UriMatcher uriMatcher;
 
 	static {
@@ -37,7 +35,7 @@ public class ContactsProvider extends ContentProvider {
 		// 单独列
 		uriMatcher.addURI(AUTHORITY, "contacts/#", CONTACT_ID);
 		uriMatcher.addURI(GroupProvider.AUTHORITY, "groups/#", GROUP_ID);
-		
+
 	}
 
 	@Override
@@ -54,11 +52,17 @@ public class ContactsProvider extends ContentProvider {
 		int count;
 		switch (uriMatcher.match(uri)) {
 		case CONTACTS:
-			count = contactsDB.delete(DBHelper.CONTACTS_USER_TABLE, where, selectionArgs);
+			count = contactsDB.delete(DBHelper.CONTACTS_USER_TABLE, where,
+					selectionArgs);
 			break;
 		case CONTACT_ID:
 			String contactID = uri.getPathSegments().get(1);
-			count = contactsDB.delete(DBHelper.CONTACTS_USER_TABLE, ContactColumn._ID + "=" + contactID + (!TextUtils.isEmpty(where) ? " AND (" + where + ")" : ""), selectionArgs);
+			count = contactsDB.delete(DBHelper.CONTACTS_USER_TABLE,
+					ContactColumn._ID
+							+ "="
+							+ contactID
+							+ (!TextUtils.isEmpty(where) ? " AND (" + where
+									+ ")" : ""), selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -122,7 +126,8 @@ public class ContactsProvider extends ContentProvider {
 			values.put(ContactColumn.ADDRESS, "");
 		}
 		Log.e(TAG + "insert", values.toString());
-		long rowId = contactsDB.insert(DBHelper.CONTACTS_USER_TABLE, null, values);
+		long rowId = contactsDB.insert(DBHelper.CONTACTS_USER_TABLE, null,
+				values);
 		if (rowId > 0) {
 			Uri noteUri = ContentUris.withAppendedId(CONTENT_URI, rowId);
 			getContext().getContentResolver().notifyChange(noteUri, null);
@@ -136,17 +141,20 @@ public class ContactsProvider extends ContentProvider {
 
 	// 查询数据
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+	public Cursor query(Uri uri, String[] projection, String selection,
+			String[] selectionArgs, String sortOrder) {
 		Log.e(TAG + ":query", " in Query");
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		qb.setTables(DBHelper.CONTACTS_USER_TABLE);
 
 		switch (uriMatcher.match(uri)) {
 		case CONTACT_ID:
-			qb.appendWhere(ContactColumn._ID + "=" + uri.getPathSegments().get(1));
+			qb.appendWhere(ContactColumn._ID + "="
+					+ uri.getPathSegments().get(1));
 			break;
 		case GROUP_ID:
-			qb.appendWhere(ContactColumn.GROUPNUM + "=" + uri.getPathSegments().get(1));
+			qb.appendWhere(ContactColumn.GROUPNUM + "="
+					+ uri.getPathSegments().get(1));
 			break;
 		default:
 			break;
@@ -157,7 +165,8 @@ public class ContactsProvider extends ContentProvider {
 		} else {
 			orderBy = sortOrder;
 		}
-		Cursor c = qb.query(contactsDB, projection, selection, selectionArgs, null, null, orderBy);
+		Cursor c = qb.query(contactsDB, projection, selection, selectionArgs,
+				null, null, orderBy);
 
 		c.setNotificationUri(getContext().getContentResolver(), uri);
 
@@ -167,7 +176,8 @@ public class ContactsProvider extends ContentProvider {
 
 	// 更新数据库
 	@Override
-	public int update(Uri uri, ContentValues values, String where, String[] selectionArgs) {
+	public int update(Uri uri, ContentValues values, String where,
+			String[] selectionArgs) {
 
 		int count;
 		Log.e(TAG + "update", values.toString());
@@ -176,7 +186,8 @@ public class ContactsProvider extends ContentProvider {
 		switch (uriMatcher.match(uri)) {
 		case CONTACTS:
 			Log.e(TAG + "update", CONTACTS + "");
-			count = contactsDB.update(DBHelper.CONTACTS_USER_TABLE, values, where, selectionArgs);
+			count = contactsDB.update(DBHelper.CONTACTS_USER_TABLE, values,
+					where, selectionArgs);
 			break;
 		case CONTACT_ID:
 			String contactID = uri.getPathSegments().get(1);

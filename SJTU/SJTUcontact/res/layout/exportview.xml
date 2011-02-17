@@ -15,6 +15,16 @@
     android:layout_height="wrap_content"    
     android:checkedButton="@+exportid/xml">
  <RadioButton android:id="@+exportid/xml" android:text="XML" />
- <RadioButton android:id="@+exportid/csv" android:text="CSV" />
+ <RadioButton android:id="@+exportid/excel" android:text="Excel" />
+ </RadioGroup>
+ 
+ <RadioGroup     
+    android:id="@+exportid/codestyle"  
+    android:orientation="horizontal"     
+    android:layout_width="fill_parent"    
+    android:layout_height="wrap_content"    
+    android:checkedButton="@+exportid/des">
+ <RadioButton android:id="@+exportid/usual" android:text="USUAL" />
+ <RadioButton android:id="@+exportid/des" android:text="DES" />
  </RadioGroup>
 </LinearLayout> 

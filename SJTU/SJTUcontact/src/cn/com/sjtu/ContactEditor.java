@@ -1,4 +1,3 @@
-
 package cn.com.sjtu;
 
 import java.util.HashMap;
@@ -36,7 +35,7 @@ public class ContactEditor extends Activity {
 	private static final int DELETE_ID = Menu.FIRST + 2;
 	private static final int CALL_ID = Menu.FIRST + 3;
 	private static final int SENTMESS_ID = Menu.FIRST + 4;
-	
+
 	private int mState;
 	private Uri mUri;
 	private Cursor mCursor;
@@ -46,7 +45,7 @@ public class ContactEditor extends Activity {
 	private EditText emailText;
 	private EditText homeNumText;
 	private EditText addressText;
-	
+
 	private Spinner spaSpinner;
 	private Button saveButton;
 	private Button cancelButton;
@@ -56,11 +55,19 @@ public class ContactEditor extends Activity {
 	private String originalEmailText = "";
 
 	private ArrayAdapter<String> groupAdapter;
-	
+
 	private Map<Integer, Integer> groupIndexMap;
 
 	private int id;
-	
+
+	private EditText postNumText;
+
+	private EditText moduleText;
+
+	private EditText jobText;
+
+	private EditText jobNumText;
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -75,7 +82,8 @@ public class ContactEditor extends Activity {
 			mUri = getContentResolver().insert(intent.getData(), null);
 
 			if (mUri == null) {
-				Log.e(TAG + ":onCreate", "Failed to insert new Contact into " + getIntent().getData());
+				Log.e(TAG + ":onCreate", "Failed to insert new Contact into "
+						+ getIntent().getData());
 				finish();
 				return;
 			}
@@ -88,8 +96,9 @@ public class ContactEditor extends Activity {
 		}
 
 		setContentView(R.layout.contact_editor);
-		
-		Cursor cursor = managedQuery(GroupProvider.GROUP_URI, ContactColumn.GROUPPRO, null, null, null);
+
+		Cursor cursor = managedQuery(GroupProvider.GROUP_URI,
+				ContactColumn.GROUPPRO, null, null, null);
 		groupIndexMap = new HashMap<Integer, Integer>();
 		String[] strs = new String[cursor.getCount()];
 		int nameColumnIndex = cursor.getColumnIndex(ContactColumn.GROUP_NAME);
@@ -100,19 +109,23 @@ public class ContactEditor extends Activity {
 			groupIndexMap.put(i, cursor.getInt(idColumnIndex));
 			cursor.moveToNext();
 		}
-		groupAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strs);
-		
-		
+		groupAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, strs);
+
 		nameText = (EditText) findViewById(R.id.EditText01);
 		mPhoneText = (EditText) findViewById(R.id.EditText02);
 		emailText = (EditText) findViewById(R.id.EditText03);
 		spaSpinner = (Spinner) findViewById(R.id.Spinner01);
 		addressText = (EditText) findViewById(R.id.EditText04);
 		homeNumText = (EditText) findViewById(R.id.EditText05);
-		
+
+		postNumText = (EditText) findViewById(R.id.EditText06);
+		moduleText = (EditText) findViewById(R.id.EditText07);
+		jobText = (EditText) findViewById(R.id.EditText08);
+		jobNumText = (EditText) findViewById(R.id.EditText09);
+
 		spaSpinner.setAdapter(groupAdapter);
-		
-		
+
 		saveButton = (Button) findViewById(R.id.Button01);
 		cancelButton = (Button) findViewById(R.id.Button02);
 
@@ -144,9 +157,7 @@ public class ContactEditor extends Activity {
 			}
 
 		});
-		
-		
-		
+
 		Log.e(TAG + ":onCreate", mUri.toString());
 		// 获得并保存原始联系人信息
 		mCursor = managedQuery(mUri, ContactColumn.PROJECTION, null, null, null);
@@ -174,22 +185,38 @@ public class ContactEditor extends Activity {
 			String name = mCursor.getString(ContactColumn.NAME_COLUMN);
 			String mPhone = mCursor.getString(ContactColumn.MOBILE_COLUMN);
 			String email = mCursor.getString(ContactColumn.EMAIL_COLUMN);
-			String address = mCursor.getString(mCursor.getColumnIndex(ContactColumn.ADDRESS));
-			String homenum = mCursor.getString(mCursor.getColumnIndex(ContactColumn.HOMENUM));
-			
-			Log.e(TAG + ":onResume", "name:" + name + "mPhone:" + mPhone + "email:" + email);
-			
+			String address = mCursor.getString(mCursor
+					.getColumnIndex(ContactColumn.ADDRESS));
+			String homenum = mCursor.getString(mCursor
+					.getColumnIndex(ContactColumn.HOMENUM));
+			String postnum = mCursor.getString(mCursor
+					.getColumnIndex(ContactColumn.POSTNUM));
+			String module = mCursor.getString(mCursor
+					.getColumnIndex(ContactColumn.MODULE));
+			String job = mCursor.getString(mCursor
+					.getColumnIndex(ContactColumn.JOB));
+			String jobnum = mCursor.getString(mCursor
+					.getColumnIndex(ContactColumn.JOBNUM));
+			Log.e(TAG + ":onResume", "name:" + name + "mPhone:" + mPhone
+					+ "email:" + email);
+
 			id = mCursor.getInt(mCursor.getColumnIndex(ContactColumn._ID));
-			
+
 			nameText.setText(name);
 			mPhoneText.setText(mPhone);
 			emailText.setText(email);
 			addressText.setText(address);
 			homeNumText.setText(homenum);
-			
+
+			postNumText.setText(postnum);
+			moduleText.setText(module);
+			jobText.setText(job);
+			jobNumText.setText(jobnum);
+
 			Set<Integer> keySet = groupIndexMap.keySet();
 			for (Integer key : keySet) {
-				if(groupIndexMap.get(key) == mCursor.getInt(mCursor.getColumnIndex(ContactColumn.GROUPNUM))){
+				if (groupIndexMap.get(key) == mCursor.getInt(mCursor
+						.getColumnIndex(ContactColumn.GROUPNUM))) {
 					spaSpinner.setSelection(key);
 				}
 			}
@@ -215,7 +242,8 @@ public class ContactEditor extends Activity {
 			} else {
 				ContentValues values = new ContentValues();
 				values.put(ContactColumn.NAME, nameText.getText().toString());
-				values.put(ContactColumn.MOBILE, mPhoneText.getText().toString());
+				values.put(ContactColumn.MOBILE, mPhoneText.getText()
+						.toString());
 				values.put(ContactColumn.EMAIL, emailText.getText().toString());
 				Log.e(TAG + ":onPause", mUri.toString());
 				Log.e(TAG + ":onPause", values.toString());
@@ -229,14 +257,19 @@ public class ContactEditor extends Activity {
 		super.onCreateOptionsMenu(menu);
 
 		if (mState == STATE_EDIT) {
-			menu.add(0, REVERT_ID, 0, R.string.menu_revert).setShortcut('0', 'r').setIcon(android.R.drawable.ic_menu_revert);
-			menu.add(0, DELETE_ID, 0, R.string.menu_delete).setShortcut('0', 'd').setIcon(android.R.drawable.ic_menu_delete);
+			menu.add(0, REVERT_ID, 0, R.string.menu_revert).setShortcut('0',
+					'r').setIcon(android.R.drawable.ic_menu_revert);
+			menu.add(0, DELETE_ID, 0, R.string.menu_delete).setShortcut('0',
+					'd').setIcon(android.R.drawable.ic_menu_delete);
 
 		} else {
-			menu.add(0, DISCARD_ID, 0, R.string.menu_discard).setShortcut('0', 'd').setIcon(android.R.drawable.ic_menu_delete);
+			menu.add(0, DISCARD_ID, 0, R.string.menu_discard).setShortcut('0',
+					'd').setIcon(android.R.drawable.ic_menu_delete);
 		}
-		menu.add(0, CALL_ID, 0, R.string.service_call).setShortcut('5', 'f').setIcon(android.R.drawable.ic_menu_call);
-		menu.add(0, SENTMESS_ID, 0, R.string.service_message).setShortcut('6', 'g').setIcon(android.R.drawable.ic_menu_agenda);
+		menu.add(0, CALL_ID, 0, R.string.service_call).setShortcut('5', 'f')
+				.setIcon(android.R.drawable.ic_menu_call);
+		menu.add(0, SENTMESS_ID, 0, R.string.service_message).setShortcut('6',
+				'g').setIcon(android.R.drawable.ic_menu_agenda);
 		return true;
 	}
 
@@ -255,14 +288,19 @@ public class ContactEditor extends Activity {
 			backupContact();
 			break;
 		case CALL_ID:
-			//TODO 拨号
-			Cursor cursor = managedQuery(ContentUris.withAppendedId(ContactsProvider.CONTENT_URI, id), ContactColumn.PROJECTION, null,null, null);
+			// TODO 拨号
+			Cursor cursor = managedQuery(ContentUris.withAppendedId(
+					ContactsProvider.CONTENT_URI, id),
+					ContactColumn.PROJECTION, null, null, null);
 			cursor.moveToFirst();
-			intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+cursor.getString(cursor.getColumnIndex(ContactColumn.MOBILE))));   
-	        this.startActivity(intent);   
-	        return true;
+			intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"
+					+ cursor.getString(cursor
+							.getColumnIndex(ContactColumn.MOBILE))));
+			this.startActivity(intent);
+			return true;
 		case SENTMESS_ID:
-			intent = new Intent(Intent.ACTION_SEND, ContentUris.withAppendedId(ContactsProvider.CONTENT_URI, id));
+			intent = new Intent(Intent.ACTION_SEND, ContentUris.withAppendedId(
+					ContactsProvider.CONTENT_URI, id));
 			startActivity(intent);
 			return true;
 		}
@@ -302,8 +340,14 @@ public class ContactEditor extends Activity {
 			values.put(ContactColumn.MODULE, Tools.getTime());
 			values.put(ContactColumn.ADDRESS, addressText.getText().toString());
 			values.put(ContactColumn.HOMENUM, homeNumText.getText().toString());
-			values.put(ContactColumn.GROUPNUM, groupIndexMap.get(spaSpinner.getSelectedItemPosition()));
-			
+			values.put(ContactColumn.GROUPNUM, groupIndexMap.get(spaSpinner
+					.getSelectedItemPosition()));
+
+			values.put(ContactColumn.POSTNUM, postNumText.getText().toString());
+			values.put(ContactColumn.MODULE, moduleText.getText().toString());
+			values.put(ContactColumn.JOB, jobText.getText().toString());
+			values.put(ContactColumn.JOBNUM, jobNumText.getText().toString());
+
 			Log.e(TAG + ":onPause", mUri.toString());
 			Log.e(TAG + ":onPause", values.toString());
 			getContentResolver().update(mUri, values, null, null);

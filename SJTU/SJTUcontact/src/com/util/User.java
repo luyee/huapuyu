@@ -1,25 +1,37 @@
 package com.util;
 
 public class User {
-	
+
 	private Integer id;
 	private String name;
 	private String mobileNumber;
-	private String createdDate;
+	private String postnum;
+	private String module;
+	private String job;
+	private String jobnum;
 	private String email;
-	private String modifiedDate;
+
 	private Integer groupnum;
-	private String homenum ;
-	private String address ;
-	
-	private Boolean isCode ;
-	
+	private String homenum;
+	private String address;
+
+	private Boolean isCode;
+	private Integer codeStyle;
+
 	private String groupName;
-	
+
 	public User() {
 		this.isCode = false;
 	}
-	
+
+	public Integer getCodeStyle() {
+		return codeStyle;
+	}
+
+	public void setCodeStyle(Integer codeStyle) {
+		this.codeStyle = codeStyle;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -29,8 +41,9 @@ public class User {
 	}
 
 	public String getName() {
-		if(!isCode) return name;
-		return Tools.enCode(name);
+		if (!isCode)
+			return name;
+		return enCode(name);
 	}
 
 	public void setName(String name) {
@@ -38,30 +51,13 @@ public class User {
 	}
 
 	public String getMobileNumber() {
-		if(!isCode) return mobileNumber;
-		return Tools.enCode(mobileNumber);
+		if (!isCode)
+			return mobileNumber;
+		return enCode(mobileNumber);
 	}
 
 	public void setMobileNumber(String mobileNumber) {
 		this.mobileNumber = mobileNumber;
-	}
-
-	public String getCreatedDate() {
-		if(!isCode) return createdDate;
-		return Tools.enCode(createdDate);
-	}
-
-	public void setCreatedDate(String createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public String getModifiedDate() {
-		if(!isCode) return modifiedDate;
-		return Tools.enCode(modifiedDate);
-	}
-
-	public void setModifiedDate(String modifiedDate) {
-		this.modifiedDate = modifiedDate;
 	}
 
 	public Integer getGroupnum() {
@@ -73,13 +69,15 @@ public class User {
 	}
 
 	public String getGroupName() {
-		if(!isCode) return groupName;
-		return Tools.enCode(groupName);
+		if (!isCode)
+			return groupName;
+		return enCode(groupName);
 	}
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
+
 	public Boolean getIsCode() {
 		return isCode;
 	}
@@ -89,8 +87,9 @@ public class User {
 	}
 
 	public String getEmail() {
-		if(!isCode) return email;
-		return Tools.enCode(email);
+		if (!isCode)
+			return email;
+		return enCode(email);
 	}
 
 	public void setEmail(String email) {
@@ -98,8 +97,9 @@ public class User {
 	}
 
 	public String getHomenum() {
-		if(!isCode) return homenum;
-		return Tools.enCode(homenum);
+		if (!isCode)
+			return homenum;
+		return enCode(homenum);
 	}
 
 	public void setHomenum(String homenum) {
@@ -107,12 +107,56 @@ public class User {
 	}
 
 	public String getAddress() {
-		if(!isCode) return address;
-		return Tools.enCode(address);
+		if (!isCode)
+			return address;
+		return enCode(address);
 	}
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
+	public void setPostnum(String postnum) {
+		this.postnum = postnum;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
+	}
+
+	public void setJob(String job) {
+		this.job = job;
+	}
+
+	public void setJobnum(String jobnum) {
+		this.jobnum = jobnum;
+	}
+
+	public String getPostnum() {
+		if (!isCode)
+			return postnum;
+		return enCode(postnum);
+	}
+
+	public String getModule() {
+		if (!isCode)
+			return module;
+		return enCode(module);
+	}
+
+	public String getJob() {
+		if (!isCode)
+			return job;
+		return enCode(job);
+	}
+
+	public String getJobnum() {
+		if (!isCode)
+			return jobnum;
+		return enCode(jobnum);
+	}
+
+	private String enCode(String str) {
+		return Tools.enCode(str, codeStyle);
+	}
 }
