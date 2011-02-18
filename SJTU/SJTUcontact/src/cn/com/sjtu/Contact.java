@@ -25,11 +25,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -65,7 +65,7 @@ public class Contact extends ListActivity {
 	private static final int CallContact_ID = Menu.FIRST + 2;
 	private static final int SendMess_ID = Menu.FIRST + 3;
 	private static final int IMPORT_ID = Menu.FIRST + 4;
-	
+
 	/**
 	 * 排序标志（0：姓名排序；1：手机排序）
 	 */
@@ -98,8 +98,7 @@ public class Contact extends ListActivity {
 		Cursor cursor = null;
 		if (getIntent().getData().toString().indexOf(ContactsProvider.CONTENT_URI.toString()) != -1) {
 			cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, null, null, ContactColumn.NAME);
-		}
-		else {
+		} else {
 			cursor = managedQuery(ContactsProvider.CONTENT_URI, ContactColumn.PROJECTION, ContactColumn.GROUPNUM + " = ?", new String[] { getIntent().getData().getPathSegments().get(1) }, ContactColumn.NAME);
 			intent.setData(ContactsProvider.CONTENT_URI);
 		}
@@ -153,8 +152,7 @@ public class Contact extends ListActivity {
 			if (items[0] != null) {
 				items[0].setShortcut('1', 'e');
 			}
-		}
-		else {
+		} else {
 			menu.removeGroup(Menu.CATEGORY_ALTERNATIVE);
 		}
 
@@ -175,16 +173,13 @@ public class Contact extends ListActivity {
 					if (fileTypeGroup.getCheckedRadioButtonId() == R.exportid.xml) {
 						if (codeStyleGroup.getCheckedRadioButtonId() == R.exportid.des) {
 							exportXML(fileName, true, Constants.DES);
-						}
-						else {
+						} else {
 							exportXML(fileName, true, Constants.USUAL);
 						}
-					}
-					else {
+					} else {
 						if (codeStyleGroup.getCheckedRadioButtonId() == R.exportid.des) {
 							exportExcel(fileName, true, Constants.DES);
-						}
-						else {
+						} else {
 							exportExcel(fileName, true, Constants.USUAL);
 						}
 					}
@@ -195,8 +190,7 @@ public class Contact extends ListActivity {
 					fileName = ((EditText) viewAddEmployee.findViewById(R.exportid.fileNameId)).getText().toString();
 					if (fileTypeGroup.getCheckedRadioButtonId() == R.exportid.xml) {
 						exportXML(fileName, false, -1);
-					}
-					else {
+					} else {
 						exportExcel(fileName, false, -1);
 					}
 				}
@@ -248,8 +242,7 @@ public class Contact extends ListActivity {
 		try {
 			if (fileName2.indexOf(".xls") != -1) {
 				returnValue = excelTools.readExcel(fileName2);
-			}
-			else {
+			} else {
 				returnValue = xmlTools.readXml(fileName2);
 			}
 			for (User user : returnValue) {
@@ -268,26 +261,20 @@ public class Contact extends ListActivity {
 				getContentResolver().insert(ContactsProvider.CONTENT_URI, value);
 			}
 			flag = true;
-		}
-		catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		catch (ParserConfigurationException e) {
+		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
-		}
-		catch (SAXException e) {
+		} catch (SAXException e) {
 			e.printStackTrace();
-		}
-		catch (BiffException e) {
+		} catch (BiffException e) {
 			e.printStackTrace();
 		}
 		if (flag) {
 			Toast.makeText(Contact.this, "导入成功", Toast.LENGTH_SHORT).show();
-		}
-		else {
+		} else {
 			Toast.makeText(Contact.this, "导入失败", Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -330,8 +317,7 @@ public class Contact extends ListActivity {
 		AdapterView.AdapterContextMenuInfo info;
 		try {
 			info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-		}
-		catch (ClassCastException e) {
+		} catch (ClassCastException e) {
 			return;
 		}
 
@@ -351,8 +337,7 @@ public class Contact extends ListActivity {
 		AdapterView.AdapterContextMenuInfo info;
 		try {
 			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		}
-		catch (ClassCastException e) {
+		} catch (ClassCastException e) {
 			return false;
 		}
 
@@ -371,16 +356,16 @@ public class Contact extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
 
-//		String action = getIntent().getAction();
-//		if (Intent.ACTION_PICK.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
-//			// 如果通讯录列表的Activity是被其他Activity调用以返回选择的通讯信息
-//			// 比如，短信程序通过本例来获取某人的电话号码
-//			setResult(RESULT_OK, new Intent().setData(uri));
-//		}
-//		else {
-//			// 编辑 联系人
-			startActivity(new Intent(Intent.ACTION_EDIT, uri));
-//		}
+		// String action = getIntent().getAction();
+		// if (Intent.ACTION_PICK.equals(action) || Intent.ACTION_GET_CONTENT.equals(action)) {
+		// // 如果通讯录列表的Activity是被其他Activity调用以返回选择的通讯信息
+		// // 比如，短信程序通过本例来获取某人的电话号码
+		// setResult(RESULT_OK, new Intent().setData(uri));
+		// }
+		// else {
+		// // 编辑 联系人
+		startActivity(new Intent(Intent.ACTION_EDIT, uri));
+		// }
 	}
 
 	private void initButtonAction() {
@@ -388,30 +373,26 @@ public class Contact extends ListActivity {
 		add.setOnClickListener(new AddAction());
 		search.setOnClickListener(new SearchAction(this));
 		sort.setOnClickListener(new OnClickListener() {
-			
-			@Override
+
 			public void onClick(View v) {
-				final CharSequence[] items = {"姓名", "手机"};  
+				final CharSequence[] items = { "姓名", "手机" };
 				Dialog dialog = new AlertDialog.Builder(Contact.this).setTitle("设置排序").setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
-					
-					@Override
+
 					public void onClick(DialogInterface dialog, int which) {
 						sortInt = which;
 					}
 				}).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					
-					@Override
+
 					public void onClick(DialogInterface dialog, int which) {
 						SearchMethod();
 					}
 				}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					
-					@Override
+
 					public void onClick(DialogInterface dialog, int which) {
 						sortInt = 0;
 					}
 				}).create();
-		
+
 				dialog.show();
 			}
 		});
@@ -438,10 +419,10 @@ public class Contact extends ListActivity {
 			SearchMethod();
 		}
 	}
-	
+
 	private void SearchMethod() {
 		String str = searchArea.getText().toString();
-		
+
 		Cursor cursor;
 		if (sortInt == 0)
 			cursor = managedQuery(getIntent().getData(), ContactColumn.PROJECTION, ContactColumn.NAME + " like ?", new String[] { "%" + str + "%" }, ContactColumn.NAME);
@@ -479,14 +460,11 @@ public class Contact extends ListActivity {
 		try {
 			returnValue = excelTools.writeExcel(fileName2.equals("") ? null : fileName2 + ".xls", Tools.cursor2User(cur, Tools.getIdColumnMap(cursor), b, codeStyle), codeStyle);
 			returnValue = 1;
-		}
-		catch (BiffException e) {
+		} catch (BiffException e) {
 			e.printStackTrace();
-		}
-		catch (WriteException e) {
+		} catch (WriteException e) {
 			e.printStackTrace();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		if (1 == returnValue)
@@ -505,15 +483,12 @@ public class Contact extends ListActivity {
 		Cursor cursor = managedQuery(GroupProvider.GROUP_URI, ContactColumn.GROUPPRO, null, null, null);
 		try {
 			returnValue = xmlTools.writeXml(fileName.equals("") ? null : fileName + ".xml", Tools.cursor2User(cur, Tools.getIdColumnMap(cursor), isCode, codeStyle), isCode, codeStyle);
-		}
-		catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 
-		}
-		catch (IllegalStateException e) {
+		} catch (IllegalStateException e) {
 			e.printStackTrace();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		if (1 == returnValue)
