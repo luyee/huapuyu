@@ -1,4 +1,4 @@
-package webservice.cxf;
+package ws.cxf;
 
 import java.util.ArrayList;
 import java.util.List;
