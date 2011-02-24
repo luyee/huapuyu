@@ -7,9 +7,12 @@
 
 	<class name="SecondHandHouse" table="tb_second_hand_house">
 		<id name="id" column="id" type="long">
+			<!--  
 			<generator class="sequence">
         		<param name="sequence">seq_second_hand_house</param>
       		</generator>
+      		-->
+      		<generator class="native"/>
 		</id>
 		
 		<one-to-one name="house" class="House"/> 
