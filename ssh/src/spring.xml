@@ -23,7 +23,9 @@
 	-->
 	
 	<!-- security -->
+	<!--  
 	<import resource="classpath:config/spring-security.xml"/>
+	-->
 	
 	<!-- xfire -->
 	<!--  
