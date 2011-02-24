@@ -4,16 +4,6 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-	<constant name="struts.i18n.encoding" value="UTF-8"/>
-	<constant name="struts.action.extension" value="do"/>
-	<constant name="struts.serve.static.browserCache" value="false"/>
-	<constant name="struts.configuration.xml.reload" value="true"></constant>
-	<constant name="struts.devMode" value="true"/>
-	<constant name="struts.ui.theme" value="simple"/>
-	<constant name="struts.objectFactory" value="spring"/>
-	<!--
-	<constant name="struts.objectFactory.spring.autoWire" value="type"/>
-    -->
     <package name="default" namespace="/" extends="struts-default">
 		<!--
 		<action name="index" class="indexAction">
@@ -37,4 +27,5 @@
         </action>
     </package>
 
+	<include file="struts-ssh.xml"/> 
 </struts>

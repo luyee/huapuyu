@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="request" namespace="/request" extends="struts-default">
+
+       	<action name="addAction" class="com.cc.action.ServiceRequestAction" method="addAction">
+			<result name="success" type="freemarker">/ftl/test1.ftl</result>
+			<result name="input">/jsp/request/requestAdd.jsp</result>
+		</action>
+		
+		<action name="add" class="com.cc.action.ServiceRequestAction" method="add">
+			<result>/jsp/request/requestAdd.jsp</result>
+		</action>
+		
+    </package>
+</struts>
+	
