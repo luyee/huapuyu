@@ -307,16 +307,6 @@
       <Project>{1F610117-C0CF-4831-8EF2-9528107DA0F6}</Project>
       <Name>model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\spring.ibatis\spring.ibatis.csproj">
-      <Project>{72D35B78-6168-4C2F-AA9C-79B2B9DC1508}</Project>
-      <Name>spring.ibatis</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Config\ibatis.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Config\ibatis-providers.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
