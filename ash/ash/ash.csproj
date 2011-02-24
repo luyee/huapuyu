@@ -185,7 +185,6 @@
     <Compile Include="Dao\Ado\Tb_userDao.cs" />
     <Compile Include="Dao\Ado\Tb_userRowMapper.cs" />
     <Compile Include="Dao\Hibernate\Tb_userDao.cs" />
-    <Compile Include="Dao\Ibatis\Tb_userDao.cs" />
     <Compile Include="Dao\Interf\ITb_userDao.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -214,7 +213,6 @@
     <Content Include="Config\spring.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Dao\Ibatis\Tb_user.xml" />
     <Content Include="Global.asax" />
     <Content Include="Libs\Antlr3.Runtime.dll" />
     <Content Include="Libs\Apache.NMS.ActiveMQ.dll" />
