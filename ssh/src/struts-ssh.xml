@@ -4,15 +4,18 @@
         "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-    <package name="request" namespace="/request" extends="struts-default">
+    <package name="shh" namespace="/shh" extends="struts-default">
 
-       	<action name="addAction" class="com.cc.action.ServiceRequestAction" method="addAction">
+       	<action name="addAction" class="struts.action.ShhAction" method="addAction">
+			<!--  
 			<result name="success" type="freemarker">/ftl/test1.ftl</result>
-			<result name="input">/jsp/request/requestAdd.jsp</result>
+			-->
+			<result name="success">/jsp/shh/add.jsp</result>
+			<result name="input">/jsp/shh/add.jsp</result>
 		</action>
 		
-		<action name="add" class="com.cc.action.ServiceRequestAction" method="add">
-			<result>/jsp/request/requestAdd.jsp</result>
+		<action name="add" class="struts.action.ShhAction" method="add">
+			<result>/jsp/shh/add.jsp</result>
 		</action>
 		
     </package>
