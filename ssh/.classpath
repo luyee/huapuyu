@@ -173,6 +173,6 @@
 	<classpathentry kind="lib" path="lib/struts/struts2-dojo-plugin-2.2.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/struts/struts2-sitemesh-plugin-2.2.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/struts/struts2-spring-plugin-2.2.1.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_20"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_19"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
