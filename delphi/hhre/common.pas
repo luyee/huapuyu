@@ -3,7 +3,8 @@ unit common;
 interface
 
 uses
-  StdCtrls, SysUtils, Generics.Collections, CheckLst, Dialogs, sql, config, constant, Controls;
+  StdCtrls, SysUtils, Generics.Collections, CheckLst, Dialogs, sql, config, constant, Controls, DBGrids,
+  DBClient, Classes;
 
 type
   TCommon = class
@@ -15,9 +16,37 @@ type
     class function ControlValueIsEmpty(const control: TEdit): Boolean;
     class function ControlValueIsNotEmpty(const control: TEdit): Boolean;
     class procedure ClearMemoLines(const container: TWinControl);
+    class procedure AutoCfgDBGridSize(const cds: TClientDataSet; const dbg: TDBGrid);
   end;
 
 implementation
+
+class procedure TCommon.AutoCfgDBGridSize(const cds: TClientDataSet; const dbg: TDBGrid);
+var
+  col: TColumn;
+  colWidth: Integer;
+  modInt: Integer;
+  i: Integer;
+begin
+  for i := 0 to cds.Fields.Count - 1 do
+  begin
+    if SameStr(cds.Fields[i].FieldName, PRIMARY_KEY_NAME) then
+      Continue;
+
+    col := dbg.Columns.Add;
+    col.FieldName := cds.Fields[i].FieldName;
+    col.Title.Alignment := taCenter;
+    col.Alignment := taCenter;
+    //说明：左边框、右边框和垂直滚动条一共20像素；两列之间有1像素，n列就有n-1像素，因此得出下面的计算公式width - 20 - (n - 1)
+    colWidth := (dbg.Width - 20 - (cds.FieldCount - 2)) div (cds.FieldCount - 1);
+    modInt := (dbg.Width - 20 - (cds.FieldCount - 2)) mod (cds.FieldCount - 1);
+
+    if (i = cds.Fields.Count - 1) and (modInt <> 0) then
+      col.Width := colWidth + modInt
+    else
+      col.Width := colWidth;
+  end;
+end;
 
 class procedure TCommon.ClearMemoLines(const container: TWinControl);
 var

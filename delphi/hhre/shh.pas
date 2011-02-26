@@ -2,7 +2,7 @@ unit shh;
 
 interface
 
-uses Windows, Classes, Graphics, Forms, Controls, StdCtrls, Dialogs, ComCtrls,
+uses Windows, Classes, Graphics, Forms, Controls, StdCtrls, Dialogs, ComCtrls, common,
   Grids, DBGrids, ExtCtrls, sql, DB, DBClient, mHouse, SysUtils, constant, shhNew, shhEdit;
 
 type
@@ -46,7 +46,6 @@ end;
 
 procedure TFrmShh.dbgCellClick(Column: TColumn);
 var
-  fieldList: TFieldList;
   frmEdit: TFrmEdit;
 begin
   frmEdit := TFrmEdit.Create(Application);
@@ -60,23 +59,9 @@ begin
 end;
 
 procedure TFrmShh.Query;
-var
-  col: TColumn;
-  field: TField;
 begin
   cds.Data := TSql.ExecuteQuery(HOUSE_QUERY);
-
-  for field in cds.Fields do
-  begin
-    if not SameStr(field.FieldName, PRIMARY_KEY_NAME) then
-    begin
-      col := dbg.Columns.Add;
-      col.FieldName := field.FieldName;
-      col.Title.Alignment := taCenter;
-      col.Width := (dbg.Width - 30) div cds.FieldCount;
-      col.Alignment := taCenter;
-    end;
-  end;
+  TCommon.AutoCfgDBGridSize(cds, dbg);
 end;
 
 end.

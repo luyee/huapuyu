@@ -198,6 +198,7 @@ begin
     Validate(Sender as TEdit);
 end;
 
+//初始化控件数据
 procedure TFrmNew.FormShow(Sender: TObject);
 begin
   //基本资料
@@ -220,6 +221,7 @@ begin
   TCommon.GenCheckListBoxItem(TSqlScript.GetFeature, clbFeature);
 end;
 
+//效验
 procedure TFrmNew.Validate(Sender: TWinControl);
 begin
   case Sender.TabOrder of
