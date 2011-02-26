@@ -1,0 +1,61 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header"><h:outputText value="#{messages['data.list.title']}"/></f:facet>
+
+        <div class="results">
+
+            <h:outputText value="#{messages['data.list.no.data.exists']}" rendered="#{empty dataList.resultList}"/>
+
+            <h:dataTable id="dataList" var="data" value="#{dataList.resultList}" rendered="#{not empty dataList.resultList}">
+                <h:column>
+                    <f:facet name="header"><h:outputText value="#{messages['data.id']}"/></f:facet>
+                    #{data.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="#{messages['data.name']}"/></f:facet>
+                    #{data.name}
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="#{messages['data.type']}"/></f:facet>
+                    #{data.type}
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="#{messages['data.enable']}"/></f:facet>
+                    #{data.enable}
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="#{messages['data.view']}"/></f:facet>
+                    <s:link id="view" value="#{messages['data.view']}" propagation="none" view="/data.xhtml">
+                        <f:param name="dataId" value="#{data.id}"/>
+                    </s:link>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputText value="#{messages['data.delete']}"/></f:facet>
+                    <s:link id="delete" value="#{messages['data.delete']}" propagation="none" action="#{dataHome.remove}" immediate="true">
+                    	<f:param name="dataId" value="#{data.id}"/>
+                    </s:link>
+                </h:column>
+            </h:dataTable>
+
+        </div>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+        <s:button id="done" value="#{messages['data.create']}" view="/data.xhtml"/>
+    </div>
+
+</ui:define>
+
+</ui:composition>
