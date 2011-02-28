@@ -28,7 +28,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
   	<s:form action="addAction" namespace="/shh">
 	  <s:textfield name="house.name" key="shh.add.name"/>
-
 	  <s:submit key="shh.add.save"/>
 	</s:form>
   </body>
