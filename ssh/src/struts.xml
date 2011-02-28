@@ -28,4 +28,5 @@
     </package>
 
 	<include file="struts-ssh.xml"/> 
+	<include file="struts-data.xml"/>
 </struts>
