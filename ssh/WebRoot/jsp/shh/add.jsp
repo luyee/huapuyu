@@ -27,13 +27,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
   	<s:form action="addAction" namespace="/shh">
-	  <s:textfield name="serviceRequest.content" key="request.add.content"/>
-	  <s:textfield name="serviceRequest.remark" key="request.add.remark"/>
-	  <s:select list="priorityList" listKey="id" listValue="name" name="priorityId" key="request.add.priority" />  
-	  <sx:datetimepicker name="serviceRequest.timeLimit" key="request.add.time.limit" displayFormat="yyyy-MM-dd"/>
-	  <s:submit key="request.add.save" method="addAction"/>
-	  <s:submit key="request.add.create.work.order" method="createWorkOrder"/>
-	  <s:submit key="request.add.create.service.activity" method="createServiceActivity"/>
+	  <s:textfield name="house.name" key="shh.add.name"/>
+
+	  <s:submit key="shh.add.save"/>
 	</s:form>
   </body>
 </html>
