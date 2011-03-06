@@ -2,6 +2,9 @@ package dao.ibatis;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.sql.SQLException;
+
+import model.Data;
 
 import com.ibatis.common.resources.Resources;
 import com.ibatis.sqlmap.client.SqlMapClient;
@@ -15,10 +18,18 @@ import com.ibatis.sqlmap.client.SqlMapClientBuilder;
  */
 public class MainTest
 {
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws SQLException, IOException
 	{
-		Reader reader = Resources.getResourceAsReader("sqlmap-config.xml");
+		// TODO Anders Zhu : need to fix the bug
+		Reader reader = Resources.getResourceAsReader("config/ibatis-config.xml");
 		SqlMapClient sqlMapClient = SqlMapClientBuilder.buildSqlMapClient(reader);
+
+		Data data = new Data();
+		data.setId(1);
+		data.setName("zhuzhen");
+		data.setType(Byte.MIN_VALUE);
+
+		sqlMapClient.insert("dataSave", data);
 		reader.close();
 	}
 }
