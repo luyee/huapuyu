@@ -1,4 +1,4 @@
-package dao.hibernate.impl;
+package dao.hibernate;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -10,9 +10,9 @@ import javax.annotation.Resource;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import dao.hibernate.interf.IDao;
+import dao.interf.Dao;
 
-public abstract class BaseDao<PK extends Serializable, T> extends HibernateDaoSupport implements IDao<PK, T>
+public abstract class BaseDao<PK extends Serializable, T> extends HibernateDaoSupport implements Dao<PK, T>
 {
 	// 增加setSessionFactoryMocker方法，避免在XML文件中给DAO方法注入SessionFactory。
 	@Resource
@@ -48,27 +48,9 @@ public abstract class BaseDao<PK extends Serializable, T> extends HibernateDaoSu
 	}
 
 	@Override
-	public void merge(T entity)
-	{
-		getHibernateTemplate().merge(entity);
-	}
-
-	@Override
-	public void persist(T entity)
-	{
-		getHibernateTemplate().persist(entity);
-	}
-
-	@Override
 	public void save(T entity)
 	{
 		getHibernateTemplate().save(entity);
-	}
-
-	@Override
-	public void saveOrUpdate(T entity)
-	{
-		getHibernateTemplate().saveOrUpdate(entity);
 	}
 
 	@Override
