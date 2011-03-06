@@ -31,6 +31,7 @@
         这个filter位于FILTER_SECURITY_INTERCEPTOR之前  -->  
         <custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR" />  
     </http>  
+    
     <!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性，  
         我们的所有控制将在这三个类中实现，解释详见具体配置  -->  
     <beans:bean id="myFilter" class="com.softvan.spring.security.FilterSecurityInterceptor">  
@@ -39,6 +40,7 @@
         <beans:property name="accessDecisionManager" ref="AccessDecisionManager" />  
         <beans:property name="securityMetadataSource" ref="MySecurityMetadataSource" />  
     </beans:bean>  
+    
     <!-- 资源源数据定义，将所有的资源和权限对应关系建立起来，即定义某一资源可以被哪些角色访问     -->  
     <beans:bean id="MySecurityMetadataSource" init-method="loadResourceDefine"  class="com.softvan.spring.security.InvocationSecurityMetadataSourceService">  
         <beans:property name="roleService" ref="RoleService" />  

@@ -71,11 +71,18 @@ public abstract class BaseDao<PK extends Serializable, T> extends HibernateDaoSu
 	}
 
 	@Override
+	public void update(T entity)
+	{
+		getHibernateTemplate().update(entity);
+	}
+
+	@Override
 	public T getById(PK id)
 	{
 		return getHibernateTemplate().get(entityClass, id);
 	}
 
+	@Override
 	public List<T> getAll()
 	{
 		return getHibernateTemplate().loadAll(entityClass);
