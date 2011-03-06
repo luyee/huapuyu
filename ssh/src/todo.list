@@ -15,3 +15,7 @@ public List<Test> getAll()
 		});
 
 	}
+	
+	
+	
+	testng在spring中执行
