@@ -13,12 +13,11 @@ import com.ibatis.sqlmap.client.SqlMapClientBuilder;
  * @author Anders
  * 
  */
-public class IbatisTest
+public class MainTest
 {
 	public static void main(String[] args) throws IOException
 	{
 		Reader reader = Resources.getResourceAsReader("sqlmap-config.xml");
-		@SuppressWarnings("unused")
 		SqlMapClient sqlMapClient = SqlMapClientBuilder.buildSqlMapClient(reader);
 		reader.close();
 	}
