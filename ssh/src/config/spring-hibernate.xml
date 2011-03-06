@@ -38,7 +38,7 @@
 	    	</props>
 	    </property>
 	    <!--  
-	    <property name="packagesToScan" value="model.xml"/>
+	    <property name="packagesToScan" value="model"/>
 	    -->
 	</bean>
 	
