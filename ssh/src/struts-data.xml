@@ -12,7 +12,8 @@
 		</action>
 		
 		<action name="edit" class="struts.action.DataAction" method="edit">
-			<result>/jsp/data/add.jsp</result>
+			<result name="success">/jsp/data/list.jsp</result>
+			<result name="input">/jsp/data/edit.jsp</result>
 		</action>
 		
 		<action name="load" class="struts.action.DataAction" method="load">

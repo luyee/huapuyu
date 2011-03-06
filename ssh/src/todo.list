@@ -1,0 +1,17 @@
+public List<Test> getAll()
+	{
+		// return getHibernateTemplate().find("from Tb_user");
+		// http://kewb.javaeye.com/blog/128708
+		return (List<Test>) getHibernateTemplate().execute(new HibernateCallback<Object>()
+		{
+			public Object doInHibernate(Session session) throws HibernateException
+			{
+				// List result =
+				// session.createCriteria(Tb_user.class).add(Restrictions.like("name",
+				// name+"%").list();
+				// return result;
+				return null;
+			}
+		});
+
+	}
