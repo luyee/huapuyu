@@ -1,12 +1,12 @@
 package dao.hibernate;
 
-import model.Data;
+import model.Area;
 
 import org.springframework.stereotype.Component;
 
 import dao.hibernate.impl.BaseDao;
 
 @Component
-public class DataDao extends BaseDao<Integer, Data>
+public class AreaDao extends BaseDao<Integer, Area>
 {
 }
