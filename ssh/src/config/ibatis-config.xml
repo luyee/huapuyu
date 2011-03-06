@@ -34,6 +34,6 @@
 	<!-- 下面这种形式会报错
 	<sqlMap resource="classpath:ibatis/Tb_user.xml"/>会报错 
 	-->
-	<sqlMap resource="ibatis/Tb_user.xml"/>
+	<sqlMap resource="ibatis/Data.xml"/>
 
 </sqlMapConfig>
