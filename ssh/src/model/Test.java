@@ -1,4 +1,4 @@
-package model.test;
+package model;
 
 import java.io.Serializable;
 
@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * 该pojo类用于jpa测试
@@ -16,8 +17,9 @@ import javax.persistence.SequenceGenerator;
  * 
  */
 @Entity
+@Table(name = "tb_depart")
 @SequenceGenerator(sequenceName = "seq_depart", name = "sequence")
-public class Tb_depart implements Serializable
+public class Test implements Serializable
 {
 	private static final long serialVersionUID = 8479144368840747416L;
 
@@ -77,7 +79,7 @@ public class Tb_depart implements Serializable
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final Tb_depart other = (Tb_depart) obj;
+		final Test other = (Test) obj;
 		if (id == null)
 		{
 			if (other.id != null)
