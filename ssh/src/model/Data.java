@@ -9,7 +9,7 @@ public class Data implements Serializable
 	private Integer id;
 	private String name;
 	private Byte type;
-	private Boolean enable;
+	private Boolean enable = true;
 
 	public Integer getId()
 	{
