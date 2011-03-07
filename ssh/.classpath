@@ -126,7 +126,6 @@
 	<classpathentry kind="lib" path="lib/oracle/ojdbc14.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.10-bin.jar"/>
 	<classpathentry kind="lib" path="lib/hsqldb.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_19"/>
 	<classpathentry kind="lib" path="lib/struts/struts2-core-2.2.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/struts/struts2-dojo-plugin-2.2.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/struts/struts2-sitemesh-plugin-2.2.1.1.jar"/>
@@ -153,7 +152,7 @@
 	<classpathentry kind="lib" path="lib/security/3.0.5/spring-security-aspects-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/security/3.0.5/spring-security-cas-client-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/security/3.0.5/spring-security-config-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="lib/security/3.0.5/spring-security-core-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/security/3.0.5/spring-security-core-3.0.5.RELEASE.jar" sourcepath="lib/security/3.0.5/spring-security-core-3.0.5.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="lib/security/3.0.5/spring-security-ldap-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/security/3.0.5/spring-security-openid-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/security/3.0.5/spring-security-taglibs-3.0.5.RELEASE.jar"/>
@@ -183,5 +182,6 @@
 	<classpathentry kind="lib" path="lib/jbosscache-core-3.2.1.GA.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j/1.6.1/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j/1.6.1/slf4j-log4j12-1.6.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_20"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
