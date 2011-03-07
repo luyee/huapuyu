@@ -27,6 +27,6 @@
         </action>
     </package>
 
-	<include file="struts-ssh.xml"/> 
-	<include file="struts-data.xml"/>
+	<include file="struts/config/struts-ssh.xml"/> 
+	<include file="struts/config/struts-data.xml"/>
 </struts>

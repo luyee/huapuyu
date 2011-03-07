@@ -10,11 +10,13 @@
        	   				   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
 
 	<context:annotation-config/>
+	<!--  
 	<context:component-scan base-package="annotation"/>
 	<context:component-scan base-package="others"/>
 	<context:component-scan base-package="wicket"/>
 	<context:component-scan base-package="dao"/>
-	<context:component-scan base-package="test.junit"/>
+	-->
+	<context:component-scan base-package="security"/>
 	  
 	<!--
 	<bean id="zhuRongbao" class="annotation.ZhuRongbao"/>

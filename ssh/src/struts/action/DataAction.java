@@ -1,50 +1,52 @@
 package struts.action;
 
-import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import model.Data;
 
-import com.opensymphony.xwork2.ActionSupport;
+import org.apache.commons.beanutils.BeanUtils;
 
-public class DataAction extends ActionSupport
+import struts.vo.DataVo;
+import dao.hibernate.DataDao;
+
+public class DataAction extends BaseAction
 {
 	private static final long serialVersionUID = -7548709763761263808L;
 
-	private Data data;
-	private List<Data> dataList = new ArrayList<Data>();
+	private DataVo dataVo;
+	private DataDao dataDao;
+	private List<Data> dataList;
 	private Integer id;
 
 	public void init()
 	{
-		Data data = new Data();
-		data.setId(1);
-		data.setName("zhuzhen");
-		dataList.add(data);
-		data = new Data();
-		data.setId(2);
-		data.setName("guolili");
-		dataList.add(data);
+		dataList = dataDao.getAll();
 	}
 
-	public String add()
+	public String save()
 	{
 		Data data = new Data();
-		data.setId(3);
-		data.setName("zhuzhen");
-		dataList.add(data);
-		return SUCCESS;
-	}
-
-	public String load()
-	{
-		if (id == 3)
+		try
 		{
-			data = new Data();
-			data.setId(3);
-			data.setName("zhuzhen");
+			BeanUtils.copyProperties(data, dataVo);
+			data.setType(Byte.MIN_VALUE);
+			dataDao.save(data);
+		}
+		catch (IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+		catch (InvocationTargetException e)
+		{
+			e.printStackTrace();
 		}
 		return SUCCESS;
+	}
+
+	public String saveInput()
+	{
+		return INPUT;
 	}
 
 	public String list()
@@ -55,22 +57,67 @@ public class DataAction extends ActionSupport
 
 	public String delete()
 	{
+		dataDao.deleteById(id);
 		return SUCCESS;
 	}
 
-	public String edit()
+	public String update()
 	{
+		Data data = new Data();
+		try
+		{
+			BeanUtils.copyProperties(data, dataVo);
+			data.setType(Byte.MIN_VALUE);
+			dataDao.update(data);
+		}
+		catch (IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+		catch (InvocationTargetException e)
+		{
+			e.printStackTrace();
+		}
 		return SUCCESS;
 	}
 
-	public Data getData()
+	public String updateInput()
 	{
-		return data;
+		Data data = dataDao.getById(id);
+		dataVo = new DataVo();
+		try
+		{
+			BeanUtils.copyProperties(dataVo, data);
+		}
+		catch (IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+		catch (InvocationTargetException e)
+		{
+			e.printStackTrace();
+		}
+		return INPUT;
 	}
 
-	public void setData(Data data)
+	public DataVo getDataVo()
 	{
-		this.data = data;
+		return dataVo;
+	}
+
+	public void setDataVo(DataVo dataVo)
+	{
+		this.dataVo = dataVo;
+	}
+
+	public DataDao getDataDao()
+	{
+		return dataDao;
+	}
+
+	public void setDataDao(DataDao dataDao)
+	{
+		this.dataDao = dataDao;
 	}
 
 	public List<Data> getDataList()

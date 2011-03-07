@@ -2,13 +2,13 @@ package model;
 
 import java.util.Set;
 
-public class Role
+public class Authority
 {
 	private Integer id;
 	private String name;
 	private Boolean enable = true;
-	private Set<User> users;
-	private Set<Authority> Authorities;
+	private Set<Role> roles;
+	private Set<Resource> resources;
 
 	public Integer getId()
 	{
@@ -40,23 +40,23 @@ public class Role
 		this.enable = enable;
 	}
 
-	public Set<User> getUsers()
+	public Set<Role> getRoles()
 	{
-		return users;
+		return roles;
 	}
 
-	public void setUsers(Set<User> users)
+	public void setRoles(Set<Role> roles)
 	{
-		this.users = users;
+		this.roles = roles;
 	}
 
-	public Set<Authority> getAuthorities()
+	public Set<Resource> getResources()
 	{
-		return Authorities;
+		return resources;
 	}
 
-	public void setAuthorities(Set<Authority> authorities)
+	public void setResources(Set<Resource> resources)
 	{
-		Authorities = authorities;
+		this.resources = resources;
 	}
 }

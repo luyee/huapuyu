@@ -7,29 +7,8 @@ public class User
 	private Integer id;
 	private String name;
 	private String pwd;
-	private Byte status;
-	private String remark;
+	private Boolean enable = true;
 	private Set<Role> roles;
-
-	public Set<Role> getRoles()
-	{
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles)
-	{
-		this.roles = roles;
-	}
-
-	public User()
-	{
-	}
-
-	public User(String name, String pwd)
-	{
-		this.name = name;
-		this.pwd = pwd;
-	}
 
 	public Integer getId()
 	{
@@ -61,23 +40,23 @@ public class User
 		this.pwd = pwd;
 	}
 
-	public Byte getStatus()
+	public Boolean getEnable()
 	{
-		return status;
+		return enable;
 	}
 
-	public void setStatus(Byte status)
+	public void setEnable(Boolean enable)
 	{
-		this.status = status;
+		this.enable = enable;
 	}
 
-	public String getRemark()
+	public Set<Role> getRoles()
 	{
-		return remark;
+		return roles;
 	}
 
-	public void setRemark(String remark)
+	public void setRoles(Set<Role> roles)
 	{
-		this.remark = remark;
+		this.roles = roles;
 	}
 }

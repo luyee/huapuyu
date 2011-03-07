@@ -3,17 +3,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="tb_userService" class="service.impl.Tb_userService">
-		<property name="dao" ref="tb_userDao"/>
+	<bean id="dataService" class="service.impl.DataServiceImpl">
+		<property name="dao" ref="dataDao"/>
 	</bean>
-	
-	<!--  
-	<bean id="tb_departService" class="service.impl.Tb_departService">
-		<property name="dao" ref="tb_departDao"/>
-	</bean>
-	-->
-	
-	<!--
-	<bean id="indexService" class="service.impl.IndexService"/>
-	-->
+
 </beans>

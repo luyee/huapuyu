@@ -5,28 +5,38 @@
 
 	<!-- jdbc -->
 	<!--  
-  	<bean id="tb_userDao" class="dao.jdbc.Tb_userDao">
+  	<bean id="dataDao" class="dao.jdbc.DataDao">
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
 	-->
   	
   	<!-- hibernate -->
-  	<bean id="tb_userDao" class="dao.hibernate.Tb_userDao">
+  	<bean id="dataDao" class="dao.hibernate.DataDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+	
 	<bean id="userDao" class="dao.hibernate.UserDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+	
+	<bean id="roleDao" class="dao.hibernate.RoleDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="authorityDao" class="dao.hibernate.AuthorityDao">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
 	<!-- ibatis -->
 	<!--  
-	<bean id="tb_userDao" class="dao.ibatis.Tb_userDao">
+	<bean id="dataDao" class="dao.ibatis.DataDao">
     	<property name="sqlMapClient" ref="sqlMapClient"/>
   	</bean>
   	-->
   	
   	<!-- jpa -->
   	<!--  
-	<bean id="tb_departDao" class="dao.jpa.Tb_departDao">
+	<bean id="dataDao" class="dao.jpa.DataDao">
     	<property name="entityManagerFactory" ref="entityManagerFactory"/>
   	</bean>
   	-->
