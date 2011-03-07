@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<tr>
 				<th><s:text name="data.id"/></th>
 				<th><s:text name="data.name"/></th>
-				<th><s:text name="data.edit"/></th>
+				<th><s:text name="data.update"/></th>
 				<th><s:text name="data.delete"/></th>
 			</tr>
 			
@@ -39,12 +39,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td><s:property value="id"/></td>
 				<td><s:property value="name"/></td>
 				<td>
-					<s:url id="edtData" action="edit" namespace="/data"><s:param name="id" value="%{id}"/></s:url>
-					<s:a href="%{edtData}"><s:text name="data.edit"/></s:a>
+					<s:url id="updateData" action="updateInput" namespace="/data"><s:param name="id" value="%{id}"/></s:url>
+					<s:a href="%{updateData}"><s:text name="data.update"/></s:a>
 				</td>
 				<td>
-					<s:url id="delData" action="delete" namespace="/data"><s:param name="id" value="%{id}"/></s:url>
-					<s:a href="%{delData}"><s:text name="data.delete"/></s:a>
+					<s:url id="deleteData" action="delete" namespace="/data"><s:param name="id" value="%{id}"/></s:url>
+					<s:a href="%{deleteData}"><s:text name="data.delete"/></s:a>
 				</td>
 			</tr>
 			</s:iterator>

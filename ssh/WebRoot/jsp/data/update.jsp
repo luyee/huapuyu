@@ -26,8 +26,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-  	<s:form action="edit" namespace="/data" theme="simple">
-	  <s:textfield name="data.name" key="data.name"/>
+  	<s:form action="update" namespace="/data" theme="simple">
+	  <s:hidden name="dataVo.id"/>
+	  <s:textfield name="dataVo.name" key="data.name"/>
 	  <s:submit key="data.update"/>
 	</s:form>
   </body>

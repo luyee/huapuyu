@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <%@ taglib uri="/struts-dojo-tags" prefix="sx" %>
 <%
@@ -21,13 +21,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
+	
 	<sx:head/>
   </head>
   
   <body>
-  	<s:form action="add" namespace="/data" theme="simple">
-	  <s:textfield name="data.name" key="data.name"/>
+  	<s:form action="save" namespace="/data" theme="simple">
+  	  <s:textfield name="dataVo.id" key="data.id"/>
+	  <s:textfield name="dataVo.name" key="data.name"/>
 	  <s:submit key="data.save"/>
 	</s:form>
   </body>
