@@ -68,28 +68,41 @@
     
     <http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/css/**" filters="none" />
-		<intercept-url pattern="/img/**" filters="none" />
+		<intercept-url pattern="/images/**" filters="none" />
 		<intercept-url pattern="/js/**" filters="none" />
 
 		<intercept-url pattern="/data/update*" access="hasAnyRole('修改用户')" />
-		<intercept-url pattern="/data/delete*" access="hasAnyRole('修改用户')" />
+		<intercept-url pattern="/data/delete*" access="hasAnyRole('删除用户')" />
 		<intercept-url pattern="/data/list*" access="hasAnyRole('浏览用户')" />
 		<intercept-url pattern="/role/update*" access="hasAnyRole('修改角色')" />
-		<intercept-url pattern="/role/delete*" access="hasAnyRole('修改角色')" />
+		<intercept-url pattern="/role/delete*" access="hasAnyRole('删除角色')" />
 		<intercept-url pattern="/role/list*" access="hasAnyRole('浏览角色')" />
 
 		<form-login login-page="/login.jsp" default-target-url="/index.jsp" authentication-failure-url="/login.jsp" />
 		<logout logout-success-url="/login.jsp" />
 	</http>
+	
+	<authentication-manager>  
+    	<authentication-provider>  
+        	<jdbc-user-service  
+	            data-source-ref="dataSource"  
+	            users-by-username-query="select name, pwd, 'true' as ENABLED from tb_user where name = ?"  
+	            authorities-by-username-query="select u.USERNAME,ur.ROLE as AUTHORITIES from user u,b_userrole ur where u.name=? and u.ID=ur.USERID" />  
+    	</authentication-provider>  
+	</authentication-manager>  
 
 	<!-- 认证配置, 使用userDetailsService提供的用户信息 -->
+	<!--  
 	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="userDetailsService">
 			<password-encoder hash="plaintext" />
 		</authentication-provider>
 	</authentication-manager>
+	-->
 
 	<!-- 项目实现的用户查询服务 -->
+	<!--  
 	<beans:bean id="userDetailsService" class="security.UserDetailsServiceImpl" />
+	-->
 	
 </beans:beans>

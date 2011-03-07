@@ -2,8 +2,6 @@ package security;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import model.Authority;
 import model.Role;
 import model.User;
@@ -33,11 +31,8 @@ public class AccountManager
 
 	private static Logger logger = LoggerFactory.getLogger(AccountManager.class);
 
-	@Resource
 	private UserDao userDao;
-	@Resource
 	private RoleDao roleDao;
-	@Resource
 	private AuthorityDao authorityDao;
 
 	// -- User Manager --//
@@ -85,7 +80,7 @@ public class AccountManager
 	@Transactional(readOnly = true)
 	public User findUserByLoginName(String loginName)
 	{
-		return userDao.findUniqueBy("loginName", loginName);
+		return userDao.findUniqueBy("name", loginName);
 	}
 
 	/**
@@ -96,7 +91,7 @@ public class AccountManager
 	@Transactional(readOnly = true)
 	public boolean isLoginNameUnique(String newLoginName, String oldLoginName)
 	{
-		return userDao.isPropertyUnique("loginName", newLoginName, oldLoginName);
+		return userDao.isPropertyUnique("name", newLoginName, oldLoginName);
 	}
 
 	// -- Role Manager --//
