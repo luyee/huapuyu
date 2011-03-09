@@ -66,31 +66,73 @@
     </beans:bean>
     -->
     
-    <http auto-config="true" use-expressions="true">
+    <global-method-security pre-post-annotations="enabled">
+        <!-- AspectJ pointcut expression that locates our "post" method and applies security that way
+        <protect-pointcut expression="execution(* bigbank.*Service.post*(..))" access="ROLE_TELLER"/>
+        -->
+    </global-method-security>
+    
+    <http use-expressions="true">
 		<intercept-url pattern="/css/**" filters="none" />
 		<intercept-url pattern="/images/**" filters="none" />
 		<intercept-url pattern="/js/**" filters="none" />
 
-		<intercept-url pattern="/data/update*" access="hasAnyRole('修改用户')" />
-		<intercept-url pattern="/data/delete*" access="hasAnyRole('删除用户')" />
-		<intercept-url pattern="/data/list*" access="hasAnyRole('浏览用户')" />
-		<intercept-url pattern="/role/update*" access="hasAnyRole('修改角色')" />
-		<intercept-url pattern="/role/delete*" access="hasAnyRole('删除角色')" />
-		<intercept-url pattern="/role/list*" access="hasAnyRole('浏览角色')" />
+		 
+		<intercept-url pattern="/data/update*" access="hasAnyRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/data/delete*" access="hasAnyRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/data/list*" access="hasAnyRole('ROLE_USER')" />
+		<intercept-url pattern="/role/update*" access="hasAnyRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/role/delete*" access="hasAnyRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/role/list*" access="hasAnyRole('ROLE_USER')" />
+		
+		
 
+		<!--
+		<intercept-url pattern="/**" access="hasAnyRole('ROLE_USER')"/>  
 		<form-login login-page="/login.jsp" default-target-url="/index.jsp" authentication-failure-url="/login.jsp" />
 		<logout logout-success-url="/login.jsp" />
+		
+		<session-management invalid-session-url="/timeout.jsp">
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
+        </session-management>
+        -->
+        <form-login login-page="/login.jsp" authentication-failure-url="/loginError.jsp"/>
+        <logout />
+        <remember-me />
+        <session-management invalid-session-url="/timeout.jsp">
+            <concurrency-control max-sessions="10" error-if-maximum-exceeded="true" />
+        </session-management>
 	</http>
 	
+	  
 	<authentication-manager>  
     	<authentication-provider>  
         	<jdbc-user-service  
 	            data-source-ref="dataSource"  
-	            users-by-username-query="select name, pwd, 'true' as ENABLED from tb_user where name = ?"  
-	            authorities-by-username-query="select u.USERNAME,ur.ROLE as AUTHORITIES from user u,b_userrole ur where u.name=? and u.ID=ur.USERID" />  
+	            users-by-username-query="SELECT name, pwd, 'true' FROM tb_user WHERE name = ? AND enable = true"  
+	            authorities-by-username-query="SELECT a.name, b.name AS role FROM tb_user a, tb_role b, tb_user_role_relation c WHERE a.id = c.user_id AND c.role_id = b.id AND a.name = ?" />  
     	</authentication-provider>  
-	</authentication-manager>  
-
+	</authentication-manager>
+	 
+	<!--
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider>
+			<user-service>
+				<user authorities="ROLE_USER" name="guest" password="guest"/>
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+	
+	
+	<authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="rod" password="123" authorities="ROLE_SUPERVISOR, ROLE_USER, ROLE_TELLER" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+    -->
+	
 	<!-- 认证配置, 使用userDetailsService提供的用户信息 -->
 	<!--  
 	<authentication-manager alias="authenticationManager">
