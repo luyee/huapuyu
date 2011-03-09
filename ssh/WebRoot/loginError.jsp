@@ -23,6 +23,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+  	<h1>login error</h1>
+  
    	<s:form action="j_spring_security_check" namespace="/" theme="simple" method="post">
   	  <s:textfield name="j_username" key="login.name"/>
 	  <s:textfield name="j_password" key="login.pwd"/>
