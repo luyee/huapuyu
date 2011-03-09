@@ -10,7 +10,8 @@
 			<generator class="native"/>
 		</id>
 
-		<property name="name" column="name" type="string" not-null="true" length="50"/>
+		<property name="type" column="type" type="string" not-null="true" length="50"/>
+		<property name="value" column="value" type="string" not-null="true" length="50"/>
 		<property name="enable" column="enable" type="boolean" not-null="true"/>
 		<set name="authorities" table="tb_authority_resource_relation">  
         	<key column="authority_id"/>
