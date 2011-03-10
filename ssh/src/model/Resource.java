@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Resource implements Serializable
 {
@@ -11,6 +13,7 @@ public class Resource implements Serializable
 	private String url;
 	private String name;
 	private Boolean enable = true;
+	private Set<Role> roleSet = new HashSet<Role>(0);
 
 	public Integer getId()
 	{
@@ -60,6 +63,16 @@ public class Resource implements Serializable
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	public Set<Role> getRoleSet()
+	{
+		return roleSet;
+	}
+
+	public void setRoleSet(Set<Role> roleSet)
+	{
+		this.roleSet = roleSet;
 	}
 
 }

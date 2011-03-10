@@ -22,7 +22,7 @@
         	<many-to-many class="UserGroup" column="user_group_id"/>  
     	</set>
     	-->  
-    	<set name="resourceSet" table="tb_role_resource_relation">  
+    	<set name="resourceSet" table="tb_role_resource_relation" lazy="false">  
         	<key column="role_id"/>
         	<many-to-many class="Resource" column="resource_id"/>  
     	</set> 
