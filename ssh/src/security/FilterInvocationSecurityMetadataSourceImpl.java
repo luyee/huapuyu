@@ -4,8 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import model.Resource;
+import model.Role;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -13,10 +20,12 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.util.AntUrlPathMatcher;
 import org.springframework.security.web.util.UrlMatcher;
 
+import service.interf.ResourceService;
+
 public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocationSecurityMetadataSource
 {
-	// private RoleService roleService;
-	// private ResourceService actionService;
+	@Autowired
+	private ResourceService resourceService;
 
 	private UrlMatcher urlMatcher = new AntUrlPathMatcher();
 	private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
@@ -49,26 +58,34 @@ public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocat
 		return true;
 	}
 
-	public void loadResourceDefine() throws Exception
+	public FilterInvocationSecurityMetadataSourceImpl()
+	{
+	}
+
+	public ResourceService getResourceService()
+	{
+		return resourceService;
+	}
+
+	public void setResourceService(ResourceService resourceService)
+	{
+		this.resourceService = resourceService;
+	}
+
+	@PostConstruct
+	public void loadResource()
 	{
 		resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
 
-		// for (TRole item : this.roleService.getAllRoles())
-		// {
-		// Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
-		// ConfigAttribute ca = new SecurityConfig(item.getRoleName());
-		// atts.add(ca);
-		// List<TAction> tActionList = actionService.findByRoleID(item.getRoleId());
-		// // 把资源放入到spring security的resouceMap中
-		// for (TAction tAction : tActionList)
-		// {
-		// this.resourceMap.put(tAction.getActionUrl(), atts);
-		// }
-		// }
-		Collection<ConfigAttribute> caList = new ArrayList<ConfigAttribute>();
-		ConfigAttribute ca = new SecurityConfig("ROLE_ADMIN");
-		caList.add(ca);
-		resourceMap.put("/index.jsp", caList);
-		resourceMap.put("/main.jsp", caList);
+		Collection<ConfigAttribute> caList;
+		List<Resource> resourceList = resourceService.getAll();
+		for (Resource resource : resourceList)
+		{
+			caList = new ArrayList<ConfigAttribute>();
+			for (Role role : resource.getRoleSet())
+				caList.add(new SecurityConfig(role.getName()));
+			resourceMap.put(resource.getUrl(), caList);
+		}
 	}
+
 }

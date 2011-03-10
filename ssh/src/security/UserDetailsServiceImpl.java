@@ -1,17 +1,17 @@
 package security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import service.interf.ResourceService;
 import service.interf.UserService;
 
 public class UserDetailsServiceImpl implements UserDetailsService
 {
+	@Autowired
 	private UserService userService;
-	private ResourceService resourceService;
 
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException
@@ -19,14 +19,13 @@ public class UserDetailsServiceImpl implements UserDetailsService
 		return userService.getByUserName(userName);
 	}
 
-	// public Map<String, String> loadUrlAuthorities()
-	// {
-	// Map<String, String> urlAuthorities = new HashMap<String, String>();
-	// List<Resource> urlResources = resourceService.getByType("URL");
-	// for (Resource resource : urlResources)
-	// {
-	// urlAuthorities.put(resource.getValue(), resource.getRoleAuthorities());
-	// }
-	// return urlAuthorities;
-	// }
+	public UserService getUserService()
+	{
+		return userService;
+	}
+
+	public void setUserService(UserService userService)
+	{
+		this.userService = userService;
+	}
 }

@@ -16,27 +16,19 @@ public class AccessDecisionManagerImpl implements AccessDecisionManager
 	@Override
 	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException
 	{
-
 		if (configAttributes == null)
-		{
 			return;
-		}
 
-		Iterator<ConfigAttribute> ite = configAttributes.iterator();
-		while (ite.hasNext())
+		Iterator<ConfigAttribute> it = configAttributes.iterator();
+		while (it.hasNext())
 		{
-			ConfigAttribute ca = ite.next();
-			String needRole = ((SecurityConfig) ca).getAttribute();
+			ConfigAttribute ca = it.next();
+			String roleName = ((SecurityConfig) ca).getAttribute();
 			for (GrantedAuthority ga : authentication.getAuthorities())
-			{
-				if (needRole.equals(ga.getAuthority()))
-				{
+				if (roleName.equals(ga.getAuthority()))
 					return;
-				}
-			}
 		}
 		throw new AccessDeniedException("没有权限");
-
 	}
 
 	@Override
