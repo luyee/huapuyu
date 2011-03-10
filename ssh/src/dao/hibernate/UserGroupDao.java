@@ -1,10 +1,10 @@
 package dao.hibernate;
 
-import model.Resource;
+import model.UserGroup;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class ResourceDao extends BaseDao<Integer, Resource>
+public class UserGroupDao extends BaseDao<Integer, UserGroup>
 {
 }

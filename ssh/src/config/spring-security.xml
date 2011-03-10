@@ -5,24 +5,6 @@
     		 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                         		 http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
                         
-	<!-- 拦截成自定义的读取权限的方式 重点在before上
-    <http auto-config="true"/>
-     
-    <beans:bean id="filterSecurityInterceptor" class="org.springframework.security.intercept.web.FilterSecurityInterceptor" autowire="byType">
-        <beans:property name="objectDefinitionSource" ref="filterInvocationDefinitionSource" />
-        <custom-filter before="FILTER_SECURITY_INTERCEPTOR" />
-    </beans:bean>
-    
-	<beans:bean id="filterInvocationDefinitionSource" class="security.FilterUser">
-	   <beans:property name="adminPage" value="/admin.jsp"/> 
-       <beans:property name="userPage" value="/**"/> 
-       <beans:property name="userDao" ref="userDao"/>
-	</beans:bean>
-	
-	<authentication-provider user-service-ref="userDetailsService"/>
-	<beans:bean id="userDetailsService" class="security.UserIn"/>
-	-->
-	
 	<!--  
     <http auto-config="true" access-denied-page="/jsp/accessDenied.jsp">
 		<intercept-url pattern="/css/**" filters="none" />
@@ -77,14 +59,14 @@
 		<intercept-url pattern="/images/**" filters="none" />
 		<intercept-url pattern="/js/**" filters="none" />
 
-		 
+		<!--   
 		<intercept-url pattern="/data/update*" access="hasAnyRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/data/delete*" access="hasAnyRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/data/list*" access="hasAnyRole('ROLE_USER')" />
 		<intercept-url pattern="/role/update*" access="hasAnyRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/role/delete*" access="hasAnyRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/role/list*" access="hasAnyRole('ROLE_USER')" />
-		
+		-->
 		
 
 		<!--
@@ -102,6 +84,7 @@
         <session-management invalid-session-url="/timeout.jsp">
             <concurrency-control max-sessions="10" error-if-maximum-exceeded="true" />
         </session-management>
+        <custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="myFilter"/>
 	</http>
 	
 	<!--    
@@ -115,14 +98,26 @@
 	</authentication-manager>
 	-->
 	
-	<authentication-manager>  
-    	<authentication-provider>  
-        	<jdbc-user-service  
-	            data-source-ref="dataSource"  
-	            users-by-username-query="SELECT name, pwd, 'true' FROM tb_user WHERE name = ? AND enable = true"  
-	            authorities-by-username-query="SELECT a.name, b.name AS role FROM tb_user a, tb_role b, tb_user_role_relation c WHERE a.id = c.user_id AND c.role_id = b.id AND a.name = ?" />  
-    	</authentication-provider>  
-	</authentication-manager>
+	<!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性，
+    我们的所有控制将在这三个类中实现，解释详见具体配置 -->
+    <beans:bean id="myFilter" class="security.SecurityInterceptor">
+        <beans:property name="authenticationManager" ref="authenticationManager" />
+        <beans:property name="accessDecisionManager" ref="accessDecisionManagerImpl" />
+        <beans:property name="securityMetadataSource" ref="filterInvocationSecurityMetadataSourceImpl" />
+    </beans:bean>
+    
+    <!-- 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userDetailsServiceImpl"/>
+    </authentication-manager>
+
+    <beans:bean id="userDetailsServiceImpl" class="security.UserDetailsServiceImpl" />
+
+    <!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 -->
+    <beans:bean id="accessDecisionManagerImpl" class="security.AccessDecisionManagerImpl"/>
+    
+    <!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->
+    <beans:bean id="filterInvocationSecurityMetadataSourceImpl" class="security.FilterInvocationSecurityMetadataSourceImpl" />
 	 
 	<!--
 	<authentication-manager alias="authenticationManager">

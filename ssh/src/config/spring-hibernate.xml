@@ -23,7 +23,7 @@
 		    	<value>model/SecondHandHouse.hbm.xml</value>
 		    	<value>model/User.hbm.xml</value>
 		    	<value>model/Role.hbm.xml</value>
-		    	<value>model/Authority.hbm.xml</value>
+		    	<value>model/UserGroup.hbm.xml</value>
 		    	<value>model/Resource.hbm.xml</value>
 		    </list>
 		</property>

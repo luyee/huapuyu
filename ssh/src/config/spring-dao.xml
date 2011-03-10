@@ -23,7 +23,7 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	
-	<bean id="authorityDao" class="dao.hibernate.AuthorityDao">
+	<bean id="resourceDao" class="dao.hibernate.ResourceDao">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	
