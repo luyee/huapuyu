@@ -13,7 +13,7 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.util.AntUrlPathMatcher;
 import org.springframework.security.web.util.UrlMatcher;
 
-public class AndersInvocationSecurityMetadataSourceService implements FilterInvocationSecurityMetadataSource
+public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocationSecurityMetadataSource
 {
 	// private RoleService roleService;
 	// private ResourceService actionService;

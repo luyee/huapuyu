@@ -11,7 +11,7 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-public class AndersAccessDecisionManager implements AccessDecisionManager
+public class AccessDecisionManagerImpl implements AccessDecisionManager
 {
 	@Override
 	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException
