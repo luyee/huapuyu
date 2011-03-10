@@ -14,10 +14,18 @@
 		<property name="userName" column="user_name" type="string" not-null="true" length="50" unique="true"/>
 		<property name="pwd" column="pwd" type="string" not-null="true" length="50"/>
 		<property name="enable" column="enable" type="boolean" not-null="true"/>
-		<set name="roles" table="tb_user_role_relation">  
+		<set name="roleSet" table="tb_user_role_relation">  
         	<key column="user_id"/>  
         	<many-to-many class="Role" column="role_id"/>  
     	</set> 
+    	<set name="userGroupSet" table="tb_user_user_group_relation">  
+        	<key column="user_id"/>  
+        	<many-to-many class="UserGroup" column="user_group_id"/>  
+    	</set>
+    	<set name="resourceSet" table="tb_user_resource_relation">  
+        	<key column="user_id"/>  
+        	<many-to-many class="Resource" column="resource_id"/>  
+    	</set>
 	</class>
 
 </hibernate-mapping>

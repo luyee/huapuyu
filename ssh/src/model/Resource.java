@@ -1,14 +1,16 @@
 package model;
 
-import java.util.Set;
+import java.io.Serializable;
 
-public class Resource
+public class Resource implements Serializable
 {
+	private static final long serialVersionUID = -8246262126931423368L;
+
 	private Integer id;
 	private String type;
-	private String value;
+	private String url;
+	private String name;
 	private Boolean enable = true;
-	private Set<Authority> Authorities;
 
 	public Integer getId()
 	{
@@ -30,16 +32,6 @@ public class Resource
 		this.enable = enable;
 	}
 
-	public Set<Authority> getAuthorities()
-	{
-		return Authorities;
-	}
-
-	public void setAuthorities(Set<Authority> authorities)
-	{
-		Authorities = authorities;
-	}
-
 	public String getType()
 	{
 		return type;
@@ -50,14 +42,24 @@ public class Resource
 		this.type = type;
 	}
 
-	public String getValue()
+	public String getUrl()
 	{
-		return value;
+		return url;
 	}
 
-	public void setValue(String value)
+	public void setUrl(String url)
 	{
-		this.value = value;
+		this.url = url;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 
 }

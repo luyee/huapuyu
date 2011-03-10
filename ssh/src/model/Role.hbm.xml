@@ -12,14 +12,20 @@
 
 		<property name="name" column="name" type="string" not-null="true" length="50"/>
 		<property name="enable" column="enable" type="boolean" not-null="true"/>
-		<set name="users" table="tb_user_role_relation">  
+		<!--  
+		<set name="userSet" table="tb_user_role_relation">  
         	<key column="role_id"/>
         	<many-to-many class="User" column="user_id"/>  
     	</set> 
-    	<set name="authorities" table="tb_role_authority_relation">  
+    	<set name="userGroupSet" table="tb_user_group_role_relation">  
         	<key column="role_id"/>
-        	<many-to-many class="Authority" column="authority_id"/>  
-    	</set>  
+        	<many-to-many class="UserGroup" column="user_group_id"/>  
+    	</set>
+    	-->  
+    	<set name="resourceSet" table="tb_role_resource_relation">  
+        	<key column="role_id"/>
+        	<many-to-many class="Resource" column="resource_id"/>  
+    	</set> 
 	</class>
 
 </hibernate-mapping>
