@@ -92,6 +92,7 @@ public abstract class BaseDao<PK extends Serializable, T> extends HibernateDaoSu
 
 	public Query createQuery(final String queryString, final Object... values)
 	{
+
 		Query query = getSession().createQuery(queryString);
 		if (values != null)
 		{
@@ -113,10 +114,15 @@ public abstract class BaseDao<PK extends Serializable, T> extends HibernateDaoSu
 		return (X) createQuery(hql, values).uniqueResult();
 	}
 
-	public <X> List<X> find(final String hql, final Object... values)
+	public List<T> find(final String hql, final Object... values)
 	{
-		return createQuery(hql, values).list();
+		return getHibernateTemplate().find(hql, values);
 	}
+
+	// public <X> List<X> find(final String hql, final Object... values)
+	// {
+	// return createQuery(hql, values).list();
+	// }
 
 	public List<T> getAll(String orderByProperty, boolean isAsc)
 	{
