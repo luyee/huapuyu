@@ -37,7 +37,7 @@
 	<!-- 
 	<jdbc:initialize-database data-source="dataSource" enabled="#{systemProperties.INITIALIZE_DATABASE}">
 	-->
-	<jdbc:initialize-database data-source="dataSource">
+	<jdbc:initialize-database data-source="dataSource" enabled="${load.init.data}">
 		<jdbc:script location="classpath:initData.sql"/>
 	</jdbc:initialize-database>
 </beans>

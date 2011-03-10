@@ -104,7 +104,17 @@
         </session-management>
 	</http>
 	
-	  
+	<!--    
+	<authentication-manager>  
+    	<authentication-provider>  
+        	<jdbc-user-service  
+	            data-source-ref="dataSource"  
+	            users-by-username-query="SELECT name, pwd, 'true' FROM tb_user WHERE name = ? AND enable = true"  
+	            authorities-by-username-query="SELECT a.name, b.name AS role FROM tb_user a, tb_role b, tb_user_role_relation c WHERE a.id = c.user_id AND c.role_id = b.id AND a.name = ?" />  
+    	</authentication-provider>  
+	</authentication-manager>
+	-->
+	
 	<authentication-manager>  
     	<authentication-provider>  
         	<jdbc-user-service  
