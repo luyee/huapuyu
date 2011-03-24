@@ -55,6 +55,7 @@ public class ≤‚ ‘
 		collection.add("∞¬µœ");
 		collection.add("±¶¬Ì");
 		// ∑µªÿjava.util.AbstractList$Itr
+		// private class Itr implements Iterator<E>
 		System.out.println(collection.iterator().getClass().getName());
 		for (Iterator<String> iterator = collection.iterator(); iterator.hasNext();)
 		{
@@ -66,6 +67,8 @@ public class ≤‚ ‘
 		collection.add("¥Û÷⁄");
 		collection.add("±º≥€");
 		// ∑µªÿjava.util.HashMap$KeyIterator
+		// private final class KeyIterator extends HashIterator<K>
+		// private abstract class HashIterator<E> implements Iterator<E> {
 		System.out.println(collection.iterator().getClass().getName());
 		for (Iterator<String> iterator = collection.iterator(); iterator.hasNext();)
 		{
