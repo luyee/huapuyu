@@ -10,8 +10,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import 工厂方法模式.CreateCarException;
-
 public class 测试
 {
 	@BeforeClass

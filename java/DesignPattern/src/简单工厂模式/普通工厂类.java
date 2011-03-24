@@ -1,7 +1,5 @@
 package 简单工厂模式;
 
-import 工厂方法模式.CreateCarException;
-
 public class 普通工厂类
 {
 	public static ICar factory(汽车品牌 carBrand) throws CreateCarException
