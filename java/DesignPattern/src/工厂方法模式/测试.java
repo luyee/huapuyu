@@ -36,7 +36,7 @@ public class 测试
 	@Test
 	public void test()
 	{
-		抽象工厂类 factory = new 奥迪工厂类();
+		I抽象工厂类 factory = new 奥迪工厂类();
 		ICar car = factory.factory();
 		car.启动();
 		car.停止();
