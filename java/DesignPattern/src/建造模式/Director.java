@@ -11,9 +11,9 @@ public class Director
 
 	public void construct(String from, String to)
 	{
-		builder.buildSubject();
-		builder.buildBody();
-		builder.buildFrom(from);
-		builder.buildTo(to);
+		builder.发件人(from);
+		builder.收件人(to);
+		builder.主题();
+		builder.内容();
 	}
 }

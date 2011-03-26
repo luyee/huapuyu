@@ -6,17 +6,17 @@ public abstract class Builder
 	{
 	}
 
-	public abstract void buildSubject();
+	public abstract void 主题();
 
-	public abstract void buildBody();
+	public abstract void 内容();
 
-	public void buildFrom(String from)
+	public void 发件人(String person)
 	{
-		System.out.println("buildFrom");
+		System.out.println(this.toString() + " : " + person);
 	}
 
-	public void buildTo(String to)
+	public void 收件人(String person)
 	{
-		System.out.println("buildTo");
+		System.out.println(this.toString() + " : " + person);
 	}
 }

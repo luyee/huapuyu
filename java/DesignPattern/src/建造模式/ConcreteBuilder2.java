@@ -3,14 +3,14 @@ package 建造模式;
 public class ConcreteBuilder2 extends Builder
 {
 	@Override
-	public void buildBody()
+	public void 内容()
 	{
-		System.out.println(this.toString() + " : buildBody");
+		System.out.println(this.toString() + " : 内容2");
 	}
 
 	@Override
-	public void buildSubject()
+	public void 主题()
 	{
-		System.out.println(this.toString() + " : buildSubject");
+		System.out.println(this.toString() + " : 主题2");
 	}
 }
