@@ -6,8 +6,9 @@ public class RealSubject extends Subject
 	{
 	}
 
+	@Override
 	public void request()
 	{
-		System.out.println("From real subject.");
+		System.out.println("Real Subject");
 	}
 }
