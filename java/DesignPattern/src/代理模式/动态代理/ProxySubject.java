@@ -13,26 +13,26 @@ public class ProxySubject implements InvocationHandler
 
 	private void preRequest()
 	{
-		System.out.println("preRequest.");
+		System.out.println("PreRequest");
 	}
 
 	private void postRequest()
 	{
-		System.out.println("postRequest.");
+		System.out.println("PostRequest");
 	}
 
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
 	{
+		this.preRequest();
+
 		if (null == realSubject)
 			realSubject = new RealSubject();
 
-		this.preRequest();
-
-		method.invoke(realSubject, args);
+		Object object = method.invoke(realSubject, args);
 
 		this.postRequest();
 
-		return null;
+		return object;
 	}
 }

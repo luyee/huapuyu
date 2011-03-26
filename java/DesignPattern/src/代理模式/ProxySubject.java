@@ -14,10 +14,8 @@ public class ProxySubject extends Subject
 	{
 		preRequest();
 
-		if (realSubject == null)
-		{
+		if (null == realSubject)
 			realSubject = new RealSubject();
-		}
 
 		realSubject.request(); // 此处执行真实对象的request方法
 
