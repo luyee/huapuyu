@@ -10,6 +10,9 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+/*
+ * TestNG貌似不支持中文的包和类，如果包和类改成中文会报错，JUnit没这个问题
+ */
 public class Tester
 {
 	@BeforeMethod
