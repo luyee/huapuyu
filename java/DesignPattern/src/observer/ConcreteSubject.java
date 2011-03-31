@@ -22,7 +22,7 @@ public class ConcreteSubject implements Subject
 	@Override
 	public void notifyObservers()
 	{
-		Enumeration enumeration = observers();
+		Enumeration<Observer> enumeration = observers();
 		while (enumeration.hasMoreElements())
 		{
 			((Observer) enumeration.nextElement()).update();
