@@ -6,7 +6,7 @@ package bridge;
 public class ConcreteImplementorA extends Implementor
 {
 	@Override
-	public void Operation()
+	public void operation()
 	{
 		System.out.println("A的操作方法");
 	}

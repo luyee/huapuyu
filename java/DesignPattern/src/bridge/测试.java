@@ -34,9 +34,9 @@ public class ≤‚ ‘
 		Abstraction abstraction = new RefinedAbstraction();
 
 		abstraction.setImplementor(new ConcreteImplementorA());
-		abstraction.Operation();
+		abstraction.operation();
 
 		abstraction.setImplementor(new ConcreteImplementorB());
-		abstraction.Operation();
+		abstraction.operation();
 	}
 }
