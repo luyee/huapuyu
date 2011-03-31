@@ -1,6 +1,9 @@
 package bridge;
 
-public class ConcreteImplementorA implements Implementor
+/*
+ * 具体实现化
+ */
+public class ConcreteImplementorA extends Implementor
 {
 	@Override
 	public void Operation()

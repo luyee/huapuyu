@@ -1,6 +1,9 @@
 package bridge;
 
-public interface Implementor
+/*
+ *  µœ÷ªØ
+ */
+public abstract class Implementor
 {
-	public void Operation();
+	public abstract void Operation();
 }
