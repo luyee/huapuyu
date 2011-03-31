@@ -1,12 +1,15 @@
 package iterator;
 
+/*
+ * ЕќДњзг
+ */
 public interface Iterator
 {
 	public void first();
 
 	public void next();
 
-	public boolean isLast();
+	public boolean isDone();
 
-	public Object current();
+	public Object currentItem();
 }

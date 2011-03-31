@@ -1,11 +1,14 @@
 package iterator;
 
-public class ConcreteAggregate extends Aggregate
+/*
+ * ¾ßÌå¾Û¼¯
+ */
+public class ConcreteAggregate implements Aggregate
 {
 	private Object[] objArray = { "Guo Lili", "Zhu Zhen", "Zhu Rongbao" };
 
 	@Override
-	public Iterator createIterator()
+	public Iterator iterator()
 	{
 		return new ConcreteIterator(this);
 	}

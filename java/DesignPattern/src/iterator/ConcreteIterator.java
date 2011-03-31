@@ -1,5 +1,8 @@
 package iterator;
 
+/*
+ * 具体迭代子
+ */
 public class ConcreteIterator implements Iterator
 {
 	private ConcreteAggregate aggregate;
@@ -29,13 +32,13 @@ public class ConcreteIterator implements Iterator
 	}
 
 	@Override
-	public boolean isLast()
+	public boolean isDone()
 	{
 		return index >= size;
 	}
 
 	@Override
-	public Object current()
+	public Object currentItem()
 	{
 		return aggregate.getElement(index);
 	}

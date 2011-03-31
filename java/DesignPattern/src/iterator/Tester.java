@@ -67,10 +67,10 @@ public class Tester
 	public void test()
 	{
 		Aggregate aggregate = new ConcreteAggregate();
-		Iterator iterator = aggregate.createIterator();
-		while (!iterator.isLast())
+		Iterator iterator = aggregate.iterator();
+		while (!iterator.isDone())
 		{
-			System.out.println(iterator.current().toString());
+			System.out.println(iterator.currentItem().toString());
 			iterator.next();
 		}
 	}

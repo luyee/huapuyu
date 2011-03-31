@@ -1,9 +1,9 @@
 package iterator;
 
-public abstract class Aggregate
+/*
+ * ¾Û¼¯
+ */
+public interface Aggregate
 {
-	public Iterator createIterator()
-	{
-		return null;
-	}
+	public Iterator iterator();
 }
