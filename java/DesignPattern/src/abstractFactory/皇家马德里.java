@@ -11,6 +11,6 @@ public class 皇家马德里 implements I俱乐部
 	@Override
 	public I球场 factory球场()
 	{
-		return new 伯纳乌();
+		return new 伯纳乌球场();
 	}
 }

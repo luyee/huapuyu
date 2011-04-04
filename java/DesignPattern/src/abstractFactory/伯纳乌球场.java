@@ -1,6 +1,6 @@
 package abstractFactory;
 
-public class 皎馨拫 implements I⑩部
+public class 皎馨拫⑩部 implements I⑩部
 {
 	@Override
 	public void 靡備()
