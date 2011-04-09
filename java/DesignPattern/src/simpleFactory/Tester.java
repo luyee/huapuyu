@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ≤‚ ‘
+public class Tester
 {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception

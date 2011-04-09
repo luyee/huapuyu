@@ -1,6 +1,8 @@
 package memento;
 
-// 纪念物，令人回忆的东西，纪念品
+/*
+ * 纪念物，令人回忆的东西，纪念品
+ */
 public class Memento
 {
 	private String state;

@@ -1,6 +1,8 @@
 package memento;
 
-// 创始人，发起人
+/*
+ * 创始人，发起人
+ */
 public class Originator
 {
 	private String state;

@@ -1,4 +1,4 @@
-package observer;
+package templateMethod;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class 测试
+public class Tester
 {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
@@ -31,9 +31,11 @@ public class 测试
 	@Test
 	public void test()
 	{
-		Subject subject = new ConcreteSubject();
-		Observer observer = new ConcreteObserver();
-		subject.attach(observer);
-		subject.notifyObservers();
+		PlayPES p1 = new PlayChina();
+		PlayPES p2 = new PlayJapan();
+		p1.play();
+		p2.play();
+
+		// HttpServlet类中的service方法就是模板方法，子类只需要继承HttpServlet的doGet, doPost等方法
 	}
 }

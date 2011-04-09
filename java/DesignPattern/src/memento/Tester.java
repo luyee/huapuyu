@@ -1,4 +1,4 @@
-package code;
+package memento;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -31,7 +31,14 @@ public class Tester
 	@Test
 	public void test()
 	{
-		new ConcreteConstants().print();
-		System.out.println(Constants.NAME);
+		Originator originator = new Originator();
+		Caretaker caretaker = new Caretaker();
+
+		originator.setState("on");
+		caretaker.saveMemento(originator.createMemento());
+		System.out.println(originator.getState());
+		originator.setState("off");
+		originator.restoreMemento(caretaker.retrieveMemento());
+		System.out.println(originator.getState());
 	}
 }

@@ -1,4 +1,4 @@
-package memento;
+package visitor;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ≤‚ ‘
+public class Tester
 {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
@@ -31,14 +31,18 @@ public class ≤‚ ‘
 	@Test
 	public void test()
 	{
-		Originator originator = new Originator();
-		Caretaker caretaker = new Caretaker();
+		ObjectStructure objectStructure = new ObjectStructure();
+		objectStructure.attach(new ƒ–»À());
+		objectStructure.attach(new ≈Æ»À());
 
-		originator.setState("on");
-		caretaker.saveMemento(originator.createMemento());
-		System.out.println(originator.getState());
-		originator.setState("off");
-		originator.restoreMemento(caretaker.retrieveMemento());
-		System.out.println(originator.getState());
+		≥…π¶ success = new ≥…π¶();
+		objectStructure.display(success);
+
+		 ß∞‹ failure = new  ß∞‹();
+		objectStructure.display(failure);
+
+		¡µ∞Æ love = new ¡µ∞Æ();
+		objectStructure.display(love);
+
 	}
 }

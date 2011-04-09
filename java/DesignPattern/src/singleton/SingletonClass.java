@@ -4,6 +4,8 @@ public class SingletonClass
 {
 	private static SingletonClass singletonClass = null;
 
+	// private static final SingletonClass singletonClass = new SingletonClass();
+
 	private SingletonClass()
 	{
 	}
@@ -23,4 +25,9 @@ public class SingletonClass
 
 		return singletonClass;
 	}
+
+	// public static SingletonClass getInstance()
+	// {
+	// return singletonClass;
+	// }
 }

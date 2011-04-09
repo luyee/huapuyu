@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class 测试
+public class Tester
 {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
@@ -36,15 +36,13 @@ public class 测试
 		System.out.println(SingletonClass.getInstance().toString());
 		System.out.println(SingletonClass.getInstance().toString());
 		System.out.println(SingletonClass.getInstance().toString());
-		System.out.println(SingletonClass2.getInstance().toString());
-		System.out.println(SingletonClass2.getInstance().toString());
-		System.out.println(SingletonClass2.getInstance().toString());
 
 		// Java中的非常典型的单例模式
 		try
 		{
 			Runtime.getRuntime().exec("notepad.exe");
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}

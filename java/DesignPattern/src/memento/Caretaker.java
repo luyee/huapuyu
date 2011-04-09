@@ -1,6 +1,8 @@
 package memento;
 
-// 看管者，看守人，照顾者
+/*
+ * 看管者，看守人，照顾者
+ */
 public class Caretaker
 {
 	private Memento memento;

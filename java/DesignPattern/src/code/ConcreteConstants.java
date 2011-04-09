@@ -1,6 +1,6 @@
 package code;
 
-public class MyConstants implements Constants
+public class ConcreteConstants implements Constants
 {
 	public void print()
 	{

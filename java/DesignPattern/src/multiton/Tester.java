@@ -1,4 +1,4 @@
-package visitor;
+package multiton;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ≤‚ ‘
+public class Tester
 {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
@@ -31,18 +31,11 @@ public class ≤‚ ‘
 	@Test
 	public void test()
 	{
-		ObjectStructure objectStructure = new ObjectStructure();
-		objectStructure.attach(new ƒ–»À());
-		objectStructure.attach(new ≈Æ»À());
-
-		≥…π¶ success = new ≥…π¶();
-		objectStructure.display(success);
-
-		 ß∞‹ failure = new  ß∞‹();
-		objectStructure.display(failure);
-
-		¡µ∞Æ love = new ¡µ∞Æ();
-		objectStructure.display(love);
-
+		System.out.println(Multiton.getInstance(1).toString());
+		System.out.println(Multiton.getInstance(1).toString());
+		System.out.println(Multiton.getInstance(1).toString());
+		System.out.println(Multiton.getInstance(2).toString());
+		System.out.println(Multiton.getInstance(2).toString());
+		System.out.println(Multiton.getInstance(2).toString());
 	}
 }
