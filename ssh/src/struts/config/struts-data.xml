@@ -6,22 +6,26 @@
 <struts>
     <package name="data" namespace="/data" extends="struts-default">
 
+       	<action name="saveInput" class="struts.action.DataAction" method="saveInput">
+			<result name="input">/jsp/data/save.jsp</result>
+		</action>
+       	
        	<action name="save" class="struts.action.DataAction" method="save">
-			<result name="success" type="redirectAction">list</result>
+			<result name="success" type="redirectAction">listInput</result>
 			<result name="input">/jsp/data/save.jsp</result>
-		</action>
-		
-		<action name="saveInput" class="struts.action.DataAction" method="saveInput">
-			<result name="input">/jsp/data/save.jsp</result>
-		</action>
-		
-		<action name="update" class="struts.action.DataAction" method="update">
-			<result name="success" type="redirectAction">list</result>
-			<result name="input" type="chain">updateInput</result>
 		</action>
 		
 		<action name="updateInput" class="struts.action.DataAction" method="updateInput">
 			<result name="input">/jsp/data/update.jsp</result>
+		</action>
+		
+		<action name="update" class="struts.action.DataAction" method="update">
+			<result name="success" type="redirectAction">listInput</result>
+			<result name="input" type="chain">updateInput</result>
+		</action>
+		
+		<action name="listInput" class="struts.action.DataAction" method="listInput">
+			<result name="input">/jsp/data/list.jsp</result>
 		</action>
 		
 		<action name="list" class="struts.action.DataAction" method="list">

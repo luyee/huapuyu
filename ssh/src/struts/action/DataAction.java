@@ -19,9 +19,10 @@ public class DataAction extends BaseAction
 	private List<Data> dataList;
 	private Integer id;
 
-	public void init()
+	public String saveInput()
 	{
 		dataList = dataDao.getAll();
+		return INPUT;
 	}
 
 	public String save()
@@ -44,21 +45,28 @@ public class DataAction extends BaseAction
 		return SUCCESS;
 	}
 
-	public String saveInput()
+	public void validateSave()
 	{
+		dataList = dataDao.getAll();
+	}
+
+	public String updateInput()
+	{
+		Data data = dataDao.getById(id);
+		dataVo = new DataVo();
+		try
+		{
+			BeanUtils.copyProperties(dataVo, data);
+		}
+		catch (IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+		catch (InvocationTargetException e)
+		{
+			e.printStackTrace();
+		}
 		return INPUT;
-	}
-
-	public String list()
-	{
-		init();
-		return SUCCESS;
-	}
-
-	public String delete()
-	{
-		dataDao.deleteById(id);
-		return SUCCESS;
 	}
 
 	public String update()
@@ -81,24 +89,24 @@ public class DataAction extends BaseAction
 		return SUCCESS;
 	}
 
-	public String updateInput()
+	public String listInput()
 	{
-		Data data = dataDao.getById(id);
-		dataVo = new DataVo();
-		try
-		{
-			BeanUtils.copyProperties(dataVo, data);
-		}
-		catch (IllegalAccessException e)
-		{
-			e.printStackTrace();
-		}
-		catch (InvocationTargetException e)
-		{
-			e.printStackTrace();
-		}
+		dataList = dataDao.getAll();
 		return INPUT;
 	}
+
+	public String list()
+	{
+		return SUCCESS;
+	}
+
+	public String delete()
+	{
+		dataDao.deleteById(id);
+		return SUCCESS;
+	}
+
+	// getter and setter
 
 	public DataVo getDataVo()
 	{
