@@ -6,6 +6,7 @@ public class ConcreteFlyweight extends Flyweight
 
 	public ConcreteFlyweight(Character state)
 	{
+		System.out.println("Character " + state + " is initing，，，，，，");
 		this.intrinsicState = state;
 	}
 
