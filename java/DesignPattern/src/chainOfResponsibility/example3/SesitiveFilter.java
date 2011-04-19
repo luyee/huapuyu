@@ -1,4 +1,4 @@
-package chainOfResponsibility.example1;
+package chainOfResponsibility.example3;
 
 public class SesitiveFilter implements Filter
 {

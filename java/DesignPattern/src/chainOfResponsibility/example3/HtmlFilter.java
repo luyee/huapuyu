@@ -1,4 +1,5 @@
-package chainOfResponsibility.example1;
+package chainOfResponsibility.example3;
+
 
 public class HtmlFilter implements Filter
 {
