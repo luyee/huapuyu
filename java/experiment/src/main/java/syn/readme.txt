@@ -1,0 +1,1 @@
+synchronized如果放在方法的前面，其实也是锁住对象，因此对于同一个对象，如果调用同样有synchronized标识的两个不同方法method1和method2，后调用的方法会等待先调用的结束再执行。
