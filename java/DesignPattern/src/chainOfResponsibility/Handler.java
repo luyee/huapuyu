@@ -2,17 +2,30 @@ package chainOfResponsibility;
 
 public abstract class Handler
 {
-	protected Handler successor;
+	protected Handler nextHandler;
 
-	public abstract void handleRequest();
+	protected String name;
 
-	public Handler getSuccessor()
+	public abstract void handleRequest(String request);
+
+	public Handler getNextHandler()
 	{
-		return successor;
+		return nextHandler;
 	}
 
-	public void setSuccessor(Handler successor)
+	public void setNextHandler(Handler nextHandler)
 	{
-		this.successor = successor;
+		this.nextHandler = nextHandler;
 	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
 }

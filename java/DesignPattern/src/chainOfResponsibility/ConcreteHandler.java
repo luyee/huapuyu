@@ -3,15 +3,16 @@ package chainOfResponsibility;
 public class ConcreteHandler extends Handler
 {
 	@Override
-	public void handleRequest()
+	public void handleRequest(String request)
 	{
-		if (getSuccessor() != null)
+		if (getNextHandler() != null)
 		{
-			getSuccessor().handleRequest();
+			System.out.println("无法处理，交给下一步处理");
+			nextHandler.handleRequest(request);
 		}
 		else
 		{
-			System.out.println("the request is handle here");
+			System.out.println("处理");
 		}
 	}
 }
