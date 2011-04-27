@@ -2,13 +2,12 @@ package test.junit.dao.hibernate;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import model.Data;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -18,7 +17,10 @@ import dao.hibernate.DataDao;
 @ContextConfiguration(locations = { "classpath:test/junit/dao/hibernate/spring.xml" })
 public class DataDaoTest
 {
-	@Resource
+	// @Resource(name = "hibernateDataDao")
+	// @Resource
+	@Autowired
+	// @Qualifier("hibernateDataDao")
 	private DataDao dataDao;
 
 	@Test

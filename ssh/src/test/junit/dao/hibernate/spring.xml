@@ -64,7 +64,7 @@
 	</bean>
 	
 	<aop:config>
-  		<aop:pointcut id="txPointcut" expression="execution(* dao.ibatis.DataDaoImpl.*(..))"/>
+  		<aop:pointcut id="txPointcut" expression="execution(* dao.ibatis.DataDao.*(..))"/>
   		<aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice"/>
 	</aop:config>
 	
