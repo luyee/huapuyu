@@ -30,7 +30,7 @@ int main()
 	//config.get_integer_value(valueKey, ACE_TEXT("pwd"), pwd);
 	//config.get_binary_value(valueKey, ACE_TEXT("user"), user);
 	
-	cout<<user<<";"<<pwd<<endl;
+	cout<<user<<"; "<<pwd<<endl;
 	
 	getchar();
 
