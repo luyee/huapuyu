@@ -4,8 +4,8 @@ import model.Data;
 
 import org.springframework.stereotype.Component;
 
-
-@Component
+@Component(value = "hibernateDataDao")
+//@Component
 public class DataDao extends BaseDao<Integer, Data>
 {
 }

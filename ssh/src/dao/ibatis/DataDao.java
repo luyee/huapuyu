@@ -13,6 +13,7 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 
 import dao.interf.Dao;
 
+//@Component(value = "ibatisDataDao")
 @Component
 public class DataDao extends SqlMapClientDaoSupport implements Dao<Integer, Data>
 {
