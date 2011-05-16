@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>1899-12-30 00:00:00.000.484,=C:\Documents and Settings\Anders\Desktop\hhre\sqlTest.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.968,=C:\Documents and Settings\Anders\Desktop\hhre\sql.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.187,C:\Documents and Settings\Anders\Desktop\hhre\sql.pas=</Transaction>
-  </Transactions>
-</BorlandProject>
