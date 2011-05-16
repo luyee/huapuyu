@@ -2,8 +2,8 @@ object FrmMain: TFrmMain
   Left = 194
   Top = 111
   Caption = #22831#22831#25151#20135#20013#20171#31649#29702#36719#20214
-  ClientHeight = 536
-  ClientWidth = 742
+  ClientHeight = 530
+  ClientWidth = 736
   Color = clAppWorkSpace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clBlack
@@ -19,8 +19,8 @@ object FrmMain: TFrmMain
   TextHeight = 13
   object sbMain: TStatusBar
     Left = 0
-    Top = 517
-    Width = 742
+    Top = 511
+    Width = 736
     Height = 19
     Margins.Left = 2
     Margins.Top = 2
@@ -28,6 +28,8 @@ object FrmMain: TFrmMain
     Margins.Bottom = 2
     Panels = <>
     SimplePanel = True
+    ExplicitTop = 517
+    ExplicitWidth = 742
   end
   object mmMain: TMainMenu
     AutoHotkeys = maManual

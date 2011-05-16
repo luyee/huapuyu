@@ -2,8 +2,8 @@ object FrmShh: TFrmShh
   Left = 197
   Top = 117
   Caption = #20108#25163#25151#31649#29702
-  ClientHeight = 582
-  ClientWidth = 748
+  ClientHeight = 576
+  ClientWidth = 742
   Color = clBtnFace
   ParentFont = True
   FormStyle = fsMDIChild
@@ -12,16 +12,18 @@ object FrmShh: TFrmShh
   Visible = True
   WindowState = wsMaximized
   OnClose = FormClose
+  OnResize = FormResize
   PixelsPerInch = 96
   TextHeight = 13
   object pnlControl: TPanel
     Left = 0
     Top = 0
-    Width = 748
+    Width = 742
     Height = 65
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitWidth = 748
     object btnNew: TButton
       Left = 16
       Top = 21
@@ -52,8 +54,8 @@ object FrmShh: TFrmShh
   object dbg: TDBGrid
     Left = 0
     Top = 65
-    Width = 748
-    Height = 517
+    Width = 742
+    Height = 511
     Align = alClient
     DataSource = ds
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]

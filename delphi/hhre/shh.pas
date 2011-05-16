@@ -18,6 +18,7 @@ type
     procedure btnNewClick(Sender: TObject);
     procedure btnQueryClick(Sender: TObject);
     procedure dbgCellClick(Column: TColumn);
+    procedure FormResize(Sender: TObject);
   private
     procedure Query;
     procedure AdvQuery;
@@ -56,6 +57,11 @@ end;
 procedure TFrmShh.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
+end;
+
+procedure TFrmShh.FormResize(Sender: TObject);
+begin
+  TCommon.AutoCfgDBGridSize(cds, dbg);
 end;
 
 procedure TFrmShh.Query;

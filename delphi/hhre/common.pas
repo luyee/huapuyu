@@ -28,6 +28,8 @@ var
   modInt: Integer;
   i: Integer;
 begin
+  dbg.Columns.Clear;
+
   for i := 0 to cds.Fields.Count - 1 do
   begin
     if SameStr(cds.Fields[i].FieldName, PRIMARY_KEY_NAME) then
@@ -37,9 +39,10 @@ begin
     col.FieldName := cds.Fields[i].FieldName;
     col.Title.Alignment := taCenter;
     col.Alignment := taCenter;
-    //说明：左边框、右边框和垂直滚动条一共20像素；两列之间有1像素，n列就有n-1像素，因此得出下面的计算公式width - 20 - (n - 1)
-    colWidth := (dbg.Width - 20 - (cds.FieldCount - 2)) div (cds.FieldCount - 1);
-    modInt := (dbg.Width - 20 - (cds.FieldCount - 2)) mod (cds.FieldCount - 1);
+    //经典样式中左边框、右边框和垂直滚动条一共20像素；XP样式中左边框、右边框和垂直滚动条一共21像素；
+    //两列之间有1像素，n列就有n-1像素，因此得出下面的计算公式width-21-(n-1)
+    colWidth := (dbg.Width - 21 - (cds.FieldCount - 2)) div (cds.FieldCount - 1);
+    modInt := (dbg.Width - 21 - (cds.FieldCount - 2)) mod (cds.FieldCount - 1);
 
     if (i = cds.Fields.Count - 1) and (modInt <> 0) then
       col.Width := colWidth + modInt
