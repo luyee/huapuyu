@@ -153,11 +153,6 @@ object FrmNew: TFrmNew
       Height = 21
       Style = csDropDownList
       TabOrder = 1
-      Items.Strings = (
-        'adfafasdfasfasd'
-        'afdasd'
-        'asf'
-        'asfsafas')
     end
     object cmbConstructType: TComboBox
       Left = 82
@@ -421,7 +416,7 @@ object FrmNew: TFrmNew
       Height = 21
       MaxLength = 50
       TabOrder = 0
-      OnExit = edtNameExit
+      OnExit = exitControl
     end
     object cmbProvince: TComboBox
       Left = 142
@@ -458,7 +453,7 @@ object FrmNew: TFrmNew
       Height = 21
       MaxLength = 8
       TabOrder = 5
-      OnExit = edtNameExit
+      OnExit = exitControl
     end
     object edtUnitPrice: TEdit
       Left = 142
@@ -475,7 +470,7 @@ object FrmNew: TFrmNew
       Height = 21
       MaxLength = 8
       TabOrder = 6
-      OnExit = edtNameExit
+      OnExit = exitControl
     end
     object edtAddress: TEdit
       Left = 142
@@ -484,7 +479,7 @@ object FrmNew: TFrmNew
       Height = 21
       MaxLength = 100
       TabOrder = 4
-      OnExit = edtNameExit
+      OnExit = exitControl
     end
     object edtBedroomCount: TEdit
       Left = 142
@@ -493,7 +488,7 @@ object FrmNew: TFrmNew
       Height = 21
       MaxLength = 2
       TabOrder = 9
-      OnExit = edtNameExit
+      OnExit = exitControl
     end
     object edtLivingRoomCount: TEdit
       Left = 192
@@ -502,7 +497,7 @@ object FrmNew: TFrmNew
       Height = 21
       MaxLength = 2
       TabOrder = 10
-      OnExit = edtNameExit
+      OnExit = exitControl
     end
     object edtKitchenCount: TEdit
       Left = 242
@@ -511,7 +506,7 @@ object FrmNew: TFrmNew
       Height = 21
       MaxLength = 2
       TabOrder = 11
-      OnExit = edtNameExit
+      OnExit = exitControl
     end
     object edtWashroomCount: TEdit
       Left = 292
@@ -520,7 +515,7 @@ object FrmNew: TFrmNew
       Height = 21
       MaxLength = 2
       TabOrder = 12
-      OnExit = edtNameExit
+      OnExit = exitControl
     end
     object edtUsableArea: TEdit
       Left = 142
@@ -529,7 +524,7 @@ object FrmNew: TFrmNew
       Height = 21
       MaxLength = 8
       TabOrder = 7
-      OnExit = edtNameExit
+      OnExit = exitControl
     end
     object cmbDirection: TComboBox
       Left = 142
@@ -553,7 +548,7 @@ object FrmNew: TFrmNew
       Height = 21
       MaxLength = 3
       TabOrder = 15
-      OnExit = edtNameExit
+      OnExit = exitControl
     end
     object edtFloor: TEdit
       Left = 142
@@ -562,7 +557,7 @@ object FrmNew: TFrmNew
       Height = 21
       MaxLength = 3
       TabOrder = 16
-      OnExit = edtNameExit
+      OnExit = exitControl
     end
     object cmbProperty: TComboBox
       Left = 142
@@ -579,7 +574,7 @@ object FrmNew: TFrmNew
       Height = 21
       MaxLength = 2
       TabOrder = 13
-      OnExit = edtNameExit
+      OnExit = exitControl
     end
   end
   object btnNew: TButton

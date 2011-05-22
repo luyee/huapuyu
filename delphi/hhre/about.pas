@@ -11,12 +11,14 @@ type
   TFrmAbout = class(TForm)
     SQLQuery1: TSQLQuery;
     Memo1: TMemo;
+    Button1: TButton;
     procedure Button1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
   private
     { Private declarations }
+    function GetWindowsLanguage(LCTYPE: LCTYPE): string;
   public
     { Public declarations }
   end;
@@ -28,11 +30,35 @@ implementation
 
 {$R *.dfm}
 
+function TFrmAbout.GetWindowsLanguage(LCTYPE: LCTYPE): string;
+var
+    Buffer : PChar;
+    Size : integer;
+begin
+    Size := GetLocaleInfo (LOCALE_USER_DEFAULT, LCType, nil, 0);
+    GetMem(Buffer, Size);
+    try
+    GetLocaleInfo (LOCALE_USER_DEFAULT, LCTYPE, Buffer, Size);
+    Result := string(Buffer);
+    finally
+    FreeMem(Buffer);
+    end;
+end;
+
 procedure TFrmAbout.Button1Click(Sender: TObject);
-//var
+var
 //  sqlCon: TSQLConnection;
 //  sqlQuery: TSQLQuery;
+    WinLanguage: array [0..50] of char;
 begin
+    VerLanguageName(GetSystemDefaultLangID, WinLanguage, 50);
+    ShowMessage(IntToStr(GetSystemDefaultLangID));
+    ShowMessage(StrPas(WinLanguage));
+    ShowMessage(GetWindowsLanguage(LOCALE_ILANGUAGE));
+    ShowMessage(GetWindowsLanguage(LOCALE_SLANGUAGE));
+    ShowMessage(GetWindowsLanguage(LOCALE_SENGLANGUAGE));
+    ShowMessage(GetWindowsLanguage(LOCALE_SABBREVLANGNAME));
+    ShowMessage(GetWindowsLanguage(LOCALE_SNATIVELANGNAME));
 //  sqlCon := TSQLConnection.Create(Application);
 //  sqlCon.DriverName := 'FIREBIRD';
 //  sqlCon.Params.Values['User_Name'] := 'sysdba';

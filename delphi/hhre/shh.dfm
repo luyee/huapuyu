@@ -19,14 +19,16 @@ object FrmShh: TFrmShh
     Left = 0
     Top = 0
     Width = 742
-    Height = 65
+    Height = 51
     Align = alTop
-    BevelOuter = bvNone
+    BevelInner = bvLowered
     TabOrder = 0
-    ExplicitWidth = 748
+    DesignSize = (
+      742
+      51)
     object btnNew: TButton
-      Left = 16
-      Top = 21
+      Left = 13
+      Top = 13
       Width = 75
       Height = 25
       Caption = #26032#24314
@@ -34,8 +36,8 @@ object FrmShh: TFrmShh
       OnClick = btnNewClick
     end
     object btnQuery: TButton
-      Left = 104
-      Top = 21
+      Left = 94
+      Top = 13
       Width = 75
       Height = 25
       Caption = #26597#35810#20840#37096
@@ -43,21 +45,97 @@ object FrmShh: TFrmShh
       OnClick = btnQueryClick
     end
     object btnAdvQry: TButton
-      Left = 192
-      Top = 21
+      Left = 175
+      Top = 13
       Width = 75
       Height = 25
       Caption = #39640#32423#26597#35810
       TabOrder = 2
     end
+    object btnGo: TButton
+      Left = 678
+      Top = 13
+      Width = 51
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = #36339#36716
+      Enabled = False
+      TabOrder = 8
+      OnClick = btnGoClick
+    end
+    object edtGo: TEdit
+      Left = 621
+      Top = 15
+      Width = 51
+      Height = 21
+      Anchors = [akTop, akRight]
+      Enabled = False
+      TabOrder = 7
+      OnExit = exitControl
+    end
+    object btnLast: TButton
+      Left = 564
+      Top = 13
+      Width = 51
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = #23614#39029
+      Enabled = False
+      TabOrder = 6
+      OnClick = btnLastClick
+    end
+    object btnNext: TButton
+      Left = 507
+      Top = 13
+      Width = 51
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = #19979#19968#39029
+      Enabled = False
+      TabOrder = 5
+      OnClick = btnNextClick
+    end
+    object btnPrior: TButton
+      Left = 452
+      Top = 13
+      Width = 49
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = #19978#19968#39029
+      Enabled = False
+      TabOrder = 4
+      OnClick = btnPriorClick
+    end
+    object btnFirst: TButton
+      Left = 396
+      Top = 13
+      Width = 50
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = #39318#39029
+      Enabled = False
+      TabOrder = 3
+      OnClick = btnFirstClick
+    end
+    object cmbGo: TComboBox
+      Left = 328
+      Top = 15
+      Width = 62
+      Height = 21
+      Style = csDropDownList
+      Enabled = False
+      TabOrder = 9
+      OnChange = cmbGoChange
+    end
   end
   object dbg: TDBGrid
     Left = 0
-    Top = 65
+    Top = 51
     Width = 742
-    Height = 511
+    Height = 506
     Align = alClient
     DataSource = ds
+    Enabled = False
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
@@ -66,6 +144,20 @@ object FrmShh: TFrmShh
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
     OnCellClick = dbgCellClick
+  end
+  object sb: TStatusBar
+    Left = 0
+    Top = 557
+    Width = 742
+    Height = 19
+    Panels = <
+      item
+        Alignment = taCenter
+        Width = 50
+      end>
+    ExplicitLeft = 440
+    ExplicitTop = 480
+    ExplicitWidth = 0
   end
   object ds: TDataSource
     DataSet = cds

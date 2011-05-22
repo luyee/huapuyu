@@ -14,7 +14,8 @@ uses
   common in 'common.pas',
   validator in 'validator.pas',
   sqlScript in 'sqlScript.pas',
-  stringBuilder in 'stringBuilder.pas';
+  stringBuilder in 'stringBuilder.pas',
+  page in 'page.pas';
 
 {$R *.RES}
 
