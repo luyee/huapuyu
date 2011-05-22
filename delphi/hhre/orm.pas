@@ -5,6 +5,9 @@ interface
 uses
   Rtti, SysUtils, TypInfo, stringBuilder, sql, DB, Forms, Dialogs, constant, Generics.Collections, Variants;
 
+const
+  DEFAULT_VALUE = -99;
+
 type
   TTableInfo = class(TCustomAttribute)
   strict private
@@ -91,7 +94,7 @@ begin
             begin
               case prop.GetValue(Self).Kind of
                 tkInteger, tkInt64, tkFloat:
-                  prop.SetValue(Self, -99);
+                  prop.SetValue(Self, DEFAULT_VALUE);
               else
                 prop.SetValue(Self, EmptyStr);
               end;
@@ -143,7 +146,7 @@ begin
         param := params.CreateParam(ftInteger, ':' + PRIMARY_KEY_NAME, ptInput);
         param.Value := pkValue;
 
-        sql := Format(DELETE_TEMPLATE, [table, whereExp]);
+        sql := Format(SQL_DELETE_TEMPLATE, [table, whereExp]);
 
         TSql.ExecuteSql(sql, params);
 
@@ -185,7 +188,7 @@ begin
           end;
         end;
 
-        sql := Format(DELETE_TEMPLATE, [table, whereExp]);
+        sql := Format(SQL_DELETE_TEMPLATE, [table, whereExp]);
 
         TSql.ExecuteSql(sql);
 
@@ -262,13 +265,13 @@ begin
                 end;
                 tkInteger, tkInt64:
                 begin
-                  if prop.GetValue(Self).AsInteger = -99 then
+                  if prop.GetValue(Self).AsInteger = DEFAULT_VALUE then
                     Continue;
                   param := params.CreateParam(ftInteger, ':' + (fieldAttr as TFieldInfo).Name, ptInput);
                 end;
                 tkFloat:
                 begin
-                  if StrToFloat(prop.GetValue(Self).ToString) = -99 then
+                  if StrToFloat(prop.GetValue(Self).ToString) = DEFAULT_VALUE then
                     Continue;
                   param := params.CreateParam(ftFloat, ':' + (fieldAttr as TFieldInfo).Name, ptInput);
                 end
@@ -287,7 +290,7 @@ begin
         Delete(fields, 1, 1);
         Delete(values, 1, 1);
 
-        sql := Format(INSERT_WITHOUT_ID_TEMPLATE, [table, fields, values]);
+        sql := Format(SQL_INSERT_TEMPLATE, [table, fields, values]);
 
         TSql.ExecuteSql(sql, params);
 
@@ -344,7 +347,7 @@ begin
         Delete(fields, 1, 1);
         Delete(values, 1, 1);
 
-        sql := Format(INSERT_TEMPLATE, [table, fields, values]);
+        sql := Format(SQL_INSERT_TEMPLATE, [table, fields, values]);
 
         TSql.ExecuteSql(sql);
 
@@ -374,7 +377,7 @@ begin
       if tableAttr is TTableInfo then
       begin
         table := (tableAttr as TTableInfo).Name;
-        map := TSql.ExecuteQueryRow(Format(SELECT_BY_ID_TEMPLATE, [table, IntToStr(id)]));
+        map := TSql.ExecuteQueryRow(Format(SQL_SELECT_BY_ID_TEMPLATE, [table, IntToStr(id)]));
 
         for prop in typ.GetProperties do
         begin
@@ -573,13 +576,13 @@ begin
                 end;
                 tkInteger, tkInt64:
                 begin
-                  if prop.GetValue(Self).AsInteger = -99 then
+                  if prop.GetValue(Self).AsInteger = DEFAULT_VALUE then
                     Continue;
                   param := params.CreateParam(ftInteger, ':' + (fieldAttr as TFieldInfo).Name, ptInput);
                 end;
                 tkFloat:
                 begin
-                  if StrToFloat(prop.GetValue(Self).ToString) = -99 then
+                  if StrToFloat(prop.GetValue(Self).ToString) = DEFAULT_VALUE then
                     Continue;
                   param := params.CreateParam(ftFloat, ':' + (fieldAttr as TFieldInfo).Name, ptInput);
                 end
@@ -598,7 +601,7 @@ begin
         Delete(fields, 1, 1);
         Delete(values, 1, 1);
 
-        sql := Format(INSERT_TEMPLATE, [table, fields, values]);
+        sql := Format(SQL_INSERT_TEMPLATE, [table, fields, values]);
 
         id := TSql.ExecuteInsert(sql, params);
 
@@ -669,7 +672,7 @@ begin
 
         Delete(setExps, 1, 1);
 
-        sql := Format(UPDATE_TEMPLATE, [table, setExps, whereExp]);
+        sql := Format(SQL_UPDATE_TEMPLATE, [table, setExps, whereExp]);
 
         TSql.ExecuteSql(sql);
 
@@ -743,7 +746,7 @@ begin
 
         Delete(setExps, 1, 1);
 
-        sql := Format(UPDATE_TEMPLATE, [table, setExps, whereExp]);
+        sql := Format(SQL_UPDATE_TEMPLATE, [table, setExps, whereExp]);
 
         TSql.ExecuteSql(sql, params);
 

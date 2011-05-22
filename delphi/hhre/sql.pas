@@ -28,7 +28,7 @@ var
   query: TSQLQuery;
   trans: TDBXTransaction;
 begin
-  Result := RETURN_FALSE;
+  Result := RETURN_ZERO;
   conn := TUtils.GetInstance.GetConnection;
   query := TUtils.GetInstance.GetQuery(conn);
   query.SQL.Text := sql;
@@ -62,7 +62,7 @@ var
   query: TSQLQuery;
   trans: TDBXTransaction;
 begin
-  Result := RETURN_FALSE;
+  Result := RETURN_ZERO;
   conn := TUtils.GetInstance.GetConnection;
   query := TUtils.GetInstance.GetQuery(conn);
   query.SQL.Text := sql;
@@ -93,7 +93,7 @@ class function TSql.ExecuteSqlNoTrans(const sql: string; const params: TParams):
 var
   query: TSQLQuery;
 begin
-  Result := RETURN_FALSE;
+  Result := RETURN_ZERO;
   query := TUtils.GetInstance.GetQuery;
   query.SQL.Text := sql;
 
@@ -230,7 +230,7 @@ class function TSql.ExecuteCount(const sql, fieldAsName: string): Integer;
 var
   query: TSQLQuery;
 begin
-  Result := RETURN_FALSE;
+  Result := RETURN_ZERO;
   query := TUtils.GetInstance.GetQuery;
   query.SQL.Text := sql;
 

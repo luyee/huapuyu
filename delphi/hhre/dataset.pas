@@ -26,7 +26,7 @@ end;
 function TDataSet.getSize: Integer;
 begin
   if ds = nil then
-    Result := RETURN_FALSE
+    Result := RETURN_ZERO
   else
     Result := ds.Count;
 end;

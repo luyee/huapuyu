@@ -111,18 +111,18 @@ procedure TFrmEdit.btnNewClick(Sender: TObject);
 var
   i: Integer;
 begin
-  TValidator.EmptyStrCheck(edtName, BUILDING_NAME);
-  TValidator.EmptyStrCheck(edtAddress, ADDRESS);
-  TValidator.EmptyStrCheck(edtPrice, PRICE);
-  TValidator.EmptyStrCheck(edtBuildingArea, BUILDING_AREA);
-  TValidator.EmptyStrCheck(edtUsableArea, USABLE_AREA);
-  TValidator.EmptyStrCheck(edtBedroomCount, BEDROOM);
-  TValidator.EmptyStrCheck(edtLivingRoomCount, LIVING_ROOM);
-  TValidator.EmptyStrCheck(edtKitchenCount, KITCHEN);
-  TValidator.EmptyStrCheck(edtWashroomCount, WASHROOM);
-  TValidator.EmptyStrCheck(edtBalconyCount, BALCONY);
-  TValidator.EmptyStrCheck(edtTotalFloor, TOTAL_FLOOR);
-  TValidator.EmptyStrCheck(edtFloor, FLOOR);
+  TValidator.ValidEmptyStr(edtName, BUILDING_NAME);
+  TValidator.ValidEmptyStr(edtAddress, ADDRESS);
+  TValidator.ValidEmptyStr(edtPrice, PRICE);
+  TValidator.ValidEmptyStr(edtBuildingArea, BUILDING_AREA);
+  TValidator.ValidEmptyStr(edtUsableArea, USABLE_AREA);
+  TValidator.ValidEmptyStr(edtBedroomCount, BEDROOM);
+  TValidator.ValidEmptyStr(edtLivingRoomCount, LIVING_ROOM);
+  TValidator.ValidEmptyStr(edtKitchenCount, KITCHEN);
+  TValidator.ValidEmptyStr(edtWashroomCount, WASHROOM);
+  TValidator.ValidEmptyStr(edtBalconyCount, BALCONY);
+  TValidator.ValidEmptyStr(edtTotalFloor, TOTAL_FLOOR);
+  TValidator.ValidEmptyStr(edtFloor, FLOOR);
 
   secondHandHouse.Price := StrToFloat(Trim(edtPrice.Text));
   secondHandHouse.BuildingArea := StrToFloat(Trim(edtBuildingArea.Text));
@@ -245,80 +245,80 @@ begin
     //楼盘名称
     0:
     begin
-      TValidator.EmptyStrCheck(edtName, BUILDING_NAME);
+      TValidator.ValidEmptyStr(edtName, BUILDING_NAME);
     end;
     //详细地址
     4:
     begin
-      TValidator.EmptyStrCheck(edtAddress, ADDRESS);
+      TValidator.ValidEmptyStr(edtAddress, ADDRESS);
     end;
     //售价
     5:
     begin
-      TValidator.EmptyStrCheck(edtPrice, PRICE);
-      TValidator.TwoDecimalsCheck(edtPrice, PRICE);
+      TValidator.ValidEmptyStr(edtPrice, PRICE);
+      TValidator.ValidTwoDecimals(edtPrice, PRICE);
       if TCommon.ControlValueIsNotEmpty(edtBuildingArea) then
         edtUnitPrice.Text := FormatFloat(FORMAT_TWO_DECIMALS, StrToFloat(Trim(edtPrice.Text)) * FORMAT_TEN_THOUSAND / StrToFloat(Trim(edtBuildingArea.Text)));
     end;
     //建筑面积
     6:
     begin
-      TValidator.EmptyStrCheck(edtBuildingArea, BUILDING_AREA);
-      TValidator.TwoDecimalsCheck(edtBuildingArea, BUILDING_AREA);
+      TValidator.ValidEmptyStr(edtBuildingArea, BUILDING_AREA);
+      TValidator.ValidTwoDecimals(edtBuildingArea, BUILDING_AREA);
       if TCommon.ControlValueIsNotEmpty(edtPrice) then
         edtUnitPrice.Text := FormatFloat(FORMAT_TWO_DECIMALS, StrToFloat(Trim(edtPrice.Text)) * FORMAT_TEN_THOUSAND / StrToFloat(Trim(edtBuildingArea.Text)));
     end;
     //使用面积
     7:
     begin
-      TValidator.EmptyStrCheck(edtUsableArea, USABLE_AREA);
-      TValidator.TwoDecimalsCheck(edtUsableArea, USABLE_AREA);
+      TValidator.ValidEmptyStr(edtUsableArea, USABLE_AREA);
+      TValidator.ValidTwoDecimals(edtUsableArea, USABLE_AREA);
     end;
     //室
     9:
     begin
-      TValidator.EmptyStrCheck(edtBedroomCount, BEDROOM);
-      TValidator.TwoFiguresCheck(edtBedroomCount, BEDROOM);
+      TValidator.ValidEmptyStr(edtBedroomCount, BEDROOM);
+      TValidator.ValidTwoFigures(edtBedroomCount, BEDROOM);
     end;
     //厅
     10:
     begin
-      TValidator.EmptyStrCheck(edtLivingRoomCount, LIVING_ROOM);
-      TValidator.TwoFiguresCheck(edtLivingRoomCount, LIVING_ROOM);
+      TValidator.ValidEmptyStr(edtLivingRoomCount, LIVING_ROOM);
+      TValidator.ValidTwoFigures(edtLivingRoomCount, LIVING_ROOM);
     end;
     //厨
     11:
     begin
-      TValidator.EmptyStrCheck(edtKitchenCount, KITCHEN);
-      TValidator.TwoFiguresCheck(edtKitchenCount, KITCHEN);
+      TValidator.ValidEmptyStr(edtKitchenCount, KITCHEN);
+      TValidator.ValidTwoFigures(edtKitchenCount, KITCHEN);
     end;
     //卫
     12:
     begin
-      TValidator.EmptyStrCheck(edtWashroomCount, WASHROOM);
-      TValidator.TwoFiguresCheck(edtWashroomCount, WASHROOM);
+      TValidator.ValidEmptyStr(edtWashroomCount, WASHROOM);
+      TValidator.ValidTwoFigures(edtWashroomCount, WASHROOM);
     end;
     //阳台
     13:
     begin
-      TValidator.EmptyStrCheck(edtBalconyCount, BALCONY);
-      TValidator.TwoFiguresCheck(edtBalconyCount, BALCONY);
+      TValidator.ValidEmptyStr(edtBalconyCount, BALCONY);
+      TValidator.ValidTwoFigures(edtBalconyCount, BALCONY);
     end;
     //总楼层
     15:
     begin
-      TValidator.EmptyStrCheck(edtTotalFloor, TOTAL_FLOOR);
-      TValidator.ThreeFiguresCheck(edtTotalFloor, TOTAL_FLOOR);
+      TValidator.ValidEmptyStr(edtTotalFloor, TOTAL_FLOOR);
+      TValidator.ValidThreeFigures(edtTotalFloor, TOTAL_FLOOR);
       if TCommon.ControlValueIsNotEmpty(edtFloor) then
-        TValidator.TwoControlsIntGreatCheck(edtTotalFloor, edtFloor, TOTAL_FLOOR, FLOOR);
+        TValidator.ValidTwoIntGreat(edtTotalFloor, edtFloor, TOTAL_FLOOR, FLOOR);
     end;
     //所在楼层
     16:
     begin
-      TValidator.EmptyStrCheck(edtFloor, FLOOR);
-      TValidator.ThreeFiguresCheck(edtFloor, FLOOR);
+      TValidator.ValidEmptyStr(edtFloor, FLOOR);
+      TValidator.ValidThreeFigures(edtFloor, FLOOR);
       if TCommon.ControlValueIsNotEmpty(edtTotalFloor) then
-        TValidator.TwoControlsIntSmallCheck(edtFloor, edtTotalFloor, FLOOR, TOTAL_FLOOR);
+        TValidator.ValidTwoIntSmall(edtFloor, edtTotalFloor, FLOOR, TOTAL_FLOOR);
     end;
   end;
 end;
