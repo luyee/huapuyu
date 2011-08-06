@@ -222,10 +222,6 @@
     <Content Include="Libs\Common.Logging.dll" />
     <Content Include="Libs\DotNetMock.dll" />
     <Content Include="Libs\DotNetMock.Framework.dll" />
-    <Content Include="Libs\IBatisNet.Common.dll" />
-    <Content Include="Libs\IBatisNet.Common.Logging.Log4Net.dll" />
-    <Content Include="Libs\IBatisNet.DataAccess.dll" />
-    <Content Include="Libs\IBatisNet.DataMapper.dll" />
     <Content Include="Libs\Iesi.Collections.dll" />
     <Content Include="Libs\LinFu.DynamicProxy.dll" />
     <Content Include="Libs\log4net.dll" />
