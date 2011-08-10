@@ -14,7 +14,8 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.wicketstuff.annotation.mount.MountPath;
 
-import annotation.ZhuZhen;
+import com.anders.ssh.annotation.ZhuZhen;
+
 
 @MountPath(path = "home")
 public class HomePage extends WebPage

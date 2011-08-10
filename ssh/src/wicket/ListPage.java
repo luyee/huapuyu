@@ -17,7 +17,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.resource.StringResourceStream;
 import org.wicketstuff.annotation.mount.MountPath;
 
-import annotation.ZhuZhen;
+import com.anders.ssh.annotation.ZhuZhen;
+
 
 @MountPath(path = "list")
 public class ListPage extends WebPage
