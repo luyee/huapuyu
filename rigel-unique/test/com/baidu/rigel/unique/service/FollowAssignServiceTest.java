@@ -46,5 +46,6 @@ public class FollowAssignServiceTest {
 	public void testFindCustUrlByCustId() {
 		Assert.assertEquals(1234, followAssignService.getFollowerId(1234L).longValue());
 		Assert.assertNull(followAssignService.getFollowerId(12345L));
+		Assert.assertNull(followAssignService.getFollowerId(null));
 	}
 }
