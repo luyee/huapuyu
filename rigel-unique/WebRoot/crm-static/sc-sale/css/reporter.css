@@ -1,0 +1,73 @@
+ul{list-style:none;margin:0;padding:0}
+li{margin:0;padding:0;}
+
+.form-layout th{padding-right:10px;}
+.form-layout p{line-height:24px;}
+
+.dotline{margin:10px 0;height:0px;border-top:1px dotted #DFF4CD;line-height:1px;overflow:hidden;}
+
+.select-imitator{overflow:hidden;}
+.select-imitator div{float:left;width:140px;}
+.amendor{padding:0 10px;vertical-align:middle;float:left;}
+.amendor button{display:block;margin:10px 0;}
+
+#ExtraCondition input{margin-left:10px;}
+#ExtraCondition p{margin-top:4px;}
+
+
+.export-data{text-align:right;}
+.scope-list{margin-top:10px;}
+.data-list{margin-top:10px;}
+
+
+
+.table {
+   font-family:Arial,ËÎÌו;
+   border-top:1px solid #CCE9B9;
+   border-left:1px solid #CCE9B9;
+   border-bottom:1px solid #CCE9B9;
+   overflow:hidden;
+}
+.table .title {
+   font-weight:bold;
+   font-size:14px;
+   color:#326700;
+   background-color:#DCEFD1;
+   height:27px;
+   line-height:27px;
+}
+.table .n1 {
+   width:200px;
+}
+.table .n2 {
+   width:200px;
+}
+.table .n3 {
+   width:200px;
+}
+.table .col4 {
+   width:200px;
+}
+.table .n1data {
+   text-align:left;
+}
+.table div {
+   height:25px;
+   width:100px;
+   overflow:hidden;
+   white-space:nowrap;
+   float:left;
+   border-right:1px solid #CCE9B9;
+   text-align:center;
+   font-size:12px;
+   line-height:25px;
+}
+.table .link {
+   color:#0101FF;
+   text-decoration:underline;
+   cursor:pointer;
+}
+
+
+
+

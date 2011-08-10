@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="whitelist" extends="rigel-default" namespace="/whitelist">
+         
+        <action name="querywhitelist" class="com.baidu.rigel.unique.action.UrlWhitelistAction" method="queryWhitelist">
+            <interceptor-ref name="baseStack"/>
+            <!--<interceptor-ref name="researchInterceptor"/>-->
+            <result name="success" type="velocity">/whitelist/whitelist.vm</result>
+        </action>
+        
+        <action name="addwhitelist" class="com.baidu.rigel.unique.action.UrlWhitelistAction" method="addWhitelist">
+            <interceptor-ref name="baseStack"/>
+            <!--<interceptor-ref name="researchInterceptor"/>-->
+            <result name="success" type="velocity">/whitelist/whitelist.vm</result>
+        </action>
+        
+        <action name="modwhitelist" class="com.baidu.rigel.unique.action.UrlWhitelistAction" method="modWhitelist">
+            <interceptor-ref name="baseStack"/>
+            <!--<interceptor-ref name="researchInterceptor"/>-->
+            <result name="success" type="velocity">/whitelist/whitelist.vm</result>
+        </action>
+        
+        <action name="delwhitelist" class="com.baidu.rigel.unique.action.UrlWhitelistAction" method="delWhitelist">
+            <interceptor-ref name="baseStack"/>
+            <!--<interceptor-ref name="researchInterceptor"/>-->
+            <result name="success" type="velocity">/whitelist/whitelist.vm</result>
+        </action>
+        
+    </package>
+	
+</struts>

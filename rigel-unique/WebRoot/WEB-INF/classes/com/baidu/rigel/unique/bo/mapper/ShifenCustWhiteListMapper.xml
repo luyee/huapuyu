@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.rigel.unique.dao.ShifenCustWhiteListMapper" >
+  <select id="selectShifenCustWhiteListByUrl" resultMap="BaseResultMap" parameterType="String" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM tb_shifen_cust_white_list
+    WHERE del_flag = 0 AND url = #{url}
+  </select>
+  
+  <select id="selectDisUserIdByPosIdList" resultType="Long" >
+    SELECT 
+    DISTINCT user_id
+    FROM tb_shifen_cust_white_list
+    WHERE del_flag = 0 
+    <if test="list != null and list.size > 0">
+    	AND pos_id IN 
+	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</if>
+  </select>
+  
+  <select id="selectDisCreateIdByPosIdList" resultType="Long" >
+    SELECT 
+    DISTINCT create_id
+    FROM tb_shifen_cust_white_list
+    WHERE del_flag = 0
+    <if test="list != null and list.size > 0">
+    	AND pos_id IN 
+	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</if>
+  </select>
+  
+  <select id="pageList" resultMap="BaseResultMap" parameterType="Map" >
+    SELECT 
+	<include refid="Base_Column_List" />
+    FROM tb_shifen_cust_white_list 
+    WHERE del_flag = 0
+    <if test="custName != null">
+	AND cust_name LIKE #{custName}
+    </if>
+    <if test="url != null">
+	AND url LIKE #{url}
+    </if>
+    <if test="userId != null">
+	AND user_id = #{userId}
+    </if>
+    <if test="createId != null">
+	AND create_id = #{createId}
+    </if>
+    <if test="list != null and list.size > 0">
+    	AND pos_id IN 
+	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</if>
+    LIMIT #{start}, #{count}
+  </select>
+  
+  <select id="pageCount" resultType="Long" parameterType="Map" >
+    SELECT 
+	COUNT(*)
+    FROM tb_shifen_cust_white_list 
+    WHERE del_flag = 0
+    <if test="custName != null">
+	AND cust_name LIKE #{custName}
+    </if>
+    <if test="url != null">
+	AND url LIKE #{url}
+    </if>
+    <if test="userId != null">
+	AND user_id = #{userId}
+    </if>
+    <if test="createId != null">
+	AND create_id = #{createId}
+    </if>
+    <if test="list != null and list.size > 0">
+    	AND pos_id IN 
+	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</if>
+  </select>
+  
+  <update id="deleteShifenCustWhiteList" parameterType="Long" >
+    UPDATE tb_shifen_cust_white_list
+    SET del_flag = 1
+    WHERE id = #{id}
+  </update>
+</mapper>

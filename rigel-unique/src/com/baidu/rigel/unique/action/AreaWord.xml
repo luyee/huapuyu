@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="areaWord" extends="rigel-default" namespace="/areaWord">
+        <action name="listAreaWord" class="com.baidu.rigel.unique.action.AreaWordAction" method="listAreaWord">
+            <result name="success" type="velocity">/areaWord/listAreaWord.vm</result>
+        </action>
+        <action name="addAreaWord" class="com.baidu.rigel.unique.action.AreaWordAction" method="addAreaWord">
+             <result name="success" type="redirect">
+       		 		<param name="location">/areaWord/listAreaWord.action</param>
+       		  </result>
+        </action>
+        <action name="deleteAreaWord" class="com.baidu.rigel.unique.action.AreaWordAction" method="deleteAreaWord">
+        	  <result name="success" type="redirect">
+       		 		<param name="location">/areaWord/listAreaWord.action</param>
+       		  </result>
+        </action>
+        <action name="updateAreaWord" class="com.baidu.rigel.unique.action.AreaWordAction" method="updateAreaWord">
+        	  <result name="success" type="redirect">
+       		 		<param name="location">/areaWord/listAreaWord.action</param>
+       		  </result>
+        </action>
+    </package>
+</struts>

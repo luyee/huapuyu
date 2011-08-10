@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="myCacheManager"
+		class="com.baidu.rigel.service.cache.service.impl.MyCacheManagerImpl">
+		<property name="getType">
+			<value>1</value>
+		</property>
+		<property name="domainList">
+			<list>
+				<ref local="domain1" />
+				<ref local="domain2" />
+			</list>
+		</property>
+		<property name="cacheProperties" ref="cacheProperties"></property>
+	</bean>
+	<bean id="domain1" class="com.baidu.rigel.service.cache.bo.MyCacheDomain">
+		<property name="domain">
+			<map key-type="java.lang.String">
+				<entry key="cacheClient1" value-ref="tcCacheClient01" />
+				<entry key="cacheClient2" value-ref="jxCacheClient01" />
+			</map>
+		</property>
+		<property name="domainName">
+			<value>domain1</value>
+		</property>
+	</bean>
+
+	<bean id="domain2" class="com.baidu.rigel.service.cache.bo.MyCacheDomain">
+		<property name="domain">
+			<map key-type="java.lang.String">
+				<entry key="cacheClient1" value-ref="tcCacheClient02" />
+				<entry key="cacheClient2" value-ref="jxCacheClient02" />
+			</map>
+		</property>
+		<property name="domainName">
+			<value>domain2</value>
+		</property>
+	</bean>
+
+	<bean id="tcCacheClient01" class="com.baidu.rigel.service.cache.CacheClient">
+		<property name="cachename">
+			<value>${tc01.sessionCache.cachename}</value>
+		</property>
+		<property name="addrs">
+			<value>${tc01.sessionCache.addrs}</value>
+		</property>
+	</bean>
+
+	<bean id="tcCacheClient02" class="com.baidu.rigel.service.cache.CacheClient">
+		<property name="cachename">
+			<value>${tc02.sessionCache.cachename}</value>
+		</property>
+		<property name="addrs">
+			<value>${tc02.sessionCache.addrs}</value>
+		</property>
+	</bean>
+
+	<bean id="jxCacheClient01" class="com.baidu.rigel.service.cache.CacheClient">
+		<property name="cachename">
+			<value>${jx01.sessionCache.cachename}</value>
+		</property>
+		<property name="addrs">
+			<value>${jx01.sessionCache.addrs}</value>
+		</property>
+	</bean>
+
+	<bean id="jxCacheClient02" class="com.baidu.rigel.service.cache.CacheClient">
+		<property name="cachename">
+			<value>${jx02.sessionCache.cachename}</value>
+		</property>
+		<property name="addrs">
+			<value>${jx02.sessionCache.addrs}</value>
+		</property>
+	</bean>
+
+	<bean id="cacheProperties" class="com.baidu.rigel.service.cache.bo.CacheProperties">
+		<property name="bigSessionSize">
+			<value>${sessionCache.bigSessionSize}</value>
+		</property>
+		<property name="mySessionId">
+			<value>${sessionCache.mySessionId}</value>
+		</property>
+	</bean>
+
+</beans>

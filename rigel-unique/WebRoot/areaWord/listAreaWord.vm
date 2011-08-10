@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+#parse('/utils.vm')
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="/rigel-unique/crm-static/sc-sale/css/global.css" type="text/css">
+<link rel="stylesheet" href="/rigel-unique/crm-static/sc-sale/css/sale.css" type="text/css">
+<script type="text/javascript" src="/rigel-unique/crm-static/core/core.js"></script>
+<script type="text/javascript" src="/rigel-unique/crm-static/core/ui.js"></script>
+<script type="text/javascript" src="/rigel-unique/crm-static/sc-sale/js/table.js"></script>
+<script type="text/javascript">
+function validateForm(form){
+    G('wordErr').innerHTML = "";
+    var value = form["word"].value = form["word"].value.trim();
+    var pass = /^[\u3040-\u9FFF\uAC00-\uD7AFa-zA-Z\d]{2,}$/.test(value)
+    if (!pass) {
+        G('wordErr').innerHTML = "请填写至少两个字符，只可填写中文、日文、韩文以及数字、英文字母";
+        return false;
+    }
+}
+function saveClick(data, param){
+    var frm = document.forms['updateSave'];
+    frm['id'].value = param;
+    frm['posId'].value = data['posId']; 
+    var word = data['word'].trim();
+    var pass = /^[\u3040-\u9FFF\uAC00-\uD7AFa-zA-Z\d]{2,20}$/.test(word)
+    if (!pass) {
+        alert("请填写2个~20个以内字符，只可填写中文、日文、韩文以及数字、英文字母");
+        return false;
+    }
+    frm['word'].value = word
+    frm.submit();
+}
+</script>
+</head>
+<body>
+#if($unitList.size()>1)
+    #set ($unitFlag = true)
+#end
+<div class="nav"><p>当前位置：客户地域词设定</p></div>
+<div class="wrapper">
+    #globalMsg
+    <div class="area-w"></div><div class="area-v"></div>
+    <div class="area">
+        <div class="mess-query air">
+            <div class="area-w"></div><div class="area-v"></div>
+            <div class="area">
+                <form class="area-inner" method="post" action="addAreaWord.action" onsubmit="return validateForm(this)" name="addAreaWord">
+                    <table cellpadding="5">
+                        <tr #if(!$unitFlag)style="display:none"#end>
+                            <th>分公司列表</th>
+                            <td>
+                                #list("posId" $unitList "$!posId" "select" "id='posId'")
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>地域词</th>
+                            <td>
+                                <input type="input" maxlength="20" name="word">
+                            </td>
+                            <td>
+                                <div class="tip-r" id="wordErr"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td clospan="2">
+                                <input type="submit" value="添加" class="btn-g">
+                                <input type="reset" value="重置" class="btn-r">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="area-v"></div><div class="area-w"></div>
+            
+            <!--表格区域-->
+            <div class="air">
+                #set($lstTitles=[
+                    {"chn":"", "eval":'$!item.posId', "edit":'"posId"'},
+                    {"chn":"设定人", "eval":'$!item.addedUserName', "width":"20%"},
+                    {"chn":"设定时间","eval":'$dateUtils.formatDate($item.addedTime,$dateFormat)',"width":"15%"},
+                    {"chn":"分公司名称", "eval":'$!item.unitName', "width":"20%"},
+                    {"chn":"地域词", "eval":'$!item.word', "width":"30%", "edit":"'word'"},
+                    {"chn":"操作", "eval":"
+                        <span class='link' onclick='this.parentNode.parentNode.edit($dataRow, $item.id);'>修改</span>&nbsp;
+                        <a href='deleteAreaWord.action?id=$item.id' onclick='return confirm($quote$deleteConfirmText$quote)'>删除</a>
+                        ","width":"10%", "edit":true}
+                ])
+                #table($lstTitles $lstTitles $areaList)             
+            </div>            
+        </div>
+    </div>
+    <div class="area-v"></div><div class="area-w"></div>
+</div><!--wrapper-->
+<form name="query" action="listAreaWord.action"></form>
+<form method="post" action="updateAreaWord.action" name="updateSave">
+    <input type="hidden" name="id" value="" >
+    <input type="hidden" name="posId" value="">
+    <input type="hidden" name="word" value="" >
+</form>
+</body>
+</html>

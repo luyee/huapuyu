@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd   
+    http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <!-- com中的用户中心接口 -->
+    <bean id="userMgr" class="com.baidu.rigel.service.usercenter.service.impl.UserMgrImpl">
+        <property name="acctService" ref="acctService" />
+        <property name="acctDataService" ref="acctDataService" />
+        <property name="posService" ref="posService" />
+        <property name="posDataService" ref="posDataService" />
+        <property name="authService" ref="authService" />
+        <!-- Add by MENGRAN for discriminate login-able or not -->
+        <property name="loginService" ref="loginService" />
+    </bean>
+    
+    
+	<bean id="loginService" class="com.baidu.rigel.service.lb.LoadBalanceProxyFactoryBean">
+		<property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.LoginService"></property>
+
+		<property name="targetBeans">
+			<map key-type="java.lang.String">
+				<entry key="loginService_1" value-ref="loginService_1" />
+				<entry key="loginService_2" value-ref="loginService_2" />
+				<entry key="loginService_3" value-ref="loginService_3" />
+				<entry key="loginService_4" value-ref="loginService_4" />
+
+			</map>
+		</property>
+		<property name="loadBalanceStrategy">
+			<bean
+				class="com.baidu.rigel.service.lb.strategy.RoundRobinLoadBalanceStrategy">
+				<constructor-arg>
+					<map key-type="java.lang.String" value-type="java.lang.Integer">
+						<entry key="loginService_1" value="1" />
+						<entry key="loginService_2" value="1" />
+						<entry key="loginService_3" value="1" />
+						<entry key="loginService_4" value="1" />
+
+					</map>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="failOverInterceptor">
+			<bean class="com.baidu.rigel.service.lb.failover.mcpack.McpackFailOverInterceptor">
+				<property name="recoverServiceUrls">
+					<map key-type="java.lang.String">
+						<entry key="loginService_1" value="${loginService.url_1}" />
+						<entry key="loginService_2" value="${loginService.url_2}" />
+						<entry key="loginService_3" value="${loginService.url_3}" />
+						<entry key="loginService_4" value="${loginService.url_4}" />
+					</map>
+				</property>
+			</bean>
+		</property>
+		<property name="heartBeat" value="true">
+		</property>
+		<property name="recoverInterval" value="5000"></property>
+	</bean>
+    
+    
+	<bean id="authService" class="com.baidu.rigel.service.lb.LoadBalanceProxyFactoryBean">
+		<property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AuthService"></property>
+
+		<property name="targetBeans">
+			<map key-type="java.lang.String">
+				<entry key="authService_1" value-ref="authService_1" />
+				<entry key="authService_2" value-ref="authService_2" />
+				<entry key="authService_3" value-ref="authService_3" />
+				<entry key="authService_4" value-ref="authService_4" />
+
+			</map>
+		</property>
+		<property name="loadBalanceStrategy">
+			<bean
+				class="com.baidu.rigel.service.lb.strategy.RoundRobinLoadBalanceStrategy">
+				<constructor-arg>
+					<map key-type="java.lang.String" value-type="java.lang.Integer">
+						<entry key="authService_1" value="1" />
+						<entry key="authService_2" value="1" />
+						<entry key="authService_3" value="1" />
+						<entry key="authService_4" value="1" />
+
+					</map>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="failOverInterceptor">
+			<bean class="com.baidu.rigel.service.lb.failover.mcpack.McpackFailOverInterceptor">
+				<property name="recoverServiceUrls">
+					<map key-type="java.lang.String">
+						<entry key="authService_1" value="${authService.url_1}" />
+						<entry key="authService_2" value="${authService.url_2}" />
+						<entry key="authService_3" value="${authService.url_3}" />
+						<entry key="authService_4" value="${authService.url_4}" />
+					</map>
+				</property>
+			</bean>
+		</property>
+		<property name="heartBeat" value="true">
+		</property>
+		<property name="recoverInterval" value="5000"></property>
+	</bean>
+    
+    
+    
+	<bean id="posDataService" class="com.baidu.rigel.service.lb.LoadBalanceProxyFactoryBean">
+		<property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.PosDataService"></property>
+
+		<property name="targetBeans">
+			<map key-type="java.lang.String">
+				<entry key="posDataService_1" value-ref="posDataService_1" />
+				<entry key="posDataService_2" value-ref="posDataService_2" />
+				<entry key="posDataService_3" value-ref="posDataService_3" />
+				<entry key="posDataService_4" value-ref="posDataService_4" />
+
+			</map>
+		</property>
+		<property name="loadBalanceStrategy">
+			<bean
+				class="com.baidu.rigel.service.lb.strategy.RoundRobinLoadBalanceStrategy">
+				<constructor-arg>
+					<map key-type="java.lang.String" value-type="java.lang.Integer">
+						<entry key="posDataService_1" value="1" />
+						<entry key="posDataService_2" value="1" />
+						<entry key="posDataService_3" value="1" />
+						<entry key="posDataService_4" value="1" />
+
+					</map>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="failOverInterceptor">
+			<bean class="com.baidu.rigel.service.lb.failover.mcpack.McpackFailOverInterceptor">
+				<property name="recoverServiceUrls">
+					<map key-type="java.lang.String">
+						<entry key="posDataService_1" value="${posDataService.url_1}" />
+						<entry key="posDataService_2" value="${posDataService.url_2}" />
+						<entry key="posDataService_3" value="${posDataService.url_3}" />
+						<entry key="posDataService_4" value="${posDataService.url_4}" />
+					</map>
+				</property>
+			</bean>
+		</property>
+		<property name="heartBeat" value="true">
+		</property>
+		<property name="recoverInterval" value="5000"></property>
+	</bean>
+    
+    
+    
+	<bean id="posService" class="com.baidu.rigel.service.lb.LoadBalanceProxyFactoryBean">
+		<property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.PosService"></property>
+
+		<property name="targetBeans">
+			<map key-type="java.lang.String">
+				<entry key="posService_1" value-ref="posService_1" />
+				<entry key="posService_2" value-ref="posService_2" />
+				<entry key="posService_3" value-ref="posService_3" />
+				<entry key="posService_4" value-ref="posService_4" />
+
+			</map>
+		</property>
+		<property name="loadBalanceStrategy">
+			<bean
+				class="com.baidu.rigel.service.lb.strategy.RoundRobinLoadBalanceStrategy">
+				<constructor-arg>
+					<map key-type="java.lang.String" value-type="java.lang.Integer">
+						<entry key="posService_1" value="1" />
+						<entry key="posService_2" value="1" />
+						<entry key="posService_3" value="1" />
+						<entry key="posService_4" value="1" />
+
+					</map>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="failOverInterceptor">
+			<bean class="com.baidu.rigel.service.lb.failover.mcpack.McpackFailOverInterceptor">
+				<property name="recoverServiceUrls">
+					<map key-type="java.lang.String">
+						<entry key="posService_1" value="${posService.url_1}" />
+						<entry key="posService_2" value="${posService.url_2}" />
+						<entry key="posService_3" value="${posService.url_3}" />
+						<entry key="posService_4" value="${posService.url_4}" />
+					</map>
+				</property>
+			</bean>
+		</property>
+		<property name="heartBeat" value="true">
+		</property>
+		<property name="recoverInterval" value="5000"></property>
+	</bean>
+    
+    
+	<bean id="acctService" class="com.baidu.rigel.service.lb.LoadBalanceProxyFactoryBean">
+		<property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AcctService"></property>
+
+		<property name="targetBeans">
+			<map key-type="java.lang.String">
+				<entry key="acctService_1" value-ref="acctService_1" />
+				<entry key="acctService_2" value-ref="acctService_2" />
+				<entry key="acctService_3" value-ref="acctService_3" />
+				<entry key="acctService_4" value-ref="acctService_4" />
+
+			</map>
+		</property>
+		<property name="loadBalanceStrategy">
+			<bean
+				class="com.baidu.rigel.service.lb.strategy.RoundRobinLoadBalanceStrategy">
+				<constructor-arg>
+					<map key-type="java.lang.String" value-type="java.lang.Integer">
+						<entry key="acctService_1" value="1" />
+						<entry key="acctService_2" value="1" />
+						<entry key="acctService_3" value="1" />
+						<entry key="acctService_4" value="1" />
+
+					</map>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="failOverInterceptor">
+			<bean class="com.baidu.rigel.service.lb.failover.mcpack.McpackFailOverInterceptor">
+				<property name="recoverServiceUrls">
+					<map key-type="java.lang.String">
+						<entry key="acctService_1" value="${acctService.url_1}" />
+						<entry key="acctService_2" value="${acctService.url_2}" />
+						<entry key="acctService_3" value="${acctService.url_3}" />
+						<entry key="acctService_4" value="${acctService.url_4}" />
+					</map>
+				</property>
+			</bean>
+		</property>
+		<property name="heartBeat" value="true">
+		</property>
+		<property name="recoverInterval" value="5000"></property>
+	</bean>
+    
+    
+	<bean id="acctDataService" class="com.baidu.rigel.service.lb.LoadBalanceProxyFactoryBean">
+		<property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AcctDataService"></property>
+
+		<property name="targetBeans">
+			<map key-type="java.lang.String">
+				<entry key="acctDataService_1" value-ref="acctDataService_1" />
+				<entry key="acctDataService_2" value-ref="acctDataService_2" />
+				<entry key="acctDataService_3" value-ref="acctDataService_3" />
+				<entry key="acctDataService_4" value-ref="acctDataService_4" />
+
+			</map>
+		</property>
+		<property name="loadBalanceStrategy">
+			<bean
+				class="com.baidu.rigel.service.lb.strategy.RoundRobinLoadBalanceStrategy">
+				<constructor-arg>
+					<map key-type="java.lang.String" value-type="java.lang.Integer">
+						<entry key="acctDataService_1" value="1" />
+						<entry key="acctDataService_2" value="1" />
+						<entry key="acctDataService_3" value="1" />
+						<entry key="acctDataService_4" value="1" />
+
+					</map>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="failOverInterceptor">
+			<bean class="com.baidu.rigel.service.lb.failover.mcpack.McpackFailOverInterceptor">
+				<property name="recoverServiceUrls">
+					<map key-type="java.lang.String">
+						<entry key="acctDataService_1" value="${acctDataService.url_1}" />
+						<entry key="acctDataService_2" value="${acctDataService.url_2}" />
+						<entry key="acctDataService_3" value="${acctDataService.url_3}" />
+						<entry key="acctDataService_4" value="${acctDataService.url_4}" />
+					</map>
+				</property>
+			</bean>
+		</property>
+		<property name="heartBeat" value="true">
+		</property>
+		<property name="recoverInterval" value="5000"></property>
+	</bean>
+    
+    
+    
+    <bean id="acctService_1" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${acctService.url_1}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AcctService" />
+    </bean>
+    <bean id="acctService_2" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${acctService.url_2}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AcctService" />
+    </bean>
+    <bean id="acctService_3" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${acctService.url_3}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AcctService" />
+    </bean>
+    <bean id="acctService_4" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${acctService.url_4}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AcctService" />
+    </bean>
+    
+    <bean id="acctDataService_1" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${acctDataService.url_1}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AcctDataService" />
+    </bean>
+    <bean id="acctDataService_2" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${acctDataService.url_2}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AcctDataService" />
+    </bean>
+    <bean id="acctDataService_3" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${acctDataService.url_3}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AcctDataService" />
+    </bean>
+    <bean id="acctDataService_4" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${acctDataService.url_4}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AcctDataService" />
+    </bean>
+    <bean id="posService_1" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${posService.url_1}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.PosService" />
+    </bean>
+    <bean id="posService_2" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${posService.url_2}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.PosService" />
+    </bean>
+    <bean id="posService_3" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${posService.url_3}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.PosService" />
+    </bean>
+    <bean id="posService_4" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${posService.url_4}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.PosService" />
+    </bean>
+    <bean id="posDataService_1" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${posDataService.url_1}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.PosDataService" />
+    </bean>
+    <bean id="posDataService_2" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${posDataService.url_2}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.PosDataService" />
+    </bean>
+    <bean id="posDataService_3" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${posDataService.url_3}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.PosDataService" />
+    </bean>
+    <bean id="posDataService_4" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${posDataService.url_4}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.PosDataService" />
+    </bean>
+    <bean id="authService_1" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${authService.url_1}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AuthService" />
+    </bean>
+    <bean id="authService_2" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${authService.url_2}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AuthService" />
+    </bean>
+    <bean id="authService_3" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${authService.url_3}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AuthService" />
+    </bean>
+    <bean id="authService_4" class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${authService.url_4}</value>
+        </property>
+        <property name="serviceInterface" value="com.baidu.rigel.service.usercenter.service.AuthService" />
+    </bean>
+        <!-- Add by MENGRAN for discriminate login-able or not -->
+    <bean id="loginService_1"
+        class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${loginService.url_1}</value>
+        </property>
+        <property name="serviceInterface"
+            value="com.baidu.rigel.service.usercenter.service.LoginService" />
+    </bean>
+    <bean id="loginService_2"
+        class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${loginService.url_2}</value>
+        </property>
+        <property name="serviceInterface"
+            value="com.baidu.rigel.service.usercenter.service.LoginService" />
+    </bean>
+    <bean id="loginService_3"
+        class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${loginService.url_3}</value>
+        </property>
+        <property name="serviceInterface"
+            value="com.baidu.rigel.service.usercenter.service.LoginService" />
+    </bean>
+    <bean id="loginService_4"
+        class="com.baidu.rigel.service.usercenter.mcpack.remote.McpackRpcProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>${loginService.url_4}</value>
+        </property>
+        <property name="serviceInterface"
+            value="com.baidu.rigel.service.usercenter.service.LoginService" />
+    </bean>
+    
+</beans>

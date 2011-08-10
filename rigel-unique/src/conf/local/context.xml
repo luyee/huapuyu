@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    
+<!--memcache start dm is cust-->
+<Environment name="cust_memcache/sessionCache.bigSessionSize" value="4" type="java.lang.String"/>
+<Environment name="cust_memcache/sessionCache.mySessionId" value="SIGNIN_UC" type="java.lang.String"/>
+
+<Environment name="cust_memcache/tc01.sessionCache.cachename" value="memcache1" type="java.lang.String"/>
+<Environment name="cust_memcache/tc01.sessionCache.addrs" value="bb-sfcrm-rd1.bb01.baidu.com:8211" type="java.lang.String"/>
+
+<Environment name="cust_memcache/tc02.sessionCache.cachename" value="memcache2" type="java.lang.String"/>
+<Environment name="cust_memcache/tc02.sessionCache.addrs" value="bb-sfcrm-rd1.bb01.baidu.com:8212" type="java.lang.String"/>
+
+<Environment name="cust_memcache/jx01.sessionCache.cachename" value="memcache3" type="java.lang.String"/>
+<Environment name="cust_memcache/jx01.sessionCache.addrs" value="bb-sfcrm-rd1.bb01.baidu.com:8211" type="java.lang.String"/>
+
+<Environment name="cust_memcache/jx02.sessionCache.cachename" value="memcache4" type="java.lang.String"/>
+<Environment name="cust_memcache/jx02.sessionCache.addrs" value="bb-sfcrm-rd1.bb01.baidu.com:8212" type="java.lang.String"/>
+<!--memcache end-->
+
+<!--jdbc start-->
+<Environment name="cust_jdbc/jdbc.driverClassName" value="com.mysql.jdbc.Driver" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.url" value="jdbc:mysql://tc-sf-crmdb42.tc.baidu.com:8100/crms_rd?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;noAccessToProcedureBodies=true" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.username" value="crm" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.password" value="123456" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.maxPoolSize" value="20" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.minPoolSize" value="10" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.initialPoolSize" value="1" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.idleConnectionTestPeriod" value="1800" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.maxIdleTime" value="3600" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.checkoutTimeout" value="5000" type="java.lang.String"/>
+
+<Environment name="cust_jdbc/jdbc.read.db02.url" value="jdbc:mysql://tc-sf-crmdb42.tc.baidu.com:8100/crms_rd?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;noAccessToProcedureBodies=true" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.read.db02.username" value="crm_read_1" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.read.db02.password" value="123456" type="java.lang.String"/>
+
+<Environment name="cust_jdbc/jdbc.read.db03.url" value="jdbc:mysql://tc-sf-crmdb42.tc.baidu.com:8100/crms_rd?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;noAccessToProcedureBodies=true" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.read.db03.username" value="crm_read_1" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.read.db03.password" value="123456" type="java.lang.String"/>
+
+<Environment name="cust_jdbc/jdbc.read.db04.url" value="jdbc:mysql://tc-sf-crmdb42.tc.baidu.com:8100/crms_rd?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;noAccessToProcedureBodies=true" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.read.db04.username" value="crm_read_1" type="java.lang.String"/>
+<Environment name="cust_jdbc/jdbc.read.db04.password" value="123456" type="java.lang.String"/>
+<!--jdbc end-->
+
+<!--user center start-->
+<Environment name="cust_usercenter/acctService.url_1" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/AcctService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/acctDataService.url_1" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/AcctDataService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/posService.url_1" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/PosService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/posDataService.url_1" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/PosDataService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/authService.url_1" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/AuthService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/loginService.url_1" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/LoginService.php" type="java.lang.String"/>
+
+<Environment name="cust_usercenter/acctService.url_2" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/AcctService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/acctDataService.url_2" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/AcctDataService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/posService.url_2" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/PosService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/posDataService.url_2" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/PosDataService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/authService.url_2" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/AuthService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/loginService.url_2" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/LoginService.php" type="java.lang.String"/>
+
+<Environment name="cust_usercenter/acctService.url_3" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/AcctService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/acctDataService.url_3" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/AcctDataService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/posService.url_3" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/PosService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/posDataService.url_3" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/PosDataService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/authService.url_3" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/AuthService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/loginService.url_3" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/LoginService.php" type="java.lang.String"/>
+
+<Environment name="cust_usercenter/acctService.url_4" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/AcctService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/acctDataService.url_4" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/AcctDataService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/posService.url_4" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/PosService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/posDataService.url_4" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/PosDataService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/authService.url_4" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/AuthService.php" type="java.lang.String"/>
+<Environment name="cust_usercenter/loginService.url_4" value="http://tc-sf-ra04.tc.baidu.com:8477/ucsvc/services/LoginService.php" type="java.lang.String"/>
+<!--user center end-->
+
+<!--tinyse start-->
+<Environment name="cust_tinyse/saleClient00.updateServer" value="db-sfcrm-rd01.db01.baidu.com:3888" type="java.lang.String"/>
+<Environment name="cust_tinyse/saleClient00.queryServer" value="db-sfcrm-rd01.db01.baidu.com:3999" type="java.lang.String"/>
+<Environment name="cust_tinyse/saleClient00.timeout" value="5000" type="java.lang.String"/>
+<Environment name="cust_tinyse/saleClient00.datatype" value="sale" type="java.lang.String"/>
+
+<Environment name="cust_tinyse/saleClient01.updateServer" value="db-sfcrm-rd01.db01.baidu.com:3888" type="java.lang.String"/>
+<Environment name="cust_tinyse/saleClient01.queryServer" value="db-sfcrm-rd01.db01.baidu.com:3999" type="java.lang.String"/>
+<Environment name="cust_tinyse/saleClient01.timeout" value="5000" type="java.lang.String"/>
+<Environment name="cust_tinyse/saleClient01.datatype" value="sale" type="java.lang.String"/>
+
+<Environment name="cust_tinyse/shifenClient00.queryServer" value="db-sfcrm-rd01.db01.baidu.com:4999" type="java.lang.String"/>
+<Environment name="cust_tinyse/shifenClient00.timeout" value="5000" type="java.lang.String"/>
+<Environment name="cust_tinyse/shifenClient00.datatype" value="shifen" type="java.lang.String"/>
+
+<Environment name="cust_tinyse/shifenClient01.queryServer" value="db-sfcrm-rd01.db01.baidu.com:4999" type="java.lang.String"/>
+<Environment name="cust_tinyse/shifenClient01.timeout" value="5000" type="java.lang.String"/>
+<Environment name="cust_tinyse/shifenClient01.datatype" value="shifen" type="java.lang.String"/>
+
+<!-- rmi service -->
+<Environment name="cust_rmi/rmi.port" value="1699" type="java.lang.String"/>
+<Environment name="cust_rmi/rmi.authenticator" value="user1=pwd1,user2=pwd2" type="java.lang.String"/>
+<Environment name="cust_rmi/rmi.transactionManagerBeanName" value="transactionManager" type="java.lang.String"/>
+
+<!-- web.xml filter -->
+<Environment name="cust/web/parameterSecurity/encryptedUrls" value="/demo/demo/field.action" type="java.lang.String"/>
+
+<Environment name="cust/web/casCheckFilter/appid" value="2" type="java.lang.String"/>
+<Environment name="cust/web/casCheckFilter/appkey" value="xuanyuan.baidu.com" type="java.lang.String"/>
+<Environment name="cust/web/casCheckFilter/casServers" value="10.32.34.92:8888" type="java.lang.String"/>
+<Environment name="cust/web/casCheckFilter/casTimeout" value="500" type="java.lang.String"/>
+<Environment name="cust/web/casCheckFilter/interval" value="60" type="java.lang.String"/>
+<Environment name="cust/web/casCheckFilter/cookiedomain" value="test.baidu.com" type="java.lang.String"/>
+<Environment name="cust/web/casCheckFilter/cookiepath" value="/" type="java.lang.String"/>
+<Environment name="cust/web/casCheckFilter/loginUrl" value="http://mycas.baidu.com:8477/?tpl=pg" type="java.lang.String"/>
+<Environment name="cust/web/casCheckFilter/jumpUrl" value="http://mycas.baidu.com:8477/?action=check&amp;appid=" type="java.lang.String"/>
+<Environment name="cust/web/casCheckFilter/excludePath" value="" type="java.lang.String"/>
+
+<Environment name="cust/web/userInfoCheckFilter/loginAppid" value="2" type="java.lang.String"/>
+<Environment name="cust/web/userInfoCheckFilter/userInfoAppid" value="2" type="java.lang.String"/>
+<Environment name="cust/web/userInfoCheckFilter/loginPagePath" value="http://mycas.baidu.com:8477/?action=logout&amp;next=login&amp;tpl=pg&amp;appid=" type="java.lang.String"/>
+<Environment name="cust/web/userInfoCheckFilter/rootTag" value="saletree,supporttree,csctree" type="java.lang.String"/>
+<Environment name="cust/web/userInfoCheckFilter/errorPagePath" value="http://mycas.baidu.com:8477/?action=logout&amp;next=login&amp;tpl=pg" type="java.lang.String"/>
+<Environment name="cust/web/userInfoCheckFilter/excludePath" value="" type="java.lang.String"/>
+<Environment name="cust/web/userInfoCheckFilter/userMgrBeanName" value="userMgr" type="java.lang.String"/>
+
+<Environment name="cust/web/authCheckFilter/errorPagePath" value="/cust/forbiddenAction.action" type="java.lang.String"/>
+<Environment name="cust/web/authCheckFilter/excludePath" value="/cust/forbiddenAction.action" type="java.lang.String"/>
+<Environment name="cust/web/authCheckFilter/context" value="/cust" type="java.lang.String"/>
+
+<Environment name="cust/web/logOutFilter/logOutUrl" value="http://casqa.baidu.com:8477/?action=logout&amp;next=login&amp;tpl=pg" type="java.lang.String"/>
+
+
+
+</Context>

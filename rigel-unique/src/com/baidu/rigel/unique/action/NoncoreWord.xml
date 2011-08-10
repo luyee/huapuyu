@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="coreword" extends="rigel-default" namespace="/coreword">
+        <!-- 非核心词规则设置 -->
+        <action name="coreWordRule" class="com.baidu.rigel.unique.action.CoreWordRuleAction">
+            <result name="success" type="velocity">/noncoreWord/coreWordRule.vm</result>
+        </action>
+        <action name="coreWordRuleMod" class="com.baidu.rigel.unique.action.CoreWordRuleAction" method="modify">
+            <result name="success" type="velocity">/noncoreWord/coreWordRule.vm</result>
+        </action>
+        
+        <!-- 非核心词特定词设置 -->
+        <action name="coreWordSetUp" class="com.baidu.rigel.unique.action.CoreWordSetUpAction">
+            <result name="success" type ="velocity">/noncoreWord/coreWordSetUp.vm</result>
+        </action>
+        <action name="coreWordAdd" class="com.baidu.rigel.unique.action.CoreWordSetUpAction" method="add">
+            <result name="success" type="velocity">/noncoreWord/coreWordSetUp.vm</result>
+        </action>
+        <action name="coreWordDel" class="com.baidu.rigel.unique.action.CoreWordSetUpAction" method="delete">
+            <result name="success" type="velocity">/noncoreWord/coreWordSetUp.vm</result>
+        </action>
+        <action name="coreWordMod" class="com.baidu.rigel.unique.action.CoreWordSetUpAction" method="modify">
+            <result name="success" type="velocity">/noncoreWord/coreWordSetUp.vm</result>
+        </action>
+    </package>
+</struts>

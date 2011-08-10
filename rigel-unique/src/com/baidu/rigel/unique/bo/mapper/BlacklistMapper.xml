@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.rigel.unique.dao.BlacklistMapper" >
+  <select id="selectBlacklistIdByCompanyName" resultType="Long" parameterType="String" >
+    SELECT blacklist_id
+	FROM td_blacklist
+	WHERE company_name = #{companyName} AND del_flag = 0
+  </select>
+  
+  <select id="selectBlacklistIdCompanyNameLikeByCompanyName" resultType="Map" parameterType="String" >
+    SELECT blacklist_id, company_name
+	FROM td_blacklist
+	WHERE company_name LIKE #{companyName} AND del_flag = 0
+  </select>
+  
+  <select id="selectBlacklistIdByUrl" resultType="Long" parameterType="String" >
+    SELECT blacklist_id
+	FROM td_blacklist
+	WHERE url = #{url} AND del_flag = 0
+  </select>
+  
+  <select id="selectDisCreatorIdList" resultType="Long" >
+    SELECT DISTINCT creator_id
+	FROM td_blacklist
+	WHERE del_flag = 0
+  </select>
+  
+  <select id="pageList" resultMap="BaseResultMap" parameterType="Map" >
+    SELECT 
+    <include refid="Base_Column_List" />
+	FROM td_blacklist
+	WHERE del_flag = 0
+	<if test="companyName != null" >
+	AND company_name LIKE #{companyName}
+    </if>
+	<if test="url != null" >
+	AND url LIKE #{url}
+    </if>
+    <if test="creatorId != null" >
+	AND creator_id = #{creatorId}
+    </if>
+    <if test="list != null and list.size > 0" >
+    AND src IN
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+    </if>
+    LIMIT #{start}, #{count}
+  </select>
+  
+  <select id="pageCount" resultType="Long" parameterType="Map" >
+    SELECT 
+    COUNT(*)
+	FROM td_blacklist
+	WHERE del_flag = 0
+	<if test="companyName != null" >
+	AND company_name LIKE #{companyName}
+    </if>
+	<if test="url != null" >
+	AND url LIKE #{url}
+    </if>
+    <if test="creatorId != null" >
+	AND creator_id = #{creatorId}
+    </if>
+    <if test="list != null and list.size > 0" >
+    AND src IN
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+    </if>
+  </select>
+  
+  <update id="deleteBlacklist" parameterType="Long" >
+    UPDATE td_blacklist
+    SET del_flag = 1
+    WHERE blacklist_id = #{blacklistId}
+  </update>
+</mapper>

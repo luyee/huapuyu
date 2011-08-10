@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	
+	<bean
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+				<value>*Facade</value>
+				<value>*Dao</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>profiler</value>
+			</list>
+		</property>
+	</bean>
+	
+   <bean id="profiler" class="com.baidu.rigel.service.monitor.SimpleProfiler"/>
+	<!-- 
+	<bean id="dynamicMBeanExporter" class="com.baidu.rigel.service.jmx.DynamicMBeanExporter">
+	    <property name="beans">
+	      <map>
+	        <entry key="DynamicManager:name=DynamicStracktraceEntry">
+	        	<bean class="com.baidu.rigel.service.monitor.DynamicStracktraceEntry"></bean>
+	        </entry>
+	      </map>
+	    </property>
+	</bean>
+	
+	<bean id="dynamicMBeanManager" class="com.baidu.rigel.service.jmx.DynamicMBeanManager">
+		<property name="dynamicMBeanExporter" ref="dynamicMBeanExporter">
+		</property>
+	</bean>	
+	 -->
+	
+	<bean class="com.baidu.rigel.service.monitor.tx.TransactionMonitorManager">
+		<property name="maxErrorCount" value="200"/>
+		<property name="maxTopTimeCostCount" value="50"/>
+	</bean>	
+	
+	<bean class="com.baidu.rigel.service.monitor.SpringBeanDefinationMonitor">
+		<property name="monitors">
+			<list>
+				<bean class="com.baidu.rigel.service.monitor.rmi.RmiServiceMonitor"/>
+			</list>
+		</property>
+	</bean>	
+	
+</beans>

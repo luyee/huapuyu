@@ -1,0 +1,822 @@
+#parse('const.vm')
+
+#macro (table $lstTitles $lstConfigs $data $checkbox $custom)
+#if ($tableIndex)
+	#set($tableIndex=$tableIndex+1)
+	#set($tableName='dataList'+$tableIndex)
+#else
+	#set($tableIndex=1)
+	#set($tableName='dataList')
+#end
+#set($tableHeight=28+$data.size()*25+20)
+<div style="width:100%;overflow:auto;height:${tableHeight}px">
+<div class="table" id="$tableName">
+	#foreach ($title in $lstTitles)
+	#set($index = $velocityCount - 1)
+	<div style="width:#if($title.width)$title.width#else$lstConfigs.get($index).width#end" #if($orderBy==$title.eng && $orderBy)class="#if($desc)sortup#{else}sortdown#end"#end>$title.chn</div>
+	#end
+	#set($dataRow = 1)
+	#foreach ($item in $data)
+		#foreach ($title in $lstTitles)
+			#set($index = $velocityCount - 1)
+			#set($config = false)
+			#set($config = $lstConfigs.get($index))
+			#if ($config.eval)
+				#set($eval = $config.eval)
+			#elseif ($title.eval)
+				#set($eval = $title.eval)
+			#else
+				#set($eval = false)
+				#set($text='-')
+				#set($text = $!item.get($title.eng))
+				#if($text.getClass().getName() == "java.util.Date")
+					#set($text = $dateUtils.formatDate($text, $dateFormat))
+				#end
+			#end
+			#if ($eval.startsWith('$item') || $eval.startsWith('$!item'))
+				#set($eval = '$!velocityUtils.escapeHTML(' + $eval + ')')
+			#end
+			#if ($rowTitle && (!$checkbox || $index > 0))
+				#set($eval = '#if(' + $rowTitle.condition + ')<span title="' + $rowTitle.text + '">' + $eval + '</span>#{else}' + $eval + '#end')
+			#end
+			<div>#if($eval)#evaluate($eval)#else$!text#end</div>
+		#end
+		#set($dataRow = $dataRow + 1)
+	#end
+</div>
+<div class="clear"></div>
+</div>
+#if ($page)
+<div class="clear"></div>
+#page($page.curPageNum $page.pageSize $page.totalRecNum "query")
+#end
+#if($custom)
+<input type="hidden" id="isAllData" name="isAllData" value="1" />
+<div id="dataListMenu" onclick="this.hide()">
+	<div><input type="checkbox" onclick="selectPage(this.parentNode.parentNode)" />当前页</div>
+	<div><input type="checkbox" onclick="selectTable(this.parentNode.parentNode)" />整列表</div>
+</div>
+<script>
+function selectPage(menu)
+{
+	var chkList = menu.getElementsByTagName("input");
+	var value = chkList[0].checked;
+	chkList[1].checked = false;
+	G('isAllData').value = "";
+	var table = menu.table;
+	var list = table.getChildren("DIV");
+	var column = table.column;
+	for (var i = column, o; o = list[i]; i += column)
+	{
+		if (o.checkbox) {
+			Table.changeCheckbox(o, value ? "checked" : "nochecked");
+			o.checkbox.checked = value;
+		}
+	}
+	menu.hide();
+	clickCheckbox(list[0]);
+}
+function selectTable(menu)
+{
+	var chkList = menu.getElementsByTagName("input");
+	var value = chkList[1].checked;
+	chkList[0].checked = false;
+	G('isAllData').value = value ? "0" : "1";
+	var table = menu.table;
+	var list = table.getChildren("DIV");
+	var column = table.column;
+	for (var i = column, o; o = list[i]; i += column)
+	{
+		if (o.checkbox) {
+			Table.changeCheckbox(o, value ? "partchecked" : "nochecked");
+			o.checkbox.checked = value;
+		}
+	}
+	#if ($page)
+	var e = G("checkedCount");
+	if (e)
+	{
+		e.innerHTML = value ? $page.totalRecNum : 0;
+	}
+	#end
+	menu.hide();
+}
+#else
+<script>
+#end
+#if($tableIndex<=1)
+function clickCheckbox(o)
+{
+	var e = G("checkedCount");
+	if (e)
+	{
+		if (!G('dataListMenu') || !G('dataListMenu').offsetWidth) {
+			e.innerHTML = o.parentNode.getCheckedCount();
+		}
+	}
+}
+#end
+G('$tableName').style.display = 'block';
+initTable(
+	"$tableName",
+	$lstTitles.size(),
+	{
+		#if($checkbox)
+		checkbox:{
+			#if($custom)custom:"dataListMenu",#end
+			name:"$checkbox",
+			onclick:window.clickCheckbox
+		},
+		#end
+		"sort":{
+			"action":#if($sortClickName)$sortClickName#{else}window.sortClick#end,
+			"info":[#foreach($title in $lstTitles)#set($index = $velocityCount - 1)#if($lstConfigs.get($index).sort || $title.sort)"$title.eng"#{else}null#end,#{end}null]
+		},
+		"edit":{
+			"action":#if($saveClickName)$saveClickName#{else}window.saveClick#end,
+			"info":[
+			#foreach($title in $lstTitles)
+				#set($index = $velocityCount - 1)
+				#set($config=$lstConfigs.get($index))
+				#if($config.edit)
+					#set($name = $config.edit)
+				#elseif($title.edit)
+					#set($name = $title.edit)
+				#else
+					#set($name = 'null')
+				#end
+				#if($config.items.size())
+					#set($name = '[' + $name)
+					#foreach($item in $config.items)
+						#set($name = $name + ',"' + $velocityUtils.escapeJS($item.value) + '","' + $velocityUtils.escapeJS($item.text) + '"')
+					#{end}
+					#set($name = $name + ']')
+				#end
+				$name,
+			#end
+			null]
+		}
+	}
+);
+</script>
+#end
+
+#macro (table2 $lstTitles $lstConfigs $data $checkbox $custom)
+#if ($tableIndex)
+	#set($tableIndex=$tableIndex+1)
+	#set($tableName='dataList'+$tableIndex)
+#else
+	#set($tableIndex=1)
+	#set($tableName='dataList')
+#end
+#set($tableHeight=28+$data.size()*25+20)
+<div style="width:100%;overflow:auto">
+<table class="table" id="$tableName">
+<tr>
+	#foreach ($title in $lstTitles)
+	#set($index = $velocityCount - 1)
+	<td style="width:#if($title.width)$title.width#else$lstConfigs.get($index).width#end" #if($orderBy==$title.eng && $orderBy)class="#if($desc)sortup#{else}sortdown#end"#end>$title.chn</td>
+	#end
+</tr>
+	#set($dataRow = 1)
+	#foreach ($item in $data)
+<tr>
+		#foreach ($title in $lstTitles)
+			#set($index = $velocityCount - 1)
+			#set($config = false)
+			#set($config = $lstConfigs.get($index))
+			#if ($config.eval)
+				#set($eval = $config.eval)
+			#elseif ($title.eval)
+				#set($eval = $title.eval)
+			#else
+				#set($eval = false)
+				#set($text='-')
+				#set($text = $!item.get($title.eng))
+				#if($text.getClass().getName() == "java.util.Date")
+					#set($text = $dateUtils.formatDate($text, $dateFormat))
+				#end
+			#end
+			#if ($eval.startsWith('$item') || $eval.startsWith('$!item'))
+				#set($eval = '$!velocityUtils.escapeHTML(' + $eval + ')')
+			#end
+			#if ($rowTitle && (!$checkbox || $index > 0))
+				#set($eval = '#if(' + $rowTitle.condition + ')<span title="' + $rowTitle.text + '">' + $eval + '</span>#{else}' + $eval + '#end')
+			#end
+			<td#if($config.align) style="text-align:$config.align"#end>#if($eval)#evaluate($eval)#else$!text#end</td>
+		#end
+		#set($dataRow = $dataRow + 1)
+</tr>
+	#end
+</table>
+</div>
+#if ($page)
+<div class="clear"></div>
+#page($page.curPageNum $page.pageSize $page.totalRecNum "query")
+#end
+#if($custom)
+<input type="hidden" id="isAllData" name="isAllData" value="1" />
+<div id="dataListMenu" onclick="this.hide()" style="display:none">
+	<div><input type="checkbox" onclick="selectPage(this.parentNode.parentNode)" />当前页</div>
+	<div><input type="checkbox" onclick="selectTable(this.parentNode.parentNode)" />整列表</div>
+</div>
+<script>
+function selectPage(menu)
+{
+	var chkList = menu.getElementsByTagName("input");
+	var value = chkList[0].checked;
+	chkList[1].checked = false;
+	G('isAllData').value = "";
+	var table = menu.table;
+	var list = table.getElementsByTagName("td");
+	var column = table.column;
+	for (var i = column, o; o = list[i]; i += column)
+	{
+		if (o.checkbox) {
+			Table.changeCheckbox(o, value ? "checked" : "nochecked");
+			o.checkbox.checked = value;
+		}
+	}
+	menu.hide();
+	clickCheckbox(list[0]);
+}
+function selectTable(menu)
+{
+	var chkList = menu.getElementsByTagName("input");
+	var value = chkList[1].checked;
+	chkList[0].checked = false;
+	G('isAllData').value = value ? "0" : "1";
+	var table = menu.table;
+	var list = table.getElementsByTagName("td");
+	var column = table.column;
+	for (var i = column, o; o = list[i]; i += column)
+	{
+		if (o.checkbox) {
+			Table.changeCheckbox(o, value ? "partchecked" : "nochecked");
+			o.checkbox.checked = value;
+		}
+	}
+	#if ($page)
+	var e = G("checkedCount");
+	if (e)
+	{
+		e.innerHTML = value ? $page.totalRecNum : 0;
+	}
+	#end
+	menu.hide();
+}
+#else
+<script>
+#end
+#if($tableIndex<=1)
+function clickCheckbox(o)
+{
+	var e = G("checkedCount");
+	if (e)
+	{
+		if (!G('dataListMenu') || !G('dataListMenu').offsetWidth) {
+			e.innerHTML = o.parentNode.parentNode.parentNode.getCheckedCount();
+		}
+	}
+}
+#end
+var tableNode = G('$tableName');
+tableNode.style.display = 'block';
+initTable2(
+	"$tableName",
+	$lstTitles.size(),
+	{
+		#if($checkbox)
+		checkbox:{
+			#if($custom)custom:"dataListMenu",#end
+			name:"$checkbox",
+			onclick:window.clickCheckbox
+		},
+		#end
+		"sort":{
+			"action":#if($sortClickName)$sortClickName#{else}window.sortClick#end,
+			"info":[#foreach($title in $lstTitles)#set($index = $velocityCount - 1)#if($lstConfigs.get($index).sort || $title.sort)"$title.eng"#{else}null#end,#{end}null]
+		}
+	}
+);
+tableNode.parentNode.style.height = Math.min(tableNode.offsetHeight+20, 430) + 'px';
+</script>
+#end
+
+#macro (query $config $date $text)
+<div class="mess-query">
+	<div class="area-w"></div><div class="area-v"></div>
+	<div class="area"><div class="area-inner item query">
+		<ul class="refer-bar">
+			<li><label>查询条件</label>
+				#list("queryName" $lstQuery $queryName "select" 'onchange="changeQuery(this.value)"')
+			</li>
+			#foreach ($item in $config)
+				<li id="$item.value" #if(($queryName && $queryName!=$item.value) || ($velocityCount>1 && !$queryName))style="display:none"#end>
+				#if ($item.items)
+					<br>
+					#set($value = false)
+					#if ($queryName==$item.value)
+						#set($value = $queryValue)
+					#end
+					#list(false $item.items $value "select" "id='${item.value}Value' onchange='changeValue(this.value)'")
+				#elseif ($item.date)
+					#if ($queryName==$item.value || ($velocityCount==1 && !$queryName))
+						#set($showDate = true)
+					#end
+					#set($containDate = true)
+				#elseif ($item.eval)
+					<br>
+					#evaluate($item.eval)
+				#else
+					<br>
+					<input #if($queryName==$item.value)value='$!velocityUtils.escapeAttr($queryValue)'#end onblur='changeValue(this.value)' onkeydown='if(event.keyCode==13) changeValue(this.value)' id='${item.value}Value' #if($item.valid)$item.valid validate='$item.text'#end />
+				#end
+				</li>
+			#end
+			<input type='hidden' id="queryValue" name="queryValue" value="#if(!$queryName && !$queryValue && $config.get(0).items)#set($queryValue=$config.get(0).items.get(0).value)#end$!velocityUtils.escapeAttr($queryValue)" /></li>
+			#if($date || $containDate)
+			<li id="date" #if($containDate && !$showDate)style="display:none"#end>
+				<ul>
+					<li><label>开始时间</label>
+						<input type="text" id="beginDate" name="beginDate" value="$!dateUtils.formatDate($beginDate,'yyyy-MM-dd')" class="time">
+					</li>
+					<li><label>结束时间</label>
+						<input type="text" id="endDate" name="endDate" value="$!dateUtils.formatDate($endDate,'yyyy-MM-dd')" class="time">
+					</li>
+				</ul>
+			</li>
+			#end
+			#evaluate($text)
+			<li><br /><input type="submit" value="查询" class="btn-g"></li>
+		</ul>
+		<div class="clear"></div>
+	</div></div>
+	<div class="area-v"></div><div class="area-w"></div>
+</div>
+<script>
+function changeValue(value)
+{
+	G('queryValue').value = value;
+}
+function changeQuery(value)
+{
+	#foreach ($item in $config)
+	G('$item.value').style.display = 'none';
+	#end
+	#if($containDate)G('date').style.display = 'none';#end
+	G(value).style.display = '';
+	if (G(value + 'Value')) {
+		G('queryValue').value = G(value + 'Value').value;
+	} else {
+		G('date').style.display = '';
+	}
+}
+#if ($date || $containDate)
+  RangeCalendar.init({
+    "beginDate" : "beginDate",
+		"endDate"   : "endDate",
+		"splitter"  : "-",
+		"editable"  : false
+  });
+#end
+</script>
+#end
+
+#set($fieldIndex = 0)
+## 适用于数据确定的下拉列表、单选组、多选组，数据类型为List型
+#macro (list $name $list $currentVal $flag $attrs)
+	#if($flag == "select")
+		<select #if($name)name="$name"#end #evaluate($attrs)>
+		#foreach($item in $list)
+			<option value="$item.value" #if($currentVal == $item.value)selected="selected"#end>$velocityUtils.escapeHTML($item.text)</option>
+		#end
+		</select>
+	#elseif($flag == "checkbox")
+		#foreach($item in $list)
+		<input id="fieldIndex_${fieldIndex}" type="checkbox" #if($name)name="$name"#end value="$item.value" #evaluate($attrs) #if($item.isChecked)checked="checked"#end><label for="fieldIndex_${fieldIndex}">$velocityUtils.escapeHTML($item.text)</label>
+		#set($fieldIndex = $fieldIndex + 1)
+		#end
+	#elseif($flag == "radio")
+		#foreach($item in $list)
+		<input id="fieldIndex_${fieldIndex}" type="radio" #if($name)name="$name"#end value="$item.value" #evaluate($attrs) #if($item.value == $currentVal)checked="checked"#end><label for="fieldIndex_${fieldIndex}">$velocityUtils.escapeHTML($item.text)</label>
+		#set($fieldIndex = $fieldIndex + 1)
+		#end
+	#end
+#end
+
+
+## 分页
+#macro (page $curPage $pageSize $totalNum $form)
+	<p class="list-page" id="list-page-p">
+		#set($totalPage = ($totalNum - 1) / $pageSize + 1)
+		<script type="text/javascript">
+			var PageSub = {
+				sub: function (n) {
+					if(!/^\d+$/.test(n) || n == 0){
+						alert("请输入大于0的数字");
+						return false;
+					}
+					var totalPage = parseInt("$totalPage", 10) || 0;
+					if (n > totalPage) {
+						alert ("您输入的页码超出总页数范围");
+						return false;
+					}
+					var f = document['$form'];
+					var l = f.action;
+					location.href = l + (l.indexOf('?')>0?'&':'?') + 'queryId=$queryId&page.cur_page_num=' + n;
+				}
+			}
+		</script>
+		#set($currentPage = $curPage)
+
+		#set($pageStart = 1)
+		#set($pageEnd = $totalPage)
+
+		#if($currentPage >= $totalPage)
+			#set($currentPage = $totalPage)
+			#set($pageEnd = $totalPage)
+		#end
+
+		#if($currentPage < 1)
+			#set($currentPage = 1)
+		#end
+
+		#if($currentPage > 1)
+			<a href="#" onclick="PageSub.sub(1)"><img src="/rigel-unique/crm-static/sc-sale/css/img/startPage.gif" align="absmiddle"></a>
+			<a href="#" onclick="PageSub.sub($currentPage - 1)"><img src="/rigel-unique/crm-static/sc-sale/css/img/prevPage.gif" align="absmiddle"></a>
+		#else
+			<b><img src="/rigel-unique/crm-static/sc-sale/css/img/startPage-g.gif" align="absmiddle"></b>
+			<b><img src="/rigel-unique/crm-static/sc-sale/css/img/prevPage-g.gif" align="absmiddle"></b>
+		#end
+
+		#if($totalPage > 11)
+			#if($currentPage > 5)
+				#set($pageStart = $currentPage - 5)
+				#set($pageEnd = $currentPage + 5)
+			#else
+				#set($pageEnd = 10)
+			#end
+			#if($pageEnd > $totalPage)
+				#set($pageStart = $totalPage - 9)
+				#set($pageEnd = $totalPage)
+			#end
+		#end
+
+		#foreach($item in [${pageStart}..${pageEnd}])
+			#if($item == $currentPage)
+				<b>$item</b>
+			#else
+				<a href="#" onclick="PageSub.sub($item)">$item</a>
+			#end
+		#end
+
+		#if($currentPage < $totalPage)
+			<a href="#" onclick="PageSub.sub($currentPage + 1)"><img src="/rigel-unique/crm-static/sc-sale/css/img/nextPage.gif" align="absmiddle"></a>
+			<a href="#" onclick="PageSub.sub($totalPage)"><img src="/rigel-unique/crm-static/sc-sale/css/img/endPage.gif" align="absmiddle"></a>
+		#else
+			<b><img src="/rigel-unique/crm-static/sc-sale/css/img/nextPage-g.gif" align="absmiddle"></b>
+			<b><img src="/rigel-unique/crm-static/sc-sale/css/img/endPage-g.gif" align="absmiddle"></b>
+		#end
+		<span style="zoom:1;margin-left:20px;">到 <input type="text" id="targetPage"> 页 <a href="#" onclick="PageSub.sub(document.getElementById('targetPage').value)"><img src="/rigel-unique/crm-static/sc-sale/css/img/goPage.gif" align="absmiddle"></a></span>
+	</p>
+	#if($totalNum == 0)
+	<script type="text/javascript">document.getElementById('list-page-p').innerHTML = '不存在记录';</script>
+	#end
+#end
+
+#macro (print_tree $list $fe_curDept)
+  #set($result = {})
+  #foreach ($item in $list)
+    #set ($floor = 0)
+    #if ($item.parent_id)
+      #set($floor = $result.get($item.parent_id) + 1)
+    #end
+
+    $!result.put($item.value, $floor)
+    <option value="$item.value" #if( $fe_curDept && $fe_curDept==$item.value)selected="selected"#end>#if($floor > 0)#evaluate("\#foreach($i in [1..$floor])&nbsp;\#end")#end$item.text</option>
+  #end
+#end
+
+#macro (deptOptTree)
+部门层级
+<select name="curDept" id="curDept">
+  #print_tree($listDept $curDept)
+</select>
+&nbsp;
+个人
+#list("curOpt" $listOpt "$!curOpt" "select" " id='curOpt'")
+<script type="text/javascript">
+  initMultiSelect([{name:"curDept", url:"requestOpt.action?curDept="}, {name:"curOpt"}]);
+</script>
+#end
+
+#macro (multiArea $name $members $columnNum $noneMsg $attrs $fe_roundedCorner)
+#if($fe_roundedCorner)
+<div class="area-w"></div><div class="area-v"></div>
+#end
+<div class="area">
+  #if($members.size() > 0)
+  <table>
+    <tr>
+    #foreach($item in $members)
+      <td><input id="fieldIndex_${fieldIndex}" type="checkbox" name="$name" value="$item.value" #evaluate($attrs) #if($item.isChecked)checked="checked"#end  $attrs><label for="fieldIndex_${fieldIndex}">$!velocityUtils.escapeHTML($item.text)</label></td>
+      #set($fieldIndex = $fieldIndex + 1)
+      #if (($velocityCount % $columnNum == 0) && $velocityCount != $members.size())
+      </tr><tr>
+      #end
+    #end
+    </tr>
+  </table>
+  #else
+    <span class="tip-r">$!noneMsg</span>
+  #end
+</div>
+#if($fe_roundedCorner)
+<div class="area-v"></div><div class="area-w"></div>
+#end
+#end
+
+#macro (multiDeptOptTree)
+<style type="text/css">
+/* 多选部门人员 & 地域 */
+.query-dept-opt div {padding : 5px 0 0 0;}
+#multiPersonnel .area{background-color:#fff}
+#multiPersonnel{display:inline-block;zoom:1;*display:inline;}
+#multiPersonnel .area{padding: 3px 6px;border:1px solid #CCE9B9}
+#multiPersonnel table td{padding:3px;margin:0}
+#multiPersonnel input{padding:0;margin:0}
+.select-link{color:#0101FF;cursor: pointer; text-decoration: underline;font-size:10px}
+</style>
+<div class="dept-air-floor">
+  部门层级
+  <select name="curDept" id="curDept">
+    #print_tree($listDept $curDept)
+  </select>
+</div>
+<div>
+  人员 
+  <span class="select-link" onclick="pt.selectAllPersonnel();">全选</span> 
+  <span class="select-link" onclick="pt.unSelectAllPersonnel();">取消</span> 
+  <span class="tip-r" id="personnelTip"></span>
+</div>
+<div>
+  <div class="dept-air-floor multi-personnel" id="multiPersonnel">
+    #multiArea("userids" $listOpt 8 "该层级不存在符合要求的人员！" "")
+  </div>
+</div>
+<script type="text/javascript">
+  if(typeof(pt)=="undefined") pt ={};
+  pt.requestOpt = function(){
+    var curDept = G("curDept").value;
+    if(!curDept) return false;
+    var url = "$!requestOpt";
+    var postData = "curDept="+curDept;
+    function onSuccess(responseData){
+      if(!responseData) return false;
+      G("multiPersonnel").innerHTML = responseData;
+      G("personnelTip").innerHTML = "";
+    }
+    function onFail(){
+      alert("对不起，操作出错了，请稍候再试！");
+    }
+    var ajax = new Ajax(onSuccess,onFail);
+    ajax.post(url,postData);
+  }
+  pt.selectAllPersonnel = function(){
+    var personnelEls = G("multiPersonnel").getElementsByTagName("input");
+    var length = personnelEls.length;
+    for(var i = 0; i < length; i++){
+      personnelEls[i].checked = true;
+    }
+  }
+  pt.unSelectAllPersonnel = function(){
+    var personnelEls = G("multiPersonnel").getElementsByTagName("input");
+    var length = personnelEls.length;
+    for(var i = 0; i < length; i++){
+      personnelEls[i].checked = false;
+    }
+  }
+  pt.checkPersonnel = function(){
+    return chkRequire(["userids"],["personnelTip"],["人员"])
+  }
+  Event.add( G("curDept"), "change", pt.requestOpt);
+</script>
+#end
+
+#macro (globalMsg)
+#if($errors && $errors.globalMsg)
+<div class="mess floor">
+	<div class="area-w"></div><div class="area-v"></div>
+	<div class="area">
+    <div class="error-msg">$!errors.globalMsg</div>
+	</div>
+	<div class="area-v"></div><div class="area-w"></div>
+</div>
+#end
+#end
+
+#macro (includeStatic)
+<link rel="stylesheet" href="/rigel-unique/crm-static/sc-sale/css/global.css" type="text/css">
+<link rel="stylesheet" href="/rigel-unique/crm-static/sc-sale/css/sale.css" type="text/css">
+<script type="text/javascript" src="/rigel-unique/crm-static/core/core.js"></script>
+<script type="text/javascript" src="/rigel-unique/crm-static/core/ui.js"></script>
+<script type="text/javascript" src="/rigel-unique/crm-static/core/calendar.js"></script>
+<script type="text/javascript" src="/rigel-unique/crm-static/sc-sale/js/table.js"></script>
+<script type="text/javascript" src="/rigel-unique/crm-static/sc-sale/js/sale.js"></script>
+#end
+
+
+#macro (activityInfo $obj)
+#if ($obj && $obj.size() !=0)
+<span class="actLabelArea">
+    #foreach($item in $obj)
+	$!item.remark#if($velocityCount < $obj.size());#end
+    #end
+</span>
+#end
+#end
+
+## modified by gengwei 2010/05/18
+#macro (multiOptArea)
+<div class="multi-area air" id="multiOptArea">
+  <div class="area-w"></div><div class="area-v"></div>
+  <div class="area">
+    <span><input type="checkbox" onclick="pt.ctrlAllCity(this);" id="ctrlAllCity" /></span><span class="area-title"><strong>地域选择</strong></span>
+    <a href="#" id="ctrlAreaDisplay" class="link" onclick="pt.ctrlAreaDisplay();return false;">收起</a>
+	<div id="multiOptAreaContent" style="display:none">
+      #if($areaStructureList.size() > 0)
+      <table>
+        #set($provId = 1)
+        #foreach($item in $areaStructureList)
+        <tr>
+        #foreach($entry in $item.entrySet())
+          <td class="province"><input type="checkbox" id="prov$provId" class="fs_province fs_prov$provId" onclick="pt.clickProv(this);" /><label for="prov$provId" class="text-b">$entry.key</label></td>
+          <td class="city">#list("areaids" $entry.value ""  "checkbox" ' class="fs_city fs_city$provId" onclick="pt.clickCity(this);"')</td>
+        #end
+        </tr>
+        #set($provId = $provId + 1)
+        #end
+      </table>
+      #else
+      <span class="tip-r">对不起，不存在区域数据！</span>
+      #end
+    </div>
+  </div>
+  <div class="area-v"></div><div class="area-w"></div>
+</div>
+<script type="text/javascript">
+  if(typeof(HTMLElement)!="undefined"&&!window.opera){HTMLElement.prototype.insertAdjacentHTML=function(a,b){var c=this.ownerDocument.createRange();c.setStartBefore(this);c=c.createContextualFragment(b);switch(a){case"beforeBegin":this.parentNode.insertBefore(c,this);break;case"afterBegin":this.insertBefore(c,this.firstChild);break;case"beforeEnd":this.appendChild(c);break;case"afterEnd":if(!this.nextSibling){this.parentNode.appendChild(c)}else{this.parentNode.insertBefore(c,this.nextSibling)}break}}}var Fe=Fe||{version:"20080809",emptyFn:function(){}};Fe.G=function(){for(var b=[],c=arguments.length-1;c>-1;c--){var d=arguments[c];b[c]=null;if(typeof d=="object"&&d&&d.dom){b[c]=d.dom}else{if((typeof d=="object"&&d&&d.tagName)||d==window||d==document){b[c]=d}else{if(typeof d=="string"&&(d=document.getElementById(d))){b[c]=d}}}}return b.length<2?b[0]:b};Fe.each=function(e,a){if(typeof a!="function"){return e}if(e){if(e.length===undefined){for(var b in e){a.call(e[b],e[b],b)}}else{for(var c=0,d=e.length;c<d;c++){a.call(e[c],e[c],c)}}}return e};Fe.trim=function(a){return a.replace(/(^[\s\t\xa0\u3000]+)|([\u3000\xa0\s\t]+$)/g,"")};Fe.Q=function(e,d,b){if(typeof e!="string"||e.length<=0){return null}var i=[],b=(typeof b=="string"&&b.length>0)?b.toLowerCase():null,c=(Fe.G(d)||document);if(c.getElementsByClassName){Fe.each(c.getElementsByClassName(e),function(j){if(b!==null){if(j.tagName.toLowerCase()==b){i[i.length]=j}}else{i[i.length]=j}})}else{e=e.replace(/\-/g,"\\-");var a=new RegExp("(^|\\s{1,})"+Fe.trim(e)+"(\\s{1,}|$)"),g=(b===null)?(c.all?c.all:c.getElementsByTagName("*")):c.getElementsByTagName(b),f=g.length,h=f;while(f--){if(a.test(g[h-f-1].className)){i[i.length]=g[h-f-1]}}}return i}; 
+  if(typeof(pt)=="undefined") pt ={};
+  pt.nextEl = function(el){
+    var nextEl = el.nextSibling;
+    if(nextEl.nodeType == 1) return nextEl;
+    else return pt.nextEl(nextEl);
+  }
+  pt.prevEl = function(el){
+    var prevEl = el.previousSibling;
+    if(prevEl.nodeType == 1) return prevEl;
+    else return pt.prevEl(prevEl);
+  }
+  //所有城市是否都选中
+  pt.isAllCitySelected = function(){
+    var allCityEls = Fe.Q("fs_city", "multiOptAreaContent", "input");
+    var length = allCityEls.length;
+    if(length < 1) return false;
+    for(var i = 0; i < length; i++){
+      if(allCityEls[i].checked == false){
+        return false;
+      }
+    }
+    return true;
+  }
+  //某个城市下的城市是否都选中
+  pt.isProvCitySelected = function(tdEl){
+    var provCityEls = tdEl.getElementsByTagName("input");
+    var length = provCityEls.length;
+    if(length < 1) return false;
+    for(var i = 0; i < length; i++){
+      if(provCityEls[i].checked == false){
+        return false;
+      }
+    }
+    return true
+  }
+  //控制某个省下城市的选择
+  pt.selectProvCity = function(tdEl,checked){
+    var provCityEls = tdEl.getElementsByTagName("input");
+    var length = provCityEls.length;
+    for(var i = 0; i < length; i++){
+      if(checked) provCityEls[i].checked = true; 
+      else provCityEls[i].checked = false;
+    }
+  }
+  //控制地域选择区域的收起和展开
+  pt.ctrlAreaDisplay = function(){
+    var ctrlAreaDisplayEl = G("ctrlAreaDisplay");
+    var multiOptAreaContentEl = G("multiOptAreaContent");
+    if(ctrlAreaDisplayEl.innerHTML == "收起"){
+      multiOptAreaContentEl.hide();
+      ctrlAreaDisplayEl.innerHTML = "展开";
+    }
+    else{
+      multiOptAreaContentEl.show();
+      ctrlAreaDisplayEl.innerHTML = "收起";
+    }
+  }
+  //点击地域选择checkbox
+  pt.ctrlAllCity = function(me){
+    var allProvinceEls = Fe.Q("fs_province","multiOptAreaContent", "input");
+    var allCityEls = Fe.Q("fs_city", "multiOptAreaContent", "input");
+    if(me.checked == true){
+      var length = allProvinceEls.length;
+      for(var i = 0; i < length; i++){
+        allProvinceEls[i].checked = true;
+      }
+      length = allCityEls.length;
+      for(var i = 0; i < length; i++){
+        allCityEls[i].checked = true;
+      }
+    }
+    else{
+      var length = allProvinceEls.length;
+      for(var i = 0; i < length; i++){
+        allProvinceEls[i].checked = false;
+      }
+      length = allCityEls.length;
+      for(var i = 0; i < length; i++){
+        allCityEls[i].checked = false;
+      }
+    }
+  }
+  //点击省份时触发
+  pt.clickProv =function(me){
+    var checked = null;
+    if(me.checked == true) checked = true;
+    else checked = false;
+    var tdEl = pt.nextEl(me.parentNode);
+    pt.selectProvCity(tdEl,checked);
+    if(pt.isAllCitySelected()){
+      G("ctrlAllCity").checked =true;
+    }
+    else{
+      G("ctrlAllCity").checked =false;
+    }
+  }
+  //点击城市时触发
+  pt.clickCity = function(me){
+    var tdEl = me.parentNode;
+    var provEl = pt.prevEl(tdEl).getElementsByTagName("input")[0];
+    if(pt.isProvCitySelected(tdEl)){
+      provEl.checked =true;
+    }
+    else{
+      provEl.checked =false;
+    }
+    if(pt.isAllCitySelected()){
+      G("ctrlAllCity").checked =true;
+    }
+    else{
+      G("ctrlAllCity").checked =false;
+    }
+  }
+  //提供判断是否有市被选择的接口
+  pt.hasCitySelected = function(){
+    var citySelected = false;
+    var cityEls = Fe.Q("fs_city", "multiOptAreaContent", "input");
+    var length = cityEls.length;
+    for(var i = 0; i < length; i++){
+      if(cityEls[i].checked == true) return true;
+    }
+    return citySelected;
+  }
+  //当页面载入时判断id为ctrlAllCity的checkbox是否需要选中
+  pt.initCtrlAllCity = function(){
+    if(pt.isAllCitySelected()){
+      G("ctrlAllCity").checked =true;
+    }
+    else{
+      G("ctrlAllCity").checked =false;
+    }
+  }
+  //当页面载入时判断省是否需要选中
+  pt.initProvs = function(){
+    var provEls = Fe.Q("fs_province", "multiOptAreaContent", "input");
+    var length = provEls.length;
+    for(var i = 0; i < length; i++){
+      var tdEl = pt.nextEl(provEls[i].parentNode);
+      if(pt.isProvCitySelected(tdEl)){
+        provEls[i].checked = true;
+      }
+      else{
+        provEls[i].checked = false;
+      }
+    }
+  }
+  Event.add(window, "load", function(){
+      pt.initCtrlAllCity();
+      pt.initProvs();
+	  pt.ctrlAreaDisplay();
+  });
+</script>
+#end

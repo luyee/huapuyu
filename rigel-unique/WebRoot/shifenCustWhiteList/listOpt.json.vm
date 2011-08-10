@@ -1,0 +1,1 @@
+[{"data":[#foreach($item in $listOpt)#if($velocityCount>1),#end"$item.value","$item.text"#end]}]

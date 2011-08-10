@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.rigel.unique.dao.SeasonCustListMapper" >
+  <select id="selectSeasonCustListByUrlPosIdList" resultMap="BaseResultMap" parameterType="Map" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM tb_season_cust_list
+    WHERE url = #{url} AND del_flag = 0 AND pos_id IN 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+		#{item}
+	</foreach>
+  </select>
+  
+  <select id="selectSeasonCustListByDomainPosIdList" resultMap="BaseResultMap" parameterType="Map" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM tb_season_cust_list
+    WHERE domain = #{domain} AND del_flag = 0 AND pos_id IN
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+		#{item}
+	</foreach>
+  </select>
+  
+  <select id="selectSeasonCustListByPhoneNumPosIdList" resultMap="BaseResultMap" parameterType="Map" >
+    SELECT 
+    t1.id, 
+    t1.cust_name, 
+    t1.url, 
+    t1.cust_id, 
+    t1.pos_id, 
+    t1.create_id, 
+    t1.create_time, 
+    t1.update_id, 
+    t1.update_time, 
+    t1.del_flag, 
+    t1.domain, 
+    t1.invalidate
+  	FROM tb_season_cust_list t1, tb_season_cust_list_phone t2
+  	WHERE t1.id = t2.season_custlist_id AND t1.del_flag = 0 AND t2.del_flag = 0 AND t2.phonenum = #{phoneNum} AND t1.pos_id IN 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+		#{item}
+	</foreach>
+  </select>
+  
+  <select id="selectDisCreateIdByPosIdList" resultType="Long" >
+    SELECT 
+    DISTINCT create_id
+    FROM tb_season_cust_list
+    WHERE del_flag = 0 AND pos_id IN
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+		#{item}
+	</foreach>
+  </select>
+  
+   <select id="pageList" resultMap="BaseResultMap" parameterType="Map" >
+    SELECT 
+	<include refid="Base_Column_List" />
+    FROM tb_season_cust_list 
+    WHERE del_flag = 0
+    <if test="custName != null">
+	AND cust_name LIKE #{custName}
+    </if>
+    <if test="url != null">
+	AND url LIKE #{url}
+    </if>
+    <if test="createId != null">
+	AND create_id = #{createId}
+    </if>
+    <if test="phoneNum != null">
+	AND id IN (SELECT season_custlist_id FROM tb_season_cust_list_phone WHERE phonenum = #{phoneNum} AND del_Flag = 0)
+    </if>
+    AND pos_id IN
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+		#{item}
+	</foreach>
+	<if test="useInvalidate != null">
+		<if test="beginInvalidate == null and endInvalidate == null">
+		AND invalidate IS NULL 
+    	</if>
+    	<if test="beginInvalidate != null">
+    	<![CDATA[
+		AND invalidate >= #{beginInvalidate}
+		]]>
+    	</if>
+    	<if test="endInvalidate != null">
+    	<![CDATA[
+		AND invalidate <= #{endInvalidate}
+		]]>
+    	</if>
+    </if>
+    ORDER BY update_time DESC
+    LIMIT #{start}, #{count}
+  </select>
+  
+  <select id="pageCount" resultType="Long" parameterType="Map" >
+    SELECT 
+	COUNT(id)
+    FROM tb_season_cust_list 
+    WHERE del_flag = 0
+    <if test="custName != null">
+	AND cust_name LIKE #{custName}
+    </if>
+    <if test="url != null">
+	AND url LIKE #{url}
+    </if>
+    <if test="createId != null">
+	AND create_id = #{createId}
+    </if>
+    <if test="phoneNum != null">
+	AND id IN (SELECT season_custlist_id FROM tb_season_cust_list_phone WHERE phonenum = #{phoneNum} AND del_Flag = 0)
+    </if>
+    AND pos_id IN
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+		#{item}
+	</foreach>
+	<if test="useInvalidate != null">
+		<if test="beginInvalidate == null and endInvalidate == null">
+		AND invalidate IS NULL 
+    	</if>
+    	<if test="beginInvalidate != null">
+    	<![CDATA[
+		AND invalidate >= #{beginInvalidate}
+		]]>
+    	</if>
+    	<if test="endInvalidate != null">
+    	<![CDATA[
+		AND invalidate <= #{endInvalidate}
+		]]>
+    	</if>
+    </if>
+  </select>
+  
+  <update id="deleteSeasonCustList" parameterType="Long" >
+    UPDATE tb_season_cust_list
+    SET del_flag = 1
+    WHERE id = #{id}
+  </update>
+</mapper>

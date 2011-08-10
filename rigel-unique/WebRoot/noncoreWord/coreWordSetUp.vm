@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+#parse('/utils.vm')
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="/rigel-unique/crm-static/sc-sale/css/global.css" type="text/css">
+<link rel="stylesheet" href="/rigel-unique/crm-static/sc-sale/css/sale.css" type="text/css">
+<script type="text/javascript" src="/rigel-unique/crm-static/core/core.js"></script>
+<script type="text/javascript" src="/rigel-unique/crm-static/core/ui.js"></script>
+<script type="text/javascript" src="/rigel-unique/crm-static/sc-sale/js/table.js"></script>
+<script type="text/javascript" src="/rigel-unique/crm-static/sc-sale/js/sale.js"></script>
+<script language="javascript" type="text/javascript">
+function checkWord(str) {
+    if(str.length == 0) {
+	return '特定词不能为空或空格';
+    }
+    if(!/^[\u4e00-\u9fa5]{1,5}$/.test(str)) {
+	return '特定词只能是中文(不包含符号)且不能长于5个字'
+    }
+    return false;
+}
+
+function addFormChk(form) {
+    var ef = Cust.getByClsName('fieldErr', form, false);
+    ef.innerHTML = '';
+    form.coreWordNew.value = form.coreWordNew.value.trim();
+    var err = checkWord(form.coreWordNew.value);
+    if(err) {
+	ef.innerHTML = err;
+	return false;
+    }
+    return true;
+}
+
+function queryFormChk(form) {
+    form.coreWord.value = form.coreWord.value.trim();
+    if(form.coreWord.value.length != 0) {
+	var ef = Cust.getByClsName('fieldErr', form, false);
+	 ef.innerHTML = '';
+	form.coreWord.value = form.coreWord.value.trim();
+	var err = checkWord(form.coreWord.value);
+	if(err) {
+	    ef.innerHTML = err;
+	    return false;
+	}
+	return true;
+    }
+}
+
+function saveClick(data, param) {
+    var word = data.coreWord.trim();
+    var err = checkWord(word);
+    if(err) {
+	alert(err);
+    }
+    else {
+	var form = G('modItemForm');
+	form.coreWordNew.value = word;
+	form.coreWordId.value = param;
+	form.submit();
+    }
+}
+
+function delCoreWord(id) {
+    if(confirm('确定要删除此特定词吗？')) {
+	var form = G('delItemForm');
+	form.coreWordId.value = id;
+	form.submit();
+    }
+}
+</script>
+</head>
+<body>
+<div class="nav"><p>当前位置：特定词设置</p></div>
+<div class="wrapper">
+<div class="tag-zone air">
+    <div class="tag-head">
+	<div class="tag-head-tag">
+	    <div class="area-w"></div>
+	    <div class="area-v"></div>
+	    <p><a href="$urlCoreWordRule">规则设置</a></p>
+	</div>
+	<div class="tag-head-tag current">
+	    <div class="area-w"></div>
+	    <div class="area-v"></div>
+	    <p>特定词设置</p>
+	</div>
+    </div>
+    
+    <div class="area-w"></div>
+    <div class="tag-v"></div>
+    <div class="tag-cont">
+	    #if($errorMessage)
+	    <div class="mess">
+	    <div class="area-w"></div>
+	    <div class="area-v"></div>
+	    <div class="area icon-warning fieldErr">
+		$errorMessage
+	    </div>
+	    <div class="area-v"></div>
+	    <div class="area-w"></div>
+	    </div> 
+	    <br/>
+	    #end
+	    <div class="area-w"></div>
+	    <div class="area-v"></div>
+	    <div class="area area-inner">
+		<h5 class="icon-d">
+		    <b>添加</b>
+		</h5>
+		<form action="$coreWordAddAction" onsubmit="return addFormChk(this)" method="post">
+		    <table cellpadding="5">
+			<tr>
+			    <td colspan="4">已添加特定词：<b>$!coreWordCnt</b>个</td>
+			</tr>
+			<tr>
+			    <td><b>特定词：</b></td>
+			    <td><input type="text" name="coreWordNew" maxlength="5" /></td>
+			    <td><input class="btn-g" type="submit" value="添加" /></td>
+			    <td class="fieldErr"></td>
+			</tr>
+		    </table>
+		</form>
+	    </div>
+	    <div class="area-v"></div>
+	    <div class="area-w"></div>
+	<div class="mess-query air">
+	    <div class="area-w"></div>
+	    <div class="area-v"></div>
+	    <div class="area area-inner">
+		<h5 class="icon-a"><b>查询</b></h5>
+		<form name="query" onsubmit="return queryFormChk(this)" action="$coreWordQuery" method="post">
+		<table cellpadding="3">
+		    <tr>
+			<th>特定词：</th>
+			<th>设定人：</th>
+			<th colspan="2">&nbsp;</th>
+		    </tr>
+		    <tr>
+			<td><input type="text" name="coreWord" value="$!coreWord" maxlength="5" /></td>
+			<td>#list("addUserId" $addUserList $addUserId "select")</td>
+			<td><input type="submit" class="btn-g" value="查询" /></td>
+			<td class="fieldErr"></td>
+		    </tr>
+		</table>
+		</form>
+	    </div>
+	    <div class="area-v"></div>
+	    <div class="area-w"></div>
+	</div>
+	<div class="air">
+	    #set($lsTitle=[
+		{"chn":"设定时间", "eval":'$!dateUtils.formatDate($!item.addTime, $dateFormat)', "width":"150px"},
+		{"chn":"设定人", "eval":'$!item.addUser', "width":"100px"},
+		{"chn":"特定词", "eval":'$!item.coreWord', "width":"150px", "edit":"'coreWord'"},
+		{"chn":"操作","eval":"<a href='#' onclick='this.parentNode.parentNode.edit($dataRow, $item.coreWordId); return false'>修改</a>&nbsp;&nbsp;<a href='#' onclick='delCoreWord($item.coreWordId); return false;'>删除</a>", "width":"80px", "edit":"true"}
+	    ])
+	    #table($lsTitle, $lsTitle, $coreWordList)
+	</div>
+    </div>
+    <div class="area-v"></div>
+    <div class="area-w"></div>
+    <form id="modItemForm" action="$coreWordModAction" method="post">
+	<input type="hidden" name="coreWordNew" />
+	<input type="hidden" name="coreWordId" />
+	<input type="hidden" name="queryId" value="$queryId" />
+    </form>
+    <form id="delItemForm" action="$coreWordDelAction" method="post">
+	<input type="hidden" name="coreWordId" />
+	<input type="hidden" name="queryId" value="$queryId" />
+    </form>
+</div>
+</div>
+</body>
+</html>

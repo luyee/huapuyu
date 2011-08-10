@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.rigel.unique.dao.CustomerMapper" >
+  <select id="selectCustIdByCustFullName" resultType="Long" parameterType="String" >
+    SELECT cust_id 
+    FROM tb_customer 
+    WHERE cust_full_name = #{custFullName}
+  </select>
+  
+  <select id="selectCustIdByCustName" resultType="Long" parameterType="Map" >
+    SELECT cust_id 
+    FROM tb_customer 
+    WHERE cust_name = #{custName} AND cust_type = #{custType}
+  </select>
+  
+  <select id="selectCustIdByCustBranchName" resultType="Long" parameterType="Map" >
+    SELECT cust_id 
+    FROM tb_customer 
+    WHERE cust_branch_name = #{custBranchName} AND cust_type = #{custType}
+  </select>
+  
+  <select id="selectCustIdPoseIdByCustIdList" resultType="Map" >
+		SELECT cust_id, pose_id
+    	FROM tb_customer
+		WHERE cust_id IN
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+  </select>
+  
+  <select id="selectCustIdFullNameByCustIdList" resultType="Map" >
+		SELECT cust_id, cust_full_name
+    	FROM tb_customer
+		WHERE cust_id IN
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+  </select>
+  
+  <select id="selectCountByCustIdListPoseIdCustId" resultType="Long" parameterType="Map" >
+		SELECT COUNT(cust_id) 
+		FROM tb_customer 
+		WHERE cust_id IN
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		<if test="poseId != null">
+		AND pose_id = #{poseId}
+    	</if>
+		<if test="custId != null">
+		<![CDATA[
+		AND cust_id <> #{custId}
+		]]>
+    	</if>
+		AND cust_stat_1 IN (0, 1, 3, 4)
+  </select>
+  
+  <select id="selectCustomerFollowDistributeByCustIdList" resultType="Map" >
+		SELECT 
+		cust.auto_audit_type,
+		cust.cust_id,
+		cust.cust_stat_1,
+		cust.cust_stat_2,
+		cust.cust_type,
+		cust.cust_name,
+		cust.cust_branch_name,
+		cust.pose_id,
+		cust.add_time,
+		cust.add_user,
+		follow.follow_id,
+		follow.assign_time,
+		dis.distribute_time
+		FROM tb_customer cust 
+		LEFT JOIN tb_follow_assign follow ON cust.cust_id = follow.cust_id 
+		LEFT JOIN tb_cust_distribute dis ON cust.cust_id = dis.cust_id 
+		WHERE cust.cust_id IN 
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+  </select>
+  
+  <select id="selectCustIdFullNamePoseIdInputTypeByCustId" resultType="Map" parameterType="Long" >
+		SELECT cust_id custId, cust_full_name custFullName, pose_id poseId, cust_input_type custInputType
+    	FROM tb_customer
+		WHERE cust_id = #{custId}
+  </select>
+  
+  <select id="selectCustIdFullNameLikeByCustUrlName" resultType="Map" parameterType="Map" >
+		SELECT cust.cust_id, cust.cust_full_name
+    	FROM tb_customer cust, tb_cust_url url
+		WHERE cust.cust_id = url.cust_id AND url.cust_url_name LIKE #{custUrlName} 
+		LIMIT #{count}
+  </select>
+  
+  <select id="selectCustIdFullNameByCustUrlName" resultType="Map" parameterType="String" >
+		SELECT cust.cust_id, cust.cust_full_name
+    	FROM tb_customer cust, tb_cust_url url
+		WHERE cust.cust_id = url.cust_id AND url.cust_url_name = #{custUrlName}
+  </select>
+  
+  <select id="selectCustIdFullNameByDomain" resultType="Map" parameterType="String" >
+		SELECT cust.cust_id, cust.cust_full_name
+    	FROM tb_customer cust, tb_cust_url url
+		WHERE cust.cust_id = url.cust_id AND url.domain = #{domain} 
+		ORDER BY cust.cust_id DESC 
+		LIMIT 100
+  </select>
+  
+  <select id="selectCustIdFullNameLikeByDomain" resultType="Map" parameterType="String" >
+		SELECT cust.cust_id, cust.cust_full_name
+    	FROM tb_customer cust, tb_cust_url url
+		WHERE cust.cust_id = url.cust_id AND url.domain LIKE #{domain} 
+  </select>
+  
+  <select id="selectCountByCustIdStat1" resultType="Long" parameterType="Map" >
+		SELECT count(*)
+    	FROM tb_customer
+		WHERE cust_id = #{custId} AND cust_stat_1 = #{custStat1}
+  </select>
+</mapper>

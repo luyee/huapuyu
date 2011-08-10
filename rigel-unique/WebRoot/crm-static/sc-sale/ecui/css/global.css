@@ -1,0 +1,63 @@
+.ec-vscroll {background:#F2F8EE;width:15px;padding:15px 0px 15px 0px;font-size:1px}
+.ec-hscroll {background:#F2F8EE;height:15px;padding:0px 15px 0px 15px;font-size:1px}
+.ec-hscroll-block {background:url(img/hscroll.gif) -2px -30px repeat-x}
+.ec-vscroll-block {background:url(img/scroll.gif) 0px 0px repeat-y}
+.ec-hscroll-block-over {background:url(img/hscroll.gif) -0px -45px repeat-x}
+.ec-hscroll-block-press {background:url(img/hscroll.gif) -0px -60px repeat-x}
+.ec-vscroll-block-over {background:url(img/scroll.gif) -15px 0px repeat-y}
+.ec-vscroll-block-press {background:url(img/scroll.gif) -30px 0px repeat-y}
+.ec-vscroll-prev {background:url(img/scroll.gif) -45px -40px no-repeat;}
+.ec-vscroll-prev-over {background:url(img/scroll.gif) -75px -40px no-repeat;}
+.ec-vscroll-prev-press {background:url(img/scroll.gif) -60px -40px no-repeat;}
+.ec-vscroll-next {background:url(img/scroll.gif) -45px -55px no-repeat;}
+.ec-vscroll-next-over {background:url(img/scroll.gif) -75px -55px no-repeat;}
+.ec-vscroll-next-press {background:url(img/scroll.gif) -60px -55px no-repeat;}
+.ec-hscroll-prev {background:url(img/scroll.gif) -45px -85px no-repeat;}
+.ec-hscroll-prev-over {background:url(img/scroll.gif) -75px -85px no-repeat;}
+.ec-hscroll-prev-press {background:url(img/scroll.gif) -60px -85px no-repeat;}
+.ec-hscroll-next {background:url(img/scroll.gif) -45px -70px no-repeat;}
+.ec-hscroll-next-over {background:url(img/scroll.gif) -75px -70px no-repeat;}
+.ec-hscroll-next-press {background:url(img/scroll.gif) -60px -70px no-repeat;}
+
+.vsblockdtr {padding:2px 0px}
+.vsblockdtr-top {background:url(img/scroll.gif) -45px 0px no-repeat}
+.vsblockdtr-bottom {background:url(img/scroll.gif) -45px -18px no-repeat}
+.vsblockdtr-over .vsblockdtr-top {background:url(img/scroll.gif) -45px -20px no-repeat}
+.vsblockdtr-over .vsblockdtr-bottom {background:url(img/scroll.gif) -45px -38px no-repeat}
+.vsblockdtr-press .vsblockdtr-top {background:url(img/scroll.gif) -60px 0px no-repeat}
+.vsblockdtr-press .vsblockdtr-bottom {background:url(img/scroll.gif) -60px -38px no-repeat}
+.ec-panel-disabled .vsblockdtr div {display:none}
+
+.hsblockdtr {padding:0px 2px}
+.hsblockdtr-left {background:url(img/hscroll.gif) -60px 0px no-repeat}
+.hsblockdtr-right {background:url(img/hscroll.gif) -18px 0px no-repeat}
+.hsblockdtr-over .hsblockdtr-left {background:url(img/hscroll.gif) -40px -0px no-repeat}
+.hsblockdtr-over .hsblockdtr-right {background:url(img/hscroll.gif) -38px -0px no-repeat}
+.hsblockdtr-press .hsblockdtr-left {background:url(img/hscroll.gif) -40px -15px no-repeat}
+.hsblockdtr-press .hsblockdtr-right {background:url(img/hscroll.gif) -38px -15px no-repeat}
+.ec-panel-disabled .hsblockdtr div {display:none}
+
+.ec-checktree {margin-top:5px;padding-left:19px;cursor:default}
+.ec-checktree-parent {background:url(img/tree_fold.gif) 0px 0px no-repeat;}
+.ec-checktree-parent-fold {background:url(img/tree_fold.gif) 0px -19px no-repeat;}
+.ec-checktree-fold-parent {background:url(img/tree_fold.gif) 0px -19px no-repeat;}
+.ec-checktree-items {margin-left:20px;} 
+.ec-checktree-checkbox {background:url(img/cr.gif) 0px 0px no-repeat;width:17px;height:17px;margin-right:5px}
+.ec-checktree-checkbox-disabled {background:url(img/cr.gif) -68px 0px no-repeat;width:17px;height:17px;;margin-right:5px}
+.ec-checktree-checkbox-over {background:url(img/cr.gif) -17px 0px no-repeat;width:17px;height:17px;;margin-right:5px}
+.ec-checktree-checkbox-checked {background:url(img/cr.gif) -34px 0px no-repeat;width:17px;height:17px;;margin-right:5px}
+.ec-checktree-checkbox-checked-disabled {background:url(img/cr.gif) -85px 0px no-repeat;width:17px;height:17px;;margin-right:5px}
+.ec-checktree-checkbox-checked-over {background:url(img/cr.gif) -51px 0px no-repeat;width:17px;height:17px;;margin-right:5px}
+.ec-checktree-checkbox-part {background:url(img/cr.gif) -102px 0px no-repeat;width:17px;height:17px;;margin-right:5px}
+.ec-checktree-checkbox-part-disabled {background:url(img/cr.gif) -85px 0px no-repeat;width:17px;height:17px;;margin-right:5px}
+
+.ec-radiotree {margin-top:5px;padding-left:19px;cursor:default}
+.ec-radiotree-parent {background:url(img/tree_fold.gif) 0px 0px no-repeat;}
+.ec-radiotree-parent-fold {background:url(img/tree_fold.gif) 0px -19px no-repeat;}
+.ec-radiotree-fold-parent {background:url(img/tree_fold.gif) 0px -19px no-repeat;}
+.ec-radiotree-items {margin-left:20px;} 
+
+.ec-form {position:absolute;left:20%;top:150px;border:1px solid #CBE9B7}
+.ec-form-title {position:absolute;cursor:move;height:23px;padding:4px 10px 0 18px;border-right:1px solid #CBE9B7;border-left:1px solid #CBE9B7;background:url(img/global_bg.png) 0 -150px repeat-x;font-size:12px;color:#E2FEC4;font-weight:bold;}
+.ec-form-close {position:absolute;top:3px;right:3px;width:19px;height:19px;background:url(img/btn.gif) -83px -49px;cursor:pointer;}
+.ec-form-layout {background:#F3FBEC}
