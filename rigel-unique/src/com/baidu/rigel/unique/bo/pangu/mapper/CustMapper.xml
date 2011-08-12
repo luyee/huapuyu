@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.baidu.rigel.unique.dao.CustMapper" >
+<mapper namespace="com.baidu.rigel.unique.dao.pangu.CustMapper" >
 	<select id="selectCustIdTypeFullNamePosId" resultType="Map" parameterType="Map" >
 		SELECT id AS cust_id, type AS cust_type, full_name AS cust_full_name, posid AS pos_id 
 		FROM cust
