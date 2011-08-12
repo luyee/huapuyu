@@ -8,7 +8,7 @@
 		<property name="configLocation" value="classpath:conf/sqlmap-config.xml" />
 		<property name="mapperLocations">
 			<list>
-				<value>classpath*:com/baidu/rigel/unique/bo/mapper/*Mapper.xml</value>
+				<value>classpath*:com/baidu/rigel/unique/bo/**/*Mapper.xml</value>
 			</list>
 		</property>
 	</bean>
