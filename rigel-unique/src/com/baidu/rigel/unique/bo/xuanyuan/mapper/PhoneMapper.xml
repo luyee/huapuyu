@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baidu.rigel.unique.dao.PhoneMapper" >
+  <select id="selectDisCustIdByFullPhone" resultType="Long" parameterType="String" >
+    SELECT DISTINCT cust_id 
+    FROM tb_phone 
+    WHERE full_phone = #{fullPhone} AND flag = 0 AND del_flag = 0 AND disabled = 0
+  </select>
+  
+  <select id="selectDisCustIdFullNameByPhoneNumAreaCode" resultType="Map" parameterType="Map" >
+  	SELECT DISTINCTROW tb.cust_id, tb.cust_full_name 
+  	FROM tb_phone tp, tb_cust_contact tc, tb_customer tb 
+  	WHERE tp.flag = 0 AND tp.ph_num = #{phoneNumber} AND tp.contact_or_recipId = tc.contact_id AND tc.cust_id = tb.cust_id
+	<if test="phoneAreaCode != null">
+	AND ph_area_code = #{phoneAreaCode}
+    </if>
+	AND tp.del_flag = 0 AND tp.disabled = 0
+  </select>
+</mapper>
