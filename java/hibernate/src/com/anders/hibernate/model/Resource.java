@@ -1,13 +1,12 @@
-package model;
+package com.anders.hibernate.model;
 
 import java.util.Set;
 
-public class Role
+public class Resource
 {
 	private Integer id;
 	private String name;
 	private Boolean enable = true;
-	private Set<User> users;
 	private Set<Privilege> privileges;
 
 	public Integer getId()
@@ -38,16 +37,6 @@ public class Role
 	public void setEnable(Boolean enable)
 	{
 		this.enable = enable;
-	}
-
-	public Set<User> getUsers()
-	{
-		return users;
-	}
-
-	public void setUsers(Set<User> users)
-	{
-		this.users = users;
 	}
 
 	public Set<Privilege> getPrivileges()

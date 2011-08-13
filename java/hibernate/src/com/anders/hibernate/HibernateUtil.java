@@ -1,4 +1,4 @@
-package main;
+package com.anders.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

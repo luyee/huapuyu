@@ -1,4 +1,4 @@
-package model;
+package com.anders.hibernate.model;
 
 import java.io.Serializable;
 

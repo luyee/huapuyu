@@ -1,15 +1,14 @@
-package model;
+package com.anders.hibernate.model;
 
-import java.io.Serializable;
+import java.util.Set;
 
-public class Data implements Serializable
+public class User
 {
-	private static final long serialVersionUID = -3076049534246559365L;
-
 	private Integer id;
 	private String name;
-	private Byte type;
+	private String pwd;
 	private Boolean enable = true;
+	private Set<Role> roles;
 
 	public Integer getId()
 	{
@@ -31,14 +30,14 @@ public class Data implements Serializable
 		this.name = name;
 	}
 
-	public Byte getType()
+	public String getPwd()
 	{
-		return type;
+		return pwd;
 	}
 
-	public void setType(Byte type)
+	public void setPwd(String pwd)
 	{
-		this.type = type;
+		this.pwd = pwd;
 	}
 
 	public Boolean getEnable()
@@ -49,5 +48,15 @@ public class Data implements Serializable
 	public void setEnable(Boolean enable)
 	{
 		this.enable = enable;
+	}
+
+	public Set<Role> getRoles()
+	{
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles)
+	{
+		this.roles = roles;
 	}
 }

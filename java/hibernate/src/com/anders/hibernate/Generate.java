@@ -1,13 +1,11 @@
-package junit;
-
-import main.HibernateUtil;
+package com.anders.hibernate;
 
 import org.hibernate.Session;
 import org.junit.Test;
 
-public class UnitTest {
+public class Generate {
 	@Test
-	public void TestMethod() {
+	public void generate() {
 		Session session = HibernateUtil.getSession();
 		// Transaction tx = session.beginTransaction();
 		// Tb_user user = new Tb_user();
