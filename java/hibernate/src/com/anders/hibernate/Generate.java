@@ -1,11 +1,17 @@
 package com.anders.hibernate;
 
+import org.apache.commons.lang.SystemUtils;
 import org.hibernate.Session;
 import org.junit.Test;
 
 public class Generate {
 	@Test
 	public void generate() {
+		// TODO Anders Zhu :
+		// 注意lib包中的jaybird21.dll和libjaybird21.so，如果生成Firebird数据库需要将这两个文件加入java.library.path（比如JAVA_HOME/bin下），否则会报“no
+		// jaybird21 in java.library.path”
+		System.out.println(System.getProperty("java.library.path"));
+		System.out.println(SystemUtils.JAVA_LIBRARY_PATH);
 		Session session = HibernateUtil.getSession();
 		// Transaction tx = session.beginTransaction();
 		// Tb_user user = new Tb_user();
