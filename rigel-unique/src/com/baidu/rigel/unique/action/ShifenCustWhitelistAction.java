@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -16,14 +17,12 @@ import com.baidu.rigel.service.usercenter.bean.Position;
 import com.baidu.rigel.service.usercenter.bean.User;
 import com.baidu.rigel.unique.bo.ShifenCustWhiteList;
 import com.baidu.rigel.unique.common.BaseActionSupport;
-import com.baidu.rigel.unique.common.CalloutConstant;
-import com.baidu.rigel.unique.common.Constant;
 import com.baidu.rigel.unique.common.FeUtil;
-import com.baidu.rigel.unique.common.NormalUserUtil;
 import com.baidu.rigel.unique.common.ResearchAware;
-import com.baidu.rigel.unique.common.SystemConstant;
 import com.baidu.rigel.unique.service.ShifenCustWhiteListService;
 import com.baidu.rigel.unique.service.xuanyuan.ShifenCustomerService;
+import com.baidu.rigel.unique.utils.BusiUtils;
+import com.baidu.rigel.unique.utils.Constant;
 
 /**
  * URL白名单设置
@@ -124,13 +123,13 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 			this.page = new Page();
 		}
 		if (this.page.getCur_page_num() == null) {
-			this.page.setCur_page_num(Long.valueOf(SystemConstant.FIRST_PAGE_NUM));
+			this.page.setCur_page_num(Long.valueOf(Constant.FIRST_PAGE_NUM));
 		}
 		if (this.page.getPage_size() == null) {
-			this.page.setPage_size(Long.valueOf(SystemConstant.PAGE_NUM));
+			this.page.setPage_size(Long.valueOf(Constant.ROW_COUNT_PER_PAGE));
 		}
 		if (this.page.getTotal_page_num() == null) {
-			this.page.setTotal_page_num(SystemConstant.ZERO);
+			this.page.setTotal_page_num(NumberUtils.LONG_ZERO);
 		}
 	}
 
@@ -157,7 +156,7 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 
 		if (addPosId == null) {
 			if (addPosIdList != null && addPosIdList.size() > 0) {
-				addPosId = (Long) addPosIdList.get(0).get(CalloutConstant.ID);
+				addPosId = (Long) addPosIdList.get(0).get(Constant.ID);
 			}
 		}
 	}
@@ -169,18 +168,18 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 		if (addUserIdList == null && addPosId != null) {
 			// 部分人员查询列表
 			List<User> userList = userMgr.getUserList(userMgr.getAllUserIdsByPosAndRole(addPosId, "SALE_ROLE_TAG"));
-			userList = NormalUserUtil.getNormalUser(userList, userMgr);
+			userList = BusiUtils.getNormalUser(userList, userMgr);
 			addUserIdList = new ArrayList<Map<String, String>>();
 
 			Map<String, String> tmp = new HashMap<String, String>();
-			tmp.put(CalloutConstant.ID, CalloutConstant.PLEASE_SELECT_VALUE.toString());
-			tmp.put(CalloutConstant.NAME, "请选择");
+			tmp.put(Constant.ID, Constant.PLEASE_SELECT_VALUE.toString());
+			tmp.put(Constant.NAME, "请选择");
 			addUserIdList.add(tmp);
 
 			for (int i = 0; i < userList.size(); i++) {
 				tmp = new HashMap<String, String>();
-				tmp.put(CalloutConstant.ID, userList.get(i).getUcid().toString());
-				tmp.put(CalloutConstant.NAME, userList.get(i).getUcname());
+				tmp.put(Constant.ID, userList.get(i).getUcid().toString());
+				tmp.put(Constant.NAME, userList.get(i).getUcname());
 				addUserIdList.add(tmp);
 			}
 			if (addUserSet == null) {
@@ -192,7 +191,7 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 		}
 		if (addUserId == null) {
 			if (addUserIdList != null && addUserIdList.size() > 0) {
-				addUserId = Long.valueOf(addUserIdList.get(0).get(CalloutConstant.ID));
+				addUserId = Long.valueOf(addUserIdList.get(0).get(Constant.ID));
 			}
 		}
 	}
@@ -205,19 +204,19 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 
 			userIdList = new ArrayList<Map<String, String>>();
 			Map<String, String> tmp = new HashMap<String, String>();
-			tmp.put(CalloutConstant.ID, CalloutConstant.PLEASE_SELECT_VALUE.toString());
-			tmp.put(CalloutConstant.NAME, Constant.SELECT_ALL_NAME);
+			tmp.put(Constant.ID, Constant.PLEASE_SELECT_VALUE.toString());
+			tmp.put(Constant.NAME, Constant.SELECT_ALL_NAME);
 			userIdList.add(tmp);
 			for (int i = 0; i < userList.size(); i++) {
 				tmp = new HashMap<String, String>();
-				tmp.put(CalloutConstant.ID, userList.get(i).getUcid().toString());
-				tmp.put(CalloutConstant.NAME, userList.get(i).getUcname());
+				tmp.put(Constant.ID, userList.get(i).getUcid().toString());
+				tmp.put(Constant.NAME, userList.get(i).getUcname());
 				userIdList.add(tmp);
 			}
 		}
 		if (userId == null) {
 			if (userIdList != null && userIdList.size() > 0) {
-				userId = Long.valueOf(userIdList.get(0).get(CalloutConstant.ID));
+				userId = Long.valueOf(userIdList.get(0).get(Constant.ID));
 			}
 		}
 	}
@@ -230,19 +229,19 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 
 			createIdList = new ArrayList<Map<String, String>>();
 			Map<String, String> tmp = new HashMap<String, String>();
-			tmp.put(CalloutConstant.ID, CalloutConstant.PLEASE_SELECT_VALUE.toString());
-			tmp.put(CalloutConstant.NAME, Constant.SELECT_ALL_NAME);
+			tmp.put(Constant.ID, Constant.PLEASE_SELECT_VALUE.toString());
+			tmp.put(Constant.NAME, Constant.SELECT_ALL_NAME);
 			createIdList.add(tmp);
 			for (int i = 0; i < userList.size(); i++) {
 				tmp = new HashMap<String, String>();
-				tmp.put(CalloutConstant.ID, userList.get(i).getUcid().toString());
-				tmp.put(CalloutConstant.NAME, userList.get(i).getUcname());
+				tmp.put(Constant.ID, userList.get(i).getUcid().toString());
+				tmp.put(Constant.NAME, userList.get(i).getUcname());
 				createIdList.add(tmp);
 			}
 		}
 		if (createId == null) {
 			if (createIdList != null && createIdList.size() > 0) {
-				createId = Long.valueOf(createIdList.get(0).get(CalloutConstant.ID));
+				createId = Long.valueOf(createIdList.get(0).get(Constant.ID));
 			}
 		}
 	}
@@ -276,7 +275,7 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 		initCreateIdList();
 
 		int curpage = 0;
-		int pagesize = CalloutConstant.PAGE_NUM;
+		int pagesize = Constant.ROW_COUNT_PER_PAGE;
 
 		if (page != null) {
 			if (page.getCur_page_num() != null) {
@@ -289,10 +288,10 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 		Long total = Long.valueOf(0L);
 		Long localCreateId = null;
 		Long localUserId = null;
-		if (!createId.equals(CalloutConstant.PLEASE_SELECT_VALUE)) {
+		if (!createId.equals(Constant.PLEASE_SELECT_VALUE)) {
 			localCreateId = createId;
 		}
-		if (!userId.equals(CalloutConstant.PLEASE_SELECT_VALUE)) {
+		if (!userId.equals(Constant.PLEASE_SELECT_VALUE)) {
 			localUserId = userId;
 		}
 		// List<Long> posids = new ArrayList<Long>();
@@ -470,8 +469,8 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 		listOpt = new ArrayList<Map<String, String>>();
 
 		Map<String, String> tmp = new HashMap<String, String>();
-		tmp.put(CalloutConstant.ID, CalloutConstant.PLEASE_SELECT_VALUE.toString());
-		tmp.put(CalloutConstant.NAME, "请选择");
+		tmp.put(Constant.ID, Constant.PLEASE_SELECT_VALUE.toString());
+		tmp.put(Constant.NAME, "请选择");
 		listOpt.add(tmp);
 
 		if (curDept == null || !addPosIdSet.contains(curDept)) {
@@ -481,12 +480,12 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 		}
 
 		List<User> userList = userMgr.getUserList(userMgr.getAllUserIdsByPosAndRole(curDept, "SALE_ROLE_TAG"));
-		userList = NormalUserUtil.getNormalUser(userList, userMgr);
+		userList = BusiUtils.getNormalUser(userList, userMgr);
 
 		for (int i = 0; i < userList.size(); i++) {
 			tmp = new HashMap<String, String>();
-			tmp.put(CalloutConstant.ID, userList.get(i).getUcid().toString());
-			tmp.put(CalloutConstant.NAME, userList.get(i).getUcname());
+			tmp.put(Constant.ID, userList.get(i).getUcid().toString());
+			tmp.put(Constant.NAME, userList.get(i).getUcname());
 			listOpt.add(tmp);
 		}
 		return SUCCESS;

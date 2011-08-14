@@ -16,10 +16,10 @@ import com.baidu.rigel.platform.service.impl.GenericSqlMapServiceImpl;
 import com.baidu.rigel.service.usercenter.bean.User;
 import com.baidu.rigel.service.usercenter.service.UserMgr;
 import com.baidu.rigel.unique.bo.NoncoreWord;
-import com.baidu.rigel.unique.common.Constant;
 import com.baidu.rigel.unique.common.CoreWordQueryInfo;
 import com.baidu.rigel.unique.dao.NoncoreWordDao;
 import com.baidu.rigel.unique.service.NoncoreWordService;
+import com.baidu.rigel.unique.utils.Constant;
 import com.baidu.rigel.unique.utils.Utils;
 
 @Service("noncoreWordService")

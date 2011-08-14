@@ -15,13 +15,11 @@ import com.baidu.rigel.service.usercenter.bean.User;
 import com.baidu.rigel.unique.bo.Blacklist;
 import com.baidu.rigel.unique.bo.BlacklistPhone;
 import com.baidu.rigel.unique.common.BaseActionSupport;
-import com.baidu.rigel.unique.common.CalloutConstant;
-import com.baidu.rigel.unique.common.Constant;
 import com.baidu.rigel.unique.common.ResearchAware;
-import com.baidu.rigel.unique.common.SystemConstant;
 import com.baidu.rigel.unique.service.BlacklistPhoneService;
 import com.baidu.rigel.unique.service.BlacklistService;
 import com.baidu.rigel.unique.service.BlacklistVoService;
+import com.baidu.rigel.unique.utils.Constant;
 import com.baidu.rigel.unique.vo.BlacklistVo;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -93,13 +91,13 @@ public class BlacklistAction extends BaseActionSupport implements ResearchAware 
 			this.page = new Page();
 		}
 		if (this.page.getCur_page_num() == null) {
-			this.page.setCur_page_num(Long.valueOf(SystemConstant.FIRST_PAGE_NUM));
+			this.page.setCur_page_num(Long.valueOf(Constant.FIRST_PAGE_NUM));
 		}
 		if (this.page.getPage_size() == null) {
-			this.page.setPage_size(Long.valueOf(SystemConstant.PAGE_NUM));
+			this.page.setPage_size(Long.valueOf(Constant.ROW_COUNT_PER_PAGE));
 		}
 		if (this.page.getTotal_page_num() == null) {
-			this.page.setTotal_page_num(SystemConstant.ZERO);
+			this.page.setTotal_page_num(NumberUtils.LONG_ZERO);
 		}
 	}
 
@@ -111,19 +109,19 @@ public class BlacklistAction extends BaseActionSupport implements ResearchAware 
 
 			createIdList = new ArrayList<Map<String, Object>>();
 			Map<String, Object> tmp = new HashMap<String, Object>();
-			tmp.put(CalloutConstant.ID, CalloutConstant.PLEASE_SELECT_VALUE);
-			tmp.put(CalloutConstant.NAME, Constant.SELECT_ALL_NAME);
+			tmp.put(Constant.ID, Constant.PLEASE_SELECT_VALUE);
+			tmp.put(Constant.NAME, Constant.SELECT_ALL_NAME);
 			createIdList.add(tmp);
 			for (int i = 0; i < userList.size(); i++) {
 				tmp = new HashMap<String, Object>();
-				tmp.put(CalloutConstant.ID, userList.get(i).getUcid());
-				tmp.put(CalloutConstant.NAME, userList.get(i).getUcname());
+				tmp.put(Constant.ID, userList.get(i).getUcid());
+				tmp.put(Constant.NAME, userList.get(i).getUcname());
 				createIdList.add(tmp);
 			}
 		}
 		if (createId == null) {
 			if (createIdList != null && createIdList.size() > 0) {
-				createId = (Long) createIdList.get(0).get(CalloutConstant.ID);
+				createId = (Long) createIdList.get(0).get(Constant.ID);
 			}
 		}
 	}
@@ -139,7 +137,7 @@ public class BlacklistAction extends BaseActionSupport implements ResearchAware 
 		initCreateIdList();
 
 		int curpage = 0;
-		int pagesize = CalloutConstant.PAGE_NUM;
+		int pagesize = Constant.ROW_COUNT_PER_PAGE;
 
 		if (page != null) {
 			if (page.getCur_page_num() != null) {
@@ -152,7 +150,7 @@ public class BlacklistAction extends BaseActionSupport implements ResearchAware 
 		Long total = Long.valueOf(0L);
 
 		Long localCreateId = null;
-		if (!createId.equals(CalloutConstant.PLEASE_SELECT_VALUE)) {
+		if (!createId.equals(Constant.PLEASE_SELECT_VALUE)) {
 			localCreateId = createId;
 		}
 

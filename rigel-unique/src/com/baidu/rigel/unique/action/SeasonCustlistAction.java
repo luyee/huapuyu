@@ -16,16 +16,14 @@ import com.baidu.rigel.service.usercenter.bean.User;
 import com.baidu.rigel.unique.bo.SeasonCustList;
 import com.baidu.rigel.unique.bo.SeasonCustListPhone;
 import com.baidu.rigel.unique.common.BaseActionSupport;
-import com.baidu.rigel.unique.common.CalloutConstant;
-import com.baidu.rigel.unique.common.Constant;
 import com.baidu.rigel.unique.common.ResearchAware;
-import com.baidu.rigel.unique.common.SystemConstant;
-import com.baidu.rigel.unique.common.URLExtractor;
 import com.baidu.rigel.unique.service.SeasonCustListPhoneService;
 import com.baidu.rigel.unique.service.SeasonCustListService;
 import com.baidu.rigel.unique.service.SeasonCustListVoService;
 import com.baidu.rigel.unique.service.xuanyuan.ShifenCustomerService;
 import com.baidu.rigel.unique.tinyse.TinyseMgr;
+import com.baidu.rigel.unique.utils.Constant;
+import com.baidu.rigel.unique.utils.URLUtils;
 import com.baidu.rigel.unique.vo.SeasonCustListVo;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -183,13 +181,13 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 			this.page = new Page();
 		}
 		if (this.page.getCur_page_num() == null) {
-			this.page.setCur_page_num(Long.valueOf(SystemConstant.FIRST_PAGE_NUM));
+			this.page.setCur_page_num(Long.valueOf(Constant.FIRST_PAGE_NUM));
 		}
 		if (this.page.getPage_size() == null) {
 			this.page.setPage_size(Long.valueOf(15));
 		}
 		if (this.page.getTotal_page_num() == null) {
-			this.page.setTotal_page_num(SystemConstant.ZERO);
+			this.page.setTotal_page_num(NumberUtils.LONG_ZERO);
 		}
 	}
 
@@ -201,8 +199,8 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 		if (unitDeptList.size() == 0) {
 			for (int i = 0; i < pos.size(); i++) {
 				Map<String, Object> tmp = new HashMap<String, Object>();
-				tmp.put(CalloutConstant.ID, pos.get(i).getPosid());
-				tmp.put(CalloutConstant.NAME, pos.get(i).getPosname());
+				tmp.put(Constant.ID, pos.get(i).getPosid());
+				tmp.put(Constant.NAME, pos.get(i).getPosname());
 				unitDeptList.add(tmp);
 			}
 		}
@@ -219,19 +217,19 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 
 			createIdList = new ArrayList<Map<String, Object>>();
 			Map<String, Object> tmp = new HashMap<String, Object>();
-			tmp.put(CalloutConstant.ID, CalloutConstant.PLEASE_SELECT_VALUE);
-			tmp.put(CalloutConstant.NAME, Constant.SELECT_ALL_NAME);
+			tmp.put(Constant.ID, Constant.PLEASE_SELECT_VALUE);
+			tmp.put(Constant.NAME, Constant.SELECT_ALL_NAME);
 			createIdList.add(tmp);
 			for (int i = 0; i < userList.size(); i++) {
 				tmp = new HashMap<String, Object>();
-				tmp.put(CalloutConstant.ID, userList.get(i).getUcid());
-				tmp.put(CalloutConstant.NAME, userList.get(i).getUcname());
+				tmp.put(Constant.ID, userList.get(i).getUcid());
+				tmp.put(Constant.NAME, userList.get(i).getUcname());
 				createIdList.add(tmp);
 			}
 		}
 		if (createId == null) {
 			if (createIdList != null && createIdList.size() > 0) {
-				createId = (Long) createIdList.get(0).get(CalloutConstant.ID);
+				createId = (Long) createIdList.get(0).get(Constant.ID);
 			}
 		}
 	}
@@ -247,7 +245,7 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 		initPosids();
 		initCreateIdList();
 		Long localCreateId = null;
-		if (!createId.equals(CalloutConstant.PLEASE_SELECT_VALUE)) {
+		if (!createId.equals(Constant.PLEASE_SELECT_VALUE)) {
 			localCreateId = createId;
 		}
 		// Long posid = ucHelper.getCurrentPos().getPosid();
@@ -475,7 +473,7 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 		sc.setUpdateId(ucid);
 		sc.setUpdateTime(now);
 		sc.setUrl(localUrl);
-		sc.setDomain(URLExtractor.getDomain(localUrl));
+		sc.setDomain(URLUtils.getDomain(localUrl));
 		sc.setInvalidate(invalidate);
 		sc = seasonCustListService.saveOrUpdate(sc);
 

@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import com.baidu.rigel.platform.dao.SqlMapDao;
 import com.baidu.rigel.platform.service.impl.GenericSqlMapServiceImpl;
 import com.baidu.rigel.unique.bo.NoncoreWordStrategy;
-import com.baidu.rigel.unique.common.Constant;
 import com.baidu.rigel.unique.dao.NoncoreWordStrategyDao;
 import com.baidu.rigel.unique.service.NoncoreWordStrategyService;
+import com.baidu.rigel.unique.utils.Constant;
 import com.baidu.rigel.unique.utils.Utils;
 
 @Service("noncoreWordStrategyService")

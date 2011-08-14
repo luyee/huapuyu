@@ -7,8 +7,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.baidu.rigel.unique.common.BaseActionSupport;
-import com.baidu.rigel.unique.common.BitIntConvert;
 import com.baidu.rigel.unique.service.NoncoreWordStrategyService;
+import com.baidu.rigel.unique.utils.Utils;
 
 public class CoreWordRuleAction extends BaseActionSupport {
 	private static final Logger logger = Logger.getLogger(CoreWordRuleAction.class);
@@ -29,7 +29,7 @@ public class CoreWordRuleAction extends BaseActionSupport {
 		if (coreWordRuleSel == null) {
 			coreWordRuleSel = new ArrayList<Long>();
 		}
-		Long ruleId = new Long(BitIntConvert.IntToBit(coreWordRuleSel));
+		Long ruleId = new Long(Utils.IntToBit(coreWordRuleSel));
 
 		// 获得当前登陆用户id
 		Long loginUser = null;

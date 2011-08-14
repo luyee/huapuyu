@@ -10,10 +10,10 @@ import org.apache.log4j.Logger;
 import com.baidu.rigel.platform.vo.Page;
 import com.baidu.rigel.unique.bo.NoncoreWord;
 import com.baidu.rigel.unique.common.BaseActionSupport;
-import com.baidu.rigel.unique.common.CalloutConstant;
 import com.baidu.rigel.unique.common.CoreWordQueryInfo;
 import com.baidu.rigel.unique.common.ResearchAware;
 import com.baidu.rigel.unique.service.NoncoreWordService;
+import com.baidu.rigel.unique.utils.Constant;
 
 public class CoreWordSetUpAction extends BaseActionSupport implements ResearchAware {
 	private static final Logger logger = Logger.getLogger(CoreWordSetUpAction.class);
@@ -49,7 +49,7 @@ public class CoreWordSetUpAction extends BaseActionSupport implements ResearchAw
 
 	@Override
 	public String execute() throws Exception {
-		int getPageNum = CalloutConstant.PAGE_NUM;
+		int getPageNum = Constant.ROW_COUNT_PER_PAGE;
 
 		// 初始化分页数据
 		if (page == null) {
@@ -68,7 +68,7 @@ public class CoreWordSetUpAction extends BaseActionSupport implements ResearchAw
 		if (coreWord != null && !"".equals(coreWord.trim())) {
 			queryCon.setCoreWord(coreWord.trim());
 		}
-		if (addUserId != null && addUserId != CalloutConstant.SELECT_ALL) {
+		if (addUserId != null && addUserId != Constant.SELECT_ALL) {
 			queryCon.setAddUserId(addUserId);
 		}
 		// 设定人列表

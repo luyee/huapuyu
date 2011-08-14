@@ -9,18 +9,17 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 
 import com.baidu.rigel.platform.vo.Page;
 import com.baidu.rigel.service.usercenter.bean.Position;
 import com.baidu.rigel.service.usercenter.bean.User;
 import com.baidu.rigel.unique.bo.UrlWhitelist;
 import com.baidu.rigel.unique.common.BaseActionSupport;
-import com.baidu.rigel.unique.common.CalloutConstant;
-import com.baidu.rigel.unique.common.Constant;
 import com.baidu.rigel.unique.common.ResearchAware;
-import com.baidu.rigel.unique.common.SystemConstant;
-import com.baidu.rigel.unique.common.URLExtractor;
 import com.baidu.rigel.unique.service.UrlWhitelistService;
+import com.baidu.rigel.unique.utils.Constant;
+import com.baidu.rigel.unique.utils.URLUtils;
 
 /**
  * URL白名单设置
@@ -150,13 +149,13 @@ public class UrlWhitelistAction extends BaseActionSupport implements ResearchAwa
 			this.page = new Page();
 		}
 		if (this.page.getCur_page_num() == null) {
-			this.page.setCur_page_num(Long.valueOf(SystemConstant.FIRST_PAGE_NUM));
+			this.page.setCur_page_num(Long.valueOf(Constant.FIRST_PAGE_NUM));
 		}
 		if (this.page.getPage_size() == null) {
-			this.page.setPage_size(Long.valueOf(SystemConstant.PAGE_NUM));
+			this.page.setPage_size(Long.valueOf(Constant.ROW_COUNT_PER_PAGE));
 		}
 		if (this.page.getTotal_page_num() == null) {
-			this.page.setTotal_page_num(SystemConstant.ZERO);
+			this.page.setTotal_page_num(NumberUtils.LONG_ZERO);
 		}
 
 		if (url == null) {
@@ -219,7 +218,7 @@ public class UrlWhitelistAction extends BaseActionSupport implements ResearchAwa
 		// }
 
 		int curpage = 0;
-		int pagesize = CalloutConstant.PAGE_NUM;
+		int pagesize = Constant.ROW_COUNT_PER_PAGE;
 
 		if (page != null) {
 			if (page.getCur_page_num() != null) {
@@ -243,8 +242,8 @@ public class UrlWhitelistAction extends BaseActionSupport implements ResearchAwa
 			if (!domain.toLowerCase().startsWith("http://") && !domain.toLowerCase().startsWith("https://")) {
 				newdomain = "http://" + domain;
 			}
-			if (URLExtractor.getDomain(newdomain) != null) {
-				newdomain = URLExtractor.getDomain(newdomain);
+			if (URLUtils.getDomain(newdomain) != null) {
+				newdomain = URLUtils.getDomain(newdomain);
 				searchMap.put("domain", newdomain);
 			}
 		}
@@ -330,7 +329,7 @@ public class UrlWhitelistAction extends BaseActionSupport implements ResearchAwa
 		} else {
 			url = "http://" + url;
 		}
-		String domain = URLExtractor.getDomain(url);
+		String domain = URLUtils.getDomain(url);
 		if (domain == null) {
 			result = false;
 			reason = this.getText("whitelist.url.error");
@@ -386,7 +385,7 @@ public class UrlWhitelistAction extends BaseActionSupport implements ResearchAwa
 		} else {
 			url = "http://" + url;
 		}
-		String domain = URLExtractor.getDomain(url);
+		String domain = URLUtils.getDomain(url);
 		if (domain == null) {
 			result = false;
 			reason = this.getText("whitelist.url.error");

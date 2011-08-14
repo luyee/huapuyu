@@ -14,8 +14,8 @@ import com.baidu.rigel.service.usercenter.bean.Position;
 import com.baidu.rigel.service.usercenter.bean.User;
 import com.baidu.rigel.unique.bo.AreaWord;
 import com.baidu.rigel.unique.common.BaseActionSupport;
-import com.baidu.rigel.unique.common.CalloutConstant;
 import com.baidu.rigel.unique.service.AreaWordService;
+import com.baidu.rigel.unique.utils.Constant;
 
 /**
  * 地域词设定
@@ -114,7 +114,7 @@ public class AreaWordAction extends BaseActionSupport {
 			this.page = new Page();
 		}
 		if (this.page.getCur_page_num() == null) {
-			this.page.setCur_page_num(Long.valueOf(CalloutConstant.FIRST_PAGE_NUM));
+			this.page.setCur_page_num(Long.valueOf(Constant.FIRST_PAGE_NUM));
 		}
 		if (this.page.getPage_size() == null) {
 			this.page.setPage_size(10L);

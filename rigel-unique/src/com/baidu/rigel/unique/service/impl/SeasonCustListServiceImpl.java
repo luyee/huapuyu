@@ -14,7 +14,6 @@ import com.baidu.rigel.platform.dao.SqlMapDao;
 import com.baidu.rigel.platform.service.impl.GenericSqlMapServiceImpl;
 import com.baidu.rigel.service.tinyse.data.SaleData;
 import com.baidu.rigel.unique.bo.SeasonCustList;
-import com.baidu.rigel.unique.common.Constant;
 import com.baidu.rigel.unique.dao.SeasonCustListDao;
 import com.baidu.rigel.unique.service.SeasonCustListService;
 import com.baidu.rigel.unique.tinyse.TinyseMgr;
@@ -87,7 +86,7 @@ public class SeasonCustListServiceImpl extends GenericSqlMapServiceImpl<SeasonCu
 
 	public Long pageCount(String custName, String url, Long createId, String phoneNum, Short useInvalidate, Date beginInvalidate, Date endInvalidate, List<Long> posIdList) {
 		if (CollectionUtils.isEmpty(posIdList))
-			return (long) Constant.ZERO;
+			return NumberUtils.LONG_ZERO;
 
 		if (StringUtils.isBlank(custName))
 			custName = null;
