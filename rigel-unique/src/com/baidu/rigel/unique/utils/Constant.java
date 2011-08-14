@@ -290,5 +290,54 @@ public class Constant {
 	 * "null"
 	 */
 	public static final String NULL_STR = "null";
+	/** 每页数据条数 */
+	public static final int ROW_COUNT_PER_PAGE = 80;
+	/** 每页数据条数 */
+	public static final int FIRST_PAGE_NUM = 1;
 
+	/** 页面选择框有全选的时候，页面名称“全选” */
+	public static final String SELECT_ALL_NAME = "全部";
+	/**
+	 * 前台需要传递给FE的值,提交值
+	 */
+	public static final String ID = "value";
+	/**
+	 * 前台需要传递给FE的值,显示值
+	 */
+	public static final String NAME = "text";
+	/**
+	 * 请选择默认值
+	 */
+	public static final Long PLEASE_SELECT_VALUE = -1L;
+	/** 页面选择框有全选的时候，全选对应的value为-1 */
+	public static final short SELECT_ALL = -1;
+
+	/**
+	 * 非核心词 - 数字 1
+	 */
+	public static final Long CORE_WORD_RULE_TYPE_NUMBER = 1L;
+	/**
+	 * 非核心词 - 字母 2
+	 */
+	public static final Long CORE_WORD_RULE_TYPE_CHARACTER = 2L;
+	/**
+	 * 非核心词 - 特定词 3
+	 */
+	public static final Long CORE_WORD_RULE_TYPE_WORD = 3L;
+	/**
+	 * 非核心词显示 - 数字 1
+	 */
+	public static final String CORE_WORD_RULE_TYPE_NUMBER_NAME = "数字";
+	/**
+	 * 非核心词显示 - 字母 2
+	 */
+	public static final String CORE_WORD_RULE_TYPE_CHARACTER_NAME = "字母";
+	/**
+	 * 非核心词显示 - 特定词 3
+	 */
+	public static final String CORE_WORD_RULE_TYPE_WORD_NAME = "特定词";
+	/**
+	 * 前台需要传递给FE的值,是否被选中
+	 */
+	public static final String SELECT = "isChecked";
 }

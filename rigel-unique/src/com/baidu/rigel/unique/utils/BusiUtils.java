@@ -1,5 +1,6 @@
 package com.baidu.rigel.unique.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.baidu.rigel.service.tinyse.data.SaleData;
+import com.baidu.rigel.service.usercenter.bean.User;
+import com.baidu.rigel.service.usercenter.service.UserMgr;
 import com.baidu.rigel.unique.facade.AuditInfo;
 import com.baidu.rigel.unique.facade.AutoAuditRecord;
 import com.baidu.rigel.unique.utils.Constant.ValidType;
@@ -204,5 +207,40 @@ public class BusiUtils {
 				source.add(saleData);
 			}
 		}
+	}
+
+	// TODO Anders Zhu : 重构
+	/**
+	 * 说明：根据全局用户得到正常用户
+	 * 
+	 * @param allUser
+	 * @param userMgr
+	 * @return
+	 * 
+	 */
+	public static List<User> getNormalUser(List<User> allUser, UserMgr userMgr) {
+		List<User> normalUser = new ArrayList<User>();
+		if (allUser == null || allUser.isEmpty()) {
+			return normalUser;
+		}
+		List<Long> allUserId = new ArrayList<Long>();
+		for (User u : allUser) {
+			allUserId.add(u.getUcid());
+		}
+		List<Long> normalUserId = userMgr.getNormalUserIds(allUserId);
+		if (normalUserId == null || normalUserId.isEmpty()) {
+			return normalUser;
+		}
+		Map<String, String> normalMap = new HashMap<String, String>();
+		for (Long id : normalUserId) {
+			normalMap.put(id.toString(), id.toString());
+		}
+		for (User u : allUser) {
+			String id = normalMap.get(u.getUcid().toString());
+			if (id != null) {
+				normalUser.add(u);
+			}
+		}
+		return normalUser;
 	}
 }

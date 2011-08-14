@@ -337,4 +337,19 @@ public class Utils {
 	public static boolean isNotNullAndEqualToMinusOne(Number number) {
 		return isNotNull(number) && isEqualToMinusOne(number);
 	}
+
+	// TODO Anders Zhu : 重构
+	/**
+	 * 将list里面的记录的位置设置为1，返回整数
+	 * 
+	 * @param list
+	 * @return
+	 */
+	public static int IntToBit(List list) {
+		int ret = 0;
+		for (Object pos : list) {
+			ret += Math.pow(2, Long.valueOf(pos.toString()).intValue());
+		}
+		return ret;
+	}
 }
