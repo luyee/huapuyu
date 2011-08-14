@@ -4,14 +4,13 @@ import java.util.List;
 
 import com.baidu.rigel.platform.dao.SqlMapDao;
 import com.baidu.rigel.unique.bo.NoncoreWord;
-import com.baidu.rigel.unique.common.CoreWordQueryInfo;
 
 public interface NoncoreWordDao extends SqlMapDao<NoncoreWord, Long> {
 	public List<Long> selectDisCreatorId();
 
-	public List<NoncoreWord> pageList(CoreWordQueryInfo queryInfo);
+	// public List<NoncoreWord> pageList(CoreWordQueryInfo queryInfo);
 
-	public Long pageCount(CoreWordQueryInfo queryInfo);
+	// public Long pageCount(CoreWordQueryInfo queryInfo);
 
 	public Long pageCount(Long creatorId, String word);
 

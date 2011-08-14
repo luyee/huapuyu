@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -24,28 +23,29 @@ import com.baidu.rigel.service.usercenter.bean.Position;
 import com.baidu.rigel.service.usercenter.bean.User;
 import com.baidu.rigel.service.usercenter.service.UserMgr;
 import com.baidu.rigel.unique.bo.BlacklistPhone;
-import com.baidu.rigel.unique.bo.CustContact;
-import com.baidu.rigel.unique.bo.CustUrl;
-import com.baidu.rigel.unique.bo.Customer;
-import com.baidu.rigel.unique.bo.Phone;
 import com.baidu.rigel.unique.bo.SeasonCustList;
 import com.baidu.rigel.unique.bo.ShifenCustWhiteList;
-import com.baidu.rigel.unique.bo.ShifenCustomer;
+import com.baidu.rigel.unique.bo.pangu.Cust;
+import com.baidu.rigel.unique.bo.xuanyuan.CustContact;
+import com.baidu.rigel.unique.bo.xuanyuan.CustUrl;
+import com.baidu.rigel.unique.bo.xuanyuan.Customer;
+import com.baidu.rigel.unique.bo.xuanyuan.Phone;
+import com.baidu.rigel.unique.bo.xuanyuan.ShifenCustomer;
 import com.baidu.rigel.unique.exception.AutoAuditException;
 import com.baidu.rigel.unique.facade.AuditInfo;
 import com.baidu.rigel.unique.facade.AutoAuditRecord;
-import com.baidu.rigel.unique.facade.CustomerFacade;
 import com.baidu.rigel.unique.service.AuditService;
 import com.baidu.rigel.unique.service.BlacklistPhoneService;
 import com.baidu.rigel.unique.service.BlacklistService;
-import com.baidu.rigel.unique.service.CustUrlService;
-import com.baidu.rigel.unique.service.CustomerService;
-import com.baidu.rigel.unique.service.FollowAssignService;
 import com.baidu.rigel.unique.service.SeasonCustListService;
 import com.baidu.rigel.unique.service.ShifenCustWhiteListService;
-import com.baidu.rigel.unique.service.ShifenCustomerService;
 import com.baidu.rigel.unique.service.Test;
 import com.baidu.rigel.unique.service.UrlWhitelistService;
+import com.baidu.rigel.unique.service.pangu.CustService;
+import com.baidu.rigel.unique.service.xuanyuan.CustUrlService;
+import com.baidu.rigel.unique.service.xuanyuan.CustomerService;
+import com.baidu.rigel.unique.service.xuanyuan.FollowAssignService;
+import com.baidu.rigel.unique.service.xuanyuan.ShifenCustomerService;
 import com.baidu.rigel.unique.tinyse.TinyseMgr;
 import com.baidu.rigel.unique.utils.AutoAuditSourceType;
 import com.baidu.rigel.unique.utils.AutoAuditType;
@@ -53,6 +53,7 @@ import com.baidu.rigel.unique.utils.BusiUtils;
 import com.baidu.rigel.unique.utils.Constant;
 import com.baidu.rigel.unique.utils.CustType;
 import com.baidu.rigel.unique.utils.FieldConstant;
+import com.baidu.rigel.unique.utils.FlagType;
 import com.baidu.rigel.unique.utils.URLUtils;
 import com.baidu.rigel.unique.utils.Utils;
 import com.baidu.rigel.unique.utils.Constant.ValidType;
@@ -69,7 +70,7 @@ public class TestImpl implements Test {
 	@Autowired
 	private UserMgr userMgr;
 	@Autowired
-	private CustomerFacade customerFacade;
+	private CustService custService;
 	@Autowired
 	private BlacklistService blacklistService;
 	@Autowired
@@ -111,7 +112,7 @@ public class TestImpl implements Test {
 		if (Utils.isNull(phoneNumber)) {
 			log.warn(LogEqualToNull("phoneNumber"));
 			return returnList;
-		} else if (Utils.isLessEqualThanZero(count)) {
+		} else if (Utils.isEqualLessThanZero(count)) {
 			log.warn(LogLessEqualThanZero("count"));
 			return returnList;
 		} else if (StringUtils.isNotBlank(phoneAreaCode)) {
@@ -145,7 +146,7 @@ public class TestImpl implements Test {
 		if (Utils.isNull(phoneNumber)) {
 			log.warn(LogEqualToNull("phoneNumber"));
 			return returnList;
-		} else if (Utils.isLessEqualThanZero(count)) {
+		} else if (Utils.isEqualLessThanZero(count)) {
 			log.warn(LogLessEqualThanZero("count"));
 			return returnList;
 		}
@@ -176,7 +177,7 @@ public class TestImpl implements Test {
 		if (Utils.isNull(custName)) {
 			log.warn(LogEqualToNull("custName"));
 			return returnList;
-		} else if (count <= Constant.ZERO) {
+		} else if (Utils.isEqualLessThanZero(count)) {
 			log.warn(LogLessEqualThanZero("count"));
 			return returnList;
 		}
@@ -330,16 +331,16 @@ public class TestImpl implements Test {
 		for (Long id : blacklistList)
 			returnList.add(BusiUtils.getIdNameSourceMapFromBlacklist(id, custFullName));
 
-		if (returnList.size() > Constant.ZERO)
+		if (Utils.isGreaterThanZero(returnList.size()))
 			return returnList;
 
 		// 销售
 		List<Long> saleList = customerService.equalCustFullName(custFullName);
-		saleList.addAll(customerFacade.listMatchCustName(custFullName));
+		saleList.addAll(custService.findByFullName(custFullName));
 		for (Long id : saleList)
 			returnList.add(BusiUtils.getIdNameSourceMapFromSale(id, custFullName));
 
-		if (returnList.size() > Constant.ZERO)
+		if (Utils.isGreaterThanZero(returnList.size()))
 			return returnList;
 
 		// 十分
@@ -367,12 +368,12 @@ public class TestImpl implements Test {
 
 		// 销售
 		List<Long> saleIdList = customerService.equalCustFullName(custFullName);
-		saleIdList.addAll(customerFacade.listMatchCustName(custFullName));
+		saleIdList.addAll(custService.findByFullName(custFullName));
 		for (Long id : saleIdList)
 			if (isBlackOrOld(id))
 				returnList.add(BusiUtils.getIdNameSourceMapFromSale(id, custFullName));
 
-		if (returnList.size() > Constant.ZERO)
+		if (Utils.isGreaterThanZero(returnList.size()))
 			return returnList;
 
 		// 黑名单
@@ -380,7 +381,7 @@ public class TestImpl implements Test {
 		for (Long id : blacklistList)
 			returnList.add(BusiUtils.getIdNameSourceMapFromBlacklist(id, custFullName));
 
-		if (returnList.size() > Constant.ZERO)
+		if (Utils.isGreaterThanZero(returnList.size()))
 			return returnList;
 
 		// 十分
@@ -407,7 +408,7 @@ public class TestImpl implements Test {
 		if (Utils.isNull(custUrl)) {
 			log.warn(LogEqualToNull("custUrl"));
 			return returnList;
-		} else if (count <= Constant.ZERO) {
+		} else if (Utils.isEqualLessThanZero(count)) {
 			log.warn(LogLessEqualThanZero("count"));
 			return returnList;
 		}
@@ -443,7 +444,7 @@ public class TestImpl implements Test {
 		if (Utils.isNull(custUrl)) {
 			log.warn(LogEqualToNull("custUrl"));
 			return returnList;
-		} else if (count <= Constant.ZERO) {
+		} else if (Utils.isEqualLessThanZero(count)) {
 			log.warn(LogLessEqualThanZero("count"));
 			return returnList;
 		}
@@ -455,7 +456,7 @@ public class TestImpl implements Test {
 		}
 
 		// TODO Anders Zhu : 貌似有问题，没有进行补足
-		if (returnList.size() > Constant.ZERO) {
+		if (Utils.isGreaterThanZero(returnList.size())) {
 			return Utils.limitList(returnList, count);
 		}
 
@@ -635,30 +636,30 @@ public class TestImpl implements Test {
 			return (Boolean) map.get("isSigned");
 		}
 		if (BusiUtils.isPanguCustId(custId)) {
-			CustomerVO customerVO = customerFacade.getCustomerSimpleInfo(custId);
-			if (customerVO != null) {
-				if (customerVO.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07)) {
+			Cust cust = custService.findById(custId);
+			if (cust != null) {
+				if (cust.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07)) {
 					return Boolean.TRUE;
 				} else {
 					return Boolean.FALSE;
 				}
 			}
 		} else {
-			Customer cust = customerService.findById(custId);
-			if (cust != null) {
+			Customer customer = customerService.findById(custId);
+			if (customer != null) {
 				// 从中筛选中已经成单的客户,作为老客户
-				if (cust.getCustStat1().equals(Constant.CUST_STAT_1_5) && cust.getCustStat2().equals(Constant.CUST_STAT_2_50)) {
+				if (customer.getCustStat1().equals(Constant.CUST_STAT_1_5) && customer.getCustStat2().equals(Constant.CUST_STAT_2_50)) {
 					return Boolean.TRUE;
 				}
 
 				// 从中筛选出已经被标记为黑名单的客户
-				if (cust.getBlackFlag().equals(Constant.BLACK_FLAG_Y)) {
+				if (customer.getBlackFlag().equals(Constant.BLACK_FLAG_Y)) {
 					return Boolean.TRUE;
 				}
 			}
-			CustomerVO customerVO = customerFacade.getCustomerSimpleInfo(custId);
-			if (customerVO != null) {
-				if (customerVO.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07)) {
+			Cust cust = custService.findById(custId);
+			if (cust != null) {
+				if (cust.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07)) {
 					return Boolean.TRUE;
 				} else {
 					return Boolean.FALSE;
@@ -919,7 +920,7 @@ public class TestImpl implements Test {
 		if (Utils.isNull(url)) {
 			log.warn(LogEqualToNull("url"));
 			return null;
-		} else if (Utils.isEmpty(url.length())) {
+		} else if (Utils.isEqualToZero(url.length())) {
 			log.warn(LogEqualToZero("url"));
 			return null;
 		}
@@ -931,7 +932,7 @@ public class TestImpl implements Test {
 		if (Utils.isNotNull(shifenCustWhiteList) && shifenCustWhiteList.getUserId().equals(ucid)) {
 			List<Map<String, Object>> list = auditService.listMatchCustUrl(url);
 			// 得到盘古中的客户资料
-			List<Map<String, Object>> panguList = customerFacade.findByUrl(url);
+			List<Map<String, Object>> panguList = custService.findBySiteUrl(url);
 			Set<Long> idSet = new HashSet<Long>();
 			// TODO Anders Zhu : 以下两个方法重复，考虑重构
 			if (CollectionUtils.isNotEmpty(list)) {
@@ -1223,18 +1224,18 @@ public class TestImpl implements Test {
 		if (Utils.isNotNull(map))
 			return (Long) map.get("followId");
 
-		CustomerVO customerVO = customerFacade.getCustomerSimpleInfo(custId);
+		Cust cust = custService.findById(custId);
 		Long followerId = null;
-		if (Utils.isNull(customerVO)) {
+		if (Utils.isNull(cust)) {
 			followerId = followAssignService.getFollowerId(custId);
 		} else {
-			followerId = customerVO.getInUcid();
+			followerId = cust.getInUcid();
 			Map<String, Object> propMap = new HashMap<String, Object>();
-			propMap.put(FieldConstant.CUSTID, customerVO.getCustId());
-			propMap.put(FieldConstant.ISSIGNED, customerVO.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07));
-			propMap.put(FieldConstant.FOLLOWID, customerVO.getInUcid());
-			propMap.put(FieldConstant.FULLNAME, customerVO.getFullName());
-			cachedCustMap.get().put(customerVO.getCustId(), propMap);
+			propMap.put(FieldConstant.CUSTID, cust.getId());
+			propMap.put(FieldConstant.ISSIGNED, cust.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07));
+			propMap.put(FieldConstant.FOLLOWID, cust.getInUcid());
+			propMap.put(FieldConstant.FULLNAME, cust.getFullName());
+			cachedCustMap.get().put(cust.getId(), propMap);
 		}
 		return followerId;
 	}
@@ -1283,7 +1284,7 @@ public class TestImpl implements Test {
 			return null;
 		}
 		List<Long> saleIdList = customerService.equalCustFullName(custName);
-		saleIdList.addAll(customerFacade.listMatchCustName(custName));
+		saleIdList.addAll(custService.findByFullName(custName));
 		if (saleIdList != null) {
 			for (Long saleId : saleIdList) {
 				SaleData saleData = new SaleData();
@@ -1311,7 +1312,7 @@ public class TestImpl implements Test {
 			return null;
 		}
 		List<Long> saleIdList = customerService.equalCustBranchNameOrCustName(custBranchName, custType);
-		saleIdList.addAll(customerFacade.listMatchCustBranchName(custBranchName, Long.valueOf(custType.getValue())));
+		saleIdList.addAll(custService.findByNameOrBranch(custBranchName, custType));
 		if (saleIdList != null) {
 			for (Long saleId : saleIdList) {
 				SaleData saleData = new SaleData();
@@ -1614,14 +1615,14 @@ public class TestImpl implements Test {
 			for (SaleData saledata : salelist) {
 				saleIds.add(saledata.getId());
 			}
-			Map<Long, CustomerVO> custMap = customerFacade.getCustomerSimpleInfos(saleIds.toArray(new Long[0]));
-			for (Entry<Long, CustomerVO> custEnt : custMap.entrySet()) {
+			List<Map<String, Object>> custList = custService.findCustIdStatInUcidFullNameByCustIdList(saleIds);
+			for (Map<String, Object> map : custList) {
 				Map<String, Object> propMap = new HashMap<String, Object>();
-				propMap.put("custId", custEnt.getValue().getCustId());
-				propMap.put("isSigned", custEnt.getValue().getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07));
-				propMap.put("followId", custEnt.getValue().getInUcid());
-				propMap.put("fullName", custEnt.getValue().getFullName());
-				cachedCustMap.get().put(custEnt.getKey(), propMap);
+				propMap.put("custId", map.get(FieldConstant.ID));
+				propMap.put("isSigned", map.get(FieldConstant.STAT_1).equals(Constant.PANGU_STAT1_CONTRACT_07));
+				propMap.put("followId", map.get(FieldConstant.IN_UCID));
+				propMap.put("fullName", map.get(FieldConstant.FULL_NAME));
+				cachedCustMap.get().put((Long) map.get(FieldConstant.ID), propMap);
 			}
 			for (SaleData saledata : salelist) {
 				if (custid != null && custid.equals(saledata.getId())) {
@@ -1866,7 +1867,7 @@ public class TestImpl implements Test {
 			// } else
 			// {
 			posIDsMap = customerService.findCustIdPosIdByCustIds(saleDataIDs);
-			posIDsMap.putAll(customerFacade.findCustPosIdById(saleDataIDs));
+			posIDsMap.putAll(custService.findCustIdPosIdByCustIdList(Arrays.asList(saleDataIDs)));
 			// }
 
 			for (SaleData saledata : allSaleList) {
@@ -1985,44 +1986,44 @@ public class TestImpl implements Test {
 			return (Boolean) map.get("isSigned");
 		}
 		if (BusiUtils.isPanguCustId(id)) {
-			CustomerVO customerVO = customerFacade.getCustomerSimpleInfo(id);
-			if (customerVO != null) {
+			Cust cust = custService.findById(id);
+			if (cust != null) {
 				{
 					Map<String, Object> propMap = new HashMap<String, Object>();
-					propMap.put("custId", customerVO.getCustId());
-					propMap.put("isSigned", customerVO.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07));
-					propMap.put("followId", customerVO.getInUcid());
-					propMap.put("fullName", customerVO.getFullName());
-					cachedCustMap.get().put(customerVO.getCustId(), propMap);
+					propMap.put("custId", cust.getId());
+					propMap.put("isSigned", cust.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07));
+					propMap.put("followId", cust.getInUcid());
+					propMap.put("fullName", cust.getFullName());
+					cachedCustMap.get().put(cust.getId(), propMap);
 				}
-				if (customerVO.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07)) {
+				if (cust.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07)) {
 					return true;
 				} else {
 					return false;
 				}
 			}
 		} else {
-			Customer cust = customerService.findById(id);
-			if (cust != null) {
+			Customer customer = customerService.findById(id);
+			if (customer != null) {
 
-				if (cust.getCustStat1().intValue() == Constant.SALE_SIGN) {
+				if (customer.getCustStat1().intValue() == Constant.SALE_SIGN) {
 					log.info("id: " + id + " AlreadySign");
 					return true;
 				} else {
 					return false;
 				}
 			}
-			CustomerVO customerVO = customerFacade.getCustomerSimpleInfo(id);
-			if (customerVO != null) {
+			Cust cust = custService.findById(id);
+			if (cust != null) {
 				{
 					Map<String, Object> propMap = new HashMap<String, Object>();
-					propMap.put("custId", customerVO.getCustId());
-					propMap.put("isSigned", customerVO.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07));
-					propMap.put("followId", customerVO.getInUcid());
-					propMap.put("fullName", customerVO.getFullName());
-					cachedCustMap.get().put(customerVO.getCustId(), propMap);
+					propMap.put("custId", cust.getId());
+					propMap.put("isSigned", cust.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07));
+					propMap.put("followId", cust.getInUcid());
+					propMap.put("fullName", cust.getFullName());
+					cachedCustMap.get().put(cust.getId(), propMap);
 				}
-				if (customerVO.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07)) {
+				if (cust.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07)) {
 					return true;
 				} else {
 					return false;
@@ -2082,15 +2083,16 @@ public class TestImpl implements Test {
 			}
 			Long[] custIds = list.toArray(new Long[0]);
 
-			Map<Long, CustomerVO> custMap = customerFacade.getCustomerSimpleInfos(custIds);
-			for (Entry<Long, CustomerVO> custEnt : custMap.entrySet()) {
+			List<Map<String, Object>> custList = custService.findCustIdStatInUcidFullNameByCustIdList(Arrays.asList(custIds));
+			for (Map<String, Object> map : custList) {
 				Map<String, Object> propMap = new HashMap<String, Object>();
-				propMap.put("custId", custEnt.getValue().getCustId());
-				propMap.put("isSigned", custEnt.getValue().getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07));
-				propMap.put("followId", custEnt.getValue().getInUcid());
-				propMap.put("fullName", custEnt.getValue().getFullName());
-				cachedCustMap.get().put(custEnt.getKey(), propMap);
+				propMap.put("custId", map.get(FieldConstant.ID));
+				propMap.put("isSigned", map.get(FieldConstant.STAT_1).equals(Constant.PANGU_STAT1_CONTRACT_07));
+				propMap.put("followId", map.get(FieldConstant.IN_UCID));
+				propMap.put("fullName", map.get(FieldConstant.FULL_NAME));
+				cachedCustMap.get().put((Long) map.get(FieldConstant.ID), propMap);
 			}
+
 			Map<Long, String> custNameMap = new HashMap<Long, String>();
 			for (Long custId : custIds) {
 				Map map = cachedCustMap.get().get(custId);
@@ -2270,7 +2272,7 @@ public class TestImpl implements Test {
 						}
 					}
 					Map<Long, Long> posIDsMap = customerService.findCustIdPosIdByCustIds(custIds.toArray(new Long[0]));
-					posIDsMap.putAll(customerFacade.findCustPosIdById(custIds.toArray(new Long[0])));
+					posIDsMap.putAll(custService.findCustIdPosIdByCustIdList(new ArrayList<Long>(custIds)));
 
 					for (AuditInfo ai : ais) {
 						if (auditInfos.size() < oppugn_max_size) {
@@ -2408,11 +2410,12 @@ public class TestImpl implements Test {
 		List<CustContact> contactList = cust.getContactList();
 		if (contactList != null && contactList.size() > 0) {
 			for (CustContact cc : contactList) {
-				if (CustContact.DISABLED_N.equals(cc.getDisabled())) {
+				// TODO Anders Zhu : 原来用的轩辕的tb_cust_contact表，其中有del_flag，但是盘古的表中没有该字段，所以用disabled_flag代替
+				if (FlagType.ENABLE.getValue().equals(cc.getDelFlag())) {
 					List<Phone> phList = cc.getPhoneList();
 					if (phList != null && phList.size() > 0) {
 						for (Phone p : phList) {
-							if (Phone.DISABLED_N.equals(p.getDisabled())) {
+							if (FlagType.ENABLE.getValue().equals(p.getDisabled())) {
 								String phone = p.getFullPhone();
 								phoneList.add(phone);
 							}
@@ -2612,11 +2615,11 @@ public class TestImpl implements Test {
 		List<CustContactVO> contactList = cust.getCustContacts();
 		if (contactList != null && contactList.size() > 0) {
 			for (CustContactVO cc : contactList) {
-				if (CustContact.DISABLED_N.equals(cc.getDisabledFlag())) {
+				if (FlagType.ENABLE.getValue().equals(cc.getDisabledFlag())) {
 					List<CustContactPhoneVO> phList = cc.getContactPhones();
 					if (phList != null && phList.size() > 0) {
 						for (CustContactPhoneVO p : phList) {
-							if (Phone.DISABLED_N.equals(p.getDisabledFlag())) {
+							if (FlagType.ENABLE.getValue().equals(p.getDisabledFlag())) {
 								String phone = p.getFullPhone();
 								phoneList.add(phone);
 							}
@@ -3016,7 +3019,7 @@ public class TestImpl implements Test {
 			throw new IllegalArgumentException("运营单位岗位ID不能为空");
 		}
 		List<SaleData> list = tinyseMgr.querySaleData(custName, 800);
-		List<Long> custXuanyuan = customerFacade.listMatchCustName(custName);
+		List<Long> custXuanyuan = custService.findByFullName(custName);
 		List<Long> custPg = customerService.equalCustFullName(custName);
 		{
 			List<Long> custIdList = new ArrayList<Long>();
@@ -3042,7 +3045,7 @@ public class TestImpl implements Test {
 				if (panguExist) {
 					return true;
 				} else {
-					panguExist = customerFacade.findByCustIdsAndPosid(custIdList, posid, custId);
+					panguExist = custService.isCustIdListExist(custIdList, posid, custId);
 					return panguExist;
 				}
 			}

@@ -21,11 +21,6 @@ public class AreaWordDaoImpl extends BaseSqlMapDao<AreaWord, Long> implements Ar
 		return areaWordMapper;
 	}
 
-	@Override
-	public List<AreaWord> findAll() {
-		return super.findAll();
-	}
-
 	public List<AreaWord> selectAllOrderByCWord() {
 		return areaWordMapper.selectAllOrderByCWord();
 	}

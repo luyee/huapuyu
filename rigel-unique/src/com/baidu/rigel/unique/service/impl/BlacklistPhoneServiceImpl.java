@@ -37,24 +37,6 @@ public class BlacklistPhoneServiceImpl extends GenericSqlMapServiceImpl<Blacklis
 		return blacklistPhoneDao.selectBlacklistPhoneByBlacklistId(blacklistId);
 	}
 
-	// TODO Anders Zhu : 删除
-	// public BlacklistPhone saveOrUpdate(BlacklistPhone blacklistPhone) {
-	// if (Utils.isNull(blacklistPhone))
-	// return null;
-	//
-	// if (Utils.isNull(blacklistPhone.getId())) {
-	// blacklistPhoneDao.save(blacklistPhone);
-	// } else {
-	// BlacklistPhone blp = findById(blacklistPhone.getId());
-	// if (Utils.isNull(blp)) {
-	// blacklistPhoneDao.save(blacklistPhone);
-	// } else {
-	// blacklistPhoneDao.update(blacklistPhone);
-	// }
-	// }
-	// return blacklistPhone;
-	// }
-
 	public void deleteBlacklistPhone(Long id) {
 		if (Utils.isNotNull(id))
 			blacklistPhoneDao.deleteBlacklistPhone(id);

@@ -3,6 +3,7 @@ package com.baidu.rigel.unique.service.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,6 @@ import com.baidu.rigel.platform.service.impl.GenericSqlMapServiceImpl;
 import com.baidu.rigel.unique.bo.ShifenCustWhiteList;
 import com.baidu.rigel.unique.dao.ShifenCustWhiteListDao;
 import com.baidu.rigel.unique.service.ShifenCustWhiteListService;
-import com.baidu.rigel.unique.utils.Constant;
 import com.baidu.rigel.unique.utils.Utils;
 
 @Service("shifenCustWhiteListService")
@@ -65,7 +65,7 @@ public class ShifenCustWhiteListServiceImpl extends GenericSqlMapServiceImpl<Shi
 			url = Utils.addWildcard(Utils.escapeWildcard(url));
 
 		if (Utils.isLessThanZero(curPage))
-			curPage = Constant.ZERO;
+			curPage = NumberUtils.INTEGER_ZERO;
 
 		return shifenCustWhiteListDao.pageList(custName, url, userId, createId, posIdList, curPage, pageSize);
 	}

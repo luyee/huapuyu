@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class SeasonCustListServiceImpl extends GenericSqlMapServiceImpl<SeasonCu
 		List<SeasonCustList> resultList = new ArrayList<SeasonCustList>(0);
 		if (CollectionUtils.isEmpty(posIdList))
 			return resultList;
-		if (Utils.isLessEqualThanZero(limit))
+		if (Utils.isEqualLessThanZero(limit))
 			return resultList;
 
 		List<SaleData> saleDataList = tinyseMgr.querySeasonCustDataWithHold(custName, limit);
@@ -45,7 +46,7 @@ public class SeasonCustListServiceImpl extends GenericSqlMapServiceImpl<SeasonCu
 			SeasonCustList seasonCustList = seasonCustListDao.findById(saleData.getId());
 			for (Long posId : posIdList) {
 				if (posId.equals(seasonCustList.getPosId())) {
-					if (Utils.isEqualZero(seasonCustList.getDelFlag().intValue()) && (Utils.isNull(seasonCustList.getInvalidate()) || new Date().before(seasonCustList.getInvalidate()))) {
+					if (Utils.isEqualToZero(seasonCustList.getDelFlag().intValue()) && (Utils.isNull(seasonCustList.getInvalidate()) || new Date().before(seasonCustList.getInvalidate()))) {
 						resultList.add(seasonCustList);
 						break;
 					}
@@ -98,13 +99,13 @@ public class SeasonCustListServiceImpl extends GenericSqlMapServiceImpl<SeasonCu
 		else
 			url = Utils.addWildcard(Utils.escapeWildcard(url));
 
-		if (Utils.isNull(createId) || Utils.isEqualMinusOne(createId))
+		if (Utils.isNull(createId) || Utils.isEqualToMinusOne(createId))
 			createId = null;
 
 		if (StringUtils.isBlank(phoneNum))
 			phoneNum = null;
 
-		if (Utils.isNull(useInvalidate) || Utils.isEqualOne(useInvalidate))
+		if (Utils.isNotNullAndEqualToOne(useInvalidate))
 			useInvalidate = null;
 
 		return seasonCustListDao.pageCount(custName, url, createId, phoneNum, useInvalidate, beginInvalidate, endInvalidate, posIdList);
@@ -124,25 +125,19 @@ public class SeasonCustListServiceImpl extends GenericSqlMapServiceImpl<SeasonCu
 		else
 			url = Utils.addWildcard(Utils.escapeWildcard(url));
 
-		if (Utils.isNull(createId) || Utils.isEqualMinusOne(createId))
+		if (Utils.isNullOrEqualToMinusOne(createId))
 			createId = null;
 
 		if (StringUtils.isBlank(phoneNum))
 			phoneNum = null;
 
-		if (Utils.isNull(useInvalidate) || Utils.isEqualOne(useInvalidate))
+		if (Utils.isNotNullAndEqualToOne(useInvalidate))
 			useInvalidate = null;
 
 		if (Utils.isLessThanZero(curPage))
-			curPage = com.baidu.rigel.unique.utils.Constant.ZERO;
+			curPage = NumberUtils.INTEGER_ZERO;
 
 		return seasonCustListDao.pageList(custName, url, createId, phoneNum, useInvalidate, beginInvalidate, endInvalidate, posIdList, curPage, pageSize);
-	}
-
-	public SeasonCustList addSeasonCustList(SeasonCustList seasonCustList) {
-		if (Utils.isNull(seasonCustList))
-			return null;
-		return saveOrUpdate(seasonCustList);
 	}
 
 	public void deleteSeasonCustList(Long id) {

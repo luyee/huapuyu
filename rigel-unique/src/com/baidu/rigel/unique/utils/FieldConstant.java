@@ -78,6 +78,10 @@ public interface FieldConstant {
 	 */
 	public static final String POSE_ID = "pose_id";
 	/**
+	 * posid
+	 */
+	public static final String POSID = "posid";
+	/**
 	 * cust_full_name
 	 */
 	public static final String CUST_FULL_NAME = "cust_full_name";
@@ -121,4 +125,24 @@ public interface FieldConstant {
 	 * url
 	 */
 	public static final String URL = "url";
+	/**
+	 * stat_1
+	 */
+	public static final String STAT_1 = "stat_1";
+	/**
+	 * stat_2
+	 */
+	public static final String STAT_2 = "stat_2";
+	/**
+	 * id
+	 */
+	public static final String ID = "id";
+	/**
+	 * in_ucid
+	 */
+	public static final String IN_UCID = "in_ucid";
+	/**
+	 * full_name
+	 */
+	public static final String FULL_NAME = "full_name";
 }

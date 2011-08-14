@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,6 @@ import com.baidu.rigel.platform.service.impl.GenericSqlMapServiceImpl;
 import com.baidu.rigel.unique.bo.Blacklist;
 import com.baidu.rigel.unique.dao.BlacklistDao;
 import com.baidu.rigel.unique.service.BlacklistService;
-import com.baidu.rigel.unique.utils.Constant;
 import com.baidu.rigel.unique.utils.Utils;
 
 @Service("blacklistService")
@@ -41,12 +41,6 @@ public class BlacklistServiceImpl extends GenericSqlMapServiceImpl<Blacklist, Lo
 		return blacklistDao.selectBlacklistIdByUrl(url);
 	}
 
-	public Blacklist findById(Long id) {
-		if (Utils.isNull(id))
-			return null;
-		return blacklistDao.findById(id);
-	}
-
 	public List<Long> selectDisCreatorIdList() {
 		return blacklistDao.selectDisCreatorIdList();
 	}
@@ -66,7 +60,7 @@ public class BlacklistServiceImpl extends GenericSqlMapServiceImpl<Blacklist, Lo
 			srcList = null;
 
 		if (Utils.isLessThanZero(curPage))
-			curPage = Constant.ZERO;
+			curPage = NumberUtils.INTEGER_ZERO;
 
 		return blacklistDao.pageList(companyName, url, createId, srcList, curPage, pageSize);
 	}
@@ -87,24 +81,6 @@ public class BlacklistServiceImpl extends GenericSqlMapServiceImpl<Blacklist, Lo
 
 		return blacklistDao.pageCount(companyName, url, createId, srcList);
 	}
-
-	// TODO Anders Zhu : 删除
-	// public Blacklist saveOrUpdate(Blacklist blacklist) {
-	// if (Utils.isNull(blacklist))
-	// return null;
-	//
-	// if (Utils.isNull(blacklist.getBlacklistId())) {
-	// blacklistDao.save(blacklist);
-	// } else {
-	// Blacklist bl = blacklistDao.findById(blacklist.getBlacklistId());
-	// if (Utils.isNull(bl)) {
-	// blacklistDao.save(blacklist);
-	// } else {
-	// blacklistDao.update(blacklist);
-	// }
-	// }
-	// return blacklist;
-	// }
 
 	public void deleteBlacklist(Long blacklistId) {
 		if (Utils.isNotNull(blacklistId))

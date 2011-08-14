@@ -55,19 +55,6 @@ public class Constant {
 	public static final String BLANK = " ";
 
 	/**
-	 * 0
-	 */
-	public static final int ZERO = 0;
-	/**
-	 * 1
-	 */
-	public static final int ONE = 1;
-	/**
-	 * -1
-	 */
-	public static final int MINUS_ONE = -1;
-
-	/**
 	 * 用于过滤个人称谓
 	 */
 	public static final String TITLE = "经理,行长,副科长,老板,秘书,某特助,主任,文书,将军,总经理,分析师,财务,总裁,大师,网管,老师,技师,司长,小姐,研究员,某工,校长,教练,技术员,组长,店长,会计师,先生,培训师,代理,副总,总监,教授,部长,培训师,副总裁,司长,助理,会长,总裁助理,科长,团长,同学,协会长,司仪,医生,社长,大夫,馆长,书记,局长,政委,律师,指导员,师傅,工程师";

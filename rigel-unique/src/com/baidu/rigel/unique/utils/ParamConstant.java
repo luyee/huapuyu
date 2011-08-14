@@ -18,6 +18,10 @@ public interface ParamConstant {
 	 */
 	public static final String SITE_URL = "siteUrl";
 	/**
+	 * siteDomain
+	 */
+	public static final String SITE_DOMAIN = "siteDomain";
+	/**
 	 * count
 	 */
 	public static final String COUNT = "count";

@@ -46,5 +46,6 @@ public class SeasonCustListPhoneServiceTest {
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals("1234567890", list.get(0).getPhonenum());
 		Assert.assertEquals(0, seasonCustListPhoneService.selectSeasonCustListPhoneBySeasonCustListId(12345L).size());
+		Assert.assertEquals(0, seasonCustListPhoneService.selectSeasonCustListPhoneBySeasonCustListId(null).size());
 	}
 }

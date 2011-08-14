@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -23,9 +24,8 @@ import com.baidu.rigel.unique.common.URLExtractor;
 import com.baidu.rigel.unique.service.SeasonCustListPhoneService;
 import com.baidu.rigel.unique.service.SeasonCustListService;
 import com.baidu.rigel.unique.service.SeasonCustListVoService;
-import com.baidu.rigel.unique.service.ShifenCustomerService;
+import com.baidu.rigel.unique.service.xuanyuan.ShifenCustomerService;
 import com.baidu.rigel.unique.tinyse.TinyseMgr;
-import com.baidu.rigel.unique.utils.Utils;
 import com.baidu.rigel.unique.vo.SeasonCustListVo;
 import com.opensymphony.xwork2.ActionContext;
 
@@ -318,7 +318,7 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 		if (ph != null && ph.length() == MOBILE_PHONE_LENGTH) {
 			if (!(ph.charAt(0) == '1'))
 				return false;
-			return Utils.isNumber(ph);
+			return NumberUtils.isNumber(ph);
 		}
 		return false;
 	}
@@ -329,13 +329,13 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 		if (phoneAreacode != null && (phoneAreacode.length() == 3 || phoneAreacode.length() == 4)) {
 			if (!(phoneAreacode.charAt(0) == '0'))
 				return null;
-			if (!Utils.isNumber(phoneAreacode)) {
+			if (!NumberUtils.isNumber(phoneAreacode)) {
 				return null;
 			}
 			strb.append(phoneAreacode + "-");
 			// 电话号码为7、8位的数字
 			if (phoneNum != null && (phoneNum.length() == 7 || phoneNum.length() == 8)) {
-				if (!Utils.isNumber(phoneNum)) {
+				if (!NumberUtils.isNumber(phoneNum)) {
 					return null;
 				}
 				strb.append(phoneNum);
@@ -344,7 +344,7 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 					if (phoneExtend.length() > 8) {
 						return null;
 					}
-					if (!Utils.isNumber(phoneExtend)) {
+					if (!NumberUtils.isNumber(phoneExtend)) {
 						return null;
 					}
 					strb.append("-" + phoneExtend);
@@ -477,7 +477,7 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 		sc.setUrl(localUrl);
 		sc.setDomain(URLExtractor.getDomain(localUrl));
 		sc.setInvalidate(invalidate);
-		sc = seasonCustListService.addSeasonCustList(sc);
+		sc = seasonCustListService.saveOrUpdate(sc);
 
 		for (String ph : mobilephone) {
 			if (isValidateMobileNum(ph)) {
@@ -485,7 +485,7 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 				scph.setDelFlag((short) 0);
 				scph.setPhonenum(ph);
 				scph.setSeasonCustlistId(sc.getId());
-				seasonCustListPhoneService.addSeasonCustListPhone(scph);
+				seasonCustListPhoneService.saveOrUpdate(scph);
 			}
 		}
 		for (int i = 0; i < phoneNum.length; i++) {
@@ -495,7 +495,7 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 				scph.setDelFlag((short) 0);
 				scph.setPhonenum(ph);
 				scph.setSeasonCustlistId(sc.getId());
-				seasonCustListPhoneService.addSeasonCustListPhone(scph);
+				seasonCustListPhoneService.saveOrUpdate(scph);
 			}
 		}
 
@@ -538,7 +538,7 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 			// 更新最后更新者信息
 			sc.setUpdateId(ucid);
 			sc.setUpdateTime(new Date());
-			seasonCustListService.addSeasonCustList(sc);
+			seasonCustListService.saveOrUpdate(sc);
 
 			seasonCustListVoService.delete(id);
 

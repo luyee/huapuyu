@@ -15,20 +15,20 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-import com.baidu.rigel.unique.bo.CustContact;
-import com.baidu.rigel.unique.bo.CustUrl;
-import com.baidu.rigel.unique.bo.Customer;
-import com.baidu.rigel.unique.bo.Phone;
-import com.baidu.rigel.unique.dao.CustContactDao;
-import com.baidu.rigel.unique.dao.CustUrlDao;
-import com.baidu.rigel.unique.dao.CustomerDao;
-import com.baidu.rigel.unique.dao.PhoneDao;
+import com.baidu.rigel.unique.bo.xuanyuan.CustContact;
+import com.baidu.rigel.unique.bo.xuanyuan.CustUrl;
+import com.baidu.rigel.unique.bo.xuanyuan.Customer;
+import com.baidu.rigel.unique.bo.xuanyuan.Phone;
+import com.baidu.rigel.unique.dao.xuanyuan.CustContactDao;
+import com.baidu.rigel.unique.dao.xuanyuan.CustUrlDao;
+import com.baidu.rigel.unique.dao.xuanyuan.CustomerDao;
+import com.baidu.rigel.unique.dao.xuanyuan.PhoneDao;
 import com.baidu.rigel.unique.utils.FieldConstant;
 import com.baidu.rigel.unique.utils.SourceType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/conf/applicationContext.xml", "classpath:/applicationContext-test.xml" })
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class })
+@TestExecutionListeners( { DependencyInjectionTestExecutionListener.class })
 public class TestServiceTest {
 	@Autowired
 	private com.baidu.rigel.unique.service.Test testService;

@@ -77,6 +77,7 @@ public class SeasonCustListServiceTest {
 		posIdList.add(12345L);
 		list = seasonCustListService.equalUrl("www.baidu123.com", posIdList);
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, seasonCustListService.equalUrl("www.baidu123.com", null).size());
 	}
 
 	@Test
@@ -91,6 +92,8 @@ public class SeasonCustListServiceTest {
 		posIdList.add(12345L);
 		list = seasonCustListService.querySeasonCustDataByCoreWord("zhangsan123", posIdList, 1);
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, seasonCustListService.querySeasonCustDataByCoreWord("zhangsan123", null, 1).size());
+		Assert.assertEquals(0, seasonCustListService.querySeasonCustDataByCoreWord("zhangsan123", posIdList, -1).size());
 	}
 
 	@Test
@@ -105,6 +108,8 @@ public class SeasonCustListServiceTest {
 		posIdList.add(12345L);
 		list = seasonCustListService.querySeasonCustDataByDomain("mydomain123", posIdList);
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, seasonCustListService.querySeasonCustDataByDomain(null, posIdList).size());
+		Assert.assertEquals(0, seasonCustListService.querySeasonCustDataByDomain("mydomain123", null).size());
 	}
 
 	@Test
@@ -119,6 +124,8 @@ public class SeasonCustListServiceTest {
 		posIdList.add(12345L);
 		list = seasonCustListService.querySeasonCustDataByPhone("1234567890123", posIdList);
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, seasonCustListService.querySeasonCustDataByPhone(null, posIdList).size());
+		Assert.assertEquals(0, seasonCustListService.querySeasonCustDataByPhone("1234567890123", null).size());
 	}
 
 	@Test
@@ -132,6 +139,7 @@ public class SeasonCustListServiceTest {
 		posIdList.add(12345L);
 		list = seasonCustListService.selectDisCreateIdByPosIdList(posIdList);
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, seasonCustListService.selectDisCreateIdByPosIdList(null).size());
 	}
 
 	@Test
@@ -147,6 +155,8 @@ public class SeasonCustListServiceTest {
 		Assert.assertEquals("mydomain", list.get(0).getDomain());
 		list = seasonCustListService.pageList("zhangsan123", "www.baidu.com", 1234L, "1234567890", (short) 1, beginCal.getTime(), endCal.getTime(), posIdList, 0, 10);
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, seasonCustListService.pageList("zhangsan123", "www.baidu.com", 1234L, "1234567890", (short) 1, beginCal.getTime(), endCal.getTime(), null, 0, 10).size());
+		Assert.assertEquals(1, seasonCustListService.pageList(null, null, -1L, null, (short) 0, beginCal.getTime(), endCal.getTime(), posIdList, -1, 10).size());
 	}
 
 	@Test
@@ -160,5 +170,7 @@ public class SeasonCustListServiceTest {
 		Assert.assertEquals(1, seasonCustListService.pageCount("zhangsan", "www.baidu.com", 1234L, "1234567890", (short) 1, beginCal.getTime(), endCal.getTime(), posIdList).longValue());
 		Assert.assertEquals(1, seasonCustListService.pageCount("zhangsan", "www.baidu.com", 1234L, "1234567890", null, beginCal.getTime(), endCal.getTime(), posIdList).longValue());
 		Assert.assertEquals(0, seasonCustListService.pageCount("zhangsan123", "www.baidu.com", 1234L, "1234567890", (short) 1, beginCal.getTime(), endCal.getTime(), posIdList).longValue());
+		Assert.assertEquals(0, seasonCustListService.pageCount("zhangsan123", "www.baidu.com", 1234L, "1234567890", (short) 1, beginCal.getTime(), endCal.getTime(), null).longValue());
+		Assert.assertEquals(1, seasonCustListService.pageCount(null, null, -1L, null, (short) 0, beginCal.getTime(), endCal.getTime(), posIdList).longValue());
 	}
 }

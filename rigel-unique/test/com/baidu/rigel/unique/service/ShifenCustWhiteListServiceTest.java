@@ -59,6 +59,7 @@ public class ShifenCustWhiteListServiceTest {
 		Assert.assertEquals(1234, shifenCustWhiteList.getCreateId().intValue());
 		Assert.assertEquals(1234, shifenCustWhiteList.getUpdateId().intValue());
 		Assert.assertNull(shifenCustWhiteListService.equalUrl("www.baidu123.com.cn"));
+		Assert.assertNull(shifenCustWhiteListService.equalUrl(null));
 	}
 
 	@Test
@@ -103,6 +104,7 @@ public class ShifenCustWhiteListServiceTest {
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals("www.baidu.com.cn", list.get(0).getUrl());
 		Assert.assertEquals(0, shifenCustWhiteListService.pageList("zhangsan123", "www.baidu.com.cn", 1234L, 1234L, posIdList, 0, 10).size());
+		Assert.assertEquals(1, shifenCustWhiteListService.pageList(null, null, 1234L, 1234L, posIdList, -1, 10).size());
 	}
 
 	@Test
@@ -111,6 +113,7 @@ public class ShifenCustWhiteListServiceTest {
 		posIdList.add(4321L);
 		Assert.assertEquals(1, shifenCustWhiteListService.pageCount("zhangsan", "www.baidu.com.cn", 1234L, 1234L, posIdList).longValue());
 		Assert.assertEquals(0, shifenCustWhiteListService.pageCount("zhangsan123", "www.baidu.com.cn", 1234L, 1234L, posIdList).longValue());
+		Assert.assertEquals(1, shifenCustWhiteListService.pageCount(null, null, 1234L, 1234L, posIdList).longValue());
 	}
 
 	@Test

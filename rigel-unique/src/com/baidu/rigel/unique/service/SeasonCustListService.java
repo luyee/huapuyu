@@ -22,7 +22,5 @@ public interface SeasonCustListService extends GenericService<SeasonCustList, Lo
 
 	public Long pageCount(String custName, String url, Long createId, String phoneNum, Short useInvalidate, Date beginInvalidate, Date endInvalidate, List<Long> posIdList);
 
-	public SeasonCustList addSeasonCustList(SeasonCustList seasonCustList);
-
 	public void deleteSeasonCustList(Long id);
 }

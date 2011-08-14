@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Service;
 
 import com.baidu.rigel.platform.dao.SqlMapDao;
@@ -124,7 +125,7 @@ public class NoncoreWordServiceImpl extends GenericSqlMapServiceImpl<NoncoreWord
 			word = Utils.addWildcard(Utils.escapeWildcard(word));
 
 		if (Utils.isLessThanZero(curPage))
-			curPage = com.baidu.rigel.unique.utils.Constant.ZERO;
+			curPage = NumberUtils.INTEGER_ZERO;
 
 		return noncoreWordDao.pageList(creatorId, word, curPage, pageSize);
 	}
@@ -144,11 +145,5 @@ public class NoncoreWordServiceImpl extends GenericSqlMapServiceImpl<NoncoreWord
 			e.printStackTrace();
 			return false;
 		}
-	}
-
-	public NoncoreWord findById(Long id) {
-		if (Utils.isNull(id))
-			return null;
-		return noncoreWordDao.findById(id);
 	}
 }

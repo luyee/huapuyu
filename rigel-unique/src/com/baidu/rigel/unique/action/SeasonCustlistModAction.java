@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -15,8 +16,7 @@ import com.baidu.rigel.unique.common.BaseActionSupport;
 import com.baidu.rigel.unique.service.SeasonCustListPhoneService;
 import com.baidu.rigel.unique.service.SeasonCustListService;
 import com.baidu.rigel.unique.service.SeasonCustListVoService;
-import com.baidu.rigel.unique.service.ShifenCustomerService;
-import com.baidu.rigel.unique.utils.Utils;
+import com.baidu.rigel.unique.service.xuanyuan.ShifenCustomerService;
 import com.baidu.rigel.unique.vo.SeasonCustListVo;
 
 /**
@@ -200,7 +200,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 		if (ph != null && ph.length() == MOBILE_PHONE_LENGTH) {
 			if (!(ph.charAt(0) == '1'))
 				return false;
-			return Utils.isNumber(ph);
+			return NumberUtils.isNumber(ph);
 		}
 		return false;
 	}
@@ -218,13 +218,13 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 		if (phoneAreacode != null && (phoneAreacode.length() == 3 || phoneAreacode.length() == 4)) {
 			if (!(phoneAreacode.charAt(0) == '0'))
 				return null;
-			if (!Utils.isNumber(phoneAreacode)) {
+			if (!NumberUtils.isNumber(phoneAreacode)) {
 				return null;
 			}
 			strb.append(phoneAreacode + "-");
 			// 电话号码为7、8位的数字
 			if (phoneNum != null && (phoneNum.length() == 7 || phoneNum.length() == 8)) {
-				if (!Utils.isNumber(phoneNum)) {
+				if (!NumberUtils.isNumber(phoneNum)) {
 					return null;
 				}
 				strb.append(phoneNum);
@@ -233,7 +233,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 					if (phoneExtend.length() > 8) {
 						return null;
 					}
-					if (!Utils.isNumber(phoneExtend)) {
+					if (!NumberUtils.isNumber(phoneExtend)) {
 						return null;
 					}
 					strb.append("-" + phoneExtend);
@@ -314,7 +314,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 		sc.setUpdateId(ucid);
 		sc.setUpdateTime(now);
 		sc.setInvalidate(invalidate);
-		seasonCustListService.addSeasonCustList(sc);
+		seasonCustListService.saveOrUpdate(sc);
 
 		if (idPhones != null) {
 			for (int i = 0; i < idPhones.length; i++) {
@@ -327,7 +327,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 						scph.setPhonenum(ph);
 						scph.setSeasonCustlistId(sc.getId());
 
-						seasonCustListPhoneService.addSeasonCustListPhone(scph);
+						seasonCustListPhoneService.saveOrUpdate(scph);
 					}
 
 				} else// 原有电话
@@ -339,7 +339,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 						scph.setPhonenum(ph);
 						scph.setSeasonCustlistId(sc.getId());
 						scph.setId(Long.valueOf(idPhones[i]));
-						seasonCustListPhoneService.addSeasonCustListPhone(scph);
+						seasonCustListPhoneService.saveOrUpdate(scph);
 					}
 				}
 			}
@@ -354,7 +354,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 						scph.setPhonenum(mobilephone[i]);
 						scph.setSeasonCustlistId(sc.getId());
 
-						seasonCustListPhoneService.addSeasonCustListPhone(scph);
+						seasonCustListPhoneService.saveOrUpdate(scph);
 					}
 
 				} else// 原有电话
@@ -365,7 +365,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 						scph.setPhonenum(mobilephone[i]);
 						scph.setSeasonCustlistId(sc.getId());
 						scph.setId(Long.valueOf(idMobiles[i]));
-						seasonCustListPhoneService.addSeasonCustListPhone(scph);
+						seasonCustListPhoneService.saveOrUpdate(scph);
 					}
 				}
 			}
@@ -435,7 +435,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 		sc.setUpdateTime(now);
 		sc.setUrl(url);
 
-		seasonCustListService.addSeasonCustList(sc);
+		seasonCustListService.saveOrUpdate(sc);
 
 		if (idPhones != null) {
 			for (int i = 0; i < idPhones.length; i++) {
@@ -448,7 +448,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 						scph.setPhonenum(ph);
 						scph.setSeasonCustlistId(sc.getId());
 
-						seasonCustListPhoneService.addSeasonCustListPhone(scph);
+						seasonCustListPhoneService.saveOrUpdate(scph);
 					}
 
 				} else// 原有电话
@@ -460,7 +460,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 						scph.setPhonenum(ph);
 						scph.setSeasonCustlistId(sc.getId());
 						scph.setId(Long.valueOf(idPhones[i]));
-						seasonCustListPhoneService.addSeasonCustListPhone(scph);
+						seasonCustListPhoneService.saveOrUpdate(scph);
 					}
 				}
 			}
@@ -475,7 +475,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 						scph.setPhonenum(mobilephone[i]);
 						scph.setSeasonCustlistId(sc.getId());
 
-						seasonCustListPhoneService.addSeasonCustListPhone(scph);
+						seasonCustListPhoneService.saveOrUpdate(scph);
 					}
 
 				} else// 原有电话
@@ -486,7 +486,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 						scph.setPhonenum(mobilephone[i]);
 						scph.setSeasonCustlistId(sc.getId());
 						scph.setId(Long.valueOf(idMobiles[i]));
-						seasonCustListPhoneService.addSeasonCustListPhone(scph);
+						seasonCustListPhoneService.saveOrUpdate(scph);
 					}
 				}
 			}

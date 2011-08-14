@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -15,7 +16,6 @@ import com.baidu.rigel.unique.common.BaseActionSupport;
 import com.baidu.rigel.unique.service.BlacklistPhoneService;
 import com.baidu.rigel.unique.service.BlacklistService;
 import com.baidu.rigel.unique.service.BlacklistVoService;
-import com.baidu.rigel.unique.utils.Utils;
 import com.baidu.rigel.unique.vo.BlacklistVo;
 
 /**
@@ -155,7 +155,7 @@ public class BlacklistModAction extends BaseActionSupport {
 		if (ph != null && ph.length() == MOBILE_PHONE_LENGTH) {
 			if (!(ph.charAt(0) == '1'))
 				return false;
-			return Utils.isNumber(ph);
+			return NumberUtils.isNumber(ph);
 		}
 		return false;
 	}
@@ -166,13 +166,13 @@ public class BlacklistModAction extends BaseActionSupport {
 		if (phoneAreacode != null && (phoneAreacode.length() == 3 || phoneAreacode.length() == 4)) {
 			if (!(phoneAreacode.charAt(0) == '0'))
 				return null;
-			if (!Utils.isNumber(phoneAreacode)) {
+			if (!NumberUtils.isNumber(phoneAreacode)) {
 				return null;
 			}
 			strb.append(phoneAreacode + "-");
 			// 电话号码为7、8位的数字
 			if (phoneNum != null && (phoneNum.length() == 7 || phoneNum.length() == 8)) {
-				if (!Utils.isNumber(phoneNum)) {
+				if (!NumberUtils.isNumber(phoneNum)) {
 					return null;
 				}
 				strb.append(phoneNum);
@@ -181,7 +181,7 @@ public class BlacklistModAction extends BaseActionSupport {
 					if (phoneExtend.length() > 8) {
 						return null;
 					}
-					if (!Utils.isNumber(phoneExtend)) {
+					if (!NumberUtils.isNumber(phoneExtend)) {
 						return null;
 					}
 					strb.append("-" + phoneExtend);

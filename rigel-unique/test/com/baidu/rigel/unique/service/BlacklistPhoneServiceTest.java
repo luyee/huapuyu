@@ -19,7 +19,7 @@ import com.baidu.rigel.unique.dao.BlacklistPhoneDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/conf/applicationContext.xml", "classpath:/applicationContext-test.xml" })
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class })
+@TestExecutionListeners( { DependencyInjectionTestExecutionListener.class })
 public class BlacklistPhoneServiceTest {
 	@Autowired
 	private BlacklistPhoneService blacklistPhoneService;
@@ -48,6 +48,7 @@ public class BlacklistPhoneServiceTest {
 		Assert.assertEquals(1234, list.get(0).longValue());
 		list = blacklistPhoneService.equalPhoneNum("1234567890123");
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, blacklistPhoneService.equalPhoneNum(null).size());
 	}
 
 	@Test
@@ -56,6 +57,7 @@ public class BlacklistPhoneServiceTest {
 		Assert.assertEquals("1234567890", blacklistPhone.getPhonenum());
 		Assert.assertEquals(1234, blacklistPhone.getBlacklistId().longValue());
 		Assert.assertNull(blacklistPhoneService.findById(12345L));
+		Assert.assertNull(blacklistPhoneService.findById(null));
 	}
 
 	@Test
@@ -65,6 +67,7 @@ public class BlacklistPhoneServiceTest {
 		Assert.assertEquals("1234567890", list.get(0).getPhonenum());
 		list = blacklistPhoneService.selectBlacklistPhoneByBlacklistId(12345L);
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, blacklistPhoneService.selectBlacklistPhoneByBlacklistId(null).size());
 	}
 
 	@Test

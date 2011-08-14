@@ -50,4 +50,10 @@ public class AreaWordServiceTest {
 		Assert.assertEquals("keyword", list.get(0).getcWord());
 	}
 
+	@Test
+	public void testDeleteAreaWord() {
+		areaWordService.deleteAreaWord(1234L);
+		Assert.assertNull(areaWordService.findById(1234L));
+	}
+
 }

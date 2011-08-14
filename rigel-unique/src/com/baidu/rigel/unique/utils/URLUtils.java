@@ -12,6 +12,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -60,7 +61,7 @@ public class URLUtils {
 
 		int pos = domain.indexOf(Constant.DOT);
 
-		if (Utils.isLessEqualThanZero(pos))
+		if (Utils.isEqualLessThanZero(pos))
 			return domain;
 
 		return domain.substring(0, pos + 1);
@@ -102,7 +103,7 @@ public class URLUtils {
 		int len = domains.length;
 
 		// 只有一个域不合法
-		if (len <= Constant.ONE) {
+		if (len <= NumberUtils.INTEGER_ONE) {
 			return null;
 		}
 
@@ -168,7 +169,7 @@ public class URLUtils {
 		// TODO Anders Zhu : 重构
 		String[] parts = domain.split("\\.");
 
-		if (parts.length <= Constant.ONE) {
+		if (parts.length <= NumberUtils.INTEGER_ONE) {
 			return Boolean.FALSE;
 		} else {
 			for (String part : parts) {
@@ -187,7 +188,7 @@ public class URLUtils {
 
 		for (int i = 0; i < domain.length(); i++) {
 			char c = domain.charAt(i);
-			if (Constant.MINUS_ONE == ALLOWED_STR.indexOf(c)) {
+			if (NumberUtils.INTEGER_MINUS_ONE == ALLOWED_STR.indexOf(c)) {
 				if (!isChinese(c)) {
 					return Boolean.FALSE;
 				}

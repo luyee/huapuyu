@@ -17,11 +17,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import com.baidu.rigel.unique.bo.Blacklist;
+import com.baidu.rigel.unique.dao.BlacklistDao;
 import com.baidu.rigel.unique.utils.FieldConstant;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/conf/applicationContext.xml" })
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class })
+@TestExecutionListeners( { DependencyInjectionTestExecutionListener.class })
 public class BlacklistDaoTest {
 	@Autowired
 	private BlacklistDao blacklistDao;

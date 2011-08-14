@@ -58,6 +58,7 @@ public class BlacklistServiceTest {
 		Assert.assertEquals(1234, list.get(0).longValue());
 		list = blacklistService.equalCompanyName("zhangsan123");
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, blacklistService.equalCompanyName(null).size());
 	}
 
 	@Test
@@ -68,6 +69,7 @@ public class BlacklistServiceTest {
 		Assert.assertEquals("zhangsan", list.get(0).get(FieldConstant.COMPANY_NAME));
 		list = blacklistService.containCompanyName("zhangsan123");
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, blacklistService.containCompanyName(null).size());
 	}
 
 	@Test
@@ -77,6 +79,7 @@ public class BlacklistServiceTest {
 		Assert.assertEquals(1234, list.get(0).intValue());
 		list = blacklistService.equalUrl("www.baidu123.com.cn");
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, blacklistService.equalUrl(null).size());
 	}
 
 	@Test
@@ -104,6 +107,7 @@ public class BlacklistServiceTest {
 		Assert.assertEquals("zhangsan", list.get(0).getCompanyName());
 		list = blacklistService.pageList("zhangsan123", null, null, null, 0, 10);
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, blacklistService.pageList(null, "www.baidu123.com.cn", null, null, -1, 10).size());
 	}
 
 	@Test
@@ -112,6 +116,7 @@ public class BlacklistServiceTest {
 		srcList.add((short) 12);
 		Assert.assertEquals(1, blacklistService.pageCount("zhangsan", "www.baidu.com.cn", 1234L, srcList).longValue());
 		Assert.assertEquals(0, blacklistService.pageCount("zhangsan123", null, null, null).longValue());
+		Assert.assertEquals(0, blacklistService.pageCount(null, "www.baidu123.com.cn", null, null).longValue());
 	}
 
 	@Test

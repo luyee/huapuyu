@@ -60,8 +60,8 @@ public class UtilsTest {
 		Assert.assertEquals(0, Utils.limitList(srcList, 0).size());
 		Assert.assertEquals(5, Utils.limitList(srcList, 9).size());
 		Assert.assertEquals(0, Utils.limitList(new ArrayList<Map<String, Object>>(), 4).size());
-		Assert.assertNull(Utils.limitList(null, 4));
-		Assert.assertNull(Utils.limitList(srcList, -1));
+		Assert.assertEquals(0, Utils.limitList(null, 4).size());
+		Assert.assertEquals(0, Utils.limitList(srcList, -1).size());
 	}
 
 	@Test

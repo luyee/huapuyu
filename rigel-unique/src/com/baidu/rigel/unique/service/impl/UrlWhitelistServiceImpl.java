@@ -7,7 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,6 @@ import com.baidu.rigel.platform.service.impl.GenericSqlMapServiceImpl;
 import com.baidu.rigel.unique.bo.UrlWhitelist;
 import com.baidu.rigel.unique.dao.UrlWhitelistDao;
 import com.baidu.rigel.unique.service.UrlWhitelistService;
-import com.baidu.rigel.unique.utils.Constant;
 import com.baidu.rigel.unique.utils.Utils;
 
 @Service("urlWhitelistService")
@@ -26,22 +27,22 @@ public class UrlWhitelistServiceImpl extends GenericSqlMapServiceImpl<UrlWhiteli
 	private UrlWhitelistDao urlWhitelistDao;
 
 	public boolean isDomainAndPosIdsExist(String domain, Long[] posIds) {
-		if (StringUtils.isBlank(domain) || Utils.isNull(posIds) || Utils.isLessEqualThanZero(posIds.length))
+		if (StringUtils.isBlank(domain) || ArrayUtils.isEmpty(posIds))
 			return false;
 		return Utils.isGreaterThanZero(urlWhitelistDao.selectCountByDomainPosIdList(domain, Arrays.asList(posIds)));
 	}
 
 	public Long pageCount(Long posId, String domain, Short cType, Long updateId) {
 		if (Utils.isNull(posId))
-			return (long) Constant.ZERO;
+			return NumberUtils.LONG_ZERO;
 
 		if (StringUtils.isBlank(domain))
 			domain = null;
 
-		if (Utils.isNotNull(cType) && Constant.MINUS_ONE == cType.intValue())
+		if (Utils.isNotNullAndEqualToMinusOne(cType))
 			cType = null;
 
-		if (Utils.isNotNull(updateId) && Constant.ONE == updateId.intValue())
+		if (Utils.isNotNullAndEqualToOne(updateId))
 			updateId = null;
 
 		return urlWhitelistDao.pageCount(posId, domain, cType, updateId);
@@ -54,14 +55,14 @@ public class UrlWhitelistServiceImpl extends GenericSqlMapServiceImpl<UrlWhiteli
 		if (StringUtils.isBlank(domain))
 			domain = null;
 
-		if (Utils.isNotNull(cType) && Constant.MINUS_ONE == cType.intValue())
+		if (Utils.isNotNullAndEqualToMinusOne(cType))
 			cType = null;
 
-		if (Utils.isNotNull(updateId) && Constant.ONE == updateId.intValue())
+		if (Utils.isNotNullAndEqualToOne(updateId))
 			updateId = null;
 
 		if (Utils.isLessThanZero(curPage))
-			curPage = Constant.ZERO;
+			curPage = NumberUtils.INTEGER_ZERO;
 
 		return urlWhitelistDao.pageList(posId, domain, cType, updateId, curPage, pageSize);
 	}
@@ -96,12 +97,6 @@ public class UrlWhitelistServiceImpl extends GenericSqlMapServiceImpl<UrlWhiteli
 			urlWhitelist.setInvalidate(invalidate.getTime());
 		}
 		saveOrUpdate(urlWhitelist);
-	}
-
-	public UrlWhitelist findById(Long id) {
-		if (Utils.isNull(id))
-			return null;
-		return urlWhitelistDao.findById(id);
 	}
 
 	// TODO Anders Zhu : 重构

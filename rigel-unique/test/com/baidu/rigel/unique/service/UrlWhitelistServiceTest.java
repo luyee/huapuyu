@@ -58,6 +58,8 @@ public class UrlWhitelistServiceTest {
 		Long[] posIds = new Long[1];
 		Assert.assertTrue(urlWhitelistService.isDomainAndPosIdsExist("mydomain", posIdList.toArray(posIds)));
 		Assert.assertFalse(urlWhitelistService.isDomainAndPosIdsExist("mydomain123", posIdList.toArray(posIds)));
+		Assert.assertFalse(urlWhitelistService.isDomainAndPosIdsExist(null, posIdList.toArray(posIds)));
+		Assert.assertFalse(urlWhitelistService.isDomainAndPosIdsExist("mydomain123", null));
 	}
 
 	@Test
@@ -67,24 +69,31 @@ public class UrlWhitelistServiceTest {
 		Assert.assertEquals("www.baidu.com", list.get(0).get(FieldConstant.URL));
 		list = urlWhitelistService.pageList(12345L, "mydomain123", (short) 0, 1234L, 0, 10);
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, urlWhitelistService.pageList(null, "mydomain123", (short) 0, 1234L, 0, 10).size());
+		Assert.assertEquals(0, urlWhitelistService.pageList(12345L, null, (short) -1, 1L, -1, 10).size());
 	}
 
 	@Test
 	public void testPageCount() {
 		Assert.assertEquals(1, urlWhitelistService.pageCount(1234L, "mydomain", (short) 0, 1234L).longValue());
 		Assert.assertEquals(0, urlWhitelistService.pageCount(12345L, "mydomain", (short) 0, 1234L).longValue());
+		Assert.assertEquals(0, urlWhitelistService.pageCount(null, "mydomain", (short) 0, 1234L).longValue());
+		Assert.assertEquals(0, urlWhitelistService.pageCount(12345L, null, (short) -1, 1L).longValue());
 	}
 
 	@Test
 	public void testSelectDisUpdateIdByPosId() {
 		Assert.assertEquals(1234, urlWhitelistService.selectDisUpdateIdByPosId(1234L).get(0).longValue());
 		Assert.assertEquals(0, urlWhitelistService.selectDisUpdateIdByPosId(12345L).size());
+		Assert.assertEquals(0, urlWhitelistService.selectDisUpdateIdByPosId(null).size());
 	}
 
 	@Test
 	public void testIsDomainAndPosIdExist() {
 		Assert.assertTrue(urlWhitelistService.isDomainAndPosIdExist("mydomain", 1234L));
 		Assert.assertFalse(urlWhitelistService.isDomainAndPosIdExist("mydomain", 12345L));
+		Assert.assertFalse(urlWhitelistService.isDomainAndPosIdExist(null, 12345L));
+		Assert.assertFalse(urlWhitelistService.isDomainAndPosIdExist("mydomain", null));
 	}
 
 	@Test

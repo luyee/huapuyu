@@ -50,14 +50,14 @@ public class NoncoreWordServiceTest {
 		List<NoncoreWord> list = noncoreWordService.pageList(1234L, "keyword", 0, 10);
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals("keyword", list.get(0).getWord());
-		list = noncoreWordService.pageList(12345L, "keyword", 0, 10);
+		list = noncoreWordService.pageList(12345L, null, -1, 10);
 		Assert.assertEquals(0, list.size());
 	}
 
 	@Test
 	public void testPageCount() {
 		Assert.assertEquals(1, noncoreWordService.pageCount(1234L, "keyword").longValue());
-		Assert.assertEquals(0, noncoreWordService.pageCount(12345L, "keyword").longValue());
+		Assert.assertEquals(0, noncoreWordService.pageCount(12345L, null).longValue());
 	}
 
 	@Test
@@ -72,5 +72,6 @@ public class NoncoreWordServiceTest {
 		NoncoreWord noncoreWord = noncoreWordService.selectNoncoreWordByWord("keyword");
 		Assert.assertEquals(1234, noncoreWord.getId().longValue());
 		Assert.assertNull(noncoreWordService.selectNoncoreWordByWord("keyword123"));
+		Assert.assertNull(noncoreWordService.selectNoncoreWordByWord(null));
 	}
 }

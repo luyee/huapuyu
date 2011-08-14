@@ -16,19 +16,19 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-import com.baidu.rigel.unique.bo.CustContact;
-import com.baidu.rigel.unique.bo.CustUrl;
-import com.baidu.rigel.unique.bo.Customer;
-import com.baidu.rigel.unique.bo.Phone;
-import com.baidu.rigel.unique.dao.CustContactDao;
-import com.baidu.rigel.unique.dao.CustUrlDao;
-import com.baidu.rigel.unique.dao.CustomerDao;
-import com.baidu.rigel.unique.dao.PhoneDao;
+import com.baidu.rigel.unique.bo.xuanyuan.CustContact;
+import com.baidu.rigel.unique.bo.xuanyuan.CustUrl;
+import com.baidu.rigel.unique.bo.xuanyuan.Customer;
+import com.baidu.rigel.unique.bo.xuanyuan.Phone;
+import com.baidu.rigel.unique.dao.xuanyuan.CustContactDao;
+import com.baidu.rigel.unique.dao.xuanyuan.CustUrlDao;
+import com.baidu.rigel.unique.dao.xuanyuan.CustomerDao;
+import com.baidu.rigel.unique.dao.xuanyuan.PhoneDao;
 import com.baidu.rigel.unique.utils.FieldConstant;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/conf/applicationContext.xml", "classpath:/applicationContext-test.xml" })
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class })
+@TestExecutionListeners( { DependencyInjectionTestExecutionListener.class })
 public class AuditServiceTest {
 	@Autowired
 	private AuditService auditService;
@@ -152,6 +152,7 @@ public class AuditServiceTest {
 		Assert.assertEquals(1234, list.get(0).longValue());
 		list = auditService.listMatchPhoneContact("1234567890");
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, auditService.listMatchPhoneContact(null).size());
 	}
 
 	@Test
@@ -162,6 +163,8 @@ public class AuditServiceTest {
 		Assert.assertEquals("zhangsan", list.get(0).get(FieldConstant.CUST_FULL_NAME));
 		list = auditService.listMatchPhoneContactMap("54321", "987654321");
 		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(0, auditService.listMatchPhoneContactMap("54321", null).size());
+		Assert.assertEquals(0, auditService.listMatchPhoneContactMap(null, "9876543210").size());
 	}
 
 }

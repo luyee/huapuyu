@@ -1,10 +1,12 @@
 package com.baidu.rigel.unique.utils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -30,14 +32,14 @@ public class Utils {
 
 		if (isNull(srcList)) {
 			log.warn("参数srcList为null");
-			return null;
-		} else if (count < Constant.ZERO) {
+			return new ArrayList<Map<String, Object>>(0);
+		} else if (Utils.isLessThanZero(count)) {
 			log.warn("参数count小于0");
-			return null;
+			return new ArrayList<Map<String, Object>>(0);
 		}
 
 		if (srcList.size() > count)
-			return srcList.subList(Constant.ZERO, count);
+			return srcList.subList(NumberUtils.INTEGER_ZERO, count);
 
 		return srcList;
 	}
@@ -91,102 +93,6 @@ public class Utils {
 		return !isNull(object);
 	}
 
-	/**
-	 * 判断参数是否大于0（>0）
-	 * 
-	 * <pre>
-	 * Utils.isGreaterEqualThanZero(0) = false;
-	 * Utils.isGreaterEqualThanZero(1) = true;
-	 * Utils.isGreaterEqualThanZero(-1) = false;
-	 * </pre>
-	 * 
-	 * @param value
-	 * @return 如果参数大于0，返回true，否则返回false
-	 */
-	public static boolean isGreaterThanZero(int value) {
-		if (value > Constant.ZERO)
-			return Boolean.TRUE;
-		else
-			return Boolean.FALSE;
-	}
-
-	public static boolean isGreaterThanZero(long value) {
-		if (value > Constant.ZERO)
-			return Boolean.TRUE;
-		else
-			return Boolean.FALSE;
-	}
-
-	/**
-	 * 判断参数是否小于等于0（<=0）
-	 * 
-	 * <pre>
-	 * Utils.isGreaterEqualThanZero(0) = true;
-	 * Utils.isGreaterEqualThanZero(1) = false;
-	 * Utils.isGreaterEqualThanZero(-1) = true;
-	 * </pre>
-	 * 
-	 * @param value
-	 * @return 如果参数小于等于0，返回true，否则返回false
-	 */
-	public static boolean isLessEqualThanZero(int value) {
-		return !isGreaterThanZero(value);
-	}
-
-	/**
-	 * 判断参数是否小于0（<0）
-	 * 
-	 * <pre>
-	 * Utils.isGreaterEqualThanZero(0) = false;
-	 * Utils.isGreaterEqualThanZero(1) = false;
-	 * Utils.isGreaterEqualThanZero(-1) = true;
-	 * </pre>
-	 * 
-	 * @param value
-	 * @return 如果参数小于0，则返回true，否则返回false
-	 */
-	public static boolean isLessThanZero(int value) {
-		if (value < Constant.ZERO)
-			return Boolean.TRUE;
-		else
-			return Boolean.FALSE;
-	}
-
-	public static boolean isLessThanZero(long value) {
-		if (value < Constant.ZERO)
-			return Boolean.TRUE;
-		else
-			return Boolean.FALSE;
-	}
-
-	/**
-	 * 判断参数是否大于等于0（>=0）
-	 * 
-	 * <pre>
-	 * Utils.isGreaterEqualThanZero(0) = true;
-	 * Utils.isGreaterEqualThanZero(1) = true;
-	 * Utils.isGreaterEqualThanZero(-1) = false;
-	 * </pre>
-	 * 
-	 * @param value
-	 * @return 如果参数大于等于0，则返回true，否则返回false
-	 */
-	public static boolean isGreaterEqualThanZero(int value) {
-		return !isLessThanZero(value);
-	}
-
-	public static boolean isEqualZero(int value) {
-		return Constant.ZERO == value;
-	}
-
-	public static boolean isEqualZero(long value) {
-		return Constant.ZERO == value;
-	}
-
-	public static boolean isNotEqualZero(int value) {
-		return !isEqualZero(value);
-	}
-
 	public static String escapeWildcard(String value) {
 		return value.replaceAll(Constant.PERCENT_SIGN, Constant.PERCENT_SIGN_ESCAPE).replaceAll(Constant.UNDERLINE, Constant.UNDERLINE_ESCAPE);
 	}
@@ -209,40 +115,226 @@ public class Utils {
 		return invalidDate;
 	}
 
-	public static boolean isEmpty(Object... objects) {
-		return null == objects || objects.length <= Constant.ZERO;
+	public static boolean isEqualToZero(Number number) {
+		if (number instanceof Long)
+			return NumberUtils.INTEGER_ZERO == number.longValue();
+		else if (number instanceof Short)
+			return NumberUtils.SHORT_ZERO == number.shortValue();
+		else if (number instanceof Byte)
+			return NumberUtils.BYTE_ZERO == number.byteValue();
+		else if (number instanceof Double)
+			return NumberUtils.DOUBLE_ZERO == number.doubleValue();
+		else if (number instanceof Float)
+			return NumberUtils.FLOAT_ZERO == number.floatValue();
+		else if (number instanceof Integer)
+			return NumberUtils.INTEGER_ZERO == number.intValue();
+		else
+			// TODO Anders Zhu : 添加异常信息
+			throw new IllegalArgumentException();
 	}
 
-	public static boolean isEmpty(Long... objects) {
-		return null == objects || objects.length <= Constant.ZERO;
+	public static boolean isGreaterThanZero(Number number) {
+		if (number instanceof Long)
+			return NumberUtils.INTEGER_ZERO < number.longValue();
+		else if (number instanceof Short)
+			return NumberUtils.SHORT_ZERO < number.shortValue();
+		else if (number instanceof Byte)
+			return NumberUtils.BYTE_ZERO < number.byteValue();
+		else if (number instanceof Double)
+			return NumberUtils.DOUBLE_ZERO < number.doubleValue();
+		else if (number instanceof Float)
+			return NumberUtils.FLOAT_ZERO < number.floatValue();
+		else if (number instanceof Integer)
+			return NumberUtils.INTEGER_ZERO < number.intValue();
+		else
+			// TODO Anders Zhu : 添加异常信息
+			throw new IllegalArgumentException();
 	}
 
-	public static boolean isNotEmpty(Object... objects) {
-		return !isEmpty(objects);
+	public static boolean isLessThanZero(Number number) {
+		if (number instanceof Long)
+			return NumberUtils.INTEGER_ZERO > number.longValue();
+		else if (number instanceof Short)
+			return NumberUtils.SHORT_ZERO > number.shortValue();
+		else if (number instanceof Byte)
+			return NumberUtils.BYTE_ZERO > number.byteValue();
+		else if (number instanceof Double)
+			return NumberUtils.DOUBLE_ZERO > number.doubleValue();
+		else if (number instanceof Float)
+			return NumberUtils.FLOAT_ZERO > number.floatValue();
+		else if (number instanceof Integer)
+			return NumberUtils.INTEGER_ZERO > number.intValue();
+		else
+			// TODO Anders Zhu : 添加异常信息
+			throw new IllegalArgumentException();
 	}
 
-	public static boolean isNumber(String value) {
-		try {
-			new Double(value);
-			return Boolean.TRUE;
-		} catch (Exception e) {
-			return Boolean.FALSE;
-		}
+	public static boolean isEqualGreaterThanZero(Number number) {
+		return isEqualToZero(number) || isGreaterThanZero(number);
 	}
 
-	public static boolean isEqualMinusOne(long value) {
-		return Constant.MINUS_ONE == value;
+	public static boolean isEqualLessThanZero(Number number) {
+		return isEqualToZero(number) || isLessThanZero(number);
 	}
 
-	public static boolean isEqualMinusOne(int value) {
-		return Constant.MINUS_ONE == value;
+	public static boolean isNotEqualToZero(Number number) {
+		return !isEqualToZero(number);
 	}
 
-	public static boolean isEqualOne(long value) {
-		return Constant.ZERO == value;
+	public static boolean isEqualToOne(Number number) {
+		if (number instanceof Long)
+			return NumberUtils.INTEGER_ONE == number.longValue();
+		else if (number instanceof Short)
+			return NumberUtils.SHORT_ONE == number.shortValue();
+		else if (number instanceof Byte)
+			return NumberUtils.BYTE_ONE == number.byteValue();
+		else if (number instanceof Double)
+			return NumberUtils.DOUBLE_ONE == number.doubleValue();
+		else if (number instanceof Float)
+			return NumberUtils.FLOAT_ONE == number.floatValue();
+		else if (number instanceof Integer)
+			return NumberUtils.INTEGER_ONE == number.intValue();
+		else
+			// TODO Anders Zhu : 添加异常信息
+			throw new IllegalArgumentException();
 	}
 
-	public static boolean isEqualOne(int value) {
-		return Constant.ZERO == value;
+	public static boolean isGreaterThanOne(Number number) {
+		if (number instanceof Long)
+			return NumberUtils.INTEGER_ONE < number.longValue();
+		else if (number instanceof Short)
+			return NumberUtils.SHORT_ONE < number.shortValue();
+		else if (number instanceof Byte)
+			return NumberUtils.BYTE_ONE < number.byteValue();
+		else if (number instanceof Double)
+			return NumberUtils.DOUBLE_ONE < number.doubleValue();
+		else if (number instanceof Float)
+			return NumberUtils.FLOAT_ONE < number.floatValue();
+		else if (number instanceof Integer)
+			return NumberUtils.INTEGER_ONE < number.intValue();
+		else
+			// TODO Anders Zhu : 添加异常信息
+			throw new IllegalArgumentException();
+	}
+
+	public static boolean isLessThanOne(Number number) {
+		if (number instanceof Long)
+			return NumberUtils.INTEGER_ONE > number.longValue();
+		else if (number instanceof Short)
+			return NumberUtils.SHORT_ONE > number.shortValue();
+		else if (number instanceof Byte)
+			return NumberUtils.BYTE_ONE > number.byteValue();
+		else if (number instanceof Double)
+			return NumberUtils.DOUBLE_ONE > number.doubleValue();
+		else if (number instanceof Float)
+			return NumberUtils.FLOAT_ONE > number.floatValue();
+		else if (number instanceof Integer)
+			return NumberUtils.INTEGER_ONE > number.intValue();
+		else
+			// TODO Anders Zhu : 添加异常信息
+			throw new IllegalArgumentException();
+	}
+
+	public static boolean isEqualGreaterThanOne(Number number) {
+		return isEqualToOne(number) || isGreaterThanOne(number);
+	}
+
+	public static boolean isEqualLessThanOne(Number number) {
+		return isEqualToOne(number) || isLessThanOne(number);
+	}
+
+	public static boolean isNotEqualToOne(Number number) {
+		return !isEqualToOne(number);
+	}
+
+	public static boolean isEqualToMinusOne(Number number) {
+		if (number instanceof Long)
+			return NumberUtils.INTEGER_MINUS_ONE == number.longValue();
+		else if (number instanceof Short)
+			return NumberUtils.SHORT_MINUS_ONE == number.shortValue();
+		else if (number instanceof Byte)
+			return NumberUtils.BYTE_MINUS_ONE == number.byteValue();
+		else if (number instanceof Double)
+			return NumberUtils.DOUBLE_MINUS_ONE == number.doubleValue();
+		else if (number instanceof Float)
+			return NumberUtils.FLOAT_MINUS_ONE == number.floatValue();
+		else if (number instanceof Integer)
+			return NumberUtils.INTEGER_MINUS_ONE == number.intValue();
+		else
+			// TODO Anders Zhu : 添加异常信息
+			throw new IllegalArgumentException();
+	}
+
+	public static boolean isGreaterThanMinusOne(Number number) {
+		if (number instanceof Long)
+			return NumberUtils.INTEGER_MINUS_ONE < number.longValue();
+		else if (number instanceof Short)
+			return NumberUtils.SHORT_MINUS_ONE < number.shortValue();
+		else if (number instanceof Byte)
+			return NumberUtils.BYTE_MINUS_ONE < number.byteValue();
+		else if (number instanceof Double)
+			return NumberUtils.DOUBLE_MINUS_ONE < number.doubleValue();
+		else if (number instanceof Float)
+			return NumberUtils.FLOAT_MINUS_ONE < number.floatValue();
+		else if (number instanceof Integer)
+			return NumberUtils.INTEGER_MINUS_ONE < number.intValue();
+		else
+			// TODO Anders Zhu : 添加异常信息
+			throw new IllegalArgumentException();
+	}
+
+	public static boolean isLessThanMinusOne(Number number) {
+		if (number instanceof Long)
+			return NumberUtils.INTEGER_MINUS_ONE > number.longValue();
+		else if (number instanceof Short)
+			return NumberUtils.SHORT_MINUS_ONE > number.shortValue();
+		else if (number instanceof Byte)
+			return NumberUtils.BYTE_MINUS_ONE > number.byteValue();
+		else if (number instanceof Double)
+			return NumberUtils.DOUBLE_MINUS_ONE > number.doubleValue();
+		else if (number instanceof Float)
+			return NumberUtils.FLOAT_MINUS_ONE > number.floatValue();
+		else if (number instanceof Integer)
+			return NumberUtils.INTEGER_MINUS_ONE > number.intValue();
+		else
+			// TODO Anders Zhu : 添加异常信息
+			throw new IllegalArgumentException();
+	}
+
+	public static boolean isEqualGreaterThanMinusOne(Number number) {
+		return isEqualToMinusOne(number) || isGreaterThanMinusOne(number);
+	}
+
+	public static boolean isEqualLessThanMinusOne(Number number) {
+		return isEqualToMinusOne(number) || isLessThanMinusOne(number);
+	}
+
+	public static boolean isNotEqualToMinusOne(Number number) {
+		return !isEqualToMinusOne(number);
+	}
+
+	// 以下为辅助方法
+	public static boolean isNullOrEqualToZero(Number number) {
+		return isNull(number) || isEqualToZero(number);
+	}
+
+	public static boolean isNullOrEqualToOne(Number number) {
+		return isNull(number) || isEqualToOne(number);
+	}
+
+	public static boolean isNullOrEqualToMinusOne(Number number) {
+		return isNull(number) || isEqualToMinusOne(number);
+	}
+
+	public static boolean isNotNullAndEqualToZero(Number number) {
+		return isNotNull(number) && isEqualToZero(number);
+	}
+
+	public static boolean isNotNullAndEqualToOne(Number number) {
+		return isNotNull(number) && isEqualToOne(number);
+	}
+
+	public static boolean isNotNullAndEqualToMinusOne(Number number) {
+		return isNotNull(number) && isEqualToMinusOne(number);
 	}
 }

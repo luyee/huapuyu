@@ -30,12 +30,6 @@ public class SeasonCustListPhoneServiceImpl extends GenericSqlMapServiceImpl<Sea
 		return seasonCustListPhoneDao.selectSeasonCustListPhoneBySeasonCustListId(seasonCustListId);
 	}
 
-	public SeasonCustListPhone addSeasonCustListPhone(SeasonCustListPhone seasonCustListPhone) {
-		if (Utils.isNull(seasonCustListPhone))
-			return null;
-		return saveOrUpdate(seasonCustListPhone);
-	}
-
 	public void deleteSeasonCustListPhone(Long id) {
 		if (Utils.isNotNull(id))
 			seasonCustListPhoneDao.deleteSeasonCustListPhone(id);

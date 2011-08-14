@@ -23,7 +23,7 @@ import com.baidu.rigel.unique.common.NormalUserUtil;
 import com.baidu.rigel.unique.common.ResearchAware;
 import com.baidu.rigel.unique.common.SystemConstant;
 import com.baidu.rigel.unique.service.ShifenCustWhiteListService;
-import com.baidu.rigel.unique.service.ShifenCustomerService;
+import com.baidu.rigel.unique.service.xuanyuan.ShifenCustomerService;
 
 /**
  * URL白名单设置

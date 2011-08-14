@@ -101,4 +101,12 @@ public class SeasonCustListVoServiceTest {
 		Assert.assertEquals(1, seasonCustListDao.findById(1234L).getDelFlag().shortValue());
 		Assert.assertEquals(1, seasonCustListPhoneDao.findById(1234L).getDelFlag().shortValue());
 	}
+
+	@Test
+	public void testFindSeasonCustListVo() {
+		SeasonCustListVo seasonCustListVo = seasonCustListVoService.findSeasonCustListVo(1234L);
+		Assert.assertEquals("zhangsan", seasonCustListVo.getSeasonCustList().getCustName());
+		Assert.assertEquals("1234567890", seasonCustListVo.getSeasonCustListPhoneList().get(0).getPhonenum());
+		Assert.assertNull(seasonCustListVoService.findSeasonCustListVo(12345L));
+	}
 }
