@@ -190,7 +190,6 @@ public class Constant {
 	/** 客户二级状态码 22：搁置期满 */
 	public static final short CUST_STAT_2_22 = 22;
 	/** 客户二级状态码 23: 不审核不清洗 */
-	// TODO 注意新增的状态
 	public static final short CUST_STAT_2_23 = 23;
 
 	/** 客户二级状态码 30：跟进初始状态 */

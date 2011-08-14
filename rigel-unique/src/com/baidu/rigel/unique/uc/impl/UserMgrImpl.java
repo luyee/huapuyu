@@ -50,22 +50,18 @@ public class UserMgrImpl implements UserMgr {
 	}
 
 	public List<Long> getALLDefaultUserIdsByPos(Long arg0, int arg1) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public UserPos getAllPosById(Long arg0, String arg1) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public List<Position> getAllPositionByIds(List<Long> arg0) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public List<Long> getAllUserIdsByPos(Long arg0, int arg1) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -74,102 +70,82 @@ public class UserMgrImpl implements UserMgr {
 	}
 
 	public UcidsList getAllUserIdsByPosAndRole(Long arg0, String arg1, int arg2, int arg3) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Position getDefaultPosById(Long arg0, String arg1) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public List<User> getManagerById(Long arg0, String arg1) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Position getParentPos(Long arg0) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public List<PositionPath> getPosPathByPosid(List<Long> arg0, int arg1) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public List<PosPath> getPosPathByUser(List<Long> arg0, String arg1) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Map<Long, PositionPath> getPosPathMapByPosid(List<Long> arg0, int arg1) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Map<Long, PosPath> getPosPathMapByUser(List<Long> arg0, String arg1) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Position getPositionById(Long arg0) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public List<Position> getPositionByIds(List<Long> arg0) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Position getPositionByTag(String arg0) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public RoleInfo getRoleInfoByTag(String arg0) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public List<Position> getSubTreeByPos(Long arg0) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public List<Position> getUnitPosByTree(Long arg0, String arg1) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public List<Position> getUnitPosOfTree(String arg0) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public User getUserByName(String arg0) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Long getUserIdByNameWithMgrPosid(Long arg0, String arg1) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public List<Long> getUserIdsByPosAndRole(Long arg0, String arg1) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public UcidsList getUserIdsByPosAndRole(Long arg0, String arg1, int arg2, int arg3) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public UserInfo userLogin(Long arg0, Long arg1, List<String> arg2) throws UserCenterErrorException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

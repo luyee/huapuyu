@@ -104,7 +104,6 @@ public class MockTinyseMgrImpl implements TinyseMgr {
 	}
 
 	public boolean delSeasonCustData(List<Long> ids) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }
