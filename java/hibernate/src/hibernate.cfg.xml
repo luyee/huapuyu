@@ -4,13 +4,11 @@
 <hibernate-configuration>
 	<session-factory name="main">
 		<!-- mysql -->
-		<!--  
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.connection.password">123</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hibernate?useUnicode=true&amp;characterEncoding=utf-8</property>
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
-		-->
 		
 		<!-- oracle -->
 		<!--  
@@ -22,11 +20,13 @@
 		-->
 		
 		<!-- firebird -->
+		<!--  
 		<property name="hibernate.connection.driver_class">org.firebirdsql.jdbc.FBDriver</property>
 		<property name="hibernate.connection.password">masterkey</property>
 		<property name="hibernate.connection.url">jdbc:firebirdsql:local:d:/firebird.fdb?sql_dialect=3</property>
 		<property name="hibernate.connection.username">sysdba</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.FirebirdDialect</property>
+		-->
 		
 		<property name="hibernate.show_sql">true</property>
 		<property name="hibernate.format_sql">true</property>
@@ -49,6 +49,12 @@
 		<mapping resource="com/anders/hibernate/model/Privilege.hbm.xml" />
 		<mapping resource="com/anders/hibernate/model/Resource.hbm.xml" />
 		-->
-		<mapping resource="com/anders/hibernate/model/Area.hbm.xml" />
+		
+		<mapping class="com.anders.hibernate.model.maifang.Area" />
+		<mapping class="com.anders.hibernate.model.maifang.Data" />
+		<mapping class="com.anders.hibernate.model.maifang.Facility" />
+		<mapping class="com.anders.hibernate.model.maifang.Feature" />
+		<mapping class="com.anders.hibernate.model.maifang.House" />
+		<mapping class="com.anders.hibernate.model.maifang.SecondHandHouse" />
 	</session-factory>
 </hibernate-configuration>
