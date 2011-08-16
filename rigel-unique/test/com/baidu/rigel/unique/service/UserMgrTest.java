@@ -20,9 +20,8 @@ public class UserMgrTest {
 	@Autowired
 	private UserMgr userMgr;
 
-	// TODO Anders Zhu : 修改
 	@Test
-	public void test123() {
+	public void testGetAllPositionByIds() {
 		List<Long> list = new ArrayList<Long>();
 		list.add(1L);
 		userMgr.getAllPositionByIds(list);

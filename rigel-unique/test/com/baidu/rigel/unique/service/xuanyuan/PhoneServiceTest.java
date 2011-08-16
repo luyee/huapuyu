@@ -55,7 +55,7 @@ public class PhoneServiceTest {
 		phoneDao.save(phone);
 
 		CustContact custContact = new CustContact();
-		custContact.setContactId(1234);
+		custContact.setContactId(1234L);
 		custContact.setCustId(1234);
 		custContact.setContactName("zhangsan");
 		custContact.setAddUser(0);

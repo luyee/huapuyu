@@ -111,7 +111,6 @@ public class Constant {
 		CUST_TYPE_MAP.put(CustType.ADVERTISING_AGENCY.getValue(), CustType.ADVERTISING_AGENCY.getLabel());
 	}
 
-	// TODO Anders Zhu ：考虑是否用枚举代替
 	/* 字典表group id 定义 */
 	/** 字典表：一级状态 组id */
 	// public static final String GROUP_ID_CUST_STAT_1 = "1";
@@ -135,7 +134,6 @@ public class Constant {
 	// public static final String GROUP_ID_AGENT_ABAND_REASON = "10";
 	/** 字典表：网单操作类型 组id */
 	// public static final String GROUP_ID_NET_ORDER_OPERATOR_TYPE = "11";
-	// TODO Anders Zhu ：考虑是否用枚举代替
 	/** 客户一级状态码 0：新提交 */
 	public static final short CUST_STAT_1_0 = 0;
 	// /** 客户一级状态码 1：确认中 */
@@ -244,6 +242,7 @@ public class Constant {
 		// CUST_STAT_1_MAP.put(Constant.CUST_STAT_1_7, "废弃");
 		// CUST_STAT_1_MAP.put(Constant.CUST_STAT_1_8, "分配到申领池");
 	}
+
 	/**
 	 * 所有废弃类型-MAP
 	 */
@@ -264,16 +263,19 @@ public class Constant {
 	// CUST_STAT_7_MAP.put(CUST_STAT_2_98, CUST_STAT_2_98_NAME);
 	// }
 	// TODO Anders Zhu :以下常量需要重构
+	public enum BlacklistFlag {
+		/**
+		 * 是黑名单（0）
+		 */
+		YES,
+		/**
+		 * 不是黑名单（1）
+		 */
+		NO
+	}
+
 	/**
-	 * 黑名单标记 0:黑名单
-	 */
-	public static final Short BLACK_FLAG_Y = 0;
-	/**
-	 * 黑名单标记 1:正常
-	 */
-	public static final Short BLACK_FLAG_N = 1;
-	/**
-	 * "null"
+	 * null
 	 */
 	public static final String NULL_STR = "null";
 	/** 每页数据条数 */
@@ -299,4 +301,14 @@ public class Constant {
 	public static final short SELECT_ALL = -1;
 
 	public static final String SELECT = "isChecked";
+
+	// public static Map<Short, String> periodTypeMap = new HashMap<Short, String>();
+	// static {
+	// periodTypeMap.put(PeriodType.SHORT.getValue(), PeriodType.SHORT.getLabel());
+	// periodTypeMap.put(PeriodType.LONG.getValue(), PeriodType.LONG.getLabel());
+	// }
+
+	public enum DisabledType {
+		NO, YES
+	}
 }

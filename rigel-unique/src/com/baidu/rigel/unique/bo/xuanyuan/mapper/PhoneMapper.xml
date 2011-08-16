@@ -15,4 +15,11 @@
 	AND ph_area_code = #{phoneAreaCode}
     </if>
   </select>
+  
+  <select id="selectPhoneByCustContactId" resultMap="BaseResultMap" parameterType="Long" >
+  	SELECT 
+	<include refid="Base_Column_List" />
+  	FROM tb_phone 
+  	WHERE contact_or_recipId = #{contactId}
+  </select>
 </mapper>

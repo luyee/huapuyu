@@ -12,4 +12,6 @@ public interface PhoneMapper extends DaoMapper<Phone, Long> {
 	public List<Long> selectDisCustIdByFullPhone(String fullPhone);
 
 	public List<Map<String, Object>> selectDisrowCustIdFullNameByPhoneNumAreaCode(Map<String, Object> paramMap);
+
+	public List<Phone> selectPhoneByCustContactId(Long custContactId);
 }

@@ -17,13 +17,13 @@ import com.baidu.rigel.service.usercenter.bean.Position;
 import com.baidu.rigel.service.usercenter.bean.User;
 import com.baidu.rigel.unique.bo.ShifenCustWhiteList;
 import com.baidu.rigel.unique.common.BaseActionSupport;
-import com.baidu.rigel.unique.common.FeUtil;
 import com.baidu.rigel.unique.common.ResearchAware;
 import com.baidu.rigel.unique.service.ShifenCustWhiteListService;
 import com.baidu.rigel.unique.service.xuanyuan.ShifenCustomerService;
 import com.baidu.rigel.unique.utils.BusiUtils;
 import com.baidu.rigel.unique.utils.Constant;
 import com.baidu.rigel.unique.utils.ReadConfig;
+import com.baidu.rigel.unique.utils.Utils;
 
 /**
  * URL白名单设置
@@ -145,7 +145,7 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 			posid = 0L;
 		}
 		if (addPosIdList == null) {
-			addPosIdList = FeUtil.trans2FeList(posid, userMgr.getSubTreeByPos(posid), readConfig.getLowestPosType());
+			addPosIdList = Utils.trans2FeList(posid, userMgr.getSubTreeByPos(posid), readConfig.getLowestPosType());
 			if (addPosIdSet == null) {
 				addPosIdSet = new HashSet<Long>();
 				for (Map<String, Object> pos : addPosIdList) {

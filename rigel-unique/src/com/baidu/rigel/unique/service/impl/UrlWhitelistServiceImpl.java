@@ -18,6 +18,7 @@ import com.baidu.rigel.platform.service.impl.GenericSqlMapServiceImpl;
 import com.baidu.rigel.unique.bo.UrlWhitelist;
 import com.baidu.rigel.unique.dao.UrlWhitelistDao;
 import com.baidu.rigel.unique.service.UrlWhitelistService;
+import com.baidu.rigel.unique.utils.PeriodType;
 import com.baidu.rigel.unique.utils.Utils;
 
 @Service("urlWhitelistService")
@@ -91,7 +92,7 @@ public class UrlWhitelistServiceImpl extends GenericSqlMapServiceImpl<UrlWhiteli
 		urlWhitelist.setUpdateTime(new Date());
 		urlWhitelist.setDelFlag((byte) 0);
 		// 设置截止日期为5天后
-		if (urlWhitelist.getcType().shortValue() == UrlWhitelist.shortPeriod) {
+		if (urlWhitelist.getcType().shortValue() == PeriodType.SHORT.getValue()) {
 			Calendar invalidate = Calendar.getInstance();
 			invalidate.add(Calendar.DATE, 5);
 			urlWhitelist.setInvalidate(invalidate.getTime());
@@ -108,7 +109,7 @@ public class UrlWhitelistServiceImpl extends GenericSqlMapServiceImpl<UrlWhiteli
 		urlWhitelist.setUpdateId(ucid);
 		urlWhitelist.setUpdateTime(now);
 		// 设置截止日期为5天后
-		if (urlWhitelist.getcType().shortValue() == UrlWhitelist.shortPeriod) {
+		if (urlWhitelist.getcType().shortValue() == PeriodType.SHORT.getValue()) {
 			Calendar invalidate = Calendar.getInstance();
 			invalidate.add(Calendar.DATE, 5);
 			urlWhitelist.setInvalidate(invalidate.getTime());

@@ -46,6 +46,7 @@ import com.baidu.rigel.unique.service.xuanyuan.CustContactService;
 import com.baidu.rigel.unique.service.xuanyuan.CustUrlService;
 import com.baidu.rigel.unique.service.xuanyuan.CustomerService;
 import com.baidu.rigel.unique.service.xuanyuan.FollowAssignService;
+import com.baidu.rigel.unique.service.xuanyuan.PhoneService;
 import com.baidu.rigel.unique.service.xuanyuan.ShifenCustomerService;
 import com.baidu.rigel.unique.tinyse.TinyseMgr;
 import com.baidu.rigel.unique.utils.AutoAuditSourceType;
@@ -99,6 +100,8 @@ public class UniqueServiceImpl implements UniqueService {
 	private CustContactService custContactService;
 	@Autowired
 	private CustUrlService custUrlService;
+	@Autowired
+	private PhoneService phoneService;
 
 	private String companyComparePattern;
 	private List<Long> panguPosIdList = null;
@@ -653,7 +656,7 @@ public class UniqueServiceImpl implements UniqueService {
 				}
 
 				// 从中筛选出已经被标记为黑名单的客户
-				if (customer.getBlackFlag().equals(Constant.BLACK_FLAG_Y)) {
+				if (customer.getBlackFlag().intValue() == Constant.BlacklistFlag.YES.ordinal()) {
 					return Boolean.TRUE;
 				}
 			}
@@ -2374,7 +2377,8 @@ public class UniqueServiceImpl implements UniqueService {
 		if (contactList != null && contactList.size() > 0) {
 			for (CustContact cc : contactList) {
 				if (FlagType.ENABLE.getValue().equals(cc.getDisabled())) {
-					List<Phone> phList = cc.getPhoneList();
+					// List<Phone> phList = cc.getPhoneList();
+					List<Phone> phList = phoneService.selectPhoneByCustContactId(cc.getContactId());
 					if (phList != null && phList.size() > 0) {
 						for (Phone p : phList) {
 							if (FlagType.ENABLE.getValue().equals(p.getDisabled())) {

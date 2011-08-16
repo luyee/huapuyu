@@ -10,4 +10,6 @@ public interface PhoneDao extends SqlMapDao<Phone, Long> {
 	public List<Long> selectDisCustIdByFullPhone(String fullPhone);
 
 	public List<Map<String, Object>> selectDisrowCustIdFullNameByPhoneNumAreaCode(String phoneAreaCode, String phoneNumber);
+
+	public List<Phone> selectPhoneByCustContactId(Long custContactId);
 }

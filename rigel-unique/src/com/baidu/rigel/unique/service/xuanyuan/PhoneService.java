@@ -10,4 +10,6 @@ public interface PhoneService extends GenericService<Phone, Long> {
 	List<Long> selectDisCustIdByFullPhone(String fullPhone);
 
 	List<Map<String, Object>> selectDisrowCustIdFullNameByPhoneNumAreaCode(String phoneAreaCode, String phoneNumber);
+
+	List<Phone> selectPhoneByCustContactId(Long custContactId);
 }

@@ -38,4 +38,10 @@ public class PhoneServiceImpl extends GenericSqlMapServiceImpl<Phone, Long> impl
 	public SqlMapDao<Phone, Long> getDao() {
 		return phoneDao;
 	}
+
+	public List<Phone> selectPhoneByCustContactId(Long custContactId) {
+		if (Utils.isNull(custContactId) || Utils.isLessThanZero(custContactId))
+			return new ArrayList<Phone>(0);
+		return phoneDao.selectPhoneByCustContactId(custContactId);
+	}
 }

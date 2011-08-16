@@ -9,16 +9,16 @@ public enum PeriodType {
 	/**
 	 * 短期（0）
 	 */
-	SHORT("短期", 0),
+	SHORT("短期", (short) 0),
 	/**
 	 * 长期（1）
 	 */
-	LONG("长期", 1);
+	LONG("长期", (short) 1);
 
-	private Integer value;
+	private Short value;
 	private String label;
 
-	private PeriodType(String label, Integer value) {
+	private PeriodType(String label, Short value) {
 		this.label = label;
 		this.value = value;
 	}
@@ -27,7 +27,7 @@ public enum PeriodType {
 		return this.label;
 	}
 
-	public Integer getValue() {
+	public Short getValue() {
 		return this.value;
 	}
 

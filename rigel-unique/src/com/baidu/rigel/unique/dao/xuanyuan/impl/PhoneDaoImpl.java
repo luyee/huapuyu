@@ -34,4 +34,8 @@ public class PhoneDaoImpl extends BaseSqlMapDao<Phone, Long> implements PhoneDao
 		paramMap.put(ParamConstant.PHONE_NUMBER, phoneNumber);
 		return phoneMapper.selectDisrowCustIdFullNameByPhoneNumAreaCode(paramMap);
 	}
+
+	public List<Phone> selectPhoneByCustContactId(Long custContactId) {
+		return phoneMapper.selectPhoneByCustContactId(custContactId);
+	}
 }
