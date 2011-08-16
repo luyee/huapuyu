@@ -16,11 +16,10 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 
 import com.baidu.rigel.unique.bo.xuanyuan.FollowAssign;
 import com.baidu.rigel.unique.dao.xuanyuan.FollowAssignDao;
-import com.baidu.rigel.unique.service.xuanyuan.FollowAssignService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/conf/applicationContext.xml", "classpath:/applicationContext-test.xml" })
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class })
+@TestExecutionListeners( { DependencyInjectionTestExecutionListener.class })
 public class FollowAssignServiceTest {
 	@Autowired
 	private FollowAssignService followAssignService;
@@ -44,9 +43,9 @@ public class FollowAssignServiceTest {
 	}
 
 	@Test
-	public void testFindCustUrlByCustId() {
-		Assert.assertEquals(1234, followAssignService.getFollowerId(1234L).longValue());
-		Assert.assertNull(followAssignService.getFollowerId(12345L));
-		Assert.assertNull(followAssignService.getFollowerId(null));
+	public void testSelectFollowIdByCustId() {
+		Assert.assertEquals(1234, followAssignService.selectFollowIdByCustId(1234L).longValue());
+		Assert.assertNull(followAssignService.selectFollowIdByCustId(12345L));
+		Assert.assertNull(followAssignService.selectFollowIdByCustId(null));
 	}
 }
