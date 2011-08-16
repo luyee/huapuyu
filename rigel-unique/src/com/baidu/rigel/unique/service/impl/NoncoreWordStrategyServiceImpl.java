@@ -17,6 +17,7 @@ import com.baidu.rigel.unique.bo.NoncoreWordStrategy;
 import com.baidu.rigel.unique.dao.NoncoreWordStrategyDao;
 import com.baidu.rigel.unique.service.NoncoreWordStrategyService;
 import com.baidu.rigel.unique.utils.Constant;
+import com.baidu.rigel.unique.utils.NoncoreWordType;
 import com.baidu.rigel.unique.utils.Utils;
 
 @Service("noncoreWordStrategyService")
@@ -91,9 +92,9 @@ public class NoncoreWordStrategyServiceImpl extends GenericSqlMapServiceImpl<Non
 		// 数字
 		isChecked = false;
 		tmpMap = new HashMap<String, Object>();
-		tmpMap.put(Constant.ID, Constant.CORE_WORD_RULE_TYPE_NUMBER);
-		tmpMap.put(Constant.NAME, Constant.CORE_WORD_RULE_TYPE_NUMBER_NAME);
-		if (coreWordRuleMap.get(Constant.CORE_WORD_RULE_TYPE_NUMBER) != null) {
+		tmpMap.put(Constant.ID, NoncoreWordType.NUMBER.getValue());
+		tmpMap.put(Constant.NAME, NoncoreWordType.NUMBER.getValue());
+		if (coreWordRuleMap.get(NoncoreWordType.NUMBER.getValue()) != null) {
 			isChecked = true;
 		}
 		tmpMap.put(Constant.SELECT, isChecked);
@@ -102,9 +103,9 @@ public class NoncoreWordStrategyServiceImpl extends GenericSqlMapServiceImpl<Non
 		// 字母
 		isChecked = false;
 		tmpMap = new HashMap<String, Object>();
-		tmpMap.put(Constant.ID, Constant.CORE_WORD_RULE_TYPE_CHARACTER);
-		tmpMap.put(Constant.NAME, Constant.CORE_WORD_RULE_TYPE_CHARACTER_NAME);
-		if (coreWordRuleMap.get(Constant.CORE_WORD_RULE_TYPE_CHARACTER) != null) {
+		tmpMap.put(Constant.ID, NoncoreWordType.CHARACTER.getValue());
+		tmpMap.put(Constant.NAME, NoncoreWordType.CHARACTER.getValue());
+		if (coreWordRuleMap.get(NoncoreWordType.CHARACTER.getValue()) != null) {
 			isChecked = true;
 		}
 		tmpMap.put(Constant.SELECT, isChecked);
@@ -113,9 +114,9 @@ public class NoncoreWordStrategyServiceImpl extends GenericSqlMapServiceImpl<Non
 		// 数字
 		isChecked = false;
 		tmpMap = new HashMap<String, Object>();
-		tmpMap.put(Constant.ID, Constant.CORE_WORD_RULE_TYPE_WORD);
-		tmpMap.put(Constant.NAME, Constant.CORE_WORD_RULE_TYPE_WORD_NAME);
-		if (coreWordRuleMap.get(Constant.CORE_WORD_RULE_TYPE_WORD) != null) {
+		tmpMap.put(Constant.ID, NoncoreWordType.WORD.getValue());
+		tmpMap.put(Constant.NAME, NoncoreWordType.WORD.getLabel());
+		if (coreWordRuleMap.get(NoncoreWordType.WORD.getValue()) != null) {
 			isChecked = true;
 		}
 		tmpMap.put(Constant.SELECT, isChecked);

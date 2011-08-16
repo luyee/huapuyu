@@ -165,7 +165,7 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 	private void initPosids() {
 		if (posIds == null) {
 			posIds = new ArrayList<Long>();
-			Long[] unitPosIds = userMgr.getUnitPosId(ucHelper.getCurrentPos().getPosid());
+			Long[] unitPosIds = userMgr.getUnitPosId(userCenterHelper.getCurrentPos().getPosid());
 			if (unitPosIds != null) {
 				if (unitPosIds != null) {
 					for (int i = 0; i < unitPosIds.length; i++) {
@@ -192,7 +192,7 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 	}
 
 	private void initUnitDeptList() {
-		List<Position> pos = userMgr.getUnitPos(ucHelper.getCurrentPos().getPosid());
+		List<Position> pos = userMgr.getUnitPos(userCenterHelper.getCurrentPos().getPosid());
 		if (unitDeptList == null) {
 			unitDeptList = new ArrayList<Map<String, Object>>();
 		}
@@ -411,7 +411,7 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 	 */
 	public String addSeasonCustlist() {
 
-		Long ucid = ucHelper.getUser().getUcid();
+		Long ucid = userCenterHelper.getUser().getUcid();
 
 		if (addCustName == null || addCustName.length() == 0 || addCustName.length() > CUSTNAME_MAX_LENGTH) {
 			errorMessage = this.getText("SeasonCustlist.args.error");
@@ -511,7 +511,7 @@ public class SeasonCustlistAction extends BaseActionSupport implements ResearchA
 	public String delSeasonCustlist() {
 
 		initPosids();
-		Long ucid = ucHelper.getUser().getUcid();
+		Long ucid = userCenterHelper.getUser().getUcid();
 
 		if (id == null) {
 			errorMessage = this.getText("SeasonCustlist.args.error");

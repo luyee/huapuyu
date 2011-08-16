@@ -25,7 +25,6 @@ import com.baidu.rigel.unique.dao.xuanyuan.CustDistributeDao;
 import com.baidu.rigel.unique.dao.xuanyuan.CustUrlDao;
 import com.baidu.rigel.unique.dao.xuanyuan.CustomerDao;
 import com.baidu.rigel.unique.dao.xuanyuan.FollowAssignDao;
-import com.baidu.rigel.unique.service.xuanyuan.CustomerService;
 import com.baidu.rigel.unique.utils.CustType;
 import com.baidu.rigel.unique.utils.FieldConstant;
 
@@ -98,50 +97,50 @@ public class CustomerServiceTest {
 	}
 
 	@Test
-	public void testEqualCustFullName() {
-		List<Long> list = customerService.equalCustFullName("zhangsan");
+	public void testSelectCustIdByCustFullName() {
+		List<Long> list = customerService.selectCustIdByCustFullName("zhangsan");
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(1234, list.get(0).longValue());
-		list = customerService.equalCustFullName("zhangsan123");
+		list = customerService.selectCustIdByCustFullName("zhangsan123");
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, customerService.equalCustFullName(null).size());
+		Assert.assertEquals(0, customerService.selectCustIdByCustFullName(null).size());
 	}
 
 	@Test
-	public void testEqualCustBranchNameOrCustName() {
-		List<Long> list = customerService.equalCustBranchNameOrCustName("zhangsan", CustType.ADVERTISING_AGENCY);
+	public void testSelectCustIdByCustBranchNameOrCustName() {
+		List<Long> list = customerService.selectCustIdByCustBranchNameOrCustName("zhangsan", CustType.ADVERTISING_AGENCY);
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(1234, list.get(0).longValue());
-		list = customerService.equalCustBranchNameOrCustName("zhangsan123", CustType.SPECIAL_ENTERPRISE);
+		list = customerService.selectCustIdByCustBranchNameOrCustName("zhangsan123", CustType.SPECIAL_ENTERPRISE);
 		Assert.assertEquals(0, list.size());
 		try {
-			customerService.equalCustBranchNameOrCustName("zhangsan123", CustType.PERSONAL_CUSTOMER);
+			customerService.selectCustIdByCustBranchNameOrCustName("zhangsan123", CustType.PERSONAL_CUSTOMER);
 			Assert.fail();
 		} catch (IllegalArgumentException ex) {
 			Assert.assertTrue(true);
 		}
-		Assert.assertEquals(0, customerService.equalCustBranchNameOrCustName(null, CustType.PERSONAL_CUSTOMER).size());
-		Assert.assertEquals(0, customerService.equalCustBranchNameOrCustName("zhangsan123", null).size());
+		Assert.assertEquals(0, customerService.selectCustIdByCustBranchNameOrCustName(null, CustType.PERSONAL_CUSTOMER).size());
+		Assert.assertEquals(0, customerService.selectCustIdByCustBranchNameOrCustName("zhangsan123", null).size());
 	}
 
 	@Test
-	public void testFindCustIdPosIdByCustIds() {
-		Map<Long, Long> map = customerService.findCustIdPosIdByCustIds(1234L);
+	public void testSelectCustIdPosIdByCustIds() {
+		Map<Long, Long> map = customerService.selectCustIdPosIdByCustIds(1234L);
 		Assert.assertEquals(1, map.size());
 		Assert.assertEquals(4321, map.get(1234L).longValue());
-		map = customerService.findCustIdPosIdByCustIds(12345L);
+		map = customerService.selectCustIdPosIdByCustIds(12345L);
 		Assert.assertEquals(0, map.size());
-		Assert.assertEquals(0, customerService.findCustIdPosIdByCustIds(null).size());
+		Assert.assertEquals(0, customerService.selectCustIdPosIdByCustIds(null).size());
 	}
 
 	@Test
-	public void testFindCustIdFullNameByCustIds() {
-		Map<Long, String> map = customerService.findCustIdFullNameByCustIds(1234L);
+	public void testSelectCustIdFullNameByCustIds() {
+		Map<Long, String> map = customerService.selectCustIdFullNameByCustIds(1234L);
 		Assert.assertEquals(1, map.size());
 		Assert.assertEquals("zhangsan", map.get(1234L));
-		map = customerService.findCustIdFullNameByCustIds(12345L);
+		map = customerService.selectCustIdFullNameByCustIds(12345L);
 		Assert.assertEquals(0, map.size());
-		Assert.assertEquals(0, customerService.findCustIdFullNameByCustIds(null).size());
+		Assert.assertEquals(0, customerService.selectCustIdFullNameByCustIds(null).size());
 	}
 
 	@Test
@@ -154,82 +153,82 @@ public class CustomerServiceTest {
 	}
 
 	@Test
-	public void testFindCustomerFollowDistributeByCustIdList() {
+	public void testSelectCustomerFollowDistributeByCustIdList() {
 		List<Long> custIdList = new ArrayList<Long>();
 		custIdList.add(1234L);
-		List<Map<String, Object>> list = customerService.findCustomerFollowDistributeByCustIdList(custIdList);
+		List<Map<String, Object>> list = customerService.selectCustomerFollowDistributeByCustIdList(custIdList);
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(1234L, list.get(0).get(FieldConstant.CUST_ID));
 		Assert.assertEquals("zhangsan", list.get(0).get(FieldConstant.CUST_NAME));
 		custIdList = new ArrayList<Long>();
 		custIdList.add(12345L);
-		list = customerService.findCustomerFollowDistributeByCustIdList(custIdList);
+		list = customerService.selectCustomerFollowDistributeByCustIdList(custIdList);
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, customerService.findCustomerFollowDistributeByCustIdList(null).size());
+		Assert.assertEquals(0, customerService.selectCustomerFollowDistributeByCustIdList(null).size());
 	}
 
 	@Test
-	public void testFindCustIdFullNamePoseIdInputTypeByCustId() {
-		Map<String, Object> map = customerService.findCustIdFullNamePoseIdInputTypeByCustId(1234L);
+	public void testSelectCustIdFullNamePoseIdInputTypeByCustId() {
+		Map<String, Object> map = customerService.selectCustIdFullNamePoseIdInputTypeByCustId(1234L);
 		Assert.assertEquals(8, map.size());
 		Assert.assertEquals(1234L, map.get(FieldConstant.CUSTID));
 		Assert.assertEquals("zhangsan", map.get(FieldConstant.CUSTFULLNAME));
 		Assert.assertEquals(4321L, map.get(FieldConstant.POSEID));
 		Assert.assertEquals(0, map.get(FieldConstant.CUSTINPUTTYPE));
-		map = customerService.findCustIdFullNamePoseIdInputTypeByCustId(12345L);
+		map = customerService.selectCustIdFullNamePoseIdInputTypeByCustId(12345L);
 		Assert.assertEquals(0, map.size());
-		Assert.assertEquals(0, customerService.findCustIdFullNamePoseIdInputTypeByCustId(null).size());
+		Assert.assertEquals(0, customerService.selectCustIdFullNamePoseIdInputTypeByCustId(null).size());
 	}
 
 	@Test
-	public void testContainCustUrlName() {
-		List<Map<String, Object>> list = customerService.containCustUrlName("www.zhangsan.com", 1);
+	public void testSelectCustIdFullNameLikeByCustUrlName() {
+		List<Map<String, Object>> list = customerService.selectCustIdFullNameLikeByCustUrlName("www.zhangsan.com", 1);
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(1234L, list.get(0).get(FieldConstant.CUST_ID));
 		Assert.assertEquals("zhangsan", list.get(0).get(FieldConstant.CUST_FULL_NAME));
-		list = customerService.containCustUrlName("www.zhangsan123.com", 1);
+		list = customerService.selectCustIdFullNameLikeByCustUrlName("www.zhangsan123.com", 1);
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, customerService.containCustUrlName(null, 1).size());
-		Assert.assertEquals(0, customerService.containCustUrlName("www.zhangsan123.com", -1).size());
+		Assert.assertEquals(0, customerService.selectCustIdFullNameLikeByCustUrlName(null, 1).size());
+		Assert.assertEquals(0, customerService.selectCustIdFullNameLikeByCustUrlName("www.zhangsan123.com", -1).size());
 	}
 
 	@Test
-	public void testEqualCustUrlName() {
+	public void testSelectCustIdFullNameByCustUrlName() {
 		Customer customer = customerService.findById(1234L);
 		customer.setCustStat1((byte) 5);
 		customerService.saveOrUpdate(customer);
-		List<Map<String, Object>> list = customerService.equalCustUrlName("www.zhangsan.com");
+		List<Map<String, Object>> list = customerService.selectCustIdFullNameByCustUrlName("www.zhangsan.com");
 		Assert.assertEquals(0, list.size());
 		// Assert.assertEquals(1234L, list.get(0).get(FieldConstant.CUST_ID));
 		// Assert.assertEquals("zhangsan", list.get(0).get(FieldConstant.CUST_FULL_NAME));
-		list = customerService.equalCustUrlName("www.zhangsan123.com");
+		list = customerService.selectCustIdFullNameByCustUrlName("www.zhangsan123.com");
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, customerService.equalCustUrlName(null).size());
+		Assert.assertEquals(0, customerService.selectCustIdFullNameByCustUrlName(null).size());
 	}
 
 	@Test
-	public void testEqualDomain() {
+	public void testSelectCustIdFullNameByDomain() {
 		Customer customer = customerService.findById(1234L);
 		customer.setCustStat1((byte) 5);
 		customerService.saveOrUpdate(customer);
-		List<Map<String, Object>> list = customerService.equalDomain("mydomain");
+		List<Map<String, Object>> list = customerService.selectCustIdFullNameByDomain("mydomain");
 		Assert.assertEquals(0, list.size());
 		// Assert.assertEquals(1234L, list.get(0).get(FieldConstant.CUST_ID));
 		// Assert.assertEquals("zhangsan", list.get(0).get(FieldConstant.CUST_FULL_NAME));
-		list = customerService.equalDomain("mydomain123");
+		list = customerService.selectCustIdFullNameByDomain("mydomain123");
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, customerService.equalDomain(null).size());
+		Assert.assertEquals(0, customerService.selectCustIdFullNameByDomain(null).size());
 	}
 
 	@Test
-	public void testContainDomain() {
-		List<Map<String, Object>> list = customerService.containDomain("mydomain");
+	public void testSelectCustIdFullNameLikeByDomain() {
+		List<Map<String, Object>> list = customerService.selectCustIdFullNameLikeByDomain("mydomain");
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(1234L, list.get(0).get(FieldConstant.CUST_ID));
 		Assert.assertEquals("zhangsan", list.get(0).get(FieldConstant.CUST_FULL_NAME));
-		list = customerService.containDomain("mydomain123");
+		list = customerService.selectCustIdFullNameLikeByDomain("mydomain123");
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, customerService.containDomain(null).size());
+		Assert.assertEquals(0, customerService.selectCustIdFullNameLikeByDomain(null).size());
 	}
 
 	@Test

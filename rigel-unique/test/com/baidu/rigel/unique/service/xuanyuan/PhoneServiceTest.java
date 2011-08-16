@@ -22,7 +22,6 @@ import com.baidu.rigel.unique.bo.xuanyuan.Phone;
 import com.baidu.rigel.unique.dao.xuanyuan.CustContactDao;
 import com.baidu.rigel.unique.dao.xuanyuan.CustomerDao;
 import com.baidu.rigel.unique.dao.xuanyuan.PhoneDao;
-import com.baidu.rigel.unique.service.xuanyuan.PhoneService;
 import com.baidu.rigel.unique.utils.FieldConstant;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -102,14 +101,14 @@ public class PhoneServiceTest {
 	}
 
 	@Test
-	public void testSelectDisCustIdFullNameByPhoneNumAreaCode() {
-		List<Map<String, Object>> list = phoneService.selectDisCustIdFullNameByPhoneNumAreaCode("4321", "987654321");
+	public void testSelectDisrowCustIdFullNameByPhoneNumAreaCode() {
+		List<Map<String, Object>> list = phoneService.selectDisrowCustIdFullNameByPhoneNumAreaCode("4321", "987654321");
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(1234L, list.get(0).get(FieldConstant.CUST_ID));
 		Assert.assertEquals("zhangsan", list.get(0).get(FieldConstant.CUST_FULL_NAME));
-		list = phoneService.selectDisCustIdFullNameByPhoneNumAreaCode("54321", "987654321");
+		list = phoneService.selectDisrowCustIdFullNameByPhoneNumAreaCode("54321", "987654321");
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, phoneService.selectDisCustIdFullNameByPhoneNumAreaCode(null, null).size());
-		Assert.assertEquals(1, phoneService.selectDisCustIdFullNameByPhoneNumAreaCode(StringUtils.EMPTY, "987654321").size());
+		Assert.assertEquals(0, phoneService.selectDisrowCustIdFullNameByPhoneNumAreaCode(null, null).size());
+		Assert.assertEquals(1, phoneService.selectDisrowCustIdFullNameByPhoneNumAreaCode(StringUtils.EMPTY, "987654321").size());
 	}
 }

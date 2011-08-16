@@ -26,26 +26,26 @@ public class AuditServiceImpl implements AuditService {
 	private CustomerService customerService;
 
 	public List<Map<String, Object>> listMatchCustUrl(String url) {
-		List<Map<String, Object>> custMap = customerService.equalCustUrlName(url);
-		custMap.addAll(custService.findBySiteUrl(url));
+		List<Map<String, Object>> custMap = customerService.selectCustIdFullNameByCustUrlName(url);
+		custMap.addAll(custService.selectCustIdTypeFullNamePosIdBySiteUrl(url));
 		return custMap;
 	}
 
 	public List<Map<String, Object>> listPreMatchCustUrl(String url, int count) {
-		List<Map<String, Object>> custMap = customerService.containCustUrlName(url, count);
-		custMap.addAll(custService.findBySiteUrl(url, count));
+		List<Map<String, Object>> custMap = customerService.selectCustIdFullNameLikeByCustUrlName(url, count);
+		custMap.addAll(custService.selectCustIdFullNameBySiteUrl(url, count));
 		return custMap;
 	}
 
 	public List<Map<String, Object>> listMatchDomain(String domain) {
-		List<Map<String, Object>> custMap = customerService.equalDomain(domain);
-		custMap.addAll(custService.findBySiteDomain(domain));
+		List<Map<String, Object>> custMap = customerService.selectCustIdFullNameByDomain(domain);
+		custMap.addAll(custService.selectCustIdTypeFullNamePosIdBySiteDomain(domain));
 		return custMap;
 	}
 
 	public List<Map<String, Object>> listPreMatchDomain(String domain) {
-		List<Map<String, Object>> custMap = customerService.containDomain(domain);
-		custMap.addAll(custService.findBySiteDomain(domain, 10));
+		List<Map<String, Object>> custMap = customerService.selectCustIdFullNameLikeByDomain(domain);
+		custMap.addAll(custService.selectCustIdFullNameBySiteDomain(domain, 10));
 		return custMap;
 	}
 
@@ -53,19 +53,17 @@ public class AuditServiceImpl implements AuditService {
 		if (Utils.isNull(fullPhone))
 			return new ArrayList<Long>(0);
 		List<Long> custIdList = phoneService.selectDisCustIdByFullPhone(fullPhone);
-		List<Map<String, Object>> custMap = custService.findByFullPhone(fullPhone);
+		List<Map<String, Object>> custMap = custService.selectCustIdTypeFullNamePosIdByCustIdList(fullPhone);
 		for (Map<String, Object> cust : custMap) {
-			custIdList.add((Long) cust.get(FieldConstant.CUST_ID));
+			custIdList.add(new Long((Integer) cust.get(FieldConstant.CUST_ID)));
 		}
 		return custIdList;
 	}
 
 	public List<Map<String, Object>> listMatchPhoneContactMap(String phoneAreaCode, String phoneNumber) {
-		if (Utils.isNull(phoneNumber))
-			return new ArrayList<Map<String, Object>>(0);
-		List<Map<String, Object>> custMap = phoneService.selectDisCustIdFullNameByPhoneNumAreaCode(phoneAreaCode, phoneNumber);
+		List<Map<String, Object>> custMap = phoneService.selectDisrowCustIdFullNameByPhoneNumAreaCode(phoneAreaCode, phoneNumber);
 		String fullPhone = StringUtils.isNotBlank(phoneAreaCode) ? phoneAreaCode + Constant.HYPHEN + phoneNumber : phoneNumber;
-		custMap.addAll(custService.findByFullPhone(fullPhone));
+		custMap.addAll(custService.selectCustIdTypeFullNamePosIdByCustIdList(fullPhone));
 		return custMap;
 	}
 

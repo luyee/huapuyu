@@ -17,7 +17,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 
 import com.baidu.rigel.unique.bo.xuanyuan.CustUrl;
 import com.baidu.rigel.unique.dao.xuanyuan.CustUrlDao;
-import com.baidu.rigel.unique.service.xuanyuan.CustUrlService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/conf/applicationContext.xml", "classpath:/applicationContext-test.xml" })
@@ -46,14 +45,14 @@ public class CustUrlServiceTest {
 	}
 
 	@Test
-	public void testFindCustUrlByCustId() {
-		List<CustUrl> list = custUrlService.findCustUrlByCustId(1234L);
+	public void testSelectCustUrlByCustId() {
+		List<CustUrl> list = custUrlService.selectCustUrlByCustId(1234L);
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals("mydomain", list.get(0).getDomain());
 		Assert.assertEquals("www.zhangsan.com", list.get(0).getCustUrlName());
 		list = custUrlDao.selectCustUrlByCustId(12345L);
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, custUrlService.findCustUrlByCustId(null).size());
-		Assert.assertEquals(0, custUrlService.findCustUrlByCustId(-1L).size());
+		Assert.assertEquals(0, custUrlService.selectCustUrlByCustId(null).size());
+		Assert.assertEquals(0, custUrlService.selectCustUrlByCustId(-1L).size());
 	}
 }

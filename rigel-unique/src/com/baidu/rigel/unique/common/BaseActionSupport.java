@@ -6,55 +6,30 @@ package com.baidu.rigel.unique.common;
 import com.baidu.rigel.platform.vo.ErrorInfo;
 import com.baidu.rigel.platform.vo.Page;
 import com.baidu.rigel.service.usercenter.service.UserMgr;
-import com.baidu.rigel.unique.uc.impl.MockUserCenterHelper;
+import com.baidu.rigel.service.usercenter.tool.UserCenterHelper;
+import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * @author liuzhaobing
- * @version 1.0.0 处理部分共通的信息：
+ * 自定义Action基类
+ * 
+ * @author Anders Zhu
+ * 
  */
-public class BaseActionSupport extends com.opensymphony.xwork2.ActionSupport {
+public class BaseActionSupport extends ActionSupport {
+	private static final long serialVersionUID = 3778461156131013777L;
 	/** 静态资源服务器 */
 	// protected String staticRoot = SysProperty.STATIC_SOURCE_SERVER;
-	// TODO Anders Zhu : 重构
-	protected String staticRoot = "";
 	/** 统一返回给fe同学的message */
 	protected String reason;
 	/** 登陆相关信息操作类 */
-	// TODO Anders Zhu : mock
-	// protected UserCenterHelper ucHelper = new UserCenterHelper();
-	protected MockUserCenterHelper ucHelper = new MockUserCenterHelper();
-	/** 账号中心mgr */
+	protected UserCenterHelper userCenterHelper = new UserCenterHelper();
+	/** 账号中心类 */
 	protected UserMgr userMgr;
-
 	protected Page page;
-
 	protected ErrorInfo errorInfo;
 
 	public BaseActionSupport() {
 		super();
-	}
-
-	/**
-	 * @return the errorInfo
-	 */
-	public ErrorInfo getErrorInfo() {
-		return errorInfo;
-	}
-
-	/**
-	 * @param errorInfo
-	 *            the errorInfo to set
-	 */
-	public void setErrorInfo(ErrorInfo errorInfo) {
-		this.errorInfo = errorInfo;
-	}
-
-	public String getStaticRoot() {
-		return staticRoot;
-	}
-
-	public void setStaticRoot(String staticRoot) {
-		this.staticRoot = staticRoot;
 	}
 
 	public String getReason() {
@@ -65,12 +40,12 @@ public class BaseActionSupport extends com.opensymphony.xwork2.ActionSupport {
 		this.reason = reason;
 	}
 
-	public MockUserCenterHelper getUcHelper() {
-		return ucHelper;
+	public UserCenterHelper getUserCenterHelper() {
+		return userCenterHelper;
 	}
 
-	public void setUcHelper(MockUserCenterHelper ucHelper) {
-		this.ucHelper = ucHelper;
+	public void setUserCenterHelper(UserCenterHelper userCenterHelper) {
+		this.userCenterHelper = userCenterHelper;
 	}
 
 	public UserMgr getUserMgr() {
@@ -87,6 +62,14 @@ public class BaseActionSupport extends com.opensymphony.xwork2.ActionSupport {
 
 	public void setPage(Page page) {
 		this.page = page;
+	}
+
+	public ErrorInfo getErrorInfo() {
+		return errorInfo;
+	}
+
+	public void setErrorInfo(ErrorInfo errorInfo) {
+		this.errorInfo = errorInfo;
 	}
 
 }

@@ -116,57 +116,72 @@ public class Utils {
 	}
 
 	public static boolean isEqualToZero(Number number) {
-		if (number instanceof Long)
-			return NumberUtils.INTEGER_ZERO == number.longValue();
-		else if (number instanceof Short)
-			return NumberUtils.SHORT_ZERO == number.shortValue();
-		else if (number instanceof Byte)
-			return NumberUtils.BYTE_ZERO == number.byteValue();
-		else if (number instanceof Double)
+		// if (number instanceof Long)
+		// return NumberUtils.INTEGER_ZERO == number.longValue();
+		// else if (number instanceof Short)
+		// return NumberUtils.SHORT_ZERO == number.shortValue();
+		// else if (number instanceof Byte)
+		// return NumberUtils.BYTE_ZERO == number.byteValue();
+		// else if (number instanceof Double)
+		// return NumberUtils.DOUBLE_ZERO == number.doubleValue();
+		// else if (number instanceof Float)
+		// return NumberUtils.FLOAT_ZERO == number.floatValue();
+		// else if (number instanceof Integer)
+		// return NumberUtils.INTEGER_ZERO == number.intValue();
+		// else
+		// throw new IllegalArgumentException();
+		try {
 			return NumberUtils.DOUBLE_ZERO == number.doubleValue();
-		else if (number instanceof Float)
-			return NumberUtils.FLOAT_ZERO == number.floatValue();
-		else if (number instanceof Integer)
-			return NumberUtils.INTEGER_ZERO == number.intValue();
-		else
-			// TODO Anders Zhu : 添加异常信息
-			throw new IllegalArgumentException();
+		} catch (NumberFormatException ex) {
+			log.error(ex.getMessage());
+			return Boolean.FALSE;
+		}
 	}
 
 	public static boolean isGreaterThanZero(Number number) {
-		if (number instanceof Long)
-			return NumberUtils.INTEGER_ZERO < number.longValue();
-		else if (number instanceof Short)
-			return NumberUtils.SHORT_ZERO < number.shortValue();
-		else if (number instanceof Byte)
-			return NumberUtils.BYTE_ZERO < number.byteValue();
-		else if (number instanceof Double)
+		// if (number instanceof Long)
+		// return NumberUtils.INTEGER_ZERO < number.longValue();
+		// else if (number instanceof Short)
+		// return NumberUtils.SHORT_ZERO < number.shortValue();
+		// else if (number instanceof Byte)
+		// return NumberUtils.BYTE_ZERO < number.byteValue();
+		// else if (number instanceof Double)
+		// return NumberUtils.DOUBLE_ZERO < number.doubleValue();
+		// else if (number instanceof Float)
+		// return NumberUtils.FLOAT_ZERO < number.floatValue();
+		// else if (number instanceof Integer)
+		// return NumberUtils.INTEGER_ZERO < number.intValue();
+		// else
+		// throw new IllegalArgumentException();
+		try {
 			return NumberUtils.DOUBLE_ZERO < number.doubleValue();
-		else if (number instanceof Float)
-			return NumberUtils.FLOAT_ZERO < number.floatValue();
-		else if (number instanceof Integer)
-			return NumberUtils.INTEGER_ZERO < number.intValue();
-		else
-			// TODO Anders Zhu : 添加异常信息
-			throw new IllegalArgumentException();
+		} catch (NumberFormatException ex) {
+			log.error(ex.getMessage());
+			return Boolean.FALSE;
+		}
 	}
 
 	public static boolean isLessThanZero(Number number) {
-		if (number instanceof Long)
-			return NumberUtils.INTEGER_ZERO > number.longValue();
-		else if (number instanceof Short)
-			return NumberUtils.SHORT_ZERO > number.shortValue();
-		else if (number instanceof Byte)
-			return NumberUtils.BYTE_ZERO > number.byteValue();
-		else if (number instanceof Double)
+		// if (number instanceof Long)
+		// return NumberUtils.INTEGER_ZERO > number.longValue();
+		// else if (number instanceof Short)
+		// return NumberUtils.SHORT_ZERO > number.shortValue();
+		// else if (number instanceof Byte)
+		// return NumberUtils.BYTE_ZERO > number.byteValue();
+		// else if (number instanceof Double)
+		// return NumberUtils.DOUBLE_ZERO > number.doubleValue();
+		// else if (number instanceof Float)
+		// return NumberUtils.FLOAT_ZERO > number.floatValue();
+		// else if (number instanceof Integer)
+		// return NumberUtils.INTEGER_ZERO > number.intValue();
+		// else
+		// throw new IllegalArgumentException();
+		try {
 			return NumberUtils.DOUBLE_ZERO > number.doubleValue();
-		else if (number instanceof Float)
-			return NumberUtils.FLOAT_ZERO > number.floatValue();
-		else if (number instanceof Integer)
-			return NumberUtils.INTEGER_ZERO > number.intValue();
-		else
-			// TODO Anders Zhu : 添加异常信息
-			throw new IllegalArgumentException();
+		} catch (NumberFormatException ex) {
+			log.error(ex.getMessage());
+			return Boolean.FALSE;
+		}
 	}
 
 	public static boolean isEqualGreaterThanZero(Number number) {
@@ -182,57 +197,72 @@ public class Utils {
 	}
 
 	public static boolean isEqualToOne(Number number) {
-		if (number instanceof Long)
-			return NumberUtils.INTEGER_ONE == number.longValue();
-		else if (number instanceof Short)
-			return NumberUtils.SHORT_ONE == number.shortValue();
-		else if (number instanceof Byte)
-			return NumberUtils.BYTE_ONE == number.byteValue();
-		else if (number instanceof Double)
+		// if (number instanceof Long)
+		// return NumberUtils.INTEGER_ONE == number.longValue();
+		// else if (number instanceof Short)
+		// return NumberUtils.SHORT_ONE == number.shortValue();
+		// else if (number instanceof Byte)
+		// return NumberUtils.BYTE_ONE == number.byteValue();
+		// else if (number instanceof Double)
+		// return NumberUtils.DOUBLE_ONE == number.doubleValue();
+		// else if (number instanceof Float)
+		// return NumberUtils.FLOAT_ONE == number.floatValue();
+		// else if (number instanceof Integer)
+		// return NumberUtils.INTEGER_ONE == number.intValue();
+		// else
+		// throw new IllegalArgumentException();
+		try {
 			return NumberUtils.DOUBLE_ONE == number.doubleValue();
-		else if (number instanceof Float)
-			return NumberUtils.FLOAT_ONE == number.floatValue();
-		else if (number instanceof Integer)
-			return NumberUtils.INTEGER_ONE == number.intValue();
-		else
-			// TODO Anders Zhu : 添加异常信息
-			throw new IllegalArgumentException();
+		} catch (NumberFormatException ex) {
+			log.error(ex.getMessage());
+			return Boolean.FALSE;
+		}
 	}
 
 	public static boolean isGreaterThanOne(Number number) {
-		if (number instanceof Long)
-			return NumberUtils.INTEGER_ONE < number.longValue();
-		else if (number instanceof Short)
-			return NumberUtils.SHORT_ONE < number.shortValue();
-		else if (number instanceof Byte)
-			return NumberUtils.BYTE_ONE < number.byteValue();
-		else if (number instanceof Double)
+		// if (number instanceof Long)
+		// return NumberUtils.INTEGER_ONE < number.longValue();
+		// else if (number instanceof Short)
+		// return NumberUtils.SHORT_ONE < number.shortValue();
+		// else if (number instanceof Byte)
+		// return NumberUtils.BYTE_ONE < number.byteValue();
+		// else if (number instanceof Double)
+		// return NumberUtils.DOUBLE_ONE < number.doubleValue();
+		// else if (number instanceof Float)
+		// return NumberUtils.FLOAT_ONE < number.floatValue();
+		// else if (number instanceof Integer)
+		// return NumberUtils.INTEGER_ONE < number.intValue();
+		// else
+		// throw new IllegalArgumentException();
+		try {
 			return NumberUtils.DOUBLE_ONE < number.doubleValue();
-		else if (number instanceof Float)
-			return NumberUtils.FLOAT_ONE < number.floatValue();
-		else if (number instanceof Integer)
-			return NumberUtils.INTEGER_ONE < number.intValue();
-		else
-			// TODO Anders Zhu : 添加异常信息
-			throw new IllegalArgumentException();
+		} catch (NumberFormatException ex) {
+			log.error(ex.getMessage());
+			return Boolean.FALSE;
+		}
 	}
 
 	public static boolean isLessThanOne(Number number) {
-		if (number instanceof Long)
-			return NumberUtils.INTEGER_ONE > number.longValue();
-		else if (number instanceof Short)
-			return NumberUtils.SHORT_ONE > number.shortValue();
-		else if (number instanceof Byte)
-			return NumberUtils.BYTE_ONE > number.byteValue();
-		else if (number instanceof Double)
+		// if (number instanceof Long)
+		// return NumberUtils.INTEGER_ONE > number.longValue();
+		// else if (number instanceof Short)
+		// return NumberUtils.SHORT_ONE > number.shortValue();
+		// else if (number instanceof Byte)
+		// return NumberUtils.BYTE_ONE > number.byteValue();
+		// else if (number instanceof Double)
+		// return NumberUtils.DOUBLE_ONE > number.doubleValue();
+		// else if (number instanceof Float)
+		// return NumberUtils.FLOAT_ONE > number.floatValue();
+		// else if (number instanceof Integer)
+		// return NumberUtils.INTEGER_ONE > number.intValue();
+		// else
+		// throw new IllegalArgumentException();
+		try {
 			return NumberUtils.DOUBLE_ONE > number.doubleValue();
-		else if (number instanceof Float)
-			return NumberUtils.FLOAT_ONE > number.floatValue();
-		else if (number instanceof Integer)
-			return NumberUtils.INTEGER_ONE > number.intValue();
-		else
-			// TODO Anders Zhu : 添加异常信息
-			throw new IllegalArgumentException();
+		} catch (NumberFormatException ex) {
+			log.error(ex.getMessage());
+			return Boolean.FALSE;
+		}
 	}
 
 	public static boolean isEqualGreaterThanOne(Number number) {
@@ -248,57 +278,72 @@ public class Utils {
 	}
 
 	public static boolean isEqualToMinusOne(Number number) {
-		if (number instanceof Long)
-			return NumberUtils.INTEGER_MINUS_ONE == number.longValue();
-		else if (number instanceof Short)
-			return NumberUtils.SHORT_MINUS_ONE == number.shortValue();
-		else if (number instanceof Byte)
-			return NumberUtils.BYTE_MINUS_ONE == number.byteValue();
-		else if (number instanceof Double)
+		// if (number instanceof Long)
+		// return NumberUtils.INTEGER_MINUS_ONE == number.longValue();
+		// else if (number instanceof Short)
+		// return NumberUtils.SHORT_MINUS_ONE == number.shortValue();
+		// else if (number instanceof Byte)
+		// return NumberUtils.BYTE_MINUS_ONE == number.byteValue();
+		// else if (number instanceof Double)
+		// return NumberUtils.DOUBLE_MINUS_ONE == number.doubleValue();
+		// else if (number instanceof Float)
+		// return NumberUtils.FLOAT_MINUS_ONE == number.floatValue();
+		// else if (number instanceof Integer)
+		// return NumberUtils.INTEGER_MINUS_ONE == number.intValue();
+		// else
+		// throw new IllegalArgumentException();
+		try {
 			return NumberUtils.DOUBLE_MINUS_ONE == number.doubleValue();
-		else if (number instanceof Float)
-			return NumberUtils.FLOAT_MINUS_ONE == number.floatValue();
-		else if (number instanceof Integer)
-			return NumberUtils.INTEGER_MINUS_ONE == number.intValue();
-		else
-			// TODO Anders Zhu : 添加异常信息
-			throw new IllegalArgumentException();
+		} catch (NumberFormatException ex) {
+			log.error(ex.getMessage());
+			return Boolean.FALSE;
+		}
 	}
 
 	public static boolean isGreaterThanMinusOne(Number number) {
-		if (number instanceof Long)
-			return NumberUtils.INTEGER_MINUS_ONE < number.longValue();
-		else if (number instanceof Short)
-			return NumberUtils.SHORT_MINUS_ONE < number.shortValue();
-		else if (number instanceof Byte)
-			return NumberUtils.BYTE_MINUS_ONE < number.byteValue();
-		else if (number instanceof Double)
+		// if (number instanceof Long)
+		// return NumberUtils.INTEGER_MINUS_ONE < number.longValue();
+		// else if (number instanceof Short)
+		// return NumberUtils.SHORT_MINUS_ONE < number.shortValue();
+		// else if (number instanceof Byte)
+		// return NumberUtils.BYTE_MINUS_ONE < number.byteValue();
+		// else if (number instanceof Double)
+		// return NumberUtils.DOUBLE_MINUS_ONE < number.doubleValue();
+		// else if (number instanceof Float)
+		// return NumberUtils.FLOAT_MINUS_ONE < number.floatValue();
+		// else if (number instanceof Integer)
+		// return NumberUtils.INTEGER_MINUS_ONE < number.intValue();
+		// else
+		// throw new IllegalArgumentException();
+		try {
 			return NumberUtils.DOUBLE_MINUS_ONE < number.doubleValue();
-		else if (number instanceof Float)
-			return NumberUtils.FLOAT_MINUS_ONE < number.floatValue();
-		else if (number instanceof Integer)
-			return NumberUtils.INTEGER_MINUS_ONE < number.intValue();
-		else
-			// TODO Anders Zhu : 添加异常信息
-			throw new IllegalArgumentException();
+		} catch (NumberFormatException ex) {
+			log.error(ex.getMessage());
+			return Boolean.FALSE;
+		}
 	}
 
 	public static boolean isLessThanMinusOne(Number number) {
-		if (number instanceof Long)
-			return NumberUtils.INTEGER_MINUS_ONE > number.longValue();
-		else if (number instanceof Short)
-			return NumberUtils.SHORT_MINUS_ONE > number.shortValue();
-		else if (number instanceof Byte)
-			return NumberUtils.BYTE_MINUS_ONE > number.byteValue();
-		else if (number instanceof Double)
+		// if (number instanceof Long)
+		// return NumberUtils.INTEGER_MINUS_ONE > number.longValue();
+		// else if (number instanceof Short)
+		// return NumberUtils.SHORT_MINUS_ONE > number.shortValue();
+		// else if (number instanceof Byte)
+		// return NumberUtils.BYTE_MINUS_ONE > number.byteValue();
+		// else if (number instanceof Double)
+		// return NumberUtils.DOUBLE_MINUS_ONE > number.doubleValue();
+		// else if (number instanceof Float)
+		// return NumberUtils.FLOAT_MINUS_ONE > number.floatValue();
+		// else if (number instanceof Integer)
+		// return NumberUtils.INTEGER_MINUS_ONE > number.intValue();
+		// else
+		// throw new IllegalArgumentException();
+		try {
 			return NumberUtils.DOUBLE_MINUS_ONE > number.doubleValue();
-		else if (number instanceof Float)
-			return NumberUtils.FLOAT_MINUS_ONE > number.floatValue();
-		else if (number instanceof Integer)
-			return NumberUtils.INTEGER_MINUS_ONE > number.intValue();
-		else
-			// TODO Anders Zhu : 添加异常信息
-			throw new IllegalArgumentException();
+		} catch (NumberFormatException ex) {
+			log.error(ex.getMessage());
+			return Boolean.FALSE;
+		}
 	}
 
 	public static boolean isEqualGreaterThanMinusOne(Number number) {
@@ -338,18 +383,17 @@ public class Utils {
 		return isNotNull(number) && isEqualToMinusOne(number);
 	}
 
-	// TODO Anders Zhu : 重构
+	// TODO Anders Zhu : 不知道干嘛用的
 	/**
 	 * 将list里面的记录的位置设置为1，返回整数
 	 * 
 	 * @param list
 	 * @return
 	 */
-	public static int IntToBit(List list) {
-		int ret = 0;
-		for (Object pos : list) {
-			ret += Math.pow(2, Long.valueOf(pos.toString()).intValue());
-		}
-		return ret;
+	public static int IntToBit(List<Long> list) {
+		int returnValue = NumberUtils.INTEGER_ZERO;
+		for (Long pos : list)
+			returnValue += Math.pow(Constant.DOUBLE_TWO, pos);
+		return returnValue;
 	}
 }

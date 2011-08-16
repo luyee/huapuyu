@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Service;
 
 import com.baidu.rigel.service.tinyse.client.TinyseClient;
 import com.baidu.rigel.service.tinyse.data.SaleData;
@@ -24,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+@Service("tinyseMgr")
 public class TinyseMgrImpl implements TinyseMgr, InitializingBean {
 
 	private static Log log = LogFactory.getLog(TinyseMgrImpl.class);

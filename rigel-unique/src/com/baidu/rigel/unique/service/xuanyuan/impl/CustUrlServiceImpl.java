@@ -18,7 +18,7 @@ public class CustUrlServiceImpl extends GenericSqlMapServiceImpl<CustUrl, Long> 
 	@Autowired
 	private CustUrlDao custUrlDao;
 
-	public List<CustUrl> findCustUrlByCustId(Long custId) {
+	public List<CustUrl> selectCustUrlByCustId(Long custId) {
 		if (Utils.isNull(custId) || Utils.isLessThanZero(custId))
 			return new ArrayList<CustUrl>(0);
 		return custUrlDao.selectCustUrlByCustId(custId);

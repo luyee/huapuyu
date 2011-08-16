@@ -23,6 +23,7 @@ import com.baidu.rigel.unique.service.ShifenCustWhiteListService;
 import com.baidu.rigel.unique.service.xuanyuan.ShifenCustomerService;
 import com.baidu.rigel.unique.utils.BusiUtils;
 import com.baidu.rigel.unique.utils.Constant;
+import com.baidu.rigel.unique.utils.ReadConfig;
 
 /**
  * URL白名单设置
@@ -88,6 +89,7 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 
 	private ShifenCustWhiteListService shifenCustWhiteListService;
 	private ShifenCustomerService shifenCustomerService;
+	private ReadConfig readConfig;
 	// 运营单位列表
 	private Set<Long> addPosIdSet;
 	// 指定销售
@@ -135,7 +137,7 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 
 	private void initAddPosIdList() {
 
-		Long posid = ucHelper.getCurrentPos().getPosid();
+		Long posid = userCenterHelper.getCurrentPos().getPosid();
 		Long[] unitPosids = userMgr.getUnitPosId(posid);
 		if (unitPosids != null && unitPosids.length <= 1) {
 			// TODO Anders Zhu : mock 以便后续代码运行
@@ -143,9 +145,7 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 			posid = 0L;
 		}
 		if (addPosIdList == null) {
-			// TODO Anders Zhu : lowest_pose_type是通过配置获取的
-			// addPosIdList = FeUtil.trans2FeList(posid, userMgr.getSubTreeByPos(posid), com.baidu.rigel.sale.callout.util.property.SysProperty.lowest_pose_type);
-			addPosIdList = FeUtil.trans2FeList(posid, userMgr.getSubTreeByPos(posid), (short) 3);
+			addPosIdList = FeUtil.trans2FeList(posid, userMgr.getSubTreeByPos(posid), readConfig.getLowestPosType());
 			if (addPosIdSet == null) {
 				addPosIdSet = new HashSet<Long>();
 				for (Map<String, Object> pos : addPosIdList) {
@@ -249,7 +249,7 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 	private void initPosids() {
 		if (posIds == null) {
 			posIds = new ArrayList<Long>();
-			Long[] unitPosIds = userMgr.getUnitPosId(ucHelper.getCurrentPos().getPosid());
+			Long[] unitPosIds = userMgr.getUnitPosId(userCenterHelper.getCurrentPos().getPosid());
 			if (unitPosIds != null) {
 				for (int i = 0; i < unitPosIds.length; i++) {
 					posIds.add(unitPosIds[i]);
@@ -361,7 +361,7 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 		initAddPosIdList();
 		initAddUserIdList();
 
-		Long ucid = ucHelper.getUser().getUcid();
+		Long ucid = userCenterHelper.getUser().getUcid();
 
 		if (addCustName == null || addCustName.length() == 0 || addCustName.length() > CUSTNAME_MAX_LENGTH) {
 			errorMessage = this.getText("ShifenCustWhitelist.args.error");
@@ -385,7 +385,7 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 		}
 
 		// 是否是老客户
-		List<Map<String, Object>> sfdata = shifenCustomerService.equalSiteUrl(addUrl);
+		List<Map<String, Object>> sfdata = shifenCustomerService.selectCustIdNamesBySiteUrl(addUrl);
 		if (sfdata == null || sfdata.size() == 0) {
 			errorMessage = this.getText("ShifenCust.url.notexist");
 			logger.info(errorMessage + "addUrl: " + addUrl);
@@ -441,7 +441,7 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 
 		initAddPosIdList();
 
-		Long ucid = ucHelper.getUser().getUcid();
+		Long ucid = userCenterHelper.getUser().getUcid();
 
 		if (id == null) {
 			errorMessage = this.getText("ShifenCustWhitelist.args.error");

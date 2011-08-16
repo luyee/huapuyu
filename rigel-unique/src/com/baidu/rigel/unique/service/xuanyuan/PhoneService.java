@@ -9,5 +9,5 @@ import com.baidu.rigel.unique.bo.xuanyuan.Phone;
 public interface PhoneService extends GenericService<Phone, Long> {
 	List<Long> selectDisCustIdByFullPhone(String fullPhone);
 
-	List<Map<String, Object>> selectDisCustIdFullNameByPhoneNumAreaCode(String phoneAreaCode, String phoneNumber);
+	List<Map<String, Object>> selectDisrowCustIdFullNameByPhoneNumAreaCode(String phoneAreaCode, String phoneNumber);
 }

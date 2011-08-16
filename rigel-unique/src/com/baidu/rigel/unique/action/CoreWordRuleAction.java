@@ -33,7 +33,7 @@ public class CoreWordRuleAction extends BaseActionSupport {
 
 		// 获得当前登陆用户id
 		Long loginUser = null;
-		loginUser = ucHelper.getUser().getUcid();
+		loginUser = userCenterHelper.getUser().getUcid();
 
 		boolean saveFlag = noncoreWordStrategyService.saveRuleId(ruleId, loginUser);
 		if (!saveFlag) {

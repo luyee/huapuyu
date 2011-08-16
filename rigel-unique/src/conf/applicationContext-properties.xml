@@ -14,6 +14,7 @@
 				<value>classpath:/conf/local/tinyse.properties</value>
 				<value>classpath:/conf/local/usercenter.properties</value>
 				<value>classpath:/conf/local/rmi.properties</value>
+				<value>classpath:/conf/local/system-config.properties</value>
 			</list>
 		</property>
 		<property name="jndiLocations">

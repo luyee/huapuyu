@@ -55,9 +55,9 @@ public class BusiUtils {
 	 */
 	public static Map<String, Object> getIdNameSourceMap(Object id, Object name, Object source) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put(Constant.CUST_ID, id);
-		map.put(Constant.CUST_NAME, name);
-		map.put(Constant.CUST_SOURCE, source);
+		map.put(FieldConstant.CUSTID, id);
+		map.put(FieldConstant.CUSTNAME, name);
+		map.put(FieldConstant.CUSTSOURCE, source);
 		return map;
 	}
 

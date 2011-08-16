@@ -89,7 +89,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 	private void initPosids() {
 		if (posIds == null) {
 			posIds = new ArrayList<Long>();
-			Long[] unitPosIds = userMgr.getUnitPosId(ucHelper.getCurrentPos().getPosid());
+			Long[] unitPosIds = userMgr.getUnitPosId(userCenterHelper.getCurrentPos().getPosid());
 			if (unitPosIds != null) {
 				if (unitPosIds != null) {
 					for (int i = 0; i < unitPosIds.length; i++) {
@@ -295,7 +295,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 	public String modSeasonCustlist() {
 
 		initPosids();
-		Long ucid = ucHelper.getUser().getUcid();
+		Long ucid = userCenterHelper.getUser().getUcid();
 
 		if (id == null) {
 			errorMessage = this.getText("SeasonCustlist.args.error");
@@ -382,7 +382,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 	public String modSeasonCustlistOld() {
 
 		initPosids();
-		Long ucid = ucHelper.getUser().getUcid();
+		Long ucid = userCenterHelper.getUser().getUcid();
 		// Long posid = ucHelper.getCurrentPos().getPosid();
 
 		if (custName == null || custName.length() == 0 || custName.length() > CUSTNAME_MAX_LENGTH) {
@@ -502,7 +502,7 @@ public class SeasonCustlistModAction extends BaseActionSupport {
 	 */
 	public String delSeasonCustlist() {
 
-		Long ucid = ucHelper.getUser().getUcid();
+		Long ucid = userCenterHelper.getUser().getUcid();
 		// Long posid = ucHelper.getCurrentPos().getPosid();
 		if (id == null) {
 			errorMsg = this.getText("SeasonCustlist.args.error");

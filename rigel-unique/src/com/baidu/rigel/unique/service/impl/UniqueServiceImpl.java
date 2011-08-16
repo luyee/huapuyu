@@ -39,9 +39,10 @@ import com.baidu.rigel.unique.service.BlacklistPhoneService;
 import com.baidu.rigel.unique.service.BlacklistService;
 import com.baidu.rigel.unique.service.SeasonCustListService;
 import com.baidu.rigel.unique.service.ShifenCustWhiteListService;
-import com.baidu.rigel.unique.service.Test;
+import com.baidu.rigel.unique.service.UniqueService;
 import com.baidu.rigel.unique.service.UrlWhitelistService;
 import com.baidu.rigel.unique.service.pangu.CustService;
+import com.baidu.rigel.unique.service.xuanyuan.CustContactService;
 import com.baidu.rigel.unique.service.xuanyuan.CustUrlService;
 import com.baidu.rigel.unique.service.xuanyuan.CustomerService;
 import com.baidu.rigel.unique.service.xuanyuan.FollowAssignService;
@@ -54,6 +55,7 @@ import com.baidu.rigel.unique.utils.Constant;
 import com.baidu.rigel.unique.utils.CustType;
 import com.baidu.rigel.unique.utils.FieldConstant;
 import com.baidu.rigel.unique.utils.FlagType;
+import com.baidu.rigel.unique.utils.ReadConfig;
 import com.baidu.rigel.unique.utils.URLUtils;
 import com.baidu.rigel.unique.utils.Utils;
 import com.baidu.rigel.unique.utils.Constant.ValidType;
@@ -61,9 +63,9 @@ import com.baidu.rigel.unique.vo.CustContactPhoneVO;
 import com.baidu.rigel.unique.vo.CustContactVO;
 import com.baidu.rigel.unique.vo.CustomerVO;
 
-@Service("test")
-public class TestImpl implements Test {
-	private static Log log = LogFactory.getLog(TestImpl.class);
+@Service("uniqueService")
+public class UniqueServiceImpl implements UniqueService {
+	private static Log log = LogFactory.getLog(UniqueServiceImpl.class);
 
 	@Autowired
 	private TinyseMgr tinyseMgr;
@@ -91,6 +93,12 @@ public class TestImpl implements Test {
 	private UrlWhitelistService urlWhitelistService;
 	@Autowired
 	private AuditService auditService;
+	@Autowired
+	private ReadConfig readConfig;
+	@Autowired
+	private CustContactService custContactService;
+	@Autowired
+	private CustUrlService custUrlService;
 
 	private String companyComparePattern;
 	private List<Long> panguPosIdList = null;
@@ -110,12 +118,13 @@ public class TestImpl implements Test {
 
 		// 判断
 		if (Utils.isNull(phoneNumber)) {
-			log.warn(LogEqualToNull("phoneNumber"));
+			log.warn(LogIsNull("phoneNumber"));
 			return returnList;
 		} else if (Utils.isEqualLessThanZero(count)) {
-			log.warn(LogLessEqualThanZero("count"));
+			log.warn(LogEqualLessThanZero("count"));
 			return returnList;
-		} else if (StringUtils.isNotBlank(phoneAreaCode)) {
+		} else if (StringUtils.isNotEmpty(phoneAreaCode)) {
+			// TODO Anders Zhu : 应该移到service方法中去
 			phoneNumber = phoneAreaCode + Constant.HYPHEN + phoneNumber;
 		}
 
@@ -144,10 +153,10 @@ public class TestImpl implements Test {
 
 		// 判断
 		if (Utils.isNull(phoneNumber)) {
-			log.warn(LogEqualToNull("phoneNumber"));
+			log.warn(LogIsNull("phoneNumber"));
 			return returnList;
 		} else if (Utils.isEqualLessThanZero(count)) {
-			log.warn(LogLessEqualThanZero("count"));
+			log.warn(LogEqualLessThanZero("count"));
 			return returnList;
 		}
 
@@ -175,10 +184,10 @@ public class TestImpl implements Test {
 
 		// 判断
 		if (Utils.isNull(custName)) {
-			log.warn(LogEqualToNull("custName"));
+			log.warn(LogIsNull("custName"));
 			return returnList;
 		} else if (Utils.isEqualLessThanZero(count)) {
-			log.warn(LogLessEqualThanZero("count"));
+			log.warn(LogEqualLessThanZero("count"));
 			return returnList;
 		}
 
@@ -248,9 +257,11 @@ public class TestImpl implements Test {
 		List<Map<String, Object>> returnList = new ArrayList<Map<String, Object>>();
 
 		// 判断
-		// TODO Anders Zhu ： 和containCustNameStartFromBlacklist的判断有所不同，没有判断count
 		if (Utils.isNull(custName)) {
-			log.warn(LogEqualToNull("custName"));
+			log.warn(LogIsNull("custName"));
+			return returnList;
+		} else if (Utils.isEqualLessThanZero(count)) {
+			log.warn(LogEqualLessThanZero("count"));
 			return returnList;
 		}
 
@@ -322,7 +333,7 @@ public class TestImpl implements Test {
 		List<Map<String, Object>> returnList = new ArrayList<Map<String, Object>>();
 
 		if (Utils.isNull(custFullName)) {
-			log.warn(LogEqualToNull("custFullName"));
+			log.warn(LogIsNull("custFullName"));
 			return returnList;
 		}
 
@@ -335,8 +346,8 @@ public class TestImpl implements Test {
 			return returnList;
 
 		// 销售
-		List<Long> saleList = customerService.equalCustFullName(custFullName);
-		saleList.addAll(custService.findByFullName(custFullName));
+		List<Long> saleList = customerService.selectCustIdByCustFullName(custFullName);
+		saleList.addAll(custService.selectCustIdByFullName(custFullName));
 		for (Long id : saleList)
 			returnList.add(BusiUtils.getIdNameSourceMapFromSale(id, custFullName));
 
@@ -344,7 +355,7 @@ public class TestImpl implements Test {
 			return returnList;
 
 		// 十分
-		List<Long> shifenList = shifenCustomerService.equalCompanyName(custFullName);
+		List<Long> shifenList = shifenCustomerService.selectCustIdByCompanyName(custFullName);
 		for (Long id : shifenList)
 			returnList.add(BusiUtils.getIdNameSourceMapFromShifen(id, custFullName));
 
@@ -362,13 +373,13 @@ public class TestImpl implements Test {
 		List<Map<String, Object>> returnList = new ArrayList<Map<String, Object>>();
 
 		if (Utils.isNull(custFullName)) {
-			log.warn(LogEqualToNull("custFullName"));
+			log.warn(LogIsNull("custFullName"));
 			return returnList;
 		}
 
 		// 销售
-		List<Long> saleIdList = customerService.equalCustFullName(custFullName);
-		saleIdList.addAll(custService.findByFullName(custFullName));
+		List<Long> saleIdList = customerService.selectCustIdByCustFullName(custFullName);
+		saleIdList.addAll(custService.selectCustIdByFullName(custFullName));
 		for (Long id : saleIdList)
 			if (isBlackOrOld(id))
 				returnList.add(BusiUtils.getIdNameSourceMapFromSale(id, custFullName));
@@ -385,7 +396,7 @@ public class TestImpl implements Test {
 			return returnList;
 
 		// 十分
-		List<Long> shifenList = shifenCustomerService.equalCompanyName(custFullName);
+		List<Long> shifenList = shifenCustomerService.selectCustIdByCompanyName(custFullName);
 		for (Long id : shifenList)
 			returnList.add(BusiUtils.getIdNameSourceMapFromShifen(id, custFullName));
 
@@ -406,24 +417,24 @@ public class TestImpl implements Test {
 		List<Map<String, Object>> returnList = new ArrayList<Map<String, Object>>();
 
 		if (Utils.isNull(custUrl)) {
-			log.warn(LogEqualToNull("custUrl"));
+			log.warn(LogIsNull("custUrl"));
 			return returnList;
 		} else if (Utils.isEqualLessThanZero(count)) {
-			log.warn(LogLessEqualThanZero("count"));
+			log.warn(LogEqualLessThanZero("count"));
 			return returnList;
 		}
 
 		// 销售
 		List<Map<String, Object>> saleDataList = auditService.listPreMatchCustUrl(custUrl, count);
 		for (Map<String, Object> map : saleDataList) {
-			returnList.add(BusiUtils.getIdNameSourceMapFromSale(map.get("cust_id"), map.get("cust_full_name")));
+			returnList.add(BusiUtils.getIdNameSourceMapFromSale(map.get(FieldConstant.CUST_ID), map.get(FieldConstant.CUST_FULL_NAME)));
 		}
 
 		// 十分
-		List<Map<String, Object>> shifenDataList = shifenCustomerService.containSiteUrl(custUrl, count);
+		List<Map<String, Object>> shifenDataList = shifenCustomerService.selectCustIdNamesLikeBySiteUrl(custUrl, count);
 		for (Map<String, Object> map : shifenDataList) {
-			String name = BusiUtils.getCustName((String) map.get("realcompanyname"), (String) map.get("companyname"), (String) map.get("customername"));
-			returnList.add(BusiUtils.getIdNameSourceMapFromShifen(map.get("customerd"), name));
+			String name = BusiUtils.getCustName((String) map.get(FieldConstant.REALCOMPANYNAME), (String) map.get(FieldConstant.COMPANYNAME), (String) map.get(FieldConstant.CUSTOMERNAME));
+			returnList.add(BusiUtils.getIdNameSourceMapFromShifen(map.get(FieldConstant.CUSTOMERD), name));
 		}
 
 		return Utils.limitList(returnList, count);
@@ -442,29 +453,27 @@ public class TestImpl implements Test {
 		List<Map<String, Object>> returnList = new ArrayList<Map<String, Object>>();
 
 		if (Utils.isNull(custUrl)) {
-			log.warn(LogEqualToNull("custUrl"));
+			log.warn(LogIsNull("custUrl"));
 			return returnList;
 		} else if (Utils.isEqualLessThanZero(count)) {
-			log.warn(LogLessEqualThanZero("count"));
+			log.warn(LogEqualLessThanZero("count"));
 			return returnList;
 		}
 
 		// 销售
 		List<Map<String, Object>> saleDataList = auditService.listMatchCustUrl(custUrl);
 		for (Map<String, Object> map : saleDataList) {
-			returnList.add(BusiUtils.getIdNameSourceMapFromSale(map.get("cust_id"), map.get("cust_full_name")));
+			returnList.add(BusiUtils.getIdNameSourceMapFromSale(map.get(FieldConstant.CUST_ID), map.get(FieldConstant.CUST_FULL_NAME)));
 		}
 
-		// TODO Anders Zhu : 貌似有问题，没有进行补足
-		if (Utils.isGreaterThanZero(returnList.size())) {
+		if (Utils.isGreaterThanZero(returnList.size()))
 			return Utils.limitList(returnList, count);
-		}
 
 		// 十分
-		List<Map<String, Object>> shifenDataList = shifenCustomerService.equalSiteUrl(custUrl);
+		List<Map<String, Object>> shifenDataList = shifenCustomerService.selectCustIdNamesBySiteUrl(custUrl);
 		for (Map<String, Object> map : shifenDataList) {
-			String name = BusiUtils.getCustName((String) map.get("realcompanyname"), (String) map.get("companyname"), (String) map.get("customername"));
-			returnList.add(BusiUtils.getIdNameSourceMapFromShifen(map.get("customerd"), name));
+			String name = BusiUtils.getCustName((String) map.get(FieldConstant.REALCOMPANYNAME), (String) map.get(FieldConstant.COMPANYNAME), (String) map.get(FieldConstant.CUSTOMERNAME));
+			returnList.add(BusiUtils.getIdNameSourceMapFromShifen(map.get(FieldConstant.CUSTOMERD), name));
 		}
 
 		return Utils.limitList(returnList, count);
@@ -477,23 +486,20 @@ public class TestImpl implements Test {
 	 *            客户名
 	 * @return 判断结果
 	 */
-	public boolean validateCustName(String name) {
+	public boolean validateTitle(String name) {
 		if (StringUtils.isBlank(name))
 			return Boolean.FALSE;
 
 		name = name.trim();
 
-		// TODO Anders Zhu : 修改，从配置文件中获取并且缓存住
-		// TODO Anders Zhu : 查看蔡敏的代码
-		String[] titleArray = Constant.TITLE.split(",");
-
-		for (String title : titleArray)
+		for (String title : readConfig.getTitleSet())
 			if (name.endsWith(title))
 				return Boolean.FALSE;
 
 		return Boolean.TRUE;
 	}
 
+	// TODO Anders Zhu : 函数名重构
 	/**
 	 * 判断URL是否存在老客户表中
 	 * 
@@ -502,13 +508,7 @@ public class TestImpl implements Test {
 	 * @return 如果存在，返回true，否则返回false
 	 */
 	public boolean checkUrlInShifenCust(String url) {
-		if (StringUtils.isEmpty(url))
-			return Boolean.FALSE;
-
-		List<Map<String, Object>> sfList = shifenCustomerService.equalSiteUrl(url);
-		if (CollectionUtils.isNotEmpty(sfList))
-			return Boolean.TRUE;
-		return Boolean.FALSE;
+		return shifenCustomerService.isSiteUrlExist(url);
 	}
 
 	/** **************************** 以下为私有辅助方法 ***************************** */
@@ -538,11 +538,11 @@ public class TestImpl implements Test {
 		List<Map<String, Object>> blacklistList = blacklistService.containCompanyName(custName);
 		for (Map<String, Object> blacklistMap : blacklistList) {
 			if (checkExist) {
-				if (!blacklistSet.contains(blacklistMap.get("blacklist_id")))
-					returnList.add(BusiUtils.getIdNameSourceMapFromBlacklist(blacklistMap.get("blacklist_id"), blacklistMap.get("company_name")));
+				if (!blacklistSet.contains(blacklistMap.get(FieldConstant.BLACKLIST_ID)))
+					returnList.add(BusiUtils.getIdNameSourceMapFromBlacklist(blacklistMap.get(FieldConstant.BLACKLIST_ID), blacklistMap.get(FieldConstant.COMPANY_NAME)));
 			} else {
-				blacklistSet.add((Long) blacklistMap.get("blacklist_id"));
-				returnList.add(BusiUtils.getIdNameSourceMapFromBlacklist(blacklistMap.get("blacklist_id"), blacklistMap.get("company_name")));
+				blacklistSet.add((Long) blacklistMap.get(FieldConstant.BLACKLIST_ID));
+				returnList.add(BusiUtils.getIdNameSourceMapFromBlacklist(blacklistMap.get(FieldConstant.BLACKLIST_ID), blacklistMap.get(FieldConstant.COMPANY_NAME)));
 			}
 		}
 		return returnList;
@@ -681,13 +681,13 @@ public class TestImpl implements Test {
 		if (Utils.isNull(value)) {
 			switch (validType) {
 			case URL:
-				log.warn(LogEqualToNull("url"));
+				log.warn(LogIsNull("url"));
 				break;
 			case PHONE:
-				log.warn(LogEqualToNull("phone"));
+				log.warn(LogIsNull("phone"));
 				break;
 			case CUSTNAME:
-				log.warn(LogEqualToNull("custName"));
+				log.warn(LogIsNull("custName"));
 				break;
 			}
 			return null;
@@ -752,7 +752,7 @@ public class TestImpl implements Test {
 	 */
 	private AutoAuditRecord auditBlacklist(String custName, String url, Set<String> phoneList) {
 		if (Utils.isNull(custName)) {
-			log.warn(LogEqualToNull("custName"));
+			log.warn(LogIsNull("custName"));
 			return null;
 		}
 
@@ -865,44 +865,6 @@ public class TestImpl implements Test {
 		return autoAuditRecord;
 	}
 
-	/**
-	 * 日志格式化
-	 * 
-	 * @param name
-	 *            参数名称
-	 * @param operator
-	 *            操作名称
-	 * @param result
-	 *            结果值
-	 */
-	private String LogFormater(String name, String operator, String result) {
-		return String.format("%s %s %s", name, operator, result);
-	}
-
-	/**
-	 * 输出日志：“参数为null”
-	 * 
-	 * @param name
-	 *            参数名称
-	 */
-	private String LogEqualToNull(String name) {
-		return LogFormater(name, "=", "null");
-	}
-
-	/**
-	 * 输出日志：“参数小于等于0”
-	 * 
-	 * @param name
-	 *            参数名称
-	 */
-	private String LogLessEqualThanZero(String name) {
-		return LogFormater(name, "<=", "0");
-	}
-
-	private String LogEqualToZero(String name) {
-		return LogFormater(name, "=", "0");
-	}
-
 	/***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
 	 * 老客户白名单审核 *********************************************************************
 	 * 
@@ -918,7 +880,7 @@ public class TestImpl implements Test {
 		// URL精确匹配并且当前为指定的销售人员
 		// 存在 pass
 		if (Utils.isNull(url)) {
-			log.warn(LogEqualToNull("url"));
+			log.warn(LogIsNull("url"));
 			return null;
 		} else if (Utils.isEqualToZero(url.length())) {
 			log.warn(LogEqualToZero("url"));
@@ -932,7 +894,7 @@ public class TestImpl implements Test {
 		if (Utils.isNotNull(shifenCustWhiteList) && shifenCustWhiteList.getUserId().equals(ucid)) {
 			List<Map<String, Object>> list = auditService.listMatchCustUrl(url);
 			// 得到盘古中的客户资料
-			List<Map<String, Object>> panguList = custService.findBySiteUrl(url);
+			List<Map<String, Object>> panguList = custService.selectCustIdTypeFullNamePosIdBySiteUrl(url);
 			Set<Long> idSet = new HashSet<Long>();
 			// TODO Anders Zhu : 以下两个方法重复，考虑重构
 			if (CollectionUtils.isNotEmpty(list)) {
@@ -1050,7 +1012,7 @@ public class TestImpl implements Test {
 			}
 
 			// shifen
-			List<Map<String, Object>> sflist = shifenCustomerService.equalSiteUrl(url);
+			List<Map<String, Object>> sflist = shifenCustomerService.selectCustIdNamesBySiteUrl(url);
 			if (sflist != null && sflist.size() > 0) {
 				// throw new AutoAuditException("与客户资料重复");
 				List<AuditInfo> auditInfos = new ArrayList<AuditInfo>();
@@ -1119,7 +1081,7 @@ public class TestImpl implements Test {
 			}
 
 			// shifen
-			List<Map<String, Object>> sflist = shifenCustomerService.equalUrlDomain(domain);
+			List<Map<String, Object>> sflist = shifenCustomerService.selectCustIdNamesByUrlDomain(domain);
 			if (sflist != null && sflist.size() > 0) {
 				List<AuditInfo> auditInfos = new ArrayList<AuditInfo>();
 				for (Map<String, Object> mp : sflist) {
@@ -1180,7 +1142,7 @@ public class TestImpl implements Test {
 			}
 
 			// shifen
-			sflist = shifenCustomerService.containUrlDomain(domain);
+			sflist = shifenCustomerService.selectCustIdNamesLikeByUrlDomain(domain);
 			if (sflist != null && sflist.size() > 0) {
 				for (Map<String, Object> mp : sflist) {
 					Long id = (Long) mp.get("customerd");
@@ -1253,8 +1215,8 @@ public class TestImpl implements Test {
 		if (custName == null || custName.length() == 0) {
 			return null;
 		}
-		List<Long> sfIdList = shifenCustomerService.equalCompanyName(custName);
-		List<ShifenCustomer> sfCustList = shifenCustomerService.getShifenCustomerByCustIdList(sfIdList);
+		List<Long> sfIdList = shifenCustomerService.selectCustIdByCompanyName(custName);
+		List<ShifenCustomer> sfCustList = shifenCustomerService.selectShifenCustomerByCustIdList(sfIdList);
 		if (sfCustList != null) {
 			for (ShifenCustomer shifenCustomer : sfCustList) {
 				ShifenData sfData = new ShifenData();
@@ -1283,8 +1245,8 @@ public class TestImpl implements Test {
 		if (custName == null || custName.length() == 0) {
 			return null;
 		}
-		List<Long> saleIdList = customerService.equalCustFullName(custName);
-		saleIdList.addAll(custService.findByFullName(custName));
+		List<Long> saleIdList = customerService.selectCustIdByCustFullName(custName);
+		saleIdList.addAll(custService.selectCustIdByFullName(custName));
 		if (saleIdList != null) {
 			for (Long saleId : saleIdList) {
 				SaleData saleData = new SaleData();
@@ -1311,8 +1273,8 @@ public class TestImpl implements Test {
 		if (custBranchName == null || custBranchName.length() == 0) {
 			return null;
 		}
-		List<Long> saleIdList = customerService.equalCustBranchNameOrCustName(custBranchName, custType);
-		saleIdList.addAll(custService.findByNameOrBranch(custBranchName, custType));
+		List<Long> saleIdList = customerService.selectCustIdByCustBranchNameOrCustName(custBranchName, custType);
+		saleIdList.addAll(custService.selectCustIdByNameOrBranch(custBranchName, custType));
 		if (saleIdList != null) {
 			for (Long saleId : saleIdList) {
 				SaleData saleData = new SaleData();
@@ -1615,7 +1577,7 @@ public class TestImpl implements Test {
 			for (SaleData saledata : salelist) {
 				saleIds.add(saledata.getId());
 			}
-			List<Map<String, Object>> custList = custService.findCustIdStatInUcidFullNameByCustIdList(saleIds);
+			List<Map<String, Object>> custList = custService.selectCustIdStatInUcidFullNameByCustIdList(saleIds);
 			for (Map<String, Object> map : custList) {
 				Map<String, Object> propMap = new HashMap<String, Object>();
 				propMap.put("custId", map.get(FieldConstant.ID));
@@ -1866,8 +1828,8 @@ public class TestImpl implements Test {
 			// posIDsMap = customerDao.findCustPosIdById(saleDataIDs);
 			// } else
 			// {
-			posIDsMap = customerService.findCustIdPosIdByCustIds(saleDataIDs);
-			posIDsMap.putAll(custService.findCustIdPosIdByCustIdList(Arrays.asList(saleDataIDs)));
+			posIDsMap = customerService.selectCustIdPosIdByCustIds(saleDataIDs);
+			posIDsMap.putAll(custService.selectCustIdPosIdByCustIdList(Arrays.asList(saleDataIDs)));
 			// }
 
 			for (SaleData saledata : allSaleList) {
@@ -2083,7 +2045,7 @@ public class TestImpl implements Test {
 			}
 			Long[] custIds = list.toArray(new Long[0]);
 
-			List<Map<String, Object>> custList = custService.findCustIdStatInUcidFullNameByCustIdList(Arrays.asList(custIds));
+			List<Map<String, Object>> custList = custService.selectCustIdStatInUcidFullNameByCustIdList(Arrays.asList(custIds));
 			for (Map<String, Object> map : custList) {
 				Map<String, Object> propMap = new HashMap<String, Object>();
 				propMap.put("custId", map.get(FieldConstant.ID));
@@ -2100,7 +2062,7 @@ public class TestImpl implements Test {
 					custNameMap.put((Long) map.get("custId"), (String) map.get("fullName"));
 				}
 			}
-			custNameMap.putAll(customerService.findCustIdFullNameByCustIds(custIds));
+			custNameMap.putAll(customerService.selectCustIdFullNameByCustIds(custIds));
 			List<AuditInfo> infos = new ArrayList<AuditInfo>();
 			{
 				for (Long custId : list) {
@@ -2271,8 +2233,8 @@ public class TestImpl implements Test {
 							custIds.add(ais.get(i).getId());
 						}
 					}
-					Map<Long, Long> posIDsMap = customerService.findCustIdPosIdByCustIds(custIds.toArray(new Long[0]));
-					posIDsMap.putAll(custService.findCustIdPosIdByCustIdList(new ArrayList<Long>(custIds)));
+					Map<Long, Long> posIDsMap = customerService.selectCustIdPosIdByCustIds(custIds.toArray(new Long[0]));
+					posIDsMap.putAll(custService.selectCustIdPosIdByCustIdList(new ArrayList<Long>(custIds)));
 
 					for (AuditInfo ai : ais) {
 						if (auditInfos.size() < oppugn_max_size) {
@@ -2386,7 +2348,7 @@ public class TestImpl implements Test {
 
 		// 个人称谓校验
 		if (custType.intValue() == CustType.PERSONAL_CUSTOMER.getValue()) {
-			boolean flag = validateCustName(custName);
+			boolean flag = validateTitle(custName);
 			if (!flag) {
 				throw new AutoAuditException("个人用户名称不合法");
 			}
@@ -2407,11 +2369,11 @@ public class TestImpl implements Test {
 
 		// 电话号码
 		Set<String> phoneList = new HashSet<String>();
-		List<CustContact> contactList = cust.getContactList();
+		// List<CustContact> contactList = cust.getContactList();
+		List<CustContact> contactList = custContactService.selectCustContactByCustId(cust.getCustId());
 		if (contactList != null && contactList.size() > 0) {
 			for (CustContact cc : contactList) {
-				// TODO Anders Zhu : 原来用的轩辕的tb_cust_contact表，其中有del_flag，但是盘古的表中没有该字段，所以用disabled_flag代替
-				if (FlagType.ENABLE.getValue().equals(cc.getDelFlag())) {
+				if (FlagType.ENABLE.getValue().equals(cc.getDisabled())) {
 					List<Phone> phList = cc.getPhoneList();
 					if (phList != null && phList.size() > 0) {
 						for (Phone p : phList) {
@@ -2434,7 +2396,8 @@ public class TestImpl implements Test {
 		// URL
 		String url = null;
 		String domain = null;
-		List<CustUrl> urlList = cust.getUrlList();
+		// List<CustUrl> urlList = cust.getUrlList();
+		List<CustUrl> urlList = custUrlService.selectCustUrlByCustId(cust.getCustId());
 		if (urlList != null && urlList.size() > 0) {
 			url = urlList.get(0).getCustUrlName();
 			domain = urlList.get(0).getDomain();
@@ -2591,7 +2554,7 @@ public class TestImpl implements Test {
 
 		// 个人称谓校验
 		if (custType.intValue() == CustType.PERSONAL_CUSTOMER.getValue()) {
-			boolean flag = validateCustName(custName);
+			boolean flag = validateTitle(custName);
 			if (!flag) {
 				throw new AutoAuditException("个人用户名称不合法");
 			}
@@ -2819,7 +2782,7 @@ public class TestImpl implements Test {
 			}
 
 			// shifen
-			List<Map<String, Object>> sflist = shifenCustomerService.equalSiteUrl(url);
+			List<Map<String, Object>> sflist = shifenCustomerService.selectCustIdNamesBySiteUrl(url);
 			if (sflist != null && sflist.size() > 0) {
 				List<AuditInfo> infos = new ArrayList<AuditInfo>();
 				for (Map<String, Object> mp : sflist) {
@@ -2892,7 +2855,7 @@ public class TestImpl implements Test {
 			}
 
 			// shifen
-			List<Map<String, Object>> sflist = shifenCustomerService.equalUrlDomain(domain);
+			List<Map<String, Object>> sflist = shifenCustomerService.selectCustIdNamesByUrlDomain(domain);
 			if (sflist != null && sflist.size() > 0) {
 				List<AuditInfo> infos = new ArrayList<AuditInfo>();
 				for (Map<String, Object> mp : sflist) {
@@ -2947,7 +2910,7 @@ public class TestImpl implements Test {
 	public boolean auditCustName(String custName) {
 		if (custName == null)
 			return false;
-		List<Long> sfids = shifenCustomerService.equalCompanyName(custName);
+		List<Long> sfids = shifenCustomerService.selectCustIdByCompanyName(custName);
 		if (sfids != null && sfids.size() > 0)
 			return true;
 
@@ -3019,8 +2982,8 @@ public class TestImpl implements Test {
 			throw new IllegalArgumentException("运营单位岗位ID不能为空");
 		}
 		List<SaleData> list = tinyseMgr.querySaleData(custName, 800);
-		List<Long> custXuanyuan = custService.findByFullName(custName);
-		List<Long> custPg = customerService.equalCustFullName(custName);
+		List<Long> custXuanyuan = custService.selectCustIdByFullName(custName);
+		List<Long> custPg = customerService.selectCustIdByCustFullName(custName);
 		{
 			List<Long> custIdList = new ArrayList<Long>();
 			for (int i = 0; i < list.size(); i++) {
@@ -3065,7 +3028,7 @@ public class TestImpl implements Test {
 	 */
 	// TODO Anders Zhu : 重构该函数，public函数
 	public List<Map<String, Object>> findCustByCustIds(List<Long> custIds) {
-		List<Map<String, Object>> result = customerService.findCustomerFollowDistributeByCustIdList(custIds);
+		List<Map<String, Object>> result = customerService.selectCustomerFollowDistributeByCustIdList(custIds);
 		if (result != null && result.size() > 0) {
 			List<Long> userIds = new ArrayList<Long>();
 			List<Long> posIds = new ArrayList<Long>();
@@ -3199,10 +3162,10 @@ public class TestImpl implements Test {
 	 */
 	// TODO Anders Zhu : 重构该函数，public函数
 	public Map<String, Object> findCustByCustId(Long custId) {
-		Map<String, Object> result = customerService.findCustIdFullNamePoseIdInputTypeByCustId(custId);
+		Map<String, Object> result = customerService.selectCustIdFullNamePoseIdInputTypeByCustId(custId);
 		if (result == null)
 			return null;
-		List<CustUrl> custUrls = custUrlAuditService.findCustUrlByCustId(custId);
+		List<CustUrl> custUrls = custUrlAuditService.selectCustUrlByCustId(custId);
 		if (custUrls != null && custUrls.size() >= 1) {
 			result.put("custUrl", custUrls.get(0).getCustUrlName());
 		}
@@ -3211,5 +3174,54 @@ public class TestImpl implements Test {
 			result.put("followId", followId);
 		}
 		return result;
+	}
+
+	/* 以下为工具方法 */
+
+	/**
+	 * 日志格式化
+	 * 
+	 * @param name
+	 *            参数名称
+	 * @param operator
+	 *            操作名称
+	 * @param result
+	 *            结果值
+	 */
+	private String LogFormater(String name, String operator, String result) {
+		return String.format("%s %s %s", name, operator, result);
+	}
+
+	/**
+	 * 输出日志：“参数 = null”
+	 * 
+	 * @param name
+	 *            参数名称
+	 * @return 日志
+	 */
+	private String LogIsNull(String name) {
+		return LogFormater(name, "=", "null");
+	}
+
+	/**
+	 * 输出日志：“参数 <= 0”
+	 * 
+	 * @param name
+	 *            参数名称
+	 * @return 日志
+	 */
+	private String LogEqualLessThanZero(String name) {
+		return LogFormater(name, "<=", "0");
+	}
+
+	/**
+	 * 输出日志：“参数 = 0”
+	 * 
+	 * @param name
+	 *            参数名称
+	 * @return 日志
+	 */
+	private String LogEqualToZero(String name) {
+		return LogFormater(name, "=", "0");
 	}
 }

@@ -16,10 +16,14 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import com.baidu.rigel.unique.bo.pangu.Cust;
+import com.baidu.rigel.unique.bo.pangu.CustContactPhone;
 import com.baidu.rigel.unique.bo.xuanyuan.CustContact;
 import com.baidu.rigel.unique.bo.xuanyuan.CustUrl;
 import com.baidu.rigel.unique.bo.xuanyuan.Customer;
 import com.baidu.rigel.unique.bo.xuanyuan.Phone;
+import com.baidu.rigel.unique.dao.pangu.CustContactPhoneDao;
+import com.baidu.rigel.unique.dao.pangu.CustDao;
 import com.baidu.rigel.unique.dao.xuanyuan.CustContactDao;
 import com.baidu.rigel.unique.dao.xuanyuan.CustUrlDao;
 import com.baidu.rigel.unique.dao.xuanyuan.CustomerDao;
@@ -40,6 +44,10 @@ public class AuditServiceTest {
 	private CustUrlDao custUrlDao;
 	@Autowired
 	private CustContactDao custContactDao;
+	@Autowired
+	private CustDao custDao;
+	@Autowired
+	private CustContactPhoneDao custContactPhoneDao;
 
 	@Before
 	public void setUp() throws Exception {
@@ -74,7 +82,7 @@ public class AuditServiceTest {
 		Phone phone = new Phone();
 		phone.setPhoneId(1234);
 		phone.setFullPhone("123456789");
-		phone.setPhNum("987654321");
+		phone.setPhNum("123456789");
 		phone.setPhType((byte) 0);
 		phone.setCustId(1234);
 		phone.setContactOrRecipid(1234);
@@ -95,10 +103,44 @@ public class AuditServiceTest {
 		custContact.setDelFlag((byte) 0);
 		custContact.setDisabled((byte) 0);
 		custContactDao.save(custContact);
+
+		Cust cust = new Cust();
+		cust.setId(1234L);
+		cust.setPosid(4321L);
+		cust.setType((short) 3);
+		cust.setName("zhangsan");
+		cust.setFullName("zhangsan");
+		cust.setBranch("zhangsan");
+		cust.setStat1("0");
+		cust.setStat2("0");
+		cust.setAddUcid(0L);
+		cust.setAddTime(new Date());
+		cust.setSiteType((byte) 0);
+		cust.setSource((byte) 0);
+		cust.setPri((byte) 0);
+		cust.setAutoAuditType((byte) 0);
+		cust.setSiteUrl("www.zhangsan.com");
+		cust.setSiteDomain("mydomain");
+		cust.setVersion(0);
+		custDao.save(cust);
+
+		CustContactPhone custContactPhone = new CustContactPhone();
+		custContactPhone.setId(1234L);
+		custContactPhone.setPhoneNum("123456789");
+		custContactPhone.setCustId(1234L);
+		custContactPhone.setContactId(1234L);
+		custContactPhone.setPhoneType((byte) 0);
+		custContactPhone.setFullPhone("123456789");
+		custContactPhone.setAddUcid(1234L);
+		custContactPhone.setAddTime(new Date());
+		custContactPhone.setDisabledFlag((byte) 0);
+		custContactPhoneDao.save(custContactPhone);
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		custContactPhoneDao.delete(1234L);
+		custDao.delete(1234L);
 		custContactDao.delete(1234L);
 		phoneDao.delete(1234L);
 		custUrlDao.delete(1234L);
@@ -108,7 +150,7 @@ public class AuditServiceTest {
 	@Test
 	public void testListMatchCustUrl() {
 		List<Map<String, Object>> list = auditService.listMatchCustUrl("www.zhangsan.com");
-		Assert.assertEquals(1, list.size());
+		Assert.assertEquals(2, list.size());
 		Assert.assertEquals(1234L, list.get(0).get(FieldConstant.CUST_ID));
 		Assert.assertEquals("zhangsan", list.get(0).get(FieldConstant.CUST_FULL_NAME));
 		list = auditService.listMatchCustUrl("www.zhangsan123.com");
@@ -118,7 +160,7 @@ public class AuditServiceTest {
 	@Test
 	public void testListPreMatchCustUrl() {
 		List<Map<String, Object>> list = auditService.listPreMatchCustUrl("www.zhangsan.com", 1);
-		Assert.assertEquals(1, list.size());
+		Assert.assertEquals(2, list.size());
 		Assert.assertEquals(1234L, list.get(0).get(FieldConstant.CUST_ID));
 		Assert.assertEquals("zhangsan", list.get(0).get(FieldConstant.CUST_FULL_NAME));
 		list = auditService.listPreMatchCustUrl("www.zhangsan123.com", 1);
@@ -128,7 +170,7 @@ public class AuditServiceTest {
 	@Test
 	public void testListMatchDomain() {
 		List<Map<String, Object>> list = auditService.listMatchDomain("mydomain");
-		Assert.assertEquals(1, list.size());
+		Assert.assertEquals(2, list.size());
 		Assert.assertEquals(1234L, list.get(0).get(FieldConstant.CUST_ID));
 		Assert.assertEquals("zhangsan", list.get(0).get(FieldConstant.CUST_FULL_NAME));
 		list = auditService.listMatchDomain("mydomain123");
@@ -148,23 +190,23 @@ public class AuditServiceTest {
 	@Test
 	public void testSelectDisCustIdByFullPhone() {
 		List<Long> list = auditService.listMatchPhoneContact("123456789");
-		Assert.assertEquals(1, list.size());
+		Assert.assertEquals(2, list.size());
 		Assert.assertEquals(1234, list.get(0).longValue());
 		list = auditService.listMatchPhoneContact("1234567890");
-		Assert.assertEquals(0, list.size());
+		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(0, auditService.listMatchPhoneContact(null).size());
 	}
 
 	@Test
 	public void testSelectDisCustIdFullNameByPhoneNumAreaCode() {
-		List<Map<String, Object>> list = auditService.listMatchPhoneContactMap("4321", "987654321");
-		Assert.assertEquals(1, list.size());
+		List<Map<String, Object>> list = auditService.listMatchPhoneContactMap("4321", "123456789");
+		Assert.assertEquals(2, list.size());
 		Assert.assertEquals(1234L, list.get(0).get(FieldConstant.CUST_ID));
 		Assert.assertEquals("zhangsan", list.get(0).get(FieldConstant.CUST_FULL_NAME));
-		list = auditService.listMatchPhoneContactMap("54321", "987654321");
-		Assert.assertEquals(0, list.size());
+		list = auditService.listMatchPhoneContactMap("54321", "1234567890");
+		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(0, auditService.listMatchPhoneContactMap("54321", null).size());
-		Assert.assertEquals(0, auditService.listMatchPhoneContactMap(null, "9876543210").size());
+		Assert.assertEquals(1, auditService.listMatchPhoneContactMap(null, "9876543210").size());
 	}
 
 }

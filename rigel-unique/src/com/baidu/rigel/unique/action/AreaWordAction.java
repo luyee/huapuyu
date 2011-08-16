@@ -132,7 +132,7 @@ public class AreaWordAction extends BaseActionSupport {
 	 */
 	public String listAreaWord() {
 		initPage();
-		Position p = this.ucHelper.getCurrentPos();
+		Position p = userCenterHelper.getCurrentPos();
 		Long posId = p.getPosid();
 		// 获取所官辖的运营单位的岗位
 		List positions = userMgr.getUnitPos(posId);
@@ -194,7 +194,7 @@ public class AreaWordAction extends BaseActionSupport {
 	public String addAreaWord() {
 		AreaWord areaWord = new AreaWord();
 		areaWord.setAddedtime(new Date());
-		areaWord.setAddeduser(ucHelper.getUser().getUcid());
+		areaWord.setAddeduser(userCenterHelper.getUser().getUcid());
 		areaWord.setPosId(posId);
 		areaWord.setcWord(word);
 		areaWordService.saveOrUpdate(areaWord);
@@ -209,7 +209,7 @@ public class AreaWordAction extends BaseActionSupport {
 	public String updateAreaWord() {
 		AreaWord areaWord = new AreaWord();
 		areaWord.setAddedtime(new Date());
-		areaWord.setAddeduser(ucHelper.getUser().getUcid());
+		areaWord.setAddeduser(userCenterHelper.getUser().getUcid());
 		areaWord.setPosId(posId);
 		areaWord.setcWord(word);
 		areaWord.setcId(id);

@@ -21,7 +21,7 @@ import com.baidu.rigel.unique.service.xuanyuan.CustomerService;
 import com.baidu.rigel.unique.utils.Constant;
 import com.baidu.rigel.unique.utils.CustType;
 import com.baidu.rigel.unique.utils.FieldConstant;
-import com.baidu.rigel.unique.utils.MsgConstant;
+import com.baidu.rigel.unique.utils.ReadConfig;
 import com.baidu.rigel.unique.utils.Utils;
 
 @Service("customerService")
@@ -29,14 +29,16 @@ public class CustomerServiceImpl extends GenericSqlMapServiceImpl<Customer, Long
 
 	@Autowired
 	private CustomerDao customerDao;
+	@Autowired
+	private ReadConfig readConfig;
 
-	public List<Long> equalCustFullName(String custFullName) {
+	public List<Long> selectCustIdByCustFullName(String custFullName) {
 		if (Utils.isNull(custFullName))
 			return new ArrayList<Long>(0);
 		return customerDao.selectCustIdByCustFullName(custFullName);
 	}
 
-	public List<Long> equalCustBranchNameOrCustName(String name, CustType custType) {
+	public List<Long> selectCustIdByCustBranchNameOrCustName(String name, CustType custType) {
 		if (Utils.isNull(name) || Utils.isNull(custType))
 			return new ArrayList<Long>(0);
 		switch (custType) {
@@ -45,11 +47,11 @@ public class CustomerServiceImpl extends GenericSqlMapServiceImpl<Customer, Long
 		case ADVERTISING_AGENCY:
 			return customerDao.selectCustIdByCustBranchName(name, custType);
 		default:
-			throw new IllegalArgumentException(MsgConstant.CUSTOMER_SERVICE_PARAM_CUSTTYPE);
+			throw new IllegalArgumentException(String.format(readConfig.getErrorParamMsg(), "custType"));
 		}
 	}
 
-	public Map<Long, Long> findCustIdPosIdByCustIds(Long... custIds) {
+	public Map<Long, Long> selectCustIdPosIdByCustIds(Long... custIds) {
 		Map<Long, Long> resultMap = new HashMap<Long, Long>();
 
 		if (ArrayUtils.isEmpty(custIds))
@@ -64,7 +66,7 @@ public class CustomerServiceImpl extends GenericSqlMapServiceImpl<Customer, Long
 		return resultMap;
 	}
 
-	public Map<Long, String> findCustIdFullNameByCustIds(Long... custIds) {
+	public Map<Long, String> selectCustIdFullNameByCustIds(Long... custIds) {
 		Map<Long, String> resultMap = new HashMap<Long, String>();
 
 		if (ArrayUtils.isEmpty(custIds))
@@ -86,13 +88,13 @@ public class CustomerServiceImpl extends GenericSqlMapServiceImpl<Customer, Long
 		return Utils.isGreaterThanZero(customerDao.selectCountByCustIdListPoseIdCustId(custIdList, posId, custId));
 	}
 
-	public List<Map<String, Object>> findCustomerFollowDistributeByCustIdList(List<Long> custIdList) {
+	public List<Map<String, Object>> selectCustomerFollowDistributeByCustIdList(List<Long> custIdList) {
 		if (CollectionUtils.isEmpty(custIdList))
 			return new ArrayList<Map<String, Object>>(0);
 		return customerDao.selectCustomerFollowDistributeByCustIdList(custIdList);
 	}
 
-	public Map<String, Object> findCustIdFullNamePoseIdInputTypeByCustId(Long custId) {
+	public Map<String, Object> selectCustIdFullNamePoseIdInputTypeByCustId(Long custId) {
 		if (Utils.isNullOrEqualToZero(custId))
 			return new HashMap<String, Object>();
 		Map<String, Object> map = customerDao.selectCustIdFullNamePoseIdInputTypeByCustId(custId);
@@ -101,13 +103,13 @@ public class CustomerServiceImpl extends GenericSqlMapServiceImpl<Customer, Long
 		return map;
 	}
 
-	public List<Map<String, Object>> containCustUrlName(String custUrlName, int count) {
+	public List<Map<String, Object>> selectCustIdFullNameLikeByCustUrlName(String custUrlName, int count) {
 		if (StringUtils.isBlank(custUrlName) || Utils.isEqualLessThanZero(count))
 			return new ArrayList<Map<String, Object>>(0);
 		return customerDao.selectCustIdFullNameLikeByCustUrlName(Utils.addRightWildcard(Utils.escapeWildcard(custUrlName)), count);
 	}
 
-	public List<Map<String, Object>> equalCustUrlName(String custUrlName) {
+	public List<Map<String, Object>> selectCustIdFullNameByCustUrlName(String custUrlName) {
 		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>(0);
 		if (StringUtils.isBlank(custUrlName))
 			return resultList;
@@ -124,7 +126,7 @@ public class CustomerServiceImpl extends GenericSqlMapServiceImpl<Customer, Long
 		return resultList;
 	}
 
-	public List<Map<String, Object>> equalDomain(String domain) {
+	public List<Map<String, Object>> selectCustIdFullNameByDomain(String domain) {
 		List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>(0);
 		if (StringUtils.isBlank(domain))
 			return resultList;
@@ -141,7 +143,7 @@ public class CustomerServiceImpl extends GenericSqlMapServiceImpl<Customer, Long
 		return resultList;
 	}
 
-	public List<Map<String, Object>> containDomain(String domain) {
+	public List<Map<String, Object>> selectCustIdFullNameLikeByDomain(String domain) {
 		if (StringUtils.isBlank(domain))
 			return new ArrayList<Map<String, Object>>(0);
 		return customerDao.selectCustIdFullNameLikeByDomain(Utils.addRightWildcard(Utils.escapeWildcard(domain)));

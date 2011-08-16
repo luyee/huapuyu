@@ -1,5 +1,7 @@
 package com.baidu.rigel.unique.dao.xuanyuan.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +19,9 @@ public class CustContactDaoImpl extends BaseSqlMapDao<CustContact, Long> impleme
 	@Override
 	public DaoMapper<CustContact, Long> getDaoMapper() {
 		return custContactMapper;
+	}
+
+	public List<CustContact> selectCustContactByCustId(Long custId) {
+		return custContactMapper.selectCustContactByCustId(custId);
 	}
 }

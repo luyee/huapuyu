@@ -19,7 +19,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 
 import com.baidu.rigel.unique.bo.xuanyuan.ShifenCustomer;
 import com.baidu.rigel.unique.dao.xuanyuan.ShifenCustomerDao;
-import com.baidu.rigel.unique.service.xuanyuan.ShifenCustomerService;
 import com.baidu.rigel.unique.utils.FieldConstant;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -51,16 +50,16 @@ public class ShifenCustomerServiceTest {
 	}
 
 	@Test
-	public void testContainSiteUrl() {
-		List<Map<String, Object>> list = shifenCustomerService.containSiteUrl("siteUrl", 1);
+	public void testSelectCustIdNamesLikeBySiteUrl() {
+		List<Map<String, Object>> list = shifenCustomerService.selectCustIdNamesLikeBySiteUrl("siteUrl", 1);
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(1234, list.get(0).get(FieldConstant.CUSTOMERD));
 		Assert.assertEquals("companyName", list.get(0).get(FieldConstant.COMPANYNAME));
 		Assert.assertEquals("customerName", list.get(0).get(FieldConstant.CUSTOMERNAME));
 		Assert.assertEquals("realCompanyName", list.get(0).get(FieldConstant.REALCOMPANYNAME));
-		list = shifenCustomerService.containSiteUrl("siteUrl123", 1);
+		list = shifenCustomerService.selectCustIdNamesLikeBySiteUrl("siteUrl123", 1);
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, shifenCustomerService.containSiteUrl(null, -1).size());
+		Assert.assertEquals(0, shifenCustomerService.selectCustIdNamesLikeBySiteUrl(null, -1).size());
 		ShifenCustomer shifenCustomer = new ShifenCustomer();
 		shifenCustomer.setCompanyname("companyName");
 		shifenCustomer.setCustomerd(12345);
@@ -72,65 +71,65 @@ public class ShifenCustomerServiceTest {
 		shifenCustomer.setStatus((byte) 1);
 		shifenCustomer.setAccountmoney(new BigDecimal(10));
 		shifenCustomerDao.save(shifenCustomer);
-		list = shifenCustomerService.containSiteUrl("siteUrl", 1);
+		list = shifenCustomerService.selectCustIdNamesLikeBySiteUrl("siteUrl", 1);
 		Assert.assertEquals(1, list.size());
 		shifenCustomerDao.delete(12345L);
 	}
 
 	@Test
-	public void testEqualSiteUrl() {
-		List<Map<String, Object>> list = shifenCustomerService.equalSiteUrl("siteUrl");
+	public void testSelectCustIdNamesBySiteUrl() {
+		List<Map<String, Object>> list = shifenCustomerService.selectCustIdNamesBySiteUrl("siteUrl");
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(1234, list.get(0).get(FieldConstant.CUSTOMERD));
 		Assert.assertEquals("companyName", list.get(0).get(FieldConstant.COMPANYNAME));
 		Assert.assertEquals("customerName", list.get(0).get(FieldConstant.CUSTOMERNAME));
 		Assert.assertEquals("realCompanyName", list.get(0).get(FieldConstant.REALCOMPANYNAME));
-		list = shifenCustomerService.equalSiteUrl("siteUrl123");
+		list = shifenCustomerService.selectCustIdNamesBySiteUrl("siteUrl123");
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, shifenCustomerService.equalSiteUrl(null).size());
+		Assert.assertEquals(0, shifenCustomerService.selectCustIdNamesBySiteUrl(null).size());
 	}
 
 	@Test
-	public void testEqualCompanyName() {
-		List<Long> list = shifenCustomerService.equalCompanyName("realCompanyName");
+	public void testSelectCustIdByCompanyName() {
+		List<Long> list = shifenCustomerService.selectCustIdByCompanyName("realCompanyName");
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(1234, list.get(0).longValue());
-		list = shifenCustomerService.equalCompanyName("realCompanyName123");
+		list = shifenCustomerService.selectCustIdByCompanyName("realCompanyName123");
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, shifenCustomerService.equalCompanyName(null).size());
+		Assert.assertEquals(0, shifenCustomerService.selectCustIdByCompanyName(null).size());
 	}
 
 	@Test
-	public void testEqualUrlDomain() {
-		List<Map<String, Object>> list = shifenCustomerService.equalUrlDomain("urlDomain");
+	public void testSelectCustIdNamesByUrlDomain() {
+		List<Map<String, Object>> list = shifenCustomerService.selectCustIdNamesByUrlDomain("urlDomain");
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(1234, list.get(0).get(FieldConstant.CUSTOMERD));
 		Assert.assertEquals("companyName", list.get(0).get(FieldConstant.COMPANYNAME));
 		Assert.assertEquals("customerName", list.get(0).get(FieldConstant.CUSTOMERNAME));
 		Assert.assertEquals("realCompanyName", list.get(0).get(FieldConstant.REALCOMPANYNAME));
-		list = shifenCustomerService.equalUrlDomain("urlDomain123");
+		list = shifenCustomerService.selectCustIdNamesByUrlDomain("urlDomain123");
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, shifenCustomerService.equalUrlDomain(null).size());
+		Assert.assertEquals(0, shifenCustomerService.selectCustIdNamesByUrlDomain(null).size());
 	}
 
 	@Test
-	public void testContainUrlDomain() {
-		List<Map<String, Object>> list = shifenCustomerService.containUrlDomain("urlDomain");
+	public void testSelectCustIdNamesLikeByUrlDomain() {
+		List<Map<String, Object>> list = shifenCustomerService.selectCustIdNamesLikeByUrlDomain("urlDomain");
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(1234, list.get(0).get(FieldConstant.CUSTOMERD));
 		Assert.assertEquals("companyName", list.get(0).get(FieldConstant.COMPANYNAME));
 		Assert.assertEquals("customerName", list.get(0).get(FieldConstant.CUSTOMERNAME));
 		Assert.assertEquals("realCompanyName", list.get(0).get(FieldConstant.REALCOMPANYNAME));
-		list = shifenCustomerService.containUrlDomain("urlDomain123");
+		list = shifenCustomerService.selectCustIdNamesLikeByUrlDomain("urlDomain123");
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, shifenCustomerService.containUrlDomain(null).size());
+		Assert.assertEquals(0, shifenCustomerService.selectCustIdNamesLikeByUrlDomain(null).size());
 	}
 
 	@Test
-	public void testGetShifenCustomerByCustIdList() {
+	public void testSelectShifenCustomerByCustIdList() {
 		List<Long> custIdList = new ArrayList<Long>();
 		custIdList.add(1234L);
-		List<ShifenCustomer> list = shifenCustomerService.getShifenCustomerByCustIdList(custIdList);
+		List<ShifenCustomer> list = shifenCustomerService.selectShifenCustomerByCustIdList(custIdList);
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(1234, list.get(0).getCustomerd().longValue());
 		Assert.assertEquals("companyName", list.get(0).getCompanyname());
@@ -138,9 +137,9 @@ public class ShifenCustomerServiceTest {
 		Assert.assertEquals("realCompanyName", list.get(0).getRealcompanyname());
 		custIdList = new ArrayList<Long>();
 		custIdList.add(12345L);
-		list = shifenCustomerService.getShifenCustomerByCustIdList(custIdList);
+		list = shifenCustomerService.selectShifenCustomerByCustIdList(custIdList);
 		Assert.assertEquals(0, list.size());
-		Assert.assertEquals(0, shifenCustomerService.getShifenCustomerByCustIdList(null).size());
+		Assert.assertEquals(0, shifenCustomerService.selectShifenCustomerByCustIdList(null).size());
 	}
 
 	@Test

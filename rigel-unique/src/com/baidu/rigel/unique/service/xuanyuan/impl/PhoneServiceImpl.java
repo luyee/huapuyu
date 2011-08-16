@@ -26,12 +26,12 @@ public class PhoneServiceImpl extends GenericSqlMapServiceImpl<Phone, Long> impl
 		return phoneDao.selectDisCustIdByFullPhone(fullPhone);
 	}
 
-	public List<Map<String, Object>> selectDisCustIdFullNameByPhoneNumAreaCode(String phoneAreaCode, String phoneNumber) {
+	public List<Map<String, Object>> selectDisrowCustIdFullNameByPhoneNumAreaCode(String phoneAreaCode, String phoneNumber) {
 		if (Utils.isNull(phoneNumber))
 			return new ArrayList<Map<String, Object>>(0);
-		if (StringUtils.isEmpty(phoneAreaCode))
+		if (StringUtils.isBlank(phoneAreaCode))
 			phoneAreaCode = null;
-		return phoneDao.selectDisCustIdFullNameByPhoneNumAreaCode(phoneAreaCode, phoneNumber);
+		return phoneDao.selectDisrowCustIdFullNameByPhoneNumAreaCode(phoneAreaCode, phoneNumber);
 	}
 
 	@Override

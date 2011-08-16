@@ -135,7 +135,7 @@ public class CoreWordSetUpAction extends BaseActionSupport implements ResearchAw
 		// 当前时间
 		Date now = new Date();
 		// 当前登录者
-		Long loginUserId = ucHelper.getUser().getUcid();
+		Long loginUserId = userCenterHelper.getUser().getUcid();
 		word = new NoncoreWord();
 		word.setWord(coreWordNew.trim());
 		word.setCreatorId(loginUserId);
@@ -171,7 +171,7 @@ public class CoreWordSetUpAction extends BaseActionSupport implements ResearchAw
 		// 当前时间
 		Date now = new Date();
 		// 当前登录者
-		Long loginUserId = ucHelper.getUser().getUcid();
+		Long loginUserId = userCenterHelper.getUser().getUcid();
 		word.setUpdateId(loginUserId);
 		word.setUpdateTime(now);
 		// 设置del_flag=1
@@ -231,7 +231,7 @@ public class CoreWordSetUpAction extends BaseActionSupport implements ResearchAw
 		// 当前时间
 		Date now = new Date();
 		// 当前登录者
-		Long loginUserId = ucHelper.getUser().getUcid();
+		Long loginUserId = userCenterHelper.getUser().getUcid();
 		word.setUpdateId(loginUserId);
 		word.setUpdateTime(now);
 		word.setWord(coreWordNew);

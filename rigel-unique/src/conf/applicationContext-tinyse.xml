@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="tinyseMgr" class="com.baidu.rigel.unique.tinyse.TinyseMgrImpl">
+	<bean id="tinyseMgr" class="com.baidu.rigel.unique.tinyse.impl.TinyseMgrImpl">
 		<property name="saleClients">
 			<list>
 				<ref bean="saleClient00" />
@@ -17,7 +17,6 @@
 			</list>
 		</property>
 	</bean>
-
 
 
 	<bean id="saleClient00" class="com.baidu.rigel.service.tinyse.client.TinyseClient">

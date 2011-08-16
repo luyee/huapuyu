@@ -165,7 +165,7 @@ public class UrlWhitelistAction extends BaseActionSupport implements ResearchAwa
 
 	private void initUnitPos() {
 
-		Long posid = ucHelper.getCurrentPos().getPosid();
+		Long posid = userCenterHelper.getCurrentPos().getPosid();
 
 		if (unitPos == null) {
 			unitPos = userMgr.getUnitPos(posid);
@@ -309,7 +309,7 @@ public class UrlWhitelistAction extends BaseActionSupport implements ResearchAwa
 
 		initUnitPos();
 
-		Long ucid = ucHelper.getUser().getUcid();
+		Long ucid = userCenterHelper.getUser().getUcid();
 
 		if (unitid == null || !unitPosids.contains(unitid)) {
 			result = false;
@@ -364,7 +364,7 @@ public class UrlWhitelistAction extends BaseActionSupport implements ResearchAwa
 
 		initUnitPos();
 
-		Long ucid = ucHelper.getUser().getUcid();
+		Long ucid = userCenterHelper.getUser().getUcid();
 
 		if (id == null) {
 			result = false;
@@ -432,7 +432,7 @@ public class UrlWhitelistAction extends BaseActionSupport implements ResearchAwa
 
 		initUnitPos();
 
-		Long ucid = ucHelper.getUser().getUcid();
+		Long ucid = userCenterHelper.getUser().getUcid();
 
 		if (id == null) {
 			result = false;

@@ -3,13 +3,10 @@ package com.baidu.rigel.unique.tinyse.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.baidu.rigel.service.tinyse.data.SaleData;
 import com.baidu.rigel.service.tinyse.data.ShifenData;
 import com.baidu.rigel.unique.tinyse.TinyseMgr;
 
-@Service("tinyseMgr")
 public class MockTinyseMgrImpl implements TinyseMgr {
 
 	public boolean addSaleData(Long custId, String companyname) {

@@ -21,7 +21,7 @@ public class ShifenCustomerServiceImpl extends GenericSqlMapServiceImpl<ShifenCu
 	@Autowired
 	private ShifenCustomerDao shifenCustomerDao;
 
-	public List<Map<String, Object>> containSiteUrl(String siteUrl, int count) {
+	public List<Map<String, Object>> selectCustIdNamesLikeBySiteUrl(String siteUrl, int count) {
 		if (StringUtils.isBlank(siteUrl) || Utils.isEqualLessThanZero(count))
 			return new ArrayList<Map<String, Object>>(0);
 		List<Map<String, Object>> resultList = shifenCustomerDao.selectCustIdNamesLikeBySiteUrl(Utils.addRightWildcard(Utils.escapeWildcard(siteUrl)), count);
@@ -30,31 +30,31 @@ public class ShifenCustomerServiceImpl extends GenericSqlMapServiceImpl<ShifenCu
 		return resultList;
 	}
 
-	public List<Map<String, Object>> equalSiteUrl(String siteUrl) {
+	public List<Map<String, Object>> selectCustIdNamesBySiteUrl(String siteUrl) {
 		if (StringUtils.isBlank(siteUrl))
 			return new ArrayList<Map<String, Object>>(0);
 		return shifenCustomerDao.selectCustIdNamesBySiteUrl(siteUrl);
 	}
 
-	public List<Long> equalCompanyName(String companyName) {
+	public List<Long> selectCustIdByCompanyName(String companyName) {
 		if (StringUtils.isBlank(companyName))
 			return new ArrayList<Long>(0);
 		return shifenCustomerDao.selectCustIdByCompanyName(companyName);
 	}
 
-	public List<Map<String, Object>> equalUrlDomain(String urlDomain) {
+	public List<Map<String, Object>> selectCustIdNamesByUrlDomain(String urlDomain) {
 		if (StringUtils.isBlank(urlDomain))
 			return new ArrayList<Map<String, Object>>(0);
 		return shifenCustomerDao.selectCustIdNamesByUrlDomain(urlDomain);
 	}
 
-	public List<Map<String, Object>> containUrlDomain(String urlDomain) {
+	public List<Map<String, Object>> selectCustIdNamesLikeByUrlDomain(String urlDomain) {
 		if (StringUtils.isBlank(urlDomain))
 			return new ArrayList<Map<String, Object>>(0);
 		return shifenCustomerDao.selectCustIdNamesLikeByUrlDomain(Utils.addRightWildcard(Utils.escapeWildcard(urlDomain)));
 	}
 
-	public List<ShifenCustomer> getShifenCustomerByCustIdList(List<Long> custIdList) {
+	public List<ShifenCustomer> selectShifenCustomerByCustIdList(List<Long> custIdList) {
 		if (CollectionUtils.isEmpty(custIdList))
 			return new ArrayList<ShifenCustomer>(0);
 		return shifenCustomerDao.selectShifenCustomerByCustIdList(custIdList);
@@ -71,4 +71,12 @@ public class ShifenCustomerServiceImpl extends GenericSqlMapServiceImpl<ShifenCu
 		return shifenCustomerDao.selectCustIdByCompanyNameSiteUrl(companyName, siteUrl);
 	}
 
+	public boolean isSiteUrlExist(String siteUrl) {
+		if (StringUtils.isEmpty(siteUrl))
+			return Boolean.FALSE;
+		List<Map<String, Object>> list = shifenCustomerDao.selectCustIdNamesBySiteUrl(siteUrl);
+		if (CollectionUtils.isNotEmpty(list))
+			return Boolean.TRUE;
+		return Boolean.FALSE;
+	}
 }

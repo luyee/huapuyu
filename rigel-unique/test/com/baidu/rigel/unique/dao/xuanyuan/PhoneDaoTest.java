@@ -18,9 +18,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import com.baidu.rigel.unique.bo.xuanyuan.CustContact;
 import com.baidu.rigel.unique.bo.xuanyuan.Customer;
 import com.baidu.rigel.unique.bo.xuanyuan.Phone;
-import com.baidu.rigel.unique.dao.xuanyuan.CustContactDao;
-import com.baidu.rigel.unique.dao.xuanyuan.CustomerDao;
-import com.baidu.rigel.unique.dao.xuanyuan.PhoneDao;
 import com.baidu.rigel.unique.utils.FieldConstant;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -96,7 +93,7 @@ public class PhoneDaoTest {
 
 	@Test
 	public void testSelectDisCustIdFullNameByPhoneNumAreaCode() {
-		List<Map<String, Object>> list = phoneDao.selectDisCustIdFullNameByPhoneNumAreaCode("4321", "987654321");
+		List<Map<String, Object>> list = phoneDao.selectDisrowCustIdFullNameByPhoneNumAreaCode("4321", "987654321");
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(1234L, list.get(0).get(FieldConstant.CUST_ID));
 		Assert.assertEquals("zhangsan", list.get(0).get(FieldConstant.CUST_FULL_NAME));

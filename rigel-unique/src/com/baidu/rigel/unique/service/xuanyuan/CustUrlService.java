@@ -6,5 +6,5 @@ import com.baidu.rigel.platform.service.GenericService;
 import com.baidu.rigel.unique.bo.xuanyuan.CustUrl;
 
 public interface CustUrlService extends GenericService<CustUrl, Long> {
-	public List<CustUrl> findCustUrlByCustId(Long custId);
+	public List<CustUrl> selectCustUrlByCustId(Long custId);
 }

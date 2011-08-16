@@ -28,10 +28,10 @@ public class PhoneDaoImpl extends BaseSqlMapDao<Phone, Long> implements PhoneDao
 		return phoneMapper.selectDisCustIdByFullPhone(fullPhone);
 	}
 
-	public List<Map<String, Object>> selectDisCustIdFullNameByPhoneNumAreaCode(String phoneAreaCode, String phoneNumber) {
+	public List<Map<String, Object>> selectDisrowCustIdFullNameByPhoneNumAreaCode(String phoneAreaCode, String phoneNumber) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put(ParamConstant.PHONE_AREA_CODE, phoneAreaCode);
 		paramMap.put(ParamConstant.PHONE_NUMBER, phoneNumber);
-		return phoneMapper.selectDisCustIdFullNameByPhoneNumAreaCode(paramMap);
+		return phoneMapper.selectDisrowCustIdFullNameByPhoneNumAreaCode(paramMap);
 	}
 }
