@@ -388,6 +388,10 @@ public class Utils {
 		return isNotNull(number) && isEqualToMinusOne(number);
 	}
 
+	public static boolean isNotNullAndGeaterThanZero(Number number) {
+		return isNotNull(number) && isGreaterThanZero(number);
+	}
+
 	// TODO Anders Zhu : 不知道干嘛用的
 	/**
 	 * 将list里面的记录的位置设置为1，返回整数

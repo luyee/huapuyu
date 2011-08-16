@@ -97,10 +97,7 @@ public class CustomerServiceImpl extends GenericSqlMapServiceImpl<Customer, Long
 	public Map<String, Object> selectCustIdFullNamePoseIdInputTypeByCustId(Long custId) {
 		if (Utils.isNullOrEqualToZero(custId))
 			return new HashMap<String, Object>();
-		Map<String, Object> map = customerDao.selectCustIdFullNamePoseIdInputTypeByCustId(custId);
-		if (Utils.isNull(map))
-			return new HashMap<String, Object>();
-		return map;
+		return customerDao.selectCustIdFullNamePoseIdInputTypeByCustId(custId);
 	}
 
 	public List<Map<String, Object>> selectCustIdFullNameLikeByCustUrlName(String custUrlName, int count) {

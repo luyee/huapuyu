@@ -145,4 +145,8 @@ public interface FieldConstant {
 	 * full_name
 	 */
 	public static final String FULL_NAME = "full_name";
+	/**
+	 * custUrl
+	 */
+	public static final String CUSTURL = "custUrl";
 }

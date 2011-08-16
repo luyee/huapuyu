@@ -1192,7 +1192,7 @@ public class UniqueServiceImpl implements UniqueService {
 		Cust cust = custService.findById(custId);
 		Long followerId = null;
 		if (Utils.isNull(cust)) {
-			followerId = followAssignService.getFollowerId(custId);
+			followerId = followAssignService.selectFollowIdByCustId(custId);
 		} else {
 			followerId = cust.getInUcid();
 			Map<String, Object> propMap = new HashMap<String, Object>();
@@ -2318,7 +2318,7 @@ public class UniqueServiceImpl implements UniqueService {
 			ucid = cust.getAddUser();
 		} else {
 			// 修改
-			Long followID = followAssignService.getFollowerId(custid);
+			Long followID = followAssignService.selectFollowIdByCustId(custid);
 			if (followID != null && followID != 0) {
 				ucid = followID;
 			} else {
@@ -3164,20 +3164,15 @@ public class UniqueServiceImpl implements UniqueService {
 	 * @lastModified
 	 * @history
 	 */
-	// TODO Anders Zhu : 重构该函数，public函数
 	public Map<String, Object> findCustByCustId(Long custId) {
-		Map<String, Object> result = customerService.selectCustIdFullNamePoseIdInputTypeByCustId(custId);
-		if (result == null)
-			return null;
-		List<CustUrl> custUrls = custUrlAuditService.selectCustUrlByCustId(custId);
-		if (custUrls != null && custUrls.size() >= 1) {
-			result.put("custUrl", custUrls.get(0).getCustUrlName());
-		}
-		Long followId = followAssignService.getFollowerId(custId);
-		if (followId != null && followId.longValue() > 0) {
-			result.put("followId", followId);
-		}
-		return result;
+		Map<String, Object> map = customerService.selectCustIdFullNamePoseIdInputTypeByCustId(custId);
+		List<CustUrl> custUrlList = custUrlAuditService.selectCustUrlByCustId(custId);
+		if (CollectionUtils.isNotEmpty(custUrlList))
+			map.put(FieldConstant.CUSTURL, custUrlList.get(0).getCustUrlName());
+		Long followId = followAssignService.selectFollowIdByCustId(custId);
+		if (Utils.isNotNullAndGeaterThanZero(followId))
+			map.put(FieldConstant.FOLLOWID, followId);
+		return map;
 	}
 
 	/* 以下为工具方法 */

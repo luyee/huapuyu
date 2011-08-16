@@ -16,7 +16,7 @@ public class FollowAssignServiceImpl extends GenericSqlMapServiceImpl<FollowAssi
 	@Autowired
 	private FollowAssignDao followAssignDao;
 
-	public Long getFollowerId(Long custId) {
+	public Long selectFollowIdByCustId(Long custId) {
 		if (Utils.isNull(custId))
 			return null;
 
