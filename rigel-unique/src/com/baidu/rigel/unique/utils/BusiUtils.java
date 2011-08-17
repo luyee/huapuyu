@@ -108,10 +108,11 @@ public class BusiUtils {
 	 * @return 判断结果
 	 */
 	public static boolean isPanguCustId(Long custId) {
-		if (custId > Constant.PANGU_START_CUST_ID)
-			return Boolean.TRUE;
-		else
-			return Boolean.FALSE;
+		return custId > Constant.PANGU_START_CUST_ID;
+	}
+
+	public static boolean isNotPanguCustId(Long custId) {
+		return !isPanguCustId(custId);
 	}
 
 	/**

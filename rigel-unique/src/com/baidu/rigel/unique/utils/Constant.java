@@ -311,4 +311,6 @@ public class Constant {
 	public enum DisabledType {
 		NO, YES
 	}
+
+	public static final String URL_FORMATTER = "URL [%s]";
 }
