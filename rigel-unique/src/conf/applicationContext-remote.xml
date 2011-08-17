@@ -40,5 +40,12 @@
 				class="com.baidu.rigel.service.lb.annotation.RpcProxyLBAnnotationParser"></bean>
 		</property>
 	</bean>
+	
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="serviceName" value="AreaWordService"/>
+		<property name="service" ref="areaWordService"/>
+		<property name="serviceInterface" value="com.baidu.rigel.unique.service.AreaWordService"/>
+		<property name="registryPort" value="1999"/>
+	</bean>
 
 </beans>
