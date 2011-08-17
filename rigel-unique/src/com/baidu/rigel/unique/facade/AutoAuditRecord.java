@@ -11,11 +11,12 @@ import java.util.List;
  * @author YanBing
  * 
  */
+// TODO Anders Zhu : 该类在UniqueService牵涉的代码需要整理
 public class AutoAuditRecord implements Serializable {
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	private static final long serialVersionUID = 4521424516409849774L;
 
 	private Short autoAuditType;
