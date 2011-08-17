@@ -41,13 +41,17 @@
 	</target>
 	
 	<!-- 生成schema文件 -->
+	<!--
+		getSchemaExport(getConfiguration()).execute(!this.quiet, !this.text, this.drop, this.create);
+		public void execute(boolean script, boolean export, boolean justDrop, boolean justCreate)
+	-->
 	<target name="generator-schema" depends="generator-hbm" description="生成schema文件">
 		<echo message="生成schema文件..."/>
 		<taskdef name="schemaexport" classname="org.hibernate.tool.hbm2ddl.SchemaExportTask" classpathref="classpath"/>
 		<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
 		<property name="hibernate.format_sql" value="true"/>
 		<property name="hibernate.use_sql_comments" value="true"/>
-		<schemaexport quiet="no" text="yes" drop="no" delimiter=";" output="${basedir}/src/schema.sql">
+		<schemaexport quiet="false" text="true" drop="false" create="true" delimiter=";" output="${basedir}/src/schema.sql">
 			<fileset dir="${basedir}/src">
 				<include name="**/model/**/*.hbm.xml"/>
 			</fileset>
