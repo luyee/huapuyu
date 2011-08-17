@@ -1,18 +1,18 @@
 package com.anders.hibernate;
 
 import org.apache.commons.lang.SystemUtils;
-import org.hibernate.Session;
 import org.junit.Test;
 
 public class Generate {
 	@Test
 	public void generate() {
 		// TODO Anders Zhu :
-		// ×¢Òâlib°üÖĞµÄjaybird21.dllºÍlibjaybird21.so£¬Èç¹ûÉú³ÉFirebirdÊı¾İ¿âĞèÒª½«ÕâÁ½¸öÎÄ¼ş¼ÓÈëjava.library.path£¨±ÈÈçJAVA_HOME/binÏÂ£©£¬·ñÔò»á±¨¡°no
-		// jaybird21 in java.library.path¡±
+		// æ³¨æ„libåŒ…ä¸­çš„jaybird21.dllå’Œlibjaybird21.soï¼Œå¦‚æœç”ŸæˆFirebirdæ•°æ®åº“éœ€è¦å°†è¿™ä¸¤ä¸ªæ–‡ä»¶åŠ å…¥java.library.pathï¼ˆæ¯”å¦‚JAVA_HOME/binä¸‹ï¼‰ï¼Œå¦åˆ™ä¼šæŠ¥â€œno
+		// jaybird21 in java.library.pathâ€
 		System.out.println(System.getProperty("java.library.path"));
 		System.out.println(SystemUtils.JAVA_LIBRARY_PATH);
-		Session session = HibernateUtil.getSession();
+		HibernateUtil.getSession();
+		// Session session = HibernateUtil.getSession();
 		// Transaction tx = session.beginTransaction();
 		// Tb_user user = new Tb_user();
 		// user.setName("zhuzhen");

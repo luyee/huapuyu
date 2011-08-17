@@ -13,13 +13,14 @@
 		<pathelement location="${basedir}/bin"/>
 	</path>
 	
+	<!-- 打扫卫生 -->
 	<target name="clean" description="打扫卫生">
 		<echo message="打扫卫生..."/>
 		<delete dir="${basedir}/bin"/>
 	</target>
 	
 	<!-- 编译 -->
-	<target name="complie" description="编译" depends="clean">
+	<target name="complie" description="编译">
 		<echo message="编译..."/>
 		<javac srcdir="${basedir}/src" destdir="${basedir}/bin" source="${source}" target="${target}"  includeantruntime="on">
 			<classpath refid="classpath"/>
