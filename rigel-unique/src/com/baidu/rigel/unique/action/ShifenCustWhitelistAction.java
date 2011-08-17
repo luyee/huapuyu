@@ -19,6 +19,7 @@ import com.baidu.rigel.unique.bo.ShifenCustWhiteList;
 import com.baidu.rigel.unique.common.BaseActionSupport;
 import com.baidu.rigel.unique.common.ResearchAware;
 import com.baidu.rigel.unique.service.ShifenCustWhiteListService;
+import com.baidu.rigel.unique.service.UcService;
 import com.baidu.rigel.unique.service.xuanyuan.ShifenCustomerService;
 import com.baidu.rigel.unique.utils.BusiUtils;
 import com.baidu.rigel.unique.utils.Constant;
@@ -90,6 +91,7 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 	private ShifenCustWhiteListService shifenCustWhiteListService;
 	private ShifenCustomerService shifenCustomerService;
 	private ReadConfig readConfig;
+	private UcService ucService;
 	// 运营单位列表
 	private Set<Long> addPosIdSet;
 	// 指定销售
@@ -316,9 +318,7 @@ public class ShifenCustWhitelistAction extends BaseActionSupport implements Rese
 			ucids.add(sfcw.getUserId());
 		}
 
-		// TODO Anders Zhu : usermgr没有的方法
-		// Map<Long, Position> posMap = userMgr.getPosNameMapByUser(ucids, "CALLOUT_ROOT_TAG");
-		Map<Long, Position> posMap = new HashMap<Long, Position>();
+		Map<Long, Position> posMap = ucService.getPositionMapByUcidListAndRootTag(ucids, "CALLOUT_ROOT_TAG");
 
 		for (ShifenCustWhiteList sfcw : sfcwl) {
 			Map<String, Object> tmp = new HashMap<String, Object>();
