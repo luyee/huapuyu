@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -384,7 +385,7 @@ public class UniqueServiceImpl implements UniqueService {
 		List<Long> saleIdList = customerService.selectCustIdByCustFullName(custFullName);
 		saleIdList.addAll(custService.selectCustIdByFullName(custFullName));
 		for (Long id : saleIdList)
-			if (isBlackOrOld(id))
+			if (isBlacklistOrOldCust(id))
 				returnList.add(BusiUtils.getIdNameSourceMapFromSale(id, custFullName));
 
 		if (Utils.isGreaterThanZero(returnList.size()))
@@ -492,17 +493,13 @@ public class UniqueServiceImpl implements UniqueService {
 	public boolean validateTitle(String name) {
 		if (StringUtils.isBlank(name))
 			return Boolean.FALSE;
-
 		name = name.trim();
-
 		for (String title : readConfig.getTitleSet())
 			if (name.endsWith(title))
 				return Boolean.FALSE;
-
 		return Boolean.TRUE;
 	}
 
-	// TODO Anders Zhu : 函数名重构
 	/**
 	 * 判断URL是否存在老客户表中
 	 * 
@@ -510,7 +507,7 @@ public class UniqueServiceImpl implements UniqueService {
 	 *            URL
 	 * @return 如果存在，返回true，否则返回false
 	 */
-	public boolean checkUrlInShifenCust(String url) {
+	public boolean isUrlExistInShifenCust(String url) {
 		return shifenCustomerService.isSiteUrlExist(url);
 	}
 
@@ -572,7 +569,7 @@ public class UniqueServiceImpl implements UniqueService {
 		List<SaleData> saleDataList = tinyseMgr.querySaleDataWithHold(custName, count);
 		for (SaleData saleData : saleDataList) {
 			if (checkBlackOrOld) {
-				if (isBlackOrOld(saleData.getId())) {
+				if (isBlacklistOrOldCust(saleData.getId())) {
 					if (checkExist) {
 						if (!saleSet.contains(saleData.getId()))
 							returnList.add(BusiUtils.getIdNameSourceMapFromSale(saleData.getId(), saleData.getCompanyname()));
@@ -626,49 +623,34 @@ public class UniqueServiceImpl implements UniqueService {
 	}
 
 	/**
-	 * 判断custId的客户在sale中是否是老客户黑名单
+	 * 根据客户编号判断客户在sale中是否是老客户黑名单
 	 * 
 	 * @param custId
 	 *            客户编号
 	 * @return
 	 */
-	// TODO Anders Zhu : 重构
-	private boolean isBlackOrOld(Long custId) {
+	private boolean isBlacklistOrOldCust(Long custId) {
 		Map<String, Object> map = cachedCustMap.get().get(custId);
-		if (null != map) {
-			return (Boolean) map.get("isSigned");
-		}
-		if (BusiUtils.isPanguCustId(custId)) {
-			Cust cust = custService.findById(custId);
-			if (cust != null) {
-				if (cust.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07)) {
-					return Boolean.TRUE;
-				} else {
-					return Boolean.FALSE;
-				}
-			}
-		} else {
+		if (MapUtils.isNotEmpty(map))
+			return (Boolean) map.get(FieldConstant.ISSIGNED);
+
+		if (BusiUtils.isNotPanguCustId(custId)) {
 			Customer customer = customerService.findById(custId);
-			if (customer != null) {
-				// 从中筛选中已经成单的客户,作为老客户
-				if (customer.getCustStat1().equals(Constant.CUST_STAT_1_5) && customer.getCustStat2().equals(Constant.CUST_STAT_2_50)) {
+			if (Utils.isNotNull(customer)) {
+				// 从中筛选出已经成单的客户作为老客户
+				if (customer.getCustStat1().equals(Constant.CUST_STAT_1_5) && customer.getCustStat2().equals(Constant.CUST_STAT_2_50))
 					return Boolean.TRUE;
-				}
 
 				// 从中筛选出已经被标记为黑名单的客户
-				if (customer.getBlackFlag().intValue() == Constant.BlacklistFlag.YES.ordinal()) {
+				if (customer.getBlackFlag().intValue() == Constant.BlacklistFlag.YES.ordinal())
 					return Boolean.TRUE;
-				}
-			}
-			Cust cust = custService.findById(custId);
-			if (cust != null) {
-				if (cust.getStat1().equals(Constant.PANGU_STAT1_CONTRACT_07)) {
-					return Boolean.TRUE;
-				} else {
-					return Boolean.FALSE;
-				}
 			}
 		}
+
+		Cust cust = custService.findById(custId);
+		if (Utils.isNotNull(cust))
+			return Constant.PANGU_STAT1_CONTRACT_07.equals(cust.getStat1());
+
 		return Boolean.FALSE;
 	}
 
@@ -761,25 +743,22 @@ public class UniqueServiceImpl implements UniqueService {
 
 		// 客户名称
 		AutoAuditRecord autoAuditRecord = auditBlacklist(ValidType.CUSTNAME, custName);
-		if (Utils.isNotNull(autoAuditRecord) && autoAuditRecord.getAutoAuditType() == AutoAuditType.EXIST.getValue()) {
+		if (Utils.isNotNull(autoAuditRecord) && autoAuditRecord.getAutoAuditType() == AutoAuditType.EXIST.getValue())
 			return autoAuditRecord;
-		}
 
 		// URL
 		if (StringUtils.isNotEmpty(url)) {
 			autoAuditRecord = auditBlacklist(ValidType.URL, url);
-			if (Utils.isNotNull(autoAuditRecord) && autoAuditRecord.getAutoAuditType() == AutoAuditType.EXIST.getValue()) {
+			if (Utils.isNotNull(autoAuditRecord) && autoAuditRecord.getAutoAuditType() == AutoAuditType.EXIST.getValue())
 				return autoAuditRecord;
-			}
 		}
 
 		// 电话号码列表
 		if (CollectionUtils.isNotEmpty(phoneList)) {
 			for (String str : phoneList) {
 				autoAuditRecord = auditBlacklist(ValidType.PHONE, str);
-				if (Utils.isNotNull(autoAuditRecord) && autoAuditRecord.getAutoAuditType() == AutoAuditType.EXIST.getValue()) {
+				if (Utils.isNotNull(autoAuditRecord) && autoAuditRecord.getAutoAuditType() == AutoAuditType.EXIST.getValue())
 					return autoAuditRecord;
-				}
 			}
 		}
 
@@ -896,22 +875,14 @@ public class UniqueServiceImpl implements UniqueService {
 		ShifenCustWhiteList shifenCustWhiteList = shifenCustWhiteListService.equalUrl(url);
 		if (Utils.isNotNull(shifenCustWhiteList) && shifenCustWhiteList.getUserId().equals(ucid)) {
 			List<Map<String, Object>> list = auditService.listMatchCustUrl(url);
-			// 得到盘古中的客户资料
 			List<Map<String, Object>> panguList = custService.selectCustIdTypeFullNamePosIdBySiteUrl(url);
 			Set<Long> idSet = new HashSet<Long>();
-			// TODO Anders Zhu : 以下两个方法重复，考虑重构
-			if (CollectionUtils.isNotEmpty(list)) {
-				for (Map<String, Object> map : list) {
-					// TODO Anders Zhu : 重构
-					idSet.add((Long) map.get("cust_id"));
-				}
-			}
-			if (CollectionUtils.isNotEmpty(panguList)) {
-				for (Map<String, Object> map : panguList) {
-					// TODO Anders Zhu : 重构
-					idSet.add((Long) map.get("cust_id"));
-				}
-			}
+			if (CollectionUtils.isNotEmpty(list))
+				for (Map<String, Object> map : list)
+					idSet.add((Long) map.get(FieldConstant.CUST_ID));
+			if (CollectionUtils.isNotEmpty(panguList))
+				for (Map<String, Object> map : panguList)
+					idSet.add((Long) map.get(FieldConstant.CUST_ID));
 
 			// 去除客户本身
 			if (Utils.isNotNull(custid)) {
@@ -925,27 +896,26 @@ public class UniqueServiceImpl implements UniqueService {
 					auditInfoList = new ArrayList<AuditInfo>();
 				for (Map<String, Object> map : list) {
 					// 去除客户本身
-					if (custid != null && custid.equals(map.get("cust_id"))) {
+					if (Utils.isNotNull(custid) && custid.equals(map.get(FieldConstant.CUST_ID)))
 						continue;
-					}
-					AuditInfo auditInfo = new AuditInfo();
-					auditInfo.setId((Long) map.get("cust_id"));
-					auditInfo.setName((String) map.get("cust_full_name"));
-					auditInfo.setAutoAuditSource(AutoAuditSourceType.SHIFEN_CUST_WHITELIST.getValue());
 
-					auditInfo.setRemark("URL [" + url + "]");
+					AuditInfo auditInfo = new AuditInfo();
+					auditInfo.setId((Long) map.get(FieldConstant.CUST_ID));
+					auditInfo.setName((String) map.get(FieldConstant.CUST_FULL_NAME));
+					auditInfo.setAutoAuditSource(AutoAuditSourceType.SHIFEN_CUST_WHITELIST.getValue());
+					auditInfo.setRemark(String.format(Constant.URL_FORMATTER, url));
 					auditInfoList.add(auditInfo);
 				}
 				for (Map<String, Object> map : panguList) {
 					// 去除客户本身
-					if (custid != null && custid.equals(map.get("custId"))) {
+					if (Utils.isNotNull(custid) && custid.equals(map.get(FieldConstant.CUSTID)))
 						continue;
-					}
+
 					AuditInfo auditInfo = new AuditInfo();
-					auditInfo.setId((Long) map.get("custId"));
-					auditInfo.setName((String) map.get("fullName"));
+					auditInfo.setId((Long) map.get(FieldConstant.CUSTID));
+					auditInfo.setName((String) map.get(FieldConstant.FULLNAME));
 					auditInfo.setAutoAuditSource(AutoAuditSourceType.SHIFEN_CUST_WHITELIST.getValue());
-					auditInfo.setRemark("URL [" + url + "]");
+					auditInfo.setRemark(String.format(Constant.URL_FORMATTER, url));
 					auditInfoList.add(auditInfo);
 				}
 				autoAuditRecord.setAutoAuditType(AutoAuditType.EXIST.getValue());
@@ -966,7 +936,7 @@ public class UniqueServiceImpl implements UniqueService {
 	 * @param url
 	 *            公司URL
 	 */
-	// TODO Anders Zhu : 重构该函数,巨大的方法
+	// TODO Anders Zhu : 重构该函数,巨大的方法-----------------------
 	private AutoAuditRecord auditURL(String url, String domain, Long custid, Long[] posids, Long inUserId) throws AutoAuditException {
 		if (url == null || domain == null) {
 			log.info("In function auditURL url==null||domain==null");
