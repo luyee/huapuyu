@@ -17,136 +17,137 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * ·¿Îİ
+ * æˆ¿å±‹
  * 
  * @author Anders
  * 
  */
 @Entity
 @Table(name = "tb_house")
+// @org.hibernate.annotations.Table(comment = "æˆ¿å±‹è¡¨", appliesTo = "tb_house")
 public class House implements Serializable {
 	private static final long serialVersionUID = -3838557037798985561L;
 
 	/**
-	 * ±àºÅ£¨Ö÷¼ü£©
+	 * ç¼–å·ï¼ˆä¸»é”®ï¼‰
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	/**
-	 * Â¥ÅÌÃû³Æ
+	 * æ¥¼ç›˜åç§°
 	 */
 	@Column(nullable = false, length = 50)
 	private String title;
 	/**
-	 * Ê¡¡¢×ÔÖÎÇø¡¢Ö±Ï½ÊĞ±àºÅ£¨¶ÔÓ¦ÇøÓòÅäÖÃ±íÀàĞÍ0£©
+	 * çœã€è‡ªæ²»åŒºã€ç›´è¾–å¸‚ç¼–å·ï¼ˆå¯¹åº”åŒºåŸŸé…ç½®è¡¨ç±»å‹0ï¼‰
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "province_id")
 	private Area province;
 	/**
-	 * ³ÇÊĞ±àºÅ£¨¶ÔÓ¦ÇøÓòÅäÖÃ±íÀàĞÍ1£©
+	 * åŸå¸‚ç¼–å·ï¼ˆå¯¹åº”åŒºåŸŸé…ç½®è¡¨ç±»å‹1ï¼‰
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "city_id")
 	private Area city;
 	/**
-	 * Çø¡¢ÏØ¡¢ÊĞ±àºÅ£¨¶ÔÓ¦ÇøÓòÅäÖÃ±íÀàĞÍ2£©
+	 * åŒºã€å¿ã€å¸‚ç¼–å·ï¼ˆå¯¹åº”åŒºåŸŸé…ç½®è¡¨ç±»å‹2ï¼‰
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "district_id")
 	private Area district;
 	/**
-	 * ÏêÏ¸µØÖ·
+	 * è¯¦ç»†åœ°å€
 	 */
 	@Column(nullable = false, length = 100)
 	private String address;
 	/**
-	 * ÊÒ
+	 * å®¤
 	 */
 	@Column(nullable = false)
 	private Byte bedroomCount;
 	/**
-	 * Ìü
+	 * å…
 	 */
 	@Column(nullable = false)
 	private Byte livingRoomCount;
 	/**
-	 * ³ø
+	 * å¨
 	 */
 	@Column(nullable = false)
 	private Byte kitchenCount;
 	/**
-	 * ÎÀ
+	 * å«
 	 */
 	@Column(nullable = false)
 	private Byte washroomCount;
 	/**
-	 * ÑôÌ¨
+	 * é˜³å°
 	 */
 	@Column(nullable = false)
 	private Byte balconyCount;
 	/**
-	 * ³¯Ïò
+	 * æœå‘
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "orientation_id")
 	private Data orientation;
 	/**
-	 * ÎïÒµÀàĞÍ
+	 * ç‰©ä¸šç±»å‹
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "property_type_id")
 	private Data propertyType;
 	/**
-	 * ½¨ÖşÄê´ú
+	 * å»ºç­‘å¹´ä»£
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "construction_year_id")
 	private Data constructionYear;
 	/**
-	 * ×°ĞŞ³Ì¶È
+	 * è£…ä¿®ç¨‹åº¦
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "decoration_id")
 	private Data decoration;
 	/**
-	 * ×ÜÂ¥²ã
+	 * æ€»æ¥¼å±‚
 	 */
 	@Column(nullable = false)
 	private Byte totalFloor;
 	/**
-	 * ËùÔÚÂ¥²ã
+	 * æ‰€åœ¨æ¥¼å±‚
 	 */
 	@Column(nullable = false)
 	private Byte floor;
 	/**
-	 * ½»Í¨×´¿ö
+	 * äº¤é€šçŠ¶å†µ
 	 */
 	@Column(length = 500)
 	private String transport;
 	/**
-	 * ÖÜ±ßÅäÌ×
+	 * å‘¨è¾¹é…å¥—
 	 */
 	@Column(length = 500)
 	private String environment;
 	/**
-	 * ·¿Ô´ÃèÊö
+	 * æˆ¿æºæè¿°
 	 */
 	@Column(length = 500)
 	private String remark;
 	/**
-	 * ÅäÌ×ÉèÊ©
+	 * é…å¥—è®¾æ–½
 	 */
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "house")
 	private Set<Facility> facilities = new HashSet<Facility>(0);
 	/**
-	 * ·¿Ô´ÌØÉ«
+	 * æˆ¿æºç‰¹è‰²
 	 */
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "house")
 	private Set<Feature> features = new HashSet<Feature>(0);
 	/**
-	 * ¶şÊÖ·¿
+	 * äºŒæ‰‹æˆ¿
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "second_hand_house_id")

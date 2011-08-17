@@ -19,7 +19,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
- * ÇøÓòÅäÖÃ
+ * åŒºåŸŸé…ç½®
  * 
  * @author Anders
  * 
@@ -31,50 +31,50 @@ public class Area implements Serializable {
 
 	public enum AreaType {
 		/**
-		 * 0£ºÊ¡¡¢×ÔÖÎÇø¡¢Ö±Ï½ÊĞ
+		 * 0ï¼šçœã€è‡ªæ²»åŒºã€ç›´è¾–å¸‚
 		 */
 		PROVINCE,
 		/**
-		 * 1£º³ÇÊĞ
+		 * 1ï¼šåŸå¸‚
 		 */
 		CITY,
 		/**
-		 * 2£ºÇø¡¢ÏØ¡¢ÊĞ
+		 * 2ï¼šåŒºã€å¿ã€å¸‚
 		 */
 		DISTRICT
 	}
 
 	/**
-	 * ±àºÅ£¨Ö÷¼ü£©
+	 * ç¼–å·ï¼ˆä¸»é”®ï¼‰
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	/**
-	 * Ãû³Æ
+	 * åç§°
 	 */
 	@Column(nullable = false, length = 50)
 	private String title;
 	/**
-	 * ÀàĞÍ£¨0£ºÊ¡¡¢×ÔÖÎÇø¡¢Ö±Ï½ÊĞ£»1£º³ÇÊĞ£»2£ºÇø¡¢ÏØ¡¢ÊĞ£©
+	 * ç±»å‹ï¼ˆ0ï¼šçœã€è‡ªæ²»åŒºã€ç›´è¾–å¸‚ï¼›1ï¼šåŸå¸‚ï¼›2ï¼šåŒºã€å¿ã€å¸‚ï¼‰
 	 */
 	@Enumerated
 	@Column(nullable = false)
 	private AreaType type;
 	/**
-	 * ÉÏ¼¶ÇøÓò
+	 * ä¸Šçº§åŒºåŸŸ
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_id")
 	private Area parentArea;
 	/**
-	 * ÏÂ¼¶ÇøÓò
+	 * ä¸‹çº§åŒºåŸŸ
 	 */
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "parentArea")
 	@OrderBy("id")
 	private List<Area> sonAreas = new ArrayList<Area>(0);
 	/**
-	 * ÆôÓÃ·û£¨1£ºÆôÓÃ£»0£ºÍ£ÓÃ£©
+	 * å¯ç”¨ç¬¦ï¼ˆ1ï¼šå¯ç”¨ï¼›0ï¼šåœç”¨ï¼‰
 	 */
 	@Column(nullable = false)
 	private Boolean enable = true;

@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * ¶şÊÖ·¿
+ * äºŒæ‰‹æˆ¿
  * 
  * @author Anders
  * 
@@ -25,58 +25,58 @@ public class SecondHandHouse implements Serializable {
 	private static final long serialVersionUID = 4779933743319140372L;
 
 	/**
-	 * ±àºÅ£¨Ö÷¼ü£©
+	 * ç¼–å·ï¼ˆä¸»é”®ï¼‰
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	/**
-	 * ÊÛ¼Û
+	 * å”®ä»·
 	 */
 	@Column(nullable = false, scale = 2)
 	private BigDecimal price;
 	/**
-	 * ½¨ÖşÃæ»ı
+	 * å»ºç­‘é¢ç§¯
 	 */
 	@Column(nullable = false, scale = 2)
 	private BigDecimal buildingArea;
 	/**
-	 * Ê¹ÓÃÃæ»ı
+	 * ä½¿ç”¨é¢ç§¯
 	 */
 	@Column(nullable = false, scale = 2)
 	private BigDecimal usableArea;
 	/**
-	 * ²úÈ¨ĞÔÖÊ
+	 * äº§æƒæ€§è´¨
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "property_right_id")
 	private Data propertyRight;
 	/**
-	 * ×¡Õ¬Àà±ğ
+	 * ä½å®…ç±»åˆ«
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "residence_type_id")
 	private Data residenceType;
 	/**
-	 * ½¨ÖşÀà±ğ
+	 * å»ºç­‘ç±»åˆ«
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "construction_type_id")
 	private Data constructionType;
 	/**
-	 * ·¿Îİ½á¹¹
+	 * æˆ¿å±‹ç»“æ„
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "building_structure_id")
 	private Data buildingStructure;
 	/**
-	 * ¿´·¿Ê±¼ä
+	 * çœ‹æˆ¿æ—¶é—´
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "visit_time_id")
 	private Data visitTime;
 	/**
-	 * ·¿Îİ
+	 * æˆ¿å±‹
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "house_id")

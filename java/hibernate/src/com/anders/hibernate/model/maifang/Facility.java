@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * ÅäÌ×ÉèÊ©
+ * é…å¥—è®¾æ–½
  * 
  * @author Anders
  * 
@@ -23,19 +23,19 @@ public class Facility implements Serializable {
 	private static final long serialVersionUID = -3838557037798985561L;
 
 	/**
-	 * ±àºÅ£¨Ö÷¼ü£©
+	 * ç¼–å·ï¼ˆä¸»é”®ï¼‰
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	/**
-	 * ·¿Îİ±àºÅ
+	 * æˆ¿å±‹ç¼–å·
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "house_id")
 	private House house;
 	/**
-	 * Êı¾İÅäÖÃ±àºÅ
+	 * æ•°æ®é…ç½®ç¼–å·
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "data_id")

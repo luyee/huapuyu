@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * 房源特色
+ * 鎴挎簮鐗硅壊
  * 
  * @author Anders
  * 
@@ -23,19 +23,19 @@ public class Feature implements Serializable {
 	private static final long serialVersionUID = -3838557037798985561L;
 
 	/**
-	 * 编号（主键）
+	 * 缂栧彿锛堜富閿級
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	/**
-	 * 房屋编号
+	 * 鎴垮眿缂栧彿
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "house_id")
 	private House house;
 	/**
-	 * 数据配置编号
+	 * 鏁版嵁閰嶇疆缂栧彿
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "data_id")

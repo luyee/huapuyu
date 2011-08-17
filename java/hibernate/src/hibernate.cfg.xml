@@ -56,5 +56,8 @@
 		<mapping class="com.anders.hibernate.model.maifang.Feature" />
 		<mapping class="com.anders.hibernate.model.maifang.House" />
 		<mapping class="com.anders.hibernate.model.maifang.SecondHandHouse" />
+		<mapping class="com.anders.hibernate.model.maifang.Person" />
+		
+		<mapping resource="com/anders/hibernate/model/User1.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

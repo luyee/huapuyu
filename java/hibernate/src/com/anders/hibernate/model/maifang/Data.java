@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Êý¾ÝÅäÖÃ
+ * æ•°æ®é…ç½®
  * 
  * @author Anders
  * 
@@ -24,86 +24,86 @@ public class Data implements Serializable {
 	public enum DataType {
 
 		/**
-		 * 0£º³¯Ïò£¨·¿ÎÝ£©
+		 * 0ï¼šæœå‘ï¼ˆæˆ¿å±‹ï¼‰
 		 */
 		ORIENTATION,
 		/**
-		 * 1£ºÎïÒµÀàÐÍ£¨·¿ÎÝ£©
+		 * 1ï¼šç‰©ä¸šç±»åž‹ï¼ˆæˆ¿å±‹ï¼‰
 		 */
 		PROPERTY_TYPE,
 		/**
-		 * 2£º½¨ÖþÄê´ú£¨·¿ÎÝ£©
+		 * 2ï¼šå»ºç­‘å¹´ä»£ï¼ˆæˆ¿å±‹ï¼‰
 		 */
 		CONSTRUCTION_YEAR,
 		/**
-		 * 3£º×°ÐÞ³Ì¶È£¨·¿ÎÝ£©
+		 * 3ï¼šè£…ä¿®ç¨‹åº¦ï¼ˆæˆ¿å±‹ï¼‰
 		 */
 		DECORATION,
 		/**
-		 * 4£ºÅäÌ×ÉèÊ©£¨·¿ÎÝ£©
+		 * 4ï¼šé…å¥—è®¾æ–½ï¼ˆæˆ¿å±‹ï¼‰
 		 */
 		FACILITY,
 		/**
-		 * 5£º·¿Ô´ÌØÉ«£¨·¿ÎÝ£©
+		 * 5ï¼šæˆ¿æºç‰¹è‰²ï¼ˆæˆ¿å±‹ï¼‰
 		 */
 		FEATURE,
 		/**
-		 * 6£º²úÈ¨ÐÔÖÊ£¨¶þÊÖ·¿£©
+		 * 6ï¼šäº§æƒæ€§è´¨ï¼ˆäºŒæ‰‹æˆ¿ï¼‰
 		 */
 		PROPERTY_RIGHT,
 		/**
-		 * 7£º×¡Õ¬Àà±ð£¨¶þÊÖ·¿£©
+		 * 7ï¼šä½å®…ç±»åˆ«ï¼ˆäºŒæ‰‹æˆ¿ï¼‰
 		 */
 		RESIDENCE_TYPE,
 		/**
-		 * 8£º½¨ÖþÀà±ð£¨¶þÊÖ·¿£©
+		 * 8ï¼šå»ºç­‘ç±»åˆ«ï¼ˆäºŒæ‰‹æˆ¿ï¼‰
 		 */
 		CONSTRUCTION_TYPE,
 		/**
-		 * 9£º·¿ÎÝ½á¹¹£¨¶þÊÖ·¿£©
+		 * 9ï¼šæˆ¿å±‹ç»“æž„ï¼ˆäºŒæ‰‹æˆ¿ï¼‰
 		 */
 		BUILDING_STRUCTURE,
 		/**
-		 * 10£º¿´·¿Ê±¼ä£¨¶þÊÖ·¿£©
+		 * 10ï¼šçœ‹æˆ¿æ—¶é—´ï¼ˆäºŒæ‰‹æˆ¿ï¼‰
 		 */
 		VISIT_TIME,
 		/**
-		 * 11£ººÏ×â·½Ê½£¨×â·¿£©
+		 * 11ï¼šåˆç§Ÿæ–¹å¼ï¼ˆç§Ÿæˆ¿ï¼‰
 		 */
 		SHARE_TYPE,
 		/**
-		 * 12£ººÏ×âÈËÐÔ±ðÒªÇó£¨×â·¿£©
+		 * 12ï¼šåˆç§Ÿäººæ€§åˆ«è¦æ±‚ï¼ˆç§Ÿæˆ¿ï¼‰
 		 */
 		ROOMMATE_GENDER_PREFERENCE,
 		/**
-		 * 13£ºÖ§¸¶·½Ê½£¨×â·¿£©
+		 * 13ï¼šæ”¯ä»˜æ–¹å¼ï¼ˆç§Ÿæˆ¿ï¼‰
 		 */
 		PAYMENT,
 		/**
-		 * 14£ºÈë×¡Ê±¼ä£¨×â·¿£©
+		 * 14ï¼šå…¥ä½æ—¶é—´ï¼ˆç§Ÿæˆ¿ï¼‰
 		 */
 		CHECK_IN_TIME
 	}
 
 	/**
-	 * ±àºÅ£¨Ö÷¼ü£©
+	 * ç¼–å·ï¼ˆä¸»é”®ï¼‰
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	/**
-	 * Ãû³Æ
+	 * åç§°
 	 */
 	@Column(nullable = false, length = 50)
 	private String title;
 	/**
-	 * ÀàÐÍ
+	 * ç±»åž‹
 	 */
 	@Enumerated
 	@Column(nullable = false)
 	private DataType type;
 	/**
-	 * ÆôÓÃ·û£¨1£ºÆôÓÃ£»0£ºÍ£ÓÃ£©
+	 * å¯ç”¨ç¬¦ï¼ˆ1ï¼šå¯ç”¨ï¼›0ï¼šåœç”¨ï¼‰
 	 */
 	@Column(nullable = false)
 	private Boolean enable = true;
