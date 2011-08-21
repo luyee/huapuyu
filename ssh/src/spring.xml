@@ -23,7 +23,9 @@
 	-->
 	
 	<!-- security -->
+	<!--  
 	<import resource="classpath:config/spring-security.xml"/>
+	-->
 	
 	<!-- xfire -->
 	<!--  
@@ -52,10 +54,14 @@
 	-->
 	
 	<!-- dao -->
+	<!--  
   	<import resource="classpath:config/spring-dao.xml"/>
+  	-->
   	
   	<!-- service -->
+  	<!--  
   	<import resource="classpath:config/spring-service.xml"/>
+  	-->
   	
   	<!-- struts -->
   	<!--

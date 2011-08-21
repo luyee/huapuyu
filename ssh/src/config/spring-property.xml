@@ -13,6 +13,13 @@
 		<property name="locations">
 			<list>
 				<value>classpath:db.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="propertyConfigurer1" class="com.anders.ssh.common.AnnotationPropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
 				<value>classpath:system.properties</value>
 			</list>
 		</property>
