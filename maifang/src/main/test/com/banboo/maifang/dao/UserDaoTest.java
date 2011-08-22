@@ -1,4 +1,4 @@
-package com.banboo.maifang.test.dao;
+package com.banboo.maifang.dao;
 
 import java.util.List;
 
