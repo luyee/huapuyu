@@ -33,7 +33,7 @@ public abstract class BaseDao<T, ID extends Serializable> extends
 		return (Class<T>) params[0];
 	}
 	/**
-	 * ³Ö¾Ã»¯¶ÔÏó.
+	 * æŒä¹…åŒ–å¯¹è±¡.
 	 * 
 	 * @param <T>
 	 * @param entity

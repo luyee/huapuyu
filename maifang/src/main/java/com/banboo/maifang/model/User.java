@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 /**
- * Êı¾İÅäÖÃ
+ * æ•°æ®é…ç½®
  * 
  * @author Anders
  * 
