@@ -40,19 +40,19 @@
     
        
     <dependency>
-    	<groupId>com.kenai.nbpwr</groupId>
-    	<artifactId>javax-persistence</artifactId>
-    	<version>1.0-201003141300</version>
-    	<type>nbm</type>
-    	<scope>compile</scope>
-    </dependency>
+  		<groupId>javax.persistence</groupId>
+  		<artifactId>persistence-api</artifactId>
+  		<version>1.0</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
     <dependency>
-    	<groupId>com.kenai.nbpwr</groupId>
-    	<artifactId>org-apache-commons-pool</artifactId>
-    	<version>1.4-201002241055</version>
-    	<type>nbm</type>
-    	<scope>compile</scope>
-    </dependency>
+  		<groupId>commons-pool</groupId>
+  		<artifactId>commons-pool</artifactId>
+  		<version>1.5.5</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
     
      <dependency>
     	<groupId>org.apache.struts</groupId>
@@ -120,7 +120,7 @@
      <dependency>
         <groupId>org.hibernate</groupId>
     	<artifactId>hibernate-core</artifactId>
-    	<version>3.5.2-Final</version>
+    	<version>3.6.6.Final</version>
     	<type>jar</type>
     	<scope>compile</scope>
     </dependency>
