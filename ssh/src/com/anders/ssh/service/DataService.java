@@ -2,7 +2,7 @@ package com.anders.ssh.service;
 
 import java.util.List;
 
-import com.anders.ssh.model.Data;
+import com.anders.ssh.model.xml.Data;
 
 
 public interface DataService

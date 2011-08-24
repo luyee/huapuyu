@@ -2,7 +2,7 @@ package com.anders.ssh.service;
 
 import java.util.List;
 
-import com.anders.ssh.model.Role;
+import com.anders.ssh.model.xml.Role;
 
 
 public interface RoleService

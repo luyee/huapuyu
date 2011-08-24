@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.anders.ssh.dao.Dao;
-import com.anders.ssh.model.Data;
+import com.anders.ssh.model.xml.Data;
 
 
 @Transactional

@@ -18,8 +18,8 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.util.AntUrlPathMatcher;
 import org.springframework.security.web.util.UrlMatcher;
 
-import com.anders.ssh.model.Resource;
-import com.anders.ssh.model.Role;
+import com.anders.ssh.model.xml.Resource;
+import com.anders.ssh.model.xml.Role;
 import com.anders.ssh.service.ResourceService;
 
 

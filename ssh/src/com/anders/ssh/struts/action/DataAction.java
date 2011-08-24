@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.beanutils.BeanUtils;
 
 import com.anders.ssh.dao.hibernate.DataDao;
-import com.anders.ssh.model.Data;
+import com.anders.ssh.model.xml.Data;
 import com.anders.ssh.struts.vo.DataVo;
 
 

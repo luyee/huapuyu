@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.anders.ssh.dao.hibernate.ResourceDao;
-import com.anders.ssh.model.Resource;
+import com.anders.ssh.model.xml.Resource;
 import com.anders.ssh.service.ResourceService;
 
 

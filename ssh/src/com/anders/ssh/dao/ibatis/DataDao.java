@@ -9,7 +9,7 @@ import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 import org.springframework.stereotype.Component;
 
 import com.anders.ssh.dao.Dao;
-import com.anders.ssh.model.Data;
+import com.anders.ssh.model.xml.Data;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 

@@ -4,7 +4,7 @@ package com.anders.ssh.tapestry.pages;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
-import com.anders.ssh.model.Data;
+import com.anders.ssh.model.xml.Data;
 import com.anders.ssh.service.DataService;
 
 

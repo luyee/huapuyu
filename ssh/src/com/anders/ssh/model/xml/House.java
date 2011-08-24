@@ -1,4 +1,4 @@
-package com.anders.ssh.model;
+package com.anders.ssh.model.xml;
 
 import java.io.Serializable;
 

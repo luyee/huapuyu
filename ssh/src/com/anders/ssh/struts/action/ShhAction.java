@@ -1,6 +1,6 @@
 package com.anders.ssh.struts.action;
 
-import com.anders.ssh.model.House;
+import com.anders.ssh.model.xml.House;
 
 public class ShhAction extends BaseAction
 {

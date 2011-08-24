@@ -1,18 +1,17 @@
-package com.anders.ssh.model;
+package com.anders.ssh.model.xml;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserGroup implements Serializable
+public class Role implements Serializable
 {
-	private static final long serialVersionUID = -7550715239549912247L;
+	private static final long serialVersionUID = -4225855582860642624L;
 
 	private Integer id;
 	private String name;
 	private Boolean enable = true;
-	private Set<User> userSet = new HashSet<User>(0);
-	private Set<Role> roleSet = new HashSet<Role>(0);
+	private Set<Resource> resourceSet = new HashSet<Resource>(0);
 
 	public Integer getId()
 	{
@@ -44,24 +43,14 @@ public class UserGroup implements Serializable
 		this.enable = enable;
 	}
 
-	public Set<User> getUserSet()
+	public Set<Resource> getResourceSet()
 	{
-		return userSet;
+		return resourceSet;
 	}
 
-	public void setUserSet(Set<User> userSet)
+	public void setResourceSet(Set<Resource> resourceSet)
 	{
-		this.userSet = userSet;
-	}
-
-	public Set<Role> getRoleSet()
-	{
-		return roleSet;
-	}
-
-	public void setRoleSet(Set<Role> roleSet)
-	{
-		this.roleSet = roleSet;
+		this.resourceSet = resourceSet;
 	}
 
 }

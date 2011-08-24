@@ -10,7 +10,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.anders.ssh.model.Data;
+import com.anders.ssh.model.xml.Data;
 
 
 @ContextConfiguration(locations = { "classpath:test/testng/dao/hibernate/spring.xml" })

@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.anders.ssh.dao.hibernate.UserDao;
-import com.anders.ssh.model.User;
+import com.anders.ssh.model.xml.User;
 import com.anders.ssh.service.UserService;
 
 
