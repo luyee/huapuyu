@@ -3,7 +3,7 @@ package com.anders.ssh.common;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TestObject
+public class ConfigPojo
 {
 	@Config(name = "load.init.data")
 	private String value;
