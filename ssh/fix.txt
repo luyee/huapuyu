@@ -1,0 +1,5 @@
+1.java.lang.NoSuchMethodError: javax.persistence.OneToMany.orphanRemoval()Z
+解决方式：去掉ejb3-persistence.jar
+
+2.运行memcached client测试时，提示无法连接memcached server
+解决方式：默认ubuntu下运行命令memcached绑定的是127.0.0.1，需要修改为绑定具体地址，使用命令memcached -m 64 -p 11211 -u memcache -l 192.168.2.101 &

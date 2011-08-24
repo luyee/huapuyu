@@ -14,27 +14,7 @@
 	
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
-		<property name="mappingResources">
-			<list>
-		    	<value>com/anders/ssh/model/Area.hbm.xml</value>
-		    	<value>com/anders/ssh/model/Data.hbm.xml</value>
-		    	<value>com/anders/ssh/model/House.hbm.xml</value>
-		    	<value>com/anders/ssh/model/RentHouse.hbm.xml</value>
-		    	<value>com/anders/ssh/model/SecondHandHouse.hbm.xml</value>
-		    	<value>com/anders/ssh/model/User.hbm.xml</value>
-		    	<value>com/anders/ssh/model/Role.hbm.xml</value>
-		    	<value>com/anders/ssh/model/UserGroup.hbm.xml</value>
-		    	<value>com/anders/ssh/model/Resource.hbm.xml</value>
-		    </list>
-		</property>
-		<!--  
-		<property name="annotatedClasses">
-			<list>
-		    	<value>model.Tb_user</value>
-		    </list>
-		</property>
-	    -->
-	    <property name="hibernateProperties">
+		<property name="hibernateProperties">
 	    	<props>
 	    		<prop key="hibernate.dialect">${dialect}</prop>
 	    		<prop key="hibernate.show_sql">${show.sql}</prop>
@@ -43,8 +23,28 @@
 	    	</props>
 	    </property>
 	    <!--  
-	    <property name="packagesToScan" value="model"/>
+		<property name="mappingResources">
+			<list>
+		    	<value>com/anders/ssh/model/xml/Area.hbm.xml</value>
+		    	<value>com/anders/ssh/model/xml/Data.hbm.xml</value>
+		    	<value>com/anders/ssh/model/xml/House.hbm.xml</value>
+		    	<value>com/anders/ssh/model/xml/RentHouse.hbm.xml</value>
+		    	<value>com/anders/ssh/model/xml/SecondHandHouse.hbm.xml</value>
+		    	<value>com/anders/ssh/model/xml/User.hbm.xml</value>
+		    	<value>com/anders/ssh/model/xml/Role.hbm.xml</value>
+		    	<value>com/anders/ssh/model/xml/UserGroup.hbm.xml</value>
+		    	<value>com/anders/ssh/model/xml/Resource.hbm.xml</value>
+		    </list>
+		</property>
+		-->
+		<!--  
+		<property name="annotatedClasses">
+			<list>
+		    	<value>model.Tb_user</value>
+		    </list>
+		</property>
 	    -->
+	    <property name="packagesToScan" value="com.anders.ssh.model.annotation"/>
 	</bean>
 	
 	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">

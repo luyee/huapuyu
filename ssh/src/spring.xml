@@ -80,4 +80,7 @@
 	
 	<!-- tx -->
 	<import resource="classpath:config/spring-tx.xml"/>
+	
+	<!-- memcached -->
+	<import resource="classpath:config/spring-memcached.xml"/>
 </beans>
