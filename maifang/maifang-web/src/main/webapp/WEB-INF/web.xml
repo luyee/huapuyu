@@ -7,13 +7,15 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/*.xml</param-value>
+		<param-value>classpath*:spring.xml</param-value>
 	</context-param>
 
+	<!--  
 	<context-param>
 		<param-name>config</param-name>
 		<param-value>struts.xml</param-value>
 	</context-param>
+	-->
 
 	<servlet>
 		<servlet-name>JspSupportServlet</servlet-name>
