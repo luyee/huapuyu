@@ -9,5 +9,5 @@
 	
 	<!-- Add packages here -->
 	<include file="struts2/login.xml" />
-	
+	<include file="struts2/index.xml" />
 </struts>

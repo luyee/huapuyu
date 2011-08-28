@@ -2,14 +2,11 @@ package com.bamboo.maifang.action.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bamboo.maifang.action.BaseAction;
 import com.bamboo.maifang.api.login.LoginService;
-import com.opensymphony.xwork2.ActionSupport;
 
-public class LoginAction extends ActionSupport{
+public class LoginAction extends BaseAction{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private LoginService loginService;
