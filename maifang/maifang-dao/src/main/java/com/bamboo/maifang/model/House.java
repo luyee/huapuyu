@@ -96,12 +96,6 @@ public class House implements Serializable {
     @JoinColumn(name = "orientation_id")
     private Data orientation;
     /**
-     * 户型
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "build_type_id")
-    private Data buildType;
-    /**
      * 物业类型
      */
     @ManyToOne(fetch = FetchType.LAZY)
