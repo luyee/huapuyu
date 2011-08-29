@@ -26,10 +26,8 @@ import javax.persistence.Table;
 @Table(name = "tb_house")
 public class House implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 3452356102879578683L;
+    
     /**
      * 编号（主键）
      */

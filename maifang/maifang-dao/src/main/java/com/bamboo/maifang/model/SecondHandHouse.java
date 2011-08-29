@@ -26,10 +26,8 @@ import javax.persistence.TemporalType;
 @Table(name = "tb_second_hand_house")
 public class SecondHandHouse implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8981569640271697506L;
+    
     /**
      * 编号（主键）
      */

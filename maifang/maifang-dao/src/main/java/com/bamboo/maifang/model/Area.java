@@ -2,6 +2,7 @@ package com.bamboo.maifang.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -18,6 +19,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * 区域配置
  * 
@@ -28,9 +31,6 @@ import javax.persistence.Table;
 @Table(name = "cfg_area")
 public class Area implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1691841638736947172L;
 
     public enum AreaType {
@@ -76,7 +76,7 @@ public class Area implements Serializable {
      */
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "parentArea")
     @OrderBy("id")
-    private List<Area> sonAreas = new ArrayList<Area>(0);
+    private List<Area> sonAreas = Collections.emptyList();
     /**
      * 启用符（1：启用；0：停用）
      */

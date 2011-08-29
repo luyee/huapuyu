@@ -21,9 +21,6 @@ import javax.persistence.Table;
 @Table(name = "rlt_feature")
 public class Feature implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 6906958662410550819L;
     /**
      * 编号（主键）

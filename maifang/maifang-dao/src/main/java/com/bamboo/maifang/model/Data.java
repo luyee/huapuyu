@@ -18,9 +18,6 @@ import javax.persistence.Table;
 @Table(name = "cfg_data")
 public class Data implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 2757892825868662843L;
 
     public enum DataType {
@@ -110,11 +107,9 @@ public class Data implements Serializable {
     private Boolean enable = true;
 
     public Data(Long id) {
-	super();
 	this.id = id;
     }
 
     public Data() {
-	super();
     }
 }

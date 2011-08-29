@@ -25,9 +25,6 @@ import javax.persistence.TemporalType;
 @Table(name = "tb_rent_house")
 public class RentHouse implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 780341474894787956L;
     /**
      * 编号（主键）

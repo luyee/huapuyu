@@ -21,9 +21,6 @@ import javax.persistence.Table;
 @Table(name = "rlt_facility")
 public class Facility implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 5410307218485318011L;
     /**
      * 编号（主键）

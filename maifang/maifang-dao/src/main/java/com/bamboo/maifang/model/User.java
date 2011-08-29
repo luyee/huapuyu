@@ -18,9 +18,6 @@ import javax.persistence.Table;
 @Table(name = "tb_user" )
 public class User implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -6663395578467524881L;
 
     private Long id;
@@ -37,7 +34,7 @@ public class User implements Serializable {
 		this.id = id;
 	}
 	
-	@Column(nullable = true, length = 32)
+	@Column(nullable = false, length = 50)
 	public String getName() {
 		return name;
 	}
