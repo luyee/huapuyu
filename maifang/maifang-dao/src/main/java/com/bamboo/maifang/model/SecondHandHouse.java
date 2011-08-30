@@ -92,5 +92,5 @@ public class SecondHandHouse implements Serializable {
      * 有效期
      */
     @Temporal(TemporalType.TIMESTAMP)
-    private Date validityTime;
+    private Date expiration;
 }

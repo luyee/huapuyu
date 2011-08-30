@@ -1,6 +1,7 @@
 package com.bamboo.maifang.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -33,10 +34,10 @@ public class RentHouse implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     /**
-     * 价格
+     * 租金
      */
     @Column(nullable = false)
-    private Integer price;
+    private BigDecimal price;
 
     /**
      * 支付方式
@@ -46,10 +47,10 @@ public class RentHouse implements Serializable {
     private Data paidType;
 
     /**
-     * 面积
+     * 出租面积
      */
     @Column(nullable = false)
-    private Integer area;
+    private BigDecimal area;
 
     /**
      * 租房方式
@@ -64,19 +65,13 @@ public class RentHouse implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rent_demand_id")
     private Data rentDemand;
-    /**
-     * 房屋结构
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "building_structure_id")
-    private Data buildingStructure;
 
     /**
      * 入住时间
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "in_time_id")
-    private Data inTime;
+    @JoinColumn(name = "check_in_time_id")
+    private Data checkInTime;
 
     /**
      * 看房时间
@@ -97,6 +92,6 @@ public class RentHouse implements Serializable {
      * 有效期
      */
     @Temporal(TemporalType.TIMESTAMP)
-    private Date validityTime;
+    private Date expiration;
 }
 

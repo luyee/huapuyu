@@ -52,7 +52,6 @@ public class Area implements Serializable {
      * 编号（主键）
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     /**
      * 名称
@@ -82,4 +81,45 @@ public class Area implements Serializable {
      */
     @Column(nullable = false)
     private Boolean enable = true;
+    
+    /*
+     * getters and setters
+     */
+    
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public AreaType getType() {
+		return type;
+	}
+	public void setType(AreaType type) {
+		this.type = type;
+	}
+	public Area getParentArea() {
+		return parentArea;
+	}
+	public void setParentArea(Area parentArea) {
+		this.parentArea = parentArea;
+	}
+	public List<Area> getSonAreas() {
+		return sonAreas;
+	}
+	public void setSonAreas(List<Area> sonAreas) {
+		this.sonAreas = sonAreas;
+	}
+	public Boolean getEnable() {
+		return enable;
+	}
+	public void setEnable(Boolean enable) {
+		this.enable = enable;
+	}
 }
