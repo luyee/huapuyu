@@ -182,7 +182,20 @@
 	<classpathentry kind="lib" path="lib/jbosscache-core-3.2.1.GA.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j/1.6.1/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j/1.6.1/slf4j-log4j12-1.6.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_20"/>
 	<classpathentry kind="lib" path="lib/spymemcached/spymemcached-2.7.1.jar" sourcepath="lib/spymemcached/spymemcached-2.7.1-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_26"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-core-3.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-database-3.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-dbmaintainer-3.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-easymock-3.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-inject-3.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-mock-3.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-orm-3.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-spring-3.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-testng-3.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/easymock-2.3.jar"/>
+	<classpathentry kind="lib" path="lib/easymockclassextension-2.3.jar"/>
+	<classpathentry kind="lib" path="lib/dbunit-2.4.8.jar" sourcepath="C:/Users/Anders Zhu/Desktop/dbunit-2.4.8-prj/src"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-dbunit-3.2-SNAPSHOT-anders.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

@@ -3,3 +3,108 @@
 
 2.运行memcached client测试时，提示无法连接memcached server
 解决方式：默认ubuntu下运行命令memcached绑定的是127.0.0.1，需要修改为绑定具体地址，使用命令memcached -m 64 -p 11211 -u memcache -l 192.168.2.101 &
+
+3.使用unitils（版本unitils-3.2-SNAPSHOT-with-dependencies）报如下错误：
+org.unitils.core.UnitilsException: Error inserting test data from DbUnit dataset for method public void com.anders.ssh.common.UnitilsTest.test1()
+	at org.unitils.dbunit.DbUnitModule.insertDataSet(DbUnitModule.java:156)
+	at org.unitils.dbunit.DbUnitModule$DbUnitListener.beforeTestSetUp(DbUnitModule.java:556)
+	at org.unitils.core.Unitils$UnitilsTestListener.beforeTestSetUp(Unitils.java:273)
+	at org.unitils.UnitilsJUnit4TestClassRunner$TestListenerInvokingMethodRoadie.runBeforesThenTestThenAfters(UnitilsJUnit4TestClassRunner.java:151)
+	at org.junit.internal.runners.MethodRoadie.runTest(MethodRoadie.java:84)
+	at org.junit.internal.runners.MethodRoadie.run(MethodRoadie.java:49)
+	at org.unitils.UnitilsJUnit4TestClassRunner.invokeTestMethod(UnitilsJUnit4TestClassRunner.java:95)
+	at org.junit.internal.runners.JUnit4ClassRunner.runMethods(JUnit4ClassRunner.java:61)
+	at org.unitils.UnitilsJUnit4TestClassRunner.access$000(UnitilsJUnit4TestClassRunner.java:44)
+	at org.unitils.UnitilsJUnit4TestClassRunner$1.run(UnitilsJUnit4TestClassRunner.java:62)
+	at org.junit.internal.runners.ClassRoadie.runUnprotected(ClassRoadie.java:34)
+	at org.junit.internal.runners.ClassRoadie.runProtected(ClassRoadie.java:44)
+	at org.unitils.UnitilsJUnit4TestClassRunner.run(UnitilsJUnit4TestClassRunner.java:68)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:38)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:196)
+Caused by: org.unitils.core.UnitilsException: Error while executing DataSetLoadStrategy
+	at org.unitils.dbunit.datasetloadstrategy.impl.BaseDataSetLoadStrategy.execute(BaseDataSetLoadStrategy.java:46)
+	at org.unitils.dbunit.DbUnitModule.insertDataSet(DbUnitModule.java:230)
+	at org.unitils.dbunit.DbUnitModule.insertDataSet(DbUnitModule.java:153)
+	... 18 more
+Caused by: org.dbunit.dataset.NoSuchColumnException: tb_user.NAME -  (Non-uppercase input column: name) in ColumnNameToIndexes cache map. Note that the map's column names are NOT case sensitive.
+	at org.dbunit.dataset.AbstractTableMetaData.getColumnIndex(AbstractTableMetaData.java:117)
+	at org.dbunit.operation.AbstractOperation.getOperationMetaData(AbstractOperation.java:89)
+	at org.dbunit.operation.AbstractBatchOperation.execute(AbstractBatchOperation.java:140)
+	at org.dbunit.operation.CompositeOperation.execute(CompositeOperation.java:79)
+	at org.unitils.dbunit.datasetloadstrategy.impl.CleanInsertLoadStrategy.doExecute(CleanInsertLoadStrategy.java:45)
+	at org.unitils.dbunit.datasetloadstrategy.impl.BaseDataSetLoadStrategy.execute(BaseDataSetLoadStrategy.java:44)
+	... 20 more
+这是unitils使用dbunit的一个bug，默认使用的是DefaultMetadataHandler，实际上应该使用MySqlMetadataHandler，两个类的getColumns方法有差异
+
+*********************************MySqlMetadataHandler*********************************
+public ResultSet getColumns(DatabaseMetaData databaseMetaData, String schemaName, String tableName) 
+    throws SQLException {
+        // Note that MySQL uses the catalogName instead of the schemaName, so
+        // pass in the given schema name as catalog name (first argument).
+        ResultSet resultSet = databaseMetaData.getColumns(
+                schemaName, null, tableName, "%");
+        return resultSet;
+    }
+   
+*********************************DefaultMetadataHandler*********************************
+public ResultSet getColumns(DatabaseMetaData databaseMetaData, String schemaName, String tableName) 
+    throws SQLException 
+    {
+        if(logger.isTraceEnabled())
+            logger.trace("getColumns(databaseMetaData={}, schemaName={}, tableName={}) - start", 
+                    new Object[] {databaseMetaData, schemaName, tableName} );
+        
+        ResultSet resultSet = databaseMetaData.getColumns(
+                null, schemaName, tableName, "%");
+        return resultSet;
+    }
+    
+修改方式如下：
+打开unitils-dbunit的DbUnitModule.java源码
+修改方法createDbUnitConnection（如下），添加下面两行代码
+config.setProperty(PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
+config.setProperty(PROPERTY_METADATA_HANDLER, new MySqlMetadataHandler());
+ 
+ protected DbUnitDatabaseConnection createDbUnitConnection(String schemaName) {
+        // A DbSupport instance is fetched in order to get the schema name in correct case
+        DataSource dataSource = getDatabaseModule().getDataSourceAndActivateTransactionIfNeeded();
+        SQLHandler sqlHandler = new DefaultSQLHandler(dataSource);
+        DbSupport dbSupport = getDbSupport(configuration, sqlHandler, schemaName);
+
+        // Create connection
+        DbUnitDatabaseConnection connection = new DbUnitDatabaseConnection(dataSource, dbSupport.getSchemaName());
+        DatabaseConfig config = connection.getConfig();
+
+        // Make sure that dbunit's correct IDataTypeFactory, that handles dbms specific data type issues, is used
+        IDataTypeFactory dataTypeFactory = getInstanceOf(IDataTypeFactory.class, configuration, dbSupport.getDatabaseDialect());
+        config.setProperty(PROPERTY_DATATYPE_FACTORY, dataTypeFactory);
+        // Make sure that table and column names are escaped using the dbms-specific identifier quote string
+        config.setProperty(PROPERTY_ESCAPE_PATTERN, dbSupport.getIdentifierQuoteString() + '?' + dbSupport.getIdentifierQuoteString());
+        // Make sure that batched statements are used to insert the data into the database
+        config.setProperty(FEATURE_BATCHED_STATEMENTS, "true");
+        // Make sure that Oracle's recycled tables (BIN$) are ignored (value is used to ensure dbunit-2.2 compliancy)
+        config.setProperty("http://www.dbunit.org/features/skipOracleRecycleBinTables", "true");
+		//to fix unitils bug
+		config.setProperty(PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());********************************************朱振添加
+		config.setProperty(PROPERTY_METADATA_HANDLER, new MySqlMetadataHandler());*****************************************朱振添加
+
+        return connection;
+    }
+    
+注意import下面两个类
+import org.dbunit.ext.mysql.MySqlDataTypeFactory;
+import org.dbunit.ext.mysql.MySqlMetadataHandler;
+
+修改pom.xml文件进行打包，默认是
+<dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>2.2.2</version>-----------------------------------改为2.4.8，2.2.2只有MySqlDataTypeFactory，没有MySqlMetadataHandler，但是2.4.8有
+</dependency>
+
+进入pom.xml目录运行mvn install打jar包
+最后用修改后的jar替换原jar，ok

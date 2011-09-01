@@ -30,6 +30,8 @@ public class User implements UserDetails
 	 * 用户编号（主键）
 	 */
 	@Id
+	// TODO Anders : unitils中的dbunit报错Caused by: org.dbunit.dataset.NoSuchColumnException: tb_user.NAME - (Non-uppercase input column: NAME) in ColumnNameToIndexes cache map. Note that the map's column names are NOT case sensitive.
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	/**
@@ -50,7 +52,7 @@ public class User implements UserDetails
 	/**
 	 * 启用符（启用：true；禁用：false）
 	 */
-	@Column(nullable = false)
+	@Column(name = "enable", nullable = false)
 	private Boolean enable = true;
 	/**
 	 * 用户和角色关系
