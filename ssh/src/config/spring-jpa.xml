@@ -4,10 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="oracle"/>
+		<property name="persistenceUnitName" value="mysql"/>
 	</bean>
 	
-	<bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+	<bean id="jpaTxManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 	  	<property name="entityManagerFactory" ref="entityManagerFactory"/>
 	</bean>
 	

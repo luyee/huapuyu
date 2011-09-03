@@ -44,12 +44,12 @@
 	<import resource="classpath:config/spring-hibernate.xml"/>
 	
 	<!-- ibatis -->
-	<!--
+	<!--  
 	<import resource="classpath:config/spring-ibatis.xml"/>
 	-->
 	
 	<!-- jpa -->
-	<!--  
+	<!-- 
 	<import resource="classpath:config/spring-jpa.xml"/>
 	-->
 	
