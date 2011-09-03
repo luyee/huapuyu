@@ -5,7 +5,7 @@
 
 <sqlMap namespace="Data">
 
-  <typeAlias alias="Data" type="model.Data"/>
+  <typeAlias alias="Data" type="com.anders.ssh.model.xml.Data"/>
 
   <resultMap id="dataMap" class="Data">
     <result property="id" column="id"/>

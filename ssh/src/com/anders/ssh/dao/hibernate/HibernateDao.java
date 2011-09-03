@@ -12,8 +12,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.anders.ssh.dao.Dao;
 
-
-public abstract class BaseDao<PK extends Serializable, T> extends HibernateDaoSupport implements Dao<PK, T>
+public abstract class HibernateDao<PK extends Serializable, T> extends HibernateDaoSupport implements Dao<PK, T>
 {
 	// 增加setSessionFactoryMocker方法，避免在XML文件中给DAO方法注入SessionFactory。
 	@Resource
@@ -24,7 +23,7 @@ public abstract class BaseDao<PK extends Serializable, T> extends HibernateDaoSu
 
 	private Class<T> entityClass;
 
-	public BaseDao()
+	public HibernateDao()
 	{
 		entityClass = getSuperClassGenricType();
 	}

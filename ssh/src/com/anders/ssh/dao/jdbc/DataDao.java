@@ -2,23 +2,19 @@ package com.anders.ssh.dao.jdbc;
 
 import java.util.List;
 
-
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.anders.ssh.dao.Dao;
 import com.anders.ssh.model.xml.Data;
 
-
 @Transactional
-public class DataDao extends JdbcDaoSupport implements Dao<Integer, Data>
+//@Component("jdbcDataDao")
+public class DataDao extends JdbcDao<Integer, Data>
 {
-	/**
-	 * 碰到check（Exception）异常，不会回滚；碰到uncheck（RuntimeException）异常，就会回滚
-	 */
+
+	// TODO Anders Zhu : 碰到check（Exception）异常，不会回滚；碰到uncheck（RuntimeException）异常，就会回滚
 	@Override
 	// @Transactional(rollbackFor = Exception.class)
 	@Transactional(noRollbackFor = RuntimeException.class)

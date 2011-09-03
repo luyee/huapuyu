@@ -2,17 +2,14 @@ package com.anders.ssh.dao.jpa;
 
 import java.util.List;
 
-
-import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.anders.ssh.dao.Dao;
 import com.anders.ssh.model.xml.Data;
 
-
 @Transactional
-public class DataDao extends JpaDaoSupport implements Dao<Integer, Data>
+//@Component("jpaDataDao")
+public class DataDao extends JpaDao<Integer, Data>
 {
 	@Override
 	public void delete(Data entity)

@@ -2,28 +2,11 @@ package com.anders.ssh.dao.ibatis;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
-
-import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
-import org.springframework.stereotype.Component;
-
-import com.anders.ssh.dao.Dao;
 import com.anders.ssh.model.xml.Data;
-import com.ibatis.sqlmap.client.SqlMapClient;
 
-
-//@Component(value = "ibatisDataDao")
-@Component
-public class DataDao extends SqlMapClientDaoSupport implements Dao<Integer, Data>
+//@Component("ibatisDataDao")
+public class DataDao extends IbatisDao<Integer, Data>
 {
-	// 增加setSqlMapClientMocker方法，避免在XML文件中给DAO方法注入SqlMapClient。
-	@Resource
-	public void setSqlMapClientMocker(SqlMapClient sqlMapClient)
-	{
-		super.setSqlMapClient(sqlMapClient);
-	}
-
 	@Override
 	public void delete(Data entity)
 	{

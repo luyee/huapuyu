@@ -3,7 +3,7 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping package="model">
+<hibernate-mapping package="com.anders.ssh.model.xml">
 
 	<class name="Area" table="cfg_area">
 		<id name="id" column="id" type="integer">

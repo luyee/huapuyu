@@ -2,13 +2,11 @@ package com.anders.ssh.service.impl;
 
 import java.util.List;
 
-
 import org.springframework.transaction.annotation.Transactional;
 
 import com.anders.ssh.dao.hibernate.DataDao;
 import com.anders.ssh.model.xml.Data;
 import com.anders.ssh.service.DataService;
-
 
 @Transactional
 public class DataServiceImpl implements DataService
