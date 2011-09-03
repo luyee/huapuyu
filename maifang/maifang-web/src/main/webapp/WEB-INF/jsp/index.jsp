@@ -27,17 +27,7 @@
 
 				<ul>
 					<li><a href="index.htm">主页</a></li>
-					<li><a href="">二手房</a>
-						<ul>
-							<li><a href="" title="">发布购买信息</a></li>
-							<li><a href="" title="">发布求购信息</a></li>
-						</ul>
-					</li>
-					<li><a href="">租房</a>
-						<ul>
-							<li><a href="" title="">发布求租信息</a></li>
-							<li><a href="" title="">发布招租信息</a></li>
-						</ul>
+					<li><a href="navigator.htm">发布信息</a>
 					</li>
 					<li><a href="">关于我们</a></li>
 					<li><a href="">合作伙伴</a></li>
