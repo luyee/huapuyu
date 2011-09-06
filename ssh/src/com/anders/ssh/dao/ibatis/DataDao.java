@@ -2,9 +2,11 @@ package com.anders.ssh.dao.ibatis;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.anders.ssh.model.xml.Data;
 
-//@Component("ibatisDataDao")
+@Component("ibatisDataDao")
 public class DataDao extends IbatisDao<Integer, Data>
 {
 	@Override

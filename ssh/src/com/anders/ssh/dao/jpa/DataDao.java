@@ -2,13 +2,11 @@ package com.anders.ssh.dao.jpa;
 
 import java.util.List;
 
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 import com.anders.ssh.model.xml.Data;
 
-@Transactional
-//@Component("jpaDataDao")
+@Component("jpaDataDao")
 public class DataDao extends JpaDao<Integer, Data>
 {
 	@Override
@@ -24,14 +22,14 @@ public class DataDao extends JpaDao<Integer, Data>
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+	// @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
 	public Data getById(Integer id)
 	{
 		return getJpaTemplate().find(Data.class, id);
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+	// @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
 	public List<Data> getAll()
 	{
 		return getJpaTemplate().find("select data from Data data");
