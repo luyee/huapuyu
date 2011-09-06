@@ -15,27 +15,27 @@
   </resultMap>
 
   <select id="dataGetAll" resultMap="dataMap">
-    SELECT id, name, type, enable FROM tb_data
+    SELECT id, name, type, enable FROM cfg_data
   </select>
 
   <select id="dataGetById" parameterClass="Integer" resultClass="Data">
-    SELECT id, name, type, enable FROM tb_data WHERE id = #id#
+    SELECT id, name, type, enable FROM cfg_data WHERE id = #id#
   </select>
    
   <insert id="dataSave" parameterClass="Data">
-    INSERT INTO tb_data (id, name, type) VALUES (#id#, #name#, #type#)
+    INSERT INTO cfg_data (id, name, type, enable) VALUES (#id#, #name#, #type#, #enable#)
   </insert>
 
   <update id="dataUpdate" parameterClass="Data">
-    UPDATE tb_data SET name = #name#, type = #type# WHERE id = #id#
+    UPDATE cfg_data SET name = #name#, type = #type# WHERE id = #id#
   </update>
 
   <delete id="dataDeleteById" parameterClass="Integer">
-    DELETE FROM tb_data WHERE id = #id#
+    DELETE FROM cfg_data WHERE id = #id#
   </delete>
   
   <delete id="dataDelete" parameterClass="Data">
-    DELETE FROM tb_data WHERE id = #id#
+    DELETE FROM cfg_data WHERE id = #id#
   </delete>
 
 </sqlMap>
