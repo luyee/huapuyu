@@ -15,9 +15,8 @@
 	  	<property name="entityManagerFactory" ref="entityManagerFactory"/>
 	</bean>
 	
-	<!--  
 	<aop:config>
-  		<aop:pointcut id="txPointcut" expression="execution(* com.anders.ssh.dao.jpa.DataDao.*(..))"/>
+  		<aop:pointcut id="txPointcut" expression="execution(* com.anders.ssh.service.impl.DataServiceImpl.*(..))"/>
   		<aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice"/>
 	</aop:config>
 	
@@ -29,7 +28,6 @@
             <tx:method name="delete*" propagation="REQUIRED" />
   		</tx:attributes>
 	</tx:advice>
-	-->
 	
 	<!-- 注意事项 -->
 	<!-- 

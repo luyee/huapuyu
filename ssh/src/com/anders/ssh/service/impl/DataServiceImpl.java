@@ -2,26 +2,19 @@ package com.anders.ssh.service.impl;
 
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
+import javax.annotation.Resource;
 
-import com.anders.ssh.dao.hibernate.DataDao;
+import org.springframework.stereotype.Component;
+
+import com.anders.ssh.dao.jpa.DataDao;
 import com.anders.ssh.model.xml.Data;
 import com.anders.ssh.service.DataService;
 
-@Transactional
+@Component
 public class DataServiceImpl implements DataService
 {
+	@Resource(name = "jpaDataDao")
 	private DataDao dao;
-
-	public DataDao getDao()
-	{
-		return dao;
-	}
-
-	public void setDao(DataDao dao)
-	{
-		this.dao = dao;
-	}
 
 	@Override
 	public void delete(Data entity)
@@ -36,7 +29,6 @@ public class DataServiceImpl implements DataService
 	}
 
 	@Override
-	@Transactional()
 	public Data getById(Integer id)
 	{
 		return dao.getById(id);
