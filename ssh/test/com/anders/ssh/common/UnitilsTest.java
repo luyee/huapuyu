@@ -8,20 +8,33 @@ import org.unitils.database.annotations.Transactional;
 import org.unitils.database.util.TransactionMode;
 import org.unitils.dbunit.annotation.DataSet;
 import org.unitils.spring.annotation.SpringApplicationContext;
+import org.unitils.spring.annotation.SpringBean;
+
+import com.anders.ssh.dao.hibernate.DataDao;
+import com.anders.ssh.model.xml.Data;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })
 @RunWith(UnitilsJUnit4TestClassRunner.class)
-// @ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })
 @SpringApplicationContext( { "classpath:spring.xml", "classpath:spring-test.xml" })
 public class UnitilsTest extends UnitilsJUnit4
 {
+	@SpringBean("hibernateDataDao")
+	private DataDao dataDao;
+
 	@Test
 	// @DataSet("UnitilsTest.xml")
 	@DataSet
-	@Transactional(TransactionMode.ROLLBACK)
+	@Transactional(TransactionMode.COMMIT)
 	public void test1()
 	{
-		throw new RuntimeException();
+		Data data = new Data();
+		data.setId(123);
+		data.setName("test");
+		data.setEnable(true);
+		data.setType((byte) 123);
+		dataDao.save(data);
+		// throw new RuntimeException();
 		// System.out.println("123");
 	}
 }
