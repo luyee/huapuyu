@@ -80,16 +80,27 @@
 				<groupId>org.apache.struts</groupId>
 				<artifactId>struts2-core</artifactId>
 				<version>${struts2.version}</version>
-				<!-- <exclusions> <exclusion> <groupId>com.sun</groupId> <artifactId>tools</artifactId> 
-					</exclusion> </exclusions> -->
+				<exclusions>
+					<exclusion>
+						<groupId>com.sun</groupId>
+						<artifactId>tools</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.struts</groupId>
 				<artifactId>struts2-spring-plugin</artifactId>
 				<version>${struts2.version}</version>
-				<!-- <exclusions> <exclusion> <groupId>org.springframework</groupId> 
-					<artifactId>spring-beans</artifactId> </exclusion> <exclusion> <groupId>org.springframework</groupId> 
-					<artifactId>spring-context</artifactId> </exclusion> </exclusions> -->
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-beans</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-context</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.struts</groupId>
