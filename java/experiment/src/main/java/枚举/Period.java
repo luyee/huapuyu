@@ -1,8 +1,8 @@
-package 枚举;
+package 鏋氫妇;
 
 public enum Period {
 
-	SHORT("短期", 0), LONG("长期", 1);
+	SHORT("鐭湡", 0), LONG("闀挎湡", 1);
 
 	private Integer value;
 	private String label;

@@ -1,7 +1,7 @@
-package Ã¶¾Ù;
+package æšä¸¾;
 
 public enum Type {
-	¿ÉÓÃ((byte) 1), ²»¿ÉÓÃ((byte) 0);
+	å¯ç”¨((byte) 1), ä¸å¯ç”¨((byte) 0);
 
 	private final Byte value;
 

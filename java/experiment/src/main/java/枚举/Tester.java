@@ -1,18 +1,18 @@
-package Ã¶¾Ù;
+package æšä¸¾;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Tester {
 	public static void main(String[] args) throws Exception {
-		Type t1 = Type.¿ÉÓÃ;
-		Type t2 = Type.²»¿ÉÓÃ;
+		Type t1 = Type.å¯ç”¨;
+		Type t2 = Type.ä¸å¯ç”¨;
 		System.out.println(t1);
 		System.out.println(t2);
 		System.out.println(t1.getValue());
 		System.out.println(t2.getValue());
-		System.out.println(Type.¿ÉÓÃ.getValue());
-		System.out.println(Type.²»¿ÉÓÃ.getValue());
+		System.out.println(Type.å¯ç”¨.getValue());
+		System.out.println(Type.ä¸å¯ç”¨.getValue());
 
 		System.out.println("----------------------");
 
@@ -33,7 +33,7 @@ public class Tester {
 
 enum SourceType {
 	/**
-	 * ÏúÊÛ
+	 * é”€å”®
 	 */
 	CUST_SOURCE_SALE {
 		@Override
@@ -42,7 +42,7 @@ enum SourceType {
 		}
 	},
 	/**
-	 * Ê®·Ö
+	 * ååˆ†
 	 */
 	CUST_SOURCE_SHIFEN {
 		@Override
@@ -51,7 +51,7 @@ enum SourceType {
 		}
 	},
 	/**
-	 * ºÚÃûµ¥
+	 * é»‘åå•
 	 */
 	CUST_SOURCE_BLACKLIST {
 		@Override

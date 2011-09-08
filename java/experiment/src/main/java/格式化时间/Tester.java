@@ -1,13 +1,11 @@
-package ∏Ò ΩªØ ±º‰;
+package Ê†ºÂºèÂåñÊó∂Èó¥;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Tester
-{
-	public static void main(String[] args) throws Exception
-	{
+public class Tester {
+	public static void main(String[] args) throws Exception {
 		Date dateNow = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		System.out.println(dateFormat.format(dateNow));
