@@ -4,15 +4,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * ²âÊÔ·´Éäµ÷ÓÃÈıÖÖ²ÎÊı´«µİµÄº¯Êı
+ * æµ‹è¯•åå°„è°ƒç”¨ä¸‰ç§å‚æ•°ä¼ é€’çš„å‡½æ•°
  * 
  * @author Anders
  * 
  */
-public class StringParameter
-{
-	public static void main(String[] args) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException
-	{
+public class StringParameter {
+	public static void main(String[] args) throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		StringParameter stringParameter = new StringParameter();
 
 		Class<?>[] classes = new Class[2];
@@ -20,7 +18,7 @@ public class StringParameter
 		classes[1] = Object[].class;
 
 		Method method1 = stringParameter.getClass().getMethod("test1", classes);
-		// ÏÂÃæÕâÖÖ·½Ê½Ò²¿ÉÒÔ
+		// ä¸‹é¢è¿™ç§æ–¹å¼ä¹Ÿå¯ä»¥
 		// Method method1 = stringParameter.getClass().getMethod("test1", Object[].class, Object[].class);
 		Method method2 = stringParameter.getClass().getMethod("test2", int.class);
 		Method method3 = stringParameter.getClass().getMethod("test3", String.class);
@@ -39,34 +37,31 @@ public class StringParameter
 	}
 
 	/**
-	 * ²ÎÊıÊÇÊı×é
+	 * å‚æ•°æ˜¯æ•°ç»„
 	 * 
 	 * @param array1
 	 * @param array2
 	 */
-	public void test1(Object[] array1, Object[] array2)
-	{
+	public void test1(Object[] array1, Object[] array2) {
 		System.out.println(array1.length + array2.length);
 	}
 
 	/**
-	 * ²ÎÊıÊÇ»ù±¾ÀàĞÍ
+	 * å‚æ•°æ˜¯åŸºæœ¬ç±»å‹
 	 * 
 	 * @param value
 	 */
-	public void test2(int value)
-	{
+	public void test2(int value) {
 
 		System.out.println(value);
 	}
 
 	/**
-	 * ²ÎÊıÊÇÒıÓÃÀàĞÍ
+	 * å‚æ•°æ˜¯å¼•ç”¨ç±»å‹
 	 * 
 	 * @param value
 	 */
-	public void test3(String value)
-	{
+	public void test3(String value) {
 		System.out.println(value);
 	}
 }

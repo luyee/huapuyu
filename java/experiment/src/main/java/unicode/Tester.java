@@ -2,22 +2,18 @@ package unicode;
 
 import org.apache.commons.lang.StringUtils;
 
-public class Tester
-{
-	public static void main(String[] args) throws Exception
-	{
-		String str1 = "¹ùÁ¢Á¢ºÍÖìÕñ";
+public class Tester {
+	public static void main(String[] args) throws Exception {
+		String str1 = "éƒ­ç«‹ç«‹å’Œæœ±æŒ¯";
 		// String str1 = "ABCDEFGH";
 
 		byte[] bytes1 = str1.getBytes();
-		for (int i = 0; i < bytes1.length; i++)
-		{
+		for (int i = 0; i < bytes1.length; i++) {
 			System.out.print(bytes1[i] + " ");
 		}
 		System.out.println(StringUtils.EMPTY);
 
-		for (int i = 0; i < bytes1.length; i++)
-		{
+		for (int i = 0; i < bytes1.length; i++) {
 			bytes1[i] = (byte) (bytes1[i] + 32);
 			System.out.print(bytes1[i] + " ");
 		}
@@ -26,8 +22,7 @@ public class Tester
 		System.out.println(str2);
 
 		byte[] bytes2 = str2.getBytes();
-		for (int i = 0; i < bytes2.length; i++)
-		{
+		for (int i = 0; i < bytes2.length; i++) {
 			bytes2[i] = (byte) (bytes2[i] - 32);
 			System.out.print(bytes2[i] + " ");
 		}

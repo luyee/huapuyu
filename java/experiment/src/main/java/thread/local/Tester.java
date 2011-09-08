@@ -33,7 +33,7 @@ class User {
 }
 
 /**
- * Ã»ÓĞÓÃThreadLocal½øĞĞ±£»¤µÄ¶àÏß³ÌÀà
+ * æ²¡æœ‰ç”¨ThreadLocalè¿›è¡Œä¿æŠ¤çš„å¤šçº¿ç¨‹ç±»
  * 
  * @author Anders Zhu
  */

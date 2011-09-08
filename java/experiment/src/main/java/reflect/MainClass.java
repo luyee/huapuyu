@@ -5,12 +5,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class MainClass
-{
-	public static void main(String[] args)
-	{
-		try
-		{
+public class MainClass {
+	public static void main(String[] args) {
+		try {
 			System.out.println(TestClass.class.getName());
 			Class a = Class.forName(TestClass.class.getName());
 			// Class a = Class.forName("test.TestClass");
@@ -28,13 +25,12 @@ public class MainClass
 			Object obj1 = ctor.newInstance("guolili", 26);
 
 			// print all function name
-			// »ñµÃ¶¨ÒåµÄ·½·¨£¬ÄÜ¹»»ñµÃË½ÓĞµÄ·½·¨
+			// è·å¾—å®šä¹‰çš„æ–¹æ³•ï¼Œèƒ½å¤Ÿè·å¾—ç§æœ‰çš„æ–¹æ³•
 			// Method[] ms = obj1.getClass().getDeclaredMethods();
-			// ÄÜ¹»»ñµÃ¸¸ÀàµÄ·½·¨
+			// èƒ½å¤Ÿè·å¾—çˆ¶ç±»çš„æ–¹æ³•
 			Method[] ms = obj1.getClass().getMethods();
 			System.out.println("----------------------------------------");
-			for (Method m : ms)
-			{
+			for (Method m : ms) {
 				System.out.println(m.getName());
 			}
 			System.out.println("----------------------------------------");
@@ -64,14 +60,12 @@ public class MainClass
 
 			System.out.println("-----------------field-----------------------");
 			Field[] f1 = a.getFields();
-			for (Field ff : f1)
-			{
+			for (Field ff : f1) {
 				System.out.println(ff.getName());
 			}
 			System.out.println("-----------------field-----------------------");
 			Field[] f2 = a.getDeclaredFields();
-			for (Field ff : f2)
-			{
+			for (Field ff : f2) {
 				System.out.println(ff.getName());
 			}
 			System.out.println("-----------------field-----------------------");
@@ -82,14 +76,12 @@ public class MainClass
 
 			System.out.println("-----------------annotation-----------------------");
 			Annotation[] anno = a.getDeclaredAnnotations();
-			for (Annotation aaa : anno)
-			{
+			for (Annotation aaa : anno) {
 				System.out.println(aaa.annotationType().getName());
 			}
 
 		}
-		catch (Exception ex)
-		{
+		catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
