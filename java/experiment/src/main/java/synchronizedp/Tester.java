@@ -1,4 +1,4 @@
-package syn;
+package synchronizedp;
 
 public class Tester
 {
