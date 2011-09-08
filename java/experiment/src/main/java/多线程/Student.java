@@ -1,4 +1,4 @@
-package thread.local;
+package 多线程;
 
 public class Student {
 	private Integer age;

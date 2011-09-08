@@ -1,4 +1,4 @@
-package thread.local;
+package 多线程;
 
 import java.util.Random;
 

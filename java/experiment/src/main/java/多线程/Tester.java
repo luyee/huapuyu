@@ -1,4 +1,4 @@
-package thread.local;
+package 多线程;
 
 public class Tester {
 	public static void main(String[] args) {
