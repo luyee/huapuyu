@@ -1,4 +1,4 @@
-package ≈≈–Ú;
+package ÊéíÂ∫è;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,31 +10,25 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class Tester
-{
+public class Tester {
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception
-	{
+	public static void setUpBeforeClass() throws Exception {
 	}
 
 	@AfterClass
-	public static void tearDownAfterClass() throws Exception
-	{
+	public static void tearDownAfterClass() throws Exception {
 	}
 
 	@Before
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 	}
 
 	@After
-	public void tearDown() throws Exception
-	{
+	public void tearDown() throws Exception {
 	}
 
 	@Test
-	public void test()
-	{
+	public void test() {
 		List<User> userList = new ArrayList<User>();
 
 		User user = new User();
@@ -49,17 +43,15 @@ public class Tester
 
 		userList.add(user);
 
-		System.out.println("Œ¥≈≈–ÚList");
-		for (User u : userList)
-		{
+		System.out.println("Êú™ÊéíÂ∫èList");
+		for (User u : userList) {
 			System.out.println(u.getName() + " : " + u.getAge());
 		}
 
 		Collections.sort(userList);
 
-		System.out.println("≈≈–ÚList");
-		for (User u : userList)
-		{
+		System.out.println("ÊéíÂ∫èList");
+		for (User u : userList) {
 			System.out.println(u.getName() + " : " + u.getAge());
 		}
 	}

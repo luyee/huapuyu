@@ -1,33 +1,27 @@
-package ÅÅĞò;
+package æ’åº;
 
-public class User implements Comparable<User>
-{
+public class User implements Comparable<User> {
 	private String name;
 	private int age;
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public int getAge()
-	{
+	public int getAge() {
 		return age;
 	}
 
-	public void setAge(int age)
-	{
+	public void setAge(int age) {
 		this.age = age;
 	}
 
 	@Override
-	public int compareTo(User o)
-	{
+	public int compareTo(User o) {
 		return this.getAge() - o.getAge();
 	}
 
