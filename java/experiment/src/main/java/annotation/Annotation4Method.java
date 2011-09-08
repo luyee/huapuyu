@@ -6,14 +6,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * ·½·¨µÄ×¢½â
+ * æ–¹æ³•çš„æ³¨è§£
  * 
  * @author Anders
  * 
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Annotation4Method
-{
+public @interface Annotation4Method {
 	public String myMethod();
 }

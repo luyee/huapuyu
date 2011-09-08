@@ -6,14 +6,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * ÀàµÄ×¢½â
+ * ç±»çš„æ³¨è§£
  * 
  * @author Anders
  * 
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Annotation4Class
-{
+public @interface Annotation4Class {
 	public String myClass();
 }

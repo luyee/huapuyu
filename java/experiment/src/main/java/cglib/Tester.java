@@ -14,17 +14,15 @@ import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
-public class Tester
-{
+public class Tester {
 	public final static String ENTER = "\r\n";
 	public final static String LEFT_BRACKET = "{";
 	public final static String RIGHT_BRACKET = "}";
 	public final static String TAP = "\t";
 	public final static String SPACE = " ";
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException
-	{
-		// Éú³Éjava´úÂë
+	public static void main(String[] args) throws IOException, ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
+		// ç”Ÿæˆjavaä»£ç 
 		StringBuilder sb = new StringBuilder();
 		// String src = "package cglib;" + enter + "public class Temp {" + enter + "	" + "public Temp(Integer i){}" + enter + "public static void main(String[] args) {" + enter + "		System.out.println(\"This is a Test\");" + enter + "	}}";
 
@@ -47,20 +45,20 @@ public class Tester
 		fw.flush();
 		fw.close();
 
-		// ±àÒë³Éclass
+		// ç¼–è¯‘æˆclass
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
 		Iterable<? extends JavaFileObject> iterable = fileManager.getJavaFileObjects(fileName);
 		CompilationTask compilationTask = compiler.getTask(null, fileManager, null, null, null, iterable);
 		compilationTask.call();
 
-		// ½«classÎÄ¼şÀ­ÈëclassPathÖĞ
+		// å°†classæ–‡ä»¶æ‹‰å…¥classPathä¸­
 		URL[] urls = new URL[] { new URL("file:/" + System.getProperty("user.dir") + "/src/main/java") };
 		URLClassLoader urlClassLoader = new URLClassLoader(urls);
 		Class<?> c = urlClassLoader.loadClass("cglib.Temp");
 		System.out.println(c);
 
-		// ÓĞ²Î¹¹Ôì·½·¨µÄÊµÀı»¯
+		// æœ‰å‚æ„é€ æ–¹æ³•çš„å®ä¾‹åŒ–
 		Constructor<?> constructor = c.getConstructor(Integer.class);
 		constructor.newInstance(1);
 	}

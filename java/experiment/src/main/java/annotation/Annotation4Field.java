@@ -6,15 +6,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * �ֶε�ע��
+ * 字段的注解
  * 
  * @author Anders
  * 
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Annotation4Field
-{
+public @interface Annotation4Field {
 	public String myField();
 
 	public boolean isTrue();

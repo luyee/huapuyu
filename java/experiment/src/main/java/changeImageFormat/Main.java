@@ -11,20 +11,17 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
 
-public class Main
-{
+public class Main {
 	private final static int TARGET_WIDTH = 200;
 	private final static int TARGET_HEIGHT = 220;
 
-	public static void main(String[] args)
-	{
-		try
-		{
+	public static void main(String[] args) {
+		try {
 			Class<Main> clazz = Main.class;
-			// »ñÈ¡JPGÎÄ¼ş¾ø¶ÔÂ·¾¶
+			// è·å–JPGæ–‡ä»¶ç»å¯¹è·¯å¾„
 			String jpgFilePath = clazz.getResource("image.png").getPath();
 			System.out.println(jpgFilePath);
-			// »ñÈ¡JPGÎÄ¼ş¾ø¶ÔÄ¿Â¼
+			// è·å–JPGæ–‡ä»¶ç»å¯¹ç›®å½•
 			String fileDir = jpgFilePath.substring(0, jpgFilePath.lastIndexOf("/"));
 			System.out.println(fileDir);
 
@@ -33,16 +30,14 @@ public class Main
 			int targetWidth = TARGET_WIDTH;
 			int targetHeight = TARGET_HEIGHT;
 
-			// ¼ÆËãPNGÎÄ¼şºÍJPGÎÄ¼şÏñËØ±È£¬È¡¸ßºÍ¿íÖĞ½ÏĞ¡µÄÏñËØ±ÈÀ´¼ÆËãPNGÎÄ¼şµÄÏñËØ
+			// è®¡ç®—PNGæ–‡ä»¶å’ŒJPGæ–‡ä»¶åƒç´ æ¯”ï¼Œå–é«˜å’Œå®½ä¸­è¾ƒå°çš„åƒç´ æ¯”æ¥è®¡ç®—PNGæ–‡ä»¶çš„åƒç´ 
 			double scaleWidth = (double) 200 / jpgImage.getWidth();
 			double scaleHeight = (double) 200 / jpgImage.getHeight();
-			if (scaleWidth > scaleHeight)
-			{
+			if (scaleWidth > scaleHeight) {
 				scaleWidth = scaleHeight;
 				targetWidth = (int) (scaleWidth * jpgImage.getWidth());
 			}
-			else
-			{
+			else {
 				scaleHeight = scaleWidth;
 				targetHeight = (int) (scaleHeight * jpgImage.getHeight());
 			}
@@ -58,18 +53,16 @@ public class Main
 			// File pngFile = new File(fileDir + "/image.jpeg");
 			ImageIO.write(pngImage, "jpg", byteArrayOutputStream);
 			File pngFile = new File(fileDir + "/image.jpg");
-			// Èç¹ûPNGÎÄ¼şÒÑ¾­´æÔÚ£¬ÔòÉ¾³ı
+			// å¦‚æœPNGæ–‡ä»¶å·²ç»å­˜åœ¨ï¼Œåˆ™åˆ é™¤
 			if (pngFile.exists())
 				pngFile.delete();
-			// ´´½¨PNGÎÄ¼ş
+			// åˆ›å»ºPNGæ–‡ä»¶
 			FileUtils.writeByteArrayToFile(pngFile, byteArrayOutputStream.toByteArray());
 		}
-		catch (Exception e)
-		{
+		catch (Exception e) {
 			e.printStackTrace();
 		}
-		finally
-		{
+		finally {
 			System.out.println("finish translate");
 		}
 
@@ -78,7 +71,7 @@ public class Main
 		// 3. BufferedImage tag = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
 		// 4. tag.getGraphics().drawImage(img.getScaledInstance(img.getWidth(null), img.getHeight(null), Image.SCALE_SMOOTH), 0, 0, null);
 		// 5. FileOutputStream out = new FileOutputStream("d:/temp/bmp2jpg.jpg");
-		// 6. // JPEGImageEncoder¿ÉÊÊÓÃÓÚÆäËûÍ¼Æ¬ÀàĞÍµÄ×ª»»
+		// 6. // JPEGImageEncoderå¯é€‚ç”¨äºå…¶ä»–å›¾ç‰‡ç±»å‹çš„è½¬æ¢
 		// 7. JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
 		// 8. encoder.encode(tag);
 		// 9. out.close();
