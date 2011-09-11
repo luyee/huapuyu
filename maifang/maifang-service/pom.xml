@@ -42,5 +42,9 @@
 			<groupId>com.bamboo</groupId>
 			<artifactId>maifang-dao</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.bamboo</groupId>
+			<artifactId>maifang-model</artifactId>
+		</dependency>
 	</dependencies>
 </project>
