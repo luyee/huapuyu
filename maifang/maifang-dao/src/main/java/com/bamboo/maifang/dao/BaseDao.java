@@ -3,68 +3,55 @@ package com.bamboo.maifang.dao;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-public abstract class BaseDao<T, ID extends Serializable> extends
-		HibernateDaoSupport{
+import com.bamboo.maifang.beans.Condition;
 
-	@Resource
-	public void setSessionFactory0(SessionFactory sessionFactory){
-	  super.setSessionFactory(sessionFactory);
-	}
-
+public interface BaseDao<T, ID extends Serializable>{
 	
-	protected Class<T> entityClass;
+	public void setSessionFactory0(SessionFactory sessionFactory);
 
-	@SuppressWarnings("unchecked")
-	public BaseDao() {
-		entityClass =  getEntityClass();
-	}
-
-	public Class<T> getEntityClass()
-	{
-		Type type = getClass().getGenericSuperclass();
-		Type[] params = ((ParameterizedType) type).getActualTypeArguments();
-		return (Class<T>) params[0];
-	}
+	public Class<T> getEntityClass();
+	
 	/**
-	 * 持久化对象.
-	 * 
-	 * @param <T>
-	 * @param entity
-	 * @return
+	 *增 
 	 */
-	@SuppressWarnings("hiding")
-	public <T> T save(T entity) {
-		getHibernateTemplate().saveOrUpdate(entity);
-		return entity;
-	}
+	public <T> T saveOrUpdate(T entity);
 
-	@SuppressWarnings("hiding")
-	public <T> T saveNotUpdate(T entity) {
-		getHibernateTemplate().save(entity);
-		return entity;
-	}
-
-	public void delete(T entity) {
-		getHibernateTemplate().delete(entity);
-	}
-
-	public void deleteById(ID id) {
-		getHibernateTemplate().delete(get(id));
-	}
+	public <T> T saveNotUpdate(T entity);
 	
-	@SuppressWarnings( { "hiding", "unchecked" })
-	public <T> T get(ID id) {
-		return (T) getHibernateTemplate().get(entityClass, id);
-	}
+	/**
+	 *删
+	 */
+	public void delete(T entity);
 
-	public List<T>  getAll() {
-		return getHibernateTemplate().find("from " + entityClass.getSimpleName());
-	}
+	public void deleteById(ID id);
+	
+	/**
+	 *改
+	 */
+	
+	/**
+	 *查
+	 */
+	public <T> T get(ID id);
+
+	public List<T>  getAll();
+	
+	public List<T>  getByCriteria(Condition condition);
+	/**
+	 * 工具方法
+	 */
 }
