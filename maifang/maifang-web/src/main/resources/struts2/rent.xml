@@ -4,7 +4,7 @@
 <struts>
 	<package name="rent" namespace="/rent" extends="struts-default">
 		<action name="rentToPage" class="com.bamboo.maifang.action.rent.RentHouseAction" method="onLoad">
-			<result name="success" type="freemarker">/WEB-INF/templets/rent/renthouse.html</result>
+			<result name="success" type="freemarker">/WEB-INF/ftl/rent/renthouse.html</result>
 		</action>
 	</package>
 </struts>

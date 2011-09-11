@@ -4,7 +4,7 @@
 <struts>
 	<package name="publish" namespace="/" extends="struts-default">
 		<action name="navigator" class="com.bamboo.maifang.action.publish.NavigationAction" method="onLoad">
-			<result name="success" type="freemarker">/WEB-INF/templets/publish/navigator.html</result>
+			<result name="success" type="freemarker">/WEB-INF/ftl/publish/navigator.html</result>
 		</action>
 	</package>
 </struts>
