@@ -40,4 +40,24 @@ public class Facility implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "data_id")
     private Data data;
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public House getHouse() {
+		return house;
+	}
+	public void setHouse(House house) {
+		this.house = house;
+	}
+	public Data getData() {
+		return data;
+	}
+	public void setData(Data data) {
+		this.data = data;
+	}
+    
+    
 }

@@ -93,5 +93,87 @@ public class RentHouse implements Serializable {
      */
     @Temporal(TemporalType.TIMESTAMP)
     private Date expiration;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public Data getPaidType() {
+		return paidType;
+	}
+
+	public void setPaidType(Data paidType) {
+		this.paidType = paidType;
+	}
+
+	public BigDecimal getArea() {
+		return area;
+	}
+
+	public void setArea(BigDecimal area) {
+		this.area = area;
+	}
+
+	public Data getRentType() {
+		return rentType;
+	}
+
+	public void setRentType(Data rentType) {
+		this.rentType = rentType;
+	}
+
+	public Data getRentDemand() {
+		return rentDemand;
+	}
+
+	public void setRentDemand(Data rentDemand) {
+		this.rentDemand = rentDemand;
+	}
+
+	public Data getCheckInTime() {
+		return checkInTime;
+	}
+
+	public void setCheckInTime(Data checkInTime) {
+		this.checkInTime = checkInTime;
+	}
+
+	public Data getVisitTime() {
+		return visitTime;
+	}
+
+	public void setVisitTime(Data visitTime) {
+		this.visitTime = visitTime;
+	}
+
+	public House getHouse() {
+		return house;
+	}
+
+	public void setHouse(House house) {
+		this.house = house;
+	}
+
+	public Date getExpiration() {
+		return expiration;
+	}
+
+	public void setExpiration(Date expiration) {
+		this.expiration = expiration;
+	}
+    
+    
 }
 

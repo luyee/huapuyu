@@ -163,4 +163,198 @@ public class House implements Serializable {
     // @OneToOne(fetch = FetchType.LAZY)
     // @JoinColumn(name = "second_hand_house_id")
     private RentHouse rentHouse;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Area getProvince() {
+		return province;
+	}
+
+	public void setProvince(Area province) {
+		this.province = province;
+	}
+
+	public Area getCity() {
+		return city;
+	}
+
+	public void setCity(Area city) {
+		this.city = city;
+	}
+
+	public Area getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(Area district) {
+		this.district = district;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Byte getBedroomCount() {
+		return bedroomCount;
+	}
+
+	public void setBedroomCount(Byte bedroomCount) {
+		this.bedroomCount = bedroomCount;
+	}
+
+	public Byte getLivingRoomCount() {
+		return livingRoomCount;
+	}
+
+	public void setLivingRoomCount(Byte livingRoomCount) {
+		this.livingRoomCount = livingRoomCount;
+	}
+
+	public Byte getKitchenCount() {
+		return kitchenCount;
+	}
+
+	public void setKitchenCount(Byte kitchenCount) {
+		this.kitchenCount = kitchenCount;
+	}
+
+	public Byte getWashroomCount() {
+		return washroomCount;
+	}
+
+	public void setWashroomCount(Byte washroomCount) {
+		this.washroomCount = washroomCount;
+	}
+
+	public Byte getBalconyCount() {
+		return balconyCount;
+	}
+
+	public void setBalconyCount(Byte balconyCount) {
+		this.balconyCount = balconyCount;
+	}
+
+	public Data getOrientation() {
+		return orientation;
+	}
+
+	public void setOrientation(Data orientation) {
+		this.orientation = orientation;
+	}
+
+	public Data getPropertyType() {
+		return propertyType;
+	}
+
+	public void setPropertyType(Data propertyType) {
+		this.propertyType = propertyType;
+	}
+
+	public Data getConstructionYear() {
+		return constructionYear;
+	}
+
+	public void setConstructionYear(Data constructionYear) {
+		this.constructionYear = constructionYear;
+	}
+
+	public Data getDecoration() {
+		return decoration;
+	}
+
+	public void setDecoration(Data decoration) {
+		this.decoration = decoration;
+	}
+
+	public Byte getTotalFloor() {
+		return totalFloor;
+	}
+
+	public void setTotalFloor(Byte totalFloor) {
+		this.totalFloor = totalFloor;
+	}
+
+	public Byte getFloor() {
+		return floor;
+	}
+
+	public void setFloor(Byte floor) {
+		this.floor = floor;
+	}
+
+	public String getTransport() {
+		return transport;
+	}
+
+	public void setTransport(String transport) {
+		this.transport = transport;
+	}
+
+	public String getEnvironment() {
+		return environment;
+	}
+
+	public void setEnvironment(String environment) {
+		this.environment = environment;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Set<Facility> getFacilities() {
+		return facilities;
+	}
+
+	public void setFacilities(Set<Facility> facilities) {
+		this.facilities = facilities;
+	}
+
+	public Set<Feature> getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(Set<Feature> features) {
+		this.features = features;
+	}
+
+	public SecondHandHouse getSecondHandHouse() {
+		return secondHandHouse;
+	}
+
+	public void setSecondHandHouse(SecondHandHouse secondHandHouse) {
+		this.secondHandHouse = secondHandHouse;
+	}
+
+	public RentHouse getRentHouse() {
+		return rentHouse;
+	}
+
+	public void setRentHouse(RentHouse rentHouse) {
+		this.rentHouse = rentHouse;
+	}
+    
+    
 }
