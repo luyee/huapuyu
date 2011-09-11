@@ -54,10 +54,16 @@
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
 		
-		<!-- others -->
+		<!-- mysql -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		
+		<!-- maifang -->
+		<dependency>
+			<groupId>com.bamboo</groupId>
+			<artifactId>maifang-model</artifactId>
 		</dependency>
 	</dependencies>
 </project>
