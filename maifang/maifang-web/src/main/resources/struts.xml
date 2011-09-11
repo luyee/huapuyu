@@ -11,4 +11,5 @@
 	<include file="struts2/login.xml" />
 	<include file="struts2/index.xml" />
 	<include file="struts2/publish_mess.xml" />
+	<include file="struts2/rent.xml" />
 </struts>
