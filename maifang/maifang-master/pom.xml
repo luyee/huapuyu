@@ -10,6 +10,7 @@
 	<name>maifang-master</name>
 
 	<modules>
+		<module>../maifang-model</module>
 		<module>../maifang-dao</module>
 		<module>../maifang-api</module>
 		<module>../maifang-service</module>
@@ -192,6 +193,11 @@
 			<dependency>
 				<groupId>com.bamboo</groupId>
 				<artifactId>maifang-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.bamboo</groupId>
+				<artifactId>maifang-model</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
