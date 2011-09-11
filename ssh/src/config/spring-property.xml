@@ -10,6 +10,7 @@
 	-->
 	
 	<bean id="property-placeholder" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="false" />
 		<property name="locations">
 			<list>
 				<value>classpath:db.properties</value>
