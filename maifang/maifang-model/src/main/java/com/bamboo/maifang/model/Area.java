@@ -59,18 +59,28 @@ public class Area implements Serializable {
     @Enumerated
     @Column(nullable = false)
     private AreaType type;
+    
+    /**
+     *区号 与市id相同 
+     */
+    @Column(length = 10)
+    private String areaCode;
+    
     /**
      * 上级区域
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Area parentArea;
+    
     /**
      * 下级区域
      */
     @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "parentArea")
     @OrderBy("id")
     private List<Area> sonAreas = Collections.emptyList();
+    
+   
     /**
      * 启用符（1：启用；0：停用）
      */
@@ -116,5 +126,13 @@ public class Area implements Serializable {
 	}
 	public void setEnable(Boolean enable) {
 		this.enable = enable;
+	}
+	
+	public String getAreaCode() {
+		return areaCode;
+	}
+	
+	public void setAreaCode(String areaCode) {
+		this.areaCode = areaCode;
 	}
 }

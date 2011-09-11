@@ -24,6 +24,8 @@ public class User implements Serializable {
    
     private String name;
     
+    private String phoneNum;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
@@ -34,12 +36,21 @@ public class User implements Serializable {
 		this.id = id;
 	}
 	
-	@Column(nullable = false, length = 50)
+	@Column(length = 50)
 	public String getName() {
 		return name;
 	}
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Column(length = 30,nullable = false)
+	public String getPhoneNum() {
+		return phoneNum;
+	}
+	
+	public void setPhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
 	}
 }
