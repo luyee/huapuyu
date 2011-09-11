@@ -1,0 +1,10 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="rent" namespace="/rent" extends="struts-default">
+		<action name="rentToPage" class="com.bamboo.maifang.action.rent.RentHouseAction" method="onLoad">
+			<result name="success" type="freemarker">/WEB-INF/templets/rent/renthouse.html</result>
+		</action>
+	</package>
+</struts>
