@@ -37,7 +37,10 @@
 				</ul>
 
 			</div>
-
+			<form name="form" action="index.htm" method="post">
+				<input type="text" id="pid" name="name" />
+				<input type="submit">
+			</form>
 
 
 
