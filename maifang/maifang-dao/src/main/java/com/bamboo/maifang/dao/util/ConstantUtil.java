@@ -1,13 +1,7 @@
 package com.bamboo.maifang.dao.util;
 
 public interface ConstantUtil {
-	enum CompareType{
-		Eq,UEq,
-		Gt,GEq,
-		Lt,LEq,
-		Like,ULike,
-		isNull,UisNull,
-		In,UIn,
-		Between,UBetween
+	enum CompareType {
+		EQ, UEQ, GT, GEQ, LT, LEQ, LIKE, ULIKE, ISNULL, UISNULL, IN, UIN, BETWEEN, UBETWEEN
 	}
 }

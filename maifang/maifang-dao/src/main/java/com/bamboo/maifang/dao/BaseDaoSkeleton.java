@@ -21,28 +21,26 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.bamboo.maifang.beans.Condition;
 
 public abstract class BaseDaoSkeleton<T, ID extends Serializable> extends
-		HibernateDaoSupport implements BaseDao<T, ID>{
+		HibernateDaoSupport implements BaseDao<T, ID> {
 
 	@Resource
-	public void setSessionFactory0(SessionFactory sessionFactory){
-	  super.setSessionFactory(sessionFactory);
+	public void setSessionFactory0(SessionFactory sessionFactory) {
+		super.setSessionFactory(sessionFactory);
 	}
 
-	
 	protected Class<T> entityClass;
-	
+
 	@SuppressWarnings("unchecked")
 	public BaseDaoSkeleton() {
-		entityClass =  getEntityClass();
+		entityClass = getEntityClass();
 	}
 
-	public Class<T> getEntityClass()
-	{
+	public Class<T> getEntityClass() {
 		Type type = getClass().getGenericSuperclass();
 		Type[] params = ((ParameterizedType) type).getActualTypeArguments();
 		return (Class<T>) params[0];
 	}
-	
+
 	@SuppressWarnings("hiding")
 	public <T> T saveOrUpdate(T entity) {
 		getHibernateTemplate().saveOrUpdate(entity);
@@ -62,17 +60,17 @@ public abstract class BaseDaoSkeleton<T, ID extends Serializable> extends
 	public void deleteById(ID id) {
 		getHibernateTemplate().delete(get(id));
 	}
-	
-	
-	@SuppressWarnings( { "hiding", "unchecked" })
+
+	@SuppressWarnings({ "hiding", "unchecked" })
 	public <T> T get(ID id) {
 		return (T) getHibernateTemplate().get(entityClass, id);
 	}
 
-	public List<T>  getAll() {
-		return getHibernateTemplate().find("from " + entityClass.getSimpleName());
+	public List<T> getAll() {
+		return getHibernateTemplate().find(
+				"from " + entityClass.getSimpleName());
 	}
-	
+
 	public List<T> getByCriteria(final Condition condition) {
 		HibernateCallback callBack = new HibernateCallback() {
 			public Object doInHibernate(Session session)
@@ -91,74 +89,87 @@ public abstract class BaseDaoSkeleton<T, ID extends Serializable> extends
 		};
 		return getHibernateTemplate().executeFind(callBack);
 	}
-	
+
 	public Criterion createCondition(Condition condition) {
 		Criterion returnCri = activeCondition(condition);
 		if (condition.getAndCondition() != null) {
-			Restrictions.and(returnCri, createCondition(condition.getAndCondition()));
+			Restrictions.and(returnCri,
+					createCondition(condition.getAndCondition()));
 		}
-		
+
 		if (condition.getOrCondition() != null) {
-			Restrictions.or(returnCri, createCondition(condition.getAndCondition()));
+			Restrictions.or(returnCri,
+					createCondition(condition.getAndCondition()));
 		}
-		
+
 		return returnCri;
 	}
 
-
-	
-	protected Criterion activeCondition(Condition condition){
+	protected Criterion activeCondition(Condition condition) {
 		Criterion activeCondition = null;
 		switch (condition.getCompareTyle()) {
-		case Eq:
-			activeCondition = Restrictions.eq(condition.getPropertyName(), condition.getValues()[0]);
+		case EQ:
+			activeCondition = Restrictions.eq(condition.getPropertyName(),
+					condition.getValues()[0]);
 			break;
-		case UEq:
-			activeCondition = Restrictions.not(Restrictions.eq(condition.getPropertyName(), condition.getValues()[0]));
-			break;
-			
-		case Gt:
-			activeCondition = Restrictions.gt(condition.getPropertyName(), condition.getValues()[0]);
-			break;
-		case GEq:
-			activeCondition = Restrictions.ge(condition.getPropertyName(), condition.getValues()[0]);
-			break;
-			
-			
-		case Lt:
-			activeCondition = Restrictions.lt(condition.getPropertyName(), condition.getValues()[0]);
-			break;
-		case LEq:
-			activeCondition = Restrictions.le(condition.getPropertyName(), condition.getValues()[0]);
-			break;
-			
-		case Like:
-			activeCondition = Restrictions.like(condition.getPropertyName(), condition.getValues()[0]);
-			break;
-		case ULike:
-			activeCondition = Restrictions.not(Restrictions.like(condition.getPropertyName(), condition.getValues()[0]));
+		case UEQ:
+			activeCondition = Restrictions.not(Restrictions.eq(
+					condition.getPropertyName(), condition.getValues()[0]));
 			break;
 
-		case isNull:
+		case GT:
+			activeCondition = Restrictions.gt(condition.getPropertyName(),
+					condition.getValues()[0]);
+			break;
+		case GEQ:
+			activeCondition = Restrictions.ge(condition.getPropertyName(),
+					condition.getValues()[0]);
+			break;
+
+		case LT:
+			activeCondition = Restrictions.lt(condition.getPropertyName(),
+					condition.getValues()[0]);
+			break;
+		case LEQ:
+			activeCondition = Restrictions.le(condition.getPropertyName(),
+					condition.getValues()[0]);
+			break;
+
+		case LIKE:
+			activeCondition = Restrictions.like(condition.getPropertyName(),
+					condition.getValues()[0]);
+			break;
+		case ULIKE:
+			activeCondition = Restrictions.not(Restrictions.like(
+					condition.getPropertyName(), condition.getValues()[0]));
+			break;
+
+		case ISNULL:
 			activeCondition = Restrictions.isNull(condition.getPropertyName());
 			break;
-		case UisNull:
-			activeCondition = Restrictions.isNotNull(condition.getPropertyName());
+		case UISNULL:
+			activeCondition = Restrictions.isNotNull(condition
+					.getPropertyName());
 			break;
-		
-		case In:
-			activeCondition = Restrictions.in(condition.getPropertyName(), condition.getValues());
+
+		case IN:
+			activeCondition = Restrictions.in(condition.getPropertyName(),
+					condition.getValues());
 			break;
-		case UIn:
-			activeCondition = Restrictions.not(Restrictions.in(condition.getPropertyName(), condition.getValues()));
-			break;	
-			
-		case Between:
-			activeCondition = Restrictions.between(condition.getPropertyName(), condition.getValues()[0], condition.getValues()[1]);
+		case UIN:
+			activeCondition = Restrictions.not(Restrictions.in(
+					condition.getPropertyName(), condition.getValues()));
 			break;
-		case UBetween:
-			activeCondition = Restrictions.not(Restrictions.between(condition.getPropertyName(), condition.getValues()[0], condition.getValues()[1]));
-			break;	
+
+		case BETWEEN:
+			activeCondition = Restrictions.between(condition.getPropertyName(),
+					condition.getValues()[0], condition.getValues()[1]);
+			break;
+		case UBETWEEN:
+			activeCondition = Restrictions.not(Restrictions.between(
+					condition.getPropertyName(), condition.getValues()[0],
+					condition.getValues()[1]));
+			break;
 		default:
 			break;
 		}
