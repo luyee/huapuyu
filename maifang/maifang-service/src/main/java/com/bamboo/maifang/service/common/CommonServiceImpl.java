@@ -19,7 +19,7 @@ public class CommonServiceImpl implements CommonService {
 	private AreaDao areaDao;
 
 	public List<Area> getSonAreasBy(Long parentId) {
-		Condition condition = new Condition("areaCode", ConstantUtil.CompareType.Eq, "0" + parentId);
+		Condition condition = new Condition("areaCode", ConstantUtil.CompareType.EQ, "0" + parentId);
 		condition.setAscOrders("id");
 		return areaDao.getByCriteria(condition);
 	}
