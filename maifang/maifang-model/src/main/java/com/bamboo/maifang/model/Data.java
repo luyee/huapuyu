@@ -18,100 +18,100 @@ import javax.persistence.Table;
 @Table(name = "cfg_data")
 public class Data implements Serializable {
 
-    private static final long serialVersionUID = 2757892825868662843L;
+	private static final long serialVersionUID = 2757892825868662843L;
 
-    public enum DataType {
+	public enum DataType {
+
+		/**
+		 * 0：朝向（房屋）
+		 */
+		ORIENTATION,
+		/**
+		 * 1：物业类型（房屋）
+		 */
+		PROPERTY_TYPE,
+		/**
+		 * 2：建筑年代（房屋）
+		 */
+		CONSTRUCTION_YEAR,
+		/**
+		 * 3：装修程度（房屋）
+		 */
+		DECORATION,
+		/**
+		 * 4：配套设施（房屋）
+		 */
+		FACILITY,
+		/**
+		 * 5：房源特色（房屋）
+		 */
+		FEATURE,
+		/**
+		 * 6：产权性质（二手房）
+		 */
+		PROPERTY_RIGHT,
+		/**
+		 * 7：住宅类别（二手房）
+		 */
+		RESIDENCE_TYPE,
+		/**
+		 * 8：建筑类别（二手房）
+		 */
+		CONSTRUCTION_TYPE,
+		/**
+		 * 9：房屋结构（二手房）
+		 */
+		BUILDING_STRUCTURE,
+		/**
+		 * 10：看房时间（二手房）
+		 */
+		VISIT_TIME,
+		/**
+		 * 11：合租方式（租房）
+		 */
+		SHARE_TYPE,
+		/**
+		 * 12：合租人性别要求（租房）
+		 */
+		ROOMMATE_GENDER_PREFERENCE,
+		/**
+		 * 13：支付方式（租房）
+		 */
+		PAYMENT,
+		/**
+		 * 14：入住时间（租房）
+		 */
+		CHECK_IN_TIME
+	}
 
 	/**
-	 * 0：朝向（房屋）
+	 * 编号（主键）
 	 */
-	ORIENTATION,
+	@Id
+	private Long id;
 	/**
-	 * 1：物业类型（房屋）
+	 * 名称
 	 */
-	PROPERTY_TYPE,
+	@Column(nullable = false, length = 50)
+	private String title;
 	/**
-	 * 2：建筑年代（房屋）
+	 * 类型
 	 */
-	CONSTRUCTION_YEAR,
+	@Enumerated
+	@Column(nullable = false)
+	private DataType type;
 	/**
-	 * 3：装修程度（房屋）
+	 * 启用符（1：启用；0：停用）
 	 */
-	DECORATION,
-	/**
-	 * 4：配套设施（房屋）
-	 */
-	FACILITY,
-	/**
-	 * 5：房源特色（房屋）
-	 */
-	FEATURE,
-	/**
-	 * 6：产权性质（二手房）
-	 */
-	PROPERTY_RIGHT,
-	/**
-	 * 7：住宅类别（二手房）
-	 */
-	RESIDENCE_TYPE,
-	/**
-	 * 8：建筑类别（二手房）
-	 */
-	CONSTRUCTION_TYPE,
-	/**
-	 * 9：房屋结构（二手房）
-	 */
-	BUILDING_STRUCTURE,
-	/**
-	 * 10：看房时间（二手房）
-	 */
-	VISIT_TIME,
-	/**
-	 * 11：合租方式（租房）
-	 */
-	SHARE_TYPE,
-	/**
-	 * 12：合租人性别要求（租房）
-	 */
-	ROOMMATE_GENDER_PREFERENCE,
-	/**
-	 * 13：支付方式（租房）
-	 */
-	PAYMENT,
-	/**
-	 * 14：入住时间（租房）
-	 */
-	CHECK_IN_TIME
-    }
+	@Column(nullable = false)
+	private Boolean enable = true;
 
-    /**
-     * 编号（主键）
-     */
-    @Id
-    private Long id;
-    /**
-     * 名称
-     */
-    @Column(nullable = false, length = 50)
-    private String title;
-    /**
-     * 类型
-     */
-    @Enumerated
-    @Column(nullable = false)
-    private DataType type;
-    /**
-     * 启用符（1：启用；0：停用）
-     */
-    @Column(nullable = false)
-    private Boolean enable = true;
+	public Data(Long id) {
+		this.id = id;
+	}
 
-    public Data(Long id) {
-	this.id = id;
-    }
-
-    public Data() {
-    }
+	public Data() {
+	}
 
 	public Long getId() {
 		return id;
@@ -144,6 +144,5 @@ public class Data implements Serializable {
 	public void setEnable(Boolean enable) {
 		this.enable = enable;
 	}
-    
-    
+
 }
