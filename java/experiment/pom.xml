@@ -6,8 +6,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>experiment</name>
 	
+	<organization>
+		<name>anders</name>
+		<url>www.anders.com</url>
+	</organization>
+	
 	<dependencies>
-
 		<!-- apache commons -->
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -43,6 +47,20 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
+		</dependency>
+		
+		<!-- opencsv -->
+		<dependency>
+			<groupId>net.sf.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>2.3</version>
+		</dependency>
+		
+		<!-- javacsv -->
+		<dependency>
+			<groupId>net.sourceforge.javacsv</groupId>
+			<artifactId>javacsv</artifactId>
+			<version>2.0</version>
 		</dependency>
 	</dependencies>
 </project>
