@@ -30,7 +30,7 @@
 
 	<filter-mapping>
 		<filter-name>struts2</filter-name>
-		<url-pattern>*.htm</url-pattern>
+		<url-pattern>*.html</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<!-- 为首页jsp跳转  -->
         <dispatcher>FORWARD</dispatcher>
