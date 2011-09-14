@@ -1,4 +1,4 @@
-package changeImageFormat;
+package 转换图片格式;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;

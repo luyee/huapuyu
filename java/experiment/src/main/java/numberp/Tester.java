@@ -94,6 +94,13 @@ public class Tester {
 			return number.doubleValue() == Float.MIN_VALUE;
 		else
 			throw new IllegalArgumentException();
+		// try {
+		// return Double.MIN_VALUE == number.doubleValue();
+		// }
+		// catch (NumberFormatException ex) {
+		// System.out.println(ex.getMessage());
+		// return Boolean.FALSE;
+		// }
 	}
 
 	private static boolean max(Number number) {
@@ -111,57 +118,85 @@ public class Tester {
 			return number.doubleValue() == Float.MAX_VALUE;
 		else
 			throw new IllegalArgumentException();
+		// try {
+		// return Double.MAX_VALUE == number.doubleValue();
+		// }
+		// catch (NumberFormatException ex) {
+		// System.out.println(ex.getMessage());
+		// return Boolean.FALSE;
+		// }
 	}
 
 	private static boolean one(Number number) {
-		if (number instanceof Long)
-			return number.doubleValue() == NumberUtils.LONG_ONE;
-		else if (number instanceof Integer)
-			return number.doubleValue() == NumberUtils.INTEGER_ONE;
-		else if (number instanceof Byte)
-			return number.doubleValue() == NumberUtils.BYTE_ONE;
-		else if (number instanceof Short)
-			return number.doubleValue() == NumberUtils.SHORT_ONE;
-		else if (number instanceof Double)
-			return number.doubleValue() == NumberUtils.DOUBLE_ONE;
-		else if (number instanceof Float)
-			return number.doubleValue() == NumberUtils.FLOAT_ONE;
-		else
-			throw new IllegalArgumentException();
+		// if (number instanceof Long)
+		// return number.doubleValue() == NumberUtils.LONG_ONE;
+		// else if (number instanceof Integer)
+		// return number.doubleValue() == NumberUtils.INTEGER_ONE;
+		// else if (number instanceof Byte)
+		// return number.doubleValue() == NumberUtils.BYTE_ONE;
+		// else if (number instanceof Short)
+		// return number.doubleValue() == NumberUtils.SHORT_ONE;
+		// else if (number instanceof Double)
+		// return number.doubleValue() == NumberUtils.DOUBLE_ONE;
+		// else if (number instanceof Float)
+		// return number.doubleValue() == NumberUtils.FLOAT_ONE;
+		// else
+		// throw new IllegalArgumentException();
+		try {
+			return NumberUtils.DOUBLE_ONE == number.doubleValue();
+		}
+		catch (NumberFormatException ex) {
+			System.out.println(ex.getMessage());
+			return Boolean.FALSE;
+		}
 	}
 
 	private static boolean zero(Number number) {
-		if (number instanceof Long)
-			return number.doubleValue() == NumberUtils.LONG_ZERO;
-		else if (number instanceof Integer)
-			return number.doubleValue() == NumberUtils.INTEGER_ZERO;
-		else if (number instanceof Byte)
-			return number.doubleValue() == NumberUtils.BYTE_ZERO;
-		else if (number instanceof Short)
-			return number.doubleValue() == NumberUtils.SHORT_ZERO;
-		else if (number instanceof Double)
-			return number.doubleValue() == NumberUtils.DOUBLE_ZERO;
-		else if (number instanceof Float)
-			return number.doubleValue() == NumberUtils.FLOAT_ZERO;
-		else
-			throw new IllegalArgumentException();
+		// if (number instanceof Long)
+		// return number.doubleValue() == NumberUtils.LONG_ZERO;
+		// else if (number instanceof Integer)
+		// return number.doubleValue() == NumberUtils.INTEGER_ZERO;
+		// else if (number instanceof Byte)
+		// return number.doubleValue() == NumberUtils.BYTE_ZERO;
+		// else if (number instanceof Short)
+		// return number.doubleValue() == NumberUtils.SHORT_ZERO;
+		// else if (number instanceof Double)
+		// return number.doubleValue() == NumberUtils.DOUBLE_ZERO;
+		// else if (number instanceof Float)
+		// return number.doubleValue() == NumberUtils.FLOAT_ZERO;
+		// else
+		// throw new IllegalArgumentException();
+		try {
+			return NumberUtils.DOUBLE_ZERO == number.doubleValue();
+		}
+		catch (NumberFormatException ex) {
+			System.out.println(ex.getMessage());
+			return Boolean.FALSE;
+		}
 	}
 
 	private static boolean minusOne(Number number) {
-		if (number instanceof Long)
-			return number.doubleValue() == NumberUtils.LONG_MINUS_ONE;
-		else if (number instanceof Integer)
-			return number.doubleValue() == NumberUtils.INTEGER_MINUS_ONE;
-		else if (number instanceof Byte)
-			return number.doubleValue() == NumberUtils.BYTE_MINUS_ONE;
-		else if (number instanceof Short)
-			return number.doubleValue() == NumberUtils.SHORT_MINUS_ONE;
-		else if (number instanceof Double)
-			return number.doubleValue() == NumberUtils.DOUBLE_MINUS_ONE;
-		else if (number instanceof Float)
-			return number.doubleValue() == NumberUtils.FLOAT_MINUS_ONE;
-		else
-			throw new IllegalArgumentException();
+		// if (number instanceof Long)
+		// return number.doubleValue() == NumberUtils.LONG_MINUS_ONE;
+		// else if (number instanceof Integer)
+		// return number.doubleValue() == NumberUtils.INTEGER_MINUS_ONE;
+		// else if (number instanceof Byte)
+		// return number.doubleValue() == NumberUtils.BYTE_MINUS_ONE;
+		// else if (number instanceof Short)
+		// return number.doubleValue() == NumberUtils.SHORT_MINUS_ONE;
+		// else if (number instanceof Double)
+		// return number.doubleValue() == NumberUtils.DOUBLE_MINUS_ONE;
+		// else if (number instanceof Float)
+		// return number.doubleValue() == NumberUtils.FLOAT_MINUS_ONE;
+		// else
+		// throw new IllegalArgumentException();
+		try {
+			return NumberUtils.DOUBLE_MINUS_ONE == number.doubleValue();
+		}
+		catch (NumberFormatException ex) {
+			System.out.println(ex.getMessage());
+			return Boolean.FALSE;
+		}
 	}
 
 }
