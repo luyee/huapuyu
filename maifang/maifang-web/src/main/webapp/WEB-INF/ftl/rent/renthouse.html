@@ -13,23 +13,25 @@
             <a href="">出租房信息</a>
         </div>
         <div>
-            <form name="form1" method="post" action="">
+            <form name="createRentInfo" method="post" action="rent/createRentInfo.html">
                 <h1>必填信息</h1>
                 <table>
-                    <tr>
+                   <!--
+                   	我希望标题自己生成  
+                   <tr>
                         <td width="120">
                             *标 题：
                         </td>
                         <td>
-                            <input type="text">
+                            <input type="text"  />
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
-                        <td>
+                        <td width="120">
                             *楼盘名称：
                         </td>
                         <td>
-                            <input type="text">
+                            <input type="text" name="rentHouse.title"/>
                         </td>
                     </tr>
                     <tr>
@@ -37,7 +39,7 @@
                             *地址：
                         </td>
                         <td>
-                            <select>
+                            <select name="rentHouse.district.id">
                             	<option>请选择</option>
                             	<#list areas as area>
                             		<option value="${area.id}">${area.title}</option>
@@ -48,53 +50,39 @@
                             *详细地址： 
                         </td>
                         <td width="168">
-                            <input type="text"/>
+                            <input type="text"  name="rentHouse.address" />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            *户型： 
+                            *房屋基本情况： 
                         </td>
                         <td>
                             <select>
-                                <option>1</option>
-                                <option>2</option>
+                            	<#list bedroomCounts as count>
+                            		<option value="${count}">${count}</option>
+                            	</#list>
+                                <option>多于6</option>
                             </select>室
                             <select>
-                                <option>0</option>
-                                <option>1</option>
+                                <#list livingRoomCounts as count>
+                            		<option value="${count}">${count}</option>
+                            	</#list>
+                                <option>多于3</option>
                             </select>厅
                             <select>
-                                <option>0</option>
-                                <option>1</option>
-                            </select>厨
-                            <select>
-                                <option>0</option>
-                                <option>1</option>
+                                <#list washroomCounts as count>
+                            		<option value="${count}">${count}</option>
+                            	</#list>
+                                <option>多于3</option>
                             </select>卫
-                            <select>
-                                <option>0</option>
-                                <option>1</option>
-                            </select>阳台
-                            <select>
-                                <option>装修情况</option>
-                            </select>
-                            <select>
-                                <option>房屋朝向</option>
-                            </select>
-                            <select>
-                                <option>95-00小区</option>
-                            </select>
-                            第<input type="text" class="text3">层
-                            共<input type="text" class="text3">层
-                        </td>
-                    </tr>
+                            
                     <tr>
                         <td>
                             *出租面积：
                         </td>
                         <td>
-                            <input type="text">
+                            <input type="text" name="rentHouse.area"/>
                         </td>
                     </tr>
                     <tr>
@@ -115,13 +103,63 @@
                     </tr>
                 </table><h1>选填信息</h1>
                 <table>
+                	<tr>
+                        <td width="120">
+                            房屋基本信息: 
+                        </td>
+                        <td>
+							<select>
+                                <option>装修情况</option>
+                                <option>毛坯</option>
+                                <option>精装</option>
+                                <option>简装</option>
+                            </select>
+                             <select>
+                                <option>住宅类型</option>
+                                <option value="2">平房</option>
+                                <option value="3">普通住宅</option>
+								<option value="7">商住两用</option>
+								<option value="4">公寓</option>
+								<option value="5">别墅</option>
+								<option value="6">其他</option> 
+                            </select>
+                            <select>
+                                <option>房屋朝向</option>
+                                <option value="1">东</option>
+                                <option value="2">南</option>
+								<option value="3">西</option>
+								<option value="4">北</option>
+								<option value="5">南北</option>
+								<option value="6">东西</option>
+								<option value="7">东南</option>
+								<option value="8">西南</option>
+								<option value="9">东北</option>
+								<option value="10">西北</option>
+                            </select>
+                            <select>
+                            	<option>90年前小区</option>
+                            	<option>90-95小区</option>
+                                <option>96-00小区</option>
+                                <option>01-05小区</option>
+                                <option>06-10小区</option>
+                                <option>11年小区</option>
+                            </select>
+                            第<input type="text" width="5px"/>层
+                            共<input type="text" width="5px"/>层
+                        </td>
+                    </tr>
+                        </td>
+                    </tr>
                     <tr>
                         <td width="120">
                             期望租期: 
                         </td>
                         <td width="120">
                             <select>
-                                <option>3个月以上</option>
+                            	<option>1个月以上</option>
+                                <option selected="selected">3个月以上</option>
+                                <option>半年以上</option>
+                                <option>一年以上</option>
                             </select>
                         </td>
                     </tr>

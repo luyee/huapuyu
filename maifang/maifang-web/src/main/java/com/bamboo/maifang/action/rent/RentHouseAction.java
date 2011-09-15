@@ -1,44 +1,38 @@
 package com.bamboo.maifang.action.rent;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bamboo.maifang.action.BaseAction;
-import com.bamboo.maifang.api.common.CommonService;
-import com.bamboo.maifang.model.Area;
+import com.bamboo.maifang.action.skeleton.MetadataUnitAction;
+import com.bamboo.maifang.api.rent.RentService;
+import com.bamboo.maifang.model.RentHouse;
 
-public class RentHouseAction extends BaseAction{
-	
+public class RentHouseAction extends MetadataUnitAction {
+
 	private static final long serialVersionUID = 1L;
-	
-	private List<Area> areas;
-	
-	private CommonService commonService;
-	
+
+	private RentHouse rentHouse;
+
+	@Autowired
+	private RentService rentService;
+
 	public RentHouseAction() {
 	}
-	
-	
+
 	public String onLoad() {
-		this.areas = this.commonService.getSonAreasBy(21L);
+		this.doGetAreas(2L);
 		return SUCCESS;
 	}
 
-
-	@Autowired
-	public void setCommonService(CommonService commonService) {
-		this.commonService = commonService;
+	public String submitCreate() {
+		rentService.createRentHouse(this.rentHouse);
+		return SUCCESS;
 	}
 
-
-	public List<Area> getAreas() {
-		return areas;
+	public RentHouse getRentHouse() {
+		return rentHouse;
 	}
 
-
-	public void setAreas(List<Area> areas) {
-		this.areas = areas;
+	public void setRentHouse(RentHouse rentHouse) {
+		this.rentHouse = rentHouse;
 	}
-	
 }

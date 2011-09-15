@@ -6,5 +6,8 @@
 		<action name="rentToPage" class="com.bamboo.maifang.action.rent.RentHouseAction" method="onLoad">
 			<result name="success" type="freemarker">/WEB-INF/ftl/rent/renthouse.html</result>
 		</action>
+		<action name="createRentInfo" class="com.bamboo.maifang.action.rent.RentHouseAction" method="submitCreate">
+			<result name="success" type="freemarker">/WEB-INF/ftl/rent/renthouse.html</result>
+		</action>
 	</package>
 </struts>

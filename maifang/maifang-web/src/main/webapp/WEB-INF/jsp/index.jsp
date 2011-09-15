@@ -16,7 +16,7 @@
 
 			<div id="logo">
 			
-				<a href="index.htm"><img src="<s:url value='theme/images/logo.gif'/>" width="147"
+				<a href="index.html"><img src="<s:url value='theme/images/logo.gif'/>" width="147"
 					height="78" alt="" title="" border="0" /> </a>
 			</div>
 
@@ -26,18 +26,18 @@
 			<div class="menu">
 
 				<ul>
-					<li><a href="index.htm">主页</a></li>
-					<li><a href="navigator.htm">发布信息</a>
+					<li><a href="index.html">主页</a></li>
+					<li><a href="navigator.html">发布信息</a>
 					</li>
 					<li><a href="">关于我们</a></li>
 					<li><a href="">合作伙伴</a></li>
 					<li><a href="">常见问题</a></li>
-					<li><a href="contact.htm">联系我们</a></li>
+					<li><a href="contact.html">联系我们</a></li>
 
 				</ul>
 
 			</div>
-			<form name="form" action="index.htm" method="post">
+			<form name="form" action="index.html" method="post">
 				<input type="text" id="pid" name="name" />
 				<input type="submit">
 			</form>
