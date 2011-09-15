@@ -38,7 +38,7 @@ public class Area implements Serializable {
 	 */
 	CITY,
 	/**
-	 * 2：区、县、市
+	 * 2：区、县
 	 */
 	DISTRICT
     }
@@ -54,17 +54,12 @@ public class Area implements Serializable {
     @Column(nullable = false, length = 50)
     private String title;
     /**
-     * 类型（0：省、自治区、直辖市；1：城市；2：区、县、市）
+     * 类型（0：省、自治区、直辖市；1：城市；2：区、县）
      */
     @Enumerated
     @Column(nullable = false)
     private AreaType type;
     
-    /**
-     *区号 与市id相同 
-     */
-    @Column(length = 10)
-    private String areaCode;
     
     /**
      * 上级区域
@@ -128,11 +123,4 @@ public class Area implements Serializable {
 		this.enable = enable;
 	}
 	
-	public String getAreaCode() {
-		return areaCode;
-	}
-	
-	public void setAreaCode(String areaCode) {
-		this.areaCode = areaCode;
-	}
 }
