@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bamboo.maifang.action.BaseAction;
 import com.bamboo.maifang.api.common.CommonService;
 import com.bamboo.maifang.model.Area;
+import com.bamboo.maifang.model.Data;
+import com.bamboo.maifang.model.Data.DataType;
 
 public abstract class MetadataUnitAction extends BaseAction {
 
 	private List<Area> areas;
+	private List<Data> payMentData;
 	private List<Byte> bedroomCounts;
 	private List<Byte> livingRoomCounts;
 	private List<Byte> washroomCounts;
@@ -20,6 +23,10 @@ public abstract class MetadataUnitAction extends BaseAction {
 
 	protected void doGetAreas(Long parentCityId) {
 		this.areas = this.commonService.getSonAreasBy(parentCityId);
+	}
+
+	protected void doGetPayMentData(DataType dataType) {
+		this.payMentData = this.commonService.getData(dataType);
 	}
 
 	@Autowired
@@ -51,5 +58,13 @@ public abstract class MetadataUnitAction extends BaseAction {
 		Byte[] roomCounts = new Byte[] { 0, 1, 2, 3, 4 };
 		washroomCounts = Arrays.asList(roomCounts);
 		return washroomCounts;
+	}
+
+	public List<Data> getPayMentData() {
+		return payMentData;
+	}
+
+	public void setPayMentData(List<Data> payMentData) {
+		this.payMentData = payMentData;
 	}
 }

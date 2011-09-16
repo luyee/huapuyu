@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bamboo.maifang.action.skeleton.MetadataUnitAction;
 import com.bamboo.maifang.api.rent.RentService;
+import com.bamboo.maifang.model.Data;
+import com.bamboo.maifang.model.Data.DataType;
 import com.bamboo.maifang.model.RentHouse;
 
 public class RentHouseAction extends MetadataUnitAction {
@@ -20,10 +22,14 @@ public class RentHouseAction extends MetadataUnitAction {
 
 	public String onLoad() {
 		this.doGetAreas(2L);
+		this.doGetPayMentData(DataType.PAYMENT);
 		return SUCCESS;
 	}
 
 	public String submitCreate() {
+		// TODO
+		this.rentHouse.setRentType(new Data(1101L));
+
 		rentService.createRentHouse(this.rentHouse);
 		return SUCCESS;
 	}

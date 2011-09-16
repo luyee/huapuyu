@@ -155,7 +155,7 @@
                             期望租期: 
                         </td>
                         <td width="120">
-                            <select>
+                            <select >
                             	<option>1个月以上</option>
                                 <option selected="selected">3个月以上</option>
                                 <option>半年以上</option>
@@ -174,8 +174,10 @@
                             支付方式：
                         </td>
                         <td>
-                            <select>
-                                <option>面议</option>
+                            <select name="rentHouse.paidType">
+                            	<#list payMentData as data>
+                            		<option value="${data.id}">${data.title}</option>
+                            	</#list>
                             </select>
                         </td>
                     </tr>
