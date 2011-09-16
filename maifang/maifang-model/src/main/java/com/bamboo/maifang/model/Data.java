@@ -67,7 +67,7 @@ public class Data implements Serializable {
 		 */
 		VISIT_TIME,
 		/**
-		 * 11：合租方式（租房）
+		 * 11：租房方式（租房）
 		 */
 		SHARE_TYPE,
 		/**
@@ -84,6 +84,10 @@ public class Data implements Serializable {
 		CHECK_IN_TIME
 	}
 
+	public Data(Long id) {
+		this.id = id;
+	}
+	
 	/**
 	 * 编号（主键）
 	 */
@@ -105,10 +109,6 @@ public class Data implements Serializable {
 	 */
 	@Column(nullable = false)
 	private Boolean enable = true;
-
-	public Data(Long id) {
-		this.id = id;
-	}
 
 	public Data() {
 	}
