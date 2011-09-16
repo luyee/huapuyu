@@ -40,3 +40,21 @@ insert into cfg_area (cfg_area.id ,  cfg_area.title , cfg_area.type , cfg_area.e
 values (20018, '闸北',2,1,2);
 insert into cfg_area (cfg_area.id ,  cfg_area.title , cfg_area.type , cfg_area.enable, cfg_area.parent_id)
 values (20019, '上海周边',2,1,2);
+
+
+-- Data --
+insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
+VALUES (1101 , 1 , '整租' , 11);
+insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
+VALUES (1301 , 1 , '面议' , 13);
+insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
+VALUES (1302 , 1 , '押一付三' , 13);
+insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
+VALUES (1303 , 1 , '押一付一' , 13);
+insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
+VALUES (1304 , 1 , '押二付一' , 13);
+insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
+VALUES (1305 , 1 , '半年付' , 13);
+insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
+VALUES (1306 , 1 , '年付' , 13);
+
