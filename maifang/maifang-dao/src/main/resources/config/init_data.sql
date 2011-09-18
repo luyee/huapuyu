@@ -65,6 +65,19 @@ insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.
 VALUES (10 , 1 , '西北' , 0);
 
 insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
+VALUES (201 , 1 , '90年前小区' , 2);
+insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
+VALUES (202 , 1 , '90-95小区' , 2);
+insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
+VALUES (203 , 1 , '96-00小区' , 2);
+insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
+VALUES (204 , 1 , '01-05小区' , 2);
+insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
+VALUES (205 , 1 , '06-10小区' , 2);
+insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
+VALUES (206 , 1 , '全新小区' , 2);
+
+insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
 VALUES (301 , 1 , '毛坯' , 3);
 insert into cfg_data (cfg_data.id , cfg_data.enable , cfg_data.title , cfg_data.type)
 VALUES (302 , 1 , '精装' , 3);

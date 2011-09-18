@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.bamboo.maifang.model.tools.FieldInitTools;
+
 /**
  * 出租房
  * 
@@ -41,7 +43,7 @@ public class RentHouse implements Serializable {
 	 * 租金
 	 */
 	@Column
-	private BigDecimal price;
+	private BigDecimal price = new BigDecimal(0);
 
 	/**
 	 * 支付方式
@@ -71,11 +73,11 @@ public class RentHouse implements Serializable {
 	private Data rentDemand;
 
 	/**
-	 * 入住时间
+	 * 签约时间
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "check_in_time_id", nullable = false)
-	private Data checkInTime;
+	@JoinColumn(name = "deal_time_id", nullable = false)
+	private Data dealTime;
 
 	/**
 	 * 看房时间
@@ -88,7 +90,7 @@ public class RentHouse implements Serializable {
 	 * 有效期
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date expiration;
+	private Date expiration = FieldInitTools.getDateAgainstMonth(2);
 
 	// 房屋信息
 
@@ -122,6 +124,7 @@ public class RentHouse implements Serializable {
 	 */
 	@Column(nullable = false, length = 100)
 	private String address;
+	
 	/**
 	 * 室
 	 */
@@ -147,6 +150,14 @@ public class RentHouse implements Serializable {
 	 */
 	@Column
 	private Byte balconyCount;
+	
+	/**
+	 * 期望租期
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "rend_period_id")
+	private Data rendPeriod;
+	
 	/**
 	 * 朝向
 	 */
@@ -159,6 +170,12 @@ public class RentHouse implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "property_type_id")
 	private Data propertyType;
+	/**
+	 * 住宅类别（对应数据配置表类型7）
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "residence_type_id")
+	private Data residenceType;
 	/**
 	 * 建筑年代
 	 */
@@ -255,14 +272,14 @@ public class RentHouse implements Serializable {
 		this.rentDemand = rentDemand;
 	}
 
-	public Data getCheckInTime() {
-		return checkInTime;
+	public Data getDealTime() {
+		return dealTime;
 	}
-
-	public void setCheckInTime(Data checkInTime) {
-		this.checkInTime = checkInTime;
+	
+	public void setDealTime(Data dealTime) {
+		this.dealTime = dealTime;
 	}
-
+	
 	public Data getVisitTime() {
 		return visitTime;
 	}
@@ -429,6 +446,22 @@ public class RentHouse implements Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public Data getRendPeriod() {
+		return rendPeriod;
+	}
+
+	public void setRendPeriod(Data rendPeriod) {
+		this.rendPeriod = rendPeriod;
+	}
+
+	public Data getResidenceType() {
+		return residenceType;
+	}
+
+	public void setResidenceType(Data residenceType) {
+		this.residenceType = residenceType;
 	}
 
 }

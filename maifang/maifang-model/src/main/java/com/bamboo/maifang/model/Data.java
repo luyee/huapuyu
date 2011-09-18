@@ -79,9 +79,13 @@ public class Data implements Serializable {
 		 */
 		PAYMENT,
 		/**
-		 * 14：入住时间（租房）
+		 * 14：期望成交时间（租房）
 		 */
-		CHECK_IN_TIME
+		DEAL_TIME,
+		/**
+		 * 15：租期（租房）
+		 */
+		RENT_PERIOD
 	}
 
 	public Data(Long id) {
