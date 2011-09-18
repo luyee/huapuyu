@@ -1,10 +1,32 @@
+<#assign s=JspTaglibs["/WEB-INF/struts-tags.tld"] />
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf8">
         <title>整房出租信息发布</title>
-  		<link rel="stylesheet" type="text/css"
-		      href="theme/liberty.css" />
+        <link rel="stylesheet" type="text/css" href="../theme/liberty.css" />
+        <script type="text/javascript" src="../js/jquery.js"></script>
+        <script type="text/javascript" src="../js/jquery.validate.js"></script>
+        <script type="text/javascript">
+        	//var $j = jQuery.noConflict();
+        	$(document).ready(function () {
+        		$("#noJsActive").hide();
+        		$("#createRentInfo")[0].onsubmit = '';
+        		
+        		/*
+        		$("#createRentInfo").validate({
+        			rules: {
+        				title : "required"
+        			},
+        			
+        			messages : {
+        				title : "请输入楼盘名称"
+        			}
+        		});
+        		*/
+        	});
+        	
+        </script>
     </head>
     <body>
         <div class="daohang">
@@ -13,25 +35,26 @@
             <a href="">出租房信息</a>
         </div>
         <div>
-            <form name="createRentInfo" method="post" action="rent/createRentInfo.html">
+        	<h1 id="noJsActive">浏览已禁掉JavaScript脚本，本页面无法提交</h1>
+            <form id="createRentInfo" name="createRentInfo" method="post" action="rent/createRentInfo.html" onsubmit="return false">
                 <h1>必填信息</h1>
                 <table>
-                   <!--
-                   	我希望标题自己生成  
-                   <tr>
-                        <td width="120">
-                            *标 题：
-                        </td>
-                        <td>
-                            <input type="text"  />
-                        </td>
+                    <!--
+                   		 我希望标题自己生成
+                    <tr>
+                    <td width="120">
+                    *标 题：
+                    </td>
+                    <td>
+                    <input type="text"  />
+                    </td>
                     </tr> -->
                     <tr>
                         <td width="120">
                             *楼盘名称：
                         </td>
                         <td>
-                            <input type="text" name="rentHouse.title"/>
+                            <input type="text" id="title" name="rentHouse.title" />
                         </td>
                     </tr>
                     <tr>
@@ -40,202 +63,178 @@
                         </td>
                         <td>
                             <select name="rentHouse.district.id">
-                            	<option>请选择</option>
-                            	<#list areas as area>
-                            		<option value="${area.id}">${area.title}</option>
-                            	</#list>
+                                <option>请选择</option>
+                                <#list areas as area><option value="${area.id}">${area.title}</option>
+                                </#list>
                             </select>区
                         </td>
                         <td width="92">
-                            *详细地址： 
+                            *详细地址：
                         </td>
                         <td width="168">
-                            <input type="text"  name="rentHouse.address" />
+                            <input type="text" name="rentHouse.address" />
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            *房屋基本情况： 
+                            *房屋基本情况：
                         </td>
                         <td>
-                            <select>
-                            	<#list bedroomCounts as count>
-                            		<option value="${count}">${count}</option>
-                            	</#list>
-                                <option>多于6</option>
-                            </select>室
-                            <select>
-                                <#list livingRoomCounts as count>
-                            		<option value="${count}">${count}</option>
-                            	</#list>
-                                <option>多于3</option>
-                            </select>厅
-                            <select>
-                                <#list washroomCounts as count>
-                            		<option value="${count}">${count}</option>
-                            	</#list>
-                                <option>多于3</option>
+                            <select name="rentHouse.bedroomCount">
+                                <#list bedroomCounts as count><option value="${count}">${count}</option>
+                                </#list>
+                            </select>室 
+                            <select name="rentHouse.livingRoomCount">
+                                <#list livingRoomCounts as count><option value="${count}">${count}</option>
+                                </#list>
+                            </select>厅 
+                            <select name="rentHouse.washroomCount">
+                                <#list washroomCounts as count><option value="${count}">${count}</option>
+                                </#list>
                             </select>卫
-                            
-                    <tr>
-                        <td>
-                            *出租面积：
-                        </td>
-                        <td>
-                            <input type="text" name="rentHouse.area"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            *手机/座机：
-                        </td>
-                        <td>
-                            <input type="text">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            *联系人：
-                        </td>
-                        <td>
-                            <input type="text">
-                        </td>
-                    </tr>
-                </table><h1>选填信息</h1>
-                <table>
-                	<tr>
-                        <td width="120">
-                            房屋基本信息: 
-                        </td>
-                        <td>
-							<select>
-                                <option>装修情况</option>
-                                <option>毛坯</option>
-                                <option>精装</option>
-                                <option>简装</option>
-                            </select>
-                             <select>
-                                <option>住宅类型</option>
-                                <option value="2">平房</option>
-                                <option value="3">普通住宅</option>
-								<option value="7">商住两用</option>
-								<option value="4">公寓</option>
-								<option value="5">别墅</option>
-								<option value="6">其他</option> 
-                            </select>
-                            <select>
-                                <option>房屋朝向</option>
-                                <option value="1">东</option>
-                                <option value="2">南</option>
-								<option value="3">西</option>
-								<option value="4">北</option>
-								<option value="5">南北</option>
-								<option value="6">东西</option>
-								<option value="7">东南</option>
-								<option value="8">西南</option>
-								<option value="9">东北</option>
-								<option value="10">西北</option>
-                            </select>
-                            <select>
-                            	<option>90年前小区</option>
-                            	<option>90-95小区</option>
-                                <option>96-00小区</option>
-                                <option>01-05小区</option>
-                                <option>06-10小区</option>
-                                <option>11年小区</option>
-                            </select>
-                            第<input type="text" width="5px"/>层
-                            共<input type="text" width="5px"/>层
-                        </td>
-                    </tr>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width="120">
-                            期望租期: 
-                        </td>
-                        <td width="120">
-                            <select >
-                            	<option>1个月以上</option>
-                                <option selected="selected">3个月以上</option>
-                                <option>半年以上</option>
-                                <option>一年以上</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            租金：
-                        </td>
-                        <td>
-                            <input type="text" value="面议">元/月
-                        </td>
-                        <td>
-                            支付方式：
-                        </td>
-                        <td>
-                            <select name="rentHouse.paidType">
-                            	<#list payMentData as data>
-                            		<option value="${data.id}">${data.title}</option>
-                            	</#list>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            入住时间：
-                        </td>
-                        <td>
-                            <select>
-                                <option>随时入住</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            看房时间：
-                        </td>
-                        <td>
-                            <select>
-                                <option>随时</option>
-                            </select>
-                        </td>
-                        <td>
-                            有效期：
-                        </td>
-                        <td>
-                            <select>
-                                <option>30天</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            配套设施：
-                        </td>
-                        <td>
-                            <input type="checkbox" name="">床<input type="checkbox" name="">有线电视<input type="checkbox" name="">家具<input type="checkbox" name="">洗衣机<input type="checkbox" name="">空调<input type="checkbox" name="">冰箱
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            房源描述：
-                        </td>
-                        <td>
-                            <textarea>
-                            </textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        </td>
-                        <td>
-                            <input type="submit" value="马上发布">
-                            <input type="reset" value="重新填写">
-                        </td>
-                    </tr>
-                </table>
-            </form>
+                            <tr>
+                                <td>
+                                    *出租面积：
+                                </td>
+                                <td>
+                                    <input type="text" name="rentHouse.area" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    *手机/座机：
+                                </td>
+                                <td>
+                                    <input type="text" name="user.phoneNum">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    *联系人：
+                                </td>
+                                <td>
+                                    <input type="text" name="user.name">
+                                </td>
+                            </tr>
+                            </table><h1>选填信息</h1>
+                            <table>
+                                <tr>
+                                    <td width="120">
+                                        房屋基本信息:
+                                    </td>
+                                    <td>
+                                        <select name="rentHouse.decoration.id">
+                                            <#list
+                                            decorationData as data><option value="${data.id}">${data.title}</option>
+                                            </#list>
+                                        </select>
+                                        <select name="rentHouse.residenceType.id">
+                                            <#list
+                                            residenceTypeData as data><option value="${data.id}">${data.title}</option>
+                                            </#list>
+                                        </select>
+                                        <select name="rentHouse.orientation.id">
+                                            <#list
+                                            orientationData as data><option value="${data.id}">${data.title}</option>
+                                            </#list>
+                                        </select>
+                                        <select name="rentHouse.constructionYear.id" >
+                                             <#list 
+                                             constructionYearData as data><option value="${data.id}">${data.title}</option>
+                                            </#list>
+                                        </select>
+                                        第<input type="text" width="5px" name="rentHouse.floor" />层 共<input type="text" width="5px" name="rentHouse.totalFloor" />层
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="120">
+                                        期望租期:
+                                    </td>
+                                    <td width="120">
+                                        <select name="rentHouse.rendPeriod.id">
+                                            <#list rentPeriodData as data><option value="${data.id}">${data.title}</option>
+                                            </#list>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        租金：
+                                    </td>
+                                    <td>
+                                        <input type="text" value="0" name="rentHouse.price">元/月
+                                    </td>
+                                    <td>
+                                        支付方式：
+                                    </td>
+                                    <td>
+                                        <select name="rentHouse.paidType.id">
+                                            <#list
+                                            payMentData as data><option value="${data.id}">${data.title}</option>
+                                            </#list>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        签约时间：
+                                    </td>
+                                    <td>
+                                        <select name="rentHouse.dealTime.id">
+                                            <#list
+                                            dealTimeData as data><option value="${data.id}">${data.title}</option>
+                                            </#list>内
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        看房时间：
+                                    </td>
+                                    <td>
+                                        <select name="rentHouse.visitTime.id">
+                                            <#list
+                                            visitTimeData as data><option value="${data.id}">${data.title}</option>
+                                            </#list>内
+                                        </select>
+                                    </td>
+                                    <td>
+                                        有效期至：
+                                    </td>
+                                    <td>
+                                        <!--
+                                        <select name="rentHouse.expiration">
+                                        <option>2011-11-10</option>
+                                        </select>
+                                        -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        配套设施：
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="">床<input type="checkbox" name="">有线电视<input type="checkbox" name="">家具<input type="checkbox" name="">洗衣机<input type="checkbox" name="">空调<input type="checkbox" name="">冰箱
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        房源描述：
+                                    </td>
+                                    <td>
+                                        <textarea>
+                                        </textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                            </table>
+                            <input type="submit" value="马上发布"><input type="reset" value="重新填写">
+                      </form>
         </div>
     </body>
 </html>
