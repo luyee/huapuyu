@@ -50,6 +50,7 @@
 		<mapping resource="com/anders/hibernate/model/Resource.hbm.xml" />
 		-->
 		
+		<!--  
 		<mapping class="com.anders.hibernate.model.maifang.Area" />
 		<mapping class="com.anders.hibernate.model.maifang.Data" />
 		<mapping class="com.anders.hibernate.model.maifang.Facility" />
@@ -57,7 +58,13 @@
 		<mapping class="com.anders.hibernate.model.maifang.House" />
 		<mapping class="com.anders.hibernate.model.maifang.SecondHandHouse" />
 		<mapping class="com.anders.hibernate.model.maifang.Person" />
+		-->
 		
+		<mapping class="com.anders.hibernate.model.vote.Poll" />
+		<mapping class="com.anders.hibernate.model.vote.PollItem" />
+		
+		<!--  
 		<mapping resource="com/anders/hibernate/model/User1.hbm.xml" />
+		-->
 	</session-factory>
 </hibernate-configuration>
