@@ -1,4 +1,8 @@
-#Thu Aug 25 23:02:46 CST 2011
+#Fri Sep 16 17:19:39 CST 2011
 eclipse.preferences.version=1
+encoding//src/main/webapp/WEB-INF/jsp/common/bottom.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/jsp/common/head.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/jsp/common/meta.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/login.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/jsp/shh/sale/save.jsp=UTF-8
 encoding/<project>=UTF-8
