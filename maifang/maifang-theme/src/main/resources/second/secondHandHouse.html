@@ -45,20 +45,6 @@
 				<td><input type="text" />平方米（最多两位小数）</td>				        		
         	</tr>
         	<tr>
-				<td>产权性质：</td>
-				<td>
-					<select>
-						<option>限价房</option>
-						<option>央产房</option>
-						<option selected="selected">个人产权</option>
-						<option>使用权</option>
-						<option>单位产权</option>
-						<option>经济适用房</option>
-						<option>军产房</option>
-					</select>
-				</td>
-        	</tr>
-        	<tr>
 				<td>户　　型：</td>
 				<td>
 					<select>
@@ -104,40 +90,6 @@
 				</td>				        		
         	</tr>
         	<tr>
-				<td>朝　　向：</td>
-				<td>
-					<select>
-						<option selected="selected">南北</option>
-						<option>南</option>
-						<option>东南</option>
-						<option>东</option>
-						<option>西南</option>
-						<option>北</option>
-						<option>西</option>
-						<option>东西</option>
-						<option>东北</option>
-						<option>西北</option>
-					</select>
-				</td>
-        	</tr>
-        	<tr>
-				<td>楼　　层：</td>
-				<td>第<input type="text" />层&nbsp;共<input type="text" />层</td>				        		
-        	</tr>
-        </table>
-        
-        <h1>详细信息（选填）</h1>
-        <table summary="">
-        	<tr>
-				<td>物业类型：</td>
-				<td>
-					<select>
-						<option selected="selected">住宅</option>
-						<option>别墅</option>
-					</select>
-				</td>				        		
-        	</tr>
-        	<tr>
 				<td>建筑年代：</td>
 				<td>
 					<select>
@@ -155,6 +107,66 @@
 						<option>2011</option>
 					</select>年
 				</td>				        		
+        	</tr>
+        	<tr>
+				<td>楼　　层：</td>
+				<td>第<input type="text" />层&nbsp;共<input type="text" />层</td>				        		
+        	</tr>
+        </table>
+        
+        <h1>详细信息（选填）</h1>
+        <table summary="">
+        	<tr>
+				<td>朝　　向：</td>
+				<td>
+					<select>
+						<option selected="selected">南北</option>
+						<option>南</option>
+						<option>东南</option>
+						<option>东</option>
+						<option>西南</option>
+						<option>北</option>
+						<option>西</option>
+						<option>东西</option>
+						<option>东北</option>
+						<option>西北</option>
+					</select>
+				</td>
+        	</tr>
+        	<tr>
+				<td>物业类型：</td>
+				<td>
+					<select>
+						<option selected="selected">住宅</option>
+						<option>别墅</option>
+					</select>
+				</td>				        		
+        	</tr>
+        	<tr>
+				<td>装修程度：</td>
+				<td>
+					<select>
+						<option>豪华装修</option>
+						<option>精装修</option>
+						<option>中等装修</option>
+						<option selected="selected">简装修</option>
+						<option>毛坯</option>
+					</select>
+				</td>				        		
+        	</tr>
+        	<tr>
+				<td>产权性质：</td>
+				<td>
+					<select>
+						<option>限价房</option>
+						<option>央产房</option>
+						<option selected="selected">个人产权</option>
+						<option>使用权</option>
+						<option>单位产权</option>
+						<option>经济适用房</option>
+						<option>军产房</option>
+					</select>
+				</td>
         	</tr>
         	<tr>
 				<td>住宅类别：</td>
@@ -190,30 +202,6 @@
 				</td>				        		
         	</tr>
         	<tr>
-				<td>有 效 期：</td>
-				<td>
-					<select>
-						<option>3</option>
-						<option>7</option>
-						<option>15</option>
-						<option>30</option>
-						<option selected="selected">60</option>
-					</select>天
-				</td>				        		
-        	</tr>
-        	<tr>
-				<td>装修程度：</td>
-				<td>
-					<select>
-						<option>豪华装修</option>
-						<option>精装修</option>
-						<option>中等装修</option>
-						<option selected="selected">简装修</option>
-						<option>毛坯</option>
-					</select>
-				</td>				        		
-        	</tr>
-        	<tr>
 				<td>看房时间：</td>
 				<td>
 					<select>
@@ -234,6 +222,21 @@
 					<input type="checkbox" name="">花园/小院
 					<input type="checkbox" name="">露台
 					<input type="checkbox" name="">阁楼
+				</td>				        		
+        	</tr>
+        	<tr>
+				<td>房源特色：</td>
+				<td>
+					<input type="checkbox" name="">江景房
+					<input type="checkbox" name="">地铁沿线
+					<input type="checkbox" name="">动迁房
+					<input type="checkbox" name="">学区房
+					<input type="checkbox" name="">商住两用房
+					<input type="checkbox" name="">老式公房
+					<input type="checkbox" name="">老洋房
+					<input type="checkbox" name="">大型社区
+					<br />
+					（特色项，将增加其被分类搜索到的机会，大大提升关注度！） 
 				</td>				        		
         	</tr>
         	<tr>
@@ -261,18 +264,15 @@
 				</td>		        		
         	</tr>
         	<tr>
-				<td>房源特色：</td>
+				<td>有 效 期：</td>
 				<td>
-					<input type="checkbox" name="">江景房
-					<input type="checkbox" name="">地铁沿线
-					<input type="checkbox" name="">动迁房
-					<input type="checkbox" name="">学区房
-					<input type="checkbox" name="">商住两用房
-					<input type="checkbox" name="">老式公房
-					<input type="checkbox" name="">老洋房
-					<input type="checkbox" name="">大型社区
-					<br />
-					（特色项，将增加其被分类搜索到的机会，大大提升关注度！） 
+					<select>
+						<option>3</option>
+						<option>7</option>
+						<option>15</option>
+						<option>30</option>
+						<option selected="selected">60</option>
+					</select>天
 				</td>				        		
         	</tr>
         </table>
