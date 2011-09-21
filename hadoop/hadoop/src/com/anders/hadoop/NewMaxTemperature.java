@@ -45,7 +45,7 @@ public class NewMaxTemperature {
 
 			int maxValue = Integer.MIN_VALUE;
 			for (IntWritable value : values) {
-				System.out.println("key : " + key + "value : " + value);
+				System.out.println("key : " + key + "; value : " + value);
 				maxValue = Math.max(maxValue, value.get());
 			}
 			context.write(key, new IntWritable(maxValue));
