@@ -19,7 +19,7 @@ public class NewMaxTemperature {
 		private static final int MISSING = 9999;
 
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-
+			System.out.println("****************map********************");
 			String line = value.toString();
 			System.out.println("row : " + line);
 			String year = line.substring(15, 19);
@@ -42,7 +42,7 @@ public class NewMaxTemperature {
 	static class NewMaxTemperatureReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 
 		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-
+			System.out.println("****************reduce********************");
 			int maxValue = Integer.MIN_VALUE;
 			for (IntWritable value : values) {
 				System.out.println("key : " + key + "; value : " + value);
