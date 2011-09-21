@@ -1,8 +1,10 @@
 package com.bamboo.maifang.action.rent;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bamboo.maifang.action.skeleton.MetadataUnitAction;
+import com.bamboo.maifang.action.vo.RentHouseVO;
 import com.bamboo.maifang.api.rent.RentService;
 import com.bamboo.maifang.model.Data;
 import com.bamboo.maifang.model.Data.DataType;
@@ -13,7 +15,7 @@ public class RentHouseAction extends MetadataUnitAction {
 
 	private static final long serialVersionUID = 1L;
 
-	private RentHouse rentHouse;
+	private RentHouseVO rentHouse;
 	private User user;
 
 	@Autowired
@@ -39,17 +41,23 @@ public class RentHouseAction extends MetadataUnitAction {
 	public String submitCreate() {
 		// TODO
 		this.rentHouse.setRentType(new Data(1101L));
-
-		rentService.createRentHouse(this.rentHouse);
-		this.createFlag = true;
-		return SUCCESS;
+		RentHouse house = new RentHouse();
+		try {
+			PropertyUtils.copyProperties(house, rentHouse);
+			rentService.createRentHouse(house);
+			this.createFlag = true;
+			return SUCCESS;
+		}
+		catch (Exception e) {
+			return ERROR;
+		}
 	}
 
-	public RentHouse getRentHouse() {
+	public RentHouseVO getRentHouse() {
 		return rentHouse;
 	}
 
-	public void setRentHouse(RentHouse rentHouse) {
+	public void setRentHouse(RentHouseVO rentHouse) {
 		this.rentHouse = rentHouse;
 	}
 
