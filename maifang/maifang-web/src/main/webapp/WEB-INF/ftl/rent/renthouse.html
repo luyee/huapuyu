@@ -35,8 +35,9 @@
             <a href="">出租房信息</a>
         </div>
         <div>
+        	<@s.fielderror/>
         	<h1 id="noJsActive">浏览已禁掉JavaScript脚本，本页面无法提交</h1>
-            <form id="createRentInfo" name="createRentInfo" method="post" action="rent/createRentInfo.html" onsubmit="return false">
+            <@s.form id="createRentInfo" name="createRentInfo" method="post" action="rent/createRentInfo.html" onsubmit="return false">
                 <h1>必填信息</h1>
                 <table>
                     <!--
@@ -234,7 +235,7 @@
                                 </tr>
                             </table>
                             <input type="submit" value="马上发布"><input type="reset" value="重新填写">
-                      </form>
+                      </@s.form>
         </div>
     </body>
 </html>
