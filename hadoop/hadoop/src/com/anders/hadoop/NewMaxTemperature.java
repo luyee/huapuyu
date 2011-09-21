@@ -21,14 +21,18 @@ public class NewMaxTemperature {
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
 			String line = value.toString();
+			System.out.println("row : " + line);
 			String year = line.substring(15, 19);
+			System.out.println("year : " + year);
 			int airTemperature;
 			if (line.charAt(87) == '+') {
 				airTemperature = Integer.parseInt(line.substring(88, 92));
 			} else {
 				airTemperature = Integer.parseInt(line.substring(87, 92));
 			}
+			System.out.println("airTemperature : " + airTemperature);
 			String quality = line.substring(92, 93);
+			System.out.println("quality : " + quality);
 			if (airTemperature != MISSING && quality.matches("[01459]")) {
 				context.write(new Text(year), new IntWritable(airTemperature));
 			}
@@ -41,6 +45,7 @@ public class NewMaxTemperature {
 
 			int maxValue = Integer.MIN_VALUE;
 			for (IntWritable value : values) {
+				System.out.println("key : " + key + "value : " + value);
 				maxValue = Math.max(maxValue, value.get());
 			}
 			context.write(key, new IntWritable(maxValue));
