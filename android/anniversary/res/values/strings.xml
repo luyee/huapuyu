@@ -3,5 +3,6 @@
     <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">Anniversary</string>
     <string name="add_button1">To Add</string>
+    <string name="sendmsg_button2">Send Message</string>
     <string name="add_textView1">Hello World</string>
 </resources>
