@@ -65,6 +65,7 @@ public class NewMaxTemperature {
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
 		job.setMapperClass(NewMaxTemperatureMapper.class);
+		job.setCombinerClass(NewMaxTemperatureReducer.class);
 		job.setReducerClass(NewMaxTemperatureReducer.class);
 
 		job.setOutputKeyClass(Text.class);
