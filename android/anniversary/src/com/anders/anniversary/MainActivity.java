@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
 	class Button2Listener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
-			Uri uri = Uri.parse("smsto://0800000123");
+			Uri uri = Uri.parse("smsto:0800000123");
 			Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
 			intent.putExtra("sms_body", "妹妹我爱你！");
 			startActivity(intent);
