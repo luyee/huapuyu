@@ -8,6 +8,7 @@
 		</action>
 		<action name="createRentInfo" class="com.bamboo.maifang.action.rent.RentHouseAction" method="submitCreate">
 			<result name="success" type="freemarker">/WEB-INF/ftl/rent/renthouselist.html</result>
+			<result name="input" type="freemarker">/WEB-INF/ftl/rent/renthouse.html</result>
 		</action>
 	</package>
 </struts>
