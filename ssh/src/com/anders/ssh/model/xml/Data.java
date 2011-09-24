@@ -2,8 +2,9 @@ package com.anders.ssh.model.xml;
 
 import java.io.Serializable;
 
-public class Data implements Serializable
-{
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+
+public class Data implements Serializable {
 	private static final long serialVersionUID = -3076049534246559365L;
 
 	private Integer id;
@@ -11,43 +12,40 @@ public class Data implements Serializable
 	private Byte type;
 	private Boolean enable = true;
 
-	public Integer getId()
-	{
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Integer id)
-	{
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public Byte getType()
-	{
+	public Byte getType() {
 		return type;
 	}
 
-	public void setType(Byte type)
-	{
+	public void setType(Byte type) {
 		this.type = type;
 	}
 
-	public Boolean getEnable()
-	{
+	public Boolean getEnable() {
 		return enable;
 	}
 
-	public void setEnable(Boolean enable)
-	{
+	public void setEnable(Boolean enable) {
 		this.enable = enable;
+	}
+
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
 	}
 }

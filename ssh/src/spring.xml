@@ -76,5 +76,5 @@
 	<import resource="classpath:config/spring-memcached.xml"/>
 	
 	<!-- mongodb -->
-	<import resource="classpath:config/spring-mongodb.xml"/>
+	<import resource="classpath:config/spring-mongo.xml"/>
 </beans>

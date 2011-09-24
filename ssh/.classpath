@@ -202,5 +202,11 @@
 	<classpathentry kind="lib" path="lib/jwebap/jxl.jar"/>
 	<classpathentry kind="lib" path="lib/jwebap/tracer_0.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/common/commons-betwixt-0.8.jar"/>
+	<classpathentry kind="lib" path="lib/springdata/spring-data-mongodb-1.0.0.M4.jar"/>
+	<classpathentry kind="lib" path="lib/springdata/spring-data-mongodb-cross-store-1.0.0.M4.jar"/>
+	<classpathentry kind="lib" path="lib/springdata/spring-data-mongodb-log4j-1.0.0.M4.jar"/>
+	<classpathentry kind="lib" path="lib/mongodb/mongo-2.6.5.jar"/>
+	<classpathentry kind="lib" path="lib/springdata/spring-data-commons-core-1.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/common/commons-configuration-1.7.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
