@@ -2,6 +2,8 @@ package com.bamboo.maifang.action.rent;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.bamboo.maifang.action.skeleton.MetadataUnitAction;
 import com.bamboo.maifang.action.vo.RentHouseVO;
@@ -11,6 +13,8 @@ import com.bamboo.maifang.model.Data.DataType;
 import com.bamboo.maifang.model.RentHouse;
 import com.bamboo.maifang.model.User;
 
+@Component("rentHouseAction")
+@Scope("singleton")
 public class RentHouseAction extends MetadataUnitAction {
 
 	private static final long serialVersionUID = 1L;
