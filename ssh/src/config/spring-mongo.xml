@@ -28,7 +28,7 @@
 	<mongo:db-factory id="anotherMongoDbFactory" host="localhost" port="27017" dbname="database" username="joe" password="secret"/>
 	-->
 	
-	<mongo:mongo id="mongo" host="192.168.2.101" port="27017"/>
+	<mongo:mongo id="mongo" host="${mongodb.host}" port="${mongodb.port}"/>
 	
 	<!-- 
 	<mongo:db-factory dbname="anders" mongo-ref="mongo"/>
@@ -36,7 +36,7 @@
 	
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongo"/>
-		<constructor-arg name="databaseName" value="anders"/>
+		<constructor-arg name="databaseName" value="${mongodb.databaseName}"/>
 	</bean>
 	
 	<!--  
