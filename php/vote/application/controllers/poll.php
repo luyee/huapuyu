@@ -4,8 +4,16 @@ if (!defined('BASEPATH'))
 
 class Poll extends CI_Controller
 {
-	public function save()
+	public function saveInput()
 	{
+		$this->load->helper('form');
 		$this->load->view('poll/save');
 	}
+	
+	public function save()
+	{
+		$this->load->model('MPoll', '', TRUE);
+		$this->MPoll->insert();
+	}
 }
+?>

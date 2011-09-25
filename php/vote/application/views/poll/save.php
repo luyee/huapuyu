@@ -7,39 +7,13 @@
 	</head>
 	
 	<body>
-		<form>
-			<table summary="">
-				<tr>
-					<td>
-						标题：<input />
-					</td>
-				</tr>
-				<tr>	
-					<td>
-						<input />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<input />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<input />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<input />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<input type="submit" value="创建" />
-					</td>
-				</tr>
-			</table>			
-		</form>		
+		<?php
+		echo form_open('poll/save');
+		echo form_label('标题：', 'title');
+		$title = array('name' => 'title', 'id' => 'title');
+		echo form_input($title);
+		echo form_submit('submit', '提交保存');
+		echo form_close();
+		?>	
 	</body>
 </html>
