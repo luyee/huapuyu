@@ -1,4 +1,4 @@
-package dao;
+package utils;
 
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
@@ -28,22 +28,10 @@ package dao;
 {$IMPLICITBUILD ON}
 
 requires
-  rtl,
-  vcl,
-  dsnap,
-  dbrtl,
-  dbexpress,
-  DbxCommonDriver,
-  dbxcds,
-  DBXFirebirdDriver;
+  rtl;
 
 contains
-  sql in 'sql.pas',
-  utils in 'utils.pas',
-  dataset in 'dataset.pas',
-  orm in 'orm.pas';
+  constant in 'constant.pas',
+  stringBuilder in 'stringBuilder.pas';
 
 end.
-
-
-

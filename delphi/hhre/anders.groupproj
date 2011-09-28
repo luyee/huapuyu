@@ -1,0 +1,84 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{CF3B2132-393B-4FB5-918A-231AC30A911B}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="maizu.dproj">
+				<Dependencies>dao.dproj</Dependencies>
+			</Projects>
+			<Projects Include="dao.dproj">
+				<Dependencies>utils.dproj</Dependencies>
+			</Projects>
+			<Projects Include="test.dproj">
+				<Dependencies>dao.dproj;utils.dproj</Dependencies>
+			</Projects>
+			<Projects Include="model.dproj">
+				<Dependencies>dao.dproj</Dependencies>
+			</Projects>
+			<Projects Include="utils.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="maizu" DependsOnTargets="dao">
+			<MSBuild Projects="maizu.dproj"/>
+		</Target>
+		<Target Name="maizu:Clean" DependsOnTargets="dao:Clean">
+			<MSBuild Projects="maizu.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="maizu:Make" DependsOnTargets="dao:Make">
+			<MSBuild Projects="maizu.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="dao" DependsOnTargets="utils">
+			<MSBuild Projects="dao.dproj"/>
+		</Target>
+		<Target Name="dao:Clean" DependsOnTargets="utils:Clean">
+			<MSBuild Projects="dao.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="dao:Make" DependsOnTargets="utils:Make">
+			<MSBuild Projects="dao.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="test" DependsOnTargets="dao;utils">
+			<MSBuild Projects="test.dproj"/>
+		</Target>
+		<Target Name="test:Clean" DependsOnTargets="dao:Clean;utils:Clean">
+			<MSBuild Projects="test.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="test:Make" DependsOnTargets="dao:Make;utils:Make">
+			<MSBuild Projects="test.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="model" DependsOnTargets="dao">
+			<MSBuild Projects="model.dproj"/>
+		</Target>
+		<Target Name="model:Clean" DependsOnTargets="dao:Clean">
+			<MSBuild Projects="model.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="model:Make" DependsOnTargets="dao:Make">
+			<MSBuild Projects="model.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="utils">
+			<MSBuild Projects="utils.dproj"/>
+		</Target>
+		<Target Name="utils:Clean">
+			<MSBuild Projects="utils.dproj" Targets="Clean"/>
+		</Target>
+		<Target Name="utils:Make">
+			<MSBuild Projects="utils.dproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="maizu;dao;test;model;utils"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="maizu:Clean;dao:Clean;test:Clean;model:Clean;utils:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="maizu:Make;dao:Make;test:Make;model:Make;utils:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

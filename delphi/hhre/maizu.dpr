@@ -1,4 +1,4 @@
-program app;
+program maizu;
 
 uses
   Forms,
@@ -10,18 +10,18 @@ uses
   shhEdit in 'shhEdit.pas' {FrmEdit},
   shhNew in 'shhNew.pas' {FrmNew},
   config in 'config.pas',
-  constant in 'constant.pas',
   common in 'common.pas',
   validator in 'validator.pas',
   sqlScript in 'sqlScript.pas',
-  stringBuilder in 'stringBuilder.pas',
-  page in 'page.pas';
+  page in 'page.pas',
+  Vcl.Themes,
+  Vcl.Styles;
 
 {$R *.RES}
 
 begin
   Application.Initialize;
-  Application.Title := '夯夯房产中介管理软件';
+  Application.Title := '卖猪房地产软件';
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TfrmAbout, frmAbout);
   Application.Run;
