@@ -46,6 +46,9 @@
 	<!-- ibatis -->
 	<import resource="classpath:config/spring-ibatis.xml"/>
 	
+	<!-- mybatis -->
+	<import resource="classpath:config/spring-mybatis.xml"/>
+	
 	<!-- jpa -->
 	<import resource="classpath:config/spring-jpa.xml"/>
 	

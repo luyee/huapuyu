@@ -208,5 +208,7 @@
 	<classpathentry kind="lib" path="lib/mongodb/mongo-2.6.5.jar"/>
 	<classpathentry kind="lib" path="lib/springdata/spring-data-commons-core-1.1.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/common/commons-configuration-1.7.jar"/>
+	<classpathentry kind="lib" path="lib/mybatis/mybatis-3.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/mybatis/mybatis-spring-1.0.1.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
