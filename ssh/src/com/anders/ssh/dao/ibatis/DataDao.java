@@ -7,41 +7,35 @@ import org.springframework.stereotype.Component;
 import com.anders.ssh.model.xml.Data;
 
 @Component("ibatisDataDao")
-public class DataDao extends IbatisDao<Integer, Data>
-{
+public class DataDao extends IbatisDao<Integer, Data> {
 	@Override
-	public void delete(Data entity)
-	{
+	public void delete(Data entity) {
 		getSqlMapClientTemplate().delete("dataDelete", entity);
 	}
 
 	@Override
-	public Data getById(Integer id)
-	{
+	public Data getById(Integer id) {
 		return (Data) getSqlMapClientTemplate().queryForObject("dataGetById", id);
 	}
 
 	@Override
-	public void save(Data entity)
-	{
+	public void save(Data entity) {
 		getSqlMapClientTemplate().insert("dataSave", entity);
 	}
 
 	@Override
-	public void update(Data entity)
-	{
+	public void update(Data entity) {
 		getSqlMapClientTemplate().update("dataUpdate", entity);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Data> getAll()
-	{
+	public List<Data> getAll() {
 		return getSqlMapClientTemplate().queryForList("dataGetAll");
 	}
 
 	@Override
-	public void deleteById(Integer id)
-	{
+	public void deleteById(Integer id) {
 		getSqlMapClientTemplate().delete("dataDeleteById", id);
 	}
 
