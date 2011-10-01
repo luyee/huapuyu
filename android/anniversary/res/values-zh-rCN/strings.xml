@@ -6,7 +6,7 @@
     <string name="sendmsg_button2">Send Message</string>
     <string name="calculator">Calculator</string>
     <string name="add_textView1">Hello World</string>
-    <string name="cal_mul">Multiply</string>
-    <string name="cal_result">Result</string>
-    <string name="cal_cal">Calculate</string>
+    <string name="cal_mul">乘以</string>
+    <string name="cal_result">结果</string>
+    <string name="cal_cal">计算</string>
 </resources>

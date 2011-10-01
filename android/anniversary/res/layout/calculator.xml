@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <EditText android:layout_height="wrap_content" android:id="@+id/edtCal1" android:layout_width="fill_parent" android:inputType="number"></EditText>
+    <TextView android:text="TextView" android:id="@+id/txtCal1" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+    <EditText android:layout_height="wrap_content" android:id="@+id/edtCal2" android:layout_width="fill_parent" android:inputType="number"></EditText>
+    <TextView android:text="TextView" android:id="@+id/txtCal2" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+    <EditText android:layout_height="wrap_content" android:id="@+id/edtCal3" android:layout_width="fill_parent" android:inputType="number"></EditText>
+    <Button android:text="Button" android:id="@+id/btnCal1" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+</LinearLayout>
