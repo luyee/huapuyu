@@ -16,8 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_resource")
-public class Resource implements Serializable
-{
+public class Resource implements Serializable {
 	private static final long serialVersionUID = 943640614451654490L;
 
 	/**
@@ -47,61 +46,45 @@ public class Resource implements Serializable
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "resource")
 	// TODO Collections.emptySet()和new HashSet<RoleResourceRelation>(0)作用一样，创建一个size=0的HashSet
 	// private Set<RoleResourceRelation> roleResourceRelationSet = new HashSet<RoleResourceRelation>(0);
-	private Set<RoleResourceRelation> roleResourceRelationSet = Collections.emptySet();
+	private Set<RoleToResource> roleToResourceSet = Collections.emptySet();
 
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getContent()
-	{
+	public String getContent() {
 		return content;
 	}
 
-	public void setContent(String content)
-	{
+	public void setContent(String content) {
 		this.content = content;
 	}
 
-	public Boolean getEnable()
-	{
+	public Boolean getEnable() {
 		return enable;
 	}
 
-	public void setEnable(Boolean enable)
-	{
+	public void setEnable(Boolean enable) {
 		this.enable = enable;
 	}
 
-	public Set<RoleResourceRelation> getRoleResourceRelationSet()
-	{
-		return roleResourceRelationSet;
+	public Set<RoleToResource> getRoleToResourceSet() {
+		return roleToResourceSet;
 	}
 
-	public void setRoleResourceRelationSet(Set<RoleResourceRelation> roleResourceRelationSet)
-	{
-		this.roleResourceRelationSet = roleResourceRelationSet;
-	}
-
-	public static void main(String[] args)
-	{
-		Resource resource = new Resource();
-		System.out.println(resource.getRoleResourceRelationSet().size());
+	public void setRoleToResourceSet(Set<RoleToResource> roleToResourceSet) {
+		this.roleToResourceSet = roleToResourceSet;
 	}
 }

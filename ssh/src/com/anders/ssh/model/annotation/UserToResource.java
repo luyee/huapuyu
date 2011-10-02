@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "rlt_user_resource")
-public class UserResourceRelation implements Serializable
+public class UserToResource implements Serializable
 {
 
 	private static final long serialVersionUID = 1L;

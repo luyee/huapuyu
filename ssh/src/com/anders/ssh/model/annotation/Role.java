@@ -16,8 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_role")
-public class Role implements Serializable
-{
+public class Role implements Serializable {
 
 	private static final long serialVersionUID = -3030596606244316907L;
 
@@ -41,76 +40,64 @@ public class Role implements Serializable
 	 * 角色和资源关系
 	 */
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "role")
-	private Set<RoleResourceRelation> roleResourceRelationSet = Collections.emptySet();
+	private Set<RoleToResource> roleToResource = Collections.emptySet();
 	/**
 	 * 用户和角色关系
 	 */
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "role")
-	private Set<UserRoleRelation> userRoleRelationSet = Collections.emptySet();
+	private Set<UserToRole> userToRoleSet = Collections.emptySet();
 	/**
 	 * 用户组和角色关系
 	 */
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "role")
-	private Set<UserGroupRoleRelation> userGroupRoleRelationSet = Collections.emptySet();
+	private Set<UserGroupToRole> userGroupToRoleSet = Collections.emptySet();
 
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public Boolean getEnable()
-	{
+	public Boolean getEnable() {
 		return enable;
 	}
 
-	public void setEnable(Boolean enable)
-	{
+	public void setEnable(Boolean enable) {
 		this.enable = enable;
 	}
 
-	public Set<RoleResourceRelation> getRoleResourceRelationSet()
-	{
-		return roleResourceRelationSet;
+	public Set<UserToRole> getUserToRoleSet() {
+		return userToRoleSet;
 	}
 
-	public void setRoleResourceRelationSet(Set<RoleResourceRelation> roleResourceRelationSet)
-	{
-		this.roleResourceRelationSet = roleResourceRelationSet;
+	public void setUserToRoleSet(Set<UserToRole> userToRoleSet) {
+		this.userToRoleSet = userToRoleSet;
 	}
 
-	public Set<UserRoleRelation> getUserRoleRelationSet()
-	{
-		return userRoleRelationSet;
+	public Set<UserGroupToRole> getUserGroupToRoleSet() {
+		return userGroupToRoleSet;
 	}
 
-	public void setUserRoleRelationSet(Set<UserRoleRelation> userRoleRelationSet)
-	{
-		this.userRoleRelationSet = userRoleRelationSet;
+	public void setUserGroupToRoleSet(Set<UserGroupToRole> userGroupToRoleSet) {
+		this.userGroupToRoleSet = userGroupToRoleSet;
 	}
 
-	public Set<UserGroupRoleRelation> getUserGroupRoleRelationSet()
-	{
-		return userGroupRoleRelationSet;
+	public Set<RoleToResource> getRoleToResource() {
+		return roleToResource;
 	}
 
-	public void setUserGroupRoleRelationSet(Set<UserGroupRoleRelation> userGroupRoleRelationSet)
-	{
-		this.userGroupRoleRelationSet = userGroupRoleRelationSet;
+	public void setRoleToResource(Set<RoleToResource> roleToResource) {
+		this.roleToResource = roleToResource;
 	}
 
 }

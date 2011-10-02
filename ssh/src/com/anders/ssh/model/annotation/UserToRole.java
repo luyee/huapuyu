@@ -12,17 +12,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "rlt_usergroup_role")
-public class UserGroupRoleRelation implements Serializable
+@Table(name = "rlt_user_role")
+public class UserToRole implements Serializable
 {
-	private static final long serialVersionUID = -2854036498672572295L;
+
+	private static final long serialVersionUID = 8451210369347079613L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_group_id")
-	private UserGroup userGroup;
+	@JoinColumn(name = "user_id")
+	private User user;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id")
 	private Role role;
@@ -37,14 +38,14 @@ public class UserGroupRoleRelation implements Serializable
 		this.id = id;
 	}
 
-	public UserGroup getUserGroup()
+	public User getUser()
 	{
-		return userGroup;
+		return user;
 	}
 
-	public void setUserGroup(UserGroup userGroup)
+	public void setUser(User user)
 	{
-		this.userGroup = userGroup;
+		this.user = user;
 	}
 
 	public Role getRole()

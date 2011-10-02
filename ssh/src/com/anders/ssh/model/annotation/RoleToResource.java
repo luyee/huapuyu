@@ -12,8 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "rlt_user_role")
-public class UserRoleRelation implements Serializable
+@Table(name = "rlt_role_resource")
+public class RoleToResource implements Serializable
 {
 
 	private static final long serialVersionUID = 8451210369347079613L;
@@ -22,8 +22,8 @@ public class UserRoleRelation implements Serializable
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private User user;
+	@JoinColumn(name = "resource_id")
+	private Resource resource;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id")
 	private Role role;
@@ -38,14 +38,14 @@ public class UserRoleRelation implements Serializable
 		this.id = id;
 	}
 
-	public User getUser()
+	public Resource getResource()
 	{
-		return user;
+		return resource;
 	}
 
-	public void setUser(User user)
+	public void setResource(Resource resource)
 	{
-		this.user = user;
+		this.resource = resource;
 	}
 
 	public Role getRole()
@@ -57,4 +57,5 @@ public class UserRoleRelation implements Serializable
 	{
 		this.role = role;
 	}
+
 }

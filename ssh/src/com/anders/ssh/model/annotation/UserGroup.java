@@ -16,8 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_user_group")
-public class UserGroup implements Serializable
-{
+public class UserGroup implements Serializable {
 	private static final long serialVersionUID = 1260103790785321166L;
 
 	/**
@@ -40,61 +39,51 @@ public class UserGroup implements Serializable
 	 * 用户组和角色关系
 	 */
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "userGroup")
-	private Set<UserGroupRoleRelation> userGroupRoleRelationSet = Collections.emptySet();
+	private Set<UserGroupToRole> userGroupToRoleSet = Collections.emptySet();
 	/**
 	 * 用户和用户组关系
 	 */
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "userGroup")
-	private Set<UserUserGroupRelation> userUserGroupRelationSet = Collections.emptySet();
+	private Set<UserToUserGroup> userToUserGroupSet = Collections.emptySet();
 
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public Boolean getEnable()
-	{
+	public Boolean getEnable() {
 		return enable;
 	}
 
-	public void setEnable(Boolean enable)
-	{
+	public void setEnable(Boolean enable) {
 		this.enable = enable;
 	}
 
-	public Set<UserGroupRoleRelation> getUserGroupRoleRelationSet()
-	{
-		return userGroupRoleRelationSet;
+	public Set<UserGroupToRole> getUserGroupToRoleSet() {
+		return userGroupToRoleSet;
 	}
 
-	public void setUserGroupRoleRelationSet(Set<UserGroupRoleRelation> userGroupRoleRelationSet)
-	{
-		this.userGroupRoleRelationSet = userGroupRoleRelationSet;
+	public void setUserGroupToRoleSet(Set<UserGroupToRole> userGroupToRoleSet) {
+		this.userGroupToRoleSet = userGroupToRoleSet;
 	}
 
-	public Set<UserUserGroupRelation> getUserUserGroupRelationSet()
-	{
-		return userUserGroupRelationSet;
+	public Set<UserToUserGroup> getUserToUserGroupSet() {
+		return userToUserGroupSet;
 	}
 
-	public void setUserUserGroupRelationSet(Set<UserUserGroupRelation> userUserGroupRelationSet)
-	{
-		this.userUserGroupRelationSet = userUserGroupRelationSet;
+	public void setUserToUserGroupSet(Set<UserToUserGroup> userToUserGroupSet) {
+		this.userToUserGroupSet = userToUserGroupSet;
 	}
 
 }

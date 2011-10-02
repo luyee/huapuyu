@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "rlt_user_usergroup")
-public class UserUserGroupRelation implements Serializable
+public class UserToUserGroup implements Serializable
 {
 
 	private static final long serialVersionUID = -5101807423446782468L;

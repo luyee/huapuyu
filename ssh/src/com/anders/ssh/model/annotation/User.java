@@ -22,8 +22,7 @@ import com.anders.ssh.common.Constant;
 
 @Entity
 @Table(name = "tb_user")
-public class User implements UserDetails
-{
+public class User implements UserDetails {
 	private static final long serialVersionUID = 4766918848108919655L;
 
 	/**
@@ -58,12 +57,12 @@ public class User implements UserDetails
 	 * 用户和角色关系
 	 */
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<UserRoleRelation> userRoleRelationSet = Collections.emptySet();
+	private Set<UserToRole> userToRoleSet = Collections.emptySet();
 	/**
 	 * 用户和用户组关系
 	 */
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<UserUserGroupRelation> userUserGroupRelationSet = Collections.emptySet();
+	private Set<UserToUserGroup> userToUserGroupSet = Collections.emptySet();
 
 	// ************************************************************
 	// 以下为UserDetails接口的实现方法，专门用于Spring Security
@@ -73,44 +72,37 @@ public class User implements UserDetails
 	private Collection<GrantedAuthority> authorities;
 
 	@Override
-	public Collection<GrantedAuthority> getAuthorities()
-	{
+	public Collection<GrantedAuthority> getAuthorities() {
 		return this.authorities;
 	}
 
 	@Override
-	public String getPassword()
-	{
+	public String getPassword() {
 		return this.password;
 	}
 
 	@Override
-	public String getUsername()
-	{
+	public String getUsername() {
 		return this.userName;
 	}
 
 	@Override
-	public boolean isAccountNonExpired()
-	{
+	public boolean isAccountNonExpired() {
 		return true;
 	}
 
 	@Override
-	public boolean isAccountNonLocked()
-	{
+	public boolean isAccountNonLocked() {
 		return true;
 	}
 
 	@Override
-	public boolean isCredentialsNonExpired()
-	{
+	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
 	@Override
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		return this.enable;
 	}
 
@@ -118,63 +110,51 @@ public class User implements UserDetails
 	// getters and setters
 	// ************************************************************
 
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getUserName()
-	{
+	public String getUserName() {
 		return userName;
 	}
 
-	public void setUserName(String userName)
-	{
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public Set<UserRoleRelation> getUserRoleRelationSet()
-	{
-		return userRoleRelationSet;
+	public Set<UserToRole> getUserToRoleSet() {
+		return userToRoleSet;
 	}
 
-	public void setUserRoleRelationSet(Set<UserRoleRelation> userRoleRelationSet)
-	{
-		this.userRoleRelationSet = userRoleRelationSet;
+	public void setUserToRoleSet(Set<UserToRole> userToRoleSet) {
+		this.userToRoleSet = userToRoleSet;
 	}
 
-	public Set<UserUserGroupRelation> getUserUserGroupRelationSet()
-	{
-		return userUserGroupRelationSet;
+	public Set<UserToUserGroup> getUserToUserGroupSet() {
+		return userToUserGroupSet;
 	}
 
-	public void setUserUserGroupRelationSet(Set<UserUserGroupRelation> userUserGroupRelationSet)
-	{
-		this.userUserGroupRelationSet = userUserGroupRelationSet;
+	public void setUserToUserGroupSet(Set<UserToUserGroup> userToUserGroupSet) {
+		this.userToUserGroupSet = userToUserGroupSet;
 	}
 
-	public void setPassword(String password)
-	{
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	public void setEnable(Boolean enable)
-	{
+	public void setEnable(Boolean enable) {
 		this.enable = enable;
 	}
 }
