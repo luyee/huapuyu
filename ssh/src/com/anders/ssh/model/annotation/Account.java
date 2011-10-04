@@ -1,12 +1,15 @@
 package com.anders.ssh.model.annotation;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -25,9 +28,8 @@ public class Account implements Serializable {
 	private Long id;
 	@Column(nullable = true, length = 50)
 	private String name;
-
-	// @ManyToMany(mappedBy = "accounts", targetEntity = Company.class)
-	// private List<Company> companies = Collections.emptyList();
+	@ManyToMany(mappedBy = "accounts", targetEntity = Company.class)
+	private List<Company> companies = new ArrayList<Company>(0);
 
 	public Long getId() {
 		return id;
@@ -37,13 +39,13 @@ public class Account implements Serializable {
 		this.id = id;
 	}
 
-	// public List<Company> getCompanies() {
-	// return companies;
-	// }
-	//
-	// public void setCompanies(List<Company> companies) {
-	// this.companies = companies;
-	// }
+	public List<Company> getCompanies() {
+		return companies;
+	}
+
+	public void setCompanies(List<Company> companies) {
+		this.companies = companies;
+	}
 
 	public String getName() {
 		return name;

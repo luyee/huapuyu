@@ -1,9 +1,10 @@
 package com.anders.ssh.model.annotation;
 
 import java.io.Serializable;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -37,12 +39,12 @@ public class Company implements Serializable {
 	@JoinColumn(name = "company_info_id")
 	private CompanyInfo companyInfo;
 	// 一对多
-	// @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "company")
-	// private List<Department> departments = Collections.emptyList();
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "company")
+	private List<Department> departments = new ArrayList<Department>(0);
 	// 多对多
 	@ManyToMany(targetEntity = Account.class)
 	@JoinTable(name = "rlt_company_account", joinColumns = @JoinColumn(name = "company_id"), inverseJoinColumns = @JoinColumn(name = "account_id"))
-	private List<Account> accounts = Collections.emptyList();
+	private List<Account> accounts = new ArrayList<Account>(0);
 
 	public Long getId() {
 		return id;
@@ -68,13 +70,13 @@ public class Company implements Serializable {
 		this.companyInfo = companyInfo;
 	}
 
-	// public List<Department> getDepartments() {
-	// return departments;
-	// }
-	//
-	// public void setDepartments(List<Department> departments) {
-	// this.departments = departments;
-	// }
+	public List<Department> getDepartments() {
+		return departments;
+	}
+
+	public void setDepartments(List<Department> departments) {
+		this.departments = departments;
+	}
 
 	public List<Account> getAccounts() {
 		return accounts;

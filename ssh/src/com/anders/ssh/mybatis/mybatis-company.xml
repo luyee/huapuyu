@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anders.ssh.dao.mybatis.CompanyMapper">
+	<resultMap id="companyMap" type="com.anders.ssh.model.annotation.Company">
+	    <id column="company_id" property="id" jdbcType="BIGINT" />
+	    <result column="company_name" property="name" jdbcType="VARCHAR" />
+	    <!--  
+    	<association property="companyInfo" column="company_info_id" javaType="com.anders.ssh.model.annotation.CompanyInfo">
+    		<id column="info_id" property="id" jdbcType="BIGINT" />
+			<result column="info" property="info" jdbcType="VARCHAR" />
+    	</association>
+    	-->
+    	<!--  
+		<association property="companyInfo" column="company_info_id" javaType="com.anders.ssh.model.annotation.CompanyInfo" select="getCompanyInfoById" />
+    	<collection property="departments" column="id" javaType="ArrayList" ofType="com.anders.ssh.model.annotation.Department" select="getDepartmentsById" />
+    	<collection property="account" column="company_id" javaType="ArrayList" ofType="com.anders.ssh.model.annotation.Account" select="getAccountsById" />
+    	-->
+    	<association property="companyInfo" column="company_info_id" javaType="com.anders.ssh.model.annotation.CompanyInfo" resultMap="companyInfoMap" />
+    	<collection property="departments" javaType="ArrayList" ofType="com.anders.ssh.model.annotation.Department" resultMap="departmentMap" />
+    	<collection property="accounts" javaType="ArrayList" ofType="com.anders.ssh.model.annotation.Account" resultMap="accountMap" />
+	</resultMap>
+	
+	<!-- company -->
+	<resultMap id="companyInfoMap" type="com.anders.ssh.model.annotation.CompanyInfo">
+		<id column="info_id" property="id" jdbcType="BIGINT" />
+		<result column="info_info" property="info" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="getCompanyInfoById" parameterType="Long" resultMap="companyInfoMap">
+    	SELECT id info_id, info info_info FROM tb_company_info WHERE id = #{id}
+  	</select>
+  	
+  	<!-- department -->
+  	<resultMap id="departmentMap" type="com.anders.ssh.model.annotation.Department">
+		<id column="depart_id" property="id" jdbcType="BIGINT" />
+		<result column="depart_name" property="name" jdbcType="VARCHAR" />
+	</resultMap>
+  	
+  	<select id="getDepartmentsById" parameterType="Long" resultMap="departmentMap">
+    	SELECT id depart_id, name depart_name FROM tb_department WHERE company_id = #{id}
+  	</select>
+  	
+  	<!-- account -->
+  	<resultMap id="accountMap" type="com.anders.ssh.model.annotation.Account">
+		<id column="account_id" property="id" jdbcType="BIGINT" />
+		<result column="account_name" property="name" jdbcType="VARCHAR" />
+	</resultMap>
+  	
+  	<select id="getAccountsById" parameterType="Long" resultMap="accountMap">
+    	SELECT a.id account_id, a.name account_name FROM tb_account a, rlt_company_account b WHERE a.id = b.account_id AND b.company_id = #{id}
+  	</select>
+  	
+  	<!-- sql by sql -->
+  	<select id="getAllSqlBySql" resultMap="companyMap">
+    	SELECT id company_id, name company_name, company_info_id FROM tb_company
+  	</select>
+  	
+  	<!-- all -->
+  	<select id="getAll" resultMap="companyMap">
+    	SELECT a.id company_id, a.name company_name, a.company_info_id, b.id info_id, b.info info_info, c.id depart_id, c.name depart_name, d.id account_id, d.name account_name 
+    	FROM tb_company a, tb_company_info b, tb_department c, tb_account d, rlt_company_account e
+    	WHERE a.company_info_id = b.id AND a.id = c.company_id AND a.id = e.company_id AND e.account_id = d.id
+  	</select>
+</mapper>
