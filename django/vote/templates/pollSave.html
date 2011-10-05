@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>投票--创建新投票</title>
+</head>
+<body>
+    <form action="http://127.0.0.1:8000/poll/save/" method="post">
+        <p>标题：<input type="text" name="title" id="title"></p>
+        <p>备注：<input type="text" name="remark" id="remark"></p>
+        <p>A：<input type="text" name="item_title1" id="item_title1"></p>
+        <p>B：<input type="text" name="item_title2" id="item_title2"></p>
+        <p>C：<input type="text" name="item_title3" id="item_title3"></p>
+        <p>D：<input type="text" name="item_title4" id="item_title4"></p>
+        <input type="submit" value="保存">
+    </form>
+</body>
+</html>
