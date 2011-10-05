@@ -10,6 +10,14 @@
 	<!-- 如果用xml来配置事务，则可以删除下面的配置 -->
 	<tx:annotation-driven transaction-manager="hibernateTxManager"/>
 	
+	<bean id="dataSourceAdvice" class="com.anders.ssh.aop.spring.DataSourceAdvice" />
+	<aop:config>
+		<!--  
+		<aop:advisor pointcut="execution(* com.anders.ssh.dao..*Dao.*(..))" advice-ref="dataSourceAdvice" />
+		-->
+		<aop:advisor pointcut="execution(* com.anders.ssh.dao.hibernate.DataDaoImpl.*(..))" advice-ref="dataSourceAdvice" />
+	</aop:config>
+	
 	<!-- 以下用来配置事务 -->
 	<!--
 	<aop:config>
