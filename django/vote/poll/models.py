@@ -4,8 +4,8 @@ class Poll(models.Model):
 #    id = models.BigIntegerField(primary_key=True)
     title = models.CharField(max_length=50, null=False)
     remark = models.CharField(max_length=50)
-    createTime = models.DateTimeField(db_column="create_time")
-    updateTime = models.DateTimeField(db_column="update_time")
+    createTime = models.DateTimeField(db_column="create_time", null=True)
+    updateTime = models.DateTimeField(db_column="update_time", null=True)
     enable = models.BooleanField(default=True)
 
     class Meta:
