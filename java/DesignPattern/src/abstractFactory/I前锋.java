@@ -1,8 +1,8 @@
 package abstractFactory;
 
-public interface IÇ°·æ
+public interface Iå‰é”‹
 {
-	void ĞÕÃû();
+	void å§“å();
 
-	void ÄêÁä();
+	void å¹´é¾„();
 }

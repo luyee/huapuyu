@@ -31,23 +31,23 @@ public class Tester
 	@Test
 	public void test()
 	{
-		I¾ãÀÖ²¿ club = new ÓÈÎÄÍ¼Ë¹();
-		IÇ°·æ forward = club.factoryÇ°·æ();
-		IÇò³¡ field = club.factoryÇò³¡();
-		forward.ĞÕÃû();
-		forward.ÄêÁä();
-		field.Ãû³Æ();
-		field.µØµã();
+		Iä¿±ä¹éƒ¨ club = new å°¤æ–‡å›¾æ–¯();
+		Iå‰é”‹ forward = club.factoryå‰é”‹();
+		Içƒåœº field = club.factoryçƒåœº();
+		forward.å§“å();
+		forward.å¹´é¾„();
+		field.åç§°();
+		field.åœ°ç‚¹();
 
-		club = new »Ê¼ÒÂíµÂÀï();
-		forward = club.factoryÇ°·æ();
-		field = club.factoryÇò³¡();
-		forward.ĞÕÃû();
-		forward.ÄêÁä();
-		field.Ãû³Æ();
-		field.µØµã();
+		club = new çš‡å®¶é©¬å¾·é‡Œ();
+		forward = club.factoryå‰é”‹();
+		field = club.factoryçƒåœº();
+		forward.å§“å();
+		forward.å¹´é¾„();
+		field.åç§°();
+		field.åœ°ç‚¹();
 
-		// BeanFactoryÊÇ³éÏó¹¤³§Ä£Ê½£¬µ«²»ÊÇÌ«µäĞÍ£¬ĞèÒªÕÒÒ»¸öµäĞÍµÄ³éÏó¹¤³§Ä£Ê½
+		// BeanFactoryæ˜¯æŠ½è±¡å·¥å‚æ¨¡å¼ï¼Œä½†ä¸æ˜¯å¤ªå…¸å‹ï¼Œéœ€è¦æ‰¾ä¸€ä¸ªå…¸å‹çš„æŠ½è±¡å·¥å‚æ¨¡å¼
 		// XmlBeanFactory
 	}
 }

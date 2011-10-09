@@ -1,8 +1,8 @@
 package abstractFactory;
 
-public interface I¾ãÀÖ²¿
+public interface Iä¿±ä¹éƒ¨
 {
-	public IÇ°·æ factoryÇ°·æ();
+	public Iå‰é”‹ factoryå‰é”‹();
 
-	public IÇò³¡ factoryÇò³¡();
+	public Içƒåœº factoryçƒåœº();
 }

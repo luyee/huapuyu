@@ -1,15 +1,15 @@
 package abstractFactory;
 
-public class CÂŞ implements IÇ°·æ
+public class Cç½— implements Iå‰é”‹
 {
 	@Override
-	public void ĞÕÃû()
+	public void å§“å()
 	{
-		System.out.println("CÂŞ");
+		System.out.println("Cç½—");
 	}
 
 	@Override
-	public void ÄêÁä()
+	public void å¹´é¾„()
 	{
 		System.out.println(24);
 	}

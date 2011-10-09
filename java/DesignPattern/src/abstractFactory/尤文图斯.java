@@ -1,18 +1,18 @@
 package abstractFactory;
 
-public class ÓÈÎÄÍ¼Ë¹ implements I¾ãÀÖ²¿
+public class å°¤æ–‡å›¾æ–¯ implements Iä¿±ä¹éƒ¨
 {
 
 	@Override
-	public IÇ°·æ factoryÇ°·æ()
+	public Iå‰é”‹ factoryå‰é”‹()
 	{
-		return new Æ¤Ò®ÂŞ();
+		return new çš®è€¶ç½—();
 	}
 
 	@Override
-	public IÇò³¡ factoryÇò³¡()
+	public Içƒåœº factoryçƒåœº()
 	{
-		return new °¢¶û±°Çò³¡();
+		return new é˜¿å°”å‘çƒåœº();
 	}
 
 }

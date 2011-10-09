@@ -1,8 +1,8 @@
 package abstractFactory;
 
-public interface I球场
+public interface I鐞冨満
 {
-	void 名称();
+	void 鍚嶇О();
 
-	void 地点();
+	void 鍦扮偣();
 }

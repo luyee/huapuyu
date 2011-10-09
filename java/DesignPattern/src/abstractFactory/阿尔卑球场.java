@@ -1,16 +1,16 @@
 package abstractFactory;
 
-public class °¢¶û±°Çò³¡ implements IÇò³¡
+public class é˜¿å°”å‘çƒåœº implements Içƒåœº
 {
 	@Override
-	public void Ãû³Æ()
+	public void åç§°()
 	{
-		System.out.println("°¢¶û±°Çò³¡");
+		System.out.println("é˜¿å°”å‘çƒåœº");
 	}
 
 	@Override
-	public void µØµã()
+	public void åœ°ç‚¹()
 	{
-		System.out.println("¶¼Áé");
+		System.out.println("éƒ½çµ");
 	}
 }
