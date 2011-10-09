@@ -1,7 +1,7 @@
 package bridge;
 
 /*
- * ʵ�ֻ�
+ * 实现化
  */
 public abstract class Implementor
 {

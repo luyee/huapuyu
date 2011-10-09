@@ -1,7 +1,7 @@
 package bridge;
 
 /*
- * ĞŞÕı³éÏó»¯
+ * ä¿®æ­£æŠ½è±¡åŒ–
  */
 public class RefinedAbstraction extends Abstraction
 {
@@ -9,6 +9,6 @@ public class RefinedAbstraction extends Abstraction
 	public void operation()
 	{
 		// implementor.Operation();
-		System.out.println("ĞŞÕı³éÏó»¯½ÇÉ«µÄÊµÏÖ");
+		System.out.println("ä¿®æ­£æŠ½è±¡åŒ–è§’è‰²çš„å®ç°");
 	}
 }

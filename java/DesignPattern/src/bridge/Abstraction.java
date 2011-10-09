@@ -1,7 +1,7 @@
 package bridge;
 
 /*
- * ³éÏó»¯
+ * æŠ½è±¡åŒ–
  */
 public abstract class Abstraction
 {

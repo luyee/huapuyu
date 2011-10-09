@@ -1,13 +1,13 @@
 package bridge;
 
 /*
- * ¾ßÌåÊµÏÖ»¯
+ * å…·ä½“å®ç°åŒ–
  */
 public class ConcreteImplementorA extends Implementor
 {
 	@Override
 	public void operation()
 	{
-		System.out.println("AµÄ²Ù×÷·½·¨");
+		System.out.println("Açš„æ“ä½œæ–¹æ³•");
 	}
 }
