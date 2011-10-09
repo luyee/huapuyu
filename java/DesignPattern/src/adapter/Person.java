@@ -4,11 +4,11 @@ public class Person extends PersonEat
 {
 	public void eatBread()
 	{
-		System.out.println("我在吃面包！");
+		System.out.println("鎴戝湪鍚冮潰鍖咃紒");
 	}
 
 	public void eatApple()
 	{
-		System.out.println("我在吃苹果！");
+		System.out.println("鎴戝湪鍚冭嫻鏋滐紒");
 	}
 }
