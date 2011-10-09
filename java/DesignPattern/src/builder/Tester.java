@@ -31,7 +31,7 @@ public class Tester
 	@Test
 	public void test()
 	{
-		new Director(new ConcreteBuilder1()).construct("ÖìÕñ", "¹ùÁ¢Á¢");
-		new Director(new ConcreteBuilder2()).construct("ÖìÕñ", "¹ùÁ¢Á¢");
+		new Director(new ConcreteBuilder1()).construct("æœ±æŒ¯", "éƒ­ç«‹ç«‹");
+		new Director(new ConcreteBuilder2()).construct("æœ±æŒ¯", "éƒ­ç«‹ç«‹");
 	}
 }

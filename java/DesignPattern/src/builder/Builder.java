@@ -6,16 +6,16 @@ public abstract class Builder
 	{
 	}
 
-	public abstract void Ö÷Ìâ();
+	public abstract void ä¸»é¢˜();
 
-	public abstract void ÄÚÈİ();
+	public abstract void å†…å®¹();
 
-	public void ·¢¼şÈË(String person)
+	public void å‘ä»¶äºº(String person)
 	{
 		System.out.println(this.toString() + " : " + person);
 	}
 
-	public void ÊÕ¼şÈË(String person)
+	public void æ”¶ä»¶äºº(String person)
 	{
 		System.out.println(this.toString() + " : " + person);
 	}

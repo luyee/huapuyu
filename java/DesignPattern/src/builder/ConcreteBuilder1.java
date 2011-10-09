@@ -3,14 +3,14 @@ package builder;
 public class ConcreteBuilder1 extends Builder
 {
 	@Override
-	public void 内容()
+	public void 鍐呭()
 	{
-		System.out.println(this.toString() + " : 内容1");
+		System.out.println(this.toString() + " : 鍐呭1");
 	}
 
 	@Override
-	public void 主题()
+	public void 涓婚()
 	{
-		System.out.println(this.toString() + " : 主题1");
+		System.out.println(this.toString() + " : 涓婚1");
 	}
 }

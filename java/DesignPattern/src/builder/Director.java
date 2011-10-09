@@ -11,9 +11,9 @@ public class Director
 
 	public void construct(String from, String to)
 	{
-		builder.·¢¼şÈË(from);
-		builder.ÊÕ¼şÈË(to);
-		builder.Ö÷Ìâ();
-		builder.ÄÚÈİ();
+		builder.å‘ä»¶äºº(from);
+		builder.æ”¶ä»¶äºº(to);
+		builder.ä¸»é¢˜();
+		builder.å†…å®¹();
 	}
 }
