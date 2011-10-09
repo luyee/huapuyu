@@ -7,12 +7,12 @@ public class ConcreteHandler extends Handler
 	{
 		if (getNextHandler() != null)
 		{
-			System.out.println("ÎŞ·¨´¦Àí£¬½»¸øÏÂÒ»²½´¦Àí");
+			System.out.println("æ— æ³•å¤„ç†ï¼Œäº¤ç»™ä¸‹ä¸€æ­¥å¤„ç†");
 			nextHandler.handleRequest(request);
 		}
 		else
 		{
-			System.out.println("´¦Àí");
+			System.out.println("å¤„ç†");
 		}
 	}
 }

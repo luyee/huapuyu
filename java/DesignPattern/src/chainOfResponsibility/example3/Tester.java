@@ -38,7 +38,7 @@ public class Tester
 		fc2.addFilter(fc1);
 
 		MsgProcessor mp = new MsgProcessor();
-		mp.setMsg("hello world, <script>, √Ù∏–");
+		mp.setMsg("hello world, <script>, ÊïèÊÑü");
 		mp.setFc(fc2);
 		String msg = mp.process();
 		System.out.println(msg);

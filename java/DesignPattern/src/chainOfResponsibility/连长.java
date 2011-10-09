@@ -1,8 +1,8 @@
 package chainOfResponsibility;
 
-public class Á¬³¤ extends Handler
+public class è¿é•¿ extends Handler
 {
-	public Á¬³¤(String name)
+	public è¿é•¿(String name)
 	{
 		this.name = name;
 	}
@@ -10,13 +10,13 @@ public class Á¬³¤ extends Handler
 	@Override
 	public void handleRequest(String request)
 	{
-		if ("¼¯ºÏÈ«Á¬Ê¿±ø".equals(request))
+		if ("é›†åˆå…¨è¿å£«å…µ".equals(request))
 		{
-			System.out.println(this.name + "¿ÉÒÔ" + request);
+			System.out.println(this.name + "å¯ä»¥" + request);
 		}
 		else
 		{
-			System.out.println(this.name + "²»¿ÉÒÔ" + request + "£¬ÓÉÉÏ¼¶" + nextHandler.getName() + "·¢²¼ÃüÁî");
+			System.out.println(this.name + "ä¸å¯ä»¥" + request + "ï¼Œç”±ä¸Šçº§" + nextHandler.getName() + "å‘å¸ƒå‘½ä»¤");
 			nextHandler.handleRequest(request);
 		}
 	}

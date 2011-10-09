@@ -35,7 +35,7 @@ public class Tester
 		fc.addFilter(new HtmlFilter()).addFilter(new SesitiveFilter());
 
 		MsgProcessor mp = new MsgProcessor();
-		mp.setMsg("hello world, <script>, √Ù∏–");
+		mp.setMsg("hello world, <script>, ÊïèÊÑü");
 		mp.setFc(fc);
 		String msg = mp.process();
 		System.out.println(msg);

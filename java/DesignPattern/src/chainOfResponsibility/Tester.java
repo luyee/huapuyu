@@ -31,13 +31,13 @@ public class Tester
 	@Test
 	public void test()
 	{
-		Handler 班长 = new 班长("班长");
-		Handler 排长 = new 排长("排长");
-		Handler 连长 = new 连长("连长");
-		班长.setNextHandler(排长);
-		排长.setNextHandler(连长);
-		班长.handleRequest("集合全班士兵");
-		班长.handleRequest("集合全排士兵");
-		班长.handleRequest("集合全连士兵");
+		Handler 鐝暱 = new 鐝暱("鐝暱");
+		Handler 鎺掗暱 = new 鎺掗暱("鎺掗暱");
+		Handler 杩為暱 = new 杩為暱("杩為暱");
+		鐝暱.setNextHandler(鎺掗暱);
+		鎺掗暱.setNextHandler(杩為暱);
+		鐝暱.handleRequest("闆嗗悎鍏ㄧ彮澹叺");
+		鐝暱.handleRequest("闆嗗悎鍏ㄦ帓澹叺");
+		鐝暱.handleRequest("闆嗗悎鍏ㄨ繛澹叺");
 	}
 }

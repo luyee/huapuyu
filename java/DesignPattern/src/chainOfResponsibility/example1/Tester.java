@@ -32,7 +32,7 @@ public class Tester
 	public void test()
 	{
 		MsgProcessor mp = new MsgProcessor();
-		mp.setMsg("hello world, <script>, √Ù∏–");
+		mp.setMsg("hello world, <script>, ÊïèÊÑü");
 		String msg = mp.process();
 		System.out.println(msg);
 	}

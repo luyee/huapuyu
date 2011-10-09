@@ -6,6 +6,6 @@ public class SesitiveFilter implements Filter
 	public String doFilter(String msg)
 	{
 		System.out.println(this.getClass().getName());
-		return msg.replace("Ãô¸Ğ", "");
+		return msg.replace("æ•æ„Ÿ", "");
 	}
 }
