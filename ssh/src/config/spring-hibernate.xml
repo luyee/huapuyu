@@ -44,7 +44,7 @@
 		    </list>
 		</property>
 	    -->
-	    <property name="packagesToScan" value="com.anders.ssh.model.annotation"/>
+	    <property name="packagesToScan" value="com.anders.ssh.model"/>
 	</bean>
 	
 	<bean id="hibernateTxManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
