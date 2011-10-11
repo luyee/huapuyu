@@ -1,6 +1,6 @@
 package factoryMethod;
 
-public interface I³éÏó¹¤³§Àà
+public interface IæŠ½è±¡å·¥å‚ç±»
 {
 	public ICar factory();
 }

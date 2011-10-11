@@ -1,9 +1,9 @@
 package mediator;
 
-public class раю╜©к extends ╧З╪р
+public class Д╪┼Ф▀┴Е┘▀ extends Е⌡╫Е╝╤
 {
 
-	public раю╜©к(а╙╨о╧З╩З╧╧ mediator)
+	public Д╪┼Ф▀┴Е┘▀(Х│■Е░┬Е⌡╫Ф°╨Ф·└ mediator)
 	{
 		super(mediator);
 	}
@@ -15,6 +15,6 @@ public class раю╜©к extends ╧З╪р
 
 	public void GetMessage(String message)
 	{
-		System.out.println("раю╜©к╩Я╣ц╤т╥╫пео╒ё╨" + message);
+		System.out.println("Д╪┼Ф▀┴Е┘▀Х▌╥Е╬≈Е╞╧Ф√╧Д©║Ф│╞О╪ " + message);
 	}
 }

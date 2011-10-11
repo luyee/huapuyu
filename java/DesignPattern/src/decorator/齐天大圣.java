@@ -1,6 +1,6 @@
 package decorator;
 
-public interface ÆëÌì´óÊ¥
+public interface é½å¤©å¤§åœ£
 {
 	public void move();
 

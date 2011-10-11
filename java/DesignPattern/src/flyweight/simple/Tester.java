@@ -32,10 +32,10 @@ public class Tester
 	public void test()
 	{
 		FlyweightFactory factory = new FlyweightFactory();
-		// ÕâÀïµÄ'a' ½ĞÄÚÔÌ »òÕß ÄÚ²¿×´Ì¬
+		// è¿™é‡Œçš„'a' å«å†…è•´ æˆ–è€… å†…éƒ¨çŠ¶æ€
 		Flyweight fly = factory.factory(new Character('a'));
-		// ÕâÀïµÄ'first call' ½ĞÍâÔÌ »òÕß Íâ²¿×´Ì¬ Æä×îºÃÑ¡Ôñjava»ù±¾ÀàĞÍ£¨ÈçString£©ÒòÎªĞ§ÂÊ»á¸ü¸ßÒ»Ğ©£¨Î´ÑéÖ¤£©
-		// ¶ÔÓÚ×Ô¼º¹¹ÔìµÄÍâÔÌ¶ÔÏó£¬×¢ÒâequalsºÍhashcodeµÄ¸´Ğ´
+		// è¿™é‡Œçš„'first call' å«å¤–è•´ æˆ–è€… å¤–éƒ¨çŠ¶æ€ å…¶æœ€å¥½é€‰æ‹©javaåŸºæœ¬ç±»å‹ï¼ˆå¦‚Stringï¼‰å› ä¸ºæ•ˆç‡ä¼šæ›´é«˜ä¸€äº›ï¼ˆæœªéªŒè¯ï¼‰
+		// å¯¹äºè‡ªå·±æ„é€ çš„å¤–è•´å¯¹è±¡ï¼Œæ³¨æ„equalså’Œhashcodeçš„å¤å†™
 		fly.operation("first call");
 		fly = factory.factory(new Character('b'));
 		fly.operation("second call");

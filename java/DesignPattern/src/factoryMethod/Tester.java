@@ -36,25 +36,25 @@ public class Tester
 	@Test
 	public void test()
 	{
-		I³éÏó¹¤³§Àà factory = new °ÂµÏ¹¤³§Àà();
+		IæŠ½è±¡å·¥å‚ç±» factory = new å¥¥è¿ªå·¥å‚ç±»();
 		ICar car = factory.factory();
-		car.Æô¶¯();
-		car.Í£Ö¹();
+		car.å¯åŠ¨();
+		car.åœæ­¢();
 
-		factory = new ±¦Âí¹¤³§Àà();
+		factory = new å®é©¬å·¥å‚ç±»();
 		car = factory.factory();
-		car.Æô¶¯();
-		car.Í£Ö¹();
+		car.å¯åŠ¨();
+		car.åœæ­¢();
 
-		// JavaÖĞµÄ¹¤³§·½·¨Ä£Ê½
-		// Collection¾ÍÏàµ±ÓÚ³éÏó¹¤³§Àà
-		// ArrayListºÍHashSet¾ÍÏàµ±ÓÚ°ÂµÏ¹¤³§ÀàºÍ±¦Âí¹¤³§Àà
-		// Iterator¾ÍÏàµ±ÓÚICar
-		// collection.iterator()¾ÍÏàµ±ÓÚfactory.factory()·µ»Ø°ÂµÏ»ò±¦Âí
+		// Javaä¸­çš„å·¥å‚æ–¹æ³•æ¨¡å¼
+		// Collectionå°±ç›¸å½“äºæŠ½è±¡å·¥å‚ç±»
+		// ArrayListå’ŒHashSetå°±ç›¸å½“äºå¥¥è¿ªå·¥å‚ç±»å’Œå®é©¬å·¥å‚ç±»
+		// Iteratorå°±ç›¸å½“äºICar
+		// collection.iterator()å°±ç›¸å½“äºfactory.factory()è¿”å›å¥¥è¿ªæˆ–å®é©¬
 		Collection<String> collection = new ArrayList<String>();
-		collection.add("°ÂµÏ");
-		collection.add("±¦Âí");
-		// ·µ»Øjava.util.AbstractList$Itr
+		collection.add("å¥¥è¿ª");
+		collection.add("å®é©¬");
+		// è¿”å›java.util.AbstractList$Itr
 		// private class Itr implements Iterator<E>
 		System.out.println(collection.iterator().getClass().getName());
 		for (Iterator<String> iterator = collection.iterator(); iterator.hasNext();)
@@ -64,9 +64,9 @@ public class Tester
 		}
 
 		collection = new HashSet<String>();
-		collection.add("´óÖÚ");
-		collection.add("±¼³Û");
-		// ·µ»Øjava.util.HashMap$KeyIterator
+		collection.add("å¤§ä¼—");
+		collection.add("å¥”é©°");
+		// è¿”å›java.util.HashMap$KeyIterator
 		// private final class KeyIterator extends HashIterator<K>
 		// private abstract class HashIterator<E> implements Iterator<E> {
 		System.out.println(collection.iterator().getClass().getName());

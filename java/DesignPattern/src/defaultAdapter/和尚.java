@@ -1,16 +1,16 @@
 package defaultAdapter;
 
-interface ºÍÉĞ
+interface å’Œå°š
 {
-	public void ³ÔÕ«();
+	public void åƒæ–‹();
 
-	public void Äî¾­();
+	public void å¿µç»();
 
-	public void ´ò×ø();
+	public void æ‰“å();
 
-	public void ×²ÖÓ();
+	public void æ’é’Ÿ();
 
-	public void Ï°Îä();
+	public void ä¹ æ­¦();
 
 	public String getName();
 }

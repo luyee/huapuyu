@@ -1,7 +1,7 @@
 package iterator;
 
 /*
- * ¾ßÌåµü´ú×Ó
+ * å…·ä½“è¿­ä»£å­
  */
 public class ConcreteIterator implements Iterator
 {

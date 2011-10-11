@@ -2,13 +2,13 @@ package proxy;
 
 public class ProxySubject extends Subject
 {
-	private RealSubject realSubject; // ÒÔÕæÊµ½ÇÉ«×÷Îª´úÀí½ÇÉ«µÄÊôĞÔ
+	private RealSubject realSubject; // ä»¥çœŸå®è§’è‰²ä½œä¸ºä»£ç†è§’è‰²çš„å±æ€§
 
 	public ProxySubject()
 	{
 	}
 
-	// ¸Ã·½·¨·â×°ÁËÕæÊµ¶ÔÏóµÄrequest·½·¨
+	// è¯¥æ–¹æ³•å°è£…äº†çœŸå®å¯¹è±¡çš„requestæ–¹æ³•
 	@Override
 	public void request()
 	{
@@ -17,7 +17,7 @@ public class ProxySubject extends Subject
 		if (null == realSubject)
 			realSubject = new RealSubject();
 
-		realSubject.request(); // ´Ë´¦Ö´ĞĞÕæÊµ¶ÔÏóµÄrequest·½·¨
+		realSubject.request(); // æ­¤å¤„æ‰§è¡ŒçœŸå®å¯¹è±¡çš„requestæ–¹æ³•
 
 		postRequest();
 	}

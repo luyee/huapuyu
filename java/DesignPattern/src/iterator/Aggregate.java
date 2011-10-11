@@ -1,7 +1,7 @@
 package iterator;
 
 /*
- * ¾Û¼¯
+ * èšé›†
  */
 public interface Aggregate
 {

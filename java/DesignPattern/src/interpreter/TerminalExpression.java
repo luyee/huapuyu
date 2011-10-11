@@ -5,6 +5,6 @@ public class TerminalExpression extends AbstractExpression
 	@Override
 	public void interpret(Context context)
 	{
-		System.out.println("ÖÕ¶Ë½âÊÍÆ÷");
+		System.out.println("ç»ˆç«¯è§£é‡Šå™¨");
 	}
 }

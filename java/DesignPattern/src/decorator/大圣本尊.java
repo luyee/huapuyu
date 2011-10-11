@@ -1,16 +1,16 @@
 package decorator;
 
-public class 大圣本尊 implements 齐天大圣
+public class 澶у湥鏈皧 implements 榻愬ぉ澶у湥
 {
-	public 大圣本尊()
+	public 澶у湥鏈皧()
 	{
-		System.out.println("我是大圣本尊");
+		System.out.println("鎴戞槸澶у湥鏈皧");
 	}
 
 	@Override
 	public void move()
 	{
-		System.out.println("大圣本尊移动");
+		System.out.println("澶у湥鏈皧绉诲姩");
 	}
 
 }

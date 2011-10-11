@@ -37,7 +37,7 @@ public class Tester
 		System.out.println(SingletonClass.getInstance().toString());
 		System.out.println(SingletonClass.getInstance().toString());
 
-		// Java�еķǳ����͵ĵ���ģʽ
+		// Java中的非常典型的单例模式
 		try
 		{
 			Runtime.getRuntime().exec("notepad.exe");

@@ -1,13 +1,16 @@
 package simpleFactory;
 
-public class ±¦Âí implements ICar {
+public class å®é©¬ implements ICar
+{
 	@Override
-	public void Æô¶¯() {
-		System.out.println("±¦ÂíÆô¶¯");
+	public void å¯åŠ¨()
+	{
+		System.out.println("å®é©¬å¯åŠ¨");
 	}
 
 	@Override
-	public void Í£Ö¹() {
-		System.out.println("±¦ÂíÍ£Ö¹");
+	public void åœæ­¢()
+	{
+		System.out.println("å®é©¬åœæ­¢");
 	}
 }

@@ -4,16 +4,16 @@ public class Camera
 {
 	public void turnOn()
 	{
-		System.out.println("´ò¿ªÂ¼Ïñ»ú");
+		System.out.println("æ‰“å¼€å½•åƒæœº");
 	}
 
 	public void turnOff()
 	{
-		System.out.println("¹Ø±ÕÂ¼Ïñ»ú");
+		System.out.println("å…³é—­å½•åƒæœº");
 	}
 
 	public void rotate()
 	{
-		System.out.println("×ª¶¯Â¼Ïñ»ú");
+		System.out.println("è½¬åŠ¨å½•åƒæœº");
 	}
 }

@@ -31,7 +31,7 @@ public class Tester
 	@Test
 	public void test()
 	{
-		// 设计clone时的三个条件
+		// 璁捐clone鏃剁殑涓変釜鏉′欢
 		// x.clone != x
 		// x.clone.getClass() == x.getClass()
 		// x.clone().equals(x)

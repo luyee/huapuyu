@@ -1,6 +1,6 @@
 package state;
 
-public interface ÖÓ
+public interface é’Ÿ
 {
-	void ´ò»÷();
+	void æ‰“å‡»();
 }

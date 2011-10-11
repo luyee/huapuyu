@@ -31,8 +31,8 @@ public class Tester
 	@Test
 	public void test()
 	{
-		ºÍÉĞ h = new Â³ÖÇÉî();
-		h.Ï°Îä();
+		å’Œå°š h = new é²æ™ºæ·±();
+		h.ä¹ æ­¦();
 		System.out.println(h.getName());
 	}
 }

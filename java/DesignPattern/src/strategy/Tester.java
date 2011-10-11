@@ -41,10 +41,10 @@ public class Tester
 		new Context(new ConcreteStrategy1()).doSomething();
 		new Context(new ConcreteStrategy2()).doSomething();
 
-		// Spring中的策略模式
-		// ValidationUtils相当于Context
-		// Validator相当于Strategy
-		// UserValidator相当于ConcreteStrategy
+		// Spring涓殑绛栫暐妯″紡
+		// ValidationUtils鐩稿綋浜嶤ontext
+		// Validator鐩稿綋浜嶴trategy
+		// UserValidator鐩稿綋浜嶤oncreteStrategy
 		ValidationUtils.invokeValidator(new UserValidator(), null, new UserErrors());
 	}
 }

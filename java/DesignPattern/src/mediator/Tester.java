@@ -31,13 +31,13 @@ public class Tester
 	@Test
 	public void test()
 	{
-		ÁªºÏ¹ú°²Àí»á unsc = new ÁªºÏ¹ú°²Àí»á();
-		ÃÀ¹ú usa = new ÃÀ¹ú(unsc);
-		ÒÁÀ­¿Ë iraq = new ÒÁÀ­¿Ë(unsc);
+		è”åˆå›½å®‰ç†ä¼š unsc = new è”åˆå›½å®‰ç†ä¼š();
+		ç¾å›½ usa = new ç¾å›½(unsc);
+		ä¼Šæ‹‰å…‹ iraq = new ä¼Šæ‹‰å…‹(unsc);
 		unsc.setUsa(usa);
 		unsc.setIraq(iraq);
 
-		usa.Declare("Èø´ïÄ·ÏÂÌ¨£¬·ñÔòÎÒÃÇ½ø¹¥ÒÁÀ­¿Ë");
-		iraq.Declare("ÎÒÃÇ¾ø²»¶ÔÍ¶½µ");
+		usa.Declare("è¨è¾¾å§†ä¸‹å°ï¼Œå¦åˆ™æˆ‘ä»¬è¿›æ”»ä¼Šæ‹‰å…‹");
+		iraq.Declare("æˆ‘ä»¬ç»ä¸å¯¹æŠ•é™");
 	}
 }

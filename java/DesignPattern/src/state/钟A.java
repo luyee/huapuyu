@@ -1,10 +1,10 @@
 package state;
 
-public class ÖÓA implements ÖÓ
+public class é’ŸA implements é’Ÿ
 {
 	@Override
-	public void ´ò»÷()
+	public void æ‰“å‡»()
 	{
-		System.out.println("´ò»÷ÖÓA");
+		System.out.println("æ‰“å‡»é’ŸA");
 	}
 }

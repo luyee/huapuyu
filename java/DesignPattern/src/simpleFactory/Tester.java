@@ -33,31 +33,31 @@ public class Tester
 	}
 
 	@Test
-	public void ÆÕÍ¨¹¤³§Àà() throws CreateCarException
+	public void æ™®é€šå·¥å‚ç±»() throws CreateCarException
 	{
-		ICar ±¼³Û = ÆÕÍ¨¹¤³§Àà.factory(Æû³µÆ·ÅÆ.±¼³Û);
-		±¼³Û.Æô¶¯();
-		±¼³Û.Í£Ö¹();
+		ICar å¥”é©° = æ™®é€šå·¥å‚ç±».factory(æ±½è½¦å“ç‰Œ.å¥”é©°);
+		å¥”é©°.å¯åŠ¨();
+		å¥”é©°.åœæ­¢();
 
-		ICar °ÂµÏ = ÆÕÍ¨¹¤³§Àà.factory(Æû³µÆ·ÅÆ.°ÂµÏ);
-		°ÂµÏ.Æô¶¯();
-		°ÂµÏ.Í£Ö¹();
+		ICar å¥¥è¿ª = æ™®é€šå·¥å‚ç±».factory(æ±½è½¦å“ç‰Œ.å¥¥è¿ª);
+		å¥¥è¿ª.å¯åŠ¨();
+		å¥¥è¿ª.åœæ­¢();
 
-		// JavaÖĞµÄ¼òµ¥¹¤³§Ä£Ê½£¬SimpleDateFormatºÍDateFormat
+		// Javaä¸­çš„ç®€å•å·¥å‚æ¨¡å¼ï¼ŒSimpleDateFormatå’ŒDateFormat
 		Date date = new Date();
 		System.out.println(SimpleDateFormat.getDateInstance(DateFormat.DEFAULT).format(date));
 		System.out.println(SimpleDateFormat.getDateInstance(DateFormat.FULL).format(date));
 	}
 
 	@Test
-	public void ·´Éä¹¤³§Àà() throws InstantiationException, IllegalAccessException, ClassNotFoundException
+	public void åå°„å·¥å‚ç±»() throws InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
-		ICar ±¼³Û = ·´Éä¹¤³§Àà.getInstance(Æû³µÆ·ÅÆ.±¼³Û);
-		±¼³Û.Æô¶¯();
-		±¼³Û.Í£Ö¹();
+		ICar å¥”é©° = åå°„å·¥å‚ç±».getInstance(æ±½è½¦å“ç‰Œ.å¥”é©°);
+		å¥”é©°.å¯åŠ¨();
+		å¥”é©°.åœæ­¢();
 
-		ICar °ÂµÏ = ·´Éä¹¤³§Àà.getInstance(Æû³µÆ·ÅÆ.°ÂµÏ);
-		°ÂµÏ.Æô¶¯();
-		°ÂµÏ.Í£Ö¹();
+		ICar å¥¥è¿ª = åå°„å·¥å‚ç±».getInstance(æ±½è½¦å“ç‰Œ.å¥¥è¿ª);
+		å¥¥è¿ª.å¯åŠ¨();
+		å¥¥è¿ª.åœæ­¢();
 	}
 }

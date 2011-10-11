@@ -2,7 +2,7 @@ package factoryMethod;
 
 public interface ICar
 {
-	public void Æô¶¯();
+	public void å¯åŠ¨();
 
-	public void Í£Ö¹();
+	public void åœæ­¢();
 }

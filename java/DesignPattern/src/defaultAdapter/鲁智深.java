@@ -1,16 +1,16 @@
 package defaultAdapter;
 
-public class Â³ÖÇÉî extends ÌìĞÇ
+public class é²æ™ºæ·± extends å¤©æ˜Ÿ
 {
 	@Override
-	public void Ï°Îä()
+	public void ä¹ æ­¦()
 	{
-		System.out.println("È­´òÖ£¹ØÎ÷");
+		System.out.println("æ‹³æ‰“éƒ‘å…³è¥¿");
 	}
 
 	@Override
 	public String getName()
 	{
-		return "Â³ÖÇÉî";
+		return "é²æ™ºæ·±";
 	}
 }

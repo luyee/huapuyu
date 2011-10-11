@@ -1,6 +1,6 @@
 package visitor;
 
-public class ≈Æ»À extends Person
+public class Â•≥‰∫∫ extends Person
 {
 	@Override
 	public void accept(Action visitor)

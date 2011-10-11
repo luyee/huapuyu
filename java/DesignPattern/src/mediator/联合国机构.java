@@ -1,6 +1,6 @@
 package mediator;
 
-public abstract class ÁªºÏ¹ú»ú¹¹
+public abstract class è”åˆå›½æœºæ„
 {
-	public abstract void Declare(String message, ¹ú¼Ò country);
+	public abstract void Declare(String message, å›½å®¶ country);
 }

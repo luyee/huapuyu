@@ -1,7 +1,7 @@
 package iterator;
 
 /*
- * ¾ßÌå¾Û¼¯
+ * å…·ä½“èšé›†
  */
 public class ConcreteAggregate implements Aggregate
 {

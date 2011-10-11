@@ -1,15 +1,15 @@
 package state;
 
-public class ÔøºîÒÒ±àÖÓ
+public class æ›¾ä¾¯ä¹™ç¼–é’Ÿ
 {
-	private ÖÓ state;
+	private é’Ÿ state;
 
-	public void ´ò»÷()
+	public void æ‰“å‡»()
 	{
-		state.´ò»÷();
+		state.æ‰“å‡»();
 	}
 
-	public void setState(ÖÓ state)
+	public void setState(é’Ÿ state)
 	{
 		this.state = state;
 	}

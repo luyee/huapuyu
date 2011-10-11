@@ -1,9 +1,9 @@
 package decorator;
 
-public class Óã extends ÆßÊ®¶ş°ã±ä»¯
+public class é±¼ extends ä¸ƒåäºŒèˆ¬å˜åŒ–
 {
 
-	public Óã(ÆëÌì´óÊ¥ monkey)
+	public é±¼(é½å¤©å¤§åœ£ monkey)
 	{
 		super(monkey);
 	}

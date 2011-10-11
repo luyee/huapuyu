@@ -1,12 +1,12 @@
 package mediator;
 
-public class ÁªºÏ¹ú°²Àí»á extends ÁªºÏ¹ú»ú¹¹
+public class è”åˆå›½å®‰ç†ä¼š extends è”åˆå›½æœºæ„
 {
-	private ÃÀ¹ú usa;
-	private ÒÁÀ­¿Ë iraq;
+	private ç¾å›½ usa;
+	private ä¼Šæ‹‰å…‹ iraq;
 
 	@Override
-	public void Declare(String message, ¹ú¼Ò colleague)
+	public void Declare(String message, å›½å®¶ colleague)
 	{
 		if (colleague.equals(usa))
 		{
@@ -18,22 +18,22 @@ public class ÁªºÏ¹ú°²Àí»á extends ÁªºÏ¹ú»ú¹¹
 		}
 	}
 
-	public ÃÀ¹ú getUsa()
+	public ç¾å›½ getUsa()
 	{
 		return usa;
 	}
 
-	public void setUsa(ÃÀ¹ú usa)
+	public void setUsa(ç¾å›½ usa)
 	{
 		this.usa = usa;
 	}
 
-	public ÒÁÀ­¿Ë getIraq()
+	public ä¼Šæ‹‰å…‹ getIraq()
 	{
 		return iraq;
 	}
 
-	public void setIraq(ÒÁÀ­¿Ë iraq)
+	public void setIraq(ä¼Šæ‹‰å…‹ iraq)
 	{
 		this.iraq = iraq;
 	}

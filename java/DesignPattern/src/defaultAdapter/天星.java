@@ -1,32 +1,32 @@
 package defaultAdapter;
 
-public abstract class ÌìĞÇ implements ºÍÉĞ
+public abstract class å¤©æ˜Ÿ implements å’Œå°š
 {
 	// @Override
 	// public abstract String getName();
 
 	@Override
-	public void Ï°Îä()
+	public void ä¹ æ­¦()
 	{
 	}
 
 	@Override
-	public void ³ÔÕ«()
+	public void åƒæ–‹()
 	{
 	}
 
 	@Override
-	public void Äî¾­()
+	public void å¿µç»()
 	{
 	}
 
 	@Override
-	public void ´ò×ø()
+	public void æ‰“å()
 	{
 	}
 
 	@Override
-	public void ×²ÖÓ()
+	public void æ’é’Ÿ()
 	{
 	}
 }

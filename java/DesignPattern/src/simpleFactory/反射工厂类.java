@@ -1,10 +1,10 @@
 package simpleFactory;
 
-public class ·´Éä¹¤³§Àà
+public class åå°„å·¥å‚ç±»
 {
-	public static ICar getInstance(Æû³µÆ·ÅÆ carBrand) throws InstantiationException, IllegalAccessException, ClassNotFoundException
+	public static ICar getInstance(æ±½è½¦å“ç‰Œ carBrand) throws InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
-		// Ê¹ÓÃ·´Éä´´½¨Æû³µ£¬ÕâÖÖ·½Ê½ÈÔÈ»ÊÇ¼òµ¥¹¤³§Ä£Ê½
-		return (ICar) Class.forName("¼òµ¥¹¤³§Ä£Ê½." + carBrand).newInstance();
+		// ä½¿ç”¨åå°„åˆ›å»ºæ±½è½¦ï¼Œè¿™ç§æ–¹å¼ä»ç„¶æ˜¯ç®€å•å·¥å‚æ¨¡å¼
+		return (ICar) Class.forName("ç®€å•å·¥å‚æ¨¡å¼." + carBrand).newInstance();
 	}
 }

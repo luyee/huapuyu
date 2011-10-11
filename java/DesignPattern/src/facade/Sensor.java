@@ -4,16 +4,16 @@ public class Sensor
 {
 	public void activate()
 	{
-		System.out.println("Æô¶¯¸ĞÓ¦Æ÷");
+		System.out.println("å¯åŠ¨æ„Ÿåº”å™¨");
 	}
 
 	public void deactivate()
 	{
-		System.out.println("¹Ø±Õ¸ĞÓ¦Æ÷");
+		System.out.println("å…³é—­æ„Ÿåº”å™¨");
 	}
 
 	public void trigger()
 	{
-		System.out.println("´¥·¢¸ĞÓ¦Æ÷");
+		System.out.println("è§¦å‘æ„Ÿåº”å™¨");
 	}
 }

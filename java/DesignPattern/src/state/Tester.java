@@ -31,9 +31,9 @@ public class Tester
 	@Test
 	public void test()
 	{
-		ÖÓ z = new ÖÓA();
-		ÔøºîÒÒ±àÖÓ t = new ÔøºîÒÒ±àÖÓ();
+		é’Ÿ z = new é’ŸA();
+		æ›¾ä¾¯ä¹™ç¼–é’Ÿ t = new æ›¾ä¾¯ä¹™ç¼–é’Ÿ();
 		t.setState(z);
-		t.´ò»÷();
+		t.æ‰“å‡»();
 	}
 }

@@ -32,16 +32,16 @@ public class Tester
 	public void test()
 	{
 		ObjectStructure objectStructure = new ObjectStructure();
-		objectStructure.attach(new ÄĞÈË());
-		objectStructure.attach(new Å®ÈË());
+		objectStructure.attach(new ç”·äºº());
+		objectStructure.attach(new å¥³äºº());
 
-		³É¹¦ success = new ³É¹¦();
+		æˆåŠŸ success = new æˆåŠŸ();
 		objectStructure.display(success);
 
-		Ê§°Ü failure = new Ê§°Ü();
+		å¤±è´¥ failure = new å¤±è´¥();
 		objectStructure.display(failure);
 
-		Áµ°® love = new Áµ°®();
+		æ‹çˆ± love = new æ‹çˆ±();
 		objectStructure.display(love);
 
 	}

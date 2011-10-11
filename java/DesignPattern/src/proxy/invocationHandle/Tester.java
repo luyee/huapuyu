@@ -30,11 +30,11 @@ public class Tester
 	{
 	}
 
-	// ��̬������ʵ����java.lang.reflect.Proxy�ද̬�ĸ�����ָ�������нӿ�����һ��class byte��
-	// ��class��̳�Proxy�࣬��ʵ��������ָ���Ľӿڣ����ڲ����д���Ľӿ����飩��
-	// Ȼ����������ָ����classloader��class byte���ؽ�ϵͳ��
-	// �����������һ����Ķ��󣬲���ʼ���ö����һЩֵ����invocationHandler��
-	// �Լ����еĽӿڶ�Ӧ��Method��Ա�� ��ʼ��֮�󽫶��󷵻ظ����õĿͻ��ˡ������ͻ����õ��ľ���һ��ʵ�������еĽӿڵ�Proxy����
+	// 动态代理其实就是java.lang.reflect.Proxy类动态的根据您指定的所有接口生成一个class byte，
+	// 该class会继承Proxy类，并实现所有你指定的接口（您在参数中传入的接口数组）；
+	// 然后再利用您指定的classloader将class byte加载进系统，
+	// 最后生成这样一个类的对象，并初始化该对象的一些值，如invocationHandler，
+	// 以即所有的接口对应的Method成员。 初始化之后将对象返回给调用的客户端。这样客户端拿到的就是一个实现你所有的接口的Proxy对象。
 	@Test
 	public void test()
 	{

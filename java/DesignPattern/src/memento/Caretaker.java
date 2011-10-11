@@ -1,7 +1,7 @@
 package memento;
 
 /*
- * ¿´¹ÜÕß£¬¿´ÊØÈË£¬ÕÕ¹ËÕß
+ * çœ‹ç®¡è€…ï¼Œçœ‹å®ˆäººï¼Œç…§é¡¾è€…
  */
 public class Caretaker
 {

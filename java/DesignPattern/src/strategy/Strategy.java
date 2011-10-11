@@ -1,6 +1,6 @@
 package strategy;
 
-// Ò²¿ÉÒÔÊ¹ÓÃ½Ó¿Ú
+// ä¹Ÿå¯ä»¥ä½¿ç”¨æ¥å£
 public abstract class Strategy
 {
 	public abstract void doSomething();

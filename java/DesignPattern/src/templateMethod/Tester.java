@@ -36,6 +36,6 @@ public class Tester
 		p1.play();
 		p2.play();
 
-		// HttpServletÀàÖĞµÄservice·½·¨¾ÍÊÇÄ£°å·½·¨£¬×ÓÀàÖ»ĞèÒª¼Ì³ĞHttpServletµÄdoGet, doPostµÈ·½·¨
+		// HttpServletç±»ä¸­çš„serviceæ–¹æ³•å°±æ˜¯æ¨¡æ¿æ–¹æ³•ï¼Œå­ç±»åªéœ€è¦ç»§æ‰¿HttpServletçš„doGet, doPostç­‰æ–¹æ³•
 	}
 }

@@ -1,7 +1,7 @@
 package iterator;
 
 /*
- * µü´ú×Ó
+ * è¿­ä»£å­
  */
 public interface Iterator
 {

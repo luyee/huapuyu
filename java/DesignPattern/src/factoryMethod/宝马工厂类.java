@@ -1,9 +1,9 @@
 package factoryMethod;
 
-public class ±¦Âí¹¤³§Àà implements I³éÏó¹¤³§Àà
+public class å®é©¬å·¥å‚ç±» implements IæŠ½è±¡å·¥å‚ç±»
 {
 	public ICar factory()
 	{
-		return new ±¦Âí();
+		return new å®é©¬();
 	}
 }

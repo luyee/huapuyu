@@ -1,19 +1,19 @@
 package simpleFactory;
 
-public class 普通工厂类
+public class 鏅�氬伐鍘傜被
 {
-	public static ICar factory(汽车品牌 carBrand) throws CreateCarException
+	public static ICar factory(姹借溅鍝佺墝 carBrand) throws CreateCarException
 	{
 		switch (carBrand)
 		{
-		case 奔驰:
-			return new 奔驰();
-		case 奥迪:
-			return new 奥迪();
-		case 宝马:
-			return new 宝马();
+		case 濂旈┌:
+			return new 濂旈┌();
+		case 濂ヨ开:
+			return new 濂ヨ开();
+		case 瀹濋┈:
+			return new 瀹濋┈();
 		default:
-			throw new CreateCarException("创建汽车异常");
+			throw new CreateCarException("鍒涘缓姹借溅寮傚父");
 		}
 	}
 }

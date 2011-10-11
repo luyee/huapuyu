@@ -3,7 +3,7 @@ package templateMethod;
 public abstract class PlayPES
 {
 	/**
-	 * ¿ªÌß
+	 * å¼€è¸¢
 	 */
 	public void play()
 	{
@@ -13,17 +13,17 @@ public abstract class PlayPES
 	}
 
 	/**
-	 * Ñ¡ÔñÇò¶Ó
+	 * é€‰æ‹©çƒé˜Ÿ
 	 */
 	protected abstract void chooseTeam();
 
 	/**
-	 * Ñ¡ÔñÇòÒÂ
+	 * é€‰æ‹©çƒè¡£
 	 */
 	protected abstract void chooseShirt();
 
 	/**
-	 * Ñ¡ÔñÕóĞÍ
+	 * é€‰æ‹©é˜µå‹
 	 */
 	private final void chooseFormation()
 	{

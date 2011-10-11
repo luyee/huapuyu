@@ -4,16 +4,16 @@ public class Light
 {
 	public void turnOn()
 	{
-		System.out.println("´ò¿ªµÆ");
+		System.out.println("æ‰“å¼€ç¯");
 	}
 
 	public void turnOff()
 	{
-		System.out.println("¹Ø±ÕµÆ");
+		System.out.println("å…³é—­ç¯");
 	}
 
 	public void changeBulb()
 	{
-		System.out.println("»»µÆÅİ");
+		System.out.println("æ¢ç¯æ³¡");
 	}
 }

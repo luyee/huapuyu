@@ -1,6 +1,6 @@
 package simpleFactory;
 
-public enum 汽车品牌
+public enum 姹借溅鍝佺墝
 {
-	奔驰, 奥迪, 宝马
+	濂旈┌, 濂ヨ开, 瀹濋┈
 }

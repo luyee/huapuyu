@@ -1,10 +1,10 @@
 package decorator;
 
-public class 七十二般变化 implements 齐天大圣
+public class 涓冨崄浜岃埇鍙樺寲 implements 榻愬ぉ澶у湥
 {
-	private 齐天大圣 monkey;
+	private 榻愬ぉ澶у湥 monkey;
 
-	public 七十二般变化(齐天大圣 monkey)
+	public 涓冨崄浜岃埇鍙樺寲(榻愬ぉ澶у湥 monkey)
 	{
 		this.monkey = monkey;
 	}

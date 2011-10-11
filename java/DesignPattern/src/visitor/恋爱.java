@@ -1,16 +1,16 @@
 package visitor;
 
-public class Áµ°® extends Action
+public class æ‹çˆ± extends Action
 {
 	@Override
-	public void getManConclusion(ÄĞÈË man)
+	public void getManConclusion(ç”·äºº man)
 	{
-		System.out.println("ÄĞÈË£ºÁµ°®");
+		System.out.println("ç”·äººï¼šæ‹çˆ±");
 	}
 
 	@Override
-	public void getWomanConclusion(Å®ÈË woman)
+	public void getWomanConclusion(å¥³äºº woman)
 	{
-		System.out.println("Å®ÈË£ºÁµ°®");
+		System.out.println("å¥³äººï¼šæ‹çˆ±");
 	}
 }

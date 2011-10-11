@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 
 public class ProxySubject implements InvocationHandler
 {
-	private RealSubject realSubject; // ÒÔÕæÊµ½ÇÉ«×÷Îª´úÀí½ÇÉ«µÄÊôĞÔ
+	private RealSubject realSubject; // ä»¥çœŸå®è§’è‰²ä½œä¸ºä»£ç†è§’è‰²çš„å±æ€§
 
 	public ProxySubject()
 	{

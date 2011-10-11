@@ -4,21 +4,21 @@ public class Alarm
 {
 	public void activate()
 	{
-		System.out.println("Æô¶¯¾¯±¨Æ÷");
+		System.out.println("å¯åŠ¨è­¦æŠ¥å™¨");
 	}
 
 	public void deactivate()
 	{
-		System.out.println("¹Ø±Õ¾¯±¨Æ÷");
+		System.out.println("å…³é—­è­¦æŠ¥å™¨");
 	}
 
 	public void ring()
 	{
-		System.out.println("À­Ïì¾¯±¨Æ÷");
+		System.out.println("æ‹‰å“è­¦æŠ¥å™¨");
 	}
 
 	public void stopRing()
 	{
-		System.out.println("Í£µô¾¯±¨Æ÷");
+		System.out.println("åœæ‰è­¦æŠ¥å™¨");
 	}
 }

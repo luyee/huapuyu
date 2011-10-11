@@ -1,8 +1,8 @@
 package mediator;
 
-public class ÃÀ¹ú extends ¹ú¼Ò
+public class ç¾å›½ extends å›½å®¶
 {
-	public ÃÀ¹ú(ÁªºÏ¹ú»ú¹¹ mediator)
+	public ç¾å›½(è”åˆå›½æœºæ„ mediator)
 	{
 		super(mediator);
 	}
@@ -14,6 +14,6 @@ public class ÃÀ¹ú extends ¹ú¼Ò
 
 	public void GetMessage(String message)
 	{
-		System.out.println("ÃÀ¹ú»ñµÃ¶Ô·½ĞÅÏ¢£º" + message);
+		System.out.println("ç¾å›½è·å¾—å¯¹æ–¹ä¿¡æ¯ï¼š" + message);
 	}
 }

@@ -5,12 +5,12 @@ public class PlayJapan extends PlayPES
 	@Override
 	protected void chooseShirt()
 	{
-		System.out.println("客场");
+		System.out.println("瀹㈠満");
 	}
 
 	@Override
 	protected void chooseTeam()
 	{
-		System.out.println("日本");
+		System.out.println("鏃ユ湰");
 	}
 }

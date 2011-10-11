@@ -1,10 +1,10 @@
 package mediator;
 
-public abstract class ¹ú¼Ò
+public abstract class å›½å®¶
 {
-	protected ÁªºÏ¹ú»ú¹¹ mediator;
+	protected è”åˆå›½æœºæ„ mediator;
 
-	public ¹ú¼Ò(ÁªºÏ¹ú»ú¹¹ mediator)
+	public å›½å®¶(è”åˆå›½æœºæ„ mediator)
 	{
 		this.mediator = mediator;
 	}

@@ -1,9 +1,8 @@
 package visitor;
 
-
 public abstract class Action
 {
-	public abstract void getManConclusion(ÄÐÈË man);
+	public abstract void getManConclusion(ç”·äºº man);
 
-	public abstract void getWomanConclusion(Å®ÈË woman);
+	public abstract void getWomanConclusion(å¥³äºº woman);
 }

@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /*
- * TestNGÃ²ËÆ²»Ö§³ÖÖĞÎÄµÄ°üºÍÀà£¬Èç¹û°üºÍÀà¸Ä³ÉÖĞÎÄ»á±¨´í£¬JUnitÃ»Õâ¸öÎÊÌâ
+ * TestNGè²Œä¼¼ä¸æ”¯æŒä¸­æ–‡çš„åŒ…å’Œç±»ï¼Œå¦‚æœåŒ…å’Œç±»æ”¹æˆä¸­æ–‡ä¼šæŠ¥é”™ï¼ŒJUnitæ²¡è¿™ä¸ªé—®é¢˜
  */
 public class Tester
 {

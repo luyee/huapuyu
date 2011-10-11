@@ -1,7 +1,7 @@
 package memento;
 
 /*
- * ´´Ê¼ÈË£¬·¢ÆğÈË
+ * åˆ›å§‹äººï¼Œå‘èµ·äºº
  */
 public class Originator
 {

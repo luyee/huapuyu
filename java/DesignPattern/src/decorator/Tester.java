@@ -31,8 +31,8 @@ public class Tester
 	@Test
 	public void test()
 	{
-		ÆëÌì´óÊ¥ monkey = new ´óÊ¥±¾×ğ();
-		ÆëÌì´óÊ¥ fish = new Óã(monkey);
+		é½å¤©å¤§åœ£ monkey = new å¤§åœ£æœ¬å°Š();
+		é½å¤©å¤§åœ£ fish = new é±¼(monkey);
 		fish.move();
 	}
 }

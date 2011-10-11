@@ -1,16 +1,16 @@
 package factoryMethod;
 
-public class °ÂµÏ implements ICar
+public class å¥¥è¿ª implements ICar
 {
 	@Override
-	public void Æô¶¯()
+	public void å¯åŠ¨()
 	{
-		System.out.println("°ÂµÏÆô¶¯");
+		System.out.println("å¥¥è¿ªå¯åŠ¨");
 	}
 
 	@Override
-	public void Í£Ö¹()
+	public void åœæ­¢()
 	{
-		System.out.println("°ÂµÏÍ£Ö¹");
+		System.out.println("å¥¥è¿ªåœæ­¢");
 	}
 }
