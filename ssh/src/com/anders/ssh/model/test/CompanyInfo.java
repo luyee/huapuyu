@@ -1,4 +1,4 @@
-package com.anders.ssh.model.annotation;
+package com.anders.ssh.model.test;
 
 import java.io.Serializable;
 

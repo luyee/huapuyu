@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page import="org.springframework.security.web.WebAttributes" %>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <%
 String path = request.getContextPath();
@@ -23,8 +24,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+  	<%
+		if (session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION) != null) {
+	%> 
+	登录失败，请重试。 
+	<%
+		}
+	%>
+  
    	<s:form action="j_spring_security_check" namespace="/" theme="simple" method="post">
-  	  <s:textfield name="j_username" key="login.name"/>
+  	  <s:textfield name="j_username" key="login.name" />
 	  <s:textfield name="j_password" key="login.pwd"/>
 	  <s:submit key="login.submit"/>
 	</s:form>

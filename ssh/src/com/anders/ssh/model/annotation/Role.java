@@ -1,19 +1,26 @@
 package com.anders.ssh.model.annotation;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+/**
+ * 角色
+ * 
+ * @author Anders Zhu
+ * 
+ */
 @Entity
 @Table(name = "tb_role")
 public class Role implements Serializable {
@@ -37,20 +44,21 @@ public class Role implements Serializable {
 	@Column(nullable = false)
 	private Boolean enable = true;
 	/**
-	 * 角色和资源关系
+	 * 资源
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "role")
-	private Set<RoleToResource> roleToResource = Collections.emptySet();
+	@ManyToMany(targetEntity = Resource.class, fetch = FetchType.LAZY)
+	@JoinTable(name = "rlt_role_to_resource", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "resource_id"))
+	private List<Resource> resources = new ArrayList<Resource>(0);
 	/**
-	 * 用户和角色关系
+	 * 用户
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "role")
-	private Set<UserToRole> userToRoleSet = Collections.emptySet();
+	@ManyToMany(mappedBy = "roles", targetEntity = User.class, fetch = FetchType.LAZY)
+	private List<User> users = new ArrayList<User>(0);
 	/**
-	 * 用户组和角色关系
+	 * 用户组
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "role")
-	private Set<UserGroupToRole> userGroupToRoleSet = Collections.emptySet();
+	@ManyToMany(mappedBy = "roles", targetEntity = UserGroup.class, fetch = FetchType.LAZY)
+	private List<UserGroup> userGroups = new ArrayList<UserGroup>(0);
 
 	public Long getId() {
 		return id;
@@ -76,28 +84,27 @@ public class Role implements Serializable {
 		this.enable = enable;
 	}
 
-	public Set<UserToRole> getUserToRoleSet() {
-		return userToRoleSet;
+	public List<Resource> getResources() {
+		return resources;
 	}
 
-	public void setUserToRoleSet(Set<UserToRole> userToRoleSet) {
-		this.userToRoleSet = userToRoleSet;
+	public void setResources(List<Resource> resources) {
+		this.resources = resources;
 	}
 
-	public Set<UserGroupToRole> getUserGroupToRoleSet() {
-		return userGroupToRoleSet;
+	public List<User> getUsers() {
+		return users;
 	}
 
-	public void setUserGroupToRoleSet(Set<UserGroupToRole> userGroupToRoleSet) {
-		this.userGroupToRoleSet = userGroupToRoleSet;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
-	public Set<RoleToResource> getRoleToResource() {
-		return roleToResource;
+	public List<UserGroup> getUserGroups() {
+		return userGroups;
 	}
 
-	public void setRoleToResource(Set<RoleToResource> roleToResource) {
-		this.roleToResource = roleToResource;
+	public void setUserGroups(List<UserGroup> userGroups) {
+		this.userGroups = userGroups;
 	}
-
 }

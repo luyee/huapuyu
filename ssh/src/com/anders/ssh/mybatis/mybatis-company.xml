@@ -3,27 +3,27 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.anders.ssh.dao.mybatis.CompanyMapper">
-	<resultMap id="companyMap" type="com.anders.ssh.model.annotation.Company">
+	<resultMap id="companyMap" type="com.anders.ssh.model.test.Company">
 	    <id column="company_id" property="id" jdbcType="BIGINT" />
 	    <result column="company_name" property="name" jdbcType="VARCHAR" />
 	    <!--  
-    	<association property="companyInfo" column="company_info_id" javaType="com.anders.ssh.model.annotation.CompanyInfo">
+    	<association property="companyInfo" column="company_info_id" javaType="com.anders.ssh.model.test.CompanyInfo">
     		<id column="info_id" property="id" jdbcType="BIGINT" />
 			<result column="info" property="info" jdbcType="VARCHAR" />
     	</association>
     	-->
     	<!--  
-		<association property="companyInfo" column="company_info_id" javaType="com.anders.ssh.model.annotation.CompanyInfo" select="getCompanyInfoById" />
-    	<collection property="departments" column="id" javaType="ArrayList" ofType="com.anders.ssh.model.annotation.Department" select="getDepartmentsById" />
-    	<collection property="account" column="company_id" javaType="ArrayList" ofType="com.anders.ssh.model.annotation.Account" select="getAccountsById" />
+		<association property="companyInfo" column="company_info_id" javaType="com.anders.ssh.model.test.CompanyInfo" select="getCompanyInfoById" />
+    	<collection property="departments" column="id" javaType="ArrayList" ofType="com.anders.ssh.model.test.Department" select="getDepartmentsById" />
+    	<collection property="account" column="company_id" javaType="ArrayList" ofType="com.anders.ssh.model.test.Account" select="getAccountsById" />
     	-->
-    	<association property="companyInfo" column="company_info_id" javaType="com.anders.ssh.model.annotation.CompanyInfo" resultMap="companyInfoMap" />
-    	<collection property="departments" javaType="ArrayList" ofType="com.anders.ssh.model.annotation.Department" resultMap="departmentMap" />
-    	<collection property="accounts" javaType="ArrayList" ofType="com.anders.ssh.model.annotation.Account" resultMap="accountMap" />
+    	<association property="companyInfo" column="company_info_id" javaType="com.anders.ssh.model.test.CompanyInfo" resultMap="companyInfoMap" />
+    	<collection property="departments" javaType="ArrayList" ofType="com.anders.ssh.model.test.Department" resultMap="departmentMap" />
+    	<collection property="accounts" javaType="ArrayList" ofType="com.anders.ssh.model.test.Account" resultMap="accountMap" />
 	</resultMap>
 	
 	<!-- company -->
-	<resultMap id="companyInfoMap" type="com.anders.ssh.model.annotation.CompanyInfo">
+	<resultMap id="companyInfoMap" type="com.anders.ssh.model.test.CompanyInfo">
 		<id column="info_id" property="id" jdbcType="BIGINT" />
 		<result column="info_info" property="info" jdbcType="VARCHAR" />
 	</resultMap>
@@ -33,7 +33,7 @@
   	</select>
   	
   	<!-- department -->
-  	<resultMap id="departmentMap" type="com.anders.ssh.model.annotation.Department">
+  	<resultMap id="departmentMap" type="com.anders.ssh.model.test.Department">
 		<id column="depart_id" property="id" jdbcType="BIGINT" />
 		<result column="depart_name" property="name" jdbcType="VARCHAR" />
 	</resultMap>
@@ -43,7 +43,7 @@
   	</select>
   	
   	<!-- account -->
-  	<resultMap id="accountMap" type="com.anders.ssh.model.annotation.Account">
+  	<resultMap id="accountMap" type="com.anders.ssh.model.test.Account">
 		<id column="account_id" property="id" jdbcType="BIGINT" />
 		<result column="account_name" property="name" jdbcType="VARCHAR" />
 	</resultMap>

@@ -12,11 +12,11 @@
 
 		<property name="name" column="name" type="string" not-null="true" length="50"/>
 		<property name="enable" column="enable" type="boolean" not-null="true"/>
-		<set name="roleSet" table="tb_user_group_role_relation" lazy="false">  
+		<set name="roles" table="rlt_user_group_to_role" lazy="false">  
         	<key column="user_group_id"/>  
         	<many-to-many class="Role" column="role_id"/>  
     	</set> 
-    	<set name="userSet" table="tb_user_user_group_relation">  
+    	<set name="users" table="rlt_user_to_user_group">  
         	<key column="user_group_id"/>  
         	<many-to-many class="User" column="user_id"/>  
     	</set>

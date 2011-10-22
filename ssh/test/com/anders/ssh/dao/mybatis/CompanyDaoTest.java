@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.anders.ssh.model.annotation.Company;
+import com.anders.ssh.model.test.Company;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })

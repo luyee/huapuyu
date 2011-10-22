@@ -1,19 +1,24 @@
 package com.anders.ssh.model.annotation;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+/**
+ * 资源
+ * 
+ * @author Anders Zhu
+ * 
+ */
 @Entity
 @Table(name = "tb_resource")
 public class Resource implements Serializable {
@@ -41,12 +46,10 @@ public class Resource implements Serializable {
 	@Column(nullable = false)
 	private Boolean enable = true;
 	/**
-	 * 角色和资源关系
+	 * 角色
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "resource")
-	// TODO Collections.emptySet()和new HashSet<RoleResourceRelation>(0)作用一样，创建一个size=0的HashSet
-	// private Set<RoleResourceRelation> roleResourceRelationSet = new HashSet<RoleResourceRelation>(0);
-	private Set<RoleToResource> roleToResourceSet = Collections.emptySet();
+	@ManyToMany(mappedBy = "resources", targetEntity = Role.class, fetch = FetchType.EAGER)
+	private List<Role> roles = new ArrayList<Role>(0);
 
 	public Long getId() {
 		return id;
@@ -80,11 +83,12 @@ public class Resource implements Serializable {
 		this.enable = enable;
 	}
 
-	public Set<RoleToResource> getRoleToResourceSet() {
-		return roleToResourceSet;
+	public List<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRoleToResourceSet(Set<RoleToResource> roleToResourceSet) {
-		this.roleToResourceSet = roleToResourceSet;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
+
 }

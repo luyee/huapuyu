@@ -1,17 +1,18 @@
 package com.anders.ssh.model.annotation;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -36,15 +37,16 @@ public class UserGroup implements Serializable {
 	@Column(nullable = false)
 	private Boolean enable = true;
 	/**
-	 * 用户组和角色关系
+	 * 角色
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "userGroup")
-	private Set<UserGroupToRole> userGroupToRoleSet = Collections.emptySet();
+	@ManyToMany(targetEntity = Role.class, fetch = FetchType.LAZY)
+	@JoinTable(name = "rlt_user_group_to_role", joinColumns = @JoinColumn(name = "user_group_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private List<Role> roles = new ArrayList<Role>(0);
 	/**
-	 * 用户和用户组关系
+	 * 用户
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "userGroup")
-	private Set<UserToUserGroup> userToUserGroupSet = Collections.emptySet();
+	@ManyToMany(mappedBy = "userGroups", targetEntity = User.class, fetch = FetchType.LAZY)
+	private List<User> users = new ArrayList<User>(0);
 
 	public Long getId() {
 		return id;
@@ -70,20 +72,20 @@ public class UserGroup implements Serializable {
 		this.enable = enable;
 	}
 
-	public Set<UserGroupToRole> getUserGroupToRoleSet() {
-		return userGroupToRoleSet;
+	public List<Role> getRoles() {
+		return roles;
 	}
 
-	public void setUserGroupToRoleSet(Set<UserGroupToRole> userGroupToRoleSet) {
-		this.userGroupToRoleSet = userGroupToRoleSet;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
-	public Set<UserToUserGroup> getUserToUserGroupSet() {
-		return userToUserGroupSet;
+	public List<User> getUsers() {
+		return users;
 	}
 
-	public void setUserToUserGroupSet(Set<UserToUserGroup> userToUserGroupSet) {
-		this.userToUserGroupSet = userToUserGroupSet;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 }

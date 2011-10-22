@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.sql.SQLException;
 
-
 import com.anders.ssh.model.xml.Data;
 import com.ibatis.common.resources.Resources;
 import com.ibatis.sqlmap.client.SqlMapClient;
@@ -16,11 +15,8 @@ import com.ibatis.sqlmap.client.SqlMapClientBuilder;
  * @author Anders
  * 
  */
-public class MainTest
-{
-	public static void main(String[] args) throws SQLException, IOException
-	{
-		// TODO Anders Zhu : need to fix the bug
+public class MainTest {
+	public static void main(String[] args) throws SQLException, IOException {
 		Reader reader = Resources.getResourceAsReader("config/ibatis-config.xml");
 		SqlMapClient sqlMapClient = SqlMapClientBuilder.buildSqlMapClient(reader);
 

@@ -10,8 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class User implements UserDetails
-{
+public class User implements UserDetails {
 	private static final long serialVersionUID = 5989698534331721397L;
 
 	private Integer id;
@@ -25,23 +24,22 @@ public class User implements UserDetails
 	private String name;
 	private String pwd;
 	private Boolean enable = true;
-	private Set<Role> roleSet = new HashSet<Role>(0);
-	private Set<UserGroup> userGroupSet = new HashSet<UserGroup>(0);
-	private Set<Resource> resourceSet = new HashSet<Resource>(0);
+	private Set<Role> roles = new HashSet<Role>(0);
+	private Set<UserGroup> userGroups = new HashSet<UserGroup>(0);
+	private Set<Resource> resources = new HashSet<Resource>(0);
 
 	// ********************************************
 	// following is UserDetails implement functions
 	// ********************************************
 
 	@Override
-	public Collection<GrantedAuthority> getAuthorities()
-	{
+	public Collection<GrantedAuthority> getAuthorities() {
 		Set<String> roleNameSet = new HashSet<String>();
-		for (Role role : roleSet)
+		for (Role role : roles)
 			roleNameSet.add(role.getName());
 
-		for (UserGroup userGroup : userGroupSet)
-			for (Role role : userGroup.getRoleSet())
+		for (UserGroup userGroup : userGroups)
+			for (Role role : userGroup.getRoles())
 				roleNameSet.add(role.getName());
 
 		List<GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>();
@@ -52,38 +50,32 @@ public class User implements UserDetails
 	}
 
 	@Override
-	public String getPassword()
-	{
+	public String getPassword() {
 		return pwd;
 	}
 
 	@Override
-	public String getUsername()
-	{
+	public String getUsername() {
 		return userName;
 	}
 
 	@Override
-	public boolean isAccountNonExpired()
-	{
+	public boolean isAccountNonExpired() {
 		return true;
 	}
 
 	@Override
-	public boolean isAccountNonLocked()
-	{
+	public boolean isAccountNonLocked() {
 		return true;
 	}
 
 	@Override
-	public boolean isCredentialsNonExpired()
-	{
+	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
 	@Override
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		return enable;
 	}
 
@@ -91,83 +83,68 @@ public class User implements UserDetails
 	// getter and setter
 	// *****************
 
-	public Integer getId()
-	{
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Integer id)
-	{
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getUserName()
-	{
+	public String getUserName() {
 		return userName;
 	}
 
-	public void setUserName(String userName)
-	{
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getPwd()
-	{
+	public String getPwd() {
 		return pwd;
 	}
 
-	public void setPwd(String pwd)
-	{
+	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
 
-	public Boolean getEnable()
-	{
+	public Boolean getEnable() {
 		return enable;
 	}
 
-	public void setEnable(Boolean enable)
-	{
+	public void setEnable(Boolean enable) {
 		this.enable = enable;
 	}
 
-	public Set<Role> getRoleSet()
-	{
-		return roleSet;
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRoleSet(Set<Role> roleSet)
-	{
-		this.roleSet = roleSet;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
-	public Set<UserGroup> getUserGroupSet()
-	{
-		return userGroupSet;
+	public Set<UserGroup> getUserGroups() {
+		return userGroups;
 	}
 
-	public void setUserGroupSet(Set<UserGroup> userGroupSet)
-	{
-		this.userGroupSet = userGroupSet;
+	public void setUserGroups(Set<UserGroup> userGroups) {
+		this.userGroups = userGroups;
 	}
 
-	public Set<Resource> getResourceSet()
-	{
-		return resourceSet;
+	public Set<Resource> getResources() {
+		return resources;
 	}
 
-	public void setResourceSet(Set<Resource> resourceSet)
-	{
-		this.resourceSet = resourceSet;
+	public void setResources(Set<Resource> resources) {
+		this.resources = resources;
 	}
+
 }

@@ -5,43 +5,48 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.anders.ssh.dao.hibernate.DataDao;
 import com.anders.ssh.model.xml.Data;
 import com.anders.ssh.service.DataService;
 
 @Component
+@Transactional
 public class DataServiceImpl implements DataService {
 	@Resource(name = "hibernateDataDao")
-	private DataDao dao;
+	private DataDao dataDao;
 
 	@Override
-	public void delete(Data entity) {
-		dao.delete(entity);
+	public void delete(Data data) {
+		dataDao.delete(data);
 	}
 
 	@Override
-	public void deleteById(Integer id) {
-		dao.deleteById(id);
+	public void deleteById(Long id) {
+		dataDao.deleteById(id);
 	}
 
 	@Override
-	public Data getById(Integer id) {
-		return dao.getById(id);
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+	public Data getById(Long id) {
+		return dataDao.getById(id);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
 	public List<Data> getAll() {
-		return dao.getAll();
+		return dataDao.getAll();
 	}
 
 	@Override
-	public void save(Data entity) {
-		dao.save(entity);
+	public void save(Data data) {
+		dataDao.save(data);
 	}
 
 	@Override
-	public void update(Data entity) {
-		dao.update(entity);
+	public void update(Data data) {
+		dataDao.update(data);
 	}
 }

@@ -14,15 +14,15 @@
 		<property name="userName" column="user_name" type="string" not-null="true" length="50" unique="true"/>
 		<property name="pwd" column="pwd" type="string" not-null="true" length="50"/>
 		<property name="enable" column="enable" type="boolean" not-null="true"/>
-		<set name="roleSet" table="tb_user_role_relation" lazy="false">  
+		<set name="roles" table="rlt_user_to_role" lazy="false">  
         	<key column="user_id"/>  
         	<many-to-many class="Role" column="role_id"/>  
     	</set> 
-    	<set name="userGroupSet" table="tb_user_user_group_relation" lazy="false">  
+    	<set name="userGroups" table="rlt_user_to_user_group" lazy="false">  
         	<key column="user_id"/>  
         	<many-to-many class="UserGroup" column="user_group_id"/>  
     	</set>
-    	<set name="resourceSet" table="tb_user_resource_relation" lazy="false">  
+    	<set name="resources" table="rlt_user_to_resource" lazy="false">  
         	<key column="user_id"/>  
         	<many-to-many class="Resource" column="resource_id"/>  
     	</set>

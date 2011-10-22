@@ -5,6 +5,5 @@ import org.springframework.stereotype.Component;
 import com.anders.ssh.model.xml.Role;
 
 @Component("hibernateRoleDao")
-public class RoleDao extends HibernateDao<Integer, Role>
-{
+public class RoleDao extends HibernateDao<Long, Role> {
 }

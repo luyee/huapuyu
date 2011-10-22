@@ -4,18 +4,16 @@ import java.util.List;
 
 import com.anders.ssh.model.xml.Role;
 
+public interface RoleService {
+	public Role getById(Long id);
 
-public interface RoleService
-{
-	public Role getById(Integer id);
+	public void save(Role role);
 
-	public void save(Role entity);
+	public void update(Role role);
 
-	public void update(Role entity);
+	public void delete(Role role);
 
-	public void delete(Role entity);
-
-	public void deleteById(Integer id);
+	public void deleteById(Long id);
 
 	public List<Role> getAll();
 }

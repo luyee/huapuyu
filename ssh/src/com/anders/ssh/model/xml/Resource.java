@@ -4,75 +4,53 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Resource implements Serializable
-{
+public class Resource implements Serializable {
 	private static final long serialVersionUID = -8246262126931423368L;
 
 	private Integer id;
-	private String type;
-	private String url;
 	private String name;
+	private String content;
 	private Boolean enable = true;
-	private Set<Role> roleSet = new HashSet<Role>(0);
+	private Set<Role> roles = new HashSet<Role>(0);
 
-	public Integer getId()
-	{
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Integer id)
-	{
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public Boolean getEnable()
-	{
+	public Boolean getEnable() {
 		return enable;
 	}
 
-	public void setEnable(Boolean enable)
-	{
+	public void setEnable(Boolean enable) {
 		this.enable = enable;
 	}
 
-	public String getType()
-	{
-		return type;
+	public String getContent() {
+		return content;
 	}
 
-	public void setType(String type)
-	{
-		this.type = type;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
-	public String getUrl()
-	{
-		return url;
-	}
-
-	public void setUrl(String url)
-	{
-		this.url = url;
-	}
-
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public Set<Role> getRoleSet()
-	{
-		return roleSet;
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRoleSet(Set<Role> roleSet)
-	{
-		this.roleSet = roleSet;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 }

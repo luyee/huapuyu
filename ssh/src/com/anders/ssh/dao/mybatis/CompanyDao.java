@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import com.anders.ssh.dao.Dao;
-import com.anders.ssh.model.annotation.Company;
+import com.anders.ssh.model.test.Company;
 
 @Component("mybatisCompanyDao")
 public class CompanyDao implements Dao<Long, Company> {
@@ -17,13 +17,11 @@ public class CompanyDao implements Dao<Long, Company> {
 
 	@Override
 	public void delete(Company entity) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -35,19 +33,16 @@ public class CompanyDao implements Dao<Long, Company> {
 
 	@Override
 	public Company getById(Long id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void save(Company entity) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void update(Company entity) {
-		// TODO Auto-generated method stub
 
 	}
 

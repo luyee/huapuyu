@@ -54,11 +54,7 @@
         -->
     </global-method-security>
     
-    <http use-expressions="true">
-		<intercept-url pattern="/css/**" filters="none" />
-		<intercept-url pattern="/images/**" filters="none" />
-		<intercept-url pattern="/js/**" filters="none" />
-
+    <http use-expressions="true" access-denied-page="/auth.jsp">
 		<!--   
 		<intercept-url pattern="/data/update*" access="hasAnyRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/data/delete*" access="hasAnyRole('ROLE_ADMIN')" />
@@ -66,25 +62,31 @@
 		<intercept-url pattern="/role/update*" access="hasAnyRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/role/delete*" access="hasAnyRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/role/list*" access="hasAnyRole('ROLE_USER')" />
-		-->
-		
-
-		<!--
-		<intercept-url pattern="/**" access="hasAnyRole('ROLE_USER')"/>  
-		<form-login login-page="/login.jsp" default-target-url="/index.jsp" authentication-failure-url="/login.jsp" />
-		<logout logout-success-url="/login.jsp" />
-		
-		<session-management invalid-session-url="/timeout.jsp">
-            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
-        </session-management>
-        -->
         <form-login login-page="/login.jsp" authentication-failure-url="/loginError.jsp"/>
         <logout />
         <remember-me />
         <session-management invalid-session-url="/timeout.jsp">
             <concurrency-control max-sessions="10" error-if-maximum-exceeded="true" />
         </session-management>
-        <custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="myFilter"/>
+        <custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="aecurityInterceptor"/>
+        -->
+        
+        <intercept-url pattern="/" access="permitAll" />
+		<intercept-url pattern="/login.jsp" access="permitAll" />
+		<!--  
+		<sec:intercept-url pattern="/auth.jsp" access="permitAll" />
+		-->
+		<intercept-url pattern="/WEB-INF/jsp/css/**" filters="none" />
+		<intercept-url pattern="/WEB-INF/jsp/images/**" filters="none" />
+		<intercept-url pattern="/WEB-INF/jsp/js/**" filters="none" />
+		<intercept-url pattern="/WEB-INF/jsp/**" access="isAuthenticated()" />
+        <form-login login-page="/login.jsp" authentication-failure-url="/login.jsp" default-target-url="/index.jsp"/>
+        <logout invalidate-session="true" logout-success-url="/"/>
+        <remember-me />
+        <session-management invalid-session-url="/">
+            <concurrency-control max-sessions="10" error-if-maximum-exceeded="true" />
+        </session-management>
+        <custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="aecurityInterceptor"/>
 	</http>
 	
 	<!--    
@@ -100,7 +102,7 @@
 	
 	<!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性，
     我们的所有控制将在这三个类中实现，解释详见具体配置 -->
-    <beans:bean id="myFilter" class="com.anders.ssh.privilege.security.SecurityInterceptor">
+    <beans:bean id="aecurityInterceptor" class="com.anders.ssh.privilege.security.SecurityInterceptor">
         <beans:property name="authenticationManager" ref="authenticationManager" />
         <beans:property name="accessDecisionManager" ref="accessDecisionManagerImpl" />
         <beans:property name="securityMetadataSource" ref="filterInvocationSecurityMetadataSourceImpl" />

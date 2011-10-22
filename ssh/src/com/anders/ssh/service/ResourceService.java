@@ -2,20 +2,18 @@ package com.anders.ssh.service;
 
 import java.util.List;
 
-import com.anders.ssh.model.xml.Resource;
+import com.anders.ssh.model.annotation.Resource;
 
+public interface ResourceService {
+	public Resource getById(Long id);
 
-public interface ResourceService
-{
-	public Resource getById(Integer id);
+	public void save(Resource resource);
 
-	public void save(Resource entity);
+	public void update(Resource resource);
 
-	public void update(Resource entity);
+	public void delete(Resource resource);
 
-	public void delete(Resource entity);
-
-	public void deleteById(Integer id);
+	public void deleteById(Long id);
 
 	public List<Resource> getAll();
 

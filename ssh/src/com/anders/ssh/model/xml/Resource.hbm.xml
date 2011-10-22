@@ -10,12 +10,11 @@
 			<generator class="native"/>
 		</id>
 
-		<property name="type" column="type" type="string" not-null="true" length="50"/>
-		<property name="url" column="url" type="string" not-null="true" length="50"/>
 		<property name="name" column="name" type="string" not-null="true" length="50"/>
+		<property name="content" column="content" type="string" not-null="true" length="50"/>
 		<property name="enable" column="enable" type="boolean" not-null="true"/>
 		
-		<set name="roleSet" table="tb_role_resource_relation" lazy="false">  
+		<set name="roles" table="rlt_role_to_resource" lazy="false">  
         	<key column="resource_id"/>
         	<many-to-many class="Role" column="role_id"/>  
     	</set> 

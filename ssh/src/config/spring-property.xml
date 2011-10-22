@@ -22,8 +22,37 @@
 	<bean id="propertyConfigurer1" class="com.anders.ssh.common.AnnotationPropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
+				<value>classpath:db.properties</value>
 				<value>classpath:system.properties</value>
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="rbms" class="org.springframework.context.support.ResourceBundleMessageSource"> 
+		<property name="basename" value="messages"/> 
+	</bean> 
+	
+	<bean id="locale" class="java.util.Locale">
+		<constructor-arg index="0" type="java.lang.String" value="zh"/>
+		<constructor-arg index="1" type="java.lang.String" value="CN"/>
+		<constructor-arg index="2" type="java.lang.String" value="false"/>
+		<!--  
+		<constructor-arg index="0" type="java.lang.String" value="en"/>
+		<constructor-arg index="1" type="java.lang.String" value=""/>
+		<constructor-arg index="2" type="java.lang.String" value="false"/>
+		-->
+	</bean>
+	
+	<bean id="messages" class="com.anders.ssh.common.Messages"> 
+		<property name="rbms" ref="rbms"/>
+		<!--
+		<property name="locale" ref="locale"/> 
+		<property name="locale" value="Locale.SIMPLIFIED_CHINESE"/> 
+		<property name="locale" value="Locale.ENGLISH"/>
+		--> 
+	</bean>
+       
+    <!--     
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/>
+	-->
 </beans>

@@ -7,36 +7,36 @@ import org.springframework.stereotype.Component;
 import com.anders.ssh.model.xml.Data;
 
 @Component("ibatisDataDao")
-public class DataDao extends IbatisDao<Integer, Data> {
+public class DataDao extends IbatisDao<Long, Data> {
 	@Override
-	public void delete(Data entity) {
-		getSqlMapClientTemplate().delete("dataDelete", entity);
+	public void delete(Data data) {
+		getSqlMapClientTemplate().delete("delete", data);
 	}
 
 	@Override
-	public Data getById(Integer id) {
-		return (Data) getSqlMapClientTemplate().queryForObject("dataGetById", id);
+	public Data getById(Long id) {
+		return (Data) getSqlMapClientTemplate().queryForObject("getById", id);
 	}
 
 	@Override
-	public void save(Data entity) {
-		getSqlMapClientTemplate().insert("dataSave", entity);
+	public void save(Data data) {
+		getSqlMapClientTemplate().insert("save", data);
 	}
 
 	@Override
-	public void update(Data entity) {
-		getSqlMapClientTemplate().update("dataUpdate", entity);
+	public void update(Data data) {
+		getSqlMapClientTemplate().update("update", data);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Data> getAll() {
-		return getSqlMapClientTemplate().queryForList("dataGetAll");
+		return getSqlMapClientTemplate().queryForList("getAll");
 	}
 
 	@Override
-	public void deleteById(Integer id) {
-		getSqlMapClientTemplate().delete("dataDeleteById", id);
+	public void deleteById(Long id) {
+		getSqlMapClientTemplate().delete("deleteById", id);
 	}
 
 }
