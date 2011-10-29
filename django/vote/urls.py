@@ -19,5 +19,5 @@ urlpatterns = patterns('',
     (r'^vote/poll/saveInput/$', views.pollSaveInput),
     (r'^vote/poll/save/$', views.pollSave),
     (r'^vote/poll/test/$', views.test),
-    (r'^js/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/anders/code/django/vote/js/'}),
+    (r'^js/(?P<path>.*)$', 'django.views.static.serve', {'document_root': 'D:/code/django/vote/js/'}),
 )

@@ -11,6 +11,10 @@ def pollSaveInput(request):
     return render_to_response('pollSave.html')
 
 
+def test(request):
+    return render_to_response('test.html')
+
+
 def pollSave(request):
 #    if request.method == 'POST':
 #        if not request.POST.get('subject', ''):

@@ -1,5 +1,4 @@
 1.国际化
-http://www.iteye.com/topic/138106
 
 Starting server with Django 1.3 is only possible in --noreload mode.
 To fix that, please, apply patch to your Django installation: http://code.djangoproject.com/changeset/15911
