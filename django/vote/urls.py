@@ -15,8 +15,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
-    (r'^poll/list/$', views.pollList),
-    (r'^poll/saveInput/$', views.pollSaveInput),
-    (r'^poll/save/$', views.pollSave),
-    (r'^js/(?P<path>.*)$', 'django.views.static.serve', {'document_root': 'D:/code/django/vote/js/'}),
+    (r'^vote/poll/list/$', views.pollList),
+    (r'^vote/poll/saveInput/$', views.pollSaveInput),
+    (r'^vote/poll/save/$', views.pollSave),
+    (r'^vote/poll/test/$', views.test),
+    (r'^js/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/anders/code/django/vote/js/'}),
 )
