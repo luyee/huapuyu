@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><component name="dataSourceStorage">
-  <data-source source="LOCAL" name="Django default" product="" version="" jdbc-version="" driver-version="" uuid="0466dedd-e1a6-4386-a1aa-a73a1bd3dd8b">
-    <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-    <jdbc-url>jdbc:sqlite:D:\code\django\vote\vote.db</jdbc-url>
+  <data-source source="LOCAL" name="Django default" product="" version="" jdbc-version="" driver-version="" uuid="5759bd7f-baf1-4376-a380-0882ca7ff4e6">
+    <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+    <jdbc-url>jdbc:mysql://127.0.0.1:3306/vote</jdbc-url>
+    <user-name>root</user-name>
+    <user-password>df9bdf98df99</user-password>
     <libraries>
       <library>
-        <url>file://$USER_HOME$/.PyCharm10/config/jdbc-drivers/zentus-sqlite-license.txt</url>
+        <url>file://$USER_HOME$/.PyCharm10/config/jdbc-drivers/mysql-connector-license.txt</url>
       </library>
       <library>
-        <url>file://$USER_HOME$/.PyCharm10/config/jdbc-drivers/sqlitejdbc-v056.jar</url>
+        <url>jar://$USER_HOME$/.PyCharm10/config/jdbc-drivers/mysql-connector-java-5.1.16-bin.jar!/</url>
       </library>
     </libraries>
   </data-source>

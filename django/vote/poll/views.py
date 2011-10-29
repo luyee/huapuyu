@@ -1,6 +1,6 @@
-import datetime
+from datetime import *
 from django.shortcuts import render_to_response
-from poll.models import Poll
+from poll.models import Poll, PollItem
 
 def pollList(request):
     pollList = Poll.objects.order_by('-createTime')[:10]
@@ -29,9 +29,13 @@ def pollSave(request):
 #            return HttpResponseRedirect('/contact/thanks/')
     title = request.POST.get('title', '')
     remark = request.POST.get('remark', '')
-#    now = datetime.now
-#    createTime = now()
-#    poll = Poll(title=title, remark=remark, createTime=createTime)
-    poll = Poll(title=title, remark=remark)
+    poll = Poll(title=title, remark=remark, createTime=datetime.now())
     poll.save()
+
+    itemIds = request.POST.get('item_ids', '')
+    ids = itemIds.split(',')
+    for id in ids:
+        pollItem = PollItem(title=request.POST.get('item_title' + id, ''), poll=poll)
+        pollItem.save()
+
     return render_to_response('pollSave.html')
