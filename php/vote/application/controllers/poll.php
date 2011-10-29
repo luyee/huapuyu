@@ -6,6 +6,10 @@ class Poll extends CI_Controller
 {
 	public function saveInput()
 	{
+		$this->load->helper('language');
+		$this->load->helper('url');
+//		$this->load->library('jquery');
+		$this->lang->load('message');
 		$this->load->helper('form');
 		$this->load->view('poll/save');
 	}
@@ -13,7 +17,9 @@ class Poll extends CI_Controller
 	public function save()
 	{
 		$this->load->model('MPoll', '', TRUE);
-		$this->MPoll->insert();
+		$pollId = $this->MPoll->insert();
+		$this->load->model('MPollItem', '', TRUE);
+		$this->MPollItem->insert($pollId);
 	}
 }
 ?>

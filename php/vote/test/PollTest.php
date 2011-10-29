@@ -1,7 +1,6 @@
 <?php
 
 require_once 'PHPUnit\Framework\TestCase.php';
-require_once 'application/models/poll.php';
 
 class PollTest extends PHPUnit_Framework_TestCase
 {
@@ -21,7 +20,7 @@ class PollTest extends PHPUnit_Framework_TestCase
 	
 	public function test1()
 	{
-		$poll = new Poll();
+		$poll = new MPoll();
 		$poll->insert();
 	}
 }
