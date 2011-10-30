@@ -9,6 +9,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 public class Tester
 {
@@ -33,7 +36,7 @@ public class Tester
 	}
 
 	@Test
-	public void 普通工厂类() throws CreateCarException
+	public void 普通工厂类() throws CreateCarException, SAXException
 	{
 		ICar 奔驰 = 普通工厂类.factory(汽车品牌.奔驰);
 		奔驰.启动();
@@ -47,6 +50,14 @@ public class Tester
 		Date date = new Date();
 		System.out.println(SimpleDateFormat.getDateInstance(DateFormat.DEFAULT).format(date));
 		System.out.println(SimpleDateFormat.getDateInstance(DateFormat.FULL).format(date));
+
+		// XMLReaderFactory和XMLReader是xml-apis.jar中定义的，具体的XML解析jar扩展XMLReader
+		String className = "org.apache.xerces.parsers.SAXParser";
+		XMLReader xmlReader = XMLReaderFactory.createXMLReader(className);
+		System.out.println(xmlReader.getClass().getName());
+		className = "org.apache.crimson.parser.XMLReaderImpl";
+		xmlReader = XMLReaderFactory.createXMLReader(className);
+		System.out.println(xmlReader.getClass().getName());
 	}
 
 	@Test

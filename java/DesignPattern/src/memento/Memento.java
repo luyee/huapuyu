@@ -1,7 +1,7 @@
 package memento;
 
 /*
- * 纪念物，令人回忆的东西，纪念品
+ * 纪念物，令人回忆的东西，纪念品，假设为：游戏记录
  */
 public class Memento
 {

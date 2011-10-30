@@ -31,7 +31,9 @@ public class Tester
 	@Test
 	public void test()
 	{
+		// 正常的游戏流程
 		Originator originator = new Originator();
+		// 游戏记录管理器
 		Caretaker caretaker = new Caretaker();
 
 		originator.setState("on");
