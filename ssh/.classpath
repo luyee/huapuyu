@@ -210,5 +210,16 @@
 	<classpathentry kind="lib" path="lib/common/commons-configuration-1.7.jar"/>
 	<classpathentry kind="lib" path="lib/mybatis/mybatis-3.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/mybatis/mybatis-spring-1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/lucene/compass-2.2.0.jar" sourcepath="lib/lucene/compass-2.2.0-src.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ssh/lib/lucene/compass-2.2.0-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/lucene/lucene-analyzers.jar"/>
+	<classpathentry kind="lib" path="lib/lucene/lucene-core.jar"/>
+	<classpathentry kind="lib" path="lib/lucene/lucene-highlighter.jar"/>
+	<classpathentry kind="lib" path="lib/lucene/lucene-queries.jar"/>
+	<classpathentry kind="lib" path="lib/lucene/lucene-snowball.jar"/>
+	<classpathentry kind="lib" path="lib/lucene/lucene-spellchecker.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
