@@ -1,1 +1,0 @@
-connect 'C:\Documents and Settings\Anders\My Documents\RAD Studio\Projects\hhre\system.dll' user 'SYSDBA' password 'masterkey'
