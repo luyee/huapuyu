@@ -8,9 +8,10 @@ class Poll extends CI_Controller
 	{
 		$this->load->helper('language');
 		$this->load->helper('url');
-//		$this->load->library('jquery');
+		//		$this->load->library('jquery');
 		$this->lang->load('message');
 		$this->load->helper('form');
+		$this->load->library('table');
 		$this->load->view('poll/save');
 	}
 	

@@ -1,5 +1,5 @@
 <?php
-$lang['poll_save_title'] = '投票->创建新投票';
+$lang['poll_save_title'] = '投票 | 创建新投票';
 
 $lang['poll_save_label_colon'] = '：';
 

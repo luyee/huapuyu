@@ -1,5 +1,5 @@
 <?php 
-$lang['poll_save_title'] = 'Poll->Create New Poll';
+$lang['poll_save_title'] = 'Poll | Create New Poll';
 
 $lang['poll_save_label_colon'] = ':';
 

@@ -4,101 +4,73 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title><?php echo lang('poll_save_title');?></title>
-		<script type="text/javascript" src="<?php echo base_url();?>js/jquery-1.6.3.js"></script>
+		<link rel="stylesheet" href="<?php echo base_url();?>js/jqueryui/development-bundle/themes/ui-lightness/jquery.ui.all.css" />
+		<script src="<?php echo base_url();?>js/jqueryui/development-bundle/jquery-1.6.2.js"></script>
+		<script src="<?php echo base_url();?>js/jqueryui/development-bundle/ui/jquery.ui.core.js"></script>
+		<script src="<?php echo base_url();?>js/jqueryui/development-bundle/ui/jquery.ui.widget.js"></script>
+		<script src="<?php echo base_url();?>js/jqueryui/development-bundle/ui/jquery.ui.button.js"></script>
+		<link rel="stylesheet" href="<?php echo base_url();?>js/jqueryui/development-bundle/demos/demos.css" />
+		<script>
+		$(function() {
+			modifyButtonStyle();
+		});
+
+		// 修改Button样式
+		function modifyButtonStyle()
+		{
+			$("button").button({
+	            icons: {
+	                primary: "ui-icon-locked"
+	            }
+	        });
+		}
+		</script>
 	</head>
 
-	<body>
+	<body style="margin: 0;">
+		<div style="background-color: red;">hello world</div>
+		<div>
 		<?php
 		echo form_open('poll/save');
 		
-		echo '<table>';
-		echo '<tr>';
-		echo '<td>';	
-		echo form_label(lang('poll_save_label_title').lang('poll_save_label_colon'), 'title');
-		echo '</td>';
-		echo '<td>';
-		$title = array('name' => 'title', 'id' => 'title');
-		echo form_input($title);
-		echo '</td>';
-		echo '<td>';	
-		echo '</td>';
-		echo '</tr>';
-
-		echo '<tr>';
-		echo '<td>';
-		echo form_label(lang('poll_save_label_remark').lang('poll_save_label_colon'), 'remark');
-		echo '</td>';
-		echo '<td>';
-		$remark = array('name' => 'remark', 'id' => 'remark');
-		echo form_input($remark);
-		echo '</td>';
-		echo '<td>';	
-		echo '</td>';
-		echo '</tr>';
-		echo '</table>';
+		$this->table->add_row(form_label(lang('poll_save_label_title').lang('poll_save_label_colon'), 'title'), form_input(array('name' => 'title', 'id' => 'title')), ''); 
+		$this->table->add_row(form_label(lang('poll_save_label_remark').lang('poll_save_label_colon'), 'remark'), form_input(array('name' => 'remark', 'id' => 'remark')), ''); 
+		echo $this->table->generate();
 		
 		echo '<table id="items">';
-		echo '<tr id="item1">';
-		echo '<td>';
-		echo '</td>';
-		echo '<td>';
-		$itemTitle1 = array('name' => 'item_title1', 'id' => 'item_title1');
-		echo form_input($itemTitle1);
-		echo '</td>';
-		echo '<td>';
-		$itemBtn1 = array('name' => 'item_btn1', 'id' => 'item_btn1', 'onclick' => 'deleteItem(1);');
-		echo form_button($itemBtn1, lang('poll_save_btn_delete_item'));
-		echo '</td>';
-		echo '</tr>';
 		
-		echo '<tr id="item2">';
-		echo '<td>';
-		echo '</td>';
-		echo '<td>';
-		$itemTitle2 = array('name' => 'item_title2', 'id' => 'item_title2');
-		echo form_input($itemTitle2);
-		echo '</td>';
-		echo '<td>';	
-		$itemBtn2 = array('name' => 'item_btn2', 'id' => 'item_btn2', 'onclick' => 'deleteItem(2);');
-		echo form_button($itemBtn2, lang('poll_save_btn_delete_item'));
-		echo '</td>';
-		echo '</tr>';
+		function printTr($num)
+		{
+			echo "<tr id=\"item$num\">";
+			echo '<td>';
+			echo '</td>';
+			echo '<td>';
+			echo form_input(array('name' => "item_title$num", 'id' => "item_title$num"));
+			echo '</td>';
+			echo '<td>';	
+			echo '<div class="demo">';
+			echo form_button(array('name' => "item_btn$num", 'id' => "item_btn$num", 'onclick' => "deleteItem($num);"), lang('poll_save_btn_delete_item'));
+			echo '</div>';
+			echo '</td>';
+			echo '</tr>';
+		}
 		
-		echo '<tr id="item3">';
-		echo '<td>';
-		echo '</td>';
-		echo '<td>';
-		$itemTitle3 = array('name' => 'item_title3', 'id' => 'item_title3');
-		echo form_input($itemTitle3);
-		echo '</td>';
-		echo '<td>';
-		$itemBtn3 = array('name' => 'item_btn3', 'id' => 'item_btn3', 'onclick' => 'deleteItem(3);');
-		echo form_button($itemBtn3, lang('poll_save_btn_delete_item'));	
-		echo '</td>';
-		echo '</tr>';
+		for ($i = 1; $i <= 4; $i++)
+			printTr($i);
 		
-		echo '<tr id="item4">';
-		echo '<td>';
-		echo '</td>';
-		echo '<td>';
-		$itemTitle4 = array('name' => 'item_title4', 'id' => 'item_title4');
-		echo form_input($itemTitle4);
-		echo '</td>';
-		echo '<td>';
-		$itemBtn4 = array('name' => 'item_btn4', 'id' => 'item_btn4', 'onclick' => 'deleteItem(4);');
-		echo form_button($itemBtn4, lang('poll_save_btn_delete_item'));
-		echo '</td>';
-		echo '</tr>';
 		echo '</table>';
 		
 		echo '<input type="hidden" name="item_max" id="item_max" value="4"/>';
 		echo '<input type="hidden" name="item_ids" id="item_ids" value="1,2,3,4"/>';
-		$newItem = array('name' => 'new_item', 'id' => 'new_item');
-		echo form_button($newItem, lang('poll_save_btn_new_item'));
-		echo form_submit('submit', lang('poll_save_btn_save'));
+		
+		echo '<div class="demo">';
+		echo form_button(array('name' => 'new_item', 'id' => 'new_item'), lang('poll_save_btn_new_item'));
+		echo form_button(array('name' => 'save', 'id' => 'save', 'onclick' => 'javascript:document.forms[0].submit();'), lang('poll_save_btn_save'));
+		echo '</div>';
 		
 		echo form_close();
 		?>	
+		</div>
 		
 		<script type="text/javascript">
   			$('#new_item').click(function() {
@@ -108,11 +80,11 @@
   				addItem(itemMax);
   				$("#item_ids").val(itemIds + "," + itemMax);
   				$("#item_max").val(itemMax);
-  				
+  				modifyButtonStyle();
 			});
 
 			function addItem(num) {
-				$('#items').append('<tr id="item'+num+'"><td></td><td><input type="text" name="item_title'+num+'" id="item_title'+num+'"/></td><td><button name="item_btn'+num+'" type="button" id="item_btn'+num+'" onclick="deleteItem('+num+');" ><?php echo lang('poll_save_btn_delete_item');?></button></td></tr>');
+				$('#items').append('<tr id="item'+num+'"><td></td><td><input type="text" name="item_title'+num+'" id="item_title'+num+'"/></td><td><div class="demo"><button name="item_btn'+num+'" type="button" id="item_btn'+num+'" onclick="deleteItem('+num+');" ><?php echo lang('poll_save_btn_delete_item');?></button></div></td></tr>');
 			}
 
 			function deleteItem(num) {
