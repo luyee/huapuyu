@@ -78,4 +78,7 @@
 	
 	<!-- mongodb -->
 	<import resource="classpath:config/spring-mongo.xml"/>
+	
+	<!-- lucene -->
+	<import resource="classpath:config/spring-lucene.xml"/>
 </beans>
