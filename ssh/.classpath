@@ -53,7 +53,6 @@
 	<classpathentry kind="lib" path="lib/jettison-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/jetty-6.1.21.jar"/>
 	<classpathentry kind="lib" path="lib/jetty-util-6.1.21.jar"/>
-	<classpathentry kind="lib" path="lib/jmock-1.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/jra-1.0-alpha-4.jar"/>
 	<classpathentry kind="lib" path="lib/js-1.7R1.jar"/>
 	<classpathentry kind="lib" path="lib/json-lib-2.1.jar"/>
@@ -193,8 +192,6 @@
 	<classpathentry kind="lib" path="lib/unitils/unitils-orm-3.2-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/unitils/unitils-spring-3.2-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/unitils/unitils-testng-3.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/easymock-2.3.jar"/>
-	<classpathentry kind="lib" path="lib/easymockclassextension-2.3.jar"/>
 	<classpathentry kind="lib" path="lib/dbunit-2.4.8.jar" sourcepath="D:/lib/java/dbunit-2.4.8-prj/src"/>
 	<classpathentry kind="lib" path="lib/unitils/unitils-dbunit-3.2-SNAPSHOT-anders.jar" sourcepath="D:/lib/java/unitils-3.2-SNAPSHOT-with-dependencies/unitils-3.2-SNAPSHOT/unitils-dbunit/src"/>
 	<classpathentry kind="lib" path="lib/jwebap/commontemplate-0.8.1.jar"/>
@@ -221,5 +218,18 @@
 	<classpathentry kind="lib" path="lib/lucene/lucene-queries.jar"/>
 	<classpathentry kind="lib" path="lib/lucene/lucene-snowball.jar"/>
 	<classpathentry kind="lib" path="lib/lucene/lucene-spellchecker.jar"/>
+	<classpathentry kind="lib" path="lib/jmockit/jmockit.jar"/>
+	<classpathentry kind="lib" path="lib/mockito/mockito-all-1.8.5.jar"/>
+	<classpathentry kind="lib" path="lib/easymock/easymock-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/easymock/easymockclassextension-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/jmock/bsh-core-2.0b4.jar"/>
+	<classpathentry kind="lib" path="lib/jmock/hamcrest-core-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/jmock/hamcrest-library-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/jmock/jmock-2.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/jmock/jmock-junit3-2.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/jmock/jmock-junit4-2.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/jmock/jmock-legacy-2.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/jmock/jmock-script-2.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/jmock/objenesis-1.0.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
