@@ -27,10 +27,36 @@
 			#top {
 				float:left;
 				width:100%;
-				height:100px;
+				height:60px;
 				margin:0;
 				clear:both;
-				background-color:red;
+				background-color:#ef8c08;
+			}
+			
+			#logo {
+				float:left;
+				width:100px;
+				height:50px;
+				margin:0;
+				clear:both;
+				background-image:url(<?php echo base_url();?>images/logo.png);
+			}
+			
+			#sep {
+				float:left;
+				width:100%;
+				height:50px;
+				margin:0;
+				clear:both;
+			}
+			
+			#line {
+				float:left;
+				width:100%;
+				height:2px;
+				margin:0;
+				clear:both;
+				background-color:#1C94C4;
 			}
 			
 			#center {
@@ -42,15 +68,16 @@
 			}
 			
 			.title {
-				width:480px;
+				width:520px;
 				margin:0 auto;
 				background-color:white;
 			}
 			
 			.items {
-				width:530px;
+				width:520px;
 				margin:0 auto;
 				background-color:white;
+				border:1px solid white;
 			}
 			
 			.others {
@@ -109,7 +136,9 @@
 
 	<body>
 		<div id="container">
-			<div id="top"></div>
+			<div id="top"><div id="logo"></div></div>
+			<div id="line"></div>
+			<div id="sep"></div>
 			<div id="center">
 				<?php
 				echo form_open('poll/save');
@@ -119,6 +148,8 @@
 				$this->table->add_row(form_label(lang('poll_save_label_remark').lang('poll_save_label_colon'), 'remark'), form_input(array('name' => 'remark', 'id' => 'remark')), ''); 
 				echo $this->table->generate();
 				echo '</div>';
+				
+				echo '<div id="sep"></div>';
 				
 				echo '<div class="items">';
 				echo '<table id="items">';
@@ -142,8 +173,12 @@
 				echo '</table>';
 				echo '</div>';
 				
+				echo '<div id="sep"></div>';
+				
 				echo '<div class="others">';
 				echo '</div>';
+				
+				echo '<div id="sep"></div>';
 				
 				echo '<div class="btns">';
 				// 保存最大的item编号值，初始化为4
@@ -171,7 +206,14 @@
 			});
 
 			function addItem(num) {
-				$('#items').append('<tr id="item'+num+'"><td></td><td><input type="text" name="itemTitle'+num+'" id="itemTitle'+num+'" class="item"/></td><td><button name="itemBtn'+num+'" type="button" id="itemBtn'+num+'" onclick="deleteItem('+num+');" ><?php echo lang('poll_save_btn_delete_item');?></button></td></tr>');
+				var inputCount = $("form input:text").length;
+				if (inputCount < 12) {
+					$('#items').append('<tr id="item'+num+'"><td></td><td><input type="text" name="itemTitle'+num+'" id="itemTitle'+num+'" class="item"/></td><td><button name="itemBtn'+num+'" type="button" id="itemBtn'+num+'" onclick="deleteItem('+num+');" ><?php echo lang('poll_save_btn_delete_item');?></button></td></tr>');
+				}
+				else {
+					alert("<?php echo lang('poll_save_error_max_items');?>");
+					return;
+				}
 			}
 
 			function deleteItem(num) {

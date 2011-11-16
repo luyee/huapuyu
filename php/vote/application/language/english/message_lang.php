@@ -9,4 +9,5 @@ $lang['poll_save_btn_new_item'] = 'New Item';
 $lang['poll_save_btn_delete_item'] = 'Delete Item';
 $lang['poll_save_btn_save'] = 'Save';
 $lang['poll_save_error_min_items'] = '同学，至少要有两个选项哦！';
+$lang['poll_save_error_max_items'] = '同学，需要这么多个选项吗？';
 ?>
