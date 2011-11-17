@@ -56,4 +56,11 @@
 	<!--  
 	<bean id="dataSource" class="org.unitils.database.UnitilsDataSourceFactoryBean" />
 	-->
+	
+	<!-- 测试AndersRmi调用 -->
+	<!--使用RmiProxyFactoryBean连接服务端 -->  
+    <bean id="andersRmi" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">  
+        <property name="serviceUrl" value="rmi://localhost:1199/AndersRmi" />  
+        <property name="serviceInterface" value="com.anders.ssh.rmi.AndersRmi" />  
+    </bean>
 </beans>

@@ -81,4 +81,7 @@
 	
 	<!-- lucene -->
 	<import resource="classpath:config/spring-lucene.xml"/>
+	
+	<!-- rmi -->
+	<import resource="classpath:config/spring-rmi.xml"/>
 </beans>

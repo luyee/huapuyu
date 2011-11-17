@@ -5,6 +5,7 @@ hibernate 3.6.1
 jwebap
 unitils
 shiro
+extjs
 
 http://127.0.0.1:8888/ssh/data/list.struts
 

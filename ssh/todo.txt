@@ -1,0 +1,23 @@
+分布式事务
+JMS
+RMI安全（初步解决，不知道还有什么好方法），以及内部嵌入jetty作单元测试
+JMX
+Kaptcha
+多数据库源事务控制
+BloomFilter
+Unitils bug fix，支持oracle等数据库
+获取hibernate sql，jdbc参数传递如何得到原生的sql
+hibernate middlegen
+ivy
+oauth ssl
+hibernate升级没有变化的字段不出现在sql语句中
+tomcat auto reload reloadable
+utmysql mysql单元测试
+开源sql分析工具
+ibatis/mybatis缓存
+asm
+jira
+mock
+用定时器发邮件
+mysql，lucene，sphinx，gearman全文检索
+struts和memcached session token
