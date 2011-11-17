@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 
+	对于探测模式autodetectModeName属性，Spring提供了4个取值：
+	AUTODETECT_NONE           不启用自动探测，需要手动向MBean Server进行注册，即通过MBeanExporter的beans属性进入注册；
+	AUTODETECT_MBEAN         在当前IOC容器中进行查找MBean组件；
+	AUTODETECT_ASSEMBLER  设置根据MBeanInfoAssembler的策略进行探测；
+	AUTODETECT_ALL               自动探测，是AUTODETECT_MBEAN和AUTODETECT_ASSEMBLER的并集。
+	另外，Spring的MBeanExporter也提供了autodetect属性，取值为true和false，指定对MBean组件的探测行为。
+	-->
+	<bean id="andersJmx" class="org.springframework.jmx.export.MBeanExporter">
+		<property name="autodetectModeName">
+	 		<value>AUTODETECT_ALL</value>
+	 	</property>
+	</bean>
+	<bean name="anders:name=AndersMBean" class="com.anders.ssh.jmx.impl.AndersMBeanImpl">
+		<property name="id">
+			<value>90000000001</value>
+		</property>
+	 	<property name="name">
+	 		<value>zhuzhen</value>
+	 	</property>
+	</bean>
+</beans>
