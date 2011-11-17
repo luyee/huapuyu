@@ -11,6 +11,12 @@
 		<property name="persistenceUnitName" value="mysql"/>
 	</bean>
 	
+	<!-- 
+	<bean id="entityManagerFactoryCassandra" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="cassandra"/>
+    </bean>
+    -->
+	
 	<bean id="jpaTxManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 	  	<property name="entityManagerFactory" ref="entityManagerFactory"/>
 	</bean>
