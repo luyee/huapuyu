@@ -63,4 +63,19 @@
         <property name="serviceUrl" value="rmi://localhost:1199/AndersRmi" />  
         <property name="serviceInterface" value="com.anders.ssh.rmi.AndersRmi" />  
     </bean>
+    
+    <bean id="hessianInvoker" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">  
+        <property name="serviceUrl" value="http://localhost:5555/ssh/interface/hessianInvoker" />  
+        <property name="serviceInterface" value="com.anders.ssh.rmi.AndersRmi" />  
+    </bean>
+    
+    <bean id="burlapInvoker" class="org.springframework.remoting.caucho.BurlapProxyFactoryBean">  
+        <property name="serviceUrl" value="http://localhost:5555/ssh/interface/burlapInvoker" />  
+        <property name="serviceInterface" value="com.anders.ssh.rmi.AndersRmi" />  
+    </bean>
+    
+    <bean id="httpInvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">  
+        <property name="serviceUrl" value="http://localhost:5555/ssh/interface/httpInvoker" />  
+        <property name="serviceInterface" value="com.anders.ssh.rmi.AndersRmi" />  
+    </bean>
 </beans>
