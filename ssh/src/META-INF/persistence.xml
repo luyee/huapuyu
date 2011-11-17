@@ -5,7 +5,20 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
 	http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
 	version="1.0"> 
-
+	
+	<!--  
+    <persistence-unit name="cassandra">
+        <provider>com.impetus.kundera.ejb.KunderaPersistence</provider>
+        <properties>
+            <property name="kundera.nodes" value="192.168.2.100" />
+            <property name="kundera.port" value="9160" />
+            <property name="kundera.keyspace" value="ssh" />
+            <property name="sessionless" value="false" />
+            <property name="kundera.client" value="com.impetus.kundera.client.PelopsClient" />
+            <property name="kundera.annotations.scan.package" value="com.mypackage" />            
+        </properties>
+    </persistence-unit>
+	-->
 <!--  
 <persistence-unit name="oracle" transaction-type="RESOURCE_LOCAL"> 
    	<properties>
