@@ -8,7 +8,7 @@
 		<column>enable</column>
 		<row>
 			<value>1</value>
-			<value>首页</value>
+			<value>Index</value>
 			<value>/index.jsp</value>
 			<value>true</value>
 		</row>
@@ -45,7 +45,7 @@
 		<row>
 			<value>1</value>
 			<value>zhuzhen</value>
-			<value>朱振</value>
+			<value>ZhuZhen</value>
 			<value>123</value>
 			<value>true</value>
 		</row>
