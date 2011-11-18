@@ -21,9 +21,12 @@ import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.DefaultDataSet;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.XmlDataSet;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 @Component
+// 原来没有加@DependsOn，造成先导入初始化数据，后hibernate创建表
+@DependsOn("sessionFactory")
 public class LoadInitData {
 	private IDatabaseTester databaseTester = null;
 	@Config(name = "driver")
