@@ -11,13 +11,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring-test.xml" })
-public class RmiTest {
+public class HttpTest {
 	@Autowired
-	private AndersRmi andersRmi;
+	private AndersHttp andersHttp;
 
 	@Test
 	public void testGetUserInfo() {
-		Map<Long, String> map = andersRmi.getRmi();
+		Map<Long, String> map = andersHttp.getHttp();
 		Assert.assertEquals(2, map.size());
 		Assert.assertEquals("zhuzhen", map.get(1L));
 		Assert.assertEquals("guolili", map.get(2L));

@@ -11,15 +11,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring-test.xml" })
-public class HessianTest
-{
+public class HessianTest {
 	@Autowired
-	private AndersRmi burlapInvoker;
+	private AndersHessian andersHessian;
 
 	@Test
-	public void testGetUserInfo()
-	{
-		Map<Long, String> map = burlapInvoker.getUserInfo();
+	public void testGetUserInfo() {
+		Map<Long, String> map = andersHessian.getHessian();
 		Assert.assertEquals(2, map.size());
 		Assert.assertEquals("zhuzhen", map.get(1L));
 		Assert.assertEquals("guolili", map.get(2L));
