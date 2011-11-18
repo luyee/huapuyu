@@ -31,30 +31,4 @@
 	 		</set>
 		</property>
 	</bean>
-	 
-	<!-- Spring支持3种基于Http协议的远程调用 -->
-	<!-- Hessian和Burlap是私有协议，没有成为标准 -->
-	<!-- Hessian，二进制协议 -->
-	<!-- 
-	<bean name="/hessianInvoker" class="org.springframework.remoting.caucho.HessianServiceExporter">
-		<property name="service" ref="andersRmi" />
-	 	<property name="serviceInterface" value="com.anders.ssh.rmi.AndersRmi" />
-	</bean>
-	-->
-	 
-	<!-- Burlap，基于XML的协议 -->
-	<!--  
-	<bean name="/burlapInvoker" class="org.springframework.remoting.caucho.BurlapServiceExporter">
-		<property name="service" ref="andersRmi" />
-	 	<property name="serviceInterface" value="com.anders.ssh.rmi.AndersRmi" />
-	</bean>
-	-->
-	 
-	<!-- Http Invoker，使用Java标准的序列化机制，通过Http实现远程调用 -->
-	<!-- 
-	<bean name="/httpInvoker" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="service" ref="andersRmi" />
-	 	<property name="serviceInterface" value="com.anders.ssh.rmi.AndersRmi" />
-	</bean>
-	-->
 </beans>
