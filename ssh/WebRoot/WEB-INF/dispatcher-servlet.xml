@@ -28,4 +28,13 @@
 		<property name="service" ref="andersHttp" />
 	 	<property name="serviceInterface" value="com.anders.ssh.rmi.AndersHttp" />
 	</bean>
+	
+	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"></bean>
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/mvc/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<bean name="/helloWorld.mvc" class="com.anders.ssh.mvc.controller.HelloWorldController"></bean>
 </beans>
