@@ -21,6 +21,8 @@ mock
 用定时器发邮件
 mysql，lucene，sphinx，gearman全文检索
 struts和memcached session token
+Hibern8IDE
+hibernate二级缓存用memcached
 
 
 dbunit的initData.xml如果有中文，会提示插入失败
