@@ -7,7 +7,7 @@
 		<!--  
 		<property name="servers" value="192.168.2.101:11211,192.168.2.102:11211,192.168.2.103:11211" />
 		-->
-		<property name="servers" value="${memcache.servers}" />
+		<property name="servers" value="${memcached.servers}" />
 		<property name="protocol" value="BINARY" />
 		<property name="transcoder">
 			<bean class="net.spy.memcached.transcoders.SerializingTranscoder">
