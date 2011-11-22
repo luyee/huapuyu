@@ -1,5 +1,9 @@
 package commons;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 public class Tester {
@@ -26,6 +30,16 @@ public class Tester {
 			System.out.println("space");
 
 		if (StringUtils.isEmpty(s3))
+			System.out.println("empty");
+
+		System.out.println("------------------------");
+
+		List<String> list = null;
+		if (CollectionUtils.isEmpty(list))
+			System.out.println("null");
+
+		list = new ArrayList<String>();
+		if (CollectionUtils.isEmpty(list))
 			System.out.println("empty");
 	}
 }
