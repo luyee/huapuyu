@@ -4,6 +4,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="andersRmi" class="com.anders.ssh.rmi.impl.AndersRmiImpl" />
+	
+	<!--  
+	<bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean">
+       <property name="port" value="1099"/>
+    </bean>
+    -->
 
 	<!-- 传统的RMI调用，使用特定的JRMP（Java Remote Method Protocol）二进制协议，很难穿透防火墙，仅适合在企业内部网使用 -->
 	<!--RmiServiceExporter显示地支持使用RMI调用器暴露任何非RMI服务 -->
@@ -14,6 +20,12 @@
 	 	<property name="serviceName" value="AndersRmi" />
 	 	<!--覆盖RMI注册端口号(1099)，通常应用服务器也会维护RMI注册，最好不要冲突 -->
 	 	<property name="registryPort" value="1199" />
+	 	<!--  
+	 	<property name="registryHost" value="127.0.0.1" />
+	 	-->
+	 	<!--  
+	 	<property name="registry" ref="registry"/>
+	 	-->
 	 	<!-- alwaysCreateRegistry设置为true，这个端口上只会启动一个register，如果想再重新启动server，就会报端口被占用的错误 -->
 	 	<property name="alwaysCreateRegistry" value="true" />
 	 	<property name="interceptors">
@@ -26,8 +38,10 @@
 	 	<property name="allowed">
 	 		<set>
 	 			<value>127.0.0.1</value>
+	 			<value>192.168.10.1</value>
 	 			<value>localhost</value>
 	 			<value>172.17.227.50</value>
+	 			<value>172.17.232.53</value>
 	 		</set>
 		</property>
 	</bean>
