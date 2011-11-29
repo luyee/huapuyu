@@ -9,8 +9,11 @@
 	<context:property-placeholder location="classpath:system.properties"/>
 	-->
 	
+	<!-- 其中order属性代表其加载顺序，而ignoreUnresolvablePlaceholders为是否忽略不可解析的 Placeholder，如配置了多个PropertyPlaceholderConfigurer，则需设置为true -->
 	<bean id="property-placeholder" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<!-- <property name="order" value="1" /> -->
 		<property name="ignoreResourceNotFound" value="false" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
 		<property name="locations">
 			<list>
 				<value>classpath:db.properties</value>
