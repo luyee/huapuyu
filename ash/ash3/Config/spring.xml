@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+  <!-- action -->
+  <import resource="~/Config/spring-action.xml"/>
+
+  <!-- service -->
+  <import resource="~/Config/spring-service.xml"/>
+
+  <!-- tx -->
+  <import resource="~/Config/spring-tx.xml"/>
+
+  <!-- ado -->
+  <import resource="~/Config/spring-ado.xml"/>
+
+  <!-- hibernate -->
+  <import resource="~/Config/spring-hibernate.xml"/>
+
+  <!-- ibatis -->
+  <!--<import resource="~/Config/spring-ibatis.xml"/>-->
+
+  <!-- dao -->
+  <import resource="~/Config/spring-dao.xml"/>
+
+  <!-- resource -->
+  <import resource="~/Config/spring-resource.xml"/>
+</objects>
