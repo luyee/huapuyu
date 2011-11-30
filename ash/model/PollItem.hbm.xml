@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="model" assembly="model">
+	
+  <class name="PollItem" table="tb_poll_item">
+    <id name="id" column="id" type="long">
+      <generator class="native"/>
+    </id>
+
+    <property name="title" column="title" length="50" not-null="true" type="string"/>
+    <property name="enable" column="enable" not-null="true" type="byte"/>
+    <many-to-one name="poll" column="poll_id" class="Poll"/>
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="model" assembly="model">
+	
+  <class name="Poll" table="tb_poll" >
+		<id name="id" column="id" type="long">
+      <generator class="native"/>
+		</id>
+
+		<property name="title" column="title" length="50" not-null="true" type="string"/>
+    <property name="remark" column="remark" length="50" not-null="true" type="string"/>
+    <property name="createTime" column="create_time"/>
+    <property name="updateTime" column="update_time"/>
+    <property name="enable" column="enable" not-null="true" type="byte"/>
+  </class>
+
+</hibernate-mapping>
