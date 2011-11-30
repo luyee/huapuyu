@@ -5,6 +5,7 @@
     <string name="add_button1">To Add</string>
     <string name="sendmsg_button2">Send Message</string>
     <string name="calculator">Calculator</string>
+    <string name="ormlite">OrmLite</string>
     <string name="add_textView1">Hello World</string>
     <string name="cal_mul">Multiply</string>
     <string name="cal_result">Result</string>
