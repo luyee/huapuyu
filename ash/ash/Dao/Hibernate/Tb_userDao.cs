@@ -28,21 +28,21 @@ namespace ash.Dao.Hibernate
         //    }
         //}
 
-        public void delete(Tb_user model)
+        public void delete(User model)
         {
             //sf.GetCurrentSession().Delete(tb_user);
             HibernateTemplate.Delete(model);
         }
 
-        public Tb_user get(int id)
+        public User get(int id)
         {
             //setHibernateTemplate();
-            return HibernateTemplate.Get(typeof(Tb_user), id) as Tb_user;
+            return HibernateTemplate.Get(typeof(User), id) as User;
         }
 
         //[Transaction(Spring.Transaction.TransactionPropagation.Required, ReadOnly = false)]
         //[Transaction]
-        public void save(Tb_user model)
+        public void save(User model)
         {
             //setHibernateTemplate();
             //sf.GetCurrentSession().Save(person);
@@ -62,7 +62,7 @@ namespace ash.Dao.Hibernate
             //s.Close();
         }
 
-        public void update(Tb_user model)
+        public void update(User model)
         {
             //setHibernateTemplate();
             //HibernateTemplate.Update(person);

@@ -16,44 +16,44 @@ namespace ash.Service
         [Transaction]
         public void test()
         {
-            Tb_user t1 = new Tb_user();
+            User t1 = new User();
             t1.id = 123;
             t1.name = "zhuzhen";
             t1.pwd = "321";
             dao.save(t1);
 
-            Tb_user t2 = new Tb_user();
+            User t2 = new User();
             t2.id = 321;
             t2.name = "guolili";
             t2.pwd = "123";
             dao.save(t2);
 
-            foreach (Tb_user model in dao.getAll())
+            foreach (User model in dao.getAll())
             {
                 string name = model.name;
             }
         }
 
         [Transaction(ReadOnly = true)]
-        public Tb_user get(int id)
+        public User get(int id)
         {
             return dao.get(id);
         }
 
         [Transaction]
-        public void save(Tb_user model)
+        public void save(User model)
         {
             dao.save(model);
         }
 
         [Transaction]
-        public void update(Tb_user model)
+        public void update(User model)
         {
             dao.update(model);
         }
 
         [Transaction]
-        public void delete(Tb_user model)
+        public void delete(User model)
         {
             dao.delete(model);
         }

@@ -11,7 +11,7 @@ namespace ash.Dao.Ado
     {
         public object MapRow(System.Data.IDataReader reader, int rowNum)
         {
-            Tb_user model = new Tb_user();
+            User model = new User();
             model.id = reader.GetInt32(0);
             model.name = reader.GetString(1);
             model.pwd = reader.GetString(2);

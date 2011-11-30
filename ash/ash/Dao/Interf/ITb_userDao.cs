@@ -8,13 +8,13 @@ namespace ash.Dao.Interf
 {
     public interface ITb_userDao
     {
-        Tb_user get(int id);
+        User get(int id);
 
-        void save(Tb_user model);
+        void save(User model);
 
-        void update(Tb_user model);
+        void update(User model);
 
-        void delete(Tb_user model);
+        void delete(User model);
 
         IList getAll();
     }

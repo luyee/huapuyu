@@ -12,15 +12,15 @@ namespace ash.Dao.Ado
 {
     public class Tb_userDao : AdoDaoSupport, ITb_userDao
     {
-        public Tb_user get(int id)
+        public User get(int id)
         {
             IDbParametersBuilder builder = CreateDbParametersBuilder();
             builder.Create().Name("id").Type(DbType.Int32).Value(id);
 
-            return AdoTemplate.QueryForObject(CommandType.Text, @"SELECT * FROM tb_user WHERE id = :id", new Tb_userRowMapper(), builder.GetParameters()) as Tb_user;
+            return AdoTemplate.QueryForObject(CommandType.Text, @"SELECT * FROM tb_user WHERE id = :id", new Tb_userRowMapper(), builder.GetParameters()) as User;
         }
 
-        public void save(Tb_user model)
+        public void save(User model)
         {
             IDbParameters parameters = CreateDbParameters();
             parameters.AddWithValue("id", model.id).DbType = DbType.Int32;
@@ -33,7 +33,7 @@ namespace ash.Dao.Ado
             AdoTemplate.ExecuteNonQuery(CommandType.Text, @"INSERT INTO tb_user (id, name, pwd) VALUES (:id, :name, :pwd)", parameters);
         }
 
-        public void update(Tb_user model)
+        public void update(User model)
         {
             IDbParameters parameters = CreateDbParameters();
             parameters.AddWithValue("id", model.id).DbType = DbType.Int32;
@@ -43,7 +43,7 @@ namespace ash.Dao.Ado
             AdoTemplate.ExecuteNonQuery(CommandType.Text, @"UPDATE tb_user SET name = :name, pwd = :pwd WHERE id = :id", parameters);
         }
 
-        public void delete(Tb_user model)
+        public void delete(User model)
         {
             IDbParametersBuilder builder = CreateDbParametersBuilder();
             builder.Create().Name("id").Type(DbType.Int32).Value(model.id);

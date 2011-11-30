@@ -28,14 +28,14 @@ namespace ash.Controllers
 
         public ActionResult Create()
         {
-            model.Tb_user m = new model.Tb_user();
+            model.User m = new model.User();
 
             return View("Create", m);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         //[OutputCache(Location = OutputCacheLocation.None)] 
-        public ActionResult Create(model.Tb_user m)
+        public ActionResult Create(model.User m)
         {
             //model.Tb_user model = new model.Tb_user();
 
@@ -52,7 +52,7 @@ namespace ash.Controllers
 
         public ActionResult Edit(int id)
         {
-            model.Tb_user m = service.get(id);
+            model.User m = service.get(id);
 
             return View(m);
         }
@@ -61,7 +61,7 @@ namespace ash.Controllers
         //[OutputCache(Location = OutputCacheLocation.None)] 
         public ActionResult Edit(int id, FormCollection formValues)
         {
-            model.Tb_user m = service.get(id);
+            model.User m = service.get(id);
 
             UpdateModel(m);
 
