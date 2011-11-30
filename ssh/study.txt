@@ -16,3 +16,6 @@ xml code:
 <query name="testeCQuery"><![CDATA[
              from br.com.ag2.casarural.vo.Cidade as cidade where cidade.idCidade = :idCidade
         ]]></query>
+        
+        
+hashmap无法序列化，RMI时注意
