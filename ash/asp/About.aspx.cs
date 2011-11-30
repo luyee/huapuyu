@@ -18,7 +18,7 @@ namespace asp
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            Data model = new Data();
+            //PollItem model = new PollItem();
             //model.id = 11111;
             //model.name = "hello";
             //model.type = 1;
@@ -32,10 +32,10 @@ namespace asp
             //Mapper.Instance().Insert("Tb_userInsert", model);
             //Tb_user emp = Mapper.Instance().QueryForObject("Tb_userGetById", 1) as Tb_user;
 
-            Data data = Mapper.Instance().QueryForObject<Data>("DataGetById", 101);
+            //PollItem data = Mapper.Instance().QueryForObject<PollItem>("DataGetById", 101);
            
-            if(data.enable)
-                TextBox1.Text = data.name;
+            //if(data.enable)
+            //    TextBox1.Text = data.name;
         }
     }
 }
