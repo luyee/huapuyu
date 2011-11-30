@@ -1,4 +1,4 @@
-package com.anders.anniversary;
+package com.anders.anniversary.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +18,7 @@ public class AddActivity extends Activity {
 		textView1 = (TextView) findViewById(R.id.textView1);
 		// textView1.setText(R.string.add_textView1);
 		textView1.setText(value);
+
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.anders.anniversary;
+package com.anders.anniversary.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,7 @@ public class MainActivity extends Activity {
 	private Button button1 = null;
 	private Button button2 = null;
 	private Button button3 = null;
+	private Button button4 = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,10 @@ public class MainActivity extends Activity {
 		button3 = (Button) findViewById(R.id.button3);
 		button3.setText(R.string.calculator);
 		button3.setOnClickListener(new Button3Listener());
+
+		button4 = (Button) findViewById(R.id.button4);
+		button4.setText(R.string.ormlite);
+		button4.setOnClickListener(new Button4Listener());
 	}
 
 	class Button1Listener implements OnClickListener {
@@ -56,6 +61,15 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			Intent intent = new Intent();
 			intent.setClass(MainActivity.this, CalculatorActivity.class);
+			startActivity(intent);
+		}
+	}
+
+	class Button4Listener implements OnClickListener {
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent();
+			intent.setClass(MainActivity.this, OrmliteActivity.class);
 			startActivity(intent);
 		}
 	}

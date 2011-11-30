@@ -1,4 +1,4 @@
-package com.anders.anniversary;
+package com.anders.anniversary.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
