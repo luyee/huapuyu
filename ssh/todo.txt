@@ -26,3 +26,5 @@ hibernate二级缓存用memcached
 
 
 dbunit的initData.xml如果有中文，会提示插入失败
+
+logback slf4j
