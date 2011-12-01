@@ -5,6 +5,7 @@ $lang['poll_save_label_colon'] = ':';
 
 $lang['poll_save_label_title'] = 'Title';
 $lang['poll_save_label_remark'] = 'Remark';
+$lang['poll_save_label_item'] = 'Item';
 $lang['poll_save_btn_new_item'] = 'New Item';
 $lang['poll_save_btn_delete_item'] = 'Delete Item';
 $lang['poll_save_btn_save'] = 'Save';

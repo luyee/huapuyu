@@ -68,16 +68,17 @@
 			}
 			
 			.title {
-				width:520px;
+				width:600px;
 				margin:0 auto;
 				background-color:white;
+				border:0px solid black;
 			}
 			
 			.items {
-				width:520px;
+				width:600px;
 				margin:0 auto;
 				background-color:white;
-				border:1px solid white;
+				border:0px solid black;
 			}
 			
 			.others {
@@ -104,6 +105,10 @@
 				height: 22px;
 				font-size:16px; 
 				font-family:"SimSun","宋体","Arial Narrow";
+			} 
+			p {
+				font-weight: bold;
+				color: #ef8c08;
 			}
 		--></style>
 		<script language="JavaScript" type="text/javascript">
@@ -144,9 +149,35 @@
 				echo form_open('poll/save');
 				
 				echo '<div class="title">';
-				$this->table->add_row(form_label(lang('poll_save_label_title').lang('poll_save_label_colon'), 'title'), form_input(array('name' => 'title', 'id' => 'title')), ''); 
-				$this->table->add_row(form_label(lang('poll_save_label_remark').lang('poll_save_label_colon'), 'remark'), form_input(array('name' => 'remark', 'id' => 'remark')), ''); 
-				echo $this->table->generate();
+				// $this->table->add_row(form_label(lang('poll_save_label_title').lang('poll_save_label_colon'), 'title'), form_input(array('name' => 'title', 'id' => 'title')), form_error('title')); 
+				// $this->table->add_row(form_label(lang('poll_save_label_remark').lang('poll_save_label_colon'), 'remark'), form_input(array('name' => 'remark', 'id' => 'remark')), ''); 
+				// echo $this->table->generate();
+				echo '<table>';
+				// 标题
+				echo "<tr>";
+				echo '<td>';
+				echo lang('poll_save_label_title').lang('poll_save_label_colon');
+				echo '</td>';
+				echo '<td>';
+				echo form_input(array('name' => 'title', 'id' => 'title'));
+				echo '</td>';
+				echo '<td>';
+				echo form_error('title');
+				echo '</td>';
+				echo '</tr>';
+				// 备注
+				echo "<tr>";
+				echo '<td>';
+				echo lang('poll_save_label_remark').lang('poll_save_label_colon');
+				echo '</td>';
+				echo '<td>';
+				echo form_input(array('name' => 'remark', 'id' => 'remark'));
+				echo '</td>';
+				echo '<td>';
+				echo form_error('remark');
+				echo '</td>';
+				echo '</tr>';
+				echo '</table>';
 				echo '</div>';
 				
 				echo '<div id="sep"></div>';
@@ -157,6 +188,7 @@
 				function printTr($num) {
 					echo "<tr id=\"item$num\">";
 					echo '<td>';
+					echo lang('poll_save_label_item').lang('poll_save_label_colon');
 					echo '</td>';
 					echo '<td>';
 					echo form_input(array('name' => "itemTitle$num", 'id' => "itemTitle$num", 'class' => "item"));
