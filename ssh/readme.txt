@@ -19,3 +19,11 @@ messages_zh.properties
 message_zh_CN.properties
 message.properties
 用于struts国际化
+
+cxf
+rs:
+http://127.0.0.1:5555/ssh/cxf/rs/info/1
+http://127.0.0.1:5555/ssh/cxf/rs/info
+
+ws
+http://127.0.0.1:5555/ssh/cxf/ws/hello
