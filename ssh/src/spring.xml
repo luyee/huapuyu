@@ -31,9 +31,7 @@
 	-->
 	
 	<!-- cxf -->
-	<!--
 	<import resource="classpath:config/spring-cxf.xml"/>
-    -->
 	
 	<!-- jdbc -->
 	<import resource="classpath:config/spring-jdbc.xml"/>

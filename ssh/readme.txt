@@ -21,9 +21,26 @@ message.properties
 用于struts国际化
 
 cxf
+http://127.0.0.1:5555/ssh/cxf查看所有的soap和restful信息
+
 rs:
 http://127.0.0.1:5555/ssh/cxf/rs/info/1
 http://127.0.0.1:5555/ssh/cxf/rs/info
 
 ws
-http://127.0.0.1:5555/ssh/cxf/ws/hello
+http://127.0.0.1:5555/ssh/cxf/ws/singer?wsdl
+
+Available SOAP services:
+SingerService
+getAllUser
+hello
+getUser
+
+Endpoint address: http://127.0.0.1:5555/ssh/cxf/ws/singer
+WSDL : {http://ws.cxf.webservice.ssh.anders.com/}SingerServiceImplService
+Target namespace: http://ws.cxf.webservice.ssh.anders.com/
+
+
+Available RESTful services:
+Endpoint address: http://127.0.0.1:5555/ssh/cxf/rs
+WADL : http://127.0.0.1:5555/ssh/cxf/rs?_wadl&type=xml

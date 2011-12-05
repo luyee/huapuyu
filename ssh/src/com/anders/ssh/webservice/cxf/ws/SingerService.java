@@ -1,4 +1,4 @@
-package com.anders.ssh.webservice.cxf;
+package com.anders.ssh.webservice.cxf.ws;
 
 import java.util.List;
 
@@ -7,16 +7,19 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 @WebService
-public interface ITest
+public interface SingerService
 {
 	@WebMethod
-	public String example(@WebParam String message);
+	public String hello(@WebParam
+	String name);
 
 	@WebMethod
-	public User example1(@WebParam User model);
+	public Singer getUser(@WebParam
+	Singer user);
 
 	@WebMethod
-	public List<User> example2(@WebParam List<String> l);
+	public List<Singer> getAllUser(@WebParam
+	List<String> list);
 
 	// @WebMethod
 	// public Map<Integer, User> example3(@WebParam Map<Integer, String> m);
