@@ -146,7 +146,6 @@
   	-->  
   	
   	<!-- CXF -->
-  	<!--  
   	<servlet>    
         <servlet-name>CXFServlet</servlet-name>    
         <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>    
@@ -155,7 +154,6 @@
         <servlet-name>CXFServlet</servlet-name>    
         <url-pattern>/*</url-pattern>    
     </servlet-mapping>
-    -->    
     
     <!-- Hibernate -->
     <filter>
