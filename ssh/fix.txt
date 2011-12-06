@@ -165,3 +165,8 @@ import org.dbunit.ext.postgresql.PostgresqlDataTypeFactory;
 
 进入pom.xml目录运行mvn install打jar包
 最后用修改后的jar替换原jar，ok
+
+
+4.Tomcat在启动时出现如下异常问题： 
+[apache.catalina.session.ManagerBase:373] IOException while loading persisted sessions: java.io.EOFException 
+处理方法如下：将work下面的文件清空。
