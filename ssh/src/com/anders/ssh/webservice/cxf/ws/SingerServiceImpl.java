@@ -8,7 +8,7 @@ import javax.jws.WebService;
 @WebService(endpointInterface = "com.anders.ssh.webservice.cxf.ws.SingerService")
 public class SingerServiceImpl implements SingerService {
 	public String hello(String name) {
-		System.out.println("hello:" + name);
+		System.out.println("hello: " + name);
 		return "hello: " + name;
 	}
 
@@ -31,7 +31,7 @@ public class SingerServiceImpl implements SingerService {
 		return singerList;
 	}
 
-	// 注意：如何在CXF中传递Map，目前还没有什么好方法，网上的例子是通过写转换函数，不知道有没有简单的方法
+	// 娉ㄦ剰锛氬浣曞湪CXF涓紶閫扢ap锛岀洰鍓嶈繕娌℃湁浠�涔堝ソ鏂规硶锛岀綉涓婄殑渚嬪瓙鏄�氳繃鍐欒浆鎹㈠嚱鏁帮紝涓嶇煡閬撴湁娌℃湁绠�鍗曠殑鏂规硶
 
 	// @Override
 	// public Map<Integer, User> example3(Map<Integer, String> m)

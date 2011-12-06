@@ -23,14 +23,20 @@ public class SingerTest {
 		list.add("jboss");
 		List<Singer> singerList = singerService.getAllSinger(list);
 		Assert.assertEquals(2, singerList.size());
+		Assert.assertEquals("zhuzhen", singerList.get(0).getName());
+		Assert.assertEquals("guolili", singerList.get(1).getName());
 	}
 
 	@Test
 	public void getSinger() {
+		Singer singer = singerService.getSinger(new Singer("jim", 77));
+		Assert.assertEquals("zhuzhen", singer.getName());
+		Assert.assertEquals(28, singer.getAge());
 	}
 
 	@Test
 	public void hello() {
+		Assert.assertEquals("hello: zhuzhen", singerService.hello("zhuzhen"));
 	}
 
 	// @Test
