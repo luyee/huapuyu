@@ -19,6 +19,9 @@
 	<!--   
     <jaxws:endpoint id="wsCxf" implementor="#singerServiceImpl" address="/ws/singer"/>
     -->
+    <!--
+    <jaxws:endpoint id="wsCxf" implementor="com.anders.ssh.webservice.cxf.ws.SingerServiceImpl" address="/ws/singer" />
+    -->
     
     <jaxws:server id="wsCxf" address="/ws/singer">
     	<jaxws:serviceBean>

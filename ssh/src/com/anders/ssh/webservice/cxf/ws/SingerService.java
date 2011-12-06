@@ -7,18 +7,17 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 @WebService
-public interface SingerService
-{
+public interface SingerService {
 	@WebMethod
 	public String hello(@WebParam
 	String name);
 
 	@WebMethod
-	public Singer getUser(@WebParam
-	Singer user);
+	public Singer getSinger(@WebParam
+	Singer singer);
 
 	@WebMethod
-	public List<Singer> getAllUser(@WebParam
+	public List<Singer> getAllSinger(@WebParam
 	List<String> list);
 
 	// @WebMethod
