@@ -84,16 +84,11 @@
     </bean>
 
 	<!-- cxf -->
-    <bean id="singerService"
-    	class="com.anders.ssh.webservice.cxf.ws.SingerService"
-    	factory-bean="jaxWsProxyFactoryBean"
-    	factory-method="create" />
+    <bean id="singerService" class="com.anders.ssh.webservice.cxf.ws.SingerService"
+    	factory-bean="jaxWsProxyFactoryBean" factory-method="create" />
 
-    <bean id="jaxWsProxyFactoryBean"
-    	class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
-    	<property name="serviceClass"
-    		value="com.anders.ssh.webservice.cxf.ws.SingerService" />
-    	<property name="address"
-    		value="http://127.0.0.1:5555/ssh/cxf/ws/singer" />
+    <bean id="jaxWsProxyFactoryBean" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+    	<property name="serviceClass" value="com.anders.ssh.webservice.cxf.ws.SingerService" />
+    	<property name="address" value="http://127.0.0.1:5555/ssh/cxf/ws/singer" />
     </bean>
 </beans>

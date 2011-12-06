@@ -10,16 +10,17 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<!--  
+	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
+	-->
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	
 	<!-- web service -->
 	<bean id="singerServiceImpl" class="com.anders.ssh.webservice.cxf.ws.SingerServiceImpl"/>
-	  
+
 	<!-- jaxws:endpoint和jaxws:server这两种方式都可以 --> 
 	<!--   
     <jaxws:endpoint id="wsCxf" implementor="#singerServiceImpl" address="/ws/singer"/>
-    -->
-    <!--
     <jaxws:endpoint id="wsCxf" implementor="com.anders.ssh.webservice.cxf.ws.SingerServiceImpl" address="/ws/singer" />
     -->
     
