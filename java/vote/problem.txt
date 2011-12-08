@@ -1,3 +1,6 @@
 添加下面的配置到Tomcat的server.xml文件中
 <Connector port="8080" URIEncoding="UTF-8"/>
 否则Hudson会报i18n错误警告
+
+经常看下面的网站
+http://maven.apache.org/plugins/index.html
