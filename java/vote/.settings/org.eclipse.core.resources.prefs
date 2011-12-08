@@ -1,4 +1,4 @@
-#Thu Dec 08 22:33:34 CST 2011
+#Thu Dec 08 22:39:15 CST 2011
 eclipse.preferences.version=1
 encoding//src/main/resources/ApplicationResources.properties=UTF-8
 encoding//src/main/resources/ApplicationResources_zh.properties=UTF-8
@@ -16,3 +16,4 @@ encoding//src/main/resources/jdbc.properties=UTF-8
 encoding//src/main/resources/mail.properties=UTF-8
 encoding//src/main/resources/velocity.properties=UTF-8
 encoding//src/main/resources/xwork-conversion.properties=UTF-8
+encoding//src/test/resources/jdbc.properties=UTF-8
