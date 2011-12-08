@@ -37,7 +37,20 @@
 			</props>
 		</property>
 		<property name="transactionManager" ref="hibernateTxManager" />
+		<!--  
+		<property name="mappingScan" value="com.anders.ssh"/>
+        <property name="settings">
+            <map>
+                <entry key="compass.engine.connection" value="target/test-index" />
+            </map>
+        </property>
+        -->
 	</bean>
+	
+	<bean id="compassSearchHelper" class="org.compass.core.support.search.CompassSearchHelper">
+        <constructor-arg ref="compass" />
+        <property name="pageSize" value="10" />
+    </bean>
 	
 	<bean id="hibernateGpsDevice"
 		class="org.compass.spring.device.hibernate.dep.SpringHibernate3GpsDevice">
