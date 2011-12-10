@@ -14,31 +14,28 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })
-public class MemcachedClientTest
-{
+@ContextConfiguration(locations = { "classpath:spring.xml" })
+public class MemcachedClientTest {
 	@Resource
 	private MemcachedClient memcachedClient;
 
 	@Test
-	public void test1()
-	{
+	public void test1() {
 		List<String> list = new ArrayList<String>();
 		list.add("Tom");
 		list.add("Jim");
 		memcachedClient.add("users", 3600, list);
-		Assert.assertEquals(2, ((List<String>) memcachedClient.get("users")).size());
+		Assert.assertEquals(2, ((List<String>) memcachedClient.get("users"))
+				.size());
 	}
 
 	@Test
-	public void testSet()
-	{
+	public void testSet() {
 		memcachedClient.set("name", 3600, "zhuzhen");
 	}
 
 	@Test
-	public void testGet()
-	{
-		Assert.assertEquals("guolili", (String) memcachedClient.get("name"));
+	public void testGet() {
+		Assert.assertEquals("zhuzhen", (String) memcachedClient.get("name"));
 	}
 }

@@ -1,4 +1,15 @@
-CREATE DATABASE `rems`;
+CREATE DATABASE `ssh`;
+
+CREATE TABLE `tb_log4j` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `level` varchar(10) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
+  `class` varchar(100) DEFAULT NULL,
+  `msg` varchar(100) DEFAULT NULL,
+  `source` varchar(100) DEFAULT NULL,
+  `line` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `cfg_area` 
 (

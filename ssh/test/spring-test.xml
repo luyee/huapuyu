@@ -69,17 +69,17 @@
     </bean>
     
     <bean id="andersHessian" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">  
-        <property name="serviceUrl" value="http://localhost:8888/ssh/andersHessian.mvc" />  
+        <property name="serviceUrl" value="http://localhost:5555/ssh/andersHessian.mvc" />  
         <property name="serviceInterface" value="com.anders.ssh.rmi.AndersHessian" />  
     </bean>
     
     <bean id="andersBurlap" class="org.springframework.remoting.caucho.BurlapProxyFactoryBean">  
-        <property name="serviceUrl" value="http://localhost:8888/ssh/andersBurlap.mvc" />  
+        <property name="serviceUrl" value="http://localhost:5555/ssh/andersBurlap.mvc" />  
         <property name="serviceInterface" value="com.anders.ssh.rmi.AndersBurlap" />  
     </bean>
     
     <bean id="andersHttp" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">  
-        <property name="serviceUrl" value="http://localhost:8888/ssh/andersHttp.mvc" />  
+        <property name="serviceUrl" value="http://localhost:5555/ssh/andersHttp.mvc" />  
         <property name="serviceInterface" value="com.anders.ssh.rmi.AndersHttp" />  
     </bean>
 

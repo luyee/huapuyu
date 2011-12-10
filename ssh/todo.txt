@@ -30,3 +30,6 @@ dbunit的initData.xml如果有中文，会提示插入失败
 logback slf4j
 
 Jersey，RESTEasy
+
+log4j的NDC和MDC
+mongodb log4j日志格式化
