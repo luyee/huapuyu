@@ -28,6 +28,8 @@ public class DataDaoImplTest {
 		dataDao.save(data);
 
 		List<Data> dataList = dataDao.getAll();
-		Assert.assertEquals(0, dataList.size());
+		Assert.assertEquals(1, dataList.size());
+
+		dataDao.delete(data);
 	}
 }

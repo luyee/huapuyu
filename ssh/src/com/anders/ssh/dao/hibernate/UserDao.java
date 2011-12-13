@@ -2,12 +2,14 @@ package com.anders.ssh.dao.hibernate;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +27,18 @@ public class UserDao extends HibernateDao<Long, User> {
 				Criteria criteria = session.createCriteria(User.class).add(Restrictions.eq("userName", userName)).add(Restrictions.eq("enable", true));
 				criteria.createCriteria("roles").setProjection(Projections.projectionList().add(Projections.property("name")));
 				return criteria.list();
+			}
+
+		});
+	}
+
+	public List<Map<String, Object>> getMap() {
+		return getHibernateTemplate().executeFind(new HibernateCallback() {
+
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+				return session.createQuery("select id as id, name as name from User").setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+				// return session.createQuery("select new Map(id as id, name as name) from User").list();
 			}
 
 		});
