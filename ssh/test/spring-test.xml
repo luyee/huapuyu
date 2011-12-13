@@ -60,35 +60,4 @@
 	<!--  
 	<bean id="dataSource" class="org.unitils.database.UnitilsDataSourceFactoryBean" />
 	-->
-	
-	<!-- 测试AndersRmi调用 -->
-	<!--使用RmiProxyFactoryBean连接服务端 -->  
-    <bean id="andersRmi" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">  
-        <property name="serviceUrl" value="rmi://localhost:1199/AndersRmi" />  
-        <property name="serviceInterface" value="com.anders.ssh.rmi.AndersRmi" />  
-    </bean>
-    
-    <bean id="andersHessian" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">  
-        <property name="serviceUrl" value="http://localhost:5555/ssh/andersHessian.mvc" />  
-        <property name="serviceInterface" value="com.anders.ssh.rmi.AndersHessian" />  
-    </bean>
-    
-    <bean id="andersBurlap" class="org.springframework.remoting.caucho.BurlapProxyFactoryBean">  
-        <property name="serviceUrl" value="http://localhost:5555/ssh/andersBurlap.mvc" />  
-        <property name="serviceInterface" value="com.anders.ssh.rmi.AndersBurlap" />  
-    </bean>
-    
-    <bean id="andersHttp" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">  
-        <property name="serviceUrl" value="http://localhost:5555/ssh/andersHttp.mvc" />  
-        <property name="serviceInterface" value="com.anders.ssh.rmi.AndersHttp" />  
-    </bean>
-
-	<!-- cxf -->
-    <bean id="singerService" class="com.anders.ssh.webservice.cxf.ws.SingerService"
-    	factory-bean="jaxWsProxyFactoryBean" factory-method="create" />
-
-    <bean id="jaxWsProxyFactoryBean" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
-    	<property name="serviceClass" value="com.anders.ssh.webservice.cxf.ws.SingerService" />
-    	<property name="address" value="http://127.0.0.1:5555/ssh/cxf/ws/singer" />
-    </bean>
 </beans>
