@@ -1,6 +1,5 @@
 package com.anders.ssh.dao.hibernate;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +39,6 @@ public class UserDaoTest {
 
 		userDao.delete(user1);
 		userDao.delete(user2);
-
-		Map<Long, Long> map = new HashMap<Long, Long>(0);
-		System.out.println(map.size());
 	}
+
 }
