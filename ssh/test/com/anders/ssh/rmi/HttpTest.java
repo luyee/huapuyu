@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring-test.xml" })
+@ContextConfiguration(locations = { "classpath:spring-remote-test.xml" })
 public class HttpTest {
 	@Autowired
 	private AndersHttp andersHttp;

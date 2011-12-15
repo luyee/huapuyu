@@ -10,13 +10,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring-test.xml" })
+@ContextConfiguration(locations = { "classpath:spring-remote-test.xml" })
 public class RmiTest {
 	@Autowired
 	private AndersRmi andersRmi;
 
 	@Test
-	public void testGetUserInfo() {
+	public void testGetRmi() {
 		Map<Long, String> map = andersRmi.getRmi();
 		Assert.assertEquals(2, map.size());
 		Assert.assertEquals("zhuzhen", map.get(1L));
