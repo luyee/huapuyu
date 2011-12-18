@@ -109,7 +109,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>wicket</servlet-name>
-		<url-pattern>/*.wicket</url-pattern>
+		<url-pattern>*.wicket</url-pattern>
 	</servlet-mapping>
 	-->
  	
@@ -125,7 +125,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>app</filter-name>
-		<url-pattern>/*.tapestry</url-pattern>
+		<url-pattern>*.tapestry</url-pattern>
 	</filter-mapping>
 	-->
  	 
