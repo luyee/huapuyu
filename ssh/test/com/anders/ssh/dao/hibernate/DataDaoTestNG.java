@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import com.anders.ssh.model.xml.Data;
 
-@ContextConfiguration(locations = { "classpath:test/testng/dao/hibernate/spring.xml" })
+@ContextConfiguration(locations = { "classpath:spring.xml" })
 public class DataDaoTestNG extends AbstractTestNGSpringContextTests {
 	@Resource(name = "hibernateDataDao")
 	private DataDao dataDao;
