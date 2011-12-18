@@ -25,21 +25,24 @@ public class AndersRmiImpl implements AndersRmi {
 		Set<Boolean> set = new HashSet<Boolean>();
 		set.add(false);
 
-		if (!lock.tryLock())
-			return set;
+		if (lock.tryLock()) {
+			try {
+				try {
+					// 暂停三分钟
+					Thread.sleep(1000 * 60 * 3);
+				}
+				catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 
-		try {
-			// 暂停三分钟
-			Thread.sleep(1000 * 60 * 3);
+				set.clear();
+				set.add(b);
+			}
+			finally {
+				lock.unlock();
+			}
 		}
-		catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		set.clear();
-		set.add(b);
-		lock.unlock();
-
 		return set;
+
 	}
 }
