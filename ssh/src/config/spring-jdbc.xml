@@ -8,25 +8,29 @@
 	<!--
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	-->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${driver}"/>
-	    <property name="url" value="${url}"/>
-	    <property name="username" value="${username}"/>
-	    <property name="password" value="${password}"/>
-	    <!-- 连接池启动时的初始值 -->
-	    <!-- <property name="initialSize" value="1"/> -->
+	<bean id="dataSourceTarget" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		<!-- 连接池启动时的初始值 -->
+		<!-- <property name="initialSize" value="1"/> -->
 		<!-- 连接池的最大值 -->
 		<!-- <property name="maxActive" value="10"/> -->
 		<!-- 最大空闲值，当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 -->
 		<!-- <property name="maxIdle" value="2"/> -->
 		<!-- 最小空闲值，当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请 -->
 		<!-- <property name="minIdle" value="1"/> -->
-		<property name="maxActive" value="100"/>
-        <property name="maxWait" value="1000"/>
-        <property name="poolPreparedStatements" value="true"/>
-        <property name="defaultAutoCommit" value="true"/>
+		<property name="maxActive" value="100" />
+		<property name="maxWait" value="1000" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="defaultAutoCommit" value="true" />
 	</bean>
-	
+
+	<bean id="dataSource" class="com.p6spy.engine.spy.P6DataSource">
+		<constructor-arg ref="dataSourceTarget"></constructor-arg>
+	</bean>
+
 	<bean id="masterDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${master.driver}"/>
 	    <property name="url" value="${master.url}"/>
