@@ -331,5 +331,6 @@
 	<classpathentry kind="lib" path="lib/axis/axis2-transport-local-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/axis/axis2-xmlbeans-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/neethi-2.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/p6spy.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
