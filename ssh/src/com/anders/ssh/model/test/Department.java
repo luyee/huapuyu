@@ -28,6 +28,7 @@ public class Department implements Serializable {
 	private Long id;
 	@Column(nullable = true, length = 50)
 	private String name;
+	// 多对一
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id")
 	private Company company;
