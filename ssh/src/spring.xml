@@ -82,4 +82,7 @@
 	
 	<!-- rmi -->
 	<import resource="classpath:config/spring-rmi.xml"/>
+	
+	<!-- jmx -->
+	<import resource="classpath:config/spring-jmx.xml"/>
 </beans>
