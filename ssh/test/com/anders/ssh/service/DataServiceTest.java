@@ -13,16 +13,14 @@ import com.anders.ssh.model.xml.Data;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })
-public class DataServiceTest
-{
+public class DataServiceTest {
 	@Autowired
 	private DataService dataService;
 
 	@Test
-	public void testDataAdd()
-	{
+	public void testDataAdd() {
 		Data data = new Data();
-		data.setId(1);
+		data.setId(1L);
 		data.setType(Byte.MIN_VALUE);
 		data.setName("zhuzhen");
 		data.setEnable(true);
