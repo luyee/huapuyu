@@ -33,8 +33,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	%>
   
    	<s:form action="j_spring_security_check" namespace="/" theme="simple" method="post">
-  	  <s:textfield name="j_username" key="login.name" />
-	  <s:textfield name="j_password" key="login.pwd"/>
+  	  用户名：<s:textfield name="j_username" key="login.name" />
+	  密码：<s:textfield name="j_password" key="login.pwd"/>
 	  <s:submit key="login.submit"/>
 	</s:form>
   </body>
