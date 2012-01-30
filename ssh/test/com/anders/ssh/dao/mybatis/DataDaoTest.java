@@ -22,7 +22,7 @@ public class DataDaoTest {
 	@Test
 	public void test1() {
 		Data data = new Data();
-		data.setId(1);
+		data.setId(1L);
 		data.setName("zhuzhen");
 		data.setType((byte) 1);
 		data.setEnable(true);

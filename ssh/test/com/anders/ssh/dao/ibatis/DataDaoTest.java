@@ -21,7 +21,7 @@ public class DataDaoTest {
 	@Test
 	public void testDataAdd() {
 		Data data = new Data();
-		data.setId(1);
+		data.setId(1L);
 		data.setType(Byte.MIN_VALUE);
 		data.setName("zhuzhen");
 		data.setEnable(true);
