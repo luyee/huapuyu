@@ -7,16 +7,16 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 public class Data implements Serializable {
 	private static final long serialVersionUID = -3076049534246559365L;
 
-	private Integer id;
+	private Long id;
 	private String name;
 	private Byte type;
 	private Boolean enable = true;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

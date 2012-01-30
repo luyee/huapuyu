@@ -6,7 +6,7 @@
 <hibernate-mapping package="com.anders.ssh.model.xml">
 
 	<class name="Data" table="cfg_data">
-		<id name="id" column="id" type="integer">
+		<id name="id" column="id" type="long">
 			<generator class="assigned"/>
 		</id>
 		

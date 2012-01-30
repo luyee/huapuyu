@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails {
 	private static final long serialVersionUID = 5989698534331721397L;
 
-	private Integer id;
+	private Long id;
 	/**
 	 * login name, unique
 	 */
@@ -83,11 +83,11 @@ public class User implements UserDetails {
 	// getter and setter
 	// *****************
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

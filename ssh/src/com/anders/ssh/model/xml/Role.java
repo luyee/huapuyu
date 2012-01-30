@@ -7,16 +7,16 @@ import java.util.Set;
 public class Role implements Serializable {
 	private static final long serialVersionUID = -4225855582860642624L;
 
-	private Integer id;
+	private Long id;
 	private String name;
 	private Boolean enable = true;
 	private Set<Resource> resources = new HashSet<Resource>(0);
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
