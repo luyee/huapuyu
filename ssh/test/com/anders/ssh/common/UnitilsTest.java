@@ -17,8 +17,7 @@ import com.anders.ssh.model.xml.Data;
 //@ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })
 @RunWith(UnitilsJUnit4TestClassRunner.class)
 @SpringApplicationContext( { "classpath:spring.xml", "classpath:spring-test.xml" })
-public class UnitilsTest extends UnitilsJUnit4
-{
+public class UnitilsTest extends UnitilsJUnit4 {
 	@SpringBean("hibernateDataDao")
 	private DataDao dataDao;
 
@@ -26,10 +25,9 @@ public class UnitilsTest extends UnitilsJUnit4
 	// @DataSet("UnitilsTest.xml")
 	@DataSet
 	@Transactional(TransactionMode.COMMIT)
-	public void test1()
-	{
+	public void test1() {
 		Data data = new Data();
-		data.setId(123);
+		data.setId(123L);
 		data.setName("test");
 		data.setEnable(true);
 		data.setType((byte) 123);
