@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" 
+	"http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<data-sources />
+	<form-beans>
+		<form-bean name="dataListForm" type="com.anders.ssh.struts1.form.DataListForm" />
+	</form-beans>
+
+	<global-exceptions />
+
+	<global-forwards>
+		<forward name="success" path="/WEB-INF/jsp/struts1/datalist.jsp" />
+		<forward name="failure" path="/WEB-INF/jsp/struts1/datalist.jsp" />
+	</global-forwards>
+
+	<action-mappings>
+		<action 
+			attribute="dataListForm" 
+			input="/WEB-INF/jsp/struts1/datalist.jsp"
+			name="dataListForm" 
+			path="/dataList" 
+			scope="request" 
+			validate="true"
+			type="com.anders.ssh.struts1.action.DataListAction">
+			<forward name="success" path="/WEB-INF/jsp/struts1/datalist.jsp" />
+			<forward name="failure" path="/WEB-INF/jsp/struts1/datalist.jsp" />
+		</action>
+	</action-mappings>
+
+	<controller processorClass="com.anders.ssh.struts1.controller.EncodingProcessor" />
+
+	<message-resources parameter="com.anders.ssh.struts1.message.ApplicationResources" />
+</struts-config>
+
