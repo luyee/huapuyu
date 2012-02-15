@@ -77,8 +77,22 @@
         <filter-name>struts2</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
- 	 
-	<!-- Wicket -->
+    
+    <!-- Struts1 -->
+    <servlet>
+    	<servlet-name>action</servlet-name>
+    	<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+    	<init-param>
+    		<param-name>config</param-name>
+    		<param-value>/WEB-INF/struts1-config.xml</param-value>
+    	</init-param>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>action</servlet-name>
+    	<url-pattern>*.struts1</url-pattern>
+    </servlet-mapping>
+
+    <!-- Wicket -->
 	<!--  
 	<filter>
         <filter-name>wicket</filter-name>
