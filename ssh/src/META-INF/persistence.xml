@@ -45,7 +45,7 @@
         <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
         <property name="hibernate.connection.username" value="root"/>
         <property name="hibernate.connection.password" value="123"/>
-        <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/ssh_test"/>
+        <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/ssh_test?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8&amp;amp;zeroDateTimeBehavior=convertToNull"/>
         <property name="hibernate.show_sql" value="true"/>
         <property name="hibernate.hbm2ddl.auto" value="create"/>
 	</properties> 
