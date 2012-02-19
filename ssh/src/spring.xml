@@ -33,6 +33,9 @@
 	<!-- cxf -->
 	<import resource="classpath:config/spring-cxf.xml"/>
 	
+	<!-- axis2 -->
+	<import resource="classpath:config/spring-axis.xml"/>
+	
 	<!-- jdbc -->
 	<import resource="classpath:config/spring-jdbc.xml"/>
 	
