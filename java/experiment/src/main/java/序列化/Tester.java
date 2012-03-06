@@ -32,6 +32,7 @@ public class Tester {
 	public void test() {
 		// 通过第一步序列化生成txt文件后，我试着修改该文件，但是反序列化会有问题
 		serialization();
+		// 如果不改动txt文件，而是改动Person类的代码，反序列化倒是可以的，比如序列化之后，给Person类的setName方法添加一个syso代码，反序列化之后，调用setName时将会执行syso代码
 		deserialize();
 	}
 
