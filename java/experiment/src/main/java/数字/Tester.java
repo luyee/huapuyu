@@ -1,4 +1,4 @@
-package numberp;
+package 数字;
 
 import org.apache.commons.lang.math.NumberUtils;
 
