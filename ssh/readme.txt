@@ -9,6 +9,9 @@ extjs
 
 http://127.0.0.1:8888/ssh/data/list.struts
 
+struts1
+http://127.0.0.1:8888/ssh/dataList.struts1
+
 jwebap
 http://127.0.0.1:8888/ssh/detect
 
