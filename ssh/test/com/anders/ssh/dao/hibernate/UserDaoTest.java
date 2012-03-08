@@ -41,4 +41,8 @@ public class UserDaoTest {
 		userDao.delete(user2);
 	}
 
+	@Test
+	public void testUpdateAndMerge() {
+		userDao.testUpdateAndMerge();
+	}
 }
