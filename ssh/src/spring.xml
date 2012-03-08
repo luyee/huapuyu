@@ -88,4 +88,10 @@
 	
 	<!-- jmx -->
 	<import resource="classpath:config/spring-jmx.xml"/>
+	
+	<!-- mail -->
+	<import resource="classpath:config/spring-mail.xml"/>
+	
+	<!-- quartz -->
+	<import resource="classpath:config/spring-quartz.xml"/>
 </beans>
