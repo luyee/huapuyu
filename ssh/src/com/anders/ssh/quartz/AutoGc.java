@@ -1,13 +1,8 @@
 package com.anders.ssh.quartz;
 
-import javax.mail.Message;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import org.apache.log4j.Logger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 public class AutoGc extends QuartzJobBean {
@@ -15,16 +10,6 @@ public class AutoGc extends QuartzJobBean {
 	private static Logger log = Logger.getLogger(AutoGc.class);
 
 	private int timeout;
-
-	private JavaMailSender javaMailSender;
-
-	public JavaMailSender getJavaMailSender() {
-		return javaMailSender;
-	}
-
-	public void setJavaMailSender(JavaMailSender javaMailSender) {
-		this.javaMailSender = javaMailSender;
-	}
 
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
@@ -36,7 +21,6 @@ public class AutoGc extends QuartzJobBean {
 		long freeMemory = rt.freeMemory();
 		log.info("auto gc [ free:" + freeMemory + ", max:" + maxMemory + ", percent:" + (double) freeMemory / maxMemory + " ]");
 		System.out.println("auto gc [ free:" + freeMemory + ", max:" + maxMemory + ", percent:" + (double) freeMemory / maxMemory + " ]");
-		sendMail();
 		if ((double) freeMemory / maxMemory < 0.5)
 			rt.gc();
 	}
@@ -59,18 +43,5 @@ public class AutoGc extends QuartzJobBean {
 			e.printStackTrace();
 		}
 		System.out.println("finish");
-	}
-
-	private void sendMail() {
-		try {
-			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-			mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress("zhuzhen01@baidu.com"));
-			mimeMessage.setFrom(new InternetAddress("huapuyu@yahoo.com.cn"));
-			mimeMessage.setText("hello world");
-			javaMailSender.send(mimeMessage);
-		}
-		catch (Exception ex) {
-			log.error(ex.getMessage());
-		}
 	}
 }

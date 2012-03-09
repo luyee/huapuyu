@@ -15,7 +15,6 @@
 				</entry>
 			</map>
 		</property>
-		<property name="javaMailSender" ref="javaMailSender"/>
 	</bean>
 
 	<bean id="autoGcTrigger"

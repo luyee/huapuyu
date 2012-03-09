@@ -1,193 +1,159 @@
-1331203416974|-1||debug||com.p6spy.engine.common.P6SpyOptions reloading properties
-1331203416980|-1||info||Using properties file: D:\code\myeclipse\ssh\WebRoot\WEB-INF\classes\spy.properties
-1331203416980|-1||info||No value in environment for: getStackTrace, using: false
-1331203416980|-1||info||No value in environment for: getAppender, using: com.p6spy.engine.logging.appender.FileLogger
-1331203416980|-1||info||No value in environment for: getFilter, using: false
-1331203416980|-1||info||No value in environment for: getAppend, using: true
-1331203416980|-1||info||No value in environment for: getRealDataSource, using: null
-1331203416980|-1||info||No value in environment for: getJNDIContextFactory, using: null
-1331203416980|-1||info||No value in environment for: getJNDIContextProviderURL, using: null
-1331203416980|-1||info||No value in environment for: getJNDIContextCustom, using: null
-1331203416980|-1||info||No value in environment for: getRealDataSourceProperties, using: null
-1331203416980|-1||info||No value in environment for: getDeregisterDrivers, using: true
-1331203416980|-1||info||No value in environment for: getUsePrefix, using: false
-1331203416980|-1||info||No value in environment for: getExecutionThreshold, using: 0
-1331203416981|-1||info||No value in environment for: getAutoflush, using: true
-1331203416981|-1||info||No value in environment for: getExclude, using: 
-1331203416981|-1||info||No value in environment for: getExcludecategories, using: info,debug,result,batch
-1331203416981|-1||info||No value in environment for: getInclude, using: 
-1331203416981|-1||info||No value in environment for: getIncludecategories, using: 
-1331203416981|-1||info||No value in environment for: getLogfile, using: spy.log
-1331203416981|-1||info||No value in environment for: getRealdriver, using: com.mysql.jdbc.Driver
-1331203416981|-1||info||No value in environment for: getRealdriver2, using: 
-1331203416981|-1||info||No value in environment for: getRealdriver3, using: 
-1331203416981|-1||info||No value in environment for: getSpydriver, using: com.p6spy.engine.spy.P6SpyDriver
-1331203416981|-1||info||No value in environment for: getDateformat, using: 
-1331203416981|-1||info||No value in environment for: getDateformatter, using: null
-1331203416981|-1||info||No value in environment for: getStringmatcher, using: com.p6spy.engine.common.SubstringMatcher
-1331203416981|-1||info||No value in environment for: getStringMatcherEngine, using: com.p6spy.engine.common.SubstringMatcher@1087359
-1331203416981|-1||info||No value in environment for: getStackTraceClass, using: 
-1331203416981|-1||info||No value in environment for: getSQLExpression, using: null
-1331203416981|-1||info||No value in environment for: getReloadProperties, using: false
-1331203416981|-1||info||No value in environment for: getReloadPropertiesInterval, using: 60
-1331203416981|-1||info||No value in environment for: getRealDataSourceClass, using: null
-1331203418522|165|1|statement||alter table rlt_company_account drop foreign key FK1CFD7BA62536B85B
-1331203418522|165|3|statement||alter table rlt_company_account drop foreign key FK1CFD7BA62536B85B
-1331203418689|167|1|statement||alter table rlt_company_account drop foreign key FK1CFD7BA6A9079A5B
-1331203418689|167|3|statement||alter table rlt_company_account drop foreign key FK1CFD7BA6A9079A5B
-1331203418856|167|1|statement||alter table rlt_role_to_resource drop foreign key FKE6E76B2E8C46DF1C
-1331203418857|168|3|statement||alter table rlt_role_to_resource drop foreign key FKE6E76B2E8C46DF1C
-1331203419023|166|1|statement||alter table rlt_role_to_resource drop foreign key FKE6E76B2E6A13B71C
-1331203419023|166|3|statement||alter table rlt_role_to_resource drop foreign key FKE6E76B2E6A13B71C
-1331203419197|173|1|statement||alter table rlt_user_group_to_role drop foreign key FK2469836B8C46DF1C
-1331203419197|173|3|statement||alter table rlt_user_group_to_role drop foreign key FK2469836B8C46DF1C
-1331203419357|159|1|statement||alter table rlt_user_group_to_role drop foreign key FK2469836B99962E61
-1331203419357|159|3|statement||alter table rlt_user_group_to_role drop foreign key FK2469836B99962E61
-1331203419583|226|1|statement||alter table rlt_user_to_role drop foreign key FK4CC0FDEB8C46DF1C
-1331203419583|226|3|statement||alter table rlt_user_to_role drop foreign key FK4CC0FDEB8C46DF1C
-1331203419734|150|1|statement||alter table rlt_user_to_role drop foreign key FK4CC0FDEB3171A2FC
-1331203419734|150|3|statement||alter table rlt_user_to_role drop foreign key FK4CC0FDEB3171A2FC
-1331203419891|156|1|statement||alter table rlt_user_to_user_group drop foreign key FK831BD2C03171A2FC
-1331203419891|156|3|statement||alter table rlt_user_to_user_group drop foreign key FK831BD2C03171A2FC
-1331203420050|158|1|statement||alter table rlt_user_to_user_group drop foreign key FK831BD2C099962E61
-1331203420050|158|3|statement||alter table rlt_user_to_user_group drop foreign key FK831BD2C099962E61
-1331203420183|132|1|statement||alter table tb_company drop foreign key FK38B0A3ACEACB7696
-1331203420183|132|3|statement||alter table tb_company drop foreign key FK38B0A3ACEACB7696
-1331203420309|125|1|statement||alter table tb_department drop foreign key FK78CCD9C32536B85B
-1331203420309|125|3|statement||alter table tb_department drop foreign key FK78CCD9C32536B85B
-1331203420334|24|1|statement||drop table if exists cfg_data
-1331203420334|24|3|statement||drop table if exists cfg_data
-1331203420353|18|1|statement||drop table if exists rlt_company_account
-1331203420353|18|3|statement||drop table if exists rlt_company_account
-1331203420376|23|1|statement||drop table if exists rlt_role_to_resource
-1331203420376|23|3|statement||drop table if exists rlt_role_to_resource
-1331203420403|26|1|statement||drop table if exists rlt_user_group_to_role
-1331203420403|26|3|statement||drop table if exists rlt_user_group_to_role
-1331203420426|23|1|statement||drop table if exists rlt_user_to_role
-1331203420426|23|3|statement||drop table if exists rlt_user_to_role
-1331203420453|26|1|statement||drop table if exists rlt_user_to_user_group
-1331203420453|26|3|statement||drop table if exists rlt_user_to_user_group
-1331203420476|23|1|statement||drop table if exists tb_account
-1331203420477|24|3|statement||drop table if exists tb_account
-1331203420503|26|1|statement||drop table if exists tb_company
-1331203420503|26|3|statement||drop table if exists tb_company
-1331203420526|23|1|statement||drop table if exists tb_company_info
-1331203420527|24|3|statement||drop table if exists tb_company_info
-1331203420544|17|1|statement||drop table if exists tb_department
-1331203420544|17|3|statement||drop table if exists tb_department
-1331203420568|23|1|statement||drop table if exists tb_resource
-1331203420568|23|3|statement||drop table if exists tb_resource
-1331203420594|25|1|statement||drop table if exists tb_role
-1331203420594|25|3|statement||drop table if exists tb_role
-1331203420618|23|1|statement||drop table if exists tb_user
-1331203420618|23|3|statement||drop table if exists tb_user
-1331203420644|25|1|statement||drop table if exists tb_user_group
-1331203420645|26|3|statement||drop table if exists tb_user_group
-1331203420709|64|1|statement||create table cfg_data (id bigint not null, name varchar(50) not null, type tinyint not null, enable bit not null, primary key (id))
-1331203420709|64|3|statement||create table cfg_data (id bigint not null, name varchar(50) not null, type tinyint not null, enable bit not null, primary key (id))
-1331203420784|74|1|statement||create table rlt_company_account (company_id bigint not null, account_id bigint not null)
-1331203420784|74|3|statement||create table rlt_company_account (company_id bigint not null, account_id bigint not null)
-1331203420843|58|1|statement||create table rlt_role_to_resource (role_id bigint not null, resource_id bigint not null)
-1331203420843|58|3|statement||create table rlt_role_to_resource (role_id bigint not null, resource_id bigint not null)
-1331203420918|75|1|statement||create table rlt_user_group_to_role (user_group_id bigint not null, role_id bigint not null)
-1331203420918|75|3|statement||create table rlt_user_group_to_role (user_group_id bigint not null, role_id bigint not null)
-1331203420984|66|1|statement||create table rlt_user_to_role (user_id bigint not null, role_id bigint not null)
-1331203420985|67|3|statement||create table rlt_user_to_role (user_id bigint not null, role_id bigint not null)
-1331203421043|58|1|statement||create table rlt_user_to_user_group (user_id bigint not null, user_group_id bigint not null)
-1331203421043|58|3|statement||create table rlt_user_to_user_group (user_id bigint not null, user_group_id bigint not null)
-1331203421102|59|1|statement||create table tb_account (id bigint not null auto_increment, name varchar(50), primary key (id))
-1331203421102|59|3|statement||create table tb_account (id bigint not null auto_increment, name varchar(50), primary key (id))
-1331203421177|74|1|statement||create table tb_company (id bigint not null auto_increment, name varchar(50), company_info_id bigint, primary key (id))
-1331203421177|74|3|statement||create table tb_company (id bigint not null auto_increment, name varchar(50), company_info_id bigint, primary key (id))
-1331203421236|58|1|statement||create table tb_company_info (id bigint not null auto_increment, info varchar(50), primary key (id))
-1331203421236|58|3|statement||create table tb_company_info (id bigint not null auto_increment, info varchar(50), primary key (id))
-1331203421301|65|1|statement||create table tb_department (id bigint not null auto_increment, name varchar(50), company_id bigint, primary key (id))
-1331203421301|65|3|statement||create table tb_department (id bigint not null auto_increment, name varchar(50), company_id bigint, primary key (id))
-1331203421368|66|1|statement||create table tb_resource (id bigint not null auto_increment, content varchar(50) not null unique, enable bit not null, name varchar(50) not null unique, primary key (id))
-1331203421368|66|3|statement||create table tb_resource (id bigint not null auto_increment, content varchar(50) not null unique, enable bit not null, name varchar(50) not null unique, primary key (id))
-1331203421452|84|1|statement||create table tb_role (id bigint not null auto_increment, enable bit not null, name varchar(50) not null unique, primary key (id))
-1331203421452|84|3|statement||create table tb_role (id bigint not null auto_increment, enable bit not null, name varchar(50) not null unique, primary key (id))
-1331203421609|156|1|statement||create table tb_user (id bigint not null auto_increment, enable bit not null, name varchar(50) not null, password varchar(50) not null, user_name varchar(50) not null unique, primary key (id))
-1331203421610|157|3|statement||create table tb_user (id bigint not null auto_increment, enable bit not null, name varchar(50) not null, password varchar(50) not null, user_name varchar(50) not null unique, primary key (id))
-1331203421684|74|1|statement||create table tb_user_group (id bigint not null auto_increment, enable bit not null, name varchar(50) not null unique, primary key (id))
-1331203421685|75|3|statement||create table tb_user_group (id bigint not null auto_increment, enable bit not null, name varchar(50) not null unique, primary key (id))
-1331203421950|265|1|statement||alter table rlt_company_account add index FK1CFD7BA62536B85B (company_id), add constraint FK1CFD7BA62536B85B foreign key (company_id) references tb_company (id)
-1331203421950|265|3|statement||alter table rlt_company_account add index FK1CFD7BA62536B85B (company_id), add constraint FK1CFD7BA62536B85B foreign key (company_id) references tb_company (id)
-1331203422197|247|1|statement||alter table rlt_company_account add index FK1CFD7BA6A9079A5B (account_id), add constraint FK1CFD7BA6A9079A5B foreign key (account_id) references tb_account (id)
-1331203422197|247|3|statement||alter table rlt_company_account add index FK1CFD7BA6A9079A5B (account_id), add constraint FK1CFD7BA6A9079A5B foreign key (account_id) references tb_account (id)
-1331203422408|211|1|statement||alter table rlt_role_to_resource add index FKE6E76B2E8C46DF1C (role_id), add constraint FKE6E76B2E8C46DF1C foreign key (role_id) references tb_role (id)
-1331203422408|211|3|statement||alter table rlt_role_to_resource add index FKE6E76B2E8C46DF1C (role_id), add constraint FKE6E76B2E8C46DF1C foreign key (role_id) references tb_role (id)
-1331203422585|177|1|statement||alter table rlt_role_to_resource add index FKE6E76B2E6A13B71C (resource_id), add constraint FKE6E76B2E6A13B71C foreign key (resource_id) references tb_resource (id)
-1331203422585|177|3|statement||alter table rlt_role_to_resource add index FKE6E76B2E6A13B71C (resource_id), add constraint FKE6E76B2E6A13B71C foreign key (resource_id) references tb_resource (id)
-1331203422794|209|1|statement||alter table rlt_user_group_to_role add index FK2469836B8C46DF1C (role_id), add constraint FK2469836B8C46DF1C foreign key (role_id) references tb_role (id)
-1331203422794|209|3|statement||alter table rlt_user_group_to_role add index FK2469836B8C46DF1C (role_id), add constraint FK2469836B8C46DF1C foreign key (role_id) references tb_role (id)
-1331203422951|156|1|statement||alter table rlt_user_group_to_role add index FK2469836B99962E61 (user_group_id), add constraint FK2469836B99962E61 foreign key (user_group_id) references tb_user_group (id)
-1331203422952|157|3|statement||alter table rlt_user_group_to_role add index FK2469836B99962E61 (user_group_id), add constraint FK2469836B99962E61 foreign key (user_group_id) references tb_user_group (id)
-1331203423102|150|1|statement||alter table rlt_user_to_role add index FK4CC0FDEB8C46DF1C (role_id), add constraint FK4CC0FDEB8C46DF1C foreign key (role_id) references tb_role (id)
-1331203423102|150|3|statement||alter table rlt_user_to_role add index FK4CC0FDEB8C46DF1C (role_id), add constraint FK4CC0FDEB8C46DF1C foreign key (role_id) references tb_role (id)
-1331203423268|165|1|statement||alter table rlt_user_to_role add index FK4CC0FDEB3171A2FC (user_id), add constraint FK4CC0FDEB3171A2FC foreign key (user_id) references tb_user (id)
-1331203423268|165|3|statement||alter table rlt_user_to_role add index FK4CC0FDEB3171A2FC (user_id), add constraint FK4CC0FDEB3171A2FC foreign key (user_id) references tb_user (id)
-1331203423567|298|1|statement||alter table rlt_user_to_user_group add index FK831BD2C03171A2FC (user_id), add constraint FK831BD2C03171A2FC foreign key (user_id) references tb_user (id)
-1331203423567|298|3|statement||alter table rlt_user_to_user_group add index FK831BD2C03171A2FC (user_id), add constraint FK831BD2C03171A2FC foreign key (user_id) references tb_user (id)
-1331203423827|259|1|statement||alter table rlt_user_to_user_group add index FK831BD2C099962E61 (user_group_id), add constraint FK831BD2C099962E61 foreign key (user_group_id) references tb_user_group (id)
-1331203423827|259|3|statement||alter table rlt_user_to_user_group add index FK831BD2C099962E61 (user_group_id), add constraint FK831BD2C099962E61 foreign key (user_group_id) references tb_user_group (id)
-1331203423985|158|1|statement||alter table tb_company add index FK38B0A3ACEACB7696 (company_info_id), add constraint FK38B0A3ACEACB7696 foreign key (company_info_id) references tb_company_info (id)
-1331203423985|158|3|statement||alter table tb_company add index FK38B0A3ACEACB7696 (company_info_id), add constraint FK38B0A3ACEACB7696 foreign key (company_info_id) references tb_company_info (id)
-1331203424127|141|1|statement||alter table tb_department add index FK78CCD9C32536B85B (company_id), add constraint FK78CCD9C32536B85B foreign key (company_id) references tb_company (id)
-1331203424127|141|3|statement||alter table tb_department add index FK78CCD9C32536B85B (company_id), add constraint FK78CCD9C32536B85B foreign key (company_id) references tb_company (id)
-1331203424330|1|4|statement||delete from rlt_user_to_user_group
-1331203424330|0|4|statement||delete from rlt_user_to_role
-1331203424331|1|4|statement||delete from rlt_user_group_to_role
-1331203424331|0|4|statement||delete from rlt_role_to_resource
-1331203424331|0|4|statement||delete from tb_user
-1331203424332|1|4|statement||delete from tb_user_group
-1331203424332|0|4|statement||delete from tb_role
-1331203424333|1|4|statement||delete from tb_resource
-1331203424393|27|4|statement|insert into tb_resource (id, name, content, enable) values (?, ?, ?, ?)|insert into tb_resource (id, name, content, enable) values ('1', 'Index', '/index.jsp', 'true')
-1331203424427|23|4|statement|insert into tb_role (id, name, enable) values (?, ?, ?)|insert into tb_role (id, name, enable) values ('1', 'Admin', 'true')
-1331203424460|22|4|statement|insert into tb_user_group (id, name, enable) values (?, ?, ?)|insert into tb_user_group (id, name, enable) values ('1', 'Admin', 'true')
-1331203424494|23|4|statement|insert into tb_user (id, user_name, name, password, enable) values (?, ?, ?, ?, ?)|insert into tb_user (id, user_name, name, password, enable) values ('1', 'zhuzhen', 'Zhu Zhen', '123', 'true')
-1331203424527|23|4|statement|insert into rlt_role_to_resource (role_id, resource_id) values (?, ?)|insert into rlt_role_to_resource (role_id, resource_id) values ('1', '1')
-1331203424560|22|4|statement|insert into rlt_user_group_to_role (user_group_id, role_id) values (?, ?)|insert into rlt_user_group_to_role (user_group_id, role_id) values ('1', '1')
-1331203424593|22|4|statement|insert into rlt_user_to_role (user_id, role_id) values (?, ?)|insert into rlt_user_to_role (user_id, role_id) values ('1', '1')
-1331203424627|23|4|statement|insert into rlt_user_to_user_group (user_id, user_group_id) values (?, ?)|insert into rlt_user_to_user_group (user_id, user_group_id) values ('1', '1')
-1331203425777|30|5|statement||drop table if exists cfg_data
-1331203425843|66|5|statement||create table cfg_data (id bigint not null, name varchar(50) not null, type tinyint not null, enable bit not null, primary key (id))
-1331203426937|5|1|statement|select this_.id as id1_1_, this_.content as content1_1_, this_.enable as enable1_1_, this_.name as name1_1_, roles2_.resource_id as resource2_1_3_, role3_.id as role1_3_, role3_.id as id2_0_, role3_.enable as enable2_0_, role3_.name as name2_0_ from tb_resource this_ left outer join rlt_role_to_resource roles2_ on this_.id=roles2_.resource_id left outer join tb_role role3_ on roles2_.role_id=role3_.id|select this_.id as id1_1_, this_.content as content1_1_, this_.enable as enable1_1_, this_.name as name1_1_, roles2_.resource_id as resource2_1_3_, role3_.id as role1_3_, role3_.id as id2_0_, role3_.enable as enable2_0_, role3_.name as name2_0_ from tb_resource this_ left outer join rlt_role_to_resource roles2_ on this_.id=roles2_.resource_id left outer join tb_role role3_ on roles2_.role_id=role3_.id
-1331203426940|8|6|statement|select this_.id as id1_1_, this_.content as content1_1_, this_.enable as enable1_1_, this_.name as name1_1_, roles2_.resource_id as resource2_1_3_, role3_.id as role1_3_, role3_.id as id2_0_, role3_.enable as enable2_0_, role3_.name as name2_0_ from tb_resource this_ left outer join rlt_role_to_resource roles2_ on this_.id=roles2_.resource_id left outer join tb_role role3_ on roles2_.role_id=role3_.id|select this_.id as id1_1_, this_.content as content1_1_, this_.enable as enable1_1_, this_.name as name1_1_, roles2_.resource_id as resource2_1_3_, role3_.id as role1_3_, role3_.id as id2_0_, role3_.enable as enable2_0_, role3_.name as name2_0_ from tb_resource this_ left outer join rlt_role_to_resource roles2_ on this_.id=roles2_.resource_id left outer join tb_role role3_ on roles2_.role_id=role3_.id
-1331203426958|-1||resultset|select this_.id as id1_1_, this_.content as content1_1_, this_.enable as enable1_1_, this_.name as name1_1_, roles2_.resource_id as resource2_1_3_, role3_.id as role1_3_, role3_.id as id2_0_, role3_.enable as enable2_0_, role3_.name as name2_0_ from tb_resource this_ left outer join rlt_role_to_resource roles2_ on this_.id=roles2_.resource_id left outer join tb_role role3_ on roles2_.role_id=role3_.id|content1_1_ = /index.jsp, name1_1_ = Index, name2_0_ = Admin
-1331203426959|-1||resultset|select this_.id as id1_1_, this_.content as content1_1_, this_.enable as enable1_1_, this_.name as name1_1_, roles2_.resource_id as resource2_1_3_, role3_.id as role1_3_, role3_.id as id2_0_, role3_.enable as enable2_0_, role3_.name as name2_0_ from tb_resource this_ left outer join rlt_role_to_resource roles2_ on this_.id=roles2_.resource_id left outer join tb_role role3_ on roles2_.role_id=role3_.id|content1_1_ = /index.jsp, name1_1_ = Index, name2_0_ = Admin
-1331203429410|33|1|statement|insert into tb_user (enable, name, password, user_name) values (?, ?, ?, ?)|insert into tb_user (enable, name, password, user_name) values ('true', 'zhangsan', '123', 'zhangsan')
-1331203429410|33|7|statement|insert into tb_user (enable, name, password, user_name) values (?, ?, ?, ?)|insert into tb_user (enable, name, password, user_name) values ('true', 'zhangsan', '123', 'zhangsan')
-1331203429443|24|1|statement|insert into tb_user (enable, name, password, user_name) values (?, ?, ?, ?)|insert into tb_user (enable, name, password, user_name) values ('true', 'lisi', '123', 'lisi')
-1331203429444|25|8|statement|insert into tb_user (enable, name, password, user_name) values (?, ?, ?, ?)|insert into tb_user (enable, name, password, user_name) values ('true', 'lisi', '123', 'lisi')
-1331203429479|1|1|statement|select role1_.name as y0_ from tb_user this_ inner join rlt_user_to_role roles3_ on this_.id=roles3_.user_id inner join tb_role role1_ on roles3_.role_id=role1_.id where this_.user_name=? and this_.enable=?|select role1_.name as y0_ from tb_user this_ inner join rlt_user_to_role roles3_ on this_.id=roles3_.user_id inner join tb_role role1_ on roles3_.role_id=role1_.id where this_.user_name='zhangsan' and this_.enable='true'
-1331203429479|1|9|statement|select role1_.name as y0_ from tb_user this_ inner join rlt_user_to_role roles3_ on this_.id=roles3_.user_id inner join tb_role role1_ on roles3_.role_id=role1_.id where this_.user_name=? and this_.enable=?|select role1_.name as y0_ from tb_user this_ inner join rlt_user_to_role roles3_ on this_.id=roles3_.user_id inner join tb_role role1_ on roles3_.role_id=role1_.id where this_.user_name='zhangsan' and this_.enable='true'
-1331203429623|0|1|statement|select user0_.id as col_0_0_, user0_.name as col_1_0_ from tb_user user0_|select user0_.id as col_0_0_, user0_.name as col_1_0_ from tb_user user0_
-1331203429624|1|10|statement|select user0_.id as col_0_0_, user0_.name as col_1_0_ from tb_user user0_|select user0_.id as col_0_0_, user0_.name as col_1_0_ from tb_user user0_
-1331203429624|-1||resultset|select user0_.id as col_0_0_, user0_.name as col_1_0_ from tb_user user0_|col_1_0_ = Zhu Zhen
-1331203429624|-1||resultset|select user0_.id as col_0_0_, user0_.name as col_1_0_ from tb_user user0_|col_1_0_ = Zhu Zhen
-1331203429624|-1||resultset|select user0_.id as col_0_0_, user0_.name as col_1_0_ from tb_user user0_|col_1_0_ = zhangsan
-1331203429624|-1||resultset|select user0_.id as col_0_0_, user0_.name as col_1_0_ from tb_user user0_|col_1_0_ = zhangsan
-1331203429624|-1||resultset|select user0_.id as col_0_0_, user0_.name as col_1_0_ from tb_user user0_|col_1_0_ = lisi
-1331203429624|-1||resultset|select user0_.id as col_0_0_, user0_.name as col_1_0_ from tb_user user0_|col_1_0_ = lisi
-1331203429676|38|1|statement|delete from tb_user where id=?|delete from tb_user where id=2
-1331203429677|39|11|statement|delete from tb_user where id=?|delete from tb_user where id=2
-1331203429701|23|1|statement|delete from tb_user where id=?|delete from tb_user where id=3
-1331203429701|23|12|statement|delete from tb_user where id=?|delete from tb_user where id=3
-1331203432183|1|1|statement|insert into tb_user (enable, name, password, user_name) values (?, ?, ?, ?)|insert into tb_user (enable, name, password, user_name) values ('true', 'zhangsan', '123', 'zhangsan')
-1331203432183|1|13|statement|insert into tb_user (enable, name, password, user_name) values (?, ?, ?, ?)|insert into tb_user (enable, name, password, user_name) values ('true', 'zhangsan', '123', 'zhangsan')
-1331203432234|51|1|commit||
-1331203432235|52|13|commit||
-1331203432238|1|1|statement|select user0_.id as id3_0_, user0_.enable as enable3_0_, user0_.name as name3_0_, user0_.password as password3_0_, user0_.user_name as user5_3_0_ from tb_user user0_ where user0_.id=?|select user0_.id as id3_0_, user0_.enable as enable3_0_, user0_.name as name3_0_, user0_.password as password3_0_, user0_.user_name as user5_3_0_ from tb_user user0_ where user0_.id=4
-1331203432238|1|14|statement|select user0_.id as id3_0_, user0_.enable as enable3_0_, user0_.name as name3_0_, user0_.password as password3_0_, user0_.user_name as user5_3_0_ from tb_user user0_ where user0_.id=?|select user0_.id as id3_0_, user0_.enable as enable3_0_, user0_.name as name3_0_, user0_.password as password3_0_, user0_.user_name as user5_3_0_ from tb_user user0_ where user0_.id=4
-1331203432238|-1||resultset|select user0_.id as id3_0_, user0_.enable as enable3_0_, user0_.name as name3_0_, user0_.password as password3_0_, user0_.user_name as user5_3_0_ from tb_user user0_ where user0_.id=4|name3_0_ = zhangsan, password3_0_ = 123, user5_3_0_ = zhangsan
-1331203432238|-1||resultset|select user0_.id as id3_0_, user0_.enable as enable3_0_, user0_.name as name3_0_, user0_.password as password3_0_, user0_.user_name as user5_3_0_ from tb_user user0_ where user0_.id=4|name3_0_ = zhangsan, password3_0_ = 123, user5_3_0_ = zhangsan
-1331203432245|1|1|statement|select roles0_.user_id as user1_3_1_, roles0_.role_id as role2_1_, role1_.id as id2_0_, role1_.enable as enable2_0_, role1_.name as name2_0_ from rlt_user_to_role roles0_ inner join tb_role role1_ on roles0_.role_id=role1_.id where roles0_.user_id=?|select roles0_.user_id as user1_3_1_, roles0_.role_id as role2_1_, role1_.id as id2_0_, role1_.enable as enable2_0_, role1_.name as name2_0_ from rlt_user_to_role roles0_ inner join tb_role role1_ on roles0_.role_id=role1_.id where roles0_.user_id=4
-1331203432245|1|14|statement|select roles0_.user_id as user1_3_1_, roles0_.role_id as role2_1_, role1_.id as id2_0_, role1_.enable as enable2_0_, role1_.name as name2_0_ from rlt_user_to_role roles0_ inner join tb_role role1_ on roles0_.role_id=role1_.id where roles0_.user_id=?|select roles0_.user_id as user1_3_1_, roles0_.role_id as role2_1_, role1_.id as id2_0_, role1_.enable as enable2_0_, role1_.name as name2_0_ from rlt_user_to_role roles0_ inner join tb_role role1_ on roles0_.role_id=role1_.id where roles0_.user_id=4
-1331203432247|1|1|statement|select usergroups0_.user_id as user1_3_1_, usergroups0_.user_group_id as user2_1_, usergroup1_.id as id4_0_, usergroup1_.enable as enable4_0_, usergroup1_.name as name4_0_ from rlt_user_to_user_group usergroups0_ inner join tb_user_group usergroup1_ on usergroups0_.user_group_id=usergroup1_.id where usergroups0_.user_id=?|select usergroups0_.user_id as user1_3_1_, usergroups0_.user_group_id as user2_1_, usergroup1_.id as id4_0_, usergroup1_.enable as enable4_0_, usergroup1_.name as name4_0_ from rlt_user_to_user_group usergroups0_ inner join tb_user_group usergroup1_ on usergroups0_.user_group_id=usergroup1_.id where usergroups0_.user_id=4
-1331203432247|1|14|statement|select usergroups0_.user_id as user1_3_1_, usergroups0_.user_group_id as user2_1_, usergroup1_.id as id4_0_, usergroup1_.enable as enable4_0_, usergroup1_.name as name4_0_ from rlt_user_to_user_group usergroups0_ inner join tb_user_group usergroup1_ on usergroups0_.user_group_id=usergroup1_.id where usergroups0_.user_id=?|select usergroups0_.user_id as user1_3_1_, usergroups0_.user_group_id as user2_1_, usergroup1_.id as id4_0_, usergroup1_.enable as enable4_0_, usergroup1_.name as name4_0_ from rlt_user_to_user_group usergroups0_ inner join tb_user_group usergroup1_ on usergroups0_.user_group_id=usergroup1_.id where usergroups0_.user_id=4
-1331203432249|1|1|statement|delete from tb_user where id=?|delete from tb_user where id=4
-1331203432249|1|14|statement|delete from tb_user where id=?|delete from tb_user where id=4
-1331203432276|27|1|commit||
-1331203432276|27|14|commit||
+1331285386123|-1||debug||com.p6spy.engine.common.P6SpyOptions reloading properties
+1331285386127|-1||info||Using properties file: D:\code\myeclipse\ssh\WebRoot\WEB-INF\classes\spy.properties
+1331285386127|-1||info||No value in environment for: getAppender, using: com.p6spy.engine.logging.appender.FileLogger
+1331285386127|-1||info||No value in environment for: getAppend, using: true
+1331285386127|-1||info||No value in environment for: getRealDataSource, using: null
+1331285386127|-1||info||No value in environment for: getJNDIContextFactory, using: null
+1331285386127|-1||info||No value in environment for: getJNDIContextProviderURL, using: null
+1331285386127|-1||info||No value in environment for: getJNDIContextCustom, using: null
+1331285386127|-1||info||No value in environment for: getRealDataSourceProperties, using: null
+1331285386127|-1||info||No value in environment for: getDeregisterDrivers, using: true
+1331285386127|-1||info||No value in environment for: getUsePrefix, using: false
+1331285386127|-1||info||No value in environment for: getExecutionThreshold, using: 0
+1331285386127|-1||info||No value in environment for: getAutoflush, using: true
+1331285386127|-1||info||No value in environment for: getExclude, using: 
+1331285386128|-1||info||No value in environment for: getExcludecategories, using: info,debug,result,batch
+1331285386128|-1||info||No value in environment for: getInclude, using: 
+1331285386128|-1||info||No value in environment for: getIncludecategories, using: 
+1331285386128|-1||info||No value in environment for: getLogfile, using: spy.log
+1331285386128|-1||info||No value in environment for: getRealdriver, using: com.mysql.jdbc.Driver
+1331285386128|-1||info||No value in environment for: getRealdriver2, using: 
+1331285386128|-1||info||No value in environment for: getRealdriver3, using: 
+1331285386128|-1||info||No value in environment for: getSpydriver, using: com.p6spy.engine.spy.P6SpyDriver
+1331285386128|-1||info||No value in environment for: getDateformat, using: 
+1331285386128|-1||info||No value in environment for: getDateformatter, using: null
+1331285386128|-1||info||No value in environment for: getStringmatcher, using: com.p6spy.engine.common.SubstringMatcher
+1331285386128|-1||info||No value in environment for: getStringMatcherEngine, using: com.p6spy.engine.common.SubstringMatcher@1533c8
+1331285386128|-1||info||No value in environment for: getStackTraceClass, using: 
+1331285386128|-1||info||No value in environment for: getSQLExpression, using: null
+1331285386128|-1||info||No value in environment for: getReloadProperties, using: false
+1331285386128|-1||info||No value in environment for: getReloadPropertiesInterval, using: 60
+1331285386128|-1||info||No value in environment for: getRealDataSourceClass, using: null
+1331285386129|-1||info||No value in environment for: getStackTrace, using: false
+1331285386129|-1||info||No value in environment for: getFilter, using: false
+1331285387355|148|1|statement||alter table rlt_company_account drop foreign key FK1CFD7BA62536B85B
+1331285387355|148|3|statement||alter table rlt_company_account drop foreign key FK1CFD7BA62536B85B
+1331285387516|160|1|statement||alter table rlt_company_account drop foreign key FK1CFD7BA6A9079A5B
+1331285387516|160|3|statement||alter table rlt_company_account drop foreign key FK1CFD7BA6A9079A5B
+1331285387700|183|1|statement||alter table rlt_role_to_resource drop foreign key FKE6E76B2E8C46DF1C
+1331285387700|183|3|statement||alter table rlt_role_to_resource drop foreign key FKE6E76B2E8C46DF1C
+1331285387900|200|1|statement||alter table rlt_role_to_resource drop foreign key FKE6E76B2E6A13B71C
+1331285387900|200|3|statement||alter table rlt_role_to_resource drop foreign key FKE6E76B2E6A13B71C
+1331285388074|174|1|statement||alter table rlt_user_group_to_role drop foreign key FK2469836B8C46DF1C
+1331285388075|175|3|statement||alter table rlt_user_group_to_role drop foreign key FK2469836B8C46DF1C
+1331285388272|197|1|statement||alter table rlt_user_group_to_role drop foreign key FK2469836B99962E61
+1331285388272|197|3|statement||alter table rlt_user_group_to_role drop foreign key FK2469836B99962E61
+1331285388475|202|1|statement||alter table rlt_user_to_role drop foreign key FK4CC0FDEB8C46DF1C
+1331285388475|202|3|statement||alter table rlt_user_to_role drop foreign key FK4CC0FDEB8C46DF1C
+1331285388642|167|1|statement||alter table rlt_user_to_role drop foreign key FK4CC0FDEB3171A2FC
+1331285388642|167|3|statement||alter table rlt_user_to_role drop foreign key FK4CC0FDEB3171A2FC
+1331285388808|165|1|statement||alter table rlt_user_to_user_group drop foreign key FK831BD2C03171A2FC
+1331285388808|165|3|statement||alter table rlt_user_to_user_group drop foreign key FK831BD2C03171A2FC
+1331285388959|150|1|statement||alter table rlt_user_to_user_group drop foreign key FK831BD2C099962E61
+1331285388959|150|3|statement||alter table rlt_user_to_user_group drop foreign key FK831BD2C099962E61
+1331285389117|157|1|statement||alter table tb_company drop foreign key FK38B0A3ACEACB7696
+1331285389117|157|3|statement||alter table tb_company drop foreign key FK38B0A3ACEACB7696
+1331285389267|150|1|statement||alter table tb_department drop foreign key FK78CCD9C32536B85B
+1331285389267|150|3|statement||alter table tb_department drop foreign key FK78CCD9C32536B85B
+1331285389294|26|1|statement||drop table if exists cfg_data
+1331285389294|26|3|statement||drop table if exists cfg_data
+1331285389317|22|1|statement||drop table if exists rlt_company_account
+1331285389317|22|3|statement||drop table if exists rlt_company_account
+1331285389344|26|1|statement||drop table if exists rlt_role_to_resource
+1331285389344|26|3|statement||drop table if exists rlt_role_to_resource
+1331285389367|22|1|statement||drop table if exists rlt_user_group_to_role
+1331285389367|22|3|statement||drop table if exists rlt_user_group_to_role
+1331285389394|26|1|statement||drop table if exists rlt_user_to_role
+1331285389394|26|3|statement||drop table if exists rlt_user_to_role
+1331285389417|22|1|statement||drop table if exists rlt_user_to_user_group
+1331285389417|22|3|statement||drop table if exists rlt_user_to_user_group
+1331285389436|18|1|statement||drop table if exists tb_account
+1331285389436|18|3|statement||drop table if exists tb_account
+1331285389485|48|1|statement||drop table if exists tb_company
+1331285389485|48|3|statement||drop table if exists tb_company
+1331285389525|39|1|statement||drop table if exists tb_company_info
+1331285389526|40|3|statement||drop table if exists tb_company_info
+1331285389544|18|1|statement||drop table if exists tb_department
+1331285389544|18|3|statement||drop table if exists tb_department
+1331285389567|22|1|statement||drop table if exists tb_resource
+1331285389567|22|3|statement||drop table if exists tb_resource
+1331285389594|26|1|statement||drop table if exists tb_role
+1331285389594|26|3|statement||drop table if exists tb_role
+1331285389617|23|1|statement||drop table if exists tb_user
+1331285389617|23|3|statement||drop table if exists tb_user
+1331285389644|26|1|statement||drop table if exists tb_user_group
+1331285389644|26|3|statement||drop table if exists tb_user_group
+1331285389702|57|1|statement||create table cfg_data (id bigint not null, name varchar(50) not null, type tinyint not null, enable bit not null, primary key (id))
+1331285389702|57|3|statement||create table cfg_data (id bigint not null, name varchar(50) not null, type tinyint not null, enable bit not null, primary key (id))
+1331285389775|73|1|statement||create table rlt_company_account (company_id bigint not null, account_id bigint not null)
+1331285389775|73|3|statement||create table rlt_company_account (company_id bigint not null, account_id bigint not null)
+1331285389842|66|1|statement||create table rlt_role_to_resource (role_id bigint not null, resource_id bigint not null)
+1331285389842|66|3|statement||create table rlt_role_to_resource (role_id bigint not null, resource_id bigint not null)
+1331285389908|66|1|statement||create table rlt_user_group_to_role (user_group_id bigint not null, role_id bigint not null)
+1331285389908|66|3|statement||create table rlt_user_group_to_role (user_group_id bigint not null, role_id bigint not null)
+1331285389977|68|1|statement||create table rlt_user_to_role (user_id bigint not null, role_id bigint not null)
+1331285389977|68|3|statement||create table rlt_user_to_role (user_id bigint not null, role_id bigint not null)
+1331285390042|64|1|statement||create table rlt_user_to_user_group (user_id bigint not null, user_group_id bigint not null)
+1331285390042|64|3|statement||create table rlt_user_to_user_group (user_id bigint not null, user_group_id bigint not null)
+1331285390118|75|1|statement||create table tb_account (id bigint not null auto_increment, name varchar(50), primary key (id))
+1331285390118|75|3|statement||create table tb_account (id bigint not null auto_increment, name varchar(50), primary key (id))
+1331285390231|112|1|statement||create table tb_company (id bigint not null auto_increment, name varchar(50), company_info_id bigint, primary key (id))
+1331285390232|113|3|statement||create table tb_company (id bigint not null auto_increment, name varchar(50), company_info_id bigint, primary key (id))
+1331285390418|186|1|statement||create table tb_company_info (id bigint not null auto_increment, info varchar(50), primary key (id))
+1331285390418|186|3|statement||create table tb_company_info (id bigint not null auto_increment, info varchar(50), primary key (id))
+1331285390534|115|1|statement||create table tb_department (id bigint not null auto_increment, name varchar(50), company_id bigint, primary key (id))
+1331285390534|115|3|statement||create table tb_department (id bigint not null auto_increment, name varchar(50), company_id bigint, primary key (id))
+1331285390670|136|1|statement||create table tb_resource (id bigint not null auto_increment, content varchar(50) not null unique, enable bit not null, name varchar(50) not null unique, primary key (id))
+1331285390670|136|3|statement||create table tb_resource (id bigint not null auto_increment, content varchar(50) not null unique, enable bit not null, name varchar(50) not null unique, primary key (id))
+1331285390874|203|1|statement||create table tb_role (id bigint not null auto_increment, enable bit not null, name varchar(50) not null unique, primary key (id))
+1331285390874|203|3|statement||create table tb_role (id bigint not null auto_increment, enable bit not null, name varchar(50) not null unique, primary key (id))
+1331285390989|114|1|statement||create table tb_user (id bigint not null auto_increment, enable bit not null, name varchar(50) not null, password varchar(50) not null, user_name varchar(50) not null unique, primary key (id))
+1331285390989|114|3|statement||create table tb_user (id bigint not null auto_increment, enable bit not null, name varchar(50) not null, password varchar(50) not null, user_name varchar(50) not null unique, primary key (id))
+1331285391050|60|1|statement||create table tb_user_group (id bigint not null auto_increment, enable bit not null, name varchar(50) not null unique, primary key (id))
+1331285391051|61|3|statement||create table tb_user_group (id bigint not null auto_increment, enable bit not null, name varchar(50) not null unique, primary key (id))
+1331285391202|150|1|statement||alter table rlt_company_account add index FK1CFD7BA62536B85B (company_id), add constraint FK1CFD7BA62536B85B foreign key (company_id) references tb_company (id)
+1331285391202|150|3|statement||alter table rlt_company_account add index FK1CFD7BA62536B85B (company_id), add constraint FK1CFD7BA62536B85B foreign key (company_id) references tb_company (id)
+1331285391368|166|1|statement||alter table rlt_company_account add index FK1CFD7BA6A9079A5B (account_id), add constraint FK1CFD7BA6A9079A5B foreign key (account_id) references tb_account (id)
+1331285391368|166|3|statement||alter table rlt_company_account add index FK1CFD7BA6A9079A5B (account_id), add constraint FK1CFD7BA6A9079A5B foreign key (account_id) references tb_account (id)
+1331285391577|208|1|statement||alter table rlt_role_to_resource add index FKE6E76B2E8C46DF1C (role_id), add constraint FKE6E76B2E8C46DF1C foreign key (role_id) references tb_role (id)
+1331285391578|209|3|statement||alter table rlt_role_to_resource add index FKE6E76B2E8C46DF1C (role_id), add constraint FKE6E76B2E8C46DF1C foreign key (role_id) references tb_role (id)
+1331285391751|173|1|statement||alter table rlt_role_to_resource add index FKE6E76B2E6A13B71C (resource_id), add constraint FKE6E76B2E6A13B71C foreign key (resource_id) references tb_resource (id)
+1331285391752|174|3|statement||alter table rlt_role_to_resource add index FKE6E76B2E6A13B71C (resource_id), add constraint FKE6E76B2E6A13B71C foreign key (resource_id) references tb_resource (id)
+1331285391918|166|1|statement||alter table rlt_user_group_to_role add index FK2469836B8C46DF1C (role_id), add constraint FK2469836B8C46DF1C foreign key (role_id) references tb_role (id)
+1331285391918|166|3|statement||alter table rlt_user_group_to_role add index FK2469836B8C46DF1C (role_id), add constraint FK2469836B8C46DF1C foreign key (role_id) references tb_role (id)
+1331285392052|133|1|statement||alter table rlt_user_group_to_role add index FK2469836B99962E61 (user_group_id), add constraint FK2469836B99962E61 foreign key (user_group_id) references tb_user_group (id)
+1331285392053|134|3|statement||alter table rlt_user_group_to_role add index FK2469836B99962E61 (user_group_id), add constraint FK2469836B99962E61 foreign key (user_group_id) references tb_user_group (id)
+1331285392352|299|1|statement||alter table rlt_user_to_role add index FK4CC0FDEB8C46DF1C (role_id), add constraint FK4CC0FDEB8C46DF1C foreign key (role_id) references tb_role (id)
+1331285392353|300|3|statement||alter table rlt_user_to_role add index FK4CC0FDEB8C46DF1C (role_id), add constraint FK4CC0FDEB8C46DF1C foreign key (role_id) references tb_role (id)
+1331285392569|216|1|statement||alter table rlt_user_to_role add index FK4CC0FDEB3171A2FC (user_id), add constraint FK4CC0FDEB3171A2FC foreign key (user_id) references tb_user (id)
+1331285392569|216|3|statement||alter table rlt_user_to_role add index FK4CC0FDEB3171A2FC (user_id), add constraint FK4CC0FDEB3171A2FC foreign key (user_id) references tb_user (id)
+1331285392792|222|1|statement||alter table rlt_user_to_user_group add index FK831BD2C03171A2FC (user_id), add constraint FK831BD2C03171A2FC foreign key (user_id) references tb_user (id)
+1331285392793|223|3|statement||alter table rlt_user_to_user_group add index FK831BD2C03171A2FC (user_id), add constraint FK831BD2C03171A2FC foreign key (user_id) references tb_user (id)
+1331285393128|335|1|statement||alter table rlt_user_to_user_group add index FK831BD2C099962E61 (user_group_id), add constraint FK831BD2C099962E61 foreign key (user_group_id) references tb_user_group (id)
+1331285393128|335|3|statement||alter table rlt_user_to_user_group add index FK831BD2C099962E61 (user_group_id), add constraint FK831BD2C099962E61 foreign key (user_group_id) references tb_user_group (id)
+1331285393403|275|1|statement||alter table tb_company add index FK38B0A3ACEACB7696 (company_info_id), add constraint FK38B0A3ACEACB7696 foreign key (company_info_id) references tb_company_info (id)
+1331285393403|275|3|statement||alter table tb_company add index FK38B0A3ACEACB7696 (company_info_id), add constraint FK38B0A3ACEACB7696 foreign key (company_info_id) references tb_company_info (id)
+1331285394073|666|1|statement||alter table tb_department add index FK78CCD9C32536B85B (company_id), add constraint FK78CCD9C32536B85B foreign key (company_id) references tb_company (id)
+1331285394073|666|3|statement||alter table tb_department add index FK78CCD9C32536B85B (company_id), add constraint FK78CCD9C32536B85B foreign key (company_id) references tb_company (id)
+1331285394244|0|4|statement||delete from rlt_user_to_user_group
+1331285394244|0|4|statement||delete from rlt_user_to_role
+1331285394245|0|4|statement||delete from rlt_user_group_to_role
+1331285394245|0|4|statement||delete from rlt_role_to_resource
+1331285394246|1|4|statement||delete from tb_user
+1331285394246|0|4|statement||delete from tb_user_group
+1331285394247|1|4|statement||delete from tb_role
+1331285394247|0|4|statement||delete from tb_resource
+1331285394412|29|4|statement|insert into tb_resource (id, name, content, enable) values (?, ?, ?, ?)|insert into tb_resource (id, name, content, enable) values ('1', 'Index', '/index.jsp', 'true')
+1331285394452|27|4|statement|insert into tb_role (id, name, enable) values (?, ?, ?)|insert into tb_role (id, name, enable) values ('1', 'Admin', 'true')
+1331285394494|29|4|statement|insert into tb_user_group (id, name, enable) values (?, ?, ?)|insert into tb_user_group (id, name, enable) values ('1', 'Admin', 'true')
+1331285394535|25|4|statement|insert into tb_user (id, user_name, name, password, enable) values (?, ?, ?, ?, ?)|insert into tb_user (id, user_name, name, password, enable) values ('1', 'zhuzhen', 'Zhu Zhen', '123', 'true')
+1331285394569|24|4|statement|insert into rlt_role_to_resource (role_id, resource_id) values (?, ?)|insert into rlt_role_to_resource (role_id, resource_id) values ('1', '1')
+1331285394602|21|4|statement|insert into rlt_user_group_to_role (user_group_id, role_id) values (?, ?)|insert into rlt_user_group_to_role (user_group_id, role_id) values ('1', '1')
+1331285394635|22|4|statement|insert into rlt_user_to_role (user_id, role_id) values (?, ?)|insert into rlt_user_to_role (user_id, role_id) values ('1', '1')
+1331285394668|20|4|statement|insert into rlt_user_to_user_group (user_id, user_group_id) values (?, ?)|insert into rlt_user_to_user_group (user_id, user_group_id) values ('1', '1')
+1331285395675|194|5|statement||drop table if exists cfg_data
+1331285395802|127|5|statement||create table cfg_data (id bigint not null, name varchar(50) not null, type tinyint not null, enable bit not null, primary key (id))
+1331285396797|5|1|statement|select this_.id as id1_1_, this_.content as content1_1_, this_.enable as enable1_1_, this_.name as name1_1_, roles2_.resource_id as resource2_1_3_, role3_.id as role1_3_, role3_.id as id2_0_, role3_.enable as enable2_0_, role3_.name as name2_0_ from tb_resource this_ left outer join rlt_role_to_resource roles2_ on this_.id=roles2_.resource_id left outer join tb_role role3_ on roles2_.role_id=role3_.id|select this_.id as id1_1_, this_.content as content1_1_, this_.enable as enable1_1_, this_.name as name1_1_, roles2_.resource_id as resource2_1_3_, role3_.id as role1_3_, role3_.id as id2_0_, role3_.enable as enable2_0_, role3_.name as name2_0_ from tb_resource this_ left outer join rlt_role_to_resource roles2_ on this_.id=roles2_.resource_id left outer join tb_role role3_ on roles2_.role_id=role3_.id
+1331285396800|8|6|statement|select this_.id as id1_1_, this_.content as content1_1_, this_.enable as enable1_1_, this_.name as name1_1_, roles2_.resource_id as resource2_1_3_, role3_.id as role1_3_, role3_.id as id2_0_, role3_.enable as enable2_0_, role3_.name as name2_0_ from tb_resource this_ left outer join rlt_role_to_resource roles2_ on this_.id=roles2_.resource_id left outer join tb_role role3_ on roles2_.role_id=role3_.id|select this_.id as id1_1_, this_.content as content1_1_, this_.enable as enable1_1_, this_.name as name1_1_, roles2_.resource_id as resource2_1_3_, role3_.id as role1_3_, role3_.id as id2_0_, role3_.enable as enable2_0_, role3_.name as name2_0_ from tb_resource this_ left outer join rlt_role_to_resource roles2_ on this_.id=roles2_.resource_id left outer join tb_role role3_ on roles2_.role_id=role3_.id
+1331285396821|-1||resultset|select this_.id as id1_1_, this_.content as content1_1_, this_.enable as enable1_1_, this_.name as name1_1_, roles2_.resource_id as resource2_1_3_, role3_.id as role1_3_, role3_.id as id2_0_, role3_.enable as enable2_0_, role3_.name as name2_0_ from tb_resource this_ left outer join rlt_role_to_resource roles2_ on this_.id=roles2_.resource_id left outer join tb_role role3_ on roles2_.role_id=role3_.id|content1_1_ = /index.jsp, name1_1_ = Index, name2_0_ = Admin
+1331285396821|-1||resultset|select this_.id as id1_1_, this_.content as content1_1_, this_.enable as enable1_1_, this_.name as name1_1_, roles2_.resource_id as resource2_1_3_, role3_.id as role1_3_, role3_.id as id2_0_, role3_.enable as enable2_0_, role3_.name as name2_0_ from tb_resource this_ left outer join rlt_role_to_resource roles2_ on this_.id=roles2_.resource_id left outer join tb_role role3_ on roles2_.role_id=role3_.id|content1_1_ = /index.jsp, name1_1_ = Index, name2_0_ = Admin
