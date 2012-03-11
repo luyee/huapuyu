@@ -2,14 +2,18 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 	<head>
+		<!-- meta -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		
 		<title><?php echo lang('poll_save_title');?></title>
+		
 		<script src="<?php echo base_url();?>js/jqueryui/development-bundle/jquery-1.6.2.js"></script>
 		<script src="<?php echo base_url();?>js/jqueryui/development-bundle/ui/jquery.ui.core.js"></script>
 		<script src="<?php echo base_url();?>js/jqueryui/development-bundle/ui/jquery.ui.widget.js"></script>
 		<script src="<?php echo base_url();?>js/jqueryui/development-bundle/ui/jquery.ui.button.js"></script>
 		<link rel="stylesheet" href="<?php echo base_url();?>js/jqueryui/development-bundle/themes/ui-lightness/jquery.ui.all.css" />
 		
+		<!-- css -->
 		<style type="text/css"><!--
 			body {
 				text-align:center;
@@ -111,6 +115,8 @@
 				color: #ef8c08;
 			}
 		--></style>
+		
+		<!-- js -->
 		<script language="JavaScript" type="text/javascript">
 			$(function() {
 				modifyButtonStyle();
@@ -226,6 +232,7 @@
 			</div>
 		</div>
 		
+		<!-- js -->
 		<script language="JavaScript" type="text/javascript">
   			$('#newItem').click(function() {
   				var itemMax = $("#itemMax").val();
@@ -240,7 +247,7 @@
 			function addItem(num) {
 				var inputCount = $("form input:text").length;
 				if (inputCount < 12) {
-					$('#items').append('<tr id="item'+num+'"><td></td><td><input type="text" name="itemTitle'+num+'" id="itemTitle'+num+'" class="item"/></td><td><button name="itemBtn'+num+'" type="button" id="itemBtn'+num+'" onclick="deleteItem('+num+');" ><?php echo lang('poll_save_btn_delete_item');?></button></td></tr>');
+					$('#items').append('<tr id="item'+num+'"><td><?php echo lang('poll_save_label_item').lang('poll_save_label_colon') ?></td><td><input type="text" name="itemTitle'+num+'" id="itemTitle'+num+'" class="item"/></td><td><button name="itemBtn'+num+'" type="button" id="itemBtn'+num+'" onclick="deleteItem('+num+');" ><?php echo lang('poll_save_btn_delete_item');?></button></td></tr>');
 				}
 				else {
 					alert("<?php echo lang('poll_save_error_max_items');?>");
