@@ -13,31 +13,25 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-public class Tester
-{
+public class Tester {
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception
-	{
+	public static void setUpBeforeClass() throws Exception {
 	}
 
 	@AfterClass
-	public static void tearDownAfterClass() throws Exception
-	{
+	public static void tearDownAfterClass() throws Exception {
 	}
 
 	@Before
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 	}
 
 	@After
-	public void tearDown() throws Exception
-	{
+	public void tearDown() throws Exception {
 	}
 
 	@Test
-	public void test()
-	{
+	public void test() {
 		new Context(new ConcreteStrategy1()).doSomething();
 		new Context(new ConcreteStrategy2()).doSomething();
 
@@ -45,189 +39,171 @@ public class Tester
 		// ValidationUtils相当于Context
 		// Validator相当于Strategy
 		// UserValidator相当于ConcreteStrategy
-		ValidationUtils.invokeValidator(new UserValidator(), null, new UserErrors());
+		ValidationUtils.invokeValidator(new Validator1(), null, new UserErrors());
+		ValidationUtils.invokeValidator(new Validator2(), null, new UserErrors());
 	}
 }
 
-class UserValidator implements Validator
-{
+class Validator1 implements Validator {
 
 	@Override
-	public boolean supports(Class clazz)
-	{
+	public boolean supports(Class clazz) {
 		return false;
 	}
 
 	@Override
-	public void validate(Object target, Errors errors)
-	{
+	public void validate(Object target, Errors errors) {
+		System.out.println("Validator1");
 	}
 }
 
-class UserErrors implements Errors
-{
+class Validator2 implements Validator {
 
 	@Override
-	public String getObjectName()
-	{
-		return null;
-	}
-
-	@Override
-	public void setNestedPath(String nestedPath)
-	{
-	}
-
-	@Override
-	public String getNestedPath()
-	{
-		return null;
-	}
-
-	@Override
-	public void pushNestedPath(String subPath)
-	{
-	}
-
-	@Override
-	public void popNestedPath() throws IllegalStateException
-	{
-	}
-
-	@Override
-	public void reject(String errorCode)
-	{
-	}
-
-	@Override
-	public void reject(String errorCode, String defaultMessage)
-	{
-	}
-
-	@Override
-	public void reject(String errorCode, Object[] errorArgs, String defaultMessage)
-	{
-	}
-
-	@Override
-	public void rejectValue(String field, String errorCode)
-	{
-	}
-
-	@Override
-	public void rejectValue(String field, String errorCode, String defaultMessage)
-	{
-	}
-
-	@Override
-	public void rejectValue(String field, String errorCode, Object[] errorArgs, String defaultMessage)
-	{
-	}
-
-	@Override
-	public void addAllErrors(Errors errors)
-	{
-	}
-
-	@Override
-	public boolean hasErrors()
-	{
+	public boolean supports(Class clazz) {
 		return false;
 	}
 
 	@Override
-	public int getErrorCount()
-	{
-		return 0;
+	public void validate(Object target, Errors errors) {
+		System.out.println("Validator2");
 	}
+}
+
+class UserErrors implements Errors {
 
 	@Override
-	public List getAllErrors()
-	{
+	public String getObjectName() {
 		return null;
 	}
 
 	@Override
-	public boolean hasGlobalErrors()
-	{
+	public void setNestedPath(String nestedPath) {
+	}
+
+	@Override
+	public String getNestedPath() {
+		return null;
+	}
+
+	@Override
+	public void pushNestedPath(String subPath) {
+	}
+
+	@Override
+	public void popNestedPath() throws IllegalStateException {
+	}
+
+	@Override
+	public void reject(String errorCode) {
+	}
+
+	@Override
+	public void reject(String errorCode, String defaultMessage) {
+	}
+
+	@Override
+	public void reject(String errorCode, Object[] errorArgs, String defaultMessage) {
+	}
+
+	@Override
+	public void rejectValue(String field, String errorCode) {
+	}
+
+	@Override
+	public void rejectValue(String field, String errorCode, String defaultMessage) {
+	}
+
+	@Override
+	public void rejectValue(String field, String errorCode, Object[] errorArgs, String defaultMessage) {
+	}
+
+	@Override
+	public void addAllErrors(Errors errors) {
+	}
+
+	@Override
+	public boolean hasErrors() {
 		return false;
 	}
 
 	@Override
-	public int getGlobalErrorCount()
-	{
+	public int getErrorCount() {
 		return 0;
 	}
 
 	@Override
-	public List getGlobalErrors()
-	{
+	public List getAllErrors() {
 		return null;
 	}
 
 	@Override
-	public ObjectError getGlobalError()
-	{
-		return null;
-	}
-
-	@Override
-	public boolean hasFieldErrors()
-	{
+	public boolean hasGlobalErrors() {
 		return false;
 	}
 
 	@Override
-	public int getFieldErrorCount()
-	{
+	public int getGlobalErrorCount() {
 		return 0;
 	}
 
 	@Override
-	public List getFieldErrors()
-	{
+	public List getGlobalErrors() {
 		return null;
 	}
 
 	@Override
-	public FieldError getFieldError()
-	{
+	public ObjectError getGlobalError() {
 		return null;
 	}
 
 	@Override
-	public boolean hasFieldErrors(String field)
-	{
+	public boolean hasFieldErrors() {
 		return false;
 	}
 
 	@Override
-	public int getFieldErrorCount(String field)
-	{
+	public int getFieldErrorCount() {
 		return 0;
 	}
 
 	@Override
-	public List getFieldErrors(String field)
-	{
+	public List getFieldErrors() {
 		return null;
 	}
 
 	@Override
-	public FieldError getFieldError(String field)
-	{
+	public FieldError getFieldError() {
 		return null;
 	}
 
 	@Override
-	public Object getFieldValue(String field)
-	{
+	public boolean hasFieldErrors(String field) {
+		return false;
+	}
+
+	@Override
+	public int getFieldErrorCount(String field) {
+		return 0;
+	}
+
+	@Override
+	public List getFieldErrors(String field) {
 		return null;
 	}
 
 	@Override
-	public Class getFieldType(String field)
-	{
+	public FieldError getFieldError(String field) {
+		return null;
+	}
+
+	@Override
+	public Object getFieldValue(String field) {
+		return null;
+	}
+
+	@Override
+	public Class getFieldType(String field) {
 		return null;
 	}
 
