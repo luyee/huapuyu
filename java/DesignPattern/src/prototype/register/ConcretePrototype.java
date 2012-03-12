@@ -1,21 +1,17 @@
 package prototype.register;
 
-public class ConcretePrototype implements Prototype
-{
-	public synchronized Object clone()
-	{
-		Prototype tmp = null;
+public class ConcretePrototype implements Prototype {
+	public synchronized Object clone() {
+		Prototype prototype = null;
 
-		try
-		{
-			tmp = (Prototype) super.clone();
-			return tmp;
+		try {
+			prototype = (Prototype) super.clone();
+			return prototype;
 		}
-		catch (CloneNotSupportedException e)
-		{
+		catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
 
-		return tmp;
+		return prototype;
 	}
 }
