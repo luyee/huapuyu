@@ -32,3 +32,5 @@ $sender->MailMsg(
 #		debug => $DEBUG
 #	}
 #);
+
+$sender->Close();
