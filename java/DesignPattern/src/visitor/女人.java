@@ -1,10 +1,14 @@
 package visitor;
 
-public class 女人 extends Person
-{
+/**
+ * ConcreteElement
+ * 
+ * @author Anders Zhu
+ * 
+ */
+public class 女人 extends Person {
 	@Override
-	public void accept(Action visitor)
-	{
+	public void accept(Action visitor) {
 		visitor.getWomanConclusion(this);
 	}
 }
