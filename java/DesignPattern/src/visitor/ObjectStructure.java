@@ -10,19 +10,29 @@ import java.util.List;
  * 
  */
 public class ObjectStructure {
-	private List<Person> elementList = new ArrayList<Person>();
+	private List<Person> persons;
+
+	// private List<Person> person = new ArrayList<Person>();
 
 	public void attach(Person person) {
-		elementList.add(person);
+		persons.add(person);
 	}
 
 	public void detach(Person person) {
-		elementList.remove(person);
+		persons.remove(person);
 	}
 
 	public void display(Action visitor) {
-		for (Person person : elementList) {
+		for (Person person : persons) {
 			person.accept(visitor);
 		}
+	}
+
+	public ObjectStructure(List<Person> persons) {
+		this.persons = persons;
+	}
+
+	public ObjectStructure() {
+		persons = new ArrayList<Person>();
 	}
 }
