@@ -1,0 +1,130 @@
+1.
+类别：C++
+
+问题：virtual的作用
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+#include <stdio.h>
+
+class Father
+{
+public:
+	virtual void ShowMsg()
+	{
+		cout<<"father"<<endl;
+	}
+protected:
+private:
+};
+
+class Son : public Father
+{
+public:
+	virtual void ShowMsg()
+	{
+		cout<<"son"<<endl;
+	}
+protected:
+private:
+};
+
+void main()
+{
+	Father* f = new Father();
+	Father* s = new Son();
+	f->ShowMsg();
+	s->ShowMsg();
+
+	getchar();
+}
+输出
+father
+son
+
+如果将Father类中的virtual去掉，输出
+father
+father
+
+注意：Son类中的virtual可以不加，这里加上只是为了说明他是动态选择的虚函数，推荐加上。
+
+
+
+
+2
+类别：C++
+
+问题：struct和class的区别
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+#include <stdio.h>
+
+class CFather
+{
+public:
+	string name;
+
+	virtual void ShowMsg()
+	{
+		cout<<"CFather"<<endl;
+	}
+protected:
+private:
+};
+
+class CSon : public CFather
+{
+public:
+	string age;
+	
+	virtual void ShowMsg()
+	{
+		cout<<"CSon"<<endl;
+	}
+protected:
+private:
+};
+
+struct SFather
+{
+	string name;
+	
+	virtual void ShowMsg()
+	{
+		cout<<"SFather"<<endl;
+	}
+};
+
+struct SSon : public SFather
+{
+	int age;
+	
+	virtual void ShowMsg()
+	{
+		cout<<"SSon"<<endl;
+	}
+};
+
+void main()
+{
+	CFather* f = new CFather();
+	CFather* s = new CSon();
+	f->ShowMsg();
+	s->ShowMsg();
+
+	SFather* sf = new SFather();
+	SFather* ss = new SSon();
+	sf->ShowMsg();
+	ss->ShowMsg();
+	
+	getchar();
+}
+
+看上面代码就能够得出，struct和class的区别不大，主要区别是：结构中默认状态下的成员是公有public，而类中默认是私有private。
+
+

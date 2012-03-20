@@ -1,0 +1,32 @@
+1.
+中文关键字：ORA-01830: 日期格式图片在转换整个输入字符串之前结束
+
+英文关键字：ORA-01830: date format picture ends before converting entire input string
+
+类别：Oracle
+
+问题：今天在使用SELECT TO_DATE(fieldName, 'yyyy-mm-dd') FROM tableName时，出现错误，提示“ORA-01830: 日期格式图片在转换整个输入字符串之前结束”，fieldName的数据类型为VARCHAR2(100)，百度搜索得知fieldName为'2009-02-14 00:00:00'，其长度大于格式化字符串'yyyy-mm-dd'，因此产生问题。
+
+解决：使用SUBSTR()来解决，例如SELECT TO_DATE(SUBSTR(fieldName, 1, 10), 'yyyy-mm-dd') FROM tableName。
+
+测试：
+SELECT TO_DATE(TO_CHAR(SYSDATE, 'yyyy-mm-dd hh:mi'), 'yyyy-mm-dd') FROM DUAL;错误
+SELECT TO_DATE(TO_CHAR(SYSDATE, 'yyyy-mm-dd'), 'yyyy-mm-dd') FROM DUAL;正确
+SELECT TO_DATE('2009-02-14 00:00:00', 'yyyy-mm-dd') FROM DUAL;错误
+SELECT TO_DATE(SUBSTR('2009-02-14 00:00:00', 1, 10), 'yyyy-mm-dd') FROM DUAL;正确
+
+2.
+类别：Oracle
+
+问题：
+想使用SELECT TO_DATE(SUBSTR('2009-02-14 12:34:56', 1, 13), 'yyyy-mm-dd hh24') FROM DUAL;返回“2009-02-14 00”，发现返回的都是“2009-2-14 12:00:00”；
+想使用SELECT TO_DATE('12:34:56', 'hh24:mi:ss') FROM DUAL;返回“12:34:56”，发现返回的都是“2009-2-1 12:34:56”；
+想使用SELECT TO_DATE(SUBSTR('1987-06-05 12:34:56', 9, 11), 'dd hh24:mi:ss') FROM DUAL;返回“05 12:34:56”，发现返回的都是“2009-2-5 12:34:56”
+但是如果使用SELECT TO_DATE('2009-02-14', 'yyyy-mm-dd') FROM DUAL;却能返回“2009-2-14”；
+
+结论：TO_DATE转换时间字符串时，要么显示日期，要么显示日期加时间，不能显示截断的日期或时间。
+
+测试：
+SELECT TO_DATE('12:34', 'hh24:mi') FROM DUAL;返回“2009-2-1 12:34:00”
+SELECT TO_DATE('2009-02', 'yyyy-mm') FROM DUAL;返回“2009-2-1”
+

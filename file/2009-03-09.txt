@@ -1,0 +1,12 @@
+oracle 次方函数
+select power(2, 3) from dual;
+返回8
+
+select 
+  sum(data1) 
+  from 
+  (
+select substr('1101', rownum, 1) * power(2, length('1101') - rownum) data1
+from dual connect by rownum <= length('1101')
+) 
+connect by

@@ -1,0 +1,45 @@
+Delphi syntax:
+
+function CompareStr(const S1, S2: string): Integer;
+
+C++ syntax:
+
+extern PACKAGE int __fastcall CompareStr(const AnsiString S1, const AnsiString S2);
+
+Description
+
+CompareStr compares S1 to S2, with case-sensitivity. The return value is less than 0 if S1 is less than S2, 0 if S1 equals S2, or greater than 0 if S1 is greater than S2. The compare operation is based on the 8-bit ordinal value of each character and is not affected by the current locale. 
+
+
+
+Delphi syntax:
+
+function AnsiCompareStr(const S1, S2: string): Integer;
+
+C++ syntax:
+
+extern PACKAGE int __fastcall AnsiCompareStr(const AnsiString S1, const AnsiString S2);
+
+Description
+
+AnsiCompareStr compares S1 to S2, with case sensitivity. The compare operation is controlled by the current locale. The return value is:
+
+Condition	Return Value
+S1 > S2	> 0
+S1 < S2	< 0
+S1 = S2	= 0
+Note:	Most locales consider lowercase characters to be less than the corresponding uppercase characters.  This is in contrast to ASCII order, in which lowercase characters are greater than uppercase characters.  Thus, setting S1 to 'a' and S2 to 'A' causees AnsiCompareStr to return a value less than zero, while CompareStr, with the same arguments, returns a value greater than zero.
+
+
+
+Delphi syntax:
+
+function AnsiCompareText(const S1, S2: string): Integer;
+
+C++ syntax:
+
+extern PACKAGE int __fastcall AnsiCompareText(const AnsiString S1, const AnsiString S2);
+
+Description
+
+AnsiCompareText compares S1 to S2, without case sensitivity. The compare operation is controlled by the current locale. AnsiCompareText returns a value less than 0 if S1 < S2, a value greater than 0 if S1 > S2, and returns 0 if S1 = S2. 
