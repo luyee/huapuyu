@@ -1,0 +1,6 @@
+如何查看linux版本号
+cat /proc/version或者cat /etc/redhat-release或者cat /etc/issue
+
+
+SunOS和AIX都可以
+uname -a 

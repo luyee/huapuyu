@@ -1,0 +1,43 @@
+cd C:\Program Files\Microsoft Visual Studio\VC98\Bin
+VCVARS32.BAT
+cd C:\STLport-5.2.1
+configure -c msvc6(或者configure msvc6)
+cd C:\STLport-5.2.1\build\lib
+nmake /fmsvc.mak install    可将lib库拷贝到vc安装目录
+
+Tools --> Options --> Directories 
+Include files中增加C:\STLPORT-5.2.1\STLPORT（放到第一个，优先于vc默认的stl）
+Library files中增加C:\STLPORT-5.2.1\LIB（放到第一个，优先于vc默认的stl）
+
+
+
+cd C:\boost_1_33_1\tools\build\jam_src
+build.bat
+cd C:\boost_1_33_1\tools\build\jam_src\bin.ntx86
+拷贝bjam.exe到C:\boost_1_33_1
+cd C:\boost_1_33_1
+bjam --help看有无问题
+
+set MSVC_ROOT=C:\Program Files\Microsoft Visual Studio\VC98
+set VISUALC=C:\Program Files\Microsoft Visual Studio\VC98
+
+set STLPORT_PATH=C:\STLport-5.1.3
+set STLPORT_VERSION=5.1.3
+
+bjam -sBOOST_ROOT=. -sTOOLS=msvc-stlport -sSTLPORT_PATH=C:\STLport -sSTLPORT_VERSION=5.1.3 "-sBUILD=debug release <runtime-link>static/dynamic" --without-python
+将生成的C:\boost_1_33_1\bin中的*.dll和*.lib文件拷贝到自建的lib文件中，如C:\boost_1_33_1\lib
+
+下面的命令也可以
+bjam -sBOOST_ROOT=. -sTOOLS=msvc "-sBUILD=debug release <runtime-link>static/dynamic" --without-python
+bjam -sBOOST_ROOT=. -sTOOLS=msvc "-sBUILD=debug release <runtime-link>static/dynamic" install --without-python
+
+
+Tools --> Options --> Directories 
+Include files中增加C:\boost_1_33_1
+Library files中增加C:\boost_1_33_1\LIB和C:\boost_1_33_1\LIBS
+Source files中增加C:\boost_1_33_1
+
+/GX /D_STLP_DEBUG
+/Zm1000
+
+

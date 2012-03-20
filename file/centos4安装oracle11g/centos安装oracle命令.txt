@@ -1,0 +1,570 @@
+检查linux版本
+[root@centos4 ~]# cat /proc/version
+Linux version 2.6.9-78.ELsmp (mockbuild@builder16.centos.org) (gcc version 3.4.6 20060404 (Red Hat 3.4.6-10)) #1 SMP Fri Jul 25 00:04:28 EDT 2008
+
+检查缺失包
+[root@centos4 ~]# rpm -qa | grep binut
+binutils-2.15.92.0.2-25
+[root@centos4 ~]# rpm -qa | grep compat
+compat-db-4.1.25-9
+compat-libgcc-296-2.96-132.7.2
+compat-gcc-32-c++-3.2.3-47.3
+compat-libstdc++-33-3.2.3-47.3
+java-1.4.2-gcj-compat-1.4.2.0-27jpp
+compat-libstdc++-296-2.96-132.7.2
+compat-gcc-32-3.2.3-47.3
+compat-libcom_err-1.0-5
+[root@centos4 ~]# rpm -qa | grep elfutil
+elfutils-libelf-0.97.1-5
+elfutils-0.97.1-5
+[root@centos4 ~]# rpm -qa | grep glibc
+glibc-common-2.3.4-2.41
+glibc-devel-2.3.4-2.41
+glibc-2.3.4-2.41
+glibc-headers-2.3.4-2.41
+glibc-kernheaders-2.4-9.1.103.EL
+[root@centos4 ~]# rpm -qa | grep gcc
+libgcc-3.4.6-10
+gcc-java-3.4.6-10
+compat-libgcc-296-2.96-132.7.2
+compat-gcc-32-c++-3.2.3-47.3
+gcc-3.4.6-10
+gcc-g77-3.4.6-10
+compat-gcc-32-3.2.3-47.3
+gcc-c++-3.4.6-10
+[root@centos4 ~]# rpm -qa | grep libaio
+[root@centos4 ~]# rpm -qa | grep libgcc
+libgcc-3.4.6-10
+compat-libgcc-296-2.96-132.7.2
+[root@centos4 ~]# rpm -qa | grep libstdc+
+libstdc++-3.4.6-10
+compat-libstdc++-33-3.2.3-47.3
+libstdc++-devel-3.4.6-10
+compat-libstdc++-296-2.96-132.7.2
+[root@centos4 ~]# rpm -qa | grep make
+automake15-1.5-13
+make-3.80-7.EL4
+automake14-1.4p6-12
+automake-1.9.2-3
+automake16-1.6.3-5
+automake17-1.7.9-5
+[root@centos4 ~]# rpm -qa | grep sysstat
+[root@centos4 ~]# rpm -qa | grep unixODBC
+
+打缺失包
+[root@centos4 ~]# ls -l *.rpm
+-rw-r--r--  1 root root  53160 Feb 24 05:42 elfutils-libelf-devel-0.97.1-5.i386.rpm
+-rw-r--r--  1 root root  18712 Feb 24 05:42 libaio-0.3.105-2.i386.rpm
+-rw-r--r--  1 root root  10181 Feb 24 05:42 libaio-devel-0.3.105-2.i386.rpm
+-rw-r--r--  1 root root 118552 Feb 24 05:42 sysstat-5.0.5-19.el4.i386.rpm
+-rw-r--r--  1 root root 849063 Feb 24 05:42 unixODBC-2.2.11-1.RHEL4.1.i386.rpm
+-rw-r--r--  1 root root 790460 Feb 24 05:42 unixODBC-devel-2.2.11-1.RHEL4.1.i386.rpm
+[root@centos4 ~]# rpm -ivh *.rpm
+warning: elfutils-libelf-devel-0.97.1-5.i386.rpm: V3 DSA signature: NOKEY, key ID 443e1821
+Preparing...                ########################################### [100%]
+   1:unixODBC               ########################################### [ 17%]
+   2:libaio                 ########################################### [ 33%]
+   3:elfutils-libelf-devel  ########################################### [ 50%]
+   4:libaio-devel           ########################################### [ 67%]
+   5:sysstat                ########################################### [ 83%]
+   6:unixODBC-devel         ########################################### [100%]
+[root@centos4 ~]# 
+
+效验缺失包
+[root@centos4 ~]# rpm -qa | grep binut
+binutils-2.15.92.0.2-25
+[root@centos4 ~]# rpm -qa | grep compat
+compat-db-4.1.25-9
+compat-libgcc-296-2.96-132.7.2
+compat-gcc-32-c++-3.2.3-47.3
+compat-libstdc++-33-3.2.3-47.3
+java-1.4.2-gcj-compat-1.4.2.0-27jpp
+compat-libstdc++-296-2.96-132.7.2
+compat-gcc-32-3.2.3-47.3
+compat-libcom_err-1.0-5
+[root@centos4 ~]# rpm -qa | grep elfutil
+elfutils-libelf-devel-0.97.1-5
+elfutils-libelf-0.97.1-5
+elfutils-0.97.1-5
+[root@centos4 ~]# rpm -qa | grep glibc
+glibc-common-2.3.4-2.41
+glibc-devel-2.3.4-2.41
+glibc-2.3.4-2.41
+glibc-headers-2.3.4-2.41
+glibc-kernheaders-2.4-9.1.103.EL
+[root@centos4 ~]# rpm -qa | grep gcc
+libgcc-3.4.6-10
+gcc-java-3.4.6-10
+compat-libgcc-296-2.96-132.7.2
+compat-gcc-32-c++-3.2.3-47.3
+gcc-3.4.6-10
+gcc-g77-3.4.6-10
+compat-gcc-32-3.2.3-47.3
+gcc-c++-3.4.6-10
+[root@centos4 ~]# rpm -qa | grep libaio
+libaio-0.3.105-2
+libaio-devel-0.3.105-2
+[root@centos4 ~]# rpm -qa | grep libgcc
+libgcc-3.4.6-10
+compat-libgcc-296-2.96-132.7.2
+[root@centos4 ~]# rpm -qa | grep libstdc+
+libstdc++-3.4.6-10
+compat-libstdc++-33-3.2.3-47.3
+libstdc++-devel-3.4.6-10
+compat-libstdc++-296-2.96-132.7.2
+[root@centos4 ~]# rpm -qa | grep make
+automake15-1.5-13
+make-3.80-7.EL4
+automake14-1.4p6-12
+automake-1.9.2-3
+automake16-1.6.3-5
+automake17-1.7.9-5
+[root@centos4 ~]# rpm -qa | grep sysstat
+sysstat-5.0.5-19.el4
+[root@centos4 ~]# rpm -qa | grep unixODBC
+unixODBC-devel-2.2.11-1.RHEL4.1
+unixODBC-2.2.11-1.RHEL4.1
+[root@centos4 ~]# 
+
+添加linux用户和组
+[root@centos4 ~]# groupadd oinstall
+[root@centos4 ~]# groupadd dba
+[root@centos4 ~]# cd /
+[root@centos4 /]# mkdir -p /u01/oracle
+[root@centos4 /]# useradd -g oinstall -G dba -d /u01/oracle oracle
+[root@centos4 /]# passwd oracle
+Changing password for user oracle.
+New UNIX password: -------------------------------------------------------------这里密码为oracle
+BAD PASSWORD: it is based on a dictionary word
+Retype new UNIX password: ------------------------------------------------------这里密码为oracle
+passwd: all authentication tokens updated successfully.
+[root@centos4 /]# cd /
+[root@centos4 /]# ls -l
+total 168
+drwxr-xr-x   2 root root  4096 Feb 23 06:16 bin
+drwxr-xr-x   3 root root  4096 Nov 14 05:15 boot
+drwxr-xr-x   9 root root  6660 Feb 24 05:09 dev
+drwxr-xr-x  85 root root 12288 Feb 24 06:04 etc
+drwxr-xr-x   2 root root  4096 Feb 22  2005 home
+drwxr-xr-x   2 root root  4096 Feb 22  2005 initrd
+drwxr-xr-x  12 root root  4096 Feb 23 06:16 lib
+drwx------   2 root root 16384 Nov 14 05:12 lost+found
+drwxr-xr-x   4 root root  4096 Feb 24 05:09 media
+drwxr-xr-x   2 root root  4096 Jul 26  2008 misc
+drwxr-xr-x   2 root root  4096 Feb 22  2005 mnt
+drwxr-xr-x   2 root root  4096 Feb 22  2005 opt
+dr-xr-xr-x  72 root root     0 Feb 24 05:06 proc
+drwxr-x---  14 root root  4096 Feb 24 05:45 root
+drwxr-xr-x   2 root root 12288 Feb 23 06:16 sbin
+drwxr-xr-x   1 root root     0 Feb 24 05:06 selinux
+drwxr-xr-x   2 root root  4096 Feb 22  2005 srv
+drwxr-xr-x   9 root root     0 Feb 24 05:06 sys
+drwxrwxrwt   7 root root  4096 Feb 24 06:02 tmp
+drwxr-xr-x   3 root root  4096 Feb 24 06:03 u01
+drwxr-xr-x  14 root root  4096 Nov 14 05:14 usr
+drwxr-xr-x  19 root root  4096 Nov 14 05:19 var
+[root@centos4 /]# chown -R oracle:oinstall u01
+[root@centos4 /]# ls -l
+total 168
+drwxr-xr-x   2 root   root      4096 Feb 23 06:16 bin
+drwxr-xr-x   3 root   root      4096 Nov 14 05:15 boot
+drwxr-xr-x   9 root   root      6660 Feb 24 05:09 dev
+drwxr-xr-x  85 root   root     12288 Feb 24 06:04 etc
+drwxr-xr-x   2 root   root      4096 Feb 22  2005 home
+drwxr-xr-x   2 root   root      4096 Feb 22  2005 initrd
+drwxr-xr-x  12 root   root      4096 Feb 23 06:16 lib
+drwx------   2 root   root     16384 Nov 14 05:12 lost+found
+drwxr-xr-x   4 root   root      4096 Feb 24 05:09 media
+drwxr-xr-x   2 root   root      4096 Jul 26  2008 misc
+drwxr-xr-x   2 root   root      4096 Feb 22  2005 mnt
+drwxr-xr-x   2 root   root      4096 Feb 22  2005 opt
+dr-xr-xr-x  72 root   root         0 Feb 24 05:06 proc
+drwxr-x---  14 root   root      4096 Feb 24 05:45 root
+drwxr-xr-x   2 root   root     12288 Feb 23 06:16 sbin
+drwxr-xr-x   1 root   root         0 Feb 24 05:06 selinux
+drwxr-xr-x   2 root   root      4096 Feb 22  2005 srv
+drwxr-xr-x   9 root   root         0 Feb 24 05:06 sys
+drwxrwxrwt   7 root   root      4096 Feb 24 06:02 tmp
+drwxr-xr-x   3 oracle oinstall  4096 Feb 24 06:03 u01
+drwxr-xr-x  14 root   root      4096 Nov 14 05:14 usr
+drwxr-xr-x  19 root   root      4096 Nov 14 05:19 var
+[root@centos4 /]# 
+
+检查nobody用户是否存在
+[root@centos4 /]# id nobody
+uid=99(nobody) gid=99(nobody) groups=99(nobody)
+[root@centos4 /]# 
+
+添加内容到/etc/sysctl.conf中
+[root@centos4 /]# vi /etc/sysctl.conf
+# Kernel sysctl configuration file for Red Hat Linux
+#
+# For binary values, 0 is disabled, 1 is enabled.  See sysctl(8) and
+# sysctl.conf(5) for more details.
+
+# Controls IP packet forwarding
+net.ipv4.ip_forward = 0
+
+# Controls source route verification
+net.ipv4.conf.default.rp_filter = 1
+
+# Do not accept source routing
+net.ipv4.conf.default.accept_source_route = 0
+
+# Controls the System Request debugging functionality of the kernel
+kernel.sysrq = 0
+
+# Controls whether core dumps will append the PID to the core filename.
+# Useful for debugging multi-threaded applications.
+kernel.core_uses_pid = 1
+
+-------------------------------------------------以下为添加内容
+kernel.shmall = 2097152
+kernel.shmmax = 2147483648
+kernel.shmmni = 4096
+kernel.sem = 250 32000 100 128
+net.ipv4.ip_local_port_range = 1024 65000
+net.core.rmem_default = 4194304
+net.core.rmem_max = 4194304
+net.core.wmem_default = 262144
+net.core.wmem_max = 262144
+net.ipv4.tcp_wmem = 262144 262144 262144
+net.ipv4.tcp_rmem = 4194304 4194304 4194304
+-------------------------------------------------以上为添加内容
+~
+~
+~
+~
+"/etc/sysctl.conf" 33L, 983C written                                                                       
+You have mail in /var/spool/mail/root
+[root@centos4 /]# 
+
+添加内容到/etc/security/limits.conf中
+[root@centos4 /]# vi /etc/security/limits.conf
+# /etc/security/limits.conf
+#
+#Each line describes a limit for a user in the form:
+#
+#<domain>        <type>  <item>  <value>
+#
+#Where:
+#<domain> can be:
+#        - an user name
+#        - a group name, with @group syntax
+#        - the wildcard *, for default entry
+#        - the wildcard %, can be also used with %group syntax,
+#                 for maxlogin limit
+#
+#<type> can have the two values:
+#        - "soft" for enforcing the soft limits
+#        - "hard" for enforcing hard limits
+#
+#<item> can be one of the following:
+#        - core - limits the core file size (KB)
+#        - data - max data size (KB)
+#        - fsize - maximum filesize (KB)
+#        - memlock - max locked-in-memory address space (KB)
+#        - nofile - max number of open files
+#        - rss - max resident set size (KB)
+#        - stack - max stack size (KB)
+#        - cpu - max CPU time (MIN)
+#        - nproc - max number of processes
+#        - as - address space limit
+#        - maxlogins - max number of logins for this user
+#        - maxsyslogins - max number of logins on the system
+#        - priority - the priority to run user process with
+#        - locks - max number of file locks the user can hold
+#        - sigpending - max number of pending signals
+#        - msgqueue - max memory used by POSIX message queues (bytes)
+#
+#<domain>      <type>  <item>         <value>
+#
+
+#*               soft    core            0
+#*               hard    rss             10000
+#@student        hard    nproc           20
+#@faculty        soft    nproc           20
+#@faculty        hard    nproc           50
+#ftp             hard    nproc           0
+#@student        -       maxlogins       4
+
+# End of file
+
+-----------------------------------------------以下为添加内容
+oracle soft nproc 2047
+oracle hard nproc 16384
+oracle soft nofile 1024
+oracle hard nofile 65536
+-----------------------------------------------以上为添加内容
+"/etc/security/limits.conf" 53L, 1801C written                                                             
+[root@centos4 /]# 
+
+
+添加内容到/etc/pam.d/login中
+[root@centos4 ~]# vi /etc/pam.d/login
+#%PAM-1.0
+auth       required     pam_securetty.so
+auth       required     pam_stack.so service=system-auth
+auth       required     pam_nologin.so
+account    required     pam_stack.so service=system-auth
+password   required     pam_stack.so service=system-auth
+# pam_selinux.so close should be the first session rule
+session    required     pam_selinux.so close
+session    required     pam_stack.so service=system-auth
+session    required     pam_loginuid.so
+session    optional     pam_console.so
+# pam_selinux.so open should be the last session rule
+session    required     pam_selinux.so open
+
+-----------------------------------------------以下为添加内容
+session required pam_limits.so
+-----------------------------------------------以上为添加内容
+~
+
+"/etc/pam.d/login" 15L, 592C written                                                                       
+[root@centos4 ~]# 
+
+
+
+
+添加内容到/etc/profile
+[root@centos4 /]# vi /etc/profile
+# /etc/profile
+
+# System wide environment and startup programs, for login setup
+# Functions and aliases go in /etc/bashrc
+
+pathmunge () {
+        if ! echo $PATH | /bin/egrep -q "(^|:)$1($|:)" ; then
+           if [ "$2" = "after" ] ; then
+              PATH=$PATH:$1
+           else
+              PATH=$1:$PATH
+           fi
+        fi
+}
+
+# Path manipulation
+if [ `id -u` = 0 ]; then
+        pathmunge /sbin
+        pathmunge /usr/sbin
+        pathmunge /usr/local/sbin
+fi
+
+pathmunge /usr/X11R6/bin after
+
+
+# No core files by default
+ulimit -S -c 0 > /dev/null 2>&1
+
+USER="`id -un`"
+LOGNAME=$USER
+MAIL="/var/spool/mail/$USER"
+
+HOSTNAME=`/bin/hostname`
+HISTSIZE=1000
+
+if [ -z "$INPUTRC" -a ! -f "$HOME/.inputrc" ]; then
+    INPUTRC=/etc/inputrc
+fi
+
+export PATH USER LOGNAME MAIL HOSTNAME HISTSIZE INPUTRC
+
+for i in /etc/profile.d/*.sh ; do
+    if [ -r "$i" ]; then
+        . $i
+    fi
+done
+
+unset i
+unset pathmunge
+
+-----------------------------------------------以下为添加内容
+if [ $USER = "oracle" ]; then
+        if [ $SHELL = "/bin/ksh" ]; then
+                ulimit -p 16384
+                ulimit -n 65536
+        else
+                ulimit -u 16384 -n 65536
+        fi
+fi
+-----------------------------------------------以上为添加内容
+"/etc/profile" 58L, 983C written                                                                           
+[root@centos4 /]#
+
+
+
+
+添加oracle环境变量
+[root@centos4 /]# su - oracle
+[oracle@centos4 ~]$ ls
+[oracle@centos4 ~]$ pwd
+/u01/oracle
+[oracle@centos4 ~]$ ls -la
+total 56
+drwxr-xr-x  2 oracle oinstall 4096 Feb 24 06:04 .
+drwxr-xr-x  3 oracle oinstall 4096 Feb 24 06:03 ..
+-rw-r--r--  1 oracle oinstall   24 Feb 24 06:04 .bash_logout
+-rw-r--r--  1 oracle oinstall  191 Feb 24 06:04 .bash_profile
+-rw-r--r--  1 oracle oinstall  124 Feb 24 06:04 .bashrc
+-rw-r--r--  1 oracle oinstall  383 Feb 24 06:04 .emacs
+-rw-r--r--  1 oracle oinstall  120 Feb 24 06:04 .gtkrc
+[oracle@centos4 ~]$ vi .bash_profile
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/bin
+
+export PATH
+unset USERNAME
+
+-----------------------------------------------以下为添加内容
+ORACLE_BASE=/u01
+ORACLE_HOME=$ORACLE_BASE/oracle
+ORACLE_SID=wilson
+PATH=$ORACLE_HOME/bin:$PATH
+
+export ORACLE_BASE ORACLE_HOME ORACLE_SID PATH
+-----------------------------------------------以上为添加内容
+~
+~
+~
+~
+~
+".bash_profile" 20L, 335C written                                                                          
+[oracle@centos4 ~]$ exit
+logout
+
+[root@centos4 /]# su - oracle
+[oracle@centos4 ~]$ env | grep ORA
+ORACLE_SID=wilson
+ORACLE_BASE=/u01
+ORACLE_HOME=/u01/oracle
+[oracle@centos4 ~]$ 
+
+
+解压缩oracle zip文件
+[root@centos4 ~]# unzip linux_11gR1_database_1013.zip
+[root@centos4 ~]# mv database/ /u01
+[root@centos4 ~]# cd /u01
+[root@centos4 u01]# ls -l
+total 16
+drwxr-xr-x  5 root   root     4096 Oct  7 20:14 database
+drwxr-xr-x  2 oracle oinstall 4096 Feb 24 07:12 oracle
+[root@centos4 u01]# chown -R oracle:oinstall database/
+[root@centos4 u01]# ls -l
+total 16
+drwxr-xr-x  5 oracle oinstall 4096 Oct  7 20:14 database
+drwxr-xr-x  2 oracle oinstall 4096 Feb 24 07:12 oracle
+[root@centos4 u01]# cd database
+[root@centos4 database]# ls -l
+total 52
+drwxr-xr-x  11 oracle oinstall 4096 Oct  6 18:00 doc
+drwxr-xr-x   5 oracle oinstall 4096 Oct  6 18:00 install
+-rw-r--r--   1 oracle oinstall  124 Oct  6 23:35 README
+-rwxr-xr-x   1 oracle oinstall 2911 Sep 26 19:41 runInstaller
+drwxr-xr-x  14 oracle oinstall 4096 Oct  6 18:00 stage
+-rw-r--r--   1 oracle oinstall 4835 Sep 26 19:40 welcome.html
+[root@centos4 database]# 
+
+
+
+
+安装oracle自检时报“1 requirements to be verified”的解决方法
+[root@centos4 ~]# vi /etc/hosts
+# Do not remove the following line, or various programs
+# that require network functionality will fail.
+127.0.0.1       localhost.localdomain   localhost
+---------------------------------增加下面这行
+192.168.1.188   centos4
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+"/etc/hosts" 4L, 168C written                                                                              
+[root@centos4 ~]# ping centos4
+PING centos4 (192.168.1.188) 56(84) bytes of data.
+64 bytes from centos4 (192.168.1.188): icmp_seq=0 ttl=64 time=1.00 ms
+64 bytes from centos4 (192.168.1.188): icmp_seq=1 ttl=64 time=0.131 ms
+64 bytes from centos4 (192.168.1.188): icmp_seq=2 ttl=64 time=0.106 ms
+
+--- centos4 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 0.106/0.415/1.009/0.420 ms, pipe 2
+[root@centos4 ~]# 
+
+
+
+安装完要执行如下脚本
+[root@centos4 ~]# /u01/oraInventory/orainstRoot.sh
+Changing permissions of /u01/oraInventory to 770.
+Changing groupname of /u01/oraInventory to oinstall.
+The execution of the script is complete
+[root@centos4 ~]# /u01/oracle/root.sh
+Running Oracle 11g root.sh script...
+
+The following environment variables are set as:
+    ORACLE_OWNER= oracle
+    ORACLE_HOME=  /u01/oracle
+
+Enter the full pathname of the local bin directory: [/usr/local/bin]: 
+   Copying dbhome to /usr/local/bin ...
+   Copying oraenv to /usr/local/bin ...
+   Copying coraenv to /usr/local/bin ...
+
+
+Creating /etc/oratab file...
+Entries will be added to the /etc/oratab file as needed by
+Database Configuration Assistant when a database is created
+Finished running generic part of root.sh script.
+Now product-specific root actions will be performed.
+Finished product-specific root actions.
+[root@centos4 ~]# 
+
+
+
+
+
+
+
+
+
+
+
+
+

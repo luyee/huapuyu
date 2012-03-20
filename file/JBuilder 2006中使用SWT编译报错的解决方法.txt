@@ -1,0 +1,17 @@
+在jbuilder中编译一个要用到eclipse的swt类库的程序，编译出错提示   
+    
+  java.lang.UnsatisfiedLinkError:   no   swt-win32-3064   in   java.library.path   
+  at   java.lang.ClassLoader.loadLibrary(ClassLoader.java:1403)   
+  at   java.lang.Runtime.loadLibrary0(Runtime.java:788)   
+  at   java.lang.System.loadLibrary(System.java:832)   
+  at   org.eclipse.swt.internal.Library.loadLibrary(Library.java:100)   
+  at   org.eclipse.swt.internal.win32.OS.<clinit>(OS.java:18)   
+  at   org.eclipse.swt.graphics.Device.init(Device.java:564)   
+  at   org.eclipse.swt.widgets.Display.init(Display.java:1781)   
+  Exception   in   thread   "main"  
+
+
+解决方法为：在eclipse\plugins或者JBuilder2007\plugins中找到org.eclipse.swt.win32.win32.x86_X.X.X.vXXXX.jar
+解压此文件
+将解压出的swt-awt-win32-XXXX.dll和swt-win32-XXXX.dll这两个文件拷贝到C:\WINNT\system32下面
+OK   

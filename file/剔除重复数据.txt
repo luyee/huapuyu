@@ -1,0 +1,30 @@
+cell_table
+name　cell_id
+张三　　6133
+张三　　6134
+张三　　6135
+张三　　6136
+李四　　6133
+李四　　6137
+李四　　6138
+
+oracle
+SELECT a.* FROM cell_table a
+WHERE
+ROWID IN
+(
+SELECT MAX(ROWID) FROM cell_table GROUP BY name
+);
+
+sql server
+SELECT IDENTITY(INT, 1, 1) AS rowid, a.name, a.cell_id
+INTO temp_table
+FROM cell_table a;
+
+SELECT a.* FROM temp_table a
+WHERE
+rowid IN
+(
+SELECT MAX(rowid) FROM temp_table GROUP BY name
+);
+

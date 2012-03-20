@@ -1,0 +1,18 @@
+在oracle中使用comment来为表或列添加注释
+在我们建立表时，或者以后维护的工程中，为了使得以后的维护工作更方便，也为了使得我们的表的含义和各列的含义更加清楚。我们通常都会在为表或者列增加注释文字，以便于我们日后可以很方面的开出该列的具体含义。在oracle中我们可以很方便的使用comment语句来增加一些表的注释和列的注释。
+
+语法也很简单：
+comment on table/column tablename/columnname is ‘注释文字’;
+
+例如我们我们scott下面的表emp添加注释时可以使用形如如下的形式：
+comment on table scott.emp is ‘你好’;
+为列添加注释的例子是：
+comment on column scott.emp.empno is ‘你坏’;
+
+对于已经添加的注释我们可以使用以下几个系统表来查看。
+他们分别是：
+all_col_comments
+all_tab_comments
+user_col_comments
+user_tab_comments
+你可以通过以上几个表来查看已经添加的注释。

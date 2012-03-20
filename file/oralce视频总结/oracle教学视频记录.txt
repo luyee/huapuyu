@@ -1,0 +1,992 @@
+select user from dual;-----可以显示当前session的用户
+
+lsnrctl--> start用于启动监听器 
+
+
+注意：在sqlplus中?表示$ORACLE_HOME目录
+比如
+SQL> @?/rdbms/admin/utlexpt1.sql
+就是表示
+SQL> @$ORACLE_HOME/rdbms/admin/utlexpt1.sql
+
+
+
+splplus /nolog
+
+
+SQL> conn / as sysdba
+Connected to an idle instance.
+SQL> startup-------------------------------------------------关闭用shutdown abort
+
+...
+Database opened.
+SQL> !------------------切换shell模式
+SQL> !ls -l-------------------也可以用这种方法运行linux命令
+
+
+SQL> conn anders/123@oracle9i
+已连接。
+SQL> show sga;
+
+Total System Global Area  135338868 bytes
+Fixed Size                   453492 bytes
+Variable Size             109051904 bytes
+Database Buffers           25165824 bytes
+Redo Buffers                 667648 bytes
+SQL> select component, granule_size from v$sga_dynamic_components;
+
+COMPONENT                                                        GRANULE_SIZE
+---------------------------------------------------------------- ------------
+shared pool                                                           4194304
+large pool                                                            4194304
+buffer cache                                                          4194304
+
+SQL> desc V$parameter;
+Name             Type          Nullable Default Comments 
+---------------- ------------- -------- ------- -------- 
+NUM              NUMBER        Y                         
+NAME             VARCHAR2(64)  Y                         
+TYPE             NUMBER        Y                         
+VALUE            VARCHAR2(512) Y                         
+ISDEFAULT        VARCHAR2(9)   Y                         
+ISSES_MODIFIABLE VARCHAR2(5)   Y                         
+ISSYS_MODIFIABLE VARCHAR2(9)   Y                         
+ISMODIFIED       VARCHAR2(10)  Y                         
+ISADJUSTED       VARCHAR2(5)   Y                         
+DESCRIPTION      VARCHAR2(64)  Y                         
+UPDATE_COMMENT   VARCHAR2(255) Y                         
+ 
+SQL> select name, value from v$parameter;
+
+SQL> col name format a20  ----------------------------一般情况下，sqlplus输出查询结果时，格式会很乱，通过设置格式可以使查询结果便于浏览
+SQL> col value format a30
+SQL> /
+
+
+SQL> select name, value from v$parameter where name = 'pga_aggregate_target';
+ 
+NAME                                                             VALUE
+---------------------------------------------------------------- --------------------------------------------------------------------------------
+pga_aggregate_target                                             2147483648
+ 
+SQL> show parameter pga_ag;----参数名可以不用写全，oracle会自动匹配
+ 
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+pga_aggregate_target                 big integer 2147483648
+ 
+SQL> 
+
+
+
+如果想看spfile，可以通过命令strings spfile | more
+strings是unix的一个命令，用于提取unix二进制文件中的字符串
+
+如何修改spfile
+alter system set fast_start_mttr_target=250 scope=memory;
+
+
+
+如何给用户解锁
+alter user 用户名 account unlock;
+
+注意：用户解锁后，一般还需要修改用户密码才可以使用
+
+更改用户密码
+alter user 用户名 identified by 用户密码;
+
+如何查看用户信息
+select username, account_status from dba_users;
+
+
+表空间有三种类型
+undo
+permanent
+temporary
+
+
+----------------------------------------------------------------------------------------------------------------------------
+10章 undo
+----------------------------------------------------------------------------------------------------------------------------
+创建undo表空间
+create undo tablespace myundotbs datafile '/u01/oradata/wilson/myundotbs1.dbf' size 10M;
+切换undo表空间
+alter system set undo_tablespace=myundotbs;
+
+
+[oracle@centos4 ~]$ sqlplus /nolog
+
+SQL*Plus: Release 11.1.0.6.0 - Production on Thu Sep 17 12:06:15 2009
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+SQL> conn /as sysdba;
+Connected.
+SQL> select tablespace_name, contents from dba_tablespaces;
+
+TABLESPACE_NAME                CONTENTS
+------------------------------ ---------
+SYSTEM                         PERMANENT
+SYSAUX                         PERMANENT
+UNDOTBS1                       UNDO
+TEMP                           TEMPORARY
+USERS                          PERMANENT
+EXAMPLE                        PERMANENT
+ANDERS                         PERMANENT
+MYUNDOTBS                      UNDO
+
+8 rows selected.
+
+SQL> show parameter undo;
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+undo_management                      string      AUTO
+undo_retention                       integer     900
+undo_tablespace                      string      UNDOTBS1
+SQL> show user;
+USER is "SYS"
+SQL> alter system set undo_tablespace=myundotbs;--------------------------------注意：如果有未提交的事务，仍然可以切换undo表空间
+
+System altered.
+
+SQL> show parameter undo;
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+undo_management                      string      AUTO
+undo_retention                       integer     900
+undo_tablespace                      string      MYUNDOTBS
+SQL> alter system set undo_tablespace=undotbs1;
+
+System altered.
+
+SQL> show parameter undo;
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+undo_management                      string      AUTO
+undo_retention                       integer     900
+undo_tablespace                      string      UNDOTBS1
+SQL> drop tablespace myundotbs;-----------------------------------------------注意：如果有未提交的事务，就不能删除undo表空间
+
+Tablespace dropped.
+
+SQL> clear scr-------------------------------清屏
+SQL> show parameter undo
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+undo_management                      string      AUTO
+undo_retention                       integer     900
+undo_tablespace                      string      UNDOTBS1
+SQL> alter system set undo_retention=900 scope=both;-------------undo_retention（单位：秒）表示一个事务数据块在undo表空间中最长保存时间，超过时间后可以被覆盖   
+
+System altered.
+
+SQL> desc v$transaction;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ADDR                                               RAW(4)
+ XIDUSN                                             NUMBER
+ XIDSLOT                                            NUMBER
+ XIDSQN                                             NUMBER
+ UBAFIL                                             NUMBER
+ UBABLK                                             NUMBER
+ UBASQN                                             NUMBER
+ UBAREC                                             NUMBER
+ STATUS                                             VARCHAR2(16)
+ START_TIME                                         VARCHAR2(20)
+ START_SCNB                                         NUMBER
+ START_SCNW                                         NUMBER
+ START_UEXT                                         NUMBER
+ START_UBAFIL                                       NUMBER
+ START_UBABLK                                       NUMBER
+ START_UBASQN                                       NUMBER
+ START_UBAREC                                       NUMBER
+ SES_ADDR                                           RAW(4)
+ FLAG                                               NUMBER
+ SPACE                                              VARCHAR2(3)
+ RECURSIVE                                          VARCHAR2(3)
+ NOUNDO                                             VARCHAR2(3)
+ PTX                                                VARCHAR2(3)
+ NAME                                               VARCHAR2(256)
+ PRV_XIDUSN                                         NUMBER
+ PRV_XIDSLT                                         NUMBER
+ PRV_XIDSQN                                         NUMBER
+ PTX_XIDUSN                                         NUMBER
+ PTX_XIDSLT                                         NUMBER
+ PTX_XIDSQN                                         NUMBER
+ DSCN-B                                             NUMBER
+ DSCN-W                                             NUMBER
+ USED_UBLK                                          NUMBER-------------------------------------------------------注意这个参数
+ USED_UREC                                          NUMBER
+ LOG_IO                                             NUMBER
+ PHY_IO                                             NUMBER
+ CR_GET                                             NUMBER
+ CR_CHANGE                                          NUMBER
+ START_DATE                                         DATE
+ DSCN_BASE                                          NUMBER
+ DSCN_WRAP                                          NUMBER
+ START_SCN                                          NUMBER
+ DEPENDENT_SCN                                      NUMBER
+ XID                                                RAW(8)
+ PRV_XID                                            RAW(8)
+ PTX_XID                                            RAW(8)
+
+SQL> select addr, used_ublk from v$transaction;
+
+no rows selected------------------------------------------表示没有未提交的事务，没有被使用的数据块
+
+SQL> select addr, used_ublk from v$transaction;
+
+ADDR      USED_UBLK
+-------- ----------
+37AA3A0C          1------------------------------------------表示有未提交的事务，使用了1个数据块
+
+SQL> select addr, used_ublk from v$transaction;
+
+no rows selected------------------------------------------表示事务提交了，没有被使用的数据块
+
+SQL> select end_time, begin_time, undoblks from v$undostat;----------------------------------查看undo表空间的历史使用信息
+
+END_TIME  BEGIN_TIM   UNDOBLKS
+--------- --------- ----------
+17-SEP-09 17-SEP-09          0
+17-SEP-09 17-SEP-09          8
+17-SEP-09 17-SEP-09          7
+17-SEP-09 17-SEP-09         12
+17-SEP-09 17-SEP-09        100
+17-SEP-09 17-SEP-09         11
+17-SEP-09 17-SEP-09          9
+17-SEP-09 17-SEP-09         24
+17-SEP-09 17-SEP-09         65
+17-SEP-09 17-SEP-09         15
+
+10 rows selected.
+
+SQL> select * from dba_rollback_segs;------------------DBA_ROLLBACK_SEGS describes rollback segments.
+ 
+SQL> select * from v$rollname;-------------------------This view lists the names of all online rollback segments. It can only be accessed when the database is open.
+
+SQL> select * from v$rollstat;-------------------------This view contains rollback segment statistics
+ 
+SQL> select * from v$undostat;
+ 
+SQL> select * from v$session;
+
+SQL> select * from v$transaction;
+
+SQL> select * from dba_segments a where a.tablespace_name like '%UNDO%' ----------------------显示undo表空间的segment
+
+
+----------------------------------------------------------------------------------------------------------------------------
+11章 managing table
+----------------------------------------------------------------------------------------------------------------------------
+四种表，其实还有很多
+1.regular table
+2.partitioned table
+3.index-organized table
+4.cluster
+
+自动
+create tablespace name datafile '******.dbf' size 100M extent management local uniform size 128K segments space management auoto;
+手工
+create tablespace name datafile '******.dbf' size 100M extent management local uniform size 128K segments space management manual;
+
+create user name identified by as default tablesapce name;
+
+grant connect, resource to name;
+
+create table t
+(
+id int,
+name char(10)
+)
+storage(initial 128K next 128K pctincrease 0 minextents 1 maxextents 5)
+tablespace name;
+
+表放在表空间
+索引放在索引空间
+
+创建临时表(临时表速度比较快，因为他使用的redo信息很少)
+create global temporary table name
+as
+select * from tablename
+
+create global temporary table name on commit preserve rows-----------------------指明临时表是session级有效
+as
+select * from tablename
+
+create global temporary table name on commit delete rows-----------------------指明临时表是transaction级有效
+as
+select * from tablename
+
+insert into tableName1 select * from tableName2
+
+
+row migration
+row chaining
+
+
+alter table tableName 
+pctfree 30
+pctused 50
+storage(next 500k
+minextents 2
+maxextents 100);----------只会对新数据有效
+
+alter table tableName
+allocate extent (size 500k
+datafile 'fileName');------------手工为表分配空间
+
+
+
+
+alter table tableName rename column colName1 to colName2;--------改变列的名字
+
+alter table tableName set unused column comments cascade constraints;------使某列为unused
+
+alter table tableName drop unused columns checkpoint 1000;-------------删除unused列
+
+alter table tableName drop columns continue checkpoint 1000;------------如果删除过程中oracle重新启动了，可以用这条sql继续删除
+
+关于表的数据字典
+select * from dba_tables--------------只有表信息
+select * from dba_objects-------------包含表信息和其他信息
+
+查找某张表的extents
+select * from dba_extents a where a.segment_name = 'MGMT_ENTITY';
+给某张表手动添加extents
+alter table tableName allocate extent;
+
+truncate表但不释放空间
+truncate table tableName reuse storage;
+
+----------------------------------------------------------------------------------------------------------------------------
+12章 managing index
+----------------------------------------------------------------------------------------------------------------------------
+create table t (id int, sex char(1), name char(10));
+create index t_idx1 on t(id);
+create index t_idx2 on t(sex, name);-----索引导致select速度快，但是insert，update速度慢，因为oracle要自动维护索引
+
+b-tree 通常用这种索引 oltp用
+bitmap 性别等可用这种索引 用or的时候最快 数据仓库，olap用
+
+索引只有pctfree，没有pctuse
+
+把表和索引放在不同的表空间可以提高效率
+
+创建bitmap索引
+create bitmap index t_idx1 on t(id); 
+
+释放索引无用空间
+alter index t_idx1 deallocate unused;
+
+重新创建索引（offline）
+alter index t_idx1 rebuild tablespace index02;(可以指定不同的表空间，也就表示可以移动索引)
+
+在线重建索引（online）
+alter index t_idx1 rebuild online;
+
+coalescing indexes(将索引碎片进行合并)，这种方式比重建索引快，因为他不需要创建新索引
+alter index t_idx1 coalesce;
+
+检查索引有效性
+analyze index t_idx1 validate structure;分析的结果放在index_stats表中，LF_ROWS表示索引行数，DEL_LF_ROWS表示删除的索引行数，如果超过%15，则需要rebuild索引
+
+如果批量导入数据，有索引的话，速度会很慢，可以先drop索引，然后再批量导入数据，最后再新建索引
+
+rebuild索引比drop索引，再创建索引来的快
+
+启动索引监视功能
+alter index t_idx1 monitoring usage;
+关闭索引监视功能
+alter index t_idx1 nomonitoring usage;
+监视结果可以在v$object_usage中进行查看
+
+在pl/sql中输入set autot on exp可以查看sql执行计划，set autot off可以关闭sql执行计划
+
+索引相关数据字典
+dba_indexes
+dba_ind_columns
+
+
+----------------------------------------------------------------------------------------------------------------------------
+13章 Maintaining Data Integrity
+----------------------------------------------------------------------------------------------------------------------------
+五种约束
+1.not null
+2.unique 不能重复，但是可以插入任意条null值记录，原因是唯一索引中没有null值，每次插入，索引中都没有重复值，因此可以插入
+3.primary key
+4.foreign key
+5.check
+
+
+create table orders
+(
+order_num number(4) constraint nn_order_num not null,
+order_date date not null,
+product_id
+)
+
+alter table orders modify order_date null;
+alter table orders modify product_id not null;
+
+create table bonus
+(
+id int not null,
+bonus number(10,2),
+constraint ck_bonus check (bonus > 0)-----------------表级定义约束
+);
+
+create table bonus
+(
+id int not null,
+bonus number(10,2) constraint ck_bonus check (bonus > 0)-----------------列级定义约束
+);
+
+alter table bonus add constraint ck_bonus2 check (bonus < 100);
+
+
+alter table bonus
+add constraint uq_emp_id unique (dept,emp_id)
+using index tablespace indx
+storage (initial 32k next 32k pctincrease 0); 
+
+alter table emp add
+ssn varchar2(11) constraint uq_ssn unique;
+
+
+alter table city add constraint fk_state foreign key (country_code, state_code)
+references state (country_code, state_code)
+
+
+创建外键
+drop table dept
+create table dept
+(
+id int primary key,
+name varchar2(50)
+)
+
+drop table emp
+create table emp
+(
+id int primary key,
+name varchar2(50),
+dept int
+)
+
+alter table emp add constraint fk_id foreign key (dept)
+references dept (id) on delete cascade;
+
+
+alter table emp add constraint fk_id foreign key (dept)
+references dept (id) on delete set null;
+
+
+创建disabled约束
+
+alter table emp add constraint fk_id foreign key (dept)
+references dept (id) disable;
+
+alter table bonus add constraint ck_bonus check (bonus > 0) disable;
+
+
+alter table emp add primary key(id) disable;--关闭
+alter table emp enable primary key;--打开 创建索引
+alter table emp disable primary key;--关闭 删除索引
+
+删除约束
+alter table bonus drop constraint ck_bonus;
+alter table bonus drop unique(id) cascade;
+alter table bonus drop primary key cascade;
+
+
+enable和disable的四种状态（注意：主键和unique不行，因为enable时oracle需要创建唯一性索引，虽然你不想检查旧有的数据，但是重复的数据不符合索引的要求）
+alter table tb_user add constraint ck_age check (id > 0) disable;
+alter table tb_user disable novalidate constraint ck_age;不限制新插入的数据，不验证表中的旧数据
+alter table tb_user disable validate constraint ck_age;不限制新插入的数据，但验证表中的旧数据
+alter table tb_user enable novalidate constraint ck_age;只限制新插入的数据，不验证表中的旧数据
+alter table tb_user enable validate constraint ck_age;限制新插入的数据，同时验证表中的旧数据
+
+注意：如果表大的时候，推荐disable novalidate-->enable novalidate-->enable validate
+原因：因为enable validate时需要锁表，而通过enable novalidate这一步，就不会锁表，效率比较高
+
+
+
+约束的数据字典
+select constraint_name,status,validated from user_constraints;查看约束的状态
+select index_name,uniqueness from user_indexes;查看索引是否是唯一性的
+
+由此得出结论，导数据时，由于索引和约束会影响效率，因此先将索引和约束disable，导完数据，再将索引和约束enable。
+
+
+deferred和nondefered，约束延迟性
+
+create table tb_tt
+(
+id int,
+name varchar(50)
+)
+
+alter table tb_tt add primary key(id) deferrable;
+
+alter table tb_tt disable primary key;
+
+alter table tb_tt enable novalidate constraint SYS_C004291
+
+set constraints all deferred;
+
+insert into tb_tt values (1,'zhuzhen');
+insert into tb_tt values (1,'zhuzhen');
+insert into tb_tt values (1,'zhuzhen');
+
+如何给约束改名
+alter table tb_name rename constraint name1 to name2;
+
+创建exceptions表
+用脚本C:\oracle\ora92\rdbms\admin\utlexpt1.sql创建
+如何使用exceptions
+
+Connected to Oracle9i Enterprise Edition Release 9.2.0.1.0 
+Connected as anders
+ 
+SQL> @C:\oracle\ora92\rdbms\admin\utlexpt1.sql-----------------------创建exceptions表
+ 
+Table created
+ 
+SQL> create table t (id int primary key disable, name char(10));
+ 
+Table created
+ 
+SQL> insert into t values (1, 'zhzuhen');
+ 
+1 row inserted
+ 
+SQL> insert into t values (1, 'zhzuhen');
+ 
+1 row inserted
+ 
+SQL> select * from t;
+ 
+                                     ID NAME
+--------------------------------------- ----------
+                                      1 zhzuhen
+                                      1 zhzuhen
+ 
+SQL> insert into t values (2, 'zhzuhen');
+ 
+1 row inserted
+ 
+SQL> select * from t;
+ 
+                                     ID NAME
+--------------------------------------- ----------
+                                      1 zhzuhen
+                                      1 zhzuhen
+                                      2 zhzuhen
+ 
+SQL> alter table t enable validate primary key;
+ 
+alter table t enable validate primary key
+ 
+ORA-02437: 无法验证 (ANDERS.SYS_C004292) - 违反主键
+ 
+SQL> alter table t enable validate primary key exceptions into exceptions;-----------------------------将错误信息记录到exceptions表
+ 
+alter table t enable validate primary key exceptions into exceptions
+ 
+ORA-02437: 无法验证 (ANDERS.SYS_C004292) - 违反主键
+ 
+SQL> select count(*) from exceptions;
+ 
+  COUNT(*)
+----------
+         2
+ 
+SQL> select rowid,id,name from t where rowid in (select row_id from exceptions);-------------------查找哪些记录有问题
+ 
+ROWID                                                   ID NAME
+------------------ --------------------------------------- ----------
+AAAIDIAAMAAAACiAAA                                       1 zhzuhen
+AAAIDIAAMAAAACiAAB                                       1 zhzuhen
+ 
+SQL> 
+
+
+
+约束相关数据字典
+dba_constraints
+all_constraints
+dba_cons_columns
+
+
+---------------------------------------------------------------------------------------------------
+Chapter 14--Managing Password Security & Resikyrces 
+---------------------------------------------------------------------------------------------------
+SQL> @?/rdbms/admin/utlpwdmg.sql--------------------必须是sys用户
+
+
+数据字典
+dba_users
+dba_profiles
+
+
+---------------------------------------------------------------------------------------------------
+Chapter 15--Managing Users 
+---------------------------------------------------------------------------------------------------
+CREATE USER boss30gk 
+PROFILE DEFAULT 
+IDENTIFIED BY boss30gk 
+DEFAULT TABLESPACE TS_TEST
+TEMPORARY TABLESPACE TEMP 
+ACCOUNT UNLOCK
+QUOTA 15M ON data
+QUOTA 10M ON user
+PASSWORD EXPIRE;
+
+
+select * from database_properties;查看数据库信息
+
+
+CREATE USER sam
+IDENTIFIED BY sam 
+DEFAULT TABLESPACE example;
+
+grant create session to sam;
+
+select * from dba_users;
+
+CREATE USER boss30gk 
+IDENTIFIED EXTERNALLY -----------------------------操作系统认证
+DEFAULT TABLESPACE example
+TEMPORARY TABLESPACE TEMP 
+QUOTA 15M ON data;
+
+操作系统认证使用下面这个参数
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+os_authent_prefix                    string      OPS$
+remote_os_authent                    boolean     FALSE----------------------------------------这个参数可以进行远端认证，比如从远端windows有个用户叫OPS$zhuzhen，那么他也可以直接登录oracle，不过建议关闭，根据需要可以临时打开
+可以使用命令show parameters os进行查看，默认是OPS$
+例如：操作系统有个用户叫zhuzhen,通过命令useradd zhuzhen和passwd zhuzhen建立
+注意：需要设置环境变量ORACLE_HOME,PATH和ORACLE_SID
+那么就可以在oracle通过下面命令建立一个用户
+create user OPS$sam identified externally
+default tablespace example;
+
+grant create session to OPS$sam;
+最后，就可以通过(sqlplus /)登录oracle
+
+
+quota 配额
+alter user sam quota 0 on users;--------------------------注意：配额改成0后，创建表提示：ORA-01536: 超出表空间'TS_TEST'的空间限量
+alter user sam quota UNLIMITED on users;
+
+
+
+drop user sam;
+drop user sam cascade;--删除用户并删除它的所有对象
+
+数据字段
+dba_users
+user_users
+dba_ts_quotas;
+
+
+
+ 
+---------------------------------------------------------------------------------------------------
+Chapter 16--Managing Privileges 
+---------------------------------------------------------------------------------------------------
+grant 授予
+revoke 撤销
+
+grant create session to emi;
+grant create session to emi with admin option;------with admin option授权具有传递性
+grant create table to emi;
+
+
+允许去访问别人的表，注意：O7_DICTIONARY_ACCESSIBILITY控制能否访问数据字典，show parameter o7进行查看
+grant select any table to emi;
+
+alter system set O7_DICTIONARY_ACCESSIBILITY=true scope=spfile;
+
+
+select * from session_privs---------------查看session权限
+select * from session_roles---------------查看session角色
+
+
+漏洞
+假设有一个用户hacker，授予他如下权限
+grant create session to hacker
+grant create any procedure to hacker
+grant execute any procedure to hacker
+
+在system用户下创建如下procedure
+create procedure system.h1(cmd in varchar2) as
+begin
+	execute immediate cmd;
+end;
+/
+
+因为是在system用户下创建的procedure，因此执行下面的语句，可以以sys的身份授予权限给hacker，这样hacker就可以干任何的事
+execute system.h1('grant dba to hacker');
+
+
+
+授予object权限
+grant execute on dbms_output to jeff;
+grant update on emi.customers to jeff with grant option;------with grant option授权具有传递性
+grant select on t to u3;
+grant grant any object privileges to u2;
+
+
+数据字典
+dba_sys_privs
+session_privs
+dba_tab_privs
+dba_col_privs
+
+
+
+
+---------------------------------------------------------------------------------------------------
+Chapter 17--Managing Roles
+---------------------------------------------------------------------------------------------------
+create role rolename;
+create role rolename identified by bonus;
+create role rolename identified externally;
+
+alter role rolename identified by bonus;
+alter role rolename identified by externally;
+alter role rolename not identified;
+
+举例
+create role r1;
+grant create any table to r1;
+grant r1 to username;
+
+
+select * from role_role_privs;----角色中包含哪些角色
+select * from role_sys_privs;-----角色中包含哪些系统特权
+select * from role_tab_privs;-----角色中包含哪些对象特权
+ 
+
+缺省角色
+set role r1, r2 identified by 123;----r1是用户的缺省角色，r2不是缺省角色，但是通过密码验证也可以使用
+
+撤销role
+revoke userrole from public;
+revoke dba from user;
+
+删除role
+drop role userrole;
+
+
+
+---------------------------------------------------------------------------------------------------
+Chapter 18--Auditing 
+---------------------------------------------------------------------------------------------------
+dba_audit_trail;
+dba_audit_exists;
+dba_audit_object;
+dba_audit_session;
+dba_audit_statement;
+
+dba_common_audit_trail;
+all_def_audit_opts;
+dba_stmt_audit_opts;
+dba_priv_audit_opts
+dba_obj_audit_opts;
+
+
+以下步骤为如何使用审计：
+show parameter audit;
+
+audit_trail有三种情况：none，db，system
+
+alter system set audit_trail=db
+如果不行，则使用
+alter system set audit_trail=db scope=spfile;
+
+select * from aud$;
+
+AUDIT session by anders;
+
+select username,timestamp,action_name from dba_audit_trail where username = 'ANDERS';
+
+
+例子1
+audit select on anders.tb_user;
+select username,timestamp,action_name from dba_audit_trail;
+noaudit select on anders.tb_user;
+
+例子2
+audit select any table;
+select username,timestamp,action_name from dba_audit_trail;
+noaudit select any table;
+
+
+---------------------------------------------------------------------------------------------------
+Chapter 19---Loading Data into a Database
+---------------------------------------------------------------------------------------------------
+串行执行
+insert /*+ APPEND */ into table_a
+nologging
+select * from table_b;
+commit;
+
+注意1：
+下面这种方式
+insert into table_a select * from table_b;执行后，如果不提交，也能查询table_a
+上面的方式必须commit之后才能查询table_a，否则会报错ORA-12838: cannot read/modify an object after modifying it in parallel
+
+注意2：
+nologging的意思是说不生成redo log，但是实际操作后发现没有效果，可以通过下面的命令实现不生成redo log
+alter table table_a nologging;
+**************不过我操作后发现insert /*+ APPEND */ into table_a nologging select * from table_b;中的nologging是有用的
+
+注意3：
+经过在本地oracle数据上新建的一张15000000条记录的表进行测试后发现
+insert into bt1 select * from bt;----------------------------------耗时437.985
+insert /*+append*/ into bt1 nologging select * from bt;------------耗时156.172
+insert /*+append*/ into bt1 select * from bt;------------耗时136.782
+性能提升将近3倍
+
+并行执行
+alter session enable parallel dml;
+insert  /*+parallel(tablename, 2) */
+into tablename nologging
+select * from tablename;
+
+
+创建partition表
+create table emp
+(
+empno int,
+ename varchar2(20)
+)
+partition by hash(empno)
+(
+partition part1,
+partition part2
+)
+
+打开统计信息
+set autot on stat
+打开后，每次查询，更新等操作后会有如下信息
+Statistics
+----------------------------------------------------------
+          1  recursive calls
+          1  db block gets
+          6  consistent gets
+          0  physical reads
+         96  redo size
+       1123  bytes sent via SQL*Net to client
+        409  bytes received via SQL*Net from client
+          1  SQL*Net roundtrips to/from client
+          0  sorts (memory)
+          0  sorts (disk)
+          0  rows processed
+          
+          
+          
+sql*loader如何使用
+可以看汤大师的书
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------
+Chapter 20--Using Globalization Support
+---------------------------------------------------------------------------------------------------
+select * from nls_database_parameters;
+select * from nls_instance_parameters;
+select * from nls_session_parameters;
+alter session set nls_language=Italian;
+select to_char(hire_date, 'DD.Mon.YYYY', 'NLS_DATE_LANGUAGE=FRENCH') from employees;
+
+数据字典
+select * from v$nls_valid_values;
+select * from v$nls_parameters;
+
+排序
+select * from h order by nlssort(name, 'NLS_SORT=SCHINESE_PINYIN_M');
+select * from h order by nlssort(name, 'NLS_SORT=SCHINESE_STROKE_M');
+
+索引
+create index list_word on
+list (nlssort(word, 'NLS_SORT = French_M'));
+
+unix下设置环境变量
+export NLS_LANG=American_America.ZHS16GBK
+windows下除了设置环境变量外，还可以通过注册表设置，设置如下：
+HKEY_LOCAL_MACHINE->software->oracle->nls_lang
+
+show parameter semantic
+
+假设有下面的表
+ID	NAME	BIRTHDAY
+1	anders	
+2	朱振	
+3	hello我	
+
+select lengthb(name) from tb_user返回
+LENGTHB(NAME)
+6
+4
+7
+
+select length(name) from tb_user返回
+LENGTH(NAME)
+6
+2
+6
+
+注意：LENGTHB和LENGTH，带B就是按byte计算，不带B就是按照char计算
+
+
+如果有下面的表，使用dump(name, 1016)可以显示字符串的编码
+SQL> select * from tot;
+
+        ID NAME
+---------- --------------------
+         1 朱振
+
+SQL> select id, dump(name, 1016) from tot;
+
+        ID
+----------
+DUMP(NAME,1016)
+------------------------------------------------------
+
+         1
+Typ=1 Len=4 CharacterSet=ZHS16GBK: d6,ec,d5,f1
+
+
+SQL>
+
+
+注意，如下为设置环境变量，只对sqlplus这个程序启作用
+set NLS_LANG=American_America.ZHS16GBK
+set NLS_LANG=American_America.AL32UTF8
+说明，如果使用dump(name, 1016)查看数据库的编码为ZHS16GBK
+操作系统的编码如果为ZHS16GBK
+则设置set NLS_LANG=American_America.ZHS16GBK，没有乱码，因为sqlplus的字符和数据库一致，oracle没有转换输出，由于操作系统字符也是ZHS16GBK，所以显示正常。
+如果设置set NLS_LANG=American_America.AL32UTF8，有乱码，因为sqlplus的字符和数据库不一致，oracle转换为AL32UTF8输出，由于操作系统字符是ZHS16GBK，所以显示乱码。
+
+常用unicode编码方式
+UCS-2是固定长度的，英文，中文，拉丁文等都为2位，没有特俗字符。java和Microsoft windows都是采用这种字符集
+UTF-16（AL16UTF16）是固定长度的，英文，中文，拉丁文等都为2位，特俗字符为4位。他是UCS-2的超集，比UCS-2多出了特俗字符。Microsoft windows 2000是采用这种字符集。
+UTF8是可变长度的：英文为1位，中文为3位，拉丁文等为2位，特俗字符为4位。
+注意：如果是存储大量汉字，UCS-2比UTF8好，因为UTF8用三个字节存储，浪费更多空间。另外由于UCS-2固定长度，UTF8是可变长度的，因此UCS-2效率也更快。
+
+
+
+
+

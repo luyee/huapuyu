@@ -1,0 +1,36 @@
+JavaScript和ASP.NET控件间传值 
+
+1、js脚本如何访问服务器控件的值
+        界面上有一个TextBox控件，ID为Name，js里可以采用如下脚本取Name的值
+        var myvalue=document.all('Name').value;
+
+2、服务器控件如何取js中变量的值
+        目前未发现比较好的办法，我通常采用的方法是在界面上放一个隐藏的控件HtmlInputHidden，然后设置为以服务器控件运行，这样在js脚本中和ASP.NET代码里都可以访问到该控件的值
+        js中给服务器控件赋值：
+        var bt＝document.all('Name').value;
+        bt.value='名称';
+        ASP.NET中使用Name.Value来访问。
+
+3、如何遍历界面上所有TextBox元素
+        var inputList = document.body.getElementsByTagName("INPUT");
+        for(var i=0;i<inputList.length;i++)
+        {
+           if(inputList[i].disabled==false && (inputList[i].type=='text' || inputList[i].type=='password'))
+           {
+              inputList[i].value="";
+           }
+        }
+
+4、让dropdownlist选择到指定项
+        选择dropdownlist中值为“我得选择”得项
+        var handl=document.all('List1');
+        var my_value='我得选择';
+        for(var index=0;index<handle.options.length;index++)
+        {
+            if(handle.options[index].text==my_value)
+            {
+                handle.selectedIndex=index;
+            }
+        }
+ 
+ 

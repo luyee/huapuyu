@@ -1,0 +1,43 @@
+abstract class User
+{
+   protected $name;
+   protected $age;
+
+   public function __construct($n, $a)
+   {
+      $this->name = $n;
+      $this->age = $a;
+   }
+
+   public abstract function prints();
+
+   public function __destruct()
+   {
+      echo '<br/>User Free...';
+   }
+}
+
+class StudentUser extends User
+{
+   private $school;
+
+   public function __construct($n, $a, $s)
+   {
+      parent::__construct($n, $a);//User::__construct($n, $a);
+      $this->school = $s;
+   }
+
+   public function prints()
+   {
+      echo 'Name : ' . $this->name . ' Age : ' . $this->age . ' School : ' . $this->school;
+   }
+
+   public function __destruct()
+   {
+      parent::__destruct();//User::__destruct();
+      echo '<br/>StudentUser Free...';
+   }
+}
+
+$su = new StudentUser('zhuzhen', 23, 'Number 9');
+$su->prints();

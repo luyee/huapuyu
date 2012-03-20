@@ -1,0 +1,27 @@
+两种方法
+
+1.
+
+procedure TForm1.ClientDataSet1AfterOpen(DataSet: TDataSet);
+var
+  i: Integer;
+begin
+  for i := 0 to ClientDataSet1.FieldCount - 1 do
+  begin
+    if ClientDataSet1.Fields[i] is TDataSetField then
+    begin
+      ClientDataSet2.DataSetField := ClientDataSet1.Fields[i] as TDataSetField;
+      Break;
+    end;
+  end;
+
+  ClientDataSet2.Open;
+end;
+
+2.
+
+右键单击ClientDataSet1，选择Fields Editor，在弹出的窗体中添加TDataSetField字段，ClientDataSet2中DataSetField中就有相应的字段了。
+
+
+
+注意：作为Detail的从ClientDataSet不需要设置RemoteServer，ProviderName和MasterSource等字段

@@ -1,0 +1,979 @@
+rpm -ivh 安装
+rpm -e 删除
+rpm -U 升级
+rpm -q 查询
+
+
+如果用SecureCRT有乱码
+试试export LANG=C
+export LANG=zh_CN.UTF-8
+export LANG=zh_CN.GB2312 
+
+
+
+eject弹出光驱（ubuntu）
+eject -t 收回光驱（ubuntu）
+
+
+更新软件
+centos(redhat) : yum install bison
+ubuntu : apt-get install bison
+
+
+du -sh dirName 查看文件夹大小（貌似大容量文件夹支持不好）
+du -sh fileName 查看文件大写（貌似大容量文件支持不好）
+du -s dirName 查看文件夹大小
+du -s fileName 查看文件大写
+
+关机
+halt或shutdown -h或shutdown -h 1（表示1分钟后关机）
+关机 init 0
+重启 init 6
+
+查看当前用户所属组等信息
+id
+
+查看内存和消息队列
+ipcs
+
+查看使用的是什么shell
+1.chsh(AIX可用这个命令修改shell类型)
+2.随便敲一个不存在的命令，如：igggg，提示：bash: igggg: command not found，通过提示就可以看出使用的何种shell
+3.echo $SHELL
+
+shell对应表
+bash->.bash_profile    .bash_profile再去调用.bashrc   对应的.bash_history记录执行的历史命令，对应的.bash_logout退出执行
+csh->.cshrc             对应的.history记录执行的历史命令，对应的.logout退出执行
+sh->.profile
+
+查看隐藏文件
+ls -a
+
+查看当前目录下的所有文件和子文件
+ls -R
+
+查看文件的索引号（inode号）
+ls -li
+
+详细查看inode
+istat name
+
+查看目录名
+ls -ldi(ls -ldi dirName)
+
+查看环境变量
+env或env | grep oracle
+
+centos下ll命令可以实现ls -l命令同样功能
+aix中没有这个命令
+
+rm -r(rm -fR) 文件夹名
+如果文件夹名中有空格，则必须使用通配符*来删除
+rm -i fileName  有提示的删除文件
+如：
+rm -i zzfile
+rm: remove zzfile? y
+
+查看网卡信息
+/sbin/ifconfig
+
+如何查看linux版本号
+cat /proc/version或者cat /etc/redhat-release或者cat /etc/issue
+
+查看网卡信息
+ifconfig
+netstat -in
+
+查看路由表
+netstat -rn
+route
+
+查看有没有开通telnet
+lssrc -t telnet(aix中可以使用)
+查看有没有开通ftp
+lssrc -t ftp(aix中可以使用)
+
+Xmanager被动输出
+setenv DISPLAY 10.10.175.178:0.0
+
+tar -cvf obd.tar obd  制作压缩文件
+tar -xvf obd.tar 解压缩
+tar -tvf obd.tar 可以查看压缩文件
+如果是tar.gz文件可能需要先gunzip
+比如有如下文件
+test.tar.gz
+gunzip test.tar.gz
+得到test.tar
+再tar -xvf test.tar
+
+compress -v file
+zcat file.Z
+uncompress file.Z
+
+
+df -h 查看硬盘使用情况（sunOS）
+df -g(-k) 查看硬盘使用情况（aix）
+
+查看所有登录用户
+who -u
+who
+
+查看自己以什么用户登陆
+whoami（who am i）
+who -m -u（who -mu）
+
+查看日期
+date
+cal
+cal month year(cal 8 2009)
+cal year（cal 2008）输出全年的日历
+
+banner
+例如banner big
+
+返回如下
+ #####      #     ####
+ #    #     #    #    #
+ #####      #    #
+ #    #     #    #  ###
+ #    #     #    #    #
+ #####      #     ####
+
+
+修改密码
+passwd（passwd zhuzhen）
+
+退出系统
+Ctrl + D
+logout
+exit
+
+列出指定用户的详细信息
+finger（finger zhuzhen）
+
+发送邮件
+collect1@JF_P570_953B$ mail bes
+Subject: test3（主题结束用回车）
+hello world（正文结束先回车再Ctrl + D）
+Cc: （结束用回车）
+collect1@JF_P570_953B$ 
+收邮件
+mail（退出用exit或q）
+
+发送消息，接受者只能查看内容，不能回复
+发送方
+collect1@JF_P570_953B$ write bes
+ffff
+hello（结束用ctrl + D）
+接受方
+Message from collect1 on JF_P570_953B (pts/1) [Tue Aug  4 12:31:43 2009] ...
+ffff
+hello
+<EOT>
+
+给所有用户发送信息
+发送方
+wall
+hello
+world（结束用ctrl + D）
+接收方
+Broadcast message from collect1...
+hello
+world
+
+和另一用户通信
+talk（talk zhuzhen）
+退出用ctrl + C
+
+是否接受或拒绝接受消息
+mesg n 拒绝 （write talk wall就不能用了）
+mesg y 接受
+
+常用快捷键
+ctrl + c 终止命令
+ctrl + d 终止命令执行
+ctrl + s 暂时停止屏幕输出
+ctrl + q 恢复屏幕输出
+ctrl + u 清除键入的命令
+
+查看who命令的详细使用信息
+man who
+
+建目录
+mkdir dirName
+mkdir -p dirName1/dirName2/dirName3(创建多级目录)
+
+删除目录（要求目录是空的）
+rmdir
+
+直接返回到用户根目录
+cd
+
+以.开头的文件是隐藏文件，文件名最长255
+
+新建空文件（0字节文件）
+touch name
+也可以用于更新文件时间
+touch name
+信息如下
+collect1@JF_P570_954B$ touch zhuzhen
+collect1@JF_P570_954B$ ls -l
+total 16
+drwxr-x---    3 collect1 asiainfo        256 Jul 30 14:47 AIOXINSTALL
+drwxr-x---    6 collect1 asiainfo        256 Jul 30 13:48 ior
+drwxr-xr-x    4 collect1 asiainfo        256 Aug  3 14:21 log
+drwxr-x---   10 collect1 asiainfo       4096 Jul 31 10:46 prod30
+drwxr-x---    2 collect1 asiainfo       4096 Jul 31 10:57 sh
+drwxr-x---    6 collect1 asiainfo        256 Jul 30 16:33 start_monitor
+drwxr-xr-x    2 collect1 asiainfo        256 Aug  5 09:41 sysinfo
+-rw-r--r--    1 collect1 asiainfo          0 Aug  5 10:24 zhuzhen--------------------------------注意
+collect1@JF_P570_954B$ touch zhuzhen
+collect1@JF_P570_954B$ ls -l
+total 16
+drwxr-x---    3 collect1 asiainfo        256 Jul 30 14:47 AIOXINSTALL
+drwxr-x---    6 collect1 asiainfo        256 Jul 30 13:48 ior
+drwxr-xr-x    4 collect1 asiainfo        256 Aug  3 14:21 log
+drwxr-x---   10 collect1 asiainfo       4096 Jul 31 10:46 prod30
+drwxr-x---    2 collect1 asiainfo       4096 Jul 31 10:57 sh
+drwxr-x---    6 collect1 asiainfo        256 Jul 30 16:33 start_monitor
+drwxr-xr-x    2 collect1 asiainfo        256 Aug  5 09:41 sysinfo
+-rw-r--r--    1 collect1 asiainfo          0 Aug  5 10:29 zhuzhen--------------------------------跟上面比，时间更新了
+collect1@JF_P570_954B$ 
+
+将文件中所有字符串zhuzhen用字符串guolili替换（aix中可以使用）
+g/zhuzhen/s//guolili/g
+如果遇到路径情况，如/home/bes要替换为/bes
+则g/\/home\/bes/s//\/bes/g
+
+移动文件
+mv file1 file2 target_dir
+
+查看文件内容
+cat 查看所有文件内容
+cat -vte filename 
+-v 显示不可打印的字符 
+-t 显示tab键为^I
+-e 显示$在每行末尾
+
+-bash-2.05b@collect1 $ more name1
+john
+t       om
+lily
+-bash-2.05b@collect1 $ cat -vte name1
+john$
+t^Iom$
+lily$
+-bash-2.05b@collect1 $ 
+
+more 每次显示一屏内容，按enter再显示一行，空格再显示一屏
+pg 每次显示一屏内容，按enter再显示一屏
+可以组合使用
+ls /etc | pg
+ps -ef |grep more
+ps -l
+ps -ex
+
+统计文件
+wc -c -l -w filename
+-c 统计字节数
+-l 统计行数
+-w 统计单词数
+
+文件同名
+ln source_file dest_file
+
+文件类型
+-rwxr-x---
+第1位：文件类型
+2-4位：user
+5-7位：group
+8-10位：others
+r = read
+w = write
+x = execute
+
+chmod mode fileName
+u = owner of the file
+g = owner's group
+o = other users on the system
+a = all
+
++ : add permissions
+- : remove permissions
+= : clears permissions and sets to mode specified
+
+8进制方式
+rwx 111 = 4+2+1 = 7
+rw- 110 = 4+2+0 = 6
+r-- 100 = 4+0+0 = 4
+
+默认新建的权限
+文件：666
+目录：777
+umask中有个值，可以设定，默认0022，保存在/etc/security/user,可以用umask命令进行查看，如果要改umask，可以使用命令umask 027
+文件 666 - 022 = 644 (rw-r--r--)
+目录 777 - 022 = 755 (rwxr-xr-x)
+通过默认666或777减去umask中的值才是最终的文件权限
+
+举例
+% chmod 777 file （最大权限）
+% ls -l
+total 0
+-rwxrwxrwx    1 bes      staff             0  
+% chmod u= file （去除用户权限） chmod 077 file
+% ls  -l
+total 0
+----rwxrwx    1 bes      staff             0  
+% chmod g=r file （去除组权限，只保留组r权限） chmod 047 file
+% ls -l
+total 0
+----r--rwx    1 bes      staff             0  
+% chmod g+x file （给组添加x权限） chmod 057 file
+% ls -l
+total 0
+----r-xrwx    1 bes      staff             0  
+% chmod g-x file （删除组x权限）chmod 047 file
+% ls -l
+total 0
+----r--rwx    1 bes      staff             0  
+% chmod ug+rwx file （给用户和组添加rwx权限）  chmod 077 file
+% ls -l
+total 0
+-rwxrwxrwx    1 bes      staff             0  
+% chmod ug-rx file （删除用户和组rx权限） chmod 227 file
+% ls -l
+total 0
+--w--w-rwx    1 bes      staff             0  
+% chmod a= file （删除用户，组和其他用户权限） chmod 000 file
+% ls -l
+total 0
+----------    1 bes      staff             0  
+% chmod a+r file （给用户，组和其他用户添加r权限） chmod 444 file
+% ls -l
+total 0
+-r--r--r--    1 bes      staff             0  
+% chmod a-r file （删除用户，组和其他用户r权限）chmod 000 file
+% ls -l
+total 0
+----------    1 bes      staff             0  
+% 
+
+
+
+
+
+vi使用说明
+Esc -> a 把文本添加到光标之后
+Esc -> i 把文本添加到光标之前
+Esc -> o 在光标所在行下面开新行
+
+不保存退出 Esc -> :q!
+保存退出 Esc -> :x 或 Esc -> :wq 或 Esc -> <shift + zz>
+保存不退出 Esc -> :w
+
+向上 Esc -> k
+向下 Esc -> j
+向左 Esc -> h
+向右 Esc -> l
+
+向左（单词） Esc -> B 或 Esc -> b
+向右（单词） Esc -> W 或 Esc -> w
+
+文件首 Esc -> 1G
+文件尾 Esc -> G
+移动到指定行 Esc -> nG
+每屏最前 Esc -> H
+每屏最后 Esc -> L
+行首 Esc -> 0
+行尾 Esc -> $
+
+向后翻一屏 Esc -> ctrl + b
+向前翻一屏 Esc -> ctrl + f
+
+vi怎么另存为
+: w /pathto/yourfile
+
+删除操作
+Esc -> x   删除光标所在处的字符
+Esc -> dw 删除一个单词
+Esc -> dd 删除光标所在行
+Esc -> 5dd 删除从当前行开始的5行文本
+Esc -> d$ 删除光标到行尾的内容
+Esc -> d0 删除光标到行首的内容
+Esc -> :20,40d 删除20行到40行的内容
+
+拷贝粘贴
+Esc -> dd剪切光标所在行到编辑缓冲区
+Esc -> yy拷贝光标所在行到编辑缓冲区
+Esc -> p 将编辑缓冲区内容拷贝至光标后的行
+Esc -> 5yy 拷贝自当前行开始的五行至编辑缓冲区
+Esc -> 5dd 剪切自当前行开始的五行至编辑缓冲区
+
+取消操作
+Esc -> u 取消最后一次的修改
+
+末行命令
+Esc ->:set all 设置vi命令的默认设置
+Esc ->:set number / nonumber　显示行号
+Esc ->:set autoindent / noautoindent  自动缩进 
+Esc ->:set tabstop=x tap键宽度
+Esc ->:set list / nolist 显示制表位(^|)和行尾标志($)
+Esc ->:set showmode / noshowmode 显示用户处在什么模式下
+Esc ->:set ignorecase / noignorecase 搜索中忽略大小写
+Esc ->:set wrapmargin=5
+Esc ->:set term 设置终端类型
+Esc ->:set report 显示由面向行的命令修改过的行数目
+Esc ->:set terse 显示简短的警告信息
+Esc ->:set warn 在转到别的文件时，若没有保存当前文件则显示No write信息
+Esc ->:set autowrite 在":n"和":!"命令之前都自动保存文件
+Esc ->:set nomagic 允许在搜索模式中，使用前面不带\的特殊字符
+Esc ->:set nowarpscan 禁止vi在搜索到达文件两端时，又从另一端开始
+Esc ->:set mesg 允许vi显示其他用户用write写到自己终端上的信息
+
+搜索字符
+Esc /the 向下搜索
+Esc ?the 向上搜索
+Esc :/g/str1/s//str2/g 全局替换
+
+如何在vi中使用系统命令
+Esc -> :!ls
+例如：
+:!ls
+[No write since last change] 
+test1  test2  test3
+[Hit return to continue] 
+
+:!pwd
+/gkapp1/zhuzhen
+[Hit return to continue] 
+
+读取指定文件名中的相应内容
+:r file_name
+
+设置环境变量
+zhuzhen=guolili
+echo $zhuzhen
+unset zhuzhen
+
+-bash-2.05b@collect1 $ zhuzhen=guolili
+-bash-2.05b@collect1 $ echo $zhuzhen
+guolili
+-bash-2.05b@collect1 $ unset zhuzhen
+-bash-2.05b@collect1 $ echo $zhuzhen
+
+-bash-2.05b@collect1 $ echo i love $zhuzhen
+i love guolili
+-bash-2.05b@collect1 $ echo i love my$zhuzhen
+i love myguolili
+-bash-2.05b@collect1 $ echo i love $zhuzhenbaby
+i love
+-bash-2.05b@collect1 $ echo i love ${zhuzhen}baby
+i love guolilibaby
+
+-bash-2.05b@collect1 $ now=$(date)
+-bash-2.05b@collect1 $ echo $now
+Tue Aug 11 12:07:37 BEIST 2009
+-bash-2.05b@collect1 $ host=`hostname`----------------------注意用`，不是'
+-bash-2.05b@collect1 $ echo $host
+JF_P570_953B
+-bash-2.05b@collect1 $ echo "today is `date`"
+today is Tue Aug 11 12:08:23 BEIST 2009
+-bash-2.05b@collect1 $ echo "today is \------------------------用\表示换行
+> `date`"
+today is Tue Aug 11 12:25:16 BEIST 2009
+-bash-2.05b@collect1 $ echo "$SHELL"---------------------------和perl一样
+/usr/bin/bash
+-bash-2.05b@collect1 $ echo '$SHELL'---------------------------和perl一样
+$SHELL
+-bash-2.05b@collect1 $ echo \$SHELL----------------------------反斜杠
+$SHELL
+P570_1-bes%echo * $SHELL------------------列出目录下的所有文件名和$SHELL
+1.txt 123.txt 2.txt 3.txt BES_65_AIX_64.bin Edit1 Mail caseMgnt caseMgnt64 default-resources.dar.bak gk gknotify gknotify.tar log myt.tar nohup.out partition_log.txt.2009-07-24 patches.tar test_case testtimestamp tmp tomcat vsnotify y.tar yny /usr/bin/csh
+
+
+重定向（>,<或2>后面的文件是重定向目标文件）
+ls > test.txt 将ls命令的结果写到文件test.txt中（覆盖以前的内容）
+ls >> test.txt 将ls命令的结果追加到文件test.txt中（不覆盖以前的内容）
+cat zz 2> test.txt 没有zz文件，因此将错误信息写到test.txt文件中（覆盖以前的内容）
+cat zz 2>> test.txt 没有zz文件，因此将错误信息追加到test.txt文件中（不覆盖以前的内容）
+wc -w < test.txt 统计输入文件的单词数
+
+总结如下：
+command > out_file 2> err_file < in_file
+command >> out_file 2>> err_file < in_file
+command > out_file 2>&1 将日志输出到out_file，同时将错误日志也输出到out_file，（注意：和command 2>&1 > out_file不同，指的是先将command命令的错误信息输出到标准输出，即控制台，再将命令执行的结果输出到out_file）
+command 2> /dev/null 忽略所有错误信息
+
+
+管道 （前一个命令的输出是后一个命令的输入）
+who | wc -w
+过滤器
+ls -l | grep "20" | wc -w
+ls -l | tee out_file | wc -w 将ls -l的结果输出到out_file，并且统计ls -l的单词数，主要是tee命令的作用
+
+在一行执行多条命令
+ls -l; who
+返回
+total 24
+-rw-r--r--    1 collect1 asiainfo        193 Aug 13 12:14 out
+-rw-r--r--    1 collect1 asiainfo         20 Aug 13 11:11 t1
+-rw-r--r--    1 collect1 asiainfo          9 Aug 13 11:14 t2
+perform     pts/1       Aug 11 14:53     (10.11.178.22)  
+collect1    pts/2       Aug 13 11:01     (10.10.175.178)
+
+在多行中执行一条命令
+-bash-2.05b@collect1 $ ls \
+> -l
+total 24
+-rw-r--r--    1 collect1 asiainfo        193 Aug 13 12:14 out
+-rw-r--r--    1 collect1 asiainfo         20 Aug 13 11:11 t1
+-rw-r--r--    1 collect1 asiainfo          9 Aug 13 11:14 t2
+
+
+
+查看当前shell进程的进程id
+echo $$
+查看用户的进程
+ps -u 用户名 （ps -u collect1）
+、
+-bash-2.05b@collect1 $ echo $$---------------------显示第一层shell进程id
+692364
+-bash-2.05b@collect1 $ x=3  --------------只在第一层shell有效
+-bash-2.05b@collect1 $ y=5  --------------只在第一层shell有效
+-bash-2.05b@collect1 $ export x  --------------父进程对子进程有效，子进程对父进程无效
+-bash-2.05b@collect1 $ bash  --------------打开第二层shell
+bash-2.05b@collect1 $ echo $$---------------------显示第二层shell进程id
+258998
+bash-2.05b@collect1 $ echo $x  --------------输出x，有值，需要注意的是在子进程中修改x，只能在子进程中有效，退出到父进程后，x还是原来的值
+3
+bash-2.05b@collect1 $ echo $y  --------------输出y，无值，外层shell变量被屏蔽
+
+bash-2.05b@collect1 $ exit  ----------------退出第二层shell
+exit
+-bash-2.05b@collect1 $ echo $x  -------------输出x，有值
+3
+-bash-2.05b@collect1 $ echo $y  --------------输出y，有值
+5
+-bash-2.05b@collect1 $ 
+
+
+执行脚本的方式
+1 bash 脚本名，这种方式脚本是放在子进程中执行，因此父进程无法访问脚本中的变量
+2 脚本名（直接执行，需要执行权限chmod u+x 脚本名）特别要注意的这种方式必须把脚本的目录加入到path中，否则可能不能执行
+3 . 脚本名（注意脚本名前加空格），这种方式脚本是在当前进程中执行，因此当前进程可以访问脚本中的变量
+区别：1和2都是开启子进程执行脚本，而3是在本进程中执行
+
+查看命令的执行结果
+echo $?
+
+如：
+$ cd /zhuzhen
+ksh: /zhuzhen: Permission denied
+$ echo $?
+1
+
+返回值解释
+0：成功
+1 - 255：不成功
+
+ps命令
+-e 将除内核进程以外所有进程的信息写到标准输出
+-f 生成一个完整列表
+-k 列出内核进程
+-l 生成一长列表，具有F，S，UID，PID，PPID，C，PRI，NI，ADDR，SZ，WCHAN，TTY，TIME和CMD字段
+-m 列出内核线程和进程
+-o Format以Format变量指定的格式显示信息
+
+kill命令
+01 hangup
+02 interrupt
+03 quit
+09 kill signal
+15 termination signal(default) 相当于 kill 进程号
+
+nohup命令
+当退出(logout)系统的时候，进程不会被kill
+如果不指定重定向命令，默认会将日志输出到nohup.out文件
+
+fg %<jobnumber> 执行前台作业
+bg %<jobnumber> 执行后台作业
+-bash-3.00$ ls -R / > out 2> errfile &
+[1] 487598
+-bash-3.00$ jobs
+[1]+  Running                 ls -R / >out 2>errfile &
+-bash-3.00$ fg %1
+ls -R / >out 2>errfile
+
+[1]+  Stopped                 ls -R / >out 2>errfile
+-bash-3.00$ bg %1
+[1]+ ls -R / >out 2>errfile &
+-bash-3.00$ jobs
+[1]+  Running                 ls -R / >out 2>errfile &
+-bash-3.00$ kill %1
+-bash-3.00$ jobs
+[1]+  Terminated              ls -R / >out 2>errfile
+-bash-3.00$ jobs
+-bash-3.00$ 
+
+
+find命令
+find . -name sum 查找当前目录以及子目录中名字为sum的文件（在其他unix操作系统下可能要用find . -name sum -print命令）
+find . -name 'World*.obd' 查找当前目录以及子目录中名字为World*.obd的文件
+find . -name 'World*.obd' -exec ls -l {} \; 对查询的结果再进行ls，{}为查询结果，\;一定要有，否则会报错
+find . -name m\* -ok rm {} \; 对查询的结果再进行rm，-ok表示互动式的删除文件，会提示是否要删除文件，让用户选择
+find . -name zhuzhen -o -name guolili 查询根目录及子目录中名字为zhuzhen或者为guolili的文件
+find / -name zhuzhen 2> errfile 查询根目录及子目录中名字为zhuzhen的文件，并将错误打印到errfile
+find . \(-name a.out -o -name '*.o' -o -name 'core'\) -exec rm {} \; 删除括号中的临时文件
+find . | cpio -pdumv /path/to/dest/dir 复制当前目录及子目录的所有文件到/path/to/dest/dir中，同时保持每个文件和子目录的权限，时间和所有权
+
+grep命令（egrep，fgrep）
+grep 'zhuzhen' fileName 在文件fileName中查找zhuzhen
+grep 'zhuzhen' fileName* 在以fileName开头的文件中查找zhuzhen
+
+grep通配符
+^ 行首
+$ 行尾
+. 任意单个字符（和shell不一样，shell用?表示）
+* 任意字符，可以多个（和shell一样）
+[-] 单个字符（和shell一样）
+
+grep选项
+-v 显示不匹配的内容
+-c 显示匹配的总行数
+-l 显示匹配行文件的名字
+-n 显示匹配的具体行号
+-i 忽略大小写匹配
+-w 全字匹配
+
+egrep '800|817' phone 可以用|这种更复杂的正则表达式
+fgrep 'HW' phone 只能是字符串'HW'，不能是正则表达式
+grep '800*' phone 不能使用|这种复杂的正则表达式
+
+sort命令
+sort fileName
+
+head命令
+head -5 fileName 查看fileName的前5行
+head fileName 默认看前10行
+
+tail命令
+tail -20 fileName 查看fileName的后20行
+tail +20 fileName 查看fileName从20行到最后一行
+
+xargs命令
+
+-t 追踪
+-I 插入
+
+-------------------------------------------批量改文件的名字------------------------------
+-bash-2.05b@collect1 $ ls
+apple   banana  carrot
+-bash-2.05b@collect1 $ ls | xargs -t -I {} mv {} {}.old
+mv apple apple.old 
+mv banana banana.old 
+mv carrot carrot.old 
+-bash-2.05b@collect1 $ ls
+apple.old   banana.old  carrot.old
+-----------------------------------------------------------------------------------------
+
+-------------------------------------------批量删除文件----------------------------------
+-bash-2.05b@collect1 $ ls
+apple.old   banana.old  carrot.old
+-bash-2.05b@collect1 $ ls | xargs -t rm
+rm apple.old banana.old carrot.old 
+-bash-2.05b@collect1 $ ls
+-bash-2.05b@collect1 $
+-----------------------------------------------------------------------------------------
+
+find . -name '*.obd' | xargs -t rm 搜索*.obd文件并删除
+find . -name '*.obd' | xargs -t grep -l Hello 搜索*.obd文件并检索文件中有Hello的文件名
+
+-links选项
+find /home -type f -links +1 | xargs ls -li 搜索/home及子目录下链接数大于1的文件并ls出来
+
+alias命令
+可以在环境变量中添加
+alias mylinks='find . -type f -links +1 | xargs ls -li'
+alias myrm='find . -type f -mtime +30 | xargs rm'
+然后就可以在命令行执行
+mylinks或myrm
+
+which，whereis，whence命令
+-bash-2.05b@collect1 $ which grep ifconfig gcc
+/usr/bin/grep
+/etc/ifconfig
+/usr/bin/gcc
+
+-bash-2.05b@collect1 $ whereis grep ifconfig gcc
+grep: /usr/bin/grep /usr/ucb/grep
+ifconfig: /etc/ifconfig /usr/sbin/ifconfig /usr/sbin/ifconfig.gre
+gcc: /usr/bin/gcc
+
+-bash-2.05b@collect1 $ ksh
+s-v@u $ whence -pv ifconfig-------------------使用在ksh中
+ifconfig is /etc/ifconfig
+
+file命令
+帮助我们了解文件的类型
+-bash-2.05b@collect1 $ file /usr/bin/gcc
+/usr/bin/gcc: executable (RISC System/6000) or object module 
+-bash-2.05b@collect1 $ ls
+AIOXINSTALL    log            sh             sysinfo        zhuzhen
+Mail           prod30         start_monitor  yanzh
+-bash-2.05b@collect1 $ file zhuzhen
+zhuzhen: directory
+-bash-2.05b@collect1 $ ls > ttt
+-bash-2.05b@collect1 $ file ttt
+ttt: ascii text
+-bash-2.05b@collect1 $ more ttt
+apple
+ttt
+-bash-2.05b@collect1 $ file -f ttt
+apple: empty
+ttt: ascii text
+-bash-2.05b@collect1 $ 
+
+diff命令
+
+c:change
+d:delete
+a:append
+<:remove the line
+>:add the line
+
+-bash-2.05b@collect1 $ ls
+name1  name2
+-bash-2.05b@collect1 $ more name1
+john
+tom
+lily
+-bash-2.05b@collect1 $ more name2
+john
+kate
+lily
+-bash-2.05b@collect1 $ diff name1 name2
+2c2    ----------------------------------------------2c2：第一个2表示第一个文件的第二行，c表示change，第二个2表示第二个文件的第二行，也就是说第一个文件的第二行要换成第二个文件的第二行才和第二个文件相等
+< tom
+---
+> kate
+-bash-2.05b@collect1 $ 
+
+
+
+
+-bash-2.05b@collect1 $ more name1
+john
+tom
+lily
+-bash-2.05b@collect1 $ more name2
+john
+kate
+tom
+lily
+-bash-2.05b@collect1 $ diff name1 name2
+1a2   ----------------------------------------------1a2：1表示第一个文件的第一行之后增加一行，a表示append，2表示第二个文件的第二行，也就是说第一个文件的第一行之后要增加第二个文件的第二行才和第二个文件相等
+> kate
+-bash-2.05b@collect1 $ 
+
+
+-bash-2.05b@collect1 $ more name1
+john
+tom
+lily
+-bash-2.05b@collect1 $ more name2
+john
+kate
+tom
+lily
+-bash-2.05b@collect1 $ diff name2 name1
+2d1   ----------------------------------------------2d1: 2表示第一个文件的第二行要删除，d表示delete，1表示第二个文件的第二行，也就是第一个文件的第二行要删除才和第二个文件相等
+< kate
+-bash-2.05b@collect1 $ 
+
+
+cmp命令
+-bash-2.05b@collect1 $ ls
+name1  name2
+-bash-2.05b@collect1 $ more name1
+john
+tom
+lily
+-bash-2.05b@collect1 $ more name2
+john
+kate
+tom
+lily
+-bash-2.05b@collect1 $ cmp name1 name2
+name1 name2 differ: char 6, line 2
+-bash-2.05b@collect1 $ cmp -l name1 name2
+     6 164 153
+     7 157 141
+     8 155 164
+     9  12 145
+    10 154  12
+    11 151 164
+    12 154 157
+    13 171 155
+cmp: EOF on name1
+-bash-2.05b@collect1 $ 
+
+
+dircmp命令
+dircmp -d /home/dir1 /home/dir2
+
+-------------------------------------------------------------------------------dircmp zhuzhen1 zhuzhen
+-bash-2.05b@collect1 $ ls
+AIOXINSTALL    log            sh             sysinfo        zhuzhen
+Mail           prod30         start_monitor  yanzh          zhuzhen1
+-bash-2.05b@collect1 $ cd zhuzhen1
+-bash-2.05b@collect1 $ ls -R
+name1
+-bash-2.05b@collect1 $ cd
+-bash-2.05b@collect1 $ cd zhuzhen
+-bash-2.05b@collect1 $ ls -R
+name1  name2
+-bash-2.05b@collect1 $ cd 
+-bash-2.05b@collect1 $ dircmp zhuzhen1 zhuzhen
+
+
+Aug 18 20:09 2009 zhuzhen1 only and zhuzhen only Page 1
+
+
+         ./name2
+
+Aug 18 20:09 2009 Comparison of zhuzhen1 and zhuzhen Page 1
+
+
+directory       .
+different       ./name1
+
+-bash-2.05b@collect1 $
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------dircmp -d zhuzhen1 zhuzhen
+-bash-2.05b@collect1 $ dircmp -d zhuzhen1 zhuzhen
+
+
+Aug 18 20:11 2009 zhuzhen1 only and zhuzhen only Page 1
+
+
+         ./name2
+
+Aug 18 20:11 2009 Comparison of zhuzhen1 and zhuzhen Page 1
+
+
+directory       .
+different       ./name1
+
+Aug 18 20:11 2009 diff of ./name1 in zhuzhen1 and zhuzhen Page 1
+
+
+1c1,3
+< ttttttt
+---
+> john
+> tom
+> lily
+
+-bash-2.05b@collect1 $ 
+-------------------------------------------------------------------------------
+
+
+
+
+怎么在新建文件末尾加进程id
+touch myfile$$
+-bash-2.05b@collect1 $ touch myfile$$
+-bash-2.05b@collect1 $ ls
+myfile385666
+
+怎么在新建文件末尾加时间
+-bash-2.05b@collect1 $ touch myfile.$(date +'%m%d')
+-bash-2.05b@collect1 $ ls
+myfile.0818
+-bash-2.05b@collect1 $ 
+
+
+topas和vmstat命令
+查看cpu及内存使用率
+
+shell变量
+$$ 进程id
+$0 shell脚本名
+$# 传递给shell脚本的参数个数
+$* 传递给shell脚本的所有的命令行参数
+$? 上一个命令的返回值
+$! 上一个后台进程的pid
+
+bash脚本最大可以有9个参数
+ksh脚本没有限制
+
+&& || 命令
+ls t* && rm *  如果有t开头的文件，则删除所有的文件
+ls t* || rm *  如果没有t开头的文件，则删除所有的文件
+
+test 表达式 or [表达式] or [[表达式]]
+$stirng1 = $string2 字符串相等
+$string1 != $string2 字符串不等
+$number1 -eq $number2 数字相等
+$number1 -ne $number2 数字不等
+-e $file 文件存在
+-d $file 文件是目录
+-r $file 文件可读
+-w $file 文件可写
+
+脚本举例
+#!/usr/bin/sh
+echo $1
+echo $2
+echo $3
+
+var1=6
+var2=7
+expr $var1 - $var2
+expr $var1 + $var2
+expr $var1 / $var2
+expr $var1 \* $var2
+expr $var1 % $var2
+expr \( $var1 - $var2 \) \* 5
+var3=$(expr $var1 - $var2)
+echo $var3
+
+x=1
+
+while [[ $x -lt 9 ]]
+do
+        echo "$x $(date)"
+        x=$(expr $x + 1)
+done
+
+echo "input parameter"
+read name
+echo $name
+
+for var in test.sh test22 test24
+do
+        wc -l $var
+done
+
+for FILE in ./*
+do
+        echo $FILE
+done
+
+if [[ $# -ne 1 ]]
+then
+        echo "empty parameter"
+        exit 1
+else
+        echo "have parameter"
+fi
+exit
+
+
+挂载iso文件到linux
+如果/home/anders下有个文件夹cd和iso文件delphi.iso
+则挂载iso到cd目录的命令为：
+mount -t iso9660 -o loop delphi.iso /home/anders/cd
+卸载为
+umount /home/anders/cd

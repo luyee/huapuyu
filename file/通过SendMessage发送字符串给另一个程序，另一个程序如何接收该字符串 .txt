@@ -1,0 +1,73 @@
+通过SendMessage发送字符串给另一个程序，另一个程序如何接收该字符串  
+
+   
+ 
+   
+
+发送程序为：
+SendMessage(hWnd, WM_USER + 1, 0, Integer(PChar('hello world')));
+
+接收程序为：
+procedure TForm1.WndProc(var Message: TMessage);
+begin
+  if Message.Msg = WM_USER + 1 then
+  begin
+    //如何接收传递过来的字符串'hello world'
+  end
+  else
+    inherited WndProc(Message);
+end;
+
+  
+  jadeluo(秀峰) ( ) 信誉：100    Blog  2007-3-5 14:05:41  得分: 0  
+ 
+ 
+   
+用SendMessage函数, 最多利用wParam和lParam两个参数发送8个字符(对应wParam和lParam所占据的8个字节)。
+进程间要进行字符串内容的通讯，SendMessage不是一个好方法。换命名管道、DDE、Socket、共享内存……吧。
+
+  
+ 
+Top  
+ HsWong() ( ) 信誉：100    Blog  2007-03-05 15:02:55  得分: 0  
+ 
+ 
+   用进程间通信吧,其中利用WM_COPYDATA消息也可以
+发送:
+TForm1 = class(TForm)
+   Edit1: TEdit;
+private
+   { Private declarations }
+public
+   procedure Send(Msg:string);   
+   procedure Mymessage(var t:TWmCopyData);message WM_COPYDATA;
+   { Public declarations }
+
+end;
+
+var
+
+Form1: TForm1;
+
+implementation
+
+procedure TForm1.Send(Msg:string); //发送数据
+var
+   ds: TCopyDataStruct;
+begin
+   ds.cbData := Length (Msg) + 1;
+   GetMem (ds.lpData, ds.cbData ); //为传递的数据区分配内存
+   StrCopy (ds.lpData, PChar (Msg));
+   SendMessage (Handle, WM_COPYDATA, Handle,Cardinal(@ds)) // 发送WM_COPYDATA消息
+   FreeMem (ds.lpData);
+end;
+
+procedure TForm2.Mymessage(var t:TWmCopyData);
+begin
+   Edit1.text:=StrPas(t.CopyDataStruct^.lpData);//接受数据并显示。
+end;
+
+
+  
+ 
+Top  

@@ -1,0 +1,3 @@
+用CompareValidator   
+operator设成DateTypeCheck   
+type设成Date

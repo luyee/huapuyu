@@ -1,0 +1,27 @@
+1.内存分为三个区域：全局变量区，栈区，堆区
+全局变量区：专门存放全局变量
+栈区：分配在栈上的变量可被栈管理器自动释放
+堆区：堆上的变量内存必须人工去释放
+
+2.指针类变量
+指针类的变量在声明为全局变量时被初始化为空值,在声明为局部变量时则初始化为一个随机数,对于指针类型一般
+要使用一些代码来完成内存分配
+
+3.动态分配内存的函数和过程
+procedure GetMem(Var P: Pointer; Size: Integer); 
+分配大小为Size字节的内存块,并让P指向它
+
+procedure AllocMem(Size: Cardinal):Pointer;
+分配大小为Size字节的内存块并始初化为零,并返回地址指针
+
+procedure ReallocMem(Var P: Pointer; Size: Integer);
+在途中更改先前用GetMem或者AllocMem分配的内存大小
+
+procedure FreeMem(Var P: Pointer);
+使用GetMem和AllocMem分配的内存都应该用FreeMem释放
+
+Procedure New(Var P: Pointer);
+用New分配的内存大小由参数P的数据类型确定，因此，不要使用它给无类型指针变量分配内存.
+
+Procedure Dispose(Var P: Pointer);
+释放该内存块使用dispose

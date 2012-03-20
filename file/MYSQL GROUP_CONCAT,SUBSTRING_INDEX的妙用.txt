@@ -1,0 +1,65 @@
+在一个表ta中数据为：
++----+------+
+| id | name |
++----+------+
+| 1 | a    |
+| 1 | b    |
+| 1 | c    |
+| 1 | d    |
+| 2 | a    |
+| 2 | b    |
+| 2 | c    |
+| 3 | d    |
++----+------+
+从里面取数据要求完成如下效果:
++----+--------+
+| id | name    |
++----+--------+
+| 1 | a,b,c,d |
+| 2 | a,b,c    |
+| 3 | d          |
++----+--------+
+在MySQL4.1中，加入了GROUP_CONCAT这个函数，我们就可以很轻松的完成这个任务
+SQL代码
+SELECT `id`,GROUP_CONCAT(`name` ORDERBY `name` DESC SEPARATOR ',') AS name FROM `ta` GROUPBY `id`  
+但是如果要取得每个ID的前2个数据时即完成如下效果：
++----+------+
+| id | name |
++----+------+
+| 1 | a,b    |
+| 2 | a,b    |
+| 3 | d       |
++----+------+
+因为GROUP_CONCAT函数虽然支持ORDER BY但是却不支持LIMIT，这个时候只能用变通的手段了，用SUBSTRING_INDEX函数，这个函数在MySQL手册中的说明是：
+SQL代码
+SUBSTRING_INDEX(str,delim,count)   返回字符串 str 中在第 count 个出现的分隔符 delim 之前的子串。如果 count 是一个正数，返回从最后的(从左边开始计数)分隔符到左边所有字符。如果 count 是负数，返回从最后的(从右边开始计数)分隔符到右边所有字符：   
+在上面一个例子中，我们使用“,”来分隔数据，取前面2个，就可以这样写：
+SQL代码
+SELECT `id`,SUBSTRING_INDEX(SELECT `id`,GROUP_CONCAT(`name` ORDERBY `name` DESC SEPARATOR ','),',',2) AS `name` FROM `ta` GROUPBY `id`  
+-----------------------------------
+下面是我写的
+实例，从user表中查询前两条记录的用户名和密码
+mysql> select SUBSTRING_INDEX(GROUP_CONCAT(user,0x7c7c,password),0x2C,2) from us
+er;
++------------------------------------------------------------+
+| SUBSTRING_INDEX(GROUP_CONCAT(user,0x7c7c,password),0x2C,2) |
++------------------------------------------------------------+
+| root||4dea885472fd426b,root||4dea885472fd426b              |
++------------------------------------------------------------+
+1 row in set (0.01 sec)
+
+其实上面只能从左边开始取数，如果我只要2-3条记录呢，好象上SUBSTRING_INDEX函数做不到，不过可以通过嵌套查询实现此功能，取user表的第2-3条记录
+
+mysql> select group_concat(user,0x7c7c,password) from (select user,password from
+ user limit 2,2) as test;
++-----------------------------------------------+
+| group_concat(user,0x7c7c,password)            |
++-----------------------------------------------+
+| root||4dea885472fd426b,sek3||36ff78fd0cf7ee30 |
++-----------------------------------------------+
+1 row in set (0.01 sec)
+ 
+ 
+附注：
+ 
+SUBSTRING_INDEX(str,delim,count) 返回字符串 str 中在第 count 个出现的分隔符 delim 之前的子串。如果 count 是一个正数，返回从最后的(从左边开始计数)分隔符到左边所有字符。如果 count 是负数，返回从最后的(从右边开始计数)分隔符到右边所有字符。 mysql>SELECT SUBSTRING_INDEX('www.baidu.com', '.', 2); -> 'www.baidu' mysql> SELECT SUBSTRING_INDEX('www.baidu.com', '.', -2); -> 'baidu.com' mysql的replace函数 replace替换函数 replace(field,str,str1) 将表里面的 field字段的str替换为str1 原表里的，name字段的值是你好abc; UPDATE table SET name=REPLACE(name, 'abc', '123'); 替换完以后的值 为你好123

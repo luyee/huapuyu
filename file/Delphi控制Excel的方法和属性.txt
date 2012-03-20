@@ -1,0 +1,291 @@
+Delphi控制Excel2000心得 
+
+(一) 使用动态创建的方法
+
+首先创建 Excel 对象，使用ComObj:
+var ExcelApp: Variant;
+ExcelApp := CreateOleObject( 'Excel.Application' );
+
+1) 显示当前窗口：
+ExcelApp.Visible := True;
+
+2) 更改 Excel 标题栏：
+ExcelApp.Caption := '应用程序调用 Microsoft Excel';
+
+3) 添加新工作簿：
+ExcelApp.WorkBooks.Add;
+
+4) 打开已存在的工作簿：
+ExcelApp.WorkBooks.Open( 'C:\Excel\Demo.xls' );
+
+5) 设置第2个工作表为活动工作表：
+ExcelApp.WorkSheets[2].Activate; 
+或 
+ExcelApp.WorksSheets[ 'Sheet2' ].Activate;
+
+6) 给单元格赋值：
+ExcelApp.Cells[1,4].Value := '第一行第四列';
+
+7) 设置指定列的宽度（单位：字符个数），以第一列为例：
+ExcelApp.ActiveSheet.Columns[1].ColumnsWidth := 5;
+
+8) 设置指定行的高度（单位：磅）（1磅＝0.035厘米），以第二行为例：
+ExcelApp.ActiveSheet.Rows[2].RowHeight := 1/0.035; // 1厘米
+
+9) 在第8行之前插入分页符：
+ExcelApp.WorkSheets[1].Rows[8].PageBreak := 1;
+
+10) 在第8列之前删除分页符：
+ExcelApp.ActiveSheet.Columns[4].PageBreak := 0;
+
+11) 指定边框线宽度：
+ExcelApp.ActiveSheet.Range[ 'B3:D4' ].Borders[2].Weight := 3;
+1-左 2-右 3-顶 4-底 5-斜( \ ) 6-斜( / )
+
+12) 清除第一行第四列单元格公式：
+ExcelApp.ActiveSheet.Cells[1,4].ClearContents;
+
+13) 设置第一行字体属性：
+ExcelApp.ActiveSheet.Rows[1].Font.Name := '隶书';
+ExcelApp.ActiveSheet.Rows[1].Font.Color := clBlue;
+ExcelApp.ActiveSheet.Rows[1].Font.Bold := True;
+ExcelApp.ActiveSheet.Rows[1].Font.UnderLine := True;
+
+14) 进行页面设置：
+
+a.页眉：
+ExcelApp.ActiveSheet.PageSetup.CenterHeader := '报表演示';
+b.页脚：
+ExcelApp.ActiveSheet.PageSetup.CenterFooter := '第&P页';
+c.页眉到顶端边距2cm：
+ExcelApp.ActiveSheet.PageSetup.HeaderMargin := 2/0.035;
+d.页脚到底端边距3cm：
+ExcelApp.ActiveSheet.PageSetup.HeaderMargin := 3/0.035;
+e.顶边距2cm：
+ExcelApp.ActiveSheet.PageSetup.TopMargin := 2/0.035;
+f.底边距2cm：
+ExcelApp.ActiveSheet.PageSetup.BottomMargin := 2/0.035;
+g.左边距2cm：
+ExcelApp.ActiveSheet.PageSetup.LeftMargin := 2/0.035;
+h.右边距2cm：
+ExcelApp.ActiveSheet.PageSetup.RightMargin := 2/0.035;
+i.页面水平居中：
+ExcelApp.ActiveSheet.PageSetup.CenterHorizontally := 2/0.035;
+j.页面垂直居中：
+ExcelApp.ActiveSheet.PageSetup.CenterVertically := 2/0.035;
+k.打印单元格网线：
+ExcelApp.ActiveSheet.PageSetup.PrintGridLines := True;
+
+15) 拷贝操作：
+
+a.拷贝整个工作表：
+ExcelApp.ActiveSheet.Used.Range.Copy;
+b.拷贝指定区域：
+ExcelApp.ActiveSheet.Range[ 'A1:E2' ].Copy;
+c.从A1位置开始粘贴：
+ExcelApp.ActiveSheet.Range.[ 'A1' ].PasteSpecial;
+d.从文件尾部开始粘贴：
+ExcelApp.ActiveSheet.Range.PasteSpecial;
+
+16) 插入一行或一列：
+a. ExcelApp.ActiveSheet.Rows[2].Insert;
+b. ExcelApp.ActiveSheet.Columns[1].Insert;
+
+17) 删除一行或一列：
+a. ExcelApp.ActiveSheet.Rows[2].Delete;
+b. ExcelApp.ActiveSheet.Columns[1].Delete;
+
+18) 打印预览工作表：
+ExcelApp.ActiveSheet.PrintPreview;
+
+19) 打印输出工作表：
+ExcelApp.ActiveSheet.PrintOut;
+
+20) 工作表保存：
+if not ExcelApp.ActiveWorkBook.Saved then
+ExcelApp.ActiveSheet.PrintPreview;
+
+21) 工作表另存为：
+ExcelApp.SaveAs( 'C:\Excel\Demo1.xls' );
+
+22) 放弃存盘：
+ExcelApp.ActiveWorkBook.Saved := True;
+
+23) 关闭工作簿：
+ExcelApp.WorkBooks.Close;
+
+24) 退出 Excel：
+ExcelApp.Quit;
+
+(二) 使用Delphi 控件方法
+在Form中分别放入ExcelApplication, ExcelWorkbook和ExcelWorksheet。 
+
+1） 打开Excel 
+ExcelApplication1.Connect;
+
+2) 显示当前窗口：
+ExcelApplication1.Visible[0]:=True;
+
+3) 更改 Excel 标题栏：
+ExcelApplication1.Caption := '应用程序调用 Microsoft Excel';
+
+4) 添加新工作簿：
+ExcelWorkbook1.ConnectTo(ExcelApplication1.Workbooks.Add(EmptyParam,0));
+5) 添加新工作表：
+var Temp_Worksheet: _WorkSheet;
+begin
+Temp_Worksheet:=ExcelWorkbook1.
+WorkSheets.Add(EmptyParam,EmptyParam,EmptyParam,EmptyParam,0) as _WorkSheet;
+ExcelWorkSheet1.ConnectTo(Temp_WorkSheet);
+End;
+6) 打开已存在的工作簿：
+ExcelApplication1.Workbooks.Open (c:\a.xls
+EmptyParam,EmptyParam,EmptyParam,EmptyParam,
+EmptyParam,EmptyParam,EmptyParam,EmptyParam,
+EmptyParam,EmptyParam,EmptyParam,EmptyParam,0)
+
+7) 设置第2个工作表为活动工作表：
+ExcelApplication1.WorkSheets[2].Activate; 或
+ExcelApplication1.WorksSheets[ 'Sheet2' ].Activate;
+
+8) 给单元格赋值：
+ExcelApplication1.Cells[1,4].Value := '第一行第四列';
+
+9) 设置指定列的宽度（单位：字符个数），以第一列为例：
+ExcelApplication1.ActiveSheet.Columns[1].ColumnsWidth := 5;
+
+10) 设置指定行的高度（单位：磅）（1磅＝0.035厘米），以第二行为例：
+ExcelApplication1.ActiveSheet.Rows[2].RowHeight := 1/0.035; // 1厘米
+
+11) 在第8行之前插入分页符：
+ExcelApplication1.WorkSheets[1].Rows[8].PageBreak := 1;
+
+12) 在第8列之前删除分页符：
+ExcelApplication1.ActiveSheet.Columns[4].PageBreak := 0;
+
+13) 指定边框线宽度：
+ExcelApplication1.ActiveSheet.Range[ 'B3:D4' ].Borders[2].Weight := 3;
+1-左 2-右 3-顶 4-底 5-斜( \ ) 6-斜( / )
+
+14) 清除第一行第四列单元格公式：
+ExcelApplication1.ActiveSheet.Cells[1,4].ClearContents;
+
+15) 设置第一行字体属性：
+ExcelApplication1.ActiveSheet.Rows[1].Font.Name := '隶书';
+ExcelApplication1.ActiveSheet.Rows[1].Font.Color := clBlue;
+ExcelApplication1.ActiveSheet.Rows[1].Font.Bold := True;
+ExcelApplication1.ActiveSheet.Rows[1].Font.UnderLine := True;
+
+16) 进行页面设置：
+a.页眉：
+ExcelApplication1.ActiveSheet.PageSetup.CenterHeader := '报表演示';
+b.页脚：
+ExcelApplication1.ActiveSheet.PageSetup.CenterFooter := '第&P页';
+c.页眉到顶端边距2cm：
+ExcelApplication1.ActiveSheet.PageSetup.HeaderMargin := 2/0.035;
+d.页脚到底端边距3cm：
+ExcelApplication1.ActiveSheet.PageSetup.HeaderMargin := 3/0.035;
+e.顶边距2cm：
+ExcelApplication1.ActiveSheet.PageSetup.TopMargin := 2/0.035;
+f.底边距2cm：
+ExcelApplication1.ActiveSheet.PageSetup.BottomMargin := 2/0.035;
+g.左边距2cm：
+ExcelApplication1.ActiveSheet.PageSetup.LeftMargin := 2/0.035;
+h.右边距2cm：
+ExcelApplication1.ActiveSheet.PageSetup.RightMargin := 2/0.035;
+i.页面水平居中：
+ExcelApplication1.ActiveSheet.PageSetup.CenterHorizontally := 2/0.035;
+j.页面垂直居中：
+ExcelApplication1.ActiveSheet.PageSetup.CenterVertically := 2/0.035;
+k.打印单元格网线：
+ExcelApplication1.ActiveSheet.PageSetup.PrintGridLines := True;
+
+17) 拷贝操作：
+
+a.拷贝整个工作表：
+ExcelApplication1.ActiveSheet.Used.Range.Copy;
+
+b.拷贝指定区域：
+ExcelApplication1.ActiveSheet.Range[ 'A1:E2' ].Copy;
+
+c.从A1位置开始粘贴：
+ExcelApplication1.ActiveSheet.Range.[ 'A1' ].PasteSpecial;
+
+d.从文件尾部开始粘贴：
+ExcelApplication1.ActiveSheet.Range.PasteSpecial;
+
+18) 插入一行或一列：
+a. ExcelApplication1.ActiveSheet.Rows[2].Insert;
+b. ExcelApplication1.ActiveSheet.Columns[1].Insert;
+
+19) 删除一行或一列：
+a. ExcelApplication1.ActiveSheet.Rows[2].Delete;
+b. ExcelApplication1.ActiveSheet.Columns[1].Delete;
+
+20) 打印预览工作表：
+ExcelApplication1.ActiveSheet.PrintPreview;
+
+21) 打印输出工作表：
+ExcelApplication1.ActiveSheet.PrintOut;
+
+22) 工作表保存：
+if not ExcelApplication1.ActiveWorkBook.Saved then
+ExcelApplication1.ActiveSheet.PrintPreview;
+
+23) 工作表另存为：
+ExcelApplication1.SaveAs( 'C:\Excel\Demo1.xls' );
+
+24) 放弃存盘：
+ExcelApplication1.ActiveWorkBook.Saved := True;
+
+25) 关闭工作簿：
+ExcelApplication1.WorkBooks.Close;
+
+26) 退出 Excel：
+ExcelApplication1.Quit;
+ExcelApplication1.Disconnect;
+
+(三) 使用Delphi 控制Excle二维图
+在Form中分别放入ExcelApplication, ExcelWorkbook和ExcelWorksheet
+var asheet1,achart, range:variant;
+
+1）选择当第一个工作薄第一个工作表
+asheet1:=ExcelApplication1.Workbooks[1].Worksheets[1];
+
+2）增加一个二维图
+achart:=asheet1.chartobjects.add(100,100,200,200);
+
+3）选择二维图的形态
+achart.chart.charttype:=4;
+
+4）给二维图赋值
+series:=achart.chart.seriescollection;
+range:=sheet1!r2c3:r3c9;
+series.add(range,true);
+5）加上二维图的标题
+achart.Chart.HasTitle:=True;
+achart.Chart.ChartTitle.Characters.Text:=’ Excle二维图’ 
+
+6）改变二维图的标题字体大小
+achart.Chart.ChartTitle.Font.size:=6;
+
+7）给二维图加下标说明
+achart.Chart.Axes(xlCategory, xlPrimary).HasTitle := True;
+achart.Chart.Axes(xlCategory, xlPrimary).AxisTitle.Characters.Text := '下标说明';
+
+8）给二维图加左标说明
+achart.Chart.Axes(xlValue, xlPrimary).HasTitle := True;
+achart.Chart.Axes(xlValue, xlPrimary).AxisTitle.Characters.Text := '左标说明';
+
+9）给二维图加右标说明
+achart.Chart.Axes(xlValue, xlSecondary).HasTitle := True;
+achart.Chart.Axes(xlValue, xlSecondary).AxisTitle.Characters.Text := '右标说明';
+
+10）改变二维图的显示区大小
+achart.Chart.PlotArea.Left := 5;
+achart.Chart.PlotArea.Width := 223;
+achart.Chart.PlotArea.Height := 108;
+
+11）给二维图坐标轴加上说明
+achart.chart.seriescollection[1].NAME:='坐标轴说明';
+ 

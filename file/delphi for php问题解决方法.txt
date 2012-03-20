@@ -1,0 +1,10 @@
+1.支持中文方法?
+
+jiania 答:其实很简单的,在Tool->Options中点击Editor Options，把use utf-8 to create new units and forms的勾去掉。然后再点击PHP，把default charset设为gb2312，再勾上set these values on php.ini,点击ok!
+
+2.修改自带的web service 端口方法 ?
+在Too->Options-PHP->Internal Webserver->port 默认是:3569,各位可以修改自己想要的端口.
+
+3.如果修改其自动装裁的PHP环境变量呢?
+
+jiania 答:在软件安装目录,以笔者开发环境为例:\Program Files\CodeGear\Delphi for PHP\1.0\php 目录下有一个方件叫做.php.ini.template,新手不要直接改变php.ini文件,因为每当启动Delphi for php主程序时,程序会自动加裁php.ini.template的所有变量参数,然后改掉php.ini,再加加载进apache里.

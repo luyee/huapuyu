@@ -1,0 +1,591 @@
+******************************************************************************************************************************
+alert log
+******************************************************************************************************************************
+
+SQL> show parameter dump
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+background_core_dump                 string      partial
+background_dump_dest                 string      /u01/diag/rdbms/wilson/wilson/  -------------------其中有alert log日志和background process trace files
+                                                 trace
+core_dump_dest                       string      /u01/diag/rdbms/wilson/wilson/
+                                                 cdump
+max_dump_file_size                   string      unlimited
+shadow_core_dump                     string      partial
+user_dump_dest                       string      /u01/diag/rdbms/wilson/wilson/
+                                                 trace
+SQL> show parameter log_ch
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+log_checkpoint_interval              integer     0
+log_checkpoint_timeout               integer     1800
+log_checkpoints_to_alert             boolean     FALSE------------------------------------将其设置为true，则在alert log日志中会记录checkpoint信息
+
+alter system set log_checkpoints_to_alert=true scope=both;
+
+alter system checkpoint;--------设置检查点
+
+cat alert_wilson.log---------查看日志
+
+Beginning global checkpoint up to RBA [0x22.532.10], SCN: 1452720
+Completed checkpoint up to RBA [0x22.532.10], SCN: 1452720
+日志最后两行记录着检查点信息
+
+
+******************************************************************************************************************************
+background process trace files
+******************************************************************************************************************************
+more wilson_ora_10694.trc（注意文件格式）
+
+
+
+******************************************************************************************************************************
+user trace files（用户）
+******************************************************************************************************************************
+more wilson_ora_10694.trc（注意文件格式）
+
+
+[oracle@centos4 ~]$ sqlplus /nolog
+
+SQL*Plus: Release 11.1.0.6.0 - Production on Tue Dec 15 16:00:49 2009
+
+Copyright (c) 1982, 2007, Oracle.  All rights reserved.
+
+SQL> conn /as sysdba;
+Connected to an idle instance.
+SQL> startup
+ORACLE instance started.
+
+Total System Global Area  422670336 bytes
+Fixed Size                  1300352 bytes
+Variable Size             276826240 bytes
+Database Buffers          138412032 bytes
+Redo Buffers                6131712 bytes
+Database mounted.
+Database opened.
+SQL> conn anders/123
+Connected.
+SQL> show parameter dump;------------------------------------查看用户trace文件目录
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+background_core_dump                 string      partial
+background_dump_dest                 string      /u01/diag/rdbms/wilson/wilson/
+                                                 trace
+core_dump_dest                       string      /u01/diag/rdbms/wilson/wilson/
+                                                 cdump
+max_dump_file_size                   string      unlimited
+shadow_core_dump                     string      partial
+user_dump_dest                       string      /u01/diag/rdbms/wilson/wilson/------------------------用户trace文件目录
+                                                 trace
+SQL> select sid, serial#, username from v$session;
+
+       SID    SERIAL# USERNAME
+---------- ---------- ------------------------------
+       143          1
+       144          1
+       148          1
+       149          1
+       151          1
+       153          8
+       156          1
+       157          1
+       158          1
+       159          1
+       160          1
+
+       SID    SERIAL# USERNAME
+---------- ---------- ------------------------------
+       161          1
+       162          1
+       163          1
+       164          3
+       165          1
+       166          1
+       167          1
+       168          1
+       169          1
+       170          7 ANDERS--------------------------------------------------用户session记录，
+
+21 rows selected.
+
+SQL> show user;
+USER is "ANDERS"
+SQL> alter session set sql_trace=true;-----------------------------------------------用户自己打开trace
+SQL> execute dbms_system.set_sql_trace_in_session(170,7,TRUE);-----------------------管理员打开指定用户的trace
+
+Session altered.
+
+SQL> !ps -ef | grep oracle
+root      6524  5497  0 16:00 ?        00:00:00 sshd: oracle [priv]
+oracle    6526  6524  0 16:00 ?        00:00:00 sshd: oracle@pts/0,pts/1
+oracle    6527  6526  0 16:00 pts/0    00:00:00 -bash
+oracle    6555  6527  0 16:00 pts/0    00:00:00 sqlplus       
+oracle    6559  6526  0 16:01 pts/1    00:00:00 -bash
+oracle    6590     1  0 16:01 ?        00:00:00 ora_pmon_wilson
+oracle    6592     1  0 16:01 ?        00:00:00 ora_vktm_wilson
+oracle    6596     1  0 16:01 ?        00:00:00 ora_diag_wilson
+oracle    6598     1  0 16:01 ?        00:00:00 ora_dbrm_wilson
+oracle    6600     1  0 16:01 ?        00:00:00 ora_psp0_wilson
+oracle    6604     1  0 16:01 ?        00:00:01 ora_dia0_wilson
+oracle    6606     1  0 16:01 ?        00:00:01 ora_mman_wilson
+oracle    6608     1  0 16:01 ?        00:00:00 ora_dbw0_wilson
+oracle    6610     1  0 16:01 ?        00:00:01 ora_lgwr_wilson
+oracle    6612     1  0 16:01 ?        00:00:01 ora_ckpt_wilson
+oracle    6614     1  0 16:01 ?        00:00:02 ora_smon_wilson
+oracle    6616     1  0 16:01 ?        00:00:00 ora_reco_wilson
+oracle    6618     1  0 16:01 ?        00:00:02 ora_mmon_wilson
+oracle    6620     1  0 16:01 ?        00:00:01 ora_mmnl_wilson
+oracle    6622     1  0 16:01 ?        00:00:00 ora_d000_wilson
+oracle    6624     1  0 16:01 ?        00:00:00 ora_s000_wilson
+oracle    6661     1  0 16:03 ?        00:00:00 ora_fbda_wilson
+oracle    6663     1  0 16:03 ?        00:00:00 ora_smco_wilson
+oracle    6665     1  0 16:03 ?        00:00:00 ora_w000_wilson
+oracle    6667     1  0 16:04 ?        00:00:00 ora_qmnc_wilson
+oracle    6669     1  0 16:04 ?        00:00:00 ora_q000_wilson
+oracle    6671     1  0 16:04 ?        00:00:00 ora_q001_wilson
+oracle    6686  6555  0 16:05 ?        00:00:00 oraclewilson (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))------------------pid为6686
+oracle    6689     1  0 16:06 ?        00:00:01 ora_cjq0_wilson
+oracle    6720     1  0 16:12 ?        00:00:00 ora_j000_wilson
+oracle    6721  6555  0 16:12 pts/0    00:00:00 /bin/bash -c ps -ef | grep oracle
+oracle    6722  6721  0 16:12 pts/0    00:00:00 ps -ef
+oracle    6723  6721  0 16:12 pts/0    00:00:00 grep oracle
+
+SQL> select * from dual;---------------------------------------------------------运行sql，会生成一个用户trace（wilson_ora_6686.trc sid+_ora_+pid）文件
+
+D
+-
+X
+
+SQL> !more /u01/diag/rdbms/wilson/wilson/trace/wilson_ora_6686.trc-----------------------------------------生成的trace文件内容
+Trace file /u01/diag/rdbms/wilson/wilson/trace/wilson_ora_6686.trc
+Oracle Database 11g Enterprise Edition Release 11.1.0.6.0 - Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+ORACLE_HOME = /u01/oracle
+System name:    Linux
+Node name:      centos4
+Release:        2.6.9-78.ELsmp
+Version:        #1 SMP Fri Jul 25 00:04:28 EDT 2008
+Machine:        i686
+Instance name: wilson
+Redo thread mounted by this instance: 1
+Oracle process number: 18
+Unix process pid: 6686, image: oracle@centos4 (TNS V1-V3)
+
+
+*** 2009-12-15 16:12:25.796
+*** SESSION ID:(170.7) 2009-12-15 16:12:25.796
+*** CLIENT ID:() 2009-12-15 16:12:25.796
+*** SERVICE NAME:(SYS$USERS) 2009-12-15 16:12:25.796
+*** MODULE NAME:(SQL*Plus) 2009-12-15 16:12:25.796
+*** ACTION NAME:() 2009-12-15 16:12:25.796
+ 
+=====================
+PARSING IN CURSOR #5 len=32 dep=0 uid=90 oct=42 lid=90 tim=1260864744261971 hv=0 ad='b7dcfc04' sqlid='0000000000000'
+alter session set sql_trace=true
+END OF STMT
+EXEC #5:c=1000,e=362,p=0,cr=0,cu=0,mis=1,r=0,dep=0,og=1,tim=1260864744261933
+
+*** 2009-12-15 16:12:53.579
+=====================
+PARSING IN CURSOR #1 len=210 dep=1 uid=0 oct=3 lid=0 tim=1260864773579683 hv=864012087 ad='38d8d89c' sqlid='96g93hntrzjtr'
+select /*+ rule */ bucket_cnt, row_cnt, cache_cnt, null_cnt, timestamp#, sample_size, minimum, maximum, distcnt, lowval, hival, dens
+ity, col#, spare1, spare2, avgcln from hist_head$ where obj#=:1 and intcol#=:2
+END OF STMT
+PARSE #1:c=1000,e=724,p=0,cr=0,cu=0,mis=1,r=0,dep=1,og=3,tim=1260864773579671
+EXEC #1:c=1999,e=1813,p=0,cr=0,cu=0,mis=1,r=0,dep=1,og=3,tim=1260864773581752
+
+SQL> show parameter sql_trace;
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+sql_trace                            boolean     FALSE------------------------------------------------设置全局的trace，不推荐使用
+SQL> 
+
+
+--------------------其他调优工具
+dbms_stats包
+oracle enterprise manager(oem)
+statspack------------------------------重点
+v$xxx
+dba_xxx
+oracle wait events
+utlbstat.sql开始
+utlestat.sql结束
+
+
+
+------------------------------------------------------------------------
+statspack
+------------------------------------------------------------------------
+学习文档more /u01/oracle/rdbms/admin/spdoc.txt
+
+详细安装使用请看bbk2103最后10分钟
+
+SQL> create tablespace perfstat datafile '/u01/oradata/wilson/perfstat01.dbf' size 512M; ----------------创建表空间
+
+Tablespace created.
+
+SQL> @?/rdbms/admin/spcreate.sql-----------------------注意：执行这个sql时，它会自动创建一个perfstat用户，密码、默认表空间和临时表空间等待用户输入，会生成一个spcpkg.lis文件
+
+SQL> execute statspack.snap;手工执行，获取快照，通过两次快照比较差别，间隔时间最好在20分钟之内，两次快照之间不能有启停oracle
+
+SQL> execute statspack.snap;
+
+SQL> @?/rdbms/admin/spreport;生成报告，文件为sp_1_3.lst
+
+
+------------------------------------
+dd and special view
+------------------------------------
+select * from dba_tables
+select * from dba_tab_columns
+select * from dba_clusters
+select * from dba_indexes
+select * from index_stats
+select * from index_histogram
+dba_tab_histograms
+以上这些统计的信息都是静态的，只有在重新运行dbms_stats的情况下，这些信息才会被更新
+
+-------------------------------------
+system statistics
+-------------------------------------
+select * from v$sysstat
+select * from v$sgastat
+select * from v$event_name
+select * from v$system_event
+
+-------------------------------------
+session statistics
+-------------------------------------
+select * from v$statname
+select * from v$sesstat
+select * from v$session
+select * from v$session_event
+select * from v$event_name
+select * from v$session_wait
+
+-------------------------------------
+包含所有的动态视图
+-------------------------------------
+select * from v$fixed_table
+
+
+
+
+
+-------------------------------------
+相关参数
+-------------------------------------
+SQL> show parameter statistics_level;
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+statistics_level                     string      TYPICAL
+SQL> show parameter timed_statistics
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+timed_statistics                     boolean     TRUE
+SQL> show parameter timed_os
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+timed_os_statistics                  integer     0
+SQL> show parameter db_cache_advice 
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+db_cache_advice                      string      ON
+SQL> 
+
+
+--------------------------------------------------------------------------------------------------------------
+chapter 03 database configuration and I/O issues
+--------------------------------------------------------------------------------------------------------------
+oracle i/o architecture
+1.file system
+2.raw partitions(被淘汰)
+3.automatic storage management(ASM) 
+
+
+表空间使用注意点：
+1.表和索引放在不同的表空间中
+2.创建自己的undo表空间
+3.为clob和blob类型创建自己的表空间
+4.创建自己的临时表空间
+5.表空间使用locally managed方式管理
+
+数据字典
+v$datafile
+v$tempstat
+v$filestat
+
+sql1：
+phyrds: Number of physical reads done
+phywrts: Number of times DBWR is required to write
+
+select phyrds, phywrts, d.name from v$datafile d, v$filestat f 
+where d.file# = f.file# order by d.name;
+
+sql2:
+select d.tablespace_name tablespace, d.file_name, f.phyrds, f.phywrts
+from v$filestat f, dba_data_files d
+where f.file# = d.file_id;
+
+
+
+SQL> show parameter db_file_multiblock_read_count   ------------------一次读多少块，如果是全表扫描，可以修改这个参数提高性能
+ 
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+db_file_multiblock_read_count        integer     16
+ 
+
+v$session_longops---------------查看大于6秒的sql语句
+
+select name, value from v$sysstat where name like '%table scan%'  ---------------小于4个block是short table,大于4个block是long table 
+
+select name, value from v$sysstat 
+where name like '%table scan%' 
+
+select a.SID, a.SERIAL#, a.OPNAME,
+to_char(a.START_TIME, 'HH24:MI:SS') "start",
+(a.SOFAR/a.TOTALWORK)*100 as percent_complete
+from v$session_longops a;
+
+--往v$session_longops中写数据
+dbms_application_info.set_session_longops(rindex, slno, "Operation X", obj, 0, sofar, totalwork, "table", "tables")
+如下所示
+begin      sys.dbms_application_info.set_session_longops         (rindex      => :1,                  slno        => :2,                  op_name     => :3,                  target      => :4,                  context     => :5,                  sofar       => :6,                  totalwork   => :7,                  target_desc => :8,                  units       => 'Blocks');   end;
+
+
+---------------------------------------------------------------------------
+checkpoint 检查点
+---------------------------------------------------------------------------
+1.incremental checkpoints渐进式检查点（oracle中大部分是这种方式）
+2.full checkpoints：complete和tablespace
+
+alter system checkpoint（把数据全部写入数据库文件中）
+
+------------------------------------------------
+checkpoint 重要参数
+------------------------------------------------
+SQL> show parameter fast_start_mttr_target-------------------------------特别重要，说明如下
+FAST_START_MTTR_TARGET enables you to specify the number of seconds the database takes to perform crash recovery of a single instance. When specified, FAST_START_MTTR_TARGET is overridden by LOG_CHECKPOINT_INTERVAL.
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+fast_start_mttr_target               integer     300
+SQL> show parameter log_checkpoint
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ---------------------------
+log_checkpoint_interval              integer     0
+log_checkpoint_timeout               integer     1800
+log_checkpoints_to_alert             boolean     FALSE
+SQL> show parameter fast_start_io_target
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ---------------------------
+fast_start_io_target                 integer     0
+SQL>
+
+
+动态性能视图
+v$instance_recovery
+
+
+--------------------------------------------------
+redo log(LGWR)
+--------------------------------------------------
+v$logfile
+v$log
+v$log_history
+
+--------------------------------------------------
+archiving performance(ARCn)
+--------------------------------------------------
+alter system archive log all to <log_archive_dest>
+
+SQL> show parameter log_archive
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+log_archive_dest                     string
+log_archive_dest_1                   string
+log_archive_dest_10                  string
+log_archive_dest_2                   string
+log_archive_dest_3                   string
+log_archive_dest_4                   string
+log_archive_dest_5                   string
+log_archive_dest_6                   string
+log_archive_dest_7                   string
+log_archive_dest_8                   string
+log_archive_dest_9                   string
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+log_archive_dest_state_1             string      enable
+log_archive_dest_state_10            string      enable
+log_archive_dest_state_2             string      enable
+log_archive_dest_state_3             string      enable
+log_archive_dest_state_4             string      enable
+log_archive_dest_state_5             string      enable
+log_archive_dest_state_6             string      enable
+log_archive_dest_state_7             string      enable
+log_archive_dest_state_8             string      enable
+log_archive_dest_state_9             string      enable
+log_archive_duplex_dest              string
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+log_archive_format                   string      ARC%S.%T
+log_archive_max_processes            integer     2
+log_archive_min_succeed_dest         integer     1
+log_archive_start                    boolean     FALSE
+log_archive_trace                    integer     0
+SQL>
+
+数据字典
+v$archive_dest
+v$archive_log
+v$archive_processes
+
+
+--------------------------------------------------
+oracle后台进程详解(具体看oracle1 第三讲)
+--------------------------------------------------
+必须要有的后台进程
+LGWR：负责把SGA中的redo log buffer中的东西写入redo log file（LGWR的执行早于DBWn，因为oracle要保证先写redo log file）
+DBWn：负责把SGA中的database buffer cache中的东西写入数据库文件（datafiles）(最大可以配置20个)
+PMON：process monitor，监控oracle后台进程
+SMON：instance recovery，相当于公司里的清洁工
+CKPT：checkpoint，轻量级进程
+
+可选的后台进程
+ARCn：archiver（归档），例如：redo log files是循环写的，ARCn可以在老的日志被覆盖前，把老的日志备份到archived redo log files中
+LMDn
+QMNn
+CJQ0
+LMON
+RECO
+Dnnn
+LMS
+Snnn
+LCKn
+Pnnn
+
+
+
+-------------------------------------------------------------------------------------
+chapter 04  tuning the shared pool
+-------------------------------------------------------------------------------------
+1.library cache（重点）
+2.data dictionary cache
+3.user global area(UGA) for shared server sessions(oracle处于共享模式才有用，不需要考虑这个UGA)
+
+参数
+shared_pool_size
+sga_target(oracle10g之后才有)
+
+
+OLTP：用户多，查询时间短
+OLAP：用户少，查询时间长
+
+如果shared pool is out of free memory,则oracle会报ORA-04031错误
+
+
+动态视图
+select * from v$sgastat;
+
+以下三条语句oracle解析时认为是三条不同的语句
+select * from tb_user;
+select * from Tb_user;
+select *  from tb_user;
+
+SQL> show parameter cursor_sharing
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+cursor_sharing                       string      EXACT
+SQL>
+注意：cursor_sharing这个参数有三种形式SIMILAR，EXACT和FORCE，similar可以相似解析
+比如下面的两条语句
+select * from tb_user where age < 5;
+select * from tb_user where age < 6;
+在EXACT状态下，他们要硬解析两次
+而在similar状态下，他们只要硬解析一次
+
+注意：如果有两个用户，都有各自的tb_user表，那么对于下面的语句
+select * from tb_user
+两个用户是不能共享sql的，因为sql语句中所引用的对象不相同
+
+注意：下面两条sql语句不相同，原因，绑定变量名不相同
+select * from tb_user where age < :age;
+select * from tb_user where age < :age_int;
+
+诊断相关的重要视图
+select * from v$librarycache;
+select * from v$sgastat;
+select * from v$sql;
+select * from v$sqlarea;
+select * from v$sqltext;
+select * from v$db_object_cache;
+select * from v$sql_shared_cursor;
+
+诊断相关的重要参数
+shared_pool_size
+open_cursors
+session_cached_cursors
+cursor_space_for_time
+cursor_sharing
+shared_pool_reserved_size
+
+
+select sum(pins) "Executions", sum(reloads) "Cache Misses", sum(reloads)/sum(pins) "Cache Misses / Executions" from v$librarycache
+注意：如果sum(reloads)/sum(pins)>1%，则要根据free memory的大小，适当调整shared pool的大小
+
+SQL> DESC v$librarycache;
+Name                      Type         Nullable Default Comments 
+------------------------- ------------ -------- ------- -------- 
+NAMESPACE                 VARCHAR2(15) Y                         
+GETS                      NUMBER       Y                         
+GETHITS                   NUMBER       Y                         
+GETHITRATIO               NUMBER       Y    ------------------此项等于GETHITS / GETS，如果比较大，则可能是没有使用绑定变量等原因                    
+PINS                      NUMBER       Y                         
+PINHITS                   NUMBER       Y                         
+PINHITRATIO               NUMBER       Y    ------------------此项等于PINHITS / PINS，如果比较大，则可能是RELOADS或INVALIDATIONS引起，参考这两个参数          
+RELOADS                   NUMBER       Y    ------------------此项如果比较大，则可能是library cache比较小，需要调整shared pool                     
+INVALIDATIONS             NUMBER       Y    ------------------此项如果比较大，则可能是用户DDL操作，造成sql重新解析                     
+DLM_LOCK_REQUESTS         NUMBER       Y                         
+DLM_PIN_REQUESTS          NUMBER       Y                         
+DLM_PIN_RELEASES          NUMBER       Y                         
+DLM_INVALIDATION_REQUESTS NUMBER       Y                         
+DLM_INVALIDATIONS         NUMBER       Y          
+
+
+
+SQL> desc v$shared_pool_advice;-------------------------------------------------oracle推荐的shared pool size
+Name                          Type   Nullable Default Comments 
+----------------------------- ------ -------- ------- -------- 
+SHARED_POOL_SIZE_FOR_ESTIMATE NUMBER Y   ----------------------------------shared pool size                      
+SHARED_POOL_SIZE_FACTOR       NUMBER Y                         
+ESTD_LC_SIZE                  NUMBER Y   ----------------------------------library cache size                      
+ESTD_LC_MEMORY_OBJECTS        NUMBER Y                         
+ESTD_LC_TIME_SAVED            NUMBER Y   ----------------------------------节省时间，如果都相同，说明改变shared pool size是没有什么作用的                     
+ESTD_LC_TIME_SAVED_FACTOR     NUMBER Y                         
+ESTD_LC_MEMORY_OBJECT_HITS    NUMBER Y   
+
+
+select * from v$sql_plan a, v$sql b where a.HASH_VALUE = b.PLAN_HASH_VALUE;   
+
+
+select sum(a.SHARABLE_MEM) from v$db_object_cache a;---对象占据的内存需求
+select sum(a.SHARABLE_MEM) from v$sqlarea a where a.EXECUTIONS > 5;-----执行大于5次的sql占据的内存需求   
+这两个值相加就相当于library cache中sql和非sql占据的内存的总和  
+
+
+The Reserved Pool    

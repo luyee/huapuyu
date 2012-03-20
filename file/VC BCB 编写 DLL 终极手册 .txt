@@ -1,0 +1,299 @@
+VC BCB 编写 DLL 终极手册 
+由于现在比较多的网友老是在 CSDN 上询问关于 BCB 编写 DLL 的问题，我编写了这篇文章抛砖引玉 
+一. 编写 DLL 
+  File/New/Dll 生成 Dll 的向导，然后可以添加导出函数和导出类 
+  导出函数：extern "C" __declspec(dllexport) ExportType FunctionName(Parameter) 
+  导出类：class __declspec(dllexport) ExportType ClassName{...} 
+  例子：(说明：只是生成了一个 DLL.dll ) 
+
+#include "DllForm.h"  // TDllFrm 定义
+
+USERES("Dll.res"); 
+USEFORM("DllForm.cpp", DllFrm); 
+
+class __declspec(dllexport) __stdcall MyDllClass { //导出类 
+    public: 
+       MyDllClass(); 
+       void CreateAForm(); 
+       TDllFrm* DllMyForm; 
+}; 
+
+TDllFrm* DllMyForm2; 
+extern "C" __declspec(dllexport) __stdcall void CreateFromFunct();//导出函数 
+
+//--------------------------------------------------------------------------- 
+int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*) 
+{ 
+    return 1; 
+} 
+//--------------------------------------------------------------------------- 
+
+MyDllClass::MyDllClass() 
+{ 
+} 
+
+void MyDllClass::CreateAForm() 
+{ 
+    DllMyForm = new TDllFrm(Application); 
+    DllMyForm->Show(); 
+} 
+//--------------------------------------------------------------------------- 
+void __stdcall CreateFromFunct() 
+{ 
+    DllMyForm2 = new TDllFrm(Application); 
+    DllMyForm2->Show(); 
+} 
+
+
+二. 静态调用 DLL 
+使用 $BCB pathBinimplib.exe 生成 Lib 文件，加入到工程文件中 
+将该文件拷贝到当前目录，使用 implib MyDll.lib MyDll.dll 生成 
+// Unit1.h // TForm1 定义 
+#include "DllForm.h" // TDllFrm 定义 
+//--------------------------------------------------------------------------- 
+
+__declspec(dllimport) class __stdcall MyDllClass { 
+    public: 
+        MyDllClass(); 
+        void CreateAForm(); 
+        TDllFrm* DllMyForm; 
+}; 
+extern "C" __declspec(dllimport) __stdcall void CreateFromFunct(); 
+
+class TForm1 : public TForm{...}
+
+
+// Unit1.cpp // TForm1 实现 
+void __fastcall TForm1::Button1Click(TObject *Sender) 
+{ // 导出类实现，导出类只能使用静态方式调用 
+    DllClass = new MyDllClass(); 
+    DllClass->CreateAForm();    
+} 
+//--------------------------------------------------------------------------- 
+void __fastcall TForm1::Button2Click(TObject *Sender) 
+{ // 导出函数实现 
+    CreateFromFunct(); 
+} 
+//--------------------------------------------------------------------------- 
+
+void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action) 
+{ 
+    delete DllClass; 
+} 
+
+三. 动态调用 DLL 
+// Unit1.h 
+class TForm1 : public TForm 
+{ 
+ ... 
+private: // User declarations 
+ void (__stdcall *CreateFromFunct)(); 
+ ... 
+} 
+
+// Unit1.cpp // TForm1 
+HINSTANCE DLLInst = NULL; 
+void __fastcall TForm1::Button2Click(TObject *Sender) 
+{ 
+    if( NULL == DLLInst ) DLLInst = LoadLibrary("DLL.dll"); //上面的 Dll 
+    if (DLLInst) { 
+        CreateFromFunct = (void (__stdcall*)()) GetProcAddress(DLLInst, 
+                                                    "CreateFromFunct"); 
+        if (CreateFromFunct) CreateFromFunct(); 
+        else ShowMessage("Could not obtain function pointer"); 
+    } 
+    else ShowMessage("Could not load DLL.dll"); 
+} 
+
+void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action) 
+{ 
+    if ( DLLInst ) FreeLibrary (DLLInst); 
+} 
+  
+四. DLL 作为 MDIChild (子窗体) 【只编写动态调用的例子】 
+    实际上，调用子窗体的 DLL 时，系统只是检查应用程序的 MainForm 是否为 fsMDIForm 的窗体，这样只 
+
+要把调用程序的 Application 的 Handle 传递给 DLL 的 Application 即可；同时退出 DLL 时也要恢复 
+
+Application
+
+// MDIChildPro.cpp // Dll 实现 CPP 
+#include "unit1.h" // TForm1 定义 
+TApplication *SaveApp = NULL; 
+int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*) 
+{ 
+    if ( (reason==DLL_PROCESS_DETACH) && SaveApp ) 
+        Application = SaveApp ; // 恢复 Application 
+    return 1; 
+} 
+
+extern "C" __declspec(dllexport) __stdcall void TestMDIChild(    //1024X768 
+    TApplication* mainApp, 
+    LPSTR lpCaption) 
+{ 
+    if ( NULL == SaveApp ) // 保存 Application，传递 Application 
+    { 
+        SaveApp = Application; 
+        Application = mainApp; 
+    } 
+    // lpCaption 为子窗体的 Caption 
+    TForm1 *Form1 = new TForm1 ( Application, lpCaption ); 
+    Form1->Show(); 
+} 
+注：上面的程序使用 BCB 3.0 编译成功 
+
+五. BCB 调用 VC 编写的 DLL 
+  1. 名字分解： 
+    没有名字分解的函数 
+        TestFunction1 // __cdecl calling convention 
+        @TestFunction2 // __fastcall calling convention 
+        TESTFUNCTION3 // __pascal calling convention 
+        TestFunction4 // __stdcall calling convention 
+    有名字分解的函数 
+        @TestFunction1$QV // __cdecl calling convention 
+        @TestFunction2$qv // __fastcall calling convention 
+        TESTFUNCTION3$qqrv // __apscal calling convention 
+        @TestFunction4$qqrv // __stdcall calling convention 
+    使用 extern "C" 不会分解函数名 
+
+    使用 Impdef MyLib.def MyLib.DLL 生成 def 文件查看是否使用了名字分解
+
+  2. 调用约定： 
+    __cdecl 缺省 
+      是 Borland C++ 的缺省的 C 格式命名约定，它在标识符前加一下划线，以保留 
+    它原来所有的全程标识符。参数按最右边参数优先的原则传递给栈，然后清栈。 
+        extaern "C" bool __cdecl TestFunction(); 
+      在 def 文件中显示为 
+        TestFunction @1 
+      注释： @1 表示函数的顺序数，将在“使用别名”时使用。 
+
+    __pascal Pascal格式 
+      这时函数名全部变成大写，第一个参数先压栈，然后清栈。 
+        TESTFUNCTION @1 //def file 
+
+    __stdcall 标准调用 
+      最后一个参数先压栈，然后清栈。 
+        TestFunction @1 //def file 
+
+    __fastcall 把参数传递给寄存器 
+      第一个参数先压栈，然后清栈。 
+        @TestFunction @1 //def file 
+
+  3. 解决调用约定： 
+      Microsoft 与 Borland 的 __stdcall 之间的区别是命名方式。 Borland 采用 
+    __stdcall 的方式去掉了名字起前的下划线。 Microsoft 则是在前加上下划线，在 
+    后加上 @ ，再后跟为栈保留的字节数。字节数取决于参数在栈所占的空间。每一个 
+    参数都舍入为 4 的倍数加起来。这种 Miocrosoft 的 DLL 与系统的 DLL 不一样。 
+
+  4. 使用别名： 
+      使用别名的目的是使调用文件 .OBJ 与 DLL 的 .DEF 文件相匹配。如果还没有 
+    .DEF 文件，就应该先建一个。然后把 DEF 文件加入 Project。使用别名应不断 
+    修改外部错误，如果没有，还需要将 IMPORTS 部分加入 DEF 文件。 
+        IMPORTS 
+        TESTFUNCTIOM4 = DLLprj.TestFunction4 
+        TESTFUNCTIOM5 = DLLprj.WEP @500 
+        TESTFUNCTIOM6 = DLLprj.GETHOSTBYADDR @51 
+      这里需要说明的是，调用应用程序的 .OBJ 名与 DLL 的 .DEF 文件名是等价的， 
+    而且总是这样。甚至不用考虑调用约定，它会自动匹配。在前面的例子中，函数被 
+    说明为 __pascal，因此产生了大写函数名。这样链接程序不会出错。 
+
+  5. 动态调用例子 
+VC DLL 的代码如下： 
+extern "C" __declspec(dllexport) LPSTR __stdcall BCBLoadVCWin32Stdcall() 
+{ 
+ static char strRetStdcall[256] = "BCB Load VC_Win32 Dll by __stdcall mode is OK!"; 
+
+ return strRetStdcall; 
+} 
+
+extern "C" __declspec(dllexport) LPSTR __cdecl BCBLoadVCWin32Cdecl() 
+{ 
+ static char strRetCdecl[256] = "BCB Load VC_Win32 Dll by __cdecl mode is OK!"; 
+
+ return strRetCdecl; 
+} 
+
+extern "C" __declspec(dllexport) LPSTR __fastcall BCBLoadVCWin32Fastcall() 
+{ 
+ static char strRetFastcall[256] = "BCB Load VC_Win32 Dll by __fastcall mode is OK!"; 
+
+ return strRetFastcall; 
+} 
+
+     其实动态调用与调用 BCB 编写的 DLL 没有区别，关键是查看 DLL 的导出函数名字 
+     可以使用 tdump.exe(BCB工具) 或者 dumpbin.exe(VC工具) 查看 
+     tdump -ee MyDll.dll >1.txt (查看 1.txt 文件即可) 
+     由于 VC6 不支持 __pascall 方式，下面给出一个三种方式的例子 
+void __fastcall TForm1::btnBLVCWin32DynClick(TObject *Sender) 
+{ 
+    /*cmd: tdbump VCWin32.dll >1.txt 
+ Turbo Dump  Version 5.0.16.4 Copyright (c) 1988, 1998 Borland International 
+                    Display of File VCWIN32.DLL 
+
+ EXPORT ord:0000='BCBLoadVCWin32Fastcall::' 
+ EXPORT ord:0001='BCBLoadVCWin32Cdecl' 
+ EXPORT ord:0002='_BCBLoadVCWin32Stdcall@0' 
+    */ 
+    if ( !DllInst ) 
+        DllInst = LoadLibrary ( "VCWin32.dll" ); 
+    if ( DllInst ) 
+    { 
+        BCBLoadVCWin32Stdcall = (LPSTR (__stdcall *) () ) 
+            GetProcAddress ( DllInst, "_BCBLoadVCWin32Stdcall@0" ); //VC Dll 
+            // GetProcAddress ( DllInst, "BCBLoadVCWin32Stdcall" ); //BCB Dll 
+        if ( BCBLoadVCWin32Stdcall ) 
+        { 
+            ShowMessage( BCBLoadVCWin32Stdcall() ); 
+        } 
+        else ShowMessage ( "Can't find the __stdcall Function!" ); 
+
+        BCBLoadVCWin32Cdecl = (LPSTR (__cdecl *) () ) 
+            GetProcAddress ( DllInst, "BCBLoadVCWin32Cdecl" ); 
+        if ( BCBLoadVCWin32Cdecl ) 
+        { 
+            ShowMessage( BCBLoadVCWin32Cdecl() ); 
+        } 
+        else ShowMessage ( "Can't find the __cdecl Function!" ); 
+
+        //Why?不是 'BCBLoadVCWin32Fastcall::',而是 '@BCBLoadVCWin32Fastcall@0'？ 
+        BCBLoadVCWin32Fastcall = (LPSTR (__fastcall *) () ) 
+            //GetProcAddress ( DllInst, "BCBLoadVCWin32Fastcall::" ); 
+            GetProcAddress ( DllInst, "@BCBLoadVCWin32Fastcall@0" ); 
+        if ( BCBLoadVCWin32Fastcall ) 
+        { 
+            ShowMessage( BCBLoadVCWin32Fastcall() ); 
+        } 
+        else ShowMessage ( "Can't find the __fastcall Function!" ); 
+    } 
+    else ShowMessage ( "Can't find the Dll!" ); 
+} 
+
+  6. 静态调用例子 
+     静态调用有点麻烦，从动态调用中可以知道导出函数的名字，但是直接时(加入 lib 文件到工程文件) 
+
+Linker 提示不能找到函数的实现 
+     从 4 看出，可以加入 def 文件连接 
+     (可以通过 impdef MyDll.def MyDll.dll 获得导出表) 
+     建立与 DLL 文件名一样的 def 文件与 lib 文件一起加入到工程文件 
+     上面的 DLL(VCWIN32.dll) 的 def 文件为(VCWIN32.def)： 
+LIBRARY     VCWIN32.DLL 
+
+IMPORTS 
+    @BCBLoadVCWin32Fastcall     = VCWIN32.@BCBLoadVCWin32Fastcall@0 
+    _BCBLoadVCWin32Cdecl        = VCWIN32.BCBLoadVCWin32Cdecl 
+    BCBLoadVCWin32Stdcall       = VCWIN32._BCBLoadVCWin32Stdcall@0 
+
+对应的函数声明和实现如下： 
+extern "C" __declspec(dllimport) LPSTR __fastcall BCBLoadVCWin32Fastcall(); 
+extern "C" __declspec(dllimport) LPSTR __cdecl BCBLoadVCWin32Cdecl(); 
+extern "C" __declspec(dllimport) LPSTR __stdcall BCBLoadVCWin32Stdcall(); 
+
+void __fastcall TfrmStatic::btnLoadDllClick(TObject *Sender) 
+{ 
+    ShowMessage ( BCBLoadVCWin32Fastcall() ); 
+    ShowMessage ( BCBLoadVCWin32Cdecl() ); 
+    ShowMessage ( BCBLoadVCWin32Stdcall() ); 
+} 
+注意：在 BCB 5.0 中，可能直接按下 F9 是不能通过 Linker 的，请先 Build 一次 
+注：上面的程序使用 BCB 5.0 与 VC6.0 编译成功 
+

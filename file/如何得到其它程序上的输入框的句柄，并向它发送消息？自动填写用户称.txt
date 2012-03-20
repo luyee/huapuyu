@@ -1,0 +1,137 @@
+要找到一个标题已知的窗口句柄,用一个API函数就可以了:FindWindow.
+
+其函数原形是:
+
+function FindWindow(lpClassName, lpWindowName: PChar): HWND; stdcall;
+
+lpClassName:窗口类名.如果只知道标题,可以为空.窗口类名可以用很多工具获得.如winsignt32.
+lpWindowName:窗口标题.
+
+调用方式举例:
+
+var wndhwnd:HWND;
+wndhwnd:=FindWindow(nil,'某窗口标题');
+if wndhwnd<>0 then  file://找到此窗口句柄.
+begin
+  xxxxx
+end
+else begin
+  MessageBox(self.handle,'没找到该窗口句柄','提示',0);
+end;
+
+有了这个窗口句柄,就离我们的初始目的不远了:控制其他窗体上的窗口控件.
+
+同样,首先要得到其他窗体上窗口控件的句柄.我们用这个API函数:EnumChildWindows.
+
+其函数原形是:
+function EnumChildWindows(hWndParent: HWND; lpEnumFunc: TFNWndEnumProc;
+  lParam: LPARAM): BOOL; stdcall;
+
+这个函数和EnumWindow函数很有些想象.其作用也很相似.它的功能就是列举窗口句柄为hWndParent的窗体上所有的窗口控件的句柄.同样也是以回调函数参数的形式给出的.
+
+我们再举一个实际的例子,来说明这个函数的用法.程序的功能是让用户输入一个窗口标题,然后调用FindWindow函数找到此窗口句柄.通过这个句柄,我们在一个Memo里显示该窗口上所有的窗口控件．
+
+同样先编写回调函数．
+function  EnumChildWndProc(AhWnd:LongInt;
+  AlParam:lParam):boolean;stdcall;
+var
+  WndClassName: array[0..254] of Char;
+  WndCaption: array[0..254] of Char;
+begin
+  GetClassName(AhWnd,wndClassName,254);
+  GetWindowText(aHwnd,WndCaption,254);
+  with form1.memo1 do
+  begin
+    lines.add( string(wndClassName));
+    lines.add( string(wndCaption));
+    lines.add('-------');
+  end;
+  result:=true;
+end;
+
+
+然后在一事件里调用EnumChildWindows函数．
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  hWnd:LongInt;
+begin
+  memo1.Lines.Clear;
+  Memo1.Lines.Add(Edit1.Text+' 有如下控件类名称');
+  hWnd:=FindWindow(nil,pchar(Edit1.Text));
+  if hWnd<>0 then
+  begin
+    EnumChildWindows(hWnd,@EnumChildWndProc,0);
+  end
+  else  MessageBox(self.handle,'没找到该窗口句柄','提示',0);
+end;
+
+程序清单如下：
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Memo1: TMemo;  file://用来显示找到的控件
+    Label1: TLabel;　
+    Edit1: TEdit;　　file://输入标题.
+    Button1: TButton;  
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+  function  EnumChildWndProc(AhWnd:LongInt;
+    AlParam:lParam):boolean;stdcall;
+
+implementation
+
+
+{$R *.dfm}
+function  EnumChildWndProc(AhWnd:LongInt;
+  AlParam:lParam):boolean;stdcall;
+var
+  WndClassName: array[0..254] of Char;
+  WndCaption: array[0..254] of Char;
+begin
+  GetClassName(AhWnd,wndClassName,254);
+  GetWindowText(aHwnd,WndCaption,254);
+  with form1.memo1 do
+  begin
+    lines.add( string(wndClassName));
+    lines.add( string(wndCaption));
+    lines.add('-------');
+  end;
+  result:=true;
+end;
+
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  hWnd:LongInt;
+begin
+  memo1.Lines.Clear;
+  Memo1.Lines.Add(Edit1.Text+' 有如下控件类名称');
+  hWnd:=FindWindow(nil,pchar(Edit1.Text));
+  if hWnd<>0 then
+  begin
+    EnumChildWindows(hWnd,@EnumChildWndProc,0);
+  end
+  else  MessageBox(self.handle,'没找到该窗口句柄','提示',0);
+end;
+
+end.
+
+
+有了控件句柄,我们当然就可以随心所欲了.比如:
+
+SendMessage(hWnd,WM_SETTEXT,0,LongInt(Pchar('sdafdsf')));就可以给控件发送文本.其他还可以发送不同的消息可以做很多事情.

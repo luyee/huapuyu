@@ -1,0 +1,7 @@
+ubuntu下java乱码的处理
+
+
+主要是ttf变成了ttc
+sudo ln -s /usr/share/fonts/truetype/arphic/uming.ttc /usr/share/fonts/truetype/arphic/uming.ttf
+
+如果不行,去找simsun.ttc, windows 就有,在c:\windows\fonts\,把它复制到/usr/lib/jvm/java-6-sun/jre/lib/fonts/fallback下就好

@@ -1,0 +1,39 @@
+variable(如果variable不行，用declare试试) job1 number;
+begin
+  dbms_job.submit(:job1, 'proc1;', to_date('2010-01-21 00:00:00', 'yyyy-mm-dd hh24:mi:ss'), 'sysdate + 1');
+  commit;
+end;
+
+注意：存储过程后面必须加;号，否则会报错，如这里的proc1，不加;，则会报如下错误
+
+ORA-01008: 并非所有变量都已关联
+或者
+ORA-06550: 第 1 行, 第 99 列: 
+PLS-00103: 出现符号 "END"在需要下列之一时：
+ := . ( @ % ;
+符号 ";" 被替换为 "END" 后继续。
+ORA-06512: 在"SYS.DBMS_JOB", line 79
+ORA-06512: 在"SYS.DBMS_JOB", line 136
+ORA-06512: 在line 2
+
+begin
+  sys.dbms_job.submit(job => :job,
+                      what => 'proc1',
+                      next_date => to_date('21-01-2010', 'dd-mm-yyyy'),
+                      interval => 'sysdate + 1');
+  commit;
+end;
+
+
+
+begin
+  dbms_job.remove(145);
+  commit;
+end;
+/
+
+
+begin
+  dbms_job.run(23);
+end;
+/

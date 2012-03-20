@@ -1,0 +1,5 @@
+运行ssh程序发现如下错误
+org.springframework.beans.factory.CannotLoadBeanClassException: Error loading class [service.impl.Tb_userService] for bean with name 'tb_userService' defined in class path resource [spring.xml]: problem with class file or dependent class; nested exception is java.lang.UnsupportedClassVersionError: Bad version number in .class file (unable to load class service.impl.Tb_userService)
+
+原因
+可能是昨天非法关闭myeclipse，造成tomcat的jdk变成了1.5，而ssh项目的jdk是1.6，jdk版本不同造成的问题。

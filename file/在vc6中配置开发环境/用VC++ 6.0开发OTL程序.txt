@@ -1,0 +1,4 @@
+OTL版本：v4.0.181
+1.下载OTL头文件，链接：http://otl.sourceforge.net/otlv4_h.zip
+2.下载OTL例子代码，链接：http://otl.sourceforge.net/otl4_examples.zip
+3.配置OTL开发环境，将[Oracle安装目录\ora92\oci\include]中的文件全部拷贝到[VC++6.0安装目录\VC98\Include]中，再将[Oracle安装目录\ora92\oci\lib]中的oci.lib文件拷贝到[VC++6.0安装目录\VC98\Lib]中。

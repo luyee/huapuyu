@@ -1,0 +1,52 @@
+项目开发中新同事问到asp.net WebForm模式中的ViewState与asp.net MVC模式中的ViewData不是一样的吗？
+
+比如在WebForm的代码页面(如.aspx.cs)中定义：
+
+ViewState["test"] = "abc";
+
+在显示页面(如.aspx)中就可以用:
+
+<%=ViewState["test"] %>
+
+进行输出
+
+在MVC中的Controller中定义：
+
+ViewData["test"] = "abc";
+
+同样也可以在视图而中用:
+
+<%=ViewData["test"] %>
+
+进行输出
+
+这有区别吗？
+
+有人可能会说在WebForm模式中如果设置了EnableViewState="false"，那么ViewState就不能用了，真的这样吗？经测试发现无论EnableViewState为true或false，上面给的<%=ViewState["test"] %>都是可以正常输出值的
+
+那是不是说在WebForm中就可以像MVC中那样用ViewState来代替ViewData了呢？
+
+MSDN对ViewState的定义：
+
+获取状态信息的字典，这些信息使您可以在同一页的多个请求间保存和还原服务器控件的视图状态。
+
+代码定义是这样的：
+
+protected virtual StateBag ViewState { get; }
+可以看到此属性中只有get方法，也就是说此属性是只读的，可能你会说上面用的：
+ViewState["test"] = "abc";
+不是在为它赋值吗？
+这是因为ViewState是StateBag 类的一个实例，而StateBag类是一个实现了字典接口，所以ViewState是可以存储键值对形式的数据的，只是你不能做类似这样的操作：
+ViewState = new StateBag...
+因ViewState 是只读的
+而MVC中的ViewData是可读写的，其代码定义为：
+public ViewDataDictionary ViewData { get; set; }
+所以区别一就是：
+ViewState是只读的
+ViewData是可读写的（可被重新定义）
+区别二：ViewData可用于一次http请求中的所有视图页，如：.aspx/.ascx...，而ViewState只能用于当前后端代码文件所在的前端显示页
+比如：
+页面control.ascx存在于页面default.aspx中，那么在default.aspx.cs中定义的ViewState["test"]在control.ascx是取不到的
+区别三：ViewState主要用来记录服务器控件的状态信息，asp.net引擎会自动填充服务器控件的状态信处到里面，所以最好不要使用ViewState存放自己的值
+区别四：为了保证ViewState可以正确记录服务器控件的状态信息，ViewState中的值应该都是可以转为字串形式的（可序列化），而ViewData是可以用来保存各种类型的值的
+我目前就发现这几点，希望大家可以继续补充，不正确的地方也请指正，谢谢

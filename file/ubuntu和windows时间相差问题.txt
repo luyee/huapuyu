@@ -1,0 +1,3 @@
+sudo gedit /etc/default/rcS
+
+½«UTC=yes¸ÄÎªUTC=no

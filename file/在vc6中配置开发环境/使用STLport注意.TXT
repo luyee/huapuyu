@@ -1,0 +1,18 @@
+1. 如果不打算使用iostream而只使用STL，不必编译STLport,
+把stlport\stl\config\user_config.h中的:
+/*
+#define _STLP_NO_IOSTREAMS 1
+*/
+改成:
+#define _STLP_NO_IOSTREAMS 1
+在你的项目中确保stlport下的文件先被编译器搜索到。
+
+
+2. STLport 不支持单线程运行时库,而vc6控制台程序默认采用单线程运行时库.
+
+STLport 5.1.4 是不支持单线程运行时库的,如果你遇到下列错误,
+请在VC6: Project > Settings > C/C++ > Code Generation >
+Use run-time library:
+不要选择single threaded或者debug single threaded.
+其他MD,MDd,MT,MTd都是可以的.
+

@@ -1,0 +1,9 @@
+SELECT * FROM
+(
+  SELECT a.*, ROWNUM num FROM 
+  (
+    SELECT * FROM table_name ORDER BY field_name
+  ) a 
+  WHERE ROWNUM <= end_no
+) t
+WHERE t.num >=  begin_no

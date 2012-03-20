@@ -1,0 +1,30 @@
+1.netstat -anp(linux)  可以查看两台pc之间的关系，找到linux程序pid
+2.ps -ef | grep pid
+3.netstat -b(win) 可以查看两台pc之间的关系，找到windows程序pid
+4.在windows资源管理器中查看pid对应的程序名
+
+
+
+
+select * from v$transaction;如果数据库中有事务了，则在这张表中就有记录了
+select * from v$session;
+select * from v$process;
+select * from v$sql;
+
+上面四张动态视图的联系
+netstat中的pid联系v$process中的spid
+v$process中的addr联系v$session中的paddr
+v$session中的saddr联系v$transaction中的ses_addr
+v$session中的sql_address(正在执行的语句)和prev_sql_addr(前一条sql语句)联系v$sql中的address
+
+例如pid为6727
+select addr from v$process a where a.SPID = 6727;--结果3925C050
+select a.sADDR,a.SQL_ADDRESS,a.PREV_SQL_ADDR from v$session a where a.PADDR = '3925C050';--结果sADDR:38842908; SQL_ADDRESS:00; PREV_SQL_ADDR:31E52848
+select * from v$transaction a where a.ses_addr ='38842908';
+select * from v$sql a where a.address = '00';
+select * from v$sql a where a.address = '31E52848';
+
+
+join
+
+select addr,sid,username,s.status,process,program from v$transaction t, v$session s where t.ses_addr = s.saddr;

@@ -1,0 +1,12 @@
+<html>
+<head><title>ListBox</title>
+</head>
+<body>
+<select name="select"style="position:absolute; left: 10px; top: 10px; width: 120px; height: 18px; clip: rect(0 120 18 100)" id="select" onchange="textfield.value=select.value;textfield.select()">
+    <option value="aaaaaaaa">aaaaaaaa</option>
+    <option value="bbbbbbbb">bbbbbbbb</option>
+    <option value="cccccccc">cccccccc</option>
+</select>
+<input type="text" style="position:absolute; left: 10px; top: 10px; width: 100px; height: 20px" name="textfield">
+</body>
+</html>

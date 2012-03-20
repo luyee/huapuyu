@@ -1,0 +1,107 @@
+PreparedStatement stat = null;
+      ResultSet rs = null;
+      stat = con.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+      stat = setPreparedStatementParam(stat, params);
+      rs = stat.executeQuery();
+      rs.absolute(5); // 移动指针
+
+
+
+
+
+
+
+
+
+
+
+结果集(ResultSet)是数据中查询结果返回的一种对象，可以说结果集是一个存储查询结果的对象，但是结果集并不仅仅具有存储的功能，他同时还具有操纵数据的功能，可能完成对数据的更新等。 
+
+结果集读取数据的方法主要是getXXX()，它的参数可以是整型，表示第几列（是从1开始的），还可以是列名。返回的是对应的XXX类型的值。如果对应那列时空值，XXX是对象的话返回XXX型的空值，如果XXX是数字类型，如Float等则返回0，boolean返回false。使用getString()可以返回所有的列的值，不过返回的都是字符串类型的。XXX可以代表的类型有：基本的数据类型如整型(int)，布尔型(Boolean)，浮点型(Float,Double)等，比特型（byte），还包括一些特殊的类型，如：日期类型（java.sql.Date），时间类型(java.sql.Time)，时间戳类型(java.sql.Timestamp)，大数型(BigDecimal和BigInteger等)等。还可以使用getArray(int colindex/String columnname)，通过这个方法获得当前行中，colindex所在列的元素组成的对象的数组。使用getAsciiStream( 
+int colindex/String colname)可以获得该列对应的当前行的ascii流。也就是说所有的getXXX方法都是对当前行进行操作。 
+
+结果集从其使用的特点上可以分为四类，这四类的结果集的所具备的特点都是和Statement语句的创建有关，因为结果集是通过Statement语句执行后产生的，所以可以说，结果集具备何种特点，完全决定于Statement，当然我是说下面要将的四个特点，在Statement创建时包括三种类型。首先是无参数类型的，他对应的就是下面要介绍的基本的ResultSet对应的Statement。下面的代码中用到的Connection并没有对其初始化，变量conn代表的就是Connection对应的对象。SqlStr代表的是响应的SQL语句。 
+
+1、    最基本的ResultSet。 
+之所以说是最基本的ResultSet是因为，这个ResultSet他起到的作用就是完成了查询结果的存储功能，而且只能读去一次，不能够来回的滚动读取。这种结果集的创建方式如下：  
+
+Statement st = conn.CreateStatement 
+ResultSet rs = Statement.excuteQuery(sqlStr); 
+
+由于这种结果集不支持，滚动的读去功能所以，如果获得这样一个结果集，只能使用它里面的next()方法，逐个的读去数据。  
+
+2    可滚动的ResultSet类型。 
+这个类型支持前后滚动取得纪录next（）、previous()，回到第一行first()，同时还支持要去的ResultSet中的第几行absolute（int n），以及移动到相对当前行的第几行relative(int n)，要实现这样的ResultSet在创建Statement时用如下的方法。 
+
+Statement st = conn.createStatement(int resultSetType, int resultSetConcurrency) 
+ResultSet rs = st.executeQuery(sqlStr) 
+
+其中两个参数的意义是： 
+resultSetType是设置ResultSet对象的类型可滚动，或者是不可滚动。取值如下： 
+       ResultSet.TYPE_FORWARD_ONLY只能向前滚动 
+       ResultSet.TYPE_SCROLL_INSENSITIVE和Result.TYPE_SCROLL_SENSITIVE这两个方法都能够实现任意的前后滚动，使用各种移动的ResultSet指针的方法。二者的区别在于前者对于修改不敏感，而后者对于修改敏感。 
+resultSetConcurency是设置ResultSet对象能够修改的，取值如下： 
+       ResultSet.CONCUR_READ_ONLY 设置为只读类型的参数。 
+       ResultSet.CONCUR_UPDATABLE 设置为可修改类型的参数。 
+所以如果只是想要可以滚动的类型的Result只要把Statement如下赋值就行了。 
+
+Statement st = conn.createStatement(Result.TYPE_SCROLL_INSENITIVE, 
+                          ResultSet.CONCUR_READ_ONLY); 
+ResultSet rs = st.excuteQuery(sqlStr)； 
+
+用这个Statement执行的查询语句得到的就是可滚动的ResultSet。 
+
+3、    可更新的ResultSet 
+这样的ResultSet对象可以完成对数据库中表的修改，但是我知道ResultSet只是相当于数据库中表的视图，所以并不时所有的ResultSet只要设置了可更新就能够完成更新的，能够完成更新的ResultSet的SQL语句必须要具备如下的属性： 
+    a、只引用了单个表。 
+    b、不含有join或者group by子句。 
+    c、那些列中要包含主关键字。 
+    具有上述条件的，可更新的ResultSet可以完成对数据的修改，可更新的结果集的创建方法是： 
+
+
+Statement st = createstatement(Result.TYPE_SCROLL_INSENSITIVE,Result.CONCUR_UPDATABLE) 
+
+
+4、    可保持的ResultSet 
+正常情况下如果使用Statement执行完一个查询，又去执行另一个查询时这时候第一个查询的结果集就会被关闭，也就是说，所有的Statement的查询对应的结果集是一个，如果调用Connection的commit()方法也会关闭结果集。可保持性就是指当ResultSet的结果被提交时，是被关闭还是不被关闭。JDBC2.0和1.0提供的都是提交后ResultSet就会被关闭。不过在JDBC3.0中，我们可以设置ResultSet是否关闭。要完成这样的ResultSet的对象的创建，要使用的Statement的创建要具有三个参数，这个Statement的创建方式也就是，我所说的Statement的第三种创建方式。如下： 
+
+
+Statement st=createStatement(int resultsetscrollable,int resultsetupdateable,int resultsetSetHoldability) 
+ResultSet rs = st.excuteQuery(sqlStr); 
+
+前两个参数和两个参数的createStatement方法中的参数是完全相同的，这里只介绍第三个参数： 
+       resultSetHoldability表示在结果集提交后结果集是否打开，取值有两个： 
+       ResultSet.HOLD_CURSORS_OVER_COMMIT:表示修改提交时，不关闭数据库。 
+     ResultSet.CLOSE_CURSORS_AT_COMMIT：表示修改提交时ResultSet关闭。 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+jdbc3.0中ResultSet：  
+　　一个可保持的游标（或结果），就是说该游标在包含它的事务被提交后，也不会自动地关闭。JDBC 3.0 增加了对指定游标可保持性的支持。要制定您 ResultSet 的可保持性，您必须在使用 createStatement()、prepareStatement() 或 prepareCall() 方法准备编写一条语句时就这么做。可保持性可以是下面常量中的一个。  
+　　 
+　　HOLD_CURSORS_OVER_COMMIT ResultSet 对象（游标）没有被关闭；它们在提交操作得到显式的或隐式的执行以后仍保持打开的状态。  
+　　CLOSE_CURSORS_AT_COMMIT ResultSet 对象（游标）在提交操作得到显式的或隐式的执行后被关闭。  
+　　 
+　　总的来说，在事务提交之后关闭游标操作会带来更好的性能。除非您在事务结束后还需要该游标，否则您最好在执行提交操作后将其关闭。因为规范没有规定 ResultSet 的缺省的可保持性，所以具体行为还将取决于执行情况。然而，我希望在可以使用 JDBC 3.0 驱动程序时，大多数执行在事务结束后仍旧会关闭游标。  
+　　 
+　　返回多重结果  
+　　JDBC 2 规范的一个局限是，在任意时刻，返回多重结果的语句只能打开一个 ResultSet。作为 JDBC 3.0 规范中改变的一个部分，规范将允许 Statement 接口支持多重打开的 ResultSets。然而，重要的是 execute() 方法仍然会关闭任何以前 execute() 调用中打开的 ResultSet。所以，要支持多重打开的结果，Statement 接口就要加上一个重载的 getMoreResults() 方法。新式的方法会做一个整数标记，在 getResultSet() 方法被调用时指定前一次打开的 ResultSet 的行为。接口将按如下所示定义标记：  
+BBS.bitsCN.com网管论坛 
+
+　　 
+　　CLOSE_ALL_RESULTS 当调用 getMoreResults() 时，所有以前打开的 ResultSet 对象都将被关闭。  
+　　CLOSE_CURRENT_RESULT 当调用 getMoreResults() 时，当前的 ResultSet 对象将被关闭。  
+　　KEEP_CURRENT_RESULT 当调用 getMoreResults() 时，当前的 ResultSet 对象将不会被关闭。  

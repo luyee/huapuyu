@@ -1,0 +1,19 @@
+假设有如下表
+create table DB_SR_SERVICE_LOG
+(
+  WHOLE_BUSINAME VARCHAR2(20),
+  AVGTIME        NUMBER,
+  SUMCALL        NUMBER,
+  START_TIME     DATE,
+  END_TIME       DATE,
+  DOMAIN_ID      VARCHAR2(10)
+)
+
+表中有重复数据
+
+用如下方法删除重复数据
+delete from DB_SR_SERVICE_LOG a where a.rowid not in 
+(
+select max(rowid) from DB_SR_SERVICE_LOG a 
+group by a.whole_businame, a.avgtime, a.sumcall, a.start_time, a.end_time, a.domain_id 
+)

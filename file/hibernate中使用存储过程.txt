@@ -1,0 +1,88 @@
+hibernate中使用存储过程2007年07月24日 星期二 16:45引自： http://tb.blog.csdn.net/TrackBack.aspx?PostId=546174
+
+如果底层数据库（如Oracle）支持存储过程，也可以通过存储过程来执行批量更新。存储过程直接在数据库中运行，速度更加快。在Oracle数据库中可以定义一个名为batchUpdateStudent()的存储过程，代码如下：
+
+create or replace procedure batchUpdateStudent(p_age in number) as
+begin
+	update STUDENT set AGE=AGE+1 where AGE>p_age;
+end;
+
+以上存储过程有一个参数p_age，代表学生的年龄，应用程序可按照以下方式调用存储过程：
+
+tx = session.beginTransaction();
+Connection con=session.connection();
+
+String procedure = "{call batchUpdateStudent(?) }";
+CallableStatement cstmt = con.prepareCall(procedure);
+cstmt.setInt(1,0); //把年龄参数设为0
+cstmt.executeUpdate();
+tx.commit();
+
+
+引自： http://www.afuer.com/article.asp?id=140
+
+使用存储过程来查询   
+   Hibernate 3引入了对存储过程查询的支持. 
+   存储过程必须返回一个结果集,作为Hibernate能够使用的第一个外部参数.    
+   下面是一个Oracle9和更高版本的存储过程例子.     
+    
+	Create or REPLACE FUNCTION selectAllEmployments RETURN SYS_REFCURSOR     
+	AS     
+		st_cursor SYS_REFCURSOR;     
+	BEGIN     
+		OPEN st_cursor FOR Select EMPLOYEE, EMPLOYER, STARTDATE, ENDDATE, REGIONCODE, EID, VALUE, CURRENCY FROM EMPLOYMENT;     
+        RETURN st_cursor;     
+    END;   
+   在Hibernate里要要使用这个查询,你需要通过命名查询来映射它.     
+    
+	<sql-query name="selectAllEmployees_SP" callable="true">   
+        <return alias="emp" class="Employment">   
+			<return-property name="employee"   column="EMPLOYEE"/>   
+			<return-property name="employer"   column="EMPLOYER"/>                           
+			<return-property name="startDate"  column="STARTDATE"/>   
+			<return-property name="endDate"    column="ENDDATE"/>                           
+			<return-property name="regionCode" column="REGIONCODE"/>                           
+			<return-property name="id"         column="EID"/>                                                   
+			<return-property name="salary">     
+				<return-column name="VALUE"/>   
+				<return-column name="CURRENCY"/>                           
+			</return-property>   
+		</return>   
+        { ? = call selectAllEmployments() }   
+   </sql-query>   
+    
+   注意存储过程当前仅仅返回标量和实体.现在不支持<return-join>和<load-collection>     
+
+引自： http://sjes.com.cn/3frffgxs/2007-7-1/dispbbs_850_252f22232f20
+
+<hibernate-mapping package="com.unmi.vo"> 
+	<class name="Test" table="TEST"/> 　　　　　 
+	<sql-query callable="true" name="selectAllUsers"> 
+		<return alias="aa" class="Test"> 
+			<return-property name="oborqt"   column="OBORQT"/>
+			<return-property name="moorqt"   column="MOORQT"/> 
+			<return-property name="roschn"   column="ROSCHN"/>
+			<return-property name="plandate" column="PLANDATE"/> 
+		</return> 
+		{ ? = call selectAllUsers() } 
+	</sql-query> 
+</hibernate-mapping>
+
+{ ? = call selectAllUsers() } 也可以写成{ call selectAllUsers() }， 如果有参数就写成 { ? = call selectAllUsers(?,?,?) } 代码中对query设置相应位置上的值就OK Java调用关键代码如下
+
+Session session = HibernateUtil.currentSession();
+Query query = session.getNamedQuery("selectAllUsers"); 
+List list = query.list();
+System.out.println(list);
+
+要求你的存储过程必须能返回记录集，否则要出错 
+如果你的存储过程是完成非查询任务就应该在配置文件用以下三个标签 
+
+<sql-insert callable="true">{call createPerson (?, ?)}</sql-insert>
+
+<sql-delete callable="true">{? = call deletePerson (?)}</sql-delete> 
+
+<sql-update callable="true">{? = call updatePerson (?, ?)}</sql-update>
+
+注： 直接从hibernate的session中取connection出来调呗，按照hibernate的思想，存储过程是要少用的，所以对hibernate的支持好像不是很好 
+ 

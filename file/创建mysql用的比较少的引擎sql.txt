@@ -1,0 +1,28 @@
+CREATE TABLE `tb_archive` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=ARCHIVE AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_blackhole` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=BLACKHOLE DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_csv` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=CSV DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_federated` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=FEDERATED DEFAULT CHARSET=utf8 CONNECTION='mysql://root:123@192.168.2.102:3306/anders/tb_federated';
+
+CREATE TABLE `tb_memory` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MEMORY DEFAULT CHARSET=utf8;

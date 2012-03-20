@@ -1,0 +1,101 @@
+sql1:
+
+SELECT DEPARTMENT_ID,
+       PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY SALARY) "PERCENTILE_CONT", 
+       PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY SALARY) "PERCENTILE_DISC", 
+       (1 + 0.5*(COUNT(DEPARTMENT_ID)-1)) "RN", 
+       CEIL((1 + 0.5*(COUNT(DEPARTMENT_ID)-1))) "CRN",
+       FLOOR((1 + 0.5*(COUNT(DEPARTMENT_ID)-1))) "FRN",
+       CEIL((1 + 0.5*(COUNT(DEPARTMENT_ID)-1))) - (1 + 0.5*(COUNT(DEPARTMENT_ID)-1)) "CRN - RN",
+       (1 + 0.5*(COUNT(DEPARTMENT_ID)-1)) - FLOOR((1 + 0.5*(COUNT(DEPARTMENT_ID)-1))) "RN - FRN"
+FROM HR.EMPLOYEES GROUP BY DEPARTMENT_ID;
+
+sql2:
+
+SELECT department_id "部门",
+       salary "工资",
+       PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY SALARY) OVER (PARTITION BY department_id) "PERCENTILE_CONT", 
+       ROUND(PERCENT_RANK() OVER (PARTITION BY department_id ORDER BY SALARY),2) "PERCENT_RANK",
+       PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY SALARY) OVER (PARTITION BY department_id) "PERCENTILE_DISC", 
+       ROUND(CUME_DIST() OVER (PARTITION BY department_id ORDER BY SALARY),2) "CUME_DIST"
+FROM HR.EMPLOYEES t order by DEPARTMENT_ID, salary;
+
+
+PERCENTILE_CONT
+PERCENTILE_CONT会为每条记录生成一个分布百分比值（参考sql2）（这个分布百分比值的计算方法可以参考函数PERCENT_RANK），函数PERCENTILE_CONT的参数（比如上面sql中的0.5）会和每组数据（group by）中所有记录的分布百分比值进行比较，如果找到某条记录的分布百分比值和参数相等，则该组数据的PERCENTILE_CONT值就为这条记录的具体字段值（比如上面的salary字段）；如果找不到和参数相等的分布百分比值，则根据以下公式计算
+
+RN = 1+(P*(N-1)) 其中P是输入的分布百分比值（函数参数），N是每组数据的记录条数
+CRN = CEIL(RN) 
+FRN = FLOOR(RN)
+if (CRN = FRN = RN) then 
+	该组数据的PERCENTILE_CONT值就为每组数据的第RN条记录的具体字段值（比如上面的salary字段）	
+else
+	(CRN-RN)*(每组数据的第FRN条记录的具体字段值)+(RN-FRN)*(每组数据的第CRN条记录的具体字段值)
+
+
+PERCENTILE_DISC
+PERCENTILE_DISC会为每条记录生成一个分布百分比值（参考sql2）（这个分布百分比值的计算方法可以参考函数CUME_DIST，注意和上面的区别），函数PERCENTILE_DISC的参数（比如上面sql中的0.5）会和每组数据（group by）中所有记录的分布百分比值进行比较，如果找到某条记录的分布百分比值和参数相等，则该组数据的PERCENTILE_CONT值就为这条记录的具体字段值（比如上面的salary字段）；如果找不到和参数相等的分布百分比值，则返回大于该分布值（0.5）的下一个值。
+
+
+
+
+
+87。PERCENTILE_CONT 
+功能描述：返回一个与输入的分布百分比值相对应的数据值，分布百分比的计算方法见函数PERCENT_RANK，如果没有正好对应的数据值，就通过下面算法来得到值： 
+RN = 1+ (P*(N-1)) 其中P是输入的分布百分比值，N是组内的行数 
+CRN = CEIL(RN) FRN = FLOOR(RN) 
+if (CRN = FRN = RN) then 
+(value of expression from row at RN) 
+else 
+(CRN - RN) * (value of expression for row at FRN) + 
+(RN - FRN) * (value of expression for row at CRN) 
+注意：本函数与PERCENTILE_DISC的区别在找不到对应的分布值时返回的替代值的计算方法不同 
+SAMPLE：在下例中，对于部门60的Percentile_Cont值计算如下： 
+P=0.7 N=5 RN =1+ (P*(N-1)=1+(0.7*(5-1))=3.8 CRN = CEIL(3.8)=4 
+FRN = FLOOR(3.8)=3 
+（4 - 3.8）* 4800 + (3.8 - 3) * 6000 = 5760 
+SELECT last_name, salary, department_id, 
+PERCENTILE_CONT(0.7) WITHIN GROUP (ORDER BY salary) 
+OVER (PARTITION BY department_id) "Percentile_Cont", 
+PERCENT_RANK() 
+OVER (PARTITION BY department_id ORDER BY salary) "Percent_Rank" 
+FROM employees WHERE department_id IN (30, 60); 
+LAST_NAME SALARY DEPARTMENT_ID Percentile_Cont Percent_Rank 
+------------------------- ---------- ------------- --------------- ------------ 
+Colmenares 2500 30 3000 0 
+Himuro 2600 30 3000 0.2 
+Tobias 2800 30 3000 0.4 
+Baida 2900 30 3000 0.6 
+Khoo 3100 30 3000 0.8 
+Raphaely 11000 30 3000 1 
+Lorentz 4200 60 5760 0 
+Austin 4800 60 5760 0.25 
+Pataballa 4800 60 5760 0.25 
+Ernst 6000 60 5760 0.75 
+Hunold 9000 60 5760 1 
+
+88。PERCENTILE_DISC 
+功能描述：返回一个与输入的分布百分比值相对应的数据值，分布百分比的计算方法见函数CUME_DIST，如果没有正好对应的数据值，就取大于该分布值的下一个值。 
+注意：本函数与PERCENTILE_CONT的区别在找不到对应的分布值时返回的替代值的计算方法不同 
+SAMPLE：下例中0.7的分布值在部门30中没有对应的Cume_Dist值，所以就取下一个分布值0.83333333所对应的SALARY来替代 
+SELECT last_name, salary, department_id, 
+PERCENTILE_DISC(0.7) WITHIN GROUP (ORDER BY salary ) 
+OVER (PARTITION BY department_id) "Percentile_Disc", 
+CUME_DIST() OVER (PARTITION BY department_id ORDER BY salary) "Cume_Dist" 
+FROM employees 
+WHERE department_id in (30, 60); 
+LAST_NAME SALARY DEPARTMENT_ID Percentile_Disc Cume_Dist 
+------------------------- ---------- ------------- --------------- ---------- 
+Colmenares 2500 30 3100 .166666667 
+Himuro 2600 30 3100 .333333333 
+Tobias 2800 30 3100 .5 
+Baida 2900 30 3100 .666666667 
+Khoo 3100 30 3100 .833333333 
+Raphaely 11000 30 3100 1 
+Lorentz 4200 60 6000 .2 
+Austin 4800 60 6000 .6 
+Pataballa 4800 60 6000 .6 
+Ernst 6000 60 6000 .8 
+Hunold 9000 60 6000 1 
+
+

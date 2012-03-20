@@ -1,0 +1,32 @@
+CSS在ASP.NET中使用 
+                                       
+
+原以为在ASP.NET中使用CSS会很麻烦，真正做起来了却很简单，现把使用过程简要记录如下：
+使用CSS大体有两种情况，一是静态的添加，另一是动态变换
+一、静态添加：
+首先在aspx中加入（加入head标记中）：
+<link rel="stylesheet" href="pagecss.css" type="text/css">
+
+定义Pagecss.css文件：
+
+p {  font-size: 9pt}
+a:hover {  font-size: 9pt; color: #FF0000; text-decoration: none}
+a:link {  font-size: 9pt; color: #0000FF; text-decoration: none}
+a:visited {  font-size: 9pt; color: #990099; text-decoration: none}
+.button { font-size:9pt;background:lightgreen;border-color:black;border-width:1pt;height:20}
+
+用CSS定义aspx文件中一个按钮的样式：
+<asp:Button id="Btn_query" runat="server" Text="搜  索" CssClass="button"></asp:Button>
+
+二、动态变换：
+　在asp.net中，有的时候要动态变换CSS，比如有的时候做个性化页面，可以这样做
+
+1 <head>
+2 <link id="MyStyleSheet" rel="stylesheet" type="text/css" runat="server" />
+3 </head> 
+之后，在要更换CSS的页面中，使用如下代码
+void fuction
+{
+　　 
+　　 MyStyleSheet.Attributes.Add("href","/css/flostyle.css")
+}

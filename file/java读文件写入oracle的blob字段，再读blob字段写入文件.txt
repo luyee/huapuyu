@@ -1,0 +1,116 @@
+注意：这里使用的是oracle jdbc驱动包
+
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+import oracle.sql.BLOB;
+import oracle.jdbc.driver.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class MainClass
+{
+  static void writeToOracle(BLOB blob, File file) throws Exception
+  {
+    FileInputStream fis = new FileInputStream(file);
+    OutputStream os = blob.getBinaryOutputStream();
+    int chunk = blob.getChunkSize();
+    System.out.println("The chunk size is : " + chunk);
+    byte[] buffer = new byte[chunk];
+    int length;
+    
+    //begin time
+    Date now = new Date();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String date = dateFormat.format(now);
+    System.out.println("write to oracle begin time : " + date);
+
+    while ((length = fis.read(buffer)) != -1)
+    {
+      os.write(buffer, 0, length);
+    }
+    
+    now = new Date();
+    date = dateFormat.format(now);
+    System.out.println("write to oracle end time : " + date);
+
+    os.close();
+    fis.close();
+  }
+
+  static void readFromOracle(BLOB blob, File file) throws Exception
+  {
+    FileOutputStream fos = new FileOutputStream(file);
+    InputStream is = blob.getBinaryStream();
+    int chunk = blob.getChunkSize();
+    System.out.println("The chunk size is : " + chunk);
+    byte[] buffer = new byte[chunk];
+    int length;
+    
+    Date now = new Date();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String date = dateFormat.format(now);
+    System.out.println("read from oracle begin time : " + date);
+    
+    while ((length = is.read(buffer)) != -1)
+    {
+      fos.write(buffer, 0, length);
+    }
+    
+    now = new Date();
+    date = dateFormat.format(now);
+    System.out.println("read from oracle end time : " + date);
+    
+    is.close();
+    fos.close();
+  }
+
+  public static void main(String[] args)
+  {
+    try
+    {
+      Driver driver = new oracle.jdbc.driver.OracleDriver();
+      Properties props = new Properties();
+      props.put("user", "anders");
+      props.put("password", "123");
+      Connection con = driver.connect("jdbc:oracle:thin:@127.0.0.1:1521:oracle9i", props);
+      con.setAutoCommit(false);
+
+      //write to oracle
+      Statement st = con.createStatement();
+      st.execute("INSERT INTO tb_test1 VALUES (4, 'jpg', EMPTY_BLOB())");
+      st.execute("COMMIT");
+      ResultSet rs = st.executeQuery("SELECT * FROM tb_test1 WHERE fd_id = 4 FOR UPDATE");
+      BLOB blob = null;
+      while (rs.next())
+      {
+        blob = ((OracleResultSet)rs).getBLOB("fd_content");
+//        blob=(BLOB)rs.getBlob("CONTENT");
+      }
+      File file = new File("d:\\1.rmvb");
+      writeToOracle(blob, file);
+      rs.close();
+      
+      System.out.println("finish : write to oracle");
+
+      //read from oracle
+      rs = st.executeQuery("SELECT * FROM tb_test1 WHERE fd_id = 4");
+      blob = null;
+      while (rs.next())
+      {
+        blob = ((OracleResultSet)rs).getBLOB("fd_content");
+      }
+      file = new File("d:\\2.rmvb");
+      readFromOracle(blob, file);
+      rs.close();
+      
+      con.close();
+      
+      System.out.println("finish : read from oracle");
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+  }
+}

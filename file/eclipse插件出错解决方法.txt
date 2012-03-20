@@ -1,0 +1,3 @@
+eclipse插件出错解决方法
+1.启动时加-clean参数
+2.eclipse安装目录下的configuration目录下的文件可以全部删除，要保留config.ini

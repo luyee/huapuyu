@@ -1,0 +1,23 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>播放声音</title>
+<script type="text/javascript" language="javascript">
+<!--
+	function playwav()
+	{
+		document.testMusic.play();
+	}
+//-->
+</script>
+</head>
+
+<body>
+<embed name="testMusic" id="testMusic" src="music.wav" hidden="false" autostart="false" mastersound>
+<form>
+<input type="button" value="OK" onclick="playwav();">
+</form>
+</body>
+
+</html>

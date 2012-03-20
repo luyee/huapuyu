@@ -1,0 +1,32 @@
+由于误删了表空间文件，可能造成无法启动数据库，如下面的提示
+
+SQL> startup
+ORACLE 例程已经启动。
+
+Total System Global Area  135338868 bytes
+Fixed Size                   453492 bytes
+Variable Size             109051904 bytes
+Database Buffers           25165824 bytes
+Redo Buffers                 667648 bytes
+数据库装载完毕。
+ORA-01157: 无法标识/锁定数据文件 15 - 请参阅 DBWR 跟踪文件
+ORA-01110: 数据文件 15: 'E:\ORACLE\P17TRAIN_DATA.DAT'
+
+
+SQL> drop tablespace P17TRAIN_DATA1;
+drop tablespace P17TRAIN_DATA1
+*
+ERROR 位于第 1 行:
+ORA-01109: 数据库未打开
+
+
+可以用一下命令解决问题
+
+SQL> alter database datafile 'E:\ORACLE\P17TRAIN_DATA.DAT' offline drop;
+
+数据库已更改。
+
+
+
+
+

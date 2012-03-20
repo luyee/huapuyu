@@ -1,0 +1,107 @@
+ORA-01555错误浅析 
+
+DBStudy   2009-07-03 15:32   阅读15   评论0   字号： 大大  中中  小小   
+ ORA-01555是常见的oracle错误。相信绝大部分dba都遇到过这个错误。平时面试的时候我也比较喜欢问这个问题，一方面问题比较基础，每个人都有work on it的经验，可以谈谈自己的想法，另一方面容易由此问题引申到其他更为复杂一点的问题。平时在论坛上也经常看到有人问这个问题。虽然谈论很多了，不过从面试的结果还有论坛的回帖看，普遍存在下面两个误解： 
+
+1. 为查询的session指定一个大的回滚段 
+
+2. manual管理模式下增大rollback segment的maxextents参数 
+
+首先看第一点：为查询的session指定一个大的回滚段 
+
+Ora-01555的常见原因是查询操作要去读取的回滚段信息已经被覆盖掉，不能完成一致性读操作（这里暂时不包含delayed block cleanout的情况了，因为出现比较少，我也没有在正式环境上遇到过）。注意需要读取的回滚段信息不是查询操作自己写的回滚段信息（查询操作并不写任何undo信息），而是在查询操作开始后，dml修改操作写入的undo信息。理解了这一点，自然明白了为查询操作指定一个大的回滚段是毫无意义的事情，因为查询根本不使用回滚段！ 
+
+关于第二点，大部分情况下也是没有作用的 
+
+想到第二点的人是想扩大回滚段的大小，但是回滚段的扩展只有在回滚段有session没有commit而导致其不能循环使用的时候才会扩展。解释详细一点就是session A hold住了回滚段头并且一直不commit，这时候dml修改操作一直写回滚段，因为回滚段为环状结构，写了一圈下来，Session A还是没有commit，这时候就会扩展回滚段，rbs表空间的剩余空间和maxextents控制是否能够扩展。ORA-01555的错误并不是因为做dml修改的session不能扩展，而是正因为循环覆盖了已经commit的undo信息导致查询失败，因为可以循环覆写。他根本不需要扩展。所以增大maxextents参数大部分情况下不会对ORA-01555错误有任何帮助。 
+
+下面我来谈谈自己平时解决ORA-01555错误的基本步骤，希望对大家有所帮助 
+
+0. 开始先看看rollback segment是否有分配不当的问题，例如莫一个rollback segment（报错的那个）太小。 
+
+如果有，先recreate rollback segment以保持所有的回滚段大小一致，并且size不要太小。 
+
+1. 看查询的执行计划是否正确。ORA-01555错误发生的概率和查询所需的时间成正比，查询时间越长，发生ORA-01555的概率越大。 
+
+如果执行计划不正确，首先进行sql tuning，如果执行计划正确，但进行fts，考虑是否可以并行来跑（server load不是很高的情况下） 
+
+总之一句话就是尽量缩短query的时间 
+
+2. 如果执行计划正确，估算一下运行时间，如果运行时间不是很长，这时候我喜欢登陆到server本地上执行一下SQL看看需要多少时间 
+
+如果本地很快就执行完了，说明问题出在application媏，转入下面第三点。如果确实很慢，转入第四点。 
+
+3. Application媏的问题可能类型很多，我所遇到的大致有一下几种 
+
+3.1 网络速度太慢，application server和database server的网络出现问题。这时候dba可以从application server断来做一些ping包的测试。 
+
+如果确实是网络的问题，可以找网络工程师协助察看是否有网络故障。如果异地之间确实速度很慢，可以考虑是否从一台速度比较 
+
+快的application server上发出查询请求。 
+
+（补充一点：可以尝试设大arraysize，有时会有大幅度的提升） 
+
+3.2 Cursor open时间太长。有时候application媏是使用open cursor的方式来fetch data。这时候有可能open cursor后长时间不做操作，导致fetch data时 
+
+出现ORA-01555。更常见的一种情况是，有些应用是将一些处理程序放置在fetch loop中，例如 
+
+declare 
+
+cursor cur_query is select object_id from dba_objects; 
+
+….. 
+
+begin 
+
+for i in cur_query loop 
+
+…. 
+
+&do some things here 
+
+… 
+
+end loop; 
+
+end; 
+
+/ 
+
+这时候可能整个查询的速度被”&do some things here“这段处理程序的速度所影响，导致整个查询速度变慢。 
+
+可以建议application修改code，将数据先fetch出来存在一个structure中，然后再来处理。 
+
+3.3 commiting in a loop,这一点在Tom kyte的Expert Oracle Database Architecture中有详细的例子（P268)，在itpub上有一篇帖子遇到的就是这个问题。 
+
+4. 这时候我们要考虑一下数据库本身了。首先看看产生这么多undo 信息是否正常，如果正常的话，考虑是否可以挑选一个系统比较空闲的时段跑查询。 
+
+如果本身查询运行的时间就是系统比较空闲的时段或者系统从来就没闲过:), 那就加大回滚段吧。 
+
+这里有两种方法， 
+
+第一种是重建回滚段，修改minextents为一个较大的值，一个一个的offline，drop，create。初始化的大小为minextents*extent size 
+
+第二种是增加回滚段的个数 
+
+8i在有些情况下oracle会很喜欢用第一个回滚段，不知道为何，可以考虑将第一个回滚段扩大一点（如果错误信息里面是第一个回滚段的话） 
+
+我比较喜欢使用的是第一种方法 
+
+5. 如果第四步仍然没有效果（我们不可能无限制的加大回滚段），那么可以考虑其他的方法 
+
+如果有standby database的话，可以考虑将其open read only来给大的查询使用，或者为其建立一个报表系统 
+
+对于ORA-01555比较频繁的系统，可以考虑转为auto management undo tablespace，这样管理起来简单一点。 
+
+auto管理下处理的基本思想是，获得最长查询的时间，预估keep这段时间undo所需的回滚段大小，扩大undo tablespace，修改undo_retention 
+
+这里推荐一篇文章讲解auto undo management的文章，讲解还是比较详细的 auto undo management.pdf  
+
+另外关于LOB存在的情况，是完全不同的一种情况，我以前有文章写过 ，请参考 当ORA-01555遇到了LOB 
+
+当然这里短短的描述还是不能涵盖ORA-01555 。实际处理问题的时候也不必拘泥于具体的步骤。 
+
+理解了基本原理，再辅以实际案例的解决，这样才会有一个真正意义上的理解。
+ 
+ 
+

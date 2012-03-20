@@ -1,0 +1,64 @@
+发送端：
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  hWnd: Integer;
+  cds: TCopyDataStruct;
+begin
+  hWnd := FindWindow(nil, PChar('receive'));//根据接收程序的标题获得接收程序句柄
+  //hWnd := GetWindow(hWnd, GW_CHILD);//获得接收程序子控件的句柄
+  //hWnd := GetWindow(hWnd, GW_HWNDNEXT);
+  //SendMessage(hWnd, WM_USER + 1, 0, Integer(PChar(Edit1.Text)));	
+  //SendMessage(hWnd, WM_SETTEXT, 0, Integer(PChar(Edit1.Text)));	
+  cds.cbData := Length(Edit1.Text) + 1;
+  GetMem(cds.lpData, cds.cbData);
+  StrCopy(cds.lpData, PChar(Edit1.Text));
+  SendMessage(hWnd, WM_COPYDATA, 0, Cardinal(@cds));
+  FreeMem(cds.lpData);
+end;
+
+
+接收端：
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Memo1: TMemo;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+//    procedure WndProc(var Message: TMessage); override;
+    procedure ShowMess(var t: TWMCopyData); message WM_COPYDATA;
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+{ TForm1 }
+
+//procedure TForm1.WndProc(var Message: TMessage);
+//begin
+//  if Message.Msg = WM_USER + 1 then
+//  begin
+//
+//  end
+//  else
+//    inherited WndProc(Message);
+//end;
+
+procedure TForm1.ShowMess(var t: TWMCopyData);
+begin
+  Memo1.Lines.Add(StrPas(t.CopyDataStruct^.lpData));
+end;
+
+end.

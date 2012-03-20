@@ -1,0 +1,15 @@
+var
+  str: string;//widestring
+  i_s, i_l, i: Integer;
+begin
+  str := 'IT:朱振';
+  i_s := SizeOf(str);
+  i_l := Length(str);
+  ShowMessage(IntToStr(i_s)+' '+inttostr(i_l));
+  for i := 1 to i_l do
+    Memo1.Lines.Add(str[i]);
+end;
+
+ansistring/string用于储存英文
+widestring用于存储中文
+上面的例子能够充分说明

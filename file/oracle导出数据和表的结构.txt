@@ -1,0 +1,44 @@
+exp/imp工具：
+带参数：rows=y   —— 带数据导出导入；rows=n    —— 不带数据的导出导入，只移植结构。
+
+例：
+
+　只导出3张表的结构： 
+exp user/pasword@dbServerName owner=user tables=(tb1,tb2,tb3) rows=n file=c:\1.dmp 
+　连带数据导出： 
+exp user/pasword@dbServerName owner=user tables=(tb1,tb2,tb3) rows=y file=c:\2.dmp 
+
+imp user2/pasword@dbServerName2 fromuser=user touser=user2 file=c:\1.dmp 
+
+或者 
+imp user2/pasword@dbServerName2 fromuser=user touser=user2 file=c:\2.dmp  
+
+导出一个用户下的所有表数据
+
+常用的命令
+
+Exp user/password@instance file=file.dmp rows=y log=log_name
+
+其中username/password为导出用户的用户名和密码
+
+Instance为导出的实例名
+
+
+导出一个用户下的表结构为sql文件
+
+使用命令好像导出的都是dmp文件
+
+可以使用plsql软件在tools--export user object
+
+如果不要到处table space ，不要勾include storage
+
+选择导出的路径文件名，export可以直接导出了
+
+
+导入一个用户下的所有表数据
+
+常用命令
+
+Imp system@instance file=file.dmp fromuser=user1 touser=user2
+
+运行时会提示你输入system的密码。

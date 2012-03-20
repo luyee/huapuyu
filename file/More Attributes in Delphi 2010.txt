@@ -1,0 +1,84 @@
+ In my previous post on Attributes in Delphi 2010, I showed a basic view of the mechanics involved in creating, applying and querying Attributes. I didn¡¯t really cover an example of why you might use them.
+
+Probably the most common example given is for persistence, and indeed, someone over on the Wings of Wind website has posted an example along those lines. I¡¯d like to show off a different use for them: Validation.
+
+Note, what I¡¯ll show you below is meant to be an example of attribute usage, not an example of a robust, complete validation framework. View it like a proof of concept, not finished code.
+
+OK, disclaimers out of the way, in this scenario I¡¯d like to be able to add meta-data to my classes specifying validation rules. Maybe I want to be able to say that for my TPerson class to be considered valid, it must have a non-empty Name value, and the Age value must be between 18 to 65. One way to achieve this is to decorate the relevant properties with Attributes specifying these rules, and then have some code that uses RTTI to walk through whatever object is passed to it and validates each of the property values according to the attributes attached to it.
+
+Make sense? OK, let¡¯s have a look.
+
+I¡¯ve defined a few Validation attributes. Not a full set, just a few to show them working on different types. There¡¯s a small hierarchy which makes the validation code a little more generic. So far I¡¯ve only created Attributes for strings and Integers, but you should get the idea.
+
+If we have a look at the source for one of the leaf classes, the definition looks like this:
+
+  MinimumIntegerAttribute = class(BaseIntegerValidationAttribute)
+  private
+    FMinimumValue: Integer;
+  public
+    constructor Create(MinimumValue : Integer; const FailureMessage : string);
+    function Validate(Value : Integer) : boolean; override;
+  end;The constructor just stores the two parameters, and the validate method is very simple (well, the rule is simple in this case). It looks like this:
+
+function MinimumIntegerAttribute.Validate(Value: Integer): boolean;
+begin
+  Result := Value &gt;= FMinimumValue;
+end;Now that I have these attributes defined, I can use them like this:
+
+  TPerson = class
+  private
+    FName: String;
+    FAge: Integer;
+  public
+    [NonEmptyString('Must provide a Name')]
+    property Name : String read FName write FName;
+    [MinimumInteger(18, 'Must be at least 18 years old')]
+    [MaximumInteger(65, 'Must be no older than 65 years')]
+    property Age : Integer read FAge write FAge;
+  end;Yes, another TPerson. Sorry, not very imaginative.
+
+As you can see, I¡¯ve tagged the Name property with the NonEmtpyString attribute, and supplied a failure message should it be found invalid. I¡¯ve also tagged the Age property with both a minimum and maximum value attribute. What would probably be more useful is to define a validation attribute for a range, but I wanted an excuse to show tagging two attributes on a single property.
+
+For the sake of this example, I¡¯ve created a simple function that does the validation, like this:
+
+function Validate(Target : TObject; ErrorList : TStrings) : boolean;
+var
+  ctx : TRttiContext;
+  t : TRttiType;
+  p : TRttiProperty;
+  a : TCustomAttribute;
+begin
+  Result := True;
+ 
+  if not Assigned(Target) then
+    raise Exception.Create('Can''t validate nil object');
+ 
+  if not Assigned(ErrorList) then
+    raise Exception.Create('Can''t validate with a nil ErrorList');
+ 
+  ctx := TRttiContext.Create.Create;
+  try
+    t := ctx.GetType(Target.ClassType);
+    for p in t.GetProperties do
+      for a in p.GetAttributes do
+        if a is BaseIntegerValidationAttribute then
+        begin
+          if not BaseIntegerValidationAttribute(a).Validate(p.GetValue(Target).AsInteger) then
+            ErrorList.Add(BaseValidationAttribute(a).FailureMessage);
+        end
+        else if a is BaseStringValidationAttribute then
+        begin
+          if not BaseStringValidationAttribute(a).Validate(p.GetValue(Target).AsString) then
+            ErrorList.Add(BaseValidationAttribute(a).FailureMessage);
+        end
+  finally
+    ctx.Free;
+  end;
+end;First I do some checking to make sure that the instance passed in to be validated is not actually nil, and the same for the Errorlist where I¡¯ll report any issues.
+
+Then, for each property, I grab each of the attributes. Depending on what type of attribute it is, I call the Validate method, passing in the property value. If the call to Validate fails, I add the FailureMessage to the ErrorList.  
+
+This could certainly be improved. For example, I don¡¯t like that I have to update the Validate method for each type I want to Validate, and simply dumping any errors into a TStrings is pretty lame. Providing a list of ValidationFailure objects would probably be more helpful. However, for 45 minutes work, I think it shows the concept reasonably well. You can download the sample code here.
+
+Whether you want to use Attributes for persistence, validation or for something else entirely, hopefully this has been useful. A few people have said they don¡¯t see the point of attributes. Maybe it¡¯s worth exploring them and giving them some time to ¡°bake¡± in your thoughts. It¡¯s said that our language shapes our thoughts, and it may just be a case that because Delphi has not supported attributes in the past, we¡¯re not used to thinking about solutions that use them. As with Generics, Anonymous Methods and Interfaces before them, I find that the more I become familiar with them, the more ideas come forward about how I might use them 
+

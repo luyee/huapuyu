@@ -1,0 +1,30 @@
+#1、设置环境变量
+export MYSQL_USER=mysql
+export MYSQL_PORT=8001
+export MYSQL_BASEDIR=/home/mysql/mysql_5.0.51b
+export MYSQL_HOMEDIR=/home/mysql
+
+#2、创建MySQL目录
+mkdir -p ${MYSQL_BASEDIR}/bin && chmod 0755 ${MYSQL_BASEDIR}/bin #工具目录，自动生成
+mkdir -p ${MYSQL_BASEDIR}/var && chmod 0700 ${MYSQL_BASEDIR}/var #数据文件目录，自动生成
+mkdir -p ${MYSQL_BASEDIR}/etc && chmod 0755 ${MYSQL_BASEDIR}/etc #配置文件目录
+mkdir -p ${MYSQL_BASEDIR}/log && chmod 0755 ${MYSQL_BASEDIR}/log #日志文件目录
+mkdir -p ${MYSQL_BASEDIR}/tmp && chmod 0755 ${MYSQL_BASEDIR}/tmp #临时目录
+
+#3、编译安装MySQL
+cd ${MYSQL_HOMEDIR} && tar -xzvf mysql-5.0.51b.tar.gz 
+cd ${MYSQL_HOMEDIR}/mysql-5.0.51b && ./configure --prefix=${MYSQL_BASEDIR} --port=${PORT} --with-charset=gbk --with-extra-charsets=gbk,utf8,ascii,big5,latin1,binary --with-unix-socket-path=${MYSQL_BASEDIR}/tmp/mysql.sock --with-mysqld-user=${MYSQL_USER}
+cd ${MYSQL_HOMEDIR}/mysql-5.0.51b && make && make install
+
+cd  ${MYSQL_BASEDIR}/bin && ./mysql_install_db --user=${MYSQL_USER} --basedir=${MYSQL_BASEDIR} --datadir=${MYSQL_BASEDIR}/var
+
+$MYSQL_BASEDIR/bin/mysqld_safe --defaults-file=${MYSQL_BASEDIR}/etc/my.cnf &
+
+#4、删除无用用户
+export HOSTNAME=`hostname`
+$MYSQL_BASEDIR/bin/mysql -S ${MYSQL_BASEDIR}/tmp/mysql.sock -uroot -e "drop user ''@'localhost';"
+$MYSQL_BASEDIR/bin/mysql -S ${MYSQL_BASEDIR}/tmp/mysql.sock -uroot -e "drop user ''@'${HOSTNAME}';"
+$MYSQL_BASEDIR/bin/mysql -S ${MYSQL_BASEDIR}/tmp/mysql.sock -uroot -e "drop user root@'${HOSTNAME}';"
+
+#5、修改root用户密码
+$MYSQL_BASEDIR/bin/mysql -S ${MYSQL_BASEDIR}/tmp/mysql.sock -uroot -e "GRANT USAGE ON *.* TO 'root'@'localhost' IDENTIFIED BY '@3&7Cc82JU';GRANT USAGE ON *.* TO 'root'@'127.0.0.1' IDENTIFIED BY 'xxxxxx'"

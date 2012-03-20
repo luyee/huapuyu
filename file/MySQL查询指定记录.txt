@@ -1,0 +1,12 @@
+MySQL查询指定记录
+SELECT * FROM tabnam LIMIT offset, recnum
+tabnam:表名
+offset:从第几条记录开始
+recnum:返回的记录条数
+
+例如
+MySQL:
+SELECT * FROM tableName LIMIT 0, 10
+SQL Server:
+SELECT TOP 10 * FROM tableName
+两者实现功能一样

@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+using System.Collections;
+
+namespace WindowsApplication1
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void btn_import_Click(object sender, EventArgs e)
+        {
+            SqlConnection con = new SqlConnection("Data Source=zhuzhen;initial catalog=StudentBean;User ID=sa;Password=123");
+            SqlCommand com = new SqlCommand("SELECT * FROM Category ORDER BY FatherID", con);
+            con.Open();
+            SqlDataReader dr = com.ExecuteReader();
+
+            while (dr.Read())
+            {
+                import_tree(dr["CategoryID"].ToString(), dr["CategoryName"].ToString(), dr["FatherID"].ToString());
+            }
+        }
+
+        private void import_tree(string category_id, string category_name, string father_id)
+        {
+            TreeNode tn = new TreeNode();
+            tn.Name = category_id;
+            tn.Text = category_name;
+            
+            if (father_id == "0")
+            {
+                tree.Nodes.Add(tn);
+            }
+            else
+            {
+                TreeNode[] tna = tree.Nodes.Find(father_id, true);
+                tna[0].Nodes.Add(tn);
+            }
+        }
+    }
+}

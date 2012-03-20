@@ -1,0 +1,30 @@
+class User      
+  def initialize(n, a)
+    @name = n;
+    @age = a;
+  end;
+      
+  def print
+    raise NotImplementedError.new("#{self.class.name} is an abstract class.");
+  end;
+  
+  public :initialize;
+  public :print;
+end;
+
+class StudentUser < User      
+  def initialize(n, a, s)
+    super(n, a);
+    @school = s;
+  end;
+      
+  def print
+    printf 'Name : ' + @name + ' Age : ' + @age.to_s + ' School : ' + @school;
+  end;
+  
+  public :initialize;
+  public :print;
+end;
+
+su = StudentUser.new('zhuzhen', 23, 'Number 9');
+su.print;

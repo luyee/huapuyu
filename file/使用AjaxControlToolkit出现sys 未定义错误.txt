@@ -1,0 +1,25 @@
+使用AjaxControlToolkit出现sys 未定义错误
+
+
+按照网上的办法对web.confg 做了一翻手术，一点效果也没有。想想也对，web.config跟本没改动过，凭什么突然就把问题都算在人家头上？经过一翻摸索后，突然发现，原来是身份验证惹的祸。在配置了身份验证的网站中，访问未登录页面时，对Ajax脚本资源的访问被拒绝，转向到了登录页面，由于请求不到脚本文件，页面上对ajax的调用就无法完成，报 Sys未定义 错误! 
+       具体情况如下： 
+        Asp.net Ajax 的脚本都是封装成vxd文件(一种IHttpHandle的实现，asp.net本身的脚本也是采用这种方式实现的)，我们在页面上可以看到类似于如下的脚本引用： 
+  asp.net的脚本引用 
+<script src="/ADCAdminPortal/WebResource.axd?d=oaHQugHLcngT9QBb6bqlOQ2&amp;t=632980334575156250" type="text/javascript"></script> 
+   asp.net Ajax 的脚本引用  
+<script src="/ADCAdminPortal/ScriptResource.axd?d=yvZpRQrDbxpfjwZQ-SD6d59FTbTz2nfeQMLt1bp5Av-9SkGCaXBfqf0HVEgduxP2f6U7UUs1yT2Gh7BsFIoKYNnXT56B5pflXKy3iFKZUFL-PFKULAHEYgZH4c-KK2T3R8gdXVYECnCzMt0XRtk7TB9ydna4LCyYoh_WttSxiho1&amp;t=632992694620822500" type="text/javascript"></script> 
+<script src="/ADCAdminPortal/ScriptResource.axd?d=yvZpRQrDbxpfjwZQ-SD6d59FTbTz2nfeQMLt1bp5Av-9SkGCaXBfqf0HVEgduxP2f6U7UUs1yT2Gh7BsFIoKYNnXT56B5pflXKy3iFKZUFL-PFKULAHEYgZH4c-KK2T3D4Nw9sGEQEXOmb5pILf4ACll48eLd5fNcjH_mOdiJtM1&amp;t=632992694620822500" type="text/javascript"></script> 
+    当需要身份验证时，未登录前，对web站点的任何文件的访问都将被拒绝。　而一般的网站都有一部分页面是不需要身份证验的，如：首页，新闻页面，登录页面，等等。　所以，网站的Sys未定义错误就出现了。将 axd文件定义为无需验证后，该错误彻底解决。 
+　　　  
+<location path="ScriptResource.axd"> 
+        <system.web> 
+            <authorization> 
+                <allow users="*"/> 
+            </authorization> 
+        </system.web> 
+    </location> 
+　　 
+　另外需要注意的是，在使用vs 2005自带的web Servier中所有文件都会被asp.net 解析，在未登录的页面图片无法显示也是由此原因造成的。 
+　我认为90%的Asp.net Ajax的 Sys未定义　错误是由此造成的。在作了以上配置后，问题都能解除。在之后的某个发布到IIS的版中，仍然出现过一次脚本错误，最后检查发现仍然是由于　Ajax中的脚本资源未解析造成的。检查IIS中的配置无误后，将虚拟目录删除，重建后，问题消失。 
+　　提示：　 
+　　　　Asp.net Ajax的脚本错误基本都是由于脚本资源文件vxd无法解析造成的。　如果出现脚本错误，先查看IE中页面的html源码，将<scipt>脚本引用中的src 值全部copy下来，直接放入IE的地址栏进行访问，如果能解析为脚本文件（提示下载），则表示解析成功，如果不能下载，表示vxd无法解析，原因一般都是身份证验证造成的。如果仅仅出现一年白底黑字的 “无法找到网页”　的IIS错误页面，那就与asp.net无关了，有可能是IIS未解析vxd文件，可以检查IIS的默认扩展名解析配置是否被改动过。如果没有改动过，将虚拟目录重建。要不然就在IIS中重新注册asp.net.  

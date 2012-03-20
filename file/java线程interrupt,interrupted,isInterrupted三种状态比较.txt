@@ -1,0 +1,7 @@
+线程中断interrupt(),interrupted(),isInterrupted()
+interrupt: 
+  实例方法,该方法会设置一个线程的interrupt flag为true，不进行其它任何操作，无返回值。对于sleep(),notify(),jion()或者内部判断了interrupt flag的方法来说，当interrupt flag为true时，执行这些方法(e.g.sleep())会抛出InterruptException. 
+interrupted: 
+  静态方法,该方法会设置当前线程的interrupt flag为false，不进行其它任何操作，boolean类型返回值。如果当前线程interrupt flag已经为false,那么调用该方法会返回false;如果当前线程interrupt flag为true,那么调用该方法会返回true(因为把"中断标志"修改为"非中断标志"操作成功，所以返回为true); 
+isInterrupted: 
+  实例方法,判断线程是interrupt flag的状态。 

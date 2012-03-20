@@ -1,0 +1,44 @@
+进入mysql，创建一个新用户anders：
+格式：grant 权限 on 数据库名.表名 用户@登录主机 identified by "用户密码";
+grant select,update,insert,delete on *.* to anders@192.168.88.234 identified by "1234";
+查看结果，执行：
+use mysql;
+select host,user,password from user;
+可以看到在user表中已有刚才创建的xuys用户。host字段表示登录的主机，其值可以用IP，也可用
+
+主机名，
+将host字段的值改为%就表示在任何客户端机器上能以xuys用户登录到mysql服务器，建议在开发时
+
+设为%。 
+update user set host = '%' where user = 'anders';(***************很有效的方法****************)
+
+我是采用的这一种方法，将用户名改为'root'就可以在任何一台机器上用root账户远程连接mysql数据库了。在执行mysql的命令时不要忘了在最后加“分号”。
+
+另外我还执行了一句，因为我的root账户密码为空，所以最后用‘’表示：
+
+mysql>grant all on *.* to 'root'@'%' identified by '123';(***************很有效的方法****************)
+
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123' WITH GRANT OPTION  (***************很有效的方法****************)
+FLUSH PRIVILEGES
+GRANT ALL PRIVILEGES ON mydatabase.* TO 'root'@'192.168.1.3' IDENTIFIED BY 'mypassword' WITH GRANT OPTION;
+FLUSH PRIVILEGES
+grant all on sonardb.* to sonar@'%' identified by '123456';
+FLUSH PRIVILEGES
+grant all on sonardb.* to sonar@localhost identified by '123456';
+FLUSH PRIVILEGES
+
+注意：
+如果是在windows上，上面的步骤应该就可以了
+如果在ubuntu上，上面的步骤可能不行，需要修改/etc/mysql/my.cnf
+[mysqld]
+
+...
+
+#
+# Instead of skip-networking the default is now to listen only on
+# localhost which is more compatible and is not less secure.
+bind-address		= 127.0.0.1  (****************改为具体的ip，如192.168.2.102)
+
+
+重启mysql服务器sudo /etc/init.d/mysql restart (或者stop start)

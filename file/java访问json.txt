@@ -1,0 +1,38 @@
+JAVA
+  JSONObject hobj=new JSONObject();
+  hobj.put("ROWCOUNT", 2);
+  JSONObject[] objs=new JSONObject[2];
+  objs[0]=new JSONObject();
+  objs[0].put("ITEM_VALUE1","12");
+  objs[0].put("ITEM_VALUE2","23");
+  objs[0].put("ITEM_VALUE3","34");
+  objs[0].put("ITEM_VALUE4","45");
+  objs[1] = new JSONObject();
+  objs[1].put("ITEM_VALUE1","34");
+  objs[1].put("ITEM_VALUE2","45");
+  objs[1].put("ITEM_VALUE3","56");
+  objs[1].put("ITEM_VALUE4","67");
+  hobj.put("ITEMS", objs);
+  
+  Logger logger = Logger.getLogger("diagnose");
+  logger.debug(hobj.toString());
+  
+  logger.debug(hobj.getString("ROWCOUNT"));
+  for(int i=0;i<hobj.getJSONArray("ITEMS").length();i++){
+   JSONObject ajson=hobj.getJSONArray("ITEMS").getJSONObject(i);
+   logger.debug(ajson.getString("ITEM_VALUE1")+"--"+ajson.getString("ITEM_VALUE2")+"--"+ajson.getString("ITEM_VALUE3")+"--"+ajson.getString("ITEM_VALUE4"));
+  }
+  
+<script type="text/javascript" src="../../jsv2/json.js"></script>
+<script>
+ var json= '{"ITEMS":[{"ITEM_VALUE3":"34","ITEM_VALUE2":"23","ITEM_VALUE4":"45","ITEM_VALUE1":"12"},{"ITEM_VALUE3":"56","ITEM_VALUE2":"45","ITEM_VALUE4":"67","ITEM_VALUE1":"34"}],"ROWCOUNT":2}';
+ var jsonobj=json.parseJSON();
+ alert(jsonobj.ROWCOUNT);
+ var items=jsonobj.ITEMS;
+ alert(items.length);
+ for(var i=0;i<items.length;i++){
+    alert(items[i].ITEM_VALUE1+'-'+items[i].ITEM_VALUE2+'-'+items[i].ITEM_VALUE3+'-'+items[i].ITEM_VALUE4);
+ 
+ }
+ 
+</script>

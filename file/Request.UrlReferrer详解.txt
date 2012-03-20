@@ -1,0 +1,38 @@
+Request.UrlReferrer详解 
+Request.UrlReferrer可以获取客户端上次请求的url的有关信息。
+  这样我们就可以通过这个属性返回到“上一页”，
+示例如下
+    
+
+1.      首先在Page_load中获得并储存该信息
+
+Page_load(object obj,EventArgs e)
+{
+	if(!IsPostBack)
+        {
+        	if(Request.UrlReferrer != null)  
+                {
+                	ViewState["UrlReferrer"] = Request.UrlReferrer.ToString();
+                }
+       	}
+}
+
+l        页面回发后会改变Request.UrlReferrer，将其指向当前页面，所以需要进行判断：只有在第一次请求页面的时候才储存该信息
+
+l        因为可能“上一次”的url不存在，所以需要进行判断，只有在Request.UrlReferrer存在的情况下才进行储存
+             
+
+
+
+2.      然后在返回函数中使用该信息
+
+void Return()
+{
+	if(ViewState["UrlReferrer"] != null)
+		Response.Redirect(ViewState["UrlReferrer"].ToString());
+}
+
+在使用Request.UrlReferrer时还要注意： 
+1.  如果上一页面使用document.location方法导航到当前页面，Request.UrlReferrer返回空值
+2.  如果有A,B两个页面，在浏览器中直接请求A页面，在A页面的中Page_Load事件中导航到B 页面，则    Request.UrlReferrer返回空。因为 在Page_load事件中页面还未初始化，所以无法记录当前页的信息，导航到b页面也就无法获得上一页面的信息   
+3.  点击刷新按钮不会改变Request.UrlReferrer 

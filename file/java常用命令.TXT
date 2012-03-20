@@ -1,0 +1,11 @@
+将中文转为ascii码
+
+方法1：
+native2ascii 1.txt 2.txt
+说明native2ascii.exe 源文件 目的文件
+
+
+方法2：
+运行native2ascii回车
+然后在光标后输入中文，ascii码会直接显示出来
+

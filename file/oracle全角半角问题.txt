@@ -1,0 +1,6 @@
+oracle中进行模糊查询时，%和％　_和＿　（半角和全角）是不进行区分的
+
+如果你需要查询name like 'zhuzhen_guolili' 
+oracle会认为_是一个匹配字符，因此返回结果可能是zhuzhentguolili zhuzheniguolili
+要避免这种情况，可以用如下方式
+name like 'zhuzhen\_guolili' escape '\'

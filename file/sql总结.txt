@@ -1,0 +1,11 @@
+如果有两张表（A和B），表结构相同，可以有如下操作
+通过A创建B
+sql server : select * into B from A 
+oracle : create table B as select * from A
+
+将A中数据拷贝到B中
+sql server : insert into B select * from A
+oracle : insert into B select * from A
+也可以加where条件，如
+insert into B select * from A where ... 
+注意这种方式插入数据时，A和B表的表结构可以不同，只要字段兼容就可以

@@ -1,0 +1,24 @@
+package mypack;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Formatter;
+import java.util.List;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		List myList = new ArrayList();
+		double d = 12.6777777;
+		myList.add(Double.valueOf(d));
+		for (int i = 0; i < myList.size(); i++)
+		{
+			Formatter f = new Formatter();
+			System.out.println(f.format("%.2f", myList.get(i)));
+			System.out.println(String.format("%.2f", myList.get(i)));
+			DecimalFormat f1 = new DecimalFormat("#.##");
+			System.out.println(f1.format(myList.get(i)));
+		}
+	}
+
+}

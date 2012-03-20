@@ -1,0 +1,3 @@
+Project--->project   properties---->Java   Formatting--->Blocks--->Place   opening   brace   on   next   line   
+  你把method   declaration选上就可以了，如果你选上class   declaration那   class后面的{也会在下面   
+  这边是配置你的书写风格的，你可以自己琢磨琢磨

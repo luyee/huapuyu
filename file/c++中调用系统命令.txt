@@ -1,0 +1,8 @@
+#include <stdlib.h>
+
+int main()
+{
+	system("ping 127.0.0.1 > d:\\a.log");
+
+	return 0;
+}

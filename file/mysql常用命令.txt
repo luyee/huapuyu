@@ -1,0 +1,17 @@
+显示隔离级别
+select @@tx_isolation;
+
+
+设置隔离级别
+set transaction isolation level read uncommitted;
+set transaction isolation level read committed;
+set transaction isolation level repeatable read;
+set transaction isolation level serializable;
+
+
+打开事务
+start transaction;
+
+
+
+alter table tb_userlist add role varchar(2);

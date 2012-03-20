@@ -1,0 +1,2 @@
+替换命令  :%s/zhuzhen/guolili/g
+说明把zhuzhen替换为guolili，g代表全局替换

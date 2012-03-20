@@ -1,0 +1,45 @@
+oracle exec 和 call 区别
+exec 和 call 执行一个procedure时，
+exec是sqlplus的命令，只能在sqlplus中使用。
+call是sql命令，任何工具都可以使用
+
+貌似exec可以执行dbms_output.put_line();
+而call不执行dbms_output.put_line();（或者可以理解为call只是把输出放在缓冲中）
+
+
+如果在存储过程静态调用存储过程，使用方法如下
+create or replace procedure test1(p varchar2) 
+as
+begin
+  dbms_output.put_line(p);
+end;
+
+
+create or replace procedure test2
+as
+begin
+  test1('zhuzhen');
+  dbms_output.put_line('guolili');
+end;
+
+
+如果在存储过程动态调用存储过程，使用方法如下
+create or replace procedure test1(p varchar2) 
+as
+begin
+  dbms_output.put_line(p);
+end;
+
+
+create or replace procedure test2
+as
+  para varchar2(20);
+begin
+  --不能用exec，只能用call
+  --execute immediate 'exec test1(:p)' using 'helloworld'; 
+
+  para := 'zhuzhen';  
+  execute immediate 'call test1(:p)' using para;
+  execute immediate 'call test1(:p)' using 'helloworld'; 
+  dbms_output.put_line('guolili');
+end;

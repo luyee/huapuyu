@@ -1,0 +1,55 @@
+
+
+
+
+--创建序列
+create sequence seq_test 
+start with 1
+increment by 1
+nomaxvalue;
+
+
+ALTER TABLE table_name ADD (column_name VARCHAR2(10) NOT NULL) 
+ALTER TABLE table_name modify (column_name VARCHAR2(10) NOT NULL) 
+
+
+
+case
+select sysdate FROM dual where 1 = case when 1 = 2 then 1 else 2 end
+
+
+计算表空间大小
+select sum(a.bytes) from user_segments a where a.tablespace_name='TS_TEST';
+
+给索引更换表空间
+alter index 索引名 rebuild tablespace 表空间名;
+
+给表更换表空间
+alter table 表名 move tablespace 表空间名;
+
+
+select * from user_tab_privs;
+select * from user_role_privs;
+
+select * from dba_tab_privs;
+
+
+在sql plus中运行show error可以查看上一步的错误信息
+select * from dba_role_privs;
+select * from dba_sys_privs;
+select * from role_sys_privs;
+也可以通过select * from user_errors;查看
+
+
+
+----------------------------------------------------------------------------------
+interval
+----------------------------------------------------------------------------------
+详细请看interval介绍，pdf资料中有
+select systimestamp - interval '1' day from dual;
+select systimestamp from dual;
+
+select add_months(sysdate, 1) from dual;
+select sysdate + INTERVAL '1' MONTH from dual;
+select sysdate + INTERVAL '1' day from dual;
+select sysdate + INTERVAL '1' year from dual;

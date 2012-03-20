@@ -1,0 +1,5 @@
+用flex   和bison   吧：   
+    
+  flex -+     可以生成c++代码   
+    
+  你的定义文件取名为   xxxx.ypp,   用bison   会生成   xxx.cpp

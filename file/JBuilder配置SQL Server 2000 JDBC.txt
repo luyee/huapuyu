@@ -1,0 +1,15 @@
+一，你确定你安装的jdbc是否完全版，因为有个单机版只能连接本机上的sql，单机版约2m，完全版约6.5m
+二、安装好jdbc后，假如目录在C:\Program Files\Microsoft SQL Server 2000 JDBC,打开Jbuilder，选择Tools-->;Configure Libraries，然后在左边的列表框下选择New，填入：Name:sql，Location:User Home，然后点击Add，加入目录C:\Program Files\Microsoft SQL Server 2000 JDBC\lib，确定
+三、Project-->;Prject Properties-->;Paths-->;Required Libraries-->;Add
+加入刚才添加的User Home/sql确定
+四、Tools-->;Enterprise Setup-->;Database Drivers-->;Add，加入User Home/sql，添加之后在列表框中显示的是sql.config，确定，重新启动JBuilder
+五、Tools-->;Database Pilot-->;View-->;Options-->;Drivers-->;Add
+填入
+Driver class:com.microsoft.jdbc.sqlserver.SQLServerDriver
+Simple URL:microsoft:sqlserver://localhost:1433&#59;DatabaseName=mybase
+确定之后，Tools-->;Database Pilot-->;New的Driver里选择
+com.microsoft.jdbc.sqlserver.SQLServerDriver
+在URL里填入：
+microsoft:sqlserver://服务器Ip地址或主机名:1433&#59;DatabaseName=数据库名，确定！
+双击或点击+号输入sql数据库的用户名和密码，就完成了JB与sql的连接！
+连接代码可以查看Source！

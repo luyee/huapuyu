@@ -1,0 +1,10 @@
+搜索stdole.dll
+版本为7.0.9466.1
+安装后的版本为7.0.3300.0
+
+搜索gacutil.exe
+
+在cmd中使用如下命令在gac中注册stdole
+gacutil /i stdole.dll
+
+注册完在C:\WINDOWS\assembly中查看是否注册成功

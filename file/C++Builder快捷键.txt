@@ -1,0 +1,358 @@
+Clipboard control (default) 
+Ctrl+Ins Edit|Copy 
+Shift+Del Edit|Cut 
+Shift+Ins Edit|Paste 
+
+Ctrl+C Edit|Copy 
+Ctrl+V Edit|Paste 
+Ctrl+X Edit|Cut 
+
+
+
+-------------------------------------------------------------------------------- 
+
+
+Debugger (default, classic, Brief, Epsilon, and Visual Studio) 
+Breakpoint view 
+
+Ctrl+V View Source 
+Ctrl+S Edit Source 
+Ctrl+E Edit Breakpoint 
+Enter Edit Breakpoint 
+Ctrl+D Delete Breakpoint 
+Del Delete Breakpoint 
+Ctrl+A Add Breakpoint 
+Ins Add Breakpoint 
+Ctrl+N Enable Breakpoint 
+
+Call stack view 
+
+Ctrl+V View Source 
+Ctrl+S Edit Source 
+Space View Source (Epsilon only) 
+Ctrl+Enter Edit Source (Epsilon only) 
+
+Message view 
+
+Ctrl+V View Source 
+Space View Source 
+Ctrl+S Edit Source 
+Ctrl+Enter Edit Source 
+
+Watch view 
+
+Ctrl+E Edit Watch 
+Enter Edit Watch 
+Ctrl+A Add Watch 
+Ins Add Watch 
+Ctrl+D Delete Watch 
+Del Delete Watch 
+
+
+
+-------------------------------------------------------------------------------- 
+
+
+Editor (default) 
+
+Shortcut Action or command 
+
+F1 Help|Topic Search 
+Ctrl+F1 Help|Topic Search 
+F3 Search|Search Again 
+
+Ctrl+E Search|Incremental Search 
+Ctrl+F Search|Find 
+Ctrl+I Inserts a tab character 
+Ctrl+j Templates pop-up menu 
+Ctrl+N Inserts a new line 
+Ctrl+P Causes next character to be interpreted as an ASCII sequence 
+Ctrl+R Search|Replace 
+Ctrl+S File|Save 
+Ctrl+T Deletes a word 
+
+Ctrl+Y Deletes a line 
+Ctrl+Z Edit|Undo 
+Ctrl+<space bar> Code Completion pop-up window 
+
+Ctrl+Shift+I Indents block 
+Ctrl+Shift+U Outdents block 
+Ctrl+Shift+Y Deletes to the end of a line 
+Ctrl+Shift+Z Edit|Redo 
+Ctrl+Shift+<space bar> Code Parameters pop-up window 
+
+Alt+[ Finds the matching delimiter (forward) 
+Alt+] Finds the matching delimiter (backward) 
+
+End Moves to the end of a line 
+Home Moves to the start of a line 
+Enter Inserts a carriage return 
+
+Ins Turns insert mode on/off 
+Del Deletes the character to the right of the cursor 
+Backspace Deletes the character to the left of the cursor 
+Tab Inserts a tab 
+Space Inserts a blank space 
+Left Arrow Moves the cursor left one column, accounting for the autoindent setting 
+Right Arrow Moves the cursor right one column, accounting for the autoindent setting 
+Up Arrow Moves up one line 
+Down Arrow Moves down one line 
+
+Page Up Moves up one page 
+Page Down Moves down one page 
+
+Ctrl+Left Arrow Moves one word left 
+Ctrl+Right Arrow Moves one word right 
+Ctrl+Tab Moves to the next code page (or file) 
+Ctrl+Shift+Tab Moves to the previous code page (or file) 
+Ctrl+Backspace Deletes the word to the right of the cursor 
+Ctrl+Home Moves to the top of a file 
+Ctrl+End Moves to the end of a file 
+Ctrl+Del Deletes a currently selected block 
+
+Ctrl+Space Inserts a blank space 
+Ctrl+PgDn Moves to the bottom of a screen 
+Ctrl+PgUp Moves to the top of a screen 
+Ctrl+Up Arrow Scrolls up one line 
+Ctrl+Down Arrow Scrolls down one line 
+Ctrl+Enter Opens file at cursor 
+
+Shift+Tab Moves the cursor to the left one tab position 
+Shift+Backspace Deletes the character to the left of the cursor 
+Shift+Left Arrow Selects the character to the left of the cursor 
+
+Shift+Right Arrow Selects the character to the right of the cursor 
+Shift+Up Arrow Moves the cursor up one line and selects from the left of the starting cursor position 
+Shift+Down Arrow Moves the cursor down one line and selects from the right of the starting cursor position 
+Shift+PgUp Moves the cursor up one screen and selects from the left of the starting cursor position 
+Shift+PgDn Moves the cursor down one line and selects from the right of the starting cursor position 
+
+Shift+End Selects from the cursor position to the end of the current line 
+Shift+Home Selects from the cursor position to the start of the current line 
+Shift+Space Inserts a blank space 
+Shift+Enter Inserts a new line with a carriage return 
+
+Ctrl+Shift+Left Arrow Selects the word to the left of the cursor 
+Ctrl+Shift+Right Arrow Selects the word to the right of the cursor 
+Ctrl+Shift+Home Selects from the cursor position to the start of the current file 
+
+Ctrl+Shift+End Selects from the cursor position to the end of the current file 
+Ctrl+Shift+PgDn Selects from the cursor position to the bottom of the screen 
+Ctrl+Shift+PgUp Selects from the cursor position to the top of the screen 
+Ctrl+Shift+Tab Moves to the previous page 
+
+Alt+Backspace Edit|Undo 
+Alt+Shift+Backspace Edit|Redo 
+Alt+Shift+Left Arrow Selects the column to the left of the cursor 
+
+Alt+Shift+Right Arrow Selects the column to the right of the cursor 
+Alt+Shift+Up Arrow Moves the cursor up one line and selects the column from the left of the starting cursor position 
+Alt+Shift+Down Arrow Moves the cursor down one line and selects the column from the left of the starting cursor position 
+Alt+Shift+Page Up Moves the cursor up one screen and selects the column from the left of the starting cursor position 
+Alt+Shift+Page Down Moves the cursor down one line and selects the column from the right of the starting cursor position 
+
+Alt+Shift+End Selects the column from the cursor position to the end of the current line 
+Alt+Shift+Home Selects the column from the cursor position to the start of the current line 
+
+Ctrl+Alt+Shift+Left Arrow Selects the column to the left of the cursor 
+Ctrl+Alt+Shift+Right Arrow Selects the column to the right of the cursor 
+Ctrl+Alt+Shift+Home Selects the column from the cursor position to the start of the current file 
+Ctrl+Alt+Shift+End Selects the column from the cursor position to the end of the current file 
+
+Ctrl+Alt+Shift+Page Up Selects the column from the cursor position to the bottom of the screen 
+Ctrl+Alt+Shift+Page Down Selects the column from the cursor position to the top of the screen 
+
+
+
+-------------------------------------------------------------------------------- 
+
+Block commands (default and classic) 
+Shortcut Action or command 
+
+Ctrl+K+B Marks the beginning of a block 
+Ctrl+K+C Copies a selected block 
+Ctrl+K+H Hides/shows a selected block 
+Ctrl+K+I Indents a block by the amount specified in the Block Indent combo box on the General page of the Editor Options dialog box. 
+Ctrl+K+K Marks the end of a block 
+Ctrl+K+L Marks the current line as a block 
+Ctrl+K+N Changes a block to uppercase 
+Ctrl+K+O Changes a block to lowercase 
+
+Ctrl+K+P Prints selected block 
+Ctrl+K+R Reads a block from a file 
+Ctrl+K+T Marks a word as a block 
+Ctrl+K+U Outdents a block by the amount specified in the Block Indent combo box on the General page of the Editor Options dialog box. 
+Ctrl+K+V Moves a selected block 
+Ctrl+K+W Writes a selected block to a file 
+Ctrl+K+Y Deletes a selected block 
+
+Ctrl+O+C Marks a column block 
+Ctrl+O+I Marks an inclusive block 
+
+Ctrl+O+K Marks a non-inclusive block 
+Ctrl+O+L Marks a line as a block 
+
+Ctrl+Q+B Moves to the beginning of a block 
+Ctrl+Q+K Moves to the end of a block 
+
+
+
+-------------------------------------------------------------------------------- 
+
+
+Bookmark operations (default, classic, and Visual Studio) 
+Shortcut Action 
+
+Ctrl+K+0 Sets bookmark 0 
+Ctrl+K+1 Sets bookmark 1 
+Ctrl+K+2 Sets bookmark 2 
+Ctrl+K+3 Sets bookmark 3 
+Ctrl+K+4 Sets bookmark 4 
+Ctrl+K+5 Sets bookmark 5 
+Ctrl+K+6 Sets bookmark 6 
+Ctrl+K+7 Sets bookmark 7 
+Ctrl+K+8 Sets bookmark 8 
+Ctrl+K+9 Sets bookmark 9 
+
+Ctrl+K+Ctrl+0 Sets bookmark 0 
+Ctrl+K+Ctrl+1 Sets bookmark 1 
+Ctrl+K+Ctrl+2 Sets bookmark 2 
+
+Ctrl+K+Ctrl+3 Sets bookmark 3 
+Ctrl+K+Ctrl+4 Sets bookmark 4 
+Ctrl+K+Ctrl+5 Sets bookmark 5 
+Ctrl+K+Ctrl+6 Sets bookmark 6 
+Ctrl+K+Ctrl+7 Sets bookmark 7 
+Ctrl+K+Ctrl+8 Sets bookmark 8 
+Ctrl+K+Ctrl+9 Sets bookmark 9 
+
+Ctrl+Q+0 Goes to bookmark 0 
+Ctrl+Q+1 Goes to bookmark 1 
+Ctrl+Q+2 Goes to bookmark 2 
+Ctrl+Q+3 Goes to bookmark 3 
+Ctrl+Q+4 Goes to bookmark 4 
+Ctrl+Q+5 Goes to bookmark 5 
+
+Ctrl+Q+6 Goes to bookmark 6 
+Ctrl+Q+7 Goes to bookmark 7 
+Ctrl+Q+8 Goes to bookmark 8 
+Ctrl+Q+9 Goes to bookmark 9 
+
+Ctrl+Q+Ctrl+0 Goes to bookmark 0 
+Ctrl+Q+Ctrl+1 Goes to bookmark 1 
+Ctrl+Q+Ctrl+2 Goes to bookmark 2 
+Ctrl+Q+Ctrl+3 Goes to bookmark 3 
+Ctrl+Q+Ctrl+4 Goes to bookmark 4 
+Ctrl+Q+Ctrl+5 Goes to bookmark 5 
+Ctrl+Q+Ctrl+6 Goes to bookmark 6 
+Ctrl+Q+Ctrl+7 Goes to bookmark 7 
+
+Ctrl+Q+Ctrl+8 Goes to bookmark 8 
+Ctrl+Q+Ctrl+9 Goes to bookmark 9 
+
+
+
+-------------------------------------------------------------------------------- 
+
+
+Cursor movement (default and classic) 
+Shortcut Action 
+
+Ctrl+Q+B Moves to the beginning of a block 
+Ctrl+Q+C Moves to end of a file 
+Ctrl+Q+D Moves to the end of a line 
+Ctrl+Q+E Moves to the top of the window 
+Ctrl+Q+K Moves to the end of a block 
+Ctrl+Q+P Moves to previous position 
+Ctrl+Q+R Moves to the beginning of a file 
+Ctrl+Q+S Moves to the beginning of a line 
+Ctrl+Q+T Moves to the top of the window 
+Ctrl+Q+U Moves to the bottom of the window 
+
+Ctrl+Q+X Moves to the bottom of the window 
+
+
+
+-------------------------------------------------------------------------------- 
+
+
+Miscellaneous commands (default and classic) 
+Shortcut Action or command 
+
+Ctrl+K+D Accesses the menu bar 
+Ctrl+K+E Changes a word to lowercase 
+Ctrl+K+F Changes a word to uppercase 
+Ctrl+K+S File|Save (default and classic only) 
+
+Ctrl+Q+A Search|Replace 
+Ctrl+Q+F Search|Find 
+Ctrl+Q+Y Deletes to the end of a line 
+Ctrl+Q+[ Finds the matching delimiter (forward) 
+Ctrl+Q+Ctrl+[ Finds the matching delimiter (forward) 
+Ctrl+Q+] Finds the matching delimiter (backward) 
+
+Ctrl+Q+Ctrl+] Finds the matching delimiter (backward) 
+
+Ctrl+O+A Open file at cursor 
+Ctrl+O+G Search|Go to line number 
+Ctrl+O+O Inserts compiler options and directives 
+Ctrl+O+U Toggles case 
+
+
+
+-------------------------------------------------------------------------------- 
+
+
+system 
+Shortcut Action or command 
+
+F1 Displays context-sensitive Help 
+F4 Run|Go to Cursor 
+F5 Run|Toggle Breakpoint 
+Ctrl+F6 Open Source/Header file 
+F7 Run|Trace Into 
+F8 Run|Step Over 
+F9 Run|Run 
+F11 View|Object Inspector 
+F12 View|Toggle Form/Unit 
+
+
+Alt+0 View|Window List 
+Alt+F2 View|Debug Windows|CPU 
+Alt+F7 Displays previous error in Message view 
+Alt+F8 Displays next error in Message view 
+Alt+F10 Displays a context menu 
+Alt+F11 File|Include Unit Hdr 
+Alt+F12 Displays the Code editor 
+
+Ctrl+F1 Help|Topic Search 
+Ctrl+F2 Run|Program Reset 
+Ctrl+F3 View|Debug Windows|Call Stack 
+Ctrl+F4 Closes current file 
+Ctrl+F5 Add Watch at Cursor 
+
+Ctrl+F6 Displays header file in Code editor 
+
+Ctrl+F7 Evaluate/Modify 
+Ctrl+F9 Project|Make project 
+
+Ctrl+F11 File|Open Project 
+
+Ctrl+F12 View|Units 
+
+
+Ctrl+D Descends item (replaces Inspector window) 
+Ctrl+E View|ClassExplorer 
+Ctrl+N Opens a new Inspector window 
+Ctrl+S Incremental search 
+Ctrl+T Displays the Type Cast dialog 
+
+Shift+F7 Run|Trace To Next Source Line 
+Shift+F11 Project|Add To Project 
+Shift+F12 View|Forms 
+
+Ctrl+Shift+P Plays back a key macro 
+Ctrl+Shift+R Records a key macro 
+
+Ctrl+K+D Accesses the menu bar 
+Ctrl+K+S File|Save

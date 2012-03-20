@@ -1,0 +1,26 @@
+interface IUser
+{
+   public function prints();
+}
+
+class StudentUser implements IUser
+{
+   private $name;
+   private $age;
+   private $school;
+
+   public function __construct($n, $a, $s)
+   {
+      $this->name = $n;
+      $this->age = $a;
+      $this->school = $s;
+   }
+
+   public function prints()
+   {
+      echo 'Name : ' . $this->name . ' Age : ' . $this->age . ' School : ' . $this->school;
+   }
+}
+
+$su = new StudentUser('zhuzhen', 23, 'Number 9');
+$su->prints();

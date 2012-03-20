@@ -1,0 +1,20 @@
+ADOConnection1->LoginPrompt = false;
+this->ADOConnection1->Open();
+//this->ADOConnection1->BeginTrans();
+
+try
+{
+	this->ADOQuery1->SQL->Add("insert into tb_user values (:a, :b, :c)");
+	//this->ADOQuery1->SQL->Add("insert into tb_user values ('1', '2', '3')");
+
+	this->ADOQuery1->Parameters->ParamValues["a"] = "5";
+	this->ADOQuery1->Parameters->ParamValues["b"] = "4";
+	this->ADOQuery1->Parameters->ParamValues["c"] = "5";
+
+	this->ADOQuery1->ExecSQL();
+	//ADOConnection1->CommitTrans();
+}
+catch (...)
+{
+	//ADOConnection1->RollbackTrans();
+}

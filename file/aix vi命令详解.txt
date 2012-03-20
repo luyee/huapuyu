@@ -1,0 +1,99 @@
+AIX常用命令及VI的使用(2009-04-01 15:12:16)标签：it   分类：｜-Unix 
+
+prtconf 查看机器基本配置
+vmstat  查看机器运行情况
+pwd 查看当前路径
+errpt 查看出错信息
+调用使用过的历史命令
+先输入 set -o vi (只需输入一次)以后只要
+先按Esc键再按k键就可以调出历史命令，连续按k则连续调出历史命令
+按文件大小排序ls -l | sort -rn +4
+看目录的大小：du -sk DIR 单位是kb（千字节）
+ls -l看到文件大小的单位是字节
+ls -a 看隐藏的文件
+du 看到的是block(512Bytes)
+du -k 看到的是KBytes
+检查有关卷组vg的逻辑卷lv信息时，运行命令：
+   ＃lsvg  -l  VGNAME
+1：crontab 使用方法： crontab [ -e | -l | -r ] 文件名 -e:编辑任务 -l:显示任务信息 -r:删除定时执行任务信息 
+2：crontab中处理的文件格式为 分钟 小时 日期 月 星期 执行的文件名 *代表所有条件 5 * * * * rem /home/oracle/execsql 代表每个小时的5分钟时执行/home/oracle/execsql文件 
+crontab 命令用途
+提交、编辑、列出或除去 cron 作业。语法
+crontab [ -e [UserName] | -l [UserName] | -r [UserName] | -v [UserName] | File ]描述
+示例
+拷贝一个名为 mycronjobs 的文件，到 /var/admn/cron/crontabs 目录下，输入以下内容：crontab mycronjobs将时间以小时的形式把每个小时写到 console 中，输入：0 * * * * echo The hour is `date` 。
+>/dev/console要在每个星期一、星期三和星期五的 6:30 a.m. 运行 calendar 命令，输入：30 6 * * 1,3,5 /usr/bin/calendar要在一年的每一天的 6:30 运行 calendar 命令，输入：30 6 * * * /usr/bin/calendar要在八月的每天午夜运行一个称为 maintenance 的脚本，输入：0 0 * 8 * /u/harry/bin/maintenance为命令的标准输入定义文本，输入：0 16 * 12 5 /usr/sbin/wall%HAPPY HOLIDAY!%Remember to 
+turn in your time card.在 %（百分号）之后定义 wall 命令的标准输入的文本：
+HAPPY HOLIDAY!
+Remember to turn in your time card.文件/var/adm/cron/FIFO 当新的作业的提交是由 crontab 或 at 命令完成时，一个发送消息到 cron 守护进程的命名管道。 
+/var/spool/cron/crontabs 指定 crontab 缓冲池区域。 
+/var/adm/cron/cron.allow 指定用户列表，这些用户被允许访问 crontab 命令。 
+/var/adm/cron/cron.deny 指定用户列表，这些用户不被允许访问 crontab 命令。
+find / -name java -print 用来查找文件或目录，/表示从根开始找 -name java表示查找的名字是java
+AIX上如何批量修改用户密码2006-08-22 17:20AIX 5.2和5.3都提供了chpasswd 这个命令，可以用来批量修改用户密码，这就为编写非交互式脚本提供了便利。
+因为在AIX上使用 passwd 修改用户密码时，新密码只能从标准输入读入，不能使用重定向、协进程等，当有大量的用户密码需要修改时重复劳动量很大。我们所作的服务迁移又恰恰要迁移大量的用户，但是不同系统的用户密码因为加密算法和强度等问题是不能直接迁移密文的，只能在迁移后重新设置所有用户的密码，这时候一个批量修改工具就显得格外重要了。
+chpasswd 可以从标准输入读取信息，也可以通过重定向从文件读取输入信息，但是无论哪种方法，都必须符合如下格式：
+    username:password
+    username:password
+    ...
+除此之外，AIX上的 chpasswd 还提供了修改用户 flag 的功能
+
+怎样设置每个用户的环境变量？root java 和zhzc java路径问题 78921
+在每个用户的home目录下有一个.profile的隐藏文件，修改就可以了
+
+用以用软件ivm来建立LPAR  但占用资源，是一个管理。
+8008582621-2 dell 风扇销售
+vi编辑器的使用2008-05-22 10:59进入vi编辑环境
+［
+[email=root@server]root@server[/email]
+root]# vi ［回车］
+［
+[email=root@server]root@server[/email]
+root]# vi file ［回车］
+vi的三种工作状态：
+命令模式：是vi的初始方式也是一般方式。用于执行命令，但不能输入文本内容。大部分的命令都是在此模式下执行的
+插入模式：用于文本内容的输入
+末行命令模式：用于执行存盘命令、退出命令、vi设置命令等
+三种工作状态的转换：
+从命令模式可以进入其它两种模式。插入模式和末行命令模式不能直接转换，以命令模式为中介
+ESC键、编辑键（i或a或o）、: 键是模式转换的控制键
+（1）编辑文本（进入插入模式）
+［Esc］->a 把文本添加到光标之后
+［Esc］->i 把文本添加到光标之前
+［Esc］->o 在光标所在行下面开新行
+（2）存盘退出
+［Esc］->:w ［回车］ 表示保存不退出
+［Esc］->shift + ZZ　表示保存同时退出vi
+［Esc］->:wq ［回车］ 表示保存同时退出vi
+［Esc］->:q ［回车］ 表示退出vi
+［Esc］->:q! ［回车］ 表示不保存强行退出vi
+（3）光标移动
+［Esc］->h（←）   j（↓）   k（↑） l（→）
+［Esc］->$ 光标移动到本行行尾
+［Esc］->0 光标移动到本行行首
+［Esc］->G 光标移动到文件末行
+［Esc］->1G或gg 光标移动到文件首行
+［Esc］->nG 光标移动到指定的n行
+［Esc］->ctrl+f 向前翻一屏
+［Esc］->ctrl+b 向后翻一屏
+（4）删除操作
+［Esc］->x   删除光标所在处的字符
+［Esc］->dw 删除一个单词
+［Esc］->dd 删除光标所在行
+［Esc］->5dd 删除从当前行开始的5行文本
+（5）拷贝粘贴
+［Esc］->yy拷贝光标所在行到编辑缓冲区
+［Esc］->p 将编辑缓冲区内容拷贝至光标后的行
+［Esc］->5yy 拷贝自当前行开始的五行至编辑缓冲区
+（6）取消操作
+［Esc］->u 取消最后一次的修改
+（7）末行命令
+［Esc］->:set
+［Esc］->:set number　显示行号
+［Esc］->:set autoindent 自动缩进 
+［Esc］->:set tabstop TAB键宽度
+vi怎么保存文件名
+: w /pathto/yourfile
+注：当屏幕出现乱字符时候，可以先使用[ESC]进入命令状态然后按^ +l 刷新屏幕
+     可以使用Ctrl+I键对屏幕进行刷新，如果在终端可以使用Ctrl+r刷新
+当对屏幕上的信息进行操作时，系统没有任何反映，此时可使用Ctrl+q解脱

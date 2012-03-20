@@ -1,0 +1,34 @@
+conn system/system@oracle9i as sysdba;
+
+CREATE TABLESPACE ANDERS
+    LOGGING 
+    DATAFILE 'C:\ORACLE\ORADATA\ORACLE9I\ANDERS.ora' SIZE 1024M EXTENT 
+    MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT  AUTO; 
+
+CREATE USER boss30gk  PROFILE DEFAULT 
+    IDENTIFIED BY boss30gk DEFAULT TABLESPACE TS_TEST
+    TEMPORARY TABLESPACE TEMP 
+    ACCOUNT UNLOCK;
+
+GRANT UNLIMITED TABLESPACE TO boss30gk WITH ADMIN OPTION;
+
+GRANT DBA TO boss30gk WITH ADMIN OPTION;
+
+BEGIN
+	dbms_resource_manager_privs.grant_switch_consumer_group( 
+		grantee_name => 'boss30gk',
+		consumer_group => 'SYS_GROUP',
+		grant_option => TRUE
+	);
+END;
+/
+
+BEGIN 
+	dbms_resource_manager.set_initial_consumer_group( 
+		user => 'boss30gk',
+		consumer_group => 'SYS_GROUP'
+	);
+END;
+/
+
+conn anders/123@oracle9i as sysdba;

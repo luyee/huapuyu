@@ -1,0 +1,7 @@
+SQL的递归计算 想出来的人很聪明
+select 
+	sum(data1) 
+	from 
+	(select substr('1101', rownum, 1) * power(2, length('1101') - rownum) data1
+from dual
+connect by rownum <= length('1101')) 

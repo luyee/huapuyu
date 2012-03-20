@@ -1,0 +1,6 @@
+document.all（firefox中没有）用document.getElementsByTagName("*")代替
+例如：
+var tagArray = document.getElementsByTagName("*");
+for (var i = 0; i < tagArray.length; i++)
+	alert(tagArray[i].name);
+

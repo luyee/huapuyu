@@ -1,0 +1,12 @@
+今天需要把一个eclipse中一个web项目改名后部署到服务器上，记得以前的做法是拷贝一份副本，然后修改副本的一些配置文件，不过很麻烦，当时也没弄出来，后来用了个办法，新建一个空项目，项目名字是想要改成的名字，然后把原项目中的代码拷进去，这样做了之后，忽然发现程序没错误，但是项目上显示一个红叉，于是打开平常不怎么用的problem窗口，发现提示错误Target runtime Apache Tomcat v5.5 is not defined 但是明明已经为项目配置了tomcat，网上一搜方法，很容易，就是下边这样，但是不知道为什么，这个文件是做什么用的呢
+在工作台目录下找到自己操作的项目的文件夹/.settings/org.eclipse.wst.common.project.facet.core.xml
+打开后，显示
+<?xml version="1.0" encoding="UTF-8"?>
+<faceted-project>
+<runtime name="Apache Tomcat v5.5"/>
+<fixed facet="jst.web"/>
+<fixed facet="jst.java"/>
+<installed facet="jst.web" version="2.4"/>
+<installed facet="jst.java" version="5.0"/>
+</faceted-project>
+将<runtime name="Apache Tomcat v5.5"/>删除，保存即可解决。

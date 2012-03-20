@@ -1,0 +1,10 @@
+导出：
+mysqldump -u 用户名 -p 数据库名 > 文件名.sql;
+举例：
+mysqldump -u root -p db_user > D:\db_user.sql;
+
+
+导入：
+mysql -u 用户名 -p 数据库名 < 文件名.sql;
+举例：
+mysql -u root -p db_user < D:\db_user.sql;

@@ -1,0 +1,13 @@
+在Indy中收发字符串的编码问题
+今天早晨，一个客户打电话来问，为什么在Delphi2009中使用Indy10收发字符串中的中文为乱码。
+我想很多客户都用了，也没听说谁碰到过类似的问题啊。于是查了一下帮助。
+发现，在Indy的所有字符串输入输出函数中，都有一个参数是TIdEncoding。默认不填的话，使用的是enDefault，在这种状态下，汉字确实是乱码，如果改成enUTF8就没有问题了。
+下面是最简单的Say Hello例程。
+
+procedure TForm1.IdTCPServer1Execute(AContext: TIdContext);
+var
+  str : string;
+begin
+  str := AContext.Connection.IOHandler.ReadLn(enUTF8);
+  AContext.Connection.IOHandler.WriteLn('你好' + str, enUTF8);
+end; 

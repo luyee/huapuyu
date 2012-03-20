@@ -1,0 +1,80 @@
+C/C++
+void BubbleSort(int* iArray, int count)
+{
+	int temp;
+
+	for (int i = 1; i < count; i++)
+	{
+		for (int j = 0; j < count - i; j++)
+		{
+			if (iArray[j] > iArray[j + 1])
+			{
+				temp = iArray[j];
+				iArray[j] = iArray[j + 1];
+				iArray[j + 1] = temp;
+			}
+		}
+	}
+}
+
+Delphi
+procedure BubbleSort(var iArray: array of Integer);
+var
+  temp, count: Integer;
+  i, j: Integer;
+begin
+  count := High(iArray);
+
+  for i := 1 to count do
+  begin
+    for j := 0 to count - i do
+    begin
+      if iArray[j] > iArray[j + 1] then
+      begin
+        temp := iArray[j];
+        iArray[j] := iArray[j + 1];
+        iArray[j + 1] := temp;
+      end;
+    end;
+  end;
+end;
+
+Java
+void BubbleSort(int[] iArray)
+        {
+                int temp;
+                int count = iArray.length;
+
+                for (int i = 1; i < count; i++)
+                {
+                        for (int j = 0; j < count - i; j++)
+                        {
+                                if (iArray[j] > iArray[j + 1])
+                                {
+                                        temp = iArray[j];
+                                        iArray[j] = iArray[j + 1];
+                                        iArray[j + 1] = temp;
+                                }
+                        }
+                }
+        }
+
+C#
+void BubbleSort(int[] iArray)
+        {
+            int temp;
+            int count = iArray.Length;
+
+            for (int i = 1; i < count; i++)
+            {
+                for (int j = 0; j < count - i; j++)
+                {
+                    if (iArray[j] > iArray[j + 1])
+                    {
+                        temp = iArray[j];
+                        iArray[j] = iArray[j + 1];
+                        iArray[j + 1] = temp;
+                    }
+                }
+            }
+        }

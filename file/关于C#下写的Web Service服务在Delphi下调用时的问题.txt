@@ -1,0 +1,131 @@
+关于C#下写的Web Service 服务在Delphi下调用时的问题 
+ 
+  
+[ 来源：中国站长学院 | 作者：郁郁小蝎 | 时间：2005-4-11 9:08:06 | 浏览：人次 ] 
+
+收藏到新浪ViVi 收藏到365KEY 收藏到我摘  字号选择〖 大 中 小 〗/ 双击滚屏 单击停止   
+ 
+ 
+        首先我觉得有必要把.net平台下开发webservice进行一个比较全面的阐述，web service的最初产生是在电子商务的环境下出现的，有些问题通过传统的手段已经不容易解决，比如在应用程序之间进行商务通信、数据交换，使用DCom、CORBA等二进制机制的东西已经行不通了，姑且不说他们受各自平台的限制，比如DCom(Distribute Common Objects Model)只能在Windows平台下进行，而CORBA(Common Objects Request Broker Architecture)又只是Java平台下的产物。他们要实现应用程序之间的数据通信是比较困难的。
+
+        在这种背景下，Web Services 应运而生，它很好的解决了跨语言、跨平台以及良好而安全的穿透企业防火墙。它的体系结构大体上分为五个层次：
+
+HTTP(HyperText Transfer Protocol)信道下进行数据通信
+XML(Extensable Markup Language)数据表达形式
+SOAP(Simple Objects Access Protocol)的数据封装
+WSDL(WebServices Description Language)的描述语言格式
+UDDI(Universal Description and Discovery Integration) 统一的描述、发现和集成
+        作为它的优点跨语言、跨平台以及良好而安全的穿透企业防火墙已经足以使我们感到兴奋了。不过它也存在需要改善的地方，比如：
+
+HTTP进行数据通信存在速度较慢的情况，尤其是第一次联结。
+需要一台Web Server这一额外的开销
+      说了WebServices的体系结构以及其优点缺点以后我们切入正题，那就是我们这次讨论的话题：
+
+      Web Service 服务在Delphi下调用时的问题
+
+     闲话少说，我们用一个检验WebMethod的Attribute的一个简单的例子进行阐述：它是完成一次从客户A转帐到B的一个简单商务过程。
+
+     首先我们在.NET FrameWork1.1下创建一个WebService，这时候.net会帮我们自动创建一个Web应用
+
+     我们需要创建一个类AttributeTest，它是在命名空间NameSpace AttributeTesting下的，那么这个类它将自动继承了它的基类 System.Web.Services.WebService，需要支出的时，我们可以对这个Web应用类设置其WebServiceAttribute,其中基本属性包括Description 和NameSpace
+
+[WebServiceAttribute(Namespace="http://www.isdoo.com/services",
+
+                                       Description="Hello Ansel,This is a testing Web Service!")]
+
+public class AttributeTest : System.Web.Services.WebService
+ {
+
+  [WebMethodAttribute(Description="描述信息:继承了Count方法，并且对名称进行重载。执行的是把钱从A用户转帐到B用户......",
+       //MessageName="Changing MessageName",
+       BufferResponse=true,
+       CacheDuration=1000,
+       EnableSession=true,                   
+       TransactionOption=TransactionOption.RequiresNew)]
+  public string transMoney(double Money)
+  {   
+   try
+   {    
+    ContextUtil.EnableCommit();//Transaction only used to Database operation!
+    MoneyInToA(Money);
+    MoneyOutFromB(Money);
+    ContextUtil.SetComplete();
+    return "Transaction Successful,total "+Money.ToString();
+   }
+   catch( Exception e)
+   {
+    ContextUtil.SetAbort();
+    return "Transaction failed! \n\r "+e.Message;
+   }   
+  }
+  private void MoneyInToA(double Money)
+  {
+      SqlCommand sqlCom = new SqlCommand("update budget set Money=Money+"+Money.ToString()+" where Name='A'");
+   databaseAccess myDatabase = new databaseAccess();
+   sqlCom.Connection=myDatabase.getConnection();
+   sqlCom.Connection.Open();
+   sqlCom.ExecuteNonQuery();
+   sqlCom.Connection.Close();
+   //throw new Exception("Operation failed when transfer money into A!");
+  }
+
+  private void MoneyOutFromB(double Money)
+  {
+   SqlCommand sqlCom = new SqlCommand("update budget set Money=Money-"+Money.ToString()+" where Name='B'");
+   databaseAccess myDatabase = new databaseAccess();
+   sqlCom.Connection=myDatabase.getConnection();   
+   sqlCom.Connection.Open();
+   sqlCom.ExecuteNonQuery();
+   sqlCom.Connection.Close();
+   //throw new Exception("Operation failed when transfer money from B!");
+  }
+
+}
+
+其中我们需要特别注意的是，WebMethodAttribute，这也是我们这一次需要讲述的重点内容，只要给一个方法加上[WebMethodAttribute]，哪怕里面没有任何属性，那么WebService就会把这个方法暴露（Expose）给了客户段调用者.下面我们讲述一下它的6个属性，其中包括2个描述性的信息属性，4个功能属性
+
+描述性的信息属性：
+
+Description
+MessageName
+4个功能性属性：
+
+BufferResponse
+CacheDuration
+EnableSession
+TransactionOption
+其中我们需要注意MessageName这个属性它Delphi调用.NET平台下开发的WebService的时候，如果你设置了MessageName这个Attribute的话，那么客户端调用时会报错误。这也许是一个Bug，或许后面的版本会解决这个问题。至于这几个属性的具体功能就不再这里详细描述了。大家可以去看看相关的书籍。
+
+下面我把Delphi调用webservice的步骤列举一下：
+
+首先如果你只是开发调用客户端，那么你只需要创建一个普通的应用程序即可，然后需要你做的是，在工具栏WebServices下面找到SOAPHTTPClient这个控件，然后把它放在你的客户端应用窗体上；
+
+其次就是你需要设置这个SOAPHTTPClient的属性URL或者WSDL,这个内容就是你的WebService的服务地址
+
+比如我们当前例子的服务地址是：http://localhost/AttributeTesting/AttributeTesting.asmx
+
+如果你想输入WSDL那么就是http://localhost/AttributeTesting/AttributeTesting.asmx?wsdl
+
+这样就完成了控件设置；
+
+然后我们需要引入服务器端的WSDL，你可以手工来做，也可以用Delphi提供的WebServices Importer功能来引入。
+
+最后你只需要对引入的WSDL的接口进行调用即可。在这里我们的对应代码是：
+
+procedure TForm1.BitBtn1Click(Sender: TObject);
+var
+  aa:AttributeTestSoap;//这个就是WSDL下的类接口对象
+  msg:widestring;
+  bb:double;
+begin
+  //HTTPRIO2 其实就是所谓的代理类，它负责进行数据传输发送Request和接受Response的
+  aa:=HTTPRIO2 as AttributeTestSoap;
+
+  bb:=100.00;
+  msg:=aa.transMoney(bb);//这就是调用web服务所暴露给我们的web服务方法WebMethod
+  showmessage(msg);
+end;
+
+
+Ok! That's all!
+ 

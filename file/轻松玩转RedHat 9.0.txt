@@ -1,0 +1,175 @@
+轻松玩转Red Hat Linux 9.0
+---魔女の条件
+Windows系统在家用电脑的普及率及其领导地位，已经是家喻户晓的了。对于我们这些永远追求时尚潮流的电脑迷来说，迫切希望体验Linux系统的开源思想，发展前途和安全性等Windows无法比拟的特权。加入Linux的的群体的不断增多，Linux系统Fans们的求知欲望的与日俱增，都充分证明了Linux体统在走进我们的生活。
+
+一、 走进Linux系统新生活
+对于Linux系统的安装，在这里我就不做过多的说明了。网上有安装的教程图文并貌的，我相信菜鸟朋友们都能看懂的。(其实我就是个超大的菜鸟，要是你还没看懂。那我就欣慰了，我还不是世上最菜的鸟，看不懂文章的比我还菜……)哎呀，饶恕我的狂言乱语吧，别什么都往我这扔啊。扔这么多砖头做什么，还不如直接盖个别墅送我，免得我还要拣砖头回家盖房。^_^
+
+测试环境：
+操作系统：Red Hat Linux 9.0
+内核版本：2.4.20-8
+GRUB版本：0.93
+
+言归正传，偶今天做实验是用的虚拟机VMware-workstation-4.0.5-6030。在虚拟机上安装Linux系统的朋友，现在有福气了。虚拟机的版本在升级为4.0后，已经支持在图形模式安装系统了，安装完系统直接就能进入图形界面。想当年，我使用VMware-workstation 3.0的时候还是在文本模式安装的，安装完毕后还要安装VMware-tool才能见到我梦寐以求的Linux图形界面（打住！怎么有点劳苦大众忆哭思甜的气氛，让我想起万恶的旧社会。想起来就让人潸然泪下……）可是，为了追求性能上的完美，我们也要安装VMware-tool来做的尽善尽美的不是吗？没有最好，只有更好；我们一直在努力！（怎么又来广告了，再不切入正题把你敢下去……）
+现在切入正题，安装VMware-tool的时候要在文本模式下安装，图形界面下的Shell是不可以的。在这里我传授各位看官点我的独门小诀窍，呵呵（不看《黑客X档案》的朋友，就没机会了^_^）
+方法一：用Grub引导进文本界面，进入Grub启动画面之后（图1-1），按下键盘的“A”键，进入到自定义配置启动等级的地方，我们在其后面敲入“空格+3”，代表以3模式（多用户的文本模式）来启动系统（图1-2），完毕后按回车就可以引导进入文本界面，但是不修改系统的运行级，只在当次有效。
+方法二：在图形模式的Shell下修改/etc/inittab文件，其中有一行id:5:initdefault，意思是说开机默认进入运行级别5（多用户的图形界面）；把它改成id:3:initdefault，既开机默认进入运行级别3（多用户的文本界面）。
+
+小知识：Linux运行级详解
+Linux启动时，运行一个叫做init的程序，然后由它来启动后面的任务，包括多用户环境、网络等。 
+那么，到底什么是运行级呢？简单的说，运行级就是操作系统当前正在运行的功能级别。这个级别从1到6 ，具有不同的功能。这些级别在/etc/inittab文件里指定。这个文件是init程序寻找的主要文件，最先运行的服务是那些放在/etc/rc.d 目录下的文件。
+大多数的Linux发行版本中，启动脚本位于/etc/rc.d/init.d。这些脚本被ln命令来连接到 /etc/rc.d/rcn.d目录。(这里的n 就是运行级0-6) 例如/etc/rc.d/rc2.d下面的S10network就是连接到/etc/rc.d/init.d下的network脚本的。
+因此，我们可以知道，rc2.d下面的文件就是和运行级2有关的。文件开头的S代表start就是启动服务的意思，后面的数字10就是启动的顺序。例如，在同一个目录下，你还可以看到S80postfix这个文件，80就是顺序在10以后，因为没有启动网络的情况下，启动postfix是没有任何作用的。
+再看一下/etc/rc.d/rc3.d，可以看到文件S60nfslock，但是这个文件不存在于/etc/rc.d/rc2.d目录下。NFS要用到这个文件，一般用在多用户环境下，所以放在rc3.d目录下。 
+另外，在/etc/rc.d/rc2.d还可以看到那些K开头的文件，例如/etc/rc.d/rc2.d/K45named，K代表kill。
+标准的Linux运行级为3或者5，如果是3的话，系统就在多用户状态。如果是5的话，则是运行着X Window 系统。如果目前正在3或5，而你把运行级降低到2的话，init就会执行K45named脚本。
+
+不同的运行级定义如下：(可以参考Red Hat Linux里面的/etc/inittab）
+
+# 缺省的运行级，RHS用到的级别如下：
+# 0 - 停机（千万不要把initdefault设置为0 ）
+# 1 - 单用户模式
+# 2 - 多用户，但是没有NFS 
+# 3 - 完全多用户模式
+# 4 - 没有用到
+# 5 - X11 
+# 6 - 重新启动（千万不要把initdefault设置为6 ） 
+
+# 对各个运行级的详细解释：
+0 为停机，机器关闭。
+1 为单用户模式，就像Win9x下的安全模式类似。
+2 为多用户模式，但是没有NFS支持。 
+3 为完整的多用户模式，是标准的运行级。
+4 一般不用，在一些特殊情况下可以用它来做一些事情。例如在笔记本电脑的电池用尽时，可以切换到这个模式来做一些设置。
+5 就是X11，进到X Window系统了。 
+6 为重启，运行init 6机器就会重启。 
+
+不同的运行级有不同的用处，也应该根据自己的不同情形来设置。例如，如果丢失了root口令，那么可以让机器启动进入单用户状态来设置。在启动后的lilo提示符下输入： 
+init=/bin/sh rw 
+就可以使机器进入运行级1 ，并把root文件系统挂为读写。它会跳过所有系统认证，让你使用passwd程序来改变root口令，然后启动到一个新的运行级。
+
+方法三：在图形界面下，右键点击桌面，打开一个终端。在终端里输入：（运行级别3）
+$ su 
+# /sbin/telinit 3(图1-3)
+图形界面消失，敲回车几下，在文本方式下登录。
+返回到默认的图形界面方法是输入：（运行级别5） 
+# /sbin/telinit 5
+
+既然后前面的三种进入文本模式的方法，接下来我们就在文本模式下安装VMware-tool了。
+1、在Windows的VMware的窗口菜单中选File->Iinstall VMware Tools。
+2、在虚拟机中：
+$ su 
+# mount /dev/cdrom /mnt/cdrom 
+# cd /tmp 
+# tar zxf /mnt/cdrom/vmware-linux-tools.tar.gz 
+# cd vmware-tools-distrib 
+# ./vmware-install.pl
+回答并设置屏幕分辨率，除了分辨率需要选择外，直接回车就行了。(图1-5)
+至此，虚拟机中VMware-tool的安装就结束了。
+返回到默认的图形界面（运行级别5） 
+# /sbin/telinit 5
+
+二、 我的Linux地盘我做主
+在Linux系统中您可以做，在您熟悉的Windows系统下能够做的任何工作和娱乐功能。而对于偶这样在寝室用小猫上网的穷学生来说，在寝室Linux系统下用小猫下载音乐或电影就是非常奢侈的事了。那么偶就先在网吧下载好，然后使用U盘或MP3把我喜欢的歌曲和技术文档拷贝回我的电脑就是非常必要的了。由于平时用Windows的机会还是比较多，大部分分区都是NTFS的，要想和Linux资源共享，文件传输。除了搭建网上邻居或在Linux系统下做访问Windows分区的配置，最简单和行之有效的方法就是使用U盘在双系统下拷贝。接下来我就详细说说，如何在Linux系统下使用U盘。
+首先，优盘的使用需要Linux内核在2.4.X以上，这是因为Linux中硬件驱动是编译在内核中的，内核不支持USB就无法使用。这个现在不成问题，因为Red Hat Linux早在7.2版本中就支持优盘。
+Linux不同与Windows，它将不同的分区都当成一个设备，使用前需要挂载，用完后需要卸载。优盘的挂载同软盘和光驱的类似。使用挂载需要知道设备名，也就是它在/dev/下的名称。
+有的Linux系统将优盘视为普通IDE设备，因此设备名为/dev/hde*,*是数字，也有的系统认为优盘是SCSI设备，设备名为sda*。如果不清楚您的U盘或MP3属于那种设备的话，用如下方式可以确定。
+在Shell提示下，使用命令：
+# dmesg|more
+在显示结果中找到：
+scsi1 : SCSI emulation for USB Mass Storage devices
+Vendor: 方正 Model: 0501 Rev: 1.89
+Type: Direct-Access ANSI SCSI revision: 02
+Attached scsi removable disk sdb at scsi1, channel 0, id 0, lun 0
+SCSI device sdb: 512000 512-byte hdwr sectors (262 MB)
+sdb: Write Protect is off
+sdb: sdb1
+就可以确定系统将它认为是SCSI设备，其中262M是容量，sdb: sdb1显示系统中分配的设备名为sdb1。（我是用的优盘是“方正 256M”，在Linux下换算方法不同，略有偏差）
+
+其次，我们来挂载优盘。为设备建立一个空目录，如/mnt/usb。然后将设备挂载到该目录下，就可以像使用本地硬盘一样使用U盘了。使用如下命令：
+# mkdir /mnt/usb
+# mount –t vfat /dev/sda1 /mnt/usb
+在这里用-t vfat指定优盘使用分区类型是Windows的分区格式。
+# cd /mnt/usb
+# ls
+优盘使用后，一定要卸载，如果直接拔出，可能回损坏优盘上的数据。卸载前需要离开/mnt/usb目录，并且确定没有程序在使用这个目录，否则会卸载失败。离开/mnt/usb目录的命令：
+# umount /mnt/usb
+如果每次使用优盘都输入一串命令，不够方便，可以使用下面的方法：
+在系统文件分区文件/etc/fstab中，增加如下命令：
+/dev/sdb1 /mnt/usb vfat defaults,codepage=936,isocharser=cp936 0 0
+以后使用优盘就方便多了，可以直接在Shell提示符中挂载，输入命令：
+# mount /mnt/usb
+或者使用硬盘管理工具，挂载优盘。（图2-1）
+
+小技巧：在优盘中使用中文命名的文件，如果按前面的命令，则中文显示会不正确。为了能够正常地显示中文，需要在命令后面加几个参数。完整的命令如下：
+# mount –t vfat –O isocharset=gb2312,umask=0,codepage=936 /dev/sda1 /mnt/usb
+
+三、 畅游网络新世界
+我这样的酷爱上网的网蝶儿，在Linux系统下怎么能不上网，聊QQ呢？现在我就讲下
+如何在Wndows XP Host +Linux Guest下上网，聊QQ！
+
+实验环境：
+Host: Windows XP professional 
+VMware: Workstation 4.0.5 build 6030
+Guest: Red Hat Linux 9.0
+
+在Windows XP 中，查看所有的网络连接，您应该发现除了原有的网卡之外，又多了VMnet1和VMnet8。如果您使用过虚拟机应该知道，VMnet1是Host-only的接口，而VMnet8是使用NAT的网络接口。在这里我们既不想用VMWARE自带的DHCP也不想用它的NAT所以我们只关心VMnet1。
+在进一步操作之前先说一下思路：
+我们将使用Host-only这个网络接口连接虚拟机和主机，然后利用Windows XP/2000里面自带的Internet连接共享（实际上是一个简单的路由NAT)来让虚拟机 通过原来的网卡进行外网的访问。 
+那么为什么不使用桥接的方式呢？不过最难现实的原因是桥接需要一个不同于原主机上的另外一个独立的IP地址，这对于有些情况（IP和MAC绑定，网管不同意），比较难办到。 
+OK，Let's GO!
+（1）查看你的连接外网的网卡的属性，选择“高级”标签，设置成允许共享，并设定允许的网络接口为VMNET1。（图3-1）
+（2）再查看一下您的VMnet1 的属性，看一下TCP/IP协议的设置，你发现已经被自动设置为192.168.10.1/255.255.255.0。（图3-2）
+（3）Windows下的设置完成，转入到跑Linux的虚拟机。将你的eth0的ip地址设置为静态的（如果安装时没有选静态的话） 
+按红帽子图标－＞系统设置－＞网络（或其它你了解的方法）。（图3-3）
+IP： 192.168.10.2(或其它在此网段上的地址） 
+Netmask: 255.255.255.0 
+Default Gateay: 192.168.10.1 
+DNS:输入你自己的DNS 
+保存设置。如果你还没有设置好主机名称： 
+# cd /etc/sysconfig 
+# vi network 
+编辑HOSTNAME 
+# cd /etc 
+# vi hosts 
+加入： 
+192.168.10.2 YourHostName 
+重新启动服务 
+# su 
+# /sbin/service network restart 
+(4)测试一下 
+网关： ping 192.168.10.1 
+DNS： ping DNSServer
+
+在《黑客X档案》增刊上看到Sagi哥哥发表的LUMA QQ的安装方法，我在这里就不安装这个版本的QQ了。免得Sagi哥哥恼羞成怒，说我侵权让我请客吃饭赔罪，嘿嘿^_^
+在Linux系统下有个聊天工具Gaim，它有很多插件。今天我就安装上gugong老大开发的Gaim-0.79 + OpenQ_0.3.0_p3 的 rpm 包。这个QQ插件在“中国Linux公社”讨论的如火如荼的。可是有很多朋友没有安装成功，在这里就把我的一些经验清囊相赠，黑友们收好^_^
+安装Gaim-0.79 + OpenQ_0.3.0_p3这个包之前要先安装rpm -ivh gtkspell-2.0.4-fr3.i386.rpm然后,安装gaim-0.79-OpenQ_0.3.0_p3.gugong2.i386.rpm时会被告知："libaspell.so.15 is needed by gaim-0.79-OpenQ_0.3.0_p3.gugong2"。此时gugong大哥的贴子中给了两个办法：
+第一个方法："ln -s /usr/lib/libaspell.so /usr/lib/libaspell.so.15再--nodeps 安装。"
+但只有在您的系统中已经存在libaspell.so时该命令才有意思,否则即使你用--nodesp安装后,在装载的时候也会失败,结果就是你一启动Gaim,就马上就自动关闭。
+然而，第二个方法给出的那些依赖包,除了最后一个可以顺利安装,此外的几个会引起更多的倚赖问题警告。
+如果你的系统已经安装了aspell低版本如0.33.7.1,此时最简单的办法就是升级安装aspell 
+直接安装rpm -Uvh aspell-0.50.3-19.i386.rpm会报告倚赖问题 
+所以加上--nodeps: 
+rpm -Uvh aspell-0.50.3-19.i386.rpm –nodeps
+最后一步安装gaim包: 
+rpm -ivh gaim-0.79-OpenQ_0.3.0_p3.gugong2.i386.rpm 
+此时不会有任何警告,一切顺利安装成功。
+
+下面具体说明下安装步骤：
+# mount -t iso9660 /dev/cdrom /mnt (加载CDROM设备，并且CDROM为只读属性)
+# cp /mnt/*.rpm /tmp (将该软件包持拷贝到LINUX的TMP目录下)
+# umount /dev/cdrom (舍载CDROM)
+# cd /tmp (进入TMP目录)
+# rpm -ivh gtkspell-2.0.4-fr3.i386.rpm（安装gaim-0.79 +OpenQ_0.3.0_p3这个包之前要先安装）
+# rpm -Uvh aspell-0.50.3-19.i386.rpm –nodeps（升级安装aspell，强行安装不跳过依赖包）
+# rpm -Uvh gaim-0.79-OpenQ_0.3.0_p3.gugong2.i386.rpm（由于偶安装的是“个人桌面”类别的Linux系统，所以默认安装了低版本的Gaim。这里就Uvh升级安装Gaim）（图3-4）
+安装完毕后，启动Gaim（图3-5）
+1、 首选项---QQ---IP地址数据文件的路径修改为：/usr/share/OpenQQ/QWry.Dat
+OpenQ installed directory：/usr/share/OpenQQ
+2、 帐户---增加---协议选择：QQ 
+用户名：当然是你自己的QQ号了
+密码：偶等你告诉我呢！呵呵
+唤醒我偷懒的小猫拨号上网。在Red Hat Linux 9.0系统上网、泡哥哥（图3-6）……
+
+最后感谢为Linux开源思想作出杰出贡献的前辈们（也包括国外的前辈们）。正是由于前人的不断努力才能有Linux系统今天的成就；才使我们这些后来人能够学习到更多的知识。文章中提到的GaimQQ安装文件已经让我做成ISO格式，提供给各位黑友使用。由于篇幅有限，还有两个方面的内容没有写完，等以后写续的时候一并奉献给各位黑友！
+偶还是个菜鸟，由于能力和水平所限制，文章中具体内容若有疏漏，欠妥和错误之处，恳请各位黑友一如既往，多加指正，以便今后不断改进。
