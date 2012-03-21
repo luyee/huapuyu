@@ -2,6 +2,7 @@ package commons;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -63,6 +64,30 @@ public class Tester {
 		System.out.println(u1);
 		System.out.println(u2);
 		System.out.println(u3);
+
+		System.out.println("********************shuffle*************************");
+		List<String> names = new ArrayList<String>();
+		names.add("aa");
+		names.add("bb");
+		names.add("cc");
+		names.add("dd");
+		for (String name : names)
+			System.out.println(name);
+
+		Collections.shuffle(names);
+		for (String name : names)
+			System.out.println(name);
+
+		System.out.println("********************1*************************");
+		for (int i = 0; i < names.size(); i++) {
+			System.out.println("[" + i + "]:::" + names.get(i));
+		}
+
+		Collections.shuffle(names);
+		System.out.println("********************2*************************");
+		for (int i = 0; i < names.size(); i++) {
+			System.out.println("[" + i + "]:::" + names.get(i));
+		}
 	}
 }
 
