@@ -2,7 +2,7 @@
 解决方式：去掉ejb3-persistence.jar
 
 2.运行memcached client测试时，提示无法连接memcached server
-解决方式：默认ubuntu下运行命令memcached绑定的是127.0.0.1，需要修改为绑定具体地址，使用命令memcached -m 64 -p 11211 -u memcache -l 192.168.2.101 &
+解决方式：默认ubuntu下运行命令memcached绑定的是127.0.0.1，需要修改为绑定具体地址，使用命令memcached -m 64 -p 11211 -u memcache -l 192.168.2.90 &
 
 3.使用unitils（版本unitils-3.2-SNAPSHOT-with-dependencies）报如下错误：
 org.unitils.core.UnitilsException: Error inserting test data from DbUnit dataset for method public void com.anders.ssh.common.UnitilsTest.test1()
@@ -64,7 +64,7 @@ public ResultSet getColumns(DatabaseMetaData databaseMetaData, String schemaName
     }
     
 修改方式如下：
-打开unitils-dbunit的DbUnitModule.java源码
+打开unitils-dbunit项目的DbUnitModule.java（路径为：unitils-3.3-with-dependencies\unitils-3.3\unitils-dbunit\src\main\java\org\unitils\dbunit）源码
 修改方法createDbUnitConnection（如下），添加下面代码
 		if(dbSupport.getDatabaseDialect().equalsIgnoreCase("db2"))
 		{
@@ -163,8 +163,50 @@ import org.dbunit.ext.postgresql.PostgresqlDataTypeFactory;
             <version>2.2.2</version>-----------------------------------改为2.4.8，2.2.2只有MySqlDataTypeFactory，没有MySqlMetadataHandler，但是2.4.8有
 </dependency>
 
-进入pom.xml目录运行mvn install打jar包
+进入pom.xml目录运行mvn clean install -Dgpg.skip打jar包（略过GPG，否则会有下面的问题）
+********************************************************************************************
+[INFO] --- maven-gpg-plugin:1.4:sign (sign-artifacts) @ citrus-parent ---
+GPG Passphrase: *
+
+不知道输入什么, 按回车就提示:
+
+*gpg: no default secret key: secret key not available
+gpg: signing failed: secret key not available
+[INFO] ------------------------------------------------------------------------
+[ERROR] BUILD ERROR
+********************************************************************************************
 最后用修改后的jar替换原jar，ok
+
+fuck，unitils3.2这样修改可以，但是unitils3.3不行，最终参考http://hi.baidu.com/bearhzl/blog/item/3a07f208a60f4c95d0581b2d.html得以解决
+修改dbunit2.4.8的DefaultMetadataHandler.java（74行），颠倒1和2的次序
+		String catalogName = columnsResultSet.getString(1);-------------------此处修改了
+        String schemaName = columnsResultSet.getString(2);-------------------此处修改了
+        String tableName = columnsResultSet.getString(3);
+        String columnName = columnsResultSet.getString(4);
+修改为：
+		String catalogName = columnsResultSet.getString(2);
+        String schemaName = columnsResultSet.getString(1);
+        String tableName = columnsResultSet.getString(3);
+        String columnName = columnsResultSet.getString(4);
+
+DatabaseTableMetaData.java（303）
+		if (_columns == null)-------------------此处修改了
+        {
+            try
+            {
+                // qualified names support
+            	String schemaName = _qualifiedTableNameSupport.getSchema();
+            	String tableName = _qualifiedTableNameSupport.getTable();
+修改为：
+		if (_columns == null || _columns.length == 0)
+        {
+            try
+            {
+                // qualified names support
+            	String schemaName = _qualifiedTableNameSupport.getSchema();
+            	String tableName = _qualifiedTableNameSupport.getTable();
+保存两个修改文件然后打包mvn clean install -Dgpg.skip -Dmaven.test.skip=true。
+
 
 
 4.Tomcat在启动时出现如下异常问题： 
