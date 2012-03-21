@@ -3,5 +3,7 @@
 
 <hibernate-configuration>
 	<session-factory>
-	</session-factory>
+        <mapping class="com.anders.model.User"/>
+        <mapping class="com.anders.model.Role"/>
+    </session-factory>
 </hibernate-configuration>

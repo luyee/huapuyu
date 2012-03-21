@@ -1,0 +1,20 @@
+客户关系管理系统
+
+1.框架
+Ext or jQuery
+Spring MVC
+Spring
+Hibernate
+Spring Security
+Spring Work Flow or jBPM
+CXF or Spring WebService
+Lucene（Compass）全文检索
+
+2.环境
+前期依靠收费空间：MySQL
+后期独立部署：
+MySQL（传统数据库）
+MongoDB（日志数据库）
+Memcached（Session缓存+Hibernate二级缓存）
+Nginx（反向代理+负载均衡）
+Tomcat（J2EE服务器）

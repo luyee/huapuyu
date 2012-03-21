@@ -34,6 +34,7 @@
 						<drop>true</drop>
 						<jdk5>true</jdk5>
 						<propertyfile>${jdbc.propFile.src}</propertyfile>
+						<configurationfile>${hibernate.cfg.src}</configurationfile>
 						<skip>${skipTests}</skip>
 					</componentProperties>
 				</configuration>
@@ -174,47 +175,7 @@
 		<!-- spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-asm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-expression</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
@@ -229,11 +190,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
@@ -241,6 +197,86 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
+		</dependency>
+		<!-- spring security -->
+		<dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aop</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-expression</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring.security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aop</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-jdbc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-expression</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+		<!-- hibernate -->
+        <dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>${hibernate.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.java-persistence</groupId>
+			<artifactId>jpa-api</artifactId>
+			<version>${hibernate.jpa.version}</version>
 		</dependency>
 		<!-- jdbc -->
 		<dependency>
@@ -259,6 +295,11 @@
 			<artifactId>commons-io</artifactId>
 			<version>${commons.io.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${commons.lang.version}</version>
+		</dependency>
 		<!-- displaytag -->
 		<dependency>
 			<groupId>displaytag</groupId>
@@ -270,10 +311,26 @@
 					<groupId>org.slf4j</groupId>
 				</exclusion>
 				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+				<exclusion>
 					<artifactId>commons-lang</artifactId>
 					<groupId>commons-lang</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<!-- compass -->
+		<dependency>
+			<groupId>org.compass-project</groupId>
+			<artifactId>compass</artifactId>
+			<version>${compass.version}</version>
+		</dependency>
+		<!-- jaxb -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>${jaxb.version}</version>
 		</dependency>
 
 		<!-- provided -->
@@ -409,6 +466,7 @@
 		<dbunit.schema>crm</dbunit.schema>
 		<db.name>crm</db.name>
 		<hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
+		<hibernate.cfg.src>src/main/resources/hibernate.cfg.xml</hibernate.cfg.src>
 		<jdbc.groupId>mysql</jdbc.groupId>
 		<jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
 		<jdbc.version>5.1.18</jdbc.version>
@@ -418,14 +476,19 @@
 		<jdbc.password>123</jdbc.password>
 		<jdbc.propFile.src>target/classes/jdbc.properties</jdbc.propFile.src>
 		<jetty.dir>src/main/webapp/WEB-INF</jetty.dir>
-		<spring.version>3.1.1.RELEASE</spring.version>
+		<spring.version>3.0.6.RELEASE</spring.version>
+		<spring.security.version>3.1.0.RELEASE</spring.security.version>
+		<hibernate.version>4.1.1.Final</hibernate.version>
+		<hibernate.jpa.version>2.0-cr-1</hibernate.jpa.version>
 		<commons.fileupload.version>1.2.2</commons.fileupload.version>
 		<commons.io.version>1.3.2</commons.io.version>
+		<commons.lang.version>2.6</commons.lang.version>
 		<displaytag.version>1.2</displaytag.version>
 		<jmock.version>2.5.1</jmock.version>
 		<servlet.jsp.version>2.2</servlet.jsp.version>
 		<servlet.version>2.5</servlet.version>
 		<junit.version>4.10</junit.version>
+		<slf4j.version>1.6.4</slf4j.version>
 		<subethamail.version>1.2</subethamail.version>
 		<maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
 		<hibernate3.maven.plugin.version>2.2</hibernate3.maven.plugin.version>
@@ -440,5 +503,7 @@
 		<maven.jxr.plugin.version>2.3</maven.jxr.plugin.version>
 		<maven.pmd.plugin.version>2.7.1</maven.pmd.plugin.version>
 		<maven.surefire.report.plugin.version>2.12</maven.surefire.report.plugin.version>
+		<compass.version>2.2.0</compass.version>
+		<jaxb.version>2.2.6</jaxb.version>
 	</properties>
 </project>
