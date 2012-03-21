@@ -4,7 +4,7 @@ use Cache::Memcached;
 
 my $mem = new Cache::Memcached(
 	{
-		'servers'            => ["192.168.2.101:11211"],
+		'servers'            => ["192.168.2.90:11211"],
 		'compress_threshold' => 10_000
 	}
 );
