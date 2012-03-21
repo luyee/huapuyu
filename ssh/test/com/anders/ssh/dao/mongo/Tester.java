@@ -16,7 +16,7 @@ public class Tester {
 
 	@Test
 	public void testDataAdd() throws UnknownHostException, MongoException {
-		Mongo mongo = new Mongo("192.168.2.101", 27017);
+		Mongo mongo = new Mongo("192.168.2.90", 27017);
 		DB db = mongo.getDB("anders");
 		DBCollection collection = db.getCollection("user");
 		System.out.println(collection.getCount());

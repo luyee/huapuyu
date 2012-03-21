@@ -18,14 +18,12 @@ import me.prettyprint.hector.api.factory.HFactory;
 
 import org.junit.Test;
 
-public class CassandraTest
-{
+public class CassandraTest {
 
 	@Test
-	public void test1() throws ClassNotFoundException, SQLException
-	{
+	public void test1() throws ClassNotFoundException, SQLException {
 		// Class.forName("org.apache.cassandra.cql.jdbc.CassandraDriver");
-		// Connection con = DriverManager.getConnection("jdbc:cassandra://192.168.2.100:9160/ssh");
+		// Connection con = DriverManager.getConnection("jdbc:cassandra://192.168.2.90:9160/ssh");
 
 		// String query = "INSERT INTO user (KEY, name, age) VALUES (?, ?, ?)";
 		// String query = "INSERT INTO data (KEY, name) VALUES (1, zhuzhen)";
@@ -37,22 +35,20 @@ public class CassandraTest
 
 		// statement.execute();
 
-		Cluster cluster = HFactory.getOrCreateCluster("Test Cluster", "192.168.2.100:9160");
+		Cluster cluster = HFactory.getOrCreateCluster("Test Cluster", "192.168.2.90:9160");
 		// ColumnFamilyDefinition cfDef = HFactory.createColumnFamilyDefinition("ssh", "ColumnFamilyName", ComparatorType.BYTESTYPE);
 		// KeyspaceDefinition newKeyspace = HFactory.createKeyspaceDefinition("ssh", ThriftKsDef.DEF_STRATEGY_CLASS, replicationFactor, Arrays.asList(cfDef));
 		System.out.println(cluster.describeClusterName());
 		// 库：ssh
 		KeyspaceDefinition kd = cluster.describeKeyspace("ssh");
 		List<ColumnFamilyDefinition> cfdList = kd.getCfDefs();
-		for (ColumnFamilyDefinition cfd : cfdList)
-		{
+		for (ColumnFamilyDefinition cfd : cfdList) {
 			// 表
 			System.out.println(cfd.getName());
 			// 列
 			List<ColumnDefinition> cdList = cfd.getColumnMetadata();
 			System.out.println(cdList.size());
-			for (ColumnDefinition cd : cdList)
-			{
+			for (ColumnDefinition cd : cdList) {
 				System.out.println(cd.getName().getInt());
 			}
 		}
@@ -64,22 +60,18 @@ public class CassandraTest
 		updater.setString("domain", "www.datastax.com");
 		updater.setLong("time", System.currentTimeMillis());
 
-		try
-		{
+		try {
 			template.update(updater);
 		}
-		catch (HectorException e)
-		{
+		catch (HectorException e) {
 		}
 
-		try
-		{
+		try {
 			ColumnFamilyResult<String, String> res = template.queryColumns("a key");
 			String value = res.getString("domain");
 			System.out.println(value);
 		}
-		catch (HectorException e)
-		{
+		catch (HectorException e) {
 		}
 	}
 }

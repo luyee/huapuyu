@@ -1,5 +1,6 @@
 package com.anders.ssh.dao.hibernate;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -20,7 +21,6 @@ public class DataDaoTest {
 	@Resource(name = "hibernateDataDao")
 	private DataDao dataDao;
 
-	@Test
 	public void testDataAdd() {
 		Data data = new Data();
 		data.setId(1L);
@@ -34,5 +34,21 @@ public class DataDaoTest {
 		List<Data> dataList = dataDao.getAll();
 		Assert.assertEquals(1, dataList.size());
 		Assert.assertEquals("zhuzhen", dataList.get(0).getName());
+	}
+
+	@Test
+	public void testInsert5000000() {
+		// 插入500万需要50分钟
+		Long beginTime = new Date().getTime();
+		for (int i = 1; i <= 5000000; i++) {
+			Data data = new Data();
+			data.setId(new Long(i));
+			data.setName("zhuzhen");
+			data.setType((byte) 1);
+			data.setEnable(true);
+			dataDao.save(data);
+		}
+		Long endTime = new Date().getTime();
+		System.out.println("耗时：" + (endTime - beginTime) / 1000 / 60 + "分");
 	}
 }

@@ -1,5 +1,6 @@
 package com.anders.ssh.dao.mongo;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -19,7 +20,6 @@ public class DataDaoTest {
 	@Resource(name = "mongoDataDao")
 	private DataDao dataDao;
 
-	@Test
 	public void test1() {
 		Data data = new Data();
 		data.setId(1L);
@@ -42,5 +42,21 @@ public class DataDaoTest {
 		// 查
 		List<Data> list = dataDao.getAll();
 		Assert.assertEquals(0, list.size());
+	}
+
+	@Test
+	public void testInsert5000000() {
+		// 插入500万需要42分钟
+		Long beginTime = new Date().getTime();
+		for (int i = 1; i <= 5000000; i++) {
+			Data data = new Data();
+			data.setId(new Long(i));
+			data.setName("zhuzhen");
+			data.setType((byte) 1);
+			data.setEnable(true);
+			dataDao.save(data);
+		}
+		Long endTime = new Date().getTime();
+		System.out.println("耗时：" + (endTime - beginTime) / 1000 / 60 + "分");
 	}
 }
