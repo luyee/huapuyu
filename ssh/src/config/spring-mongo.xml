@@ -16,7 +16,7 @@
 
 	<bean id="mongo"
 		class="org.springframework.data.mongodb.core.MongoFactoryBean">
-		<property name="host" value="192.168.2.102" />
+		<property name="host" value="192.168.2.90" />
 	</bean>
 	-->
 	
