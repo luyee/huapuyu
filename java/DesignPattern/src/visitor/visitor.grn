@@ -72,7 +72,14 @@
    </relationship>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=DesignPattern/src<visitor{男人.java[男人"/>
+      <sourceType="=DesignPattern/src<visitor{成功.java[成功"/>
+      <targetType="=DesignPattern/src<visitor{Action.java[Action"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
+      <sourceType="=DesignPattern/src<visitor{女人.java[女人"/>
       <targetType="=DesignPattern/src<visitor{Person.java[Person"/>
       <bendpoints>
       </bendpoints>
@@ -86,14 +93,7 @@
    </relationship>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=DesignPattern/src<visitor{成功.java[成功"/>
-      <targetType="=DesignPattern/src<visitor{Action.java[Action"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=DesignPattern/src<visitor{女人.java[女人"/>
+      <sourceType="=DesignPattern/src<visitor{男人.java[男人"/>
       <targetType="=DesignPattern/src<visitor{Person.java[Person"/>
       <bendpoints>
       </bendpoints>
