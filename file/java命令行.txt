@@ -1,0 +1,8 @@
+打jar包
+jar -cvf data.jar com\baidu\rigel\sp\pangu\gift\migrate\*.class
+
+运行java程序
+java -Xms256m -Xmx1024m -XX:PermSize=64m -XX:MaxPermSize=128m -cp mysql-connector-java-5.1.6-bin.jar:commons-logging-1.0.4.jar:data.jar:commons-lang-2.4.jar:log4j-1.2.15.jar:opencsv-2.3.jar:. com.baidu.rigel.sp.pangu.gift.migrate.Run
+
+查看jar内容
+jar tf data.jar

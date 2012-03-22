@@ -1,0 +1,105 @@
+tuscany(不能用)
+http://tuscany.apache.org/updatesite/1.6.2/
+
+testng
+http://beust.com/eclipse
+
+pydev
+http://pydev.org/updates
+
+epic
+http://e-p-i-c.sf.net/updates/testing
+
+ecf
+
+.net
+http://emonic.sourceforge.net/
+http://emonic.sourceforge.net/updatesite/internap/site.xml     San Jose, CA - North America
+http://emonic.sourceforge.net/updatesite/nchc/site.xml     Tainan, Taiwan - Asia
+http://emonic.sourceforge.net/updatesite/ovh/site.xml     Paris, France - Europe
+
+git
+http://download.eclipse.org/egit/updates
+
+svn
+Links for 1.8.x Release:
+Changelog: http://subclipse.tigris.org/subclipse_1.8.x/changes.html
+Eclipse update site URL: http://subclipse.tigris.org/update_1.8.x
+Zipped downloads: http://subclipse.tigris.org/servlets/ProjectDocumentList?folderID=2240
+Links for 1.6.x Release:（目前用的这个）
+Changelog: http://subclipse.tigris.org/subclipse_1.6.x/changes.html
+Eclipse update site URL: http://subclipse.tigris.org/update_1.6.x
+Zipped downloads: http://subclipse.tigris.org/servlets/ProjectDocumentList?folderID=2240
+Links for 1.4.x Release:
+Changelog: http://subclipse.tigris.org/subclipse_1.4.x/changes.html
+Eclipse update site URL: http://subclipse.tigris.org/update_1.4.x
+Zipped downloads: http://subclipse.tigris.org/servlets/ProjectDocumentList?folderID=2240
+
+maven
+http://download.eclipse.org/technology/m2e/releases
+http://m2eclipse.sonatype.org/sites/m2e
+
+jboss tools
+http://www.jboss.org/tools/download.html
+
+google
+Eclipse 3.7 (Indigo)
+http://dl.google.com/eclipse/plugin/3.7
+Eclipse 3.6 (Helios)
+http://dl.google.com/eclipse/plugin/3.6
+Eclipse 3.5 (Galileo)
+http://dl.google.com/eclipse/plugin/3.5
+
+android
+https://dl-ssl.google.com/android/eclipse/
+
+velocity
+http://veloeclipse.googlecode.com/svn/trunk/update/
+
+emma
+http://update.eclemma.org/
+
+freemarker
+http://freemarker-ide.sourceforge.net/
+
+ermaster
+http://ermaster.sourceforge.net/update-site/
+
+Propedit
+http://propedit.sourceforge.jp/eclipse/updates/
+
+easy explore
+http://easystruts.sourceforge.net/eclipse/updates/site.xml
+
+checkstyle
+http://eclipse-cs.sourceforge.net/update
+
+Cold Folding(不能用)
+http://www.realjenius.com/platform_support
+http://eclipse.realjenius.com/update-site
+
+Log4E
+http://log4e.jayefem.de/index.php/Main_Page
+http://log4e.jayefem.de/update
+
+Implementors
+http://eclipse-tools.sourceforge.net/implementors/
+http://eclipse-tools.sourceforge.net/updates/
+
+RegEx Test
+http://brosinski.com/regex/
+http://brosinski.com/regex/update
+
+QuickRex
+http://www.bastian-bergerhoff.com/eclipse/features/web/QuickREx/toc.html
+http://www.bastian-bergerhoff.com/eclipse/features
+
+WindowBuilder Pro
+Eclipse 3.7 (Indigo)
+http://dl.google.com/eclipse/inst/d2wbpro/latest/3.7
+
+Eclipse 3.6 (Helios)
+http://dl.google.com/eclipse/inst/d2wbpro/latest/3.6
+
+Eclipse 3.5 (Galileo)
+http://dl.google.com/eclipse/inst/d2wbpro/latest/3.5
