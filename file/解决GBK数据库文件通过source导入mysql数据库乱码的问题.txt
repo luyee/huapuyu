@@ -1,0 +1,8 @@
+将gbk导入到数据库是一件头疼的事情，尤其是一些软件官方没有给出导入导出功能，并且遇到大的.sql文件的时候。这里经过无数次摸索，终于找到了解决方案。
+一、先设置数据库的格式为gbk
+alter database databasename character set gbk;
+然后设置客户端为gbk
+set names gbk;
+再通过source导入：
+source filename.sql
+OK，导入成功
