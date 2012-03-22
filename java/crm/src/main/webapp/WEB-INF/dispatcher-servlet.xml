@@ -7,7 +7,7 @@
 	<!-- <bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"></bean> <bean name="/helloWorld.do" class="com.anders.maizu.controller.HelloWorldController"></bean> -->
 
 	<!-- 很搞笑的是，component-scan必须放在本文件中，不能放在spring.xml文件中，否则好像找不到Controller -->
-	<!-- <context:component-scan base-package="com.anders.crm.controller" /> -->
+	<context:component-scan base-package="com.anders.crm.controller" />
 
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/"></property>
