@@ -23,27 +23,34 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
-	<filter>
+	<!-- <filter>
 		<filter-name>securityFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 		<init-param>
 			<param-name>targetBeanName</param-name>
 			<param-value>springSecurityFilterChain</param-value>
 		</init-param>
-	</filter>
+	</filter> -->
 
 	<!-- filter mapping -->
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<filter-mapping>
+	<!-- <filter-mapping>
 		<filter-name>securityFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
-	</filter-mapping>
+	</filter-mapping> -->
+	
+	<listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
 
 	<!-- servlet -->
 	<servlet>
@@ -55,7 +62,7 @@
 	<!-- servlet mapping -->
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/crm/*</url-pattern>
 	</servlet-mapping>
 
 	<session-config>
