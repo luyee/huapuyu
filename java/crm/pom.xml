@@ -3,9 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.anders</groupId>
 	<artifactId>crm</artifactId>
+	<name>crm</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
+	<url>http://crm.anders.com</url>
+	<organization>
+		<name>Anders</name>
+		<url>http://www.anders.com</url>
+	</organization>
 	<build>
 		<plugins>
 			<!-- maven -->
