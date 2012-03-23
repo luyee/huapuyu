@@ -9,9 +9,38 @@
 	<!-- 很搞笑的是，component-scan必须放在本文件中，不能放在spring.xml文件中，否则好像找不到Controller -->
 	<context:component-scan base-package="com.anders.crm.controller" />
 
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/jsp/"></property>
-		<property name="suffix" value=".jsp"></property>
+	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" /> <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> <property name="prefix" value="/WEB-INF/jsp/"></property> <property name="suffix" value=".jsp"></property> </bean> -->
+
+	<!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver"> <property name="cache" value="true" /> <property name="prefix" value="" /> <property name="suffix" value=".ftl" /> <property name="contentType" value="text/html;charset=UTF-8" /> <property name="requestContextAttribute" value="request" /> <property name="exposeSpringMacroHelpers" value="true" /> <property name="exposeRequestAttributes" value="true" /> <property name="exposeSessionAttributes" value="true" /> </bean> -->
+
+	<!-- <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer"> <property name="templateLoaderPath" value="/WEB-INF/ftl/" /> <property name="freemarkerSettings"> <props> <prop key="template_update_delay">0</prop> <prop key="default_encoding">UTF-8</prop> <prop key="number_format">0.##########</prop> <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop> <prop key="classic_compatible">true</prop> <prop key="template_exception_handler">ignore</prop> </props> </property> </bean> -->
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+		<property name="cache" value="true" />
+		<property name="prefix" value="" />
+		<property name="suffix" value=".vm" />
+		<property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml" /><!--toolbox配置文件路径 -->
+		<property name="dateToolAttribute" value="date" /><!--日期函数名称 -->
+		<property name="numberToolAttribute" value="number" /><!--数字函数名称 -->
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="exposeSpringMacroHelpers" value="true" /><!--是否使用spring对宏定义的支持 -->
+		<property name="exposeRequestAttributes" value="true" /><!--是否开放request属性 -->
+		<property name="requestContextAttribute" value="rc" /><!--request属性引用名称 -->
+	</bean>
+
+	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath" value="/WEB-INF/vm/" />
+		<property name="velocityProperties">
+			<props>
+				<!-- <prop key="resource.loader">file</prop> <prop key="file.resource.loader.class">org.apache.velocity.runtime.resource.loader.FileResourceLoader</prop> <prop key="file.resource.loader.path">/WEB-INF/vm/</prop> <prop key="file.resource.loader.cache">false</prop> -->
+				<prop key="input.encoding">UTF-8</prop><!-- 指定模板引擎进行模板处理的编码 -->
+				<prop key="output.encoding">UTF-8</prop><!-- 指定输出流的编码 -->
+				<prop key="contentType">text/html;charset=UTF-8</prop><!-- contentType -->
+				<!-- <prop key="velocimacro.library">macro/macros.vm</prop> --><!-- Velocimacro 模板库的列表 -->
+				<!-- <prop key="eventhandler.referenceinsertion.class">com.sde.common.web.escape.reference.NoEscapeHtmlReference</prop> -->
+				<prop key="eventhandler.noescape.html.match">/(?:screen_content)|(?:noescape_.*)/</prop>
+			</props>
+		</property>
 	</bean>
 
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
