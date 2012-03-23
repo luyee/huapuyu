@@ -1,14 +1,15 @@
 客户关系管理系统
 
 1.框架
-Ext or jQuery
+Ext
 Spring MVC
+Velocity
 Spring
 Hibernate
 Spring Security
-Spring Work Flow or jBPM
-CXF or Spring WebService
-Lucene（Compass）全文检索
+Spring Work Flow or jBPM（可能不需要）
+CXF
+Compass
 
 2.环境
 前期依靠收费空间：MySQL
