@@ -8,43 +8,42 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class Tester
-{
+public class Tester {
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception
-	{
+	public static void setUpBeforeClass() throws Exception {
 	}
 
 	@AfterClass
-	public static void tearDownAfterClass() throws Exception
-	{
+	public static void tearDownAfterClass() throws Exception {
 	}
 
 	@Before
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 	}
 
 	@After
-	public void tearDown() throws Exception
-	{
+	public void tearDown() throws Exception {
 	}
 
 	@Test
-	public void test()
-	{
+	public void test1() {
 		System.out.println(SingletonClass.getInstance().toString());
 		System.out.println(SingletonClass.getInstance().toString());
 		System.out.println(SingletonClass.getInstance().toString());
 
 		// Java中的非常典型的单例模式
-		try
-		{
+		try {
 			Runtime.getRuntime().exec("notepad.exe");
 		}
-		catch (IOException e)
-		{
+		catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Test
+	public void test2() {
+		System.out.println(SingletonClass1.getInstance().toString());
+		System.out.println(SingletonClass1.getInstance().toString());
+		System.out.println(SingletonClass1.getInstance().toString());
 	}
 }
