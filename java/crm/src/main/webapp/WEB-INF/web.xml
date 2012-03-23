@@ -6,7 +6,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-            classpath*:/applicationContext.xml
+            classpath*:/applicationContext*.xml
         </param-value>
 	</context-param>
 
@@ -23,33 +23,36 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
-	<!-- <filter>
+	<filter>
 		<filter-name>securityFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-		<init-param>
+		<!-- <init-param>
 			<param-name>targetBeanName</param-name>
 			<param-value>springSecurityFilterChain</param-value>
-		</init-param>
-	</filter> -->
+		</init-param> -->
+	</filter> 
 
 	<!-- filter mapping -->
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!-- <filter-mapping>
+	<filter-mapping>
 		<filter-name>securityFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
+		<!-- <dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
-		<dispatcher>INCLUDE</dispatcher>
-	</filter-mapping> -->
+		<dispatcher>INCLUDE</dispatcher> -->
+	</filter-mapping>
 	
 	<listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <listener>
         <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
+    <listener>
+      <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener>
 
 	<!-- servlet -->
