@@ -1,0 +1,46 @@
+<uml>
+   <greenVersion="30500"/>
+   <type>
+      <name="=DesignPattern/src<adapter.objectAdapter{Adaptee.java[Adaptee"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="184"/>
+      <y="205"/>
+   </type>
+   <type>
+      <name="=DesignPattern/src<adapter.objectAdapter{Adapter.java[Adapter"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="455"/>
+      <y="203"/>
+   </type>
+   <type>
+      <name="=DesignPattern/src<adapter.objectAdapter{Target.java[Target"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="455"/>
+      <y="61"/>
+   </type>
+   <note>
+      <text="对象的适配器模式"/>
+      <height="50"/>
+      <width="150"/>
+      <x="287"/>
+      <y="399"/>
+   </note>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
+      <sourceType="=DesignPattern/src<adapter.objectAdapter{Adapter.java[Adapter"/>
+      <targetType="=DesignPattern/src<adapter.objectAdapter{Target.java[Target"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.association.AssociationPart"/>
+      <sourceType="=DesignPattern/src<adapter.objectAdapter{Adapter.java[Adapter"/>
+      <targetType="=DesignPattern/src<adapter.objectAdapter{Adaptee.java[Adaptee"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+</uml>
+
