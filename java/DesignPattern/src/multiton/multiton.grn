@@ -1,0 +1,18 @@
+<uml>
+   <greenVersion="30500"/>
+   <type>
+      <name="=DesignPattern/src<multiton{Multiton.java[Multiton"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="148"/>
+      <y="72"/>
+   </type>
+   <note>
+      <text="¶àÀýÄ£Ê½"/>
+      <height="50"/>
+      <width="150"/>
+      <x="451"/>
+      <y="114"/>
+   </note>
+</uml>
+
