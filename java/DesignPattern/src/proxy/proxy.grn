@@ -1,0 +1,46 @@
+<uml>
+   <greenVersion="30500"/>
+   <type>
+      <name="=DesignPattern/src<proxy{ProxySubject.java[ProxySubject"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="55"/>
+      <y="19"/>
+   </type>
+   <type>
+      <name="=DesignPattern/src<proxy{RealSubject.java[RealSubject"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="301"/>
+      <y="22"/>
+   </type>
+   <type>
+      <name="=DesignPattern/src<proxy{Subject.java[Subject"/>
+      <height="-1"/>
+      <width="-1"/>
+      <x="215"/>
+      <y="219"/>
+   </type>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
+      <sourceType="=DesignPattern/src<proxy{ProxySubject.java[ProxySubject"/>
+      <targetType="=DesignPattern/src<proxy{Subject.java[Subject"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
+      <sourceType="=DesignPattern/src<proxy{RealSubject.java[RealSubject"/>
+      <targetType="=DesignPattern/src<proxy{Subject.java[Subject"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <note>
+      <text="代理模式"/>
+      <height="50"/>
+      <width="150"/>
+      <x="538"/>
+      <y="203"/>
+   </note>
+</uml>
+
