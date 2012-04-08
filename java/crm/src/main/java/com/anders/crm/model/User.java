@@ -46,14 +46,43 @@ public class User extends BaseObject implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = 3832626162173359411L;
 
+	/**
+	 * 编号（主键）
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@SearchableId
 	private Long id;
-	private String username; // required
-	private String password; // required
+	/**
+	 * 账号
+	 */
+	@Column(name = "user_name", nullable = false, length = 50, unique = true)
+	@SearchableProperty
+	private String username;
+	/**
+	 * 密码
+	 */
+	@Column(nullable = false, length = 50)
+	@XmlTransient
+	private String password;
+	// TODO Anders Zhu ： to be confirm
+	/**
+	 * 
+	 */
+	@Transient
+	@XmlTransient
 	private String confirmPassword;
+	@Column(name = "password_hint", length = 50)
+	@XmlTransient
 	private String passwordHint;
-	private String firstName; // required
-	private String lastName; // required
-	private String email; // required; unique
+	/**
+	 * 姓名
+	 */
+	private String name;
+	/**
+	 * 邮箱
+	 */
+	private String email;
 	private String phoneNumber;
 	private String website;
 	private Address address = new Address();
@@ -70,37 +99,22 @@ public class User extends BaseObject implements Serializable, UserDetails {
 	public User() {
 	}
 
-	/**
-	 * Create a new instance and set the username.
-	 * 
-	 * @param username
-	 *            login name for user.
-	 */
 	public User(final String username) {
 		this.username = username;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@SearchableId
 	public Long getId() {
 		return id;
 	}
 
-	@Column(nullable = false, length = 50, unique = true)
-	@SearchableProperty
 	public String getUsername() {
 		return username;
 	}
 
-	@Column(nullable = false)
-	@XmlTransient
 	public String getPassword() {
 		return password;
 	}
 
-	@Transient
-	@XmlTransient
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}
@@ -109,18 +123,6 @@ public class User extends BaseObject implements Serializable, UserDetails {
 	@XmlTransient
 	public String getPasswordHint() {
 		return passwordHint;
-	}
-
-	@Column(name = "first_name", nullable = false, length = 50)
-	@SearchableProperty
-	public String getFirstName() {
-		return firstName;
-	}
-
-	@Column(name = "last_name", nullable = false, length = 50)
-	@SearchableProperty
-	public String getLastName() {
-		return lastName;
 	}
 
 	@Column(nullable = false, unique = true)
