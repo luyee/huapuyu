@@ -480,6 +480,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-annotation_1.0_spec</artifactId>
+			<version>${geronimo.annotation.version}</version>
+		</dependency>
 	</dependencies>
 
 	<reporting>
@@ -605,5 +610,6 @@
 		<jboss.logging.version>3.1.0.GA</jboss.logging.version>
 		<freemarker.version>2.3.19</freemarker.version>
 		<velocity.tools.version>2.0</velocity.tools.version>
+		<geronimo.annotation.version>1.1.1</geronimo.annotation.version>
 	</properties>
 </project>
