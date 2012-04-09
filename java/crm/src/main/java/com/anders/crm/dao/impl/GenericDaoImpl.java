@@ -1,4 +1,4 @@
-package com.anders.crm.dao;
+package com.anders.crm.dao.impl;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -20,10 +20,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.util.Assert;
 
+import com.anders.crm.dao.GenericDao;
 import com.anders.crm.utils.ReflectionUtils;
 
 /**
- * Base DAO
+ * Generic Dao Implement
  * 
  * @author Anders
  * 
