@@ -1,7 +1,8 @@
 package com.anders.crm.security;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +13,31 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import com.anders.crm.bo.User;
+import com.anders.crm.service.UserService;
+
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private UserService userService;
 
-	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
 		try {
-			User user = userService.getByUserName(userName);
+			User user = userService.getByUsername(username);
 
-			List<String> roleNameList = userService.getRoleNameListByUserName(userName);
+			List<String> roleNameList = userService.getRoleNameListByUsername(username);
 			if (CollectionUtils.isEmpty(roleNameList))
 				return user;
 
-			List<GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>();
+			Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
 			for (String roleName : roleNameList)
-				grantedAuthorityList.add(new GrantedAuthorityImpl(roleName));
+				grantedAuthorities.add(new GrantedAuthorityImpl(roleName));
 
-			user.setAuthorities(grantedAuthorityList);
+			user.setAuthorities(grantedAuthorities);
 
 			return user;
 		}
 		catch (RuntimeException e) {
+			// TODO Anders Zhu:
 			return null;
 		}
 	}

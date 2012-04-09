@@ -39,6 +39,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User extends BaseBO implements UserDetails {
 
 	private static final long serialVersionUID = 6424414021596996848L;
+
+	public static final String USERNAME = "username";
+
 	/**
 	 * 主键
 	 */

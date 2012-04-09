@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 public class AccessDecisionManagerImpl implements AccessDecisionManager {
-	@Override
 	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
 		if (configAttributes == null)
 			return;
@@ -28,12 +27,10 @@ public class AccessDecisionManagerImpl implements AccessDecisionManager {
 		throw new AccessDeniedException("没有权限");
 	}
 
-	@Override
 	public boolean supports(ConfigAttribute attribute) {
 		return true;
 	}
 
-	@Override
 	public boolean supports(Class<?> clazz) {
 		return true;
 	}

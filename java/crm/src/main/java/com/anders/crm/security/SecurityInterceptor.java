@@ -36,7 +36,6 @@ public class SecurityInterceptor extends AbstractSecurityInterceptor implements 
 		this.filterInvocationSecurityMetadataSource = filterInvocationSecurityMetadataSource;
 	}
 
-	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		FilterInvocation fi = new FilterInvocation(request, response, chain);
 		InterceptorStatusToken token = super.beforeInvocation(fi);
@@ -48,11 +47,9 @@ public class SecurityInterceptor extends AbstractSecurityInterceptor implements 
 		}
 	}
 
-	@Override
 	public void destroy() {
 	}
 
-	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 	}
 }
