@@ -28,17 +28,17 @@ import com.anders.crm.utils.ReflectionUtils;
  * @author Anders
  * 
  */
-public abstract class BaseDAO<PK extends Serializable, T> extends HibernateDaoSupport {
+public abstract class GenericDaoImpl<PK extends Serializable, T> extends HibernateDaoSupport implements GenericDao<PK, T> {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Resource
-	public void setSessionFactoryMocker(SessionFactory sessionFactory) {
+	@Resource(name = "sessionFactory")
+	public void setSuperSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
 
 	private Class<T> entityClass;
 
-	public BaseDAO() {
+	public GenericDaoImpl() {
 		entityClass = ReflectionUtils.getSuperClassGenricType(getClass());
 	}
 
