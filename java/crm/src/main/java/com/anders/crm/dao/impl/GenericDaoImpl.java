@@ -21,7 +21,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.util.Assert;
 
 import com.anders.crm.dao.GenericDao;
-import com.anders.crm.utils.ReflectionUtils;
+import com.anders.crm.utils.Reflections;
 
 /**
  * Generic Dao Implement
@@ -40,7 +40,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> extends Hiberna
 	private Class<T> entityClass;
 
 	public GenericDaoImpl() {
-		entityClass = ReflectionUtils.getSuperClassGenricType(getClass());
+		entityClass = Reflections.getSuperClassGenricType(getClass());
 	}
 
 	public void delete(final T entity) {
