@@ -13,6 +13,8 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.metadata.ClassMetadata;
 import org.slf4j.Logger;
@@ -88,19 +90,27 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> extends Hiberna
 	// }
 
 	/**
-	 * 按属性查找对象列表, 匹配方式为相等.
+	 * 按属性查找对象列表，匹配方式为相等.
 	 */
 	public List<T> findBy(final String propertyName, final Object value) {
-		Assert.hasText(propertyName, "propertyName不能为空");
+		Assert.hasText(propertyName, "propertyName cannot null");
 		Criterion criterion = Restrictions.eq(propertyName, value);
 		return findList(criterion);
 	}
 
+	public List<T> findBy(final String propertyName, final Object value, final String selectPropertyName) {
+		Assert.hasText(propertyName, "propertyName cannot null");
+		Criterion criterion = Restrictions.eq(propertyName, value);
+		ProjectionList projectionList = Projections.projectionList().add(Projections.property(selectPropertyName));
+		return findList(projectionList, criterion);
+	}
+
 	/**
-	 * 按属性查找唯一对象, 匹配方式为相等.
+	 * 按属性查找唯一对象，匹配方式为相等.
 	 */
+	@SuppressWarnings("unchecked")
 	public T findUniqueBy(final String propertyName, final Object value) {
-		Assert.hasText(propertyName, "propertyName不能为空");
+		Assert.hasText(propertyName, "propertyName cannot null");
 		Criterion criterion = Restrictions.eq(propertyName, value);
 		return (T) createCriteria(criterion).uniqueResult();
 	}
@@ -207,6 +217,10 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> extends Hiberna
 		return createCriteria(criterions).list();
 	}
 
+	public List<T> findList(final ProjectionList projectionList, final Criterion... criterions) {
+		return createCriteria(criterions).setProjection(projectionList).list();
+	}
+
 	/**
 	 * 按Criteria查询唯一对象.
 	 * 
@@ -218,7 +232,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> extends Hiberna
 	}
 
 	/**
-	 * 根据Criterion条件创建Criteria. 与find()函数可进行更加灵活的操作.
+	 * 根据Criterion条件创建Criteria，与find()函数可进行更加灵活的操作
 	 * 
 	 * @param criterions
 	 *            数量可变的Criterion.

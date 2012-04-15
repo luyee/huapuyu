@@ -28,8 +28,7 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 		return getDao().findUniqueBy(User.USERNAME, username);
 	}
 
-	public List<String> getRoleNameListByUsername(String username) {
-		return null;
+	public List<String> getRoleNamesByUsername(String username) {
+		return getDao().find("select role.name name from User user, Role role where user.roles.id = role.id and user.username = ?", username);
 	}
-
 }

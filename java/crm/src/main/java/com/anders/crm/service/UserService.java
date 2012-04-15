@@ -8,5 +8,5 @@ public interface UserService extends GenericService<Long, User> {
 
 	public User getByUsername(String username);
 
-	public List<String> getRoleNameListByUsername(String username);
+	public List<String> getRoleNamesByUsername(String username);
 }

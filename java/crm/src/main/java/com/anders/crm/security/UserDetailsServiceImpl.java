@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +19,9 @@ import com.anders.crm.bo.User;
 import com.anders.crm.service.UserService;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
+
+	private static Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+
 	@Autowired
 	private UserService userService;
 
@@ -24,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		try {
 			User user = userService.getByUsername(username);
 
-			List<String> roleNameList = userService.getRoleNameListByUsername(username);
+			List<String> roleNameList = userService.getRoleNamesByUsername(username);
 			if (CollectionUtils.isEmpty(roleNameList))
 				return user;
 
@@ -37,7 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			return user;
 		}
 		catch (RuntimeException e) {
-			// TODO Anders Zhu:
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 	}

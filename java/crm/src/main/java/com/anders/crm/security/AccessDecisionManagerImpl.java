@@ -3,6 +3,8 @@ package com.anders.crm.security;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -12,9 +14,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 public class AccessDecisionManagerImpl implements AccessDecisionManager {
+
+	private static Logger logger = LoggerFactory.getLogger(AccessDecisionManagerImpl.class);
+
 	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
-		if (configAttributes == null)
+		if (configAttributes == null) {
+			logger.warn("configAttributes is null");
 			return;
+		}
 
 		Iterator<ConfigAttribute> it = configAttributes.iterator();
 		while (it.hasNext()) {
@@ -24,7 +31,7 @@ public class AccessDecisionManagerImpl implements AccessDecisionManager {
 				if (roleName.equals(ga.getAuthority()))
 					return;
 		}
-		throw new AccessDeniedException("没有权限");
+		throw new AccessDeniedException("Have not authorities...");
 	}
 
 	public boolean supports(ConfigAttribute attribute) {

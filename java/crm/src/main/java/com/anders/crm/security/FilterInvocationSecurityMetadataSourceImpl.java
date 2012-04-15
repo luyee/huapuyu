@@ -18,12 +18,14 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import com.anders.crm.bo.Resource;
 import com.anders.crm.bo.Role;
 import com.anders.crm.service.ResourceService;
+import com.anders.crm.utils.AntUrlPathMatcher;
+import com.anders.crm.utils.UrlMatcher;
 
 public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocationSecurityMetadataSource {
 	@Autowired
 	private ResourceService resourceService;
 
-	// private UrlMatcher urlMatcher = new AntUrlPathMatcher();
+	private UrlMatcher urlMatcher = new AntUrlPathMatcher();
 	private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
 
 	public Collection<ConfigAttribute> getAllConfigAttributes() {
@@ -36,9 +38,9 @@ public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocat
 		while (it.hasNext()) {
 			String resUrl = it.next();
 			// TODO Anders Zhu : 修改
-			// if (urlMatcher.pathMatchesUrl(url, resUrl)) {
-			return resourceMap.get(resUrl);
-			// }
+			if (urlMatcher.pathMatchesUrl(url, resUrl)) {
+				return resourceMap.get(resUrl);
+			}
 		}
 		return null;
 	}
