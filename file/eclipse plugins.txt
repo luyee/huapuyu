@@ -103,3 +103,24 @@ http://dl.google.com/eclipse/inst/d2wbpro/latest/3.6
 
 Eclipse 3.5 (Galileo)
 http://dl.google.com/eclipse/inst/d2wbpro/latest/3.5
+
+findbug
+http://findbugs.cs.umd.edu/eclipse
+
+jdepend4eclipse
+http://andrei.gmxhome.de/eclipse/
+
+pmd
+http://pmd.sourceforge.net/eclipse
+
+SourceHelper
+http://www.hexapixel.com/update
+
+AnyEdit Tools
+http://andrei.gmxhome.de/eclipse/
+
+IvyDE
+http://www.apache.org/dist/ant/ivyde/updatesite
+
+ASM
+http://download.forge.objectweb.org/eclipse-update/

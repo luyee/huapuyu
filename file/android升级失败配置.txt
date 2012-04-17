@@ -1,0 +1,4 @@
+1, 复制 tools目录，粘贴到android-sdk-windows下面改名为tools-copy ,此时在android-sdk-windows 目录下有两个目录 tools 和 tools-copy
+2, 在tools-copy目录运行 android.bat ，这样就可以正常 update all 了
+3，之后，关闭 sdk, 
+4, 在 android-sdk-windows 目录运行 SDK Setup.exe， 就可以了
