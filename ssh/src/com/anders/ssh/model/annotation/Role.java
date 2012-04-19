@@ -1,6 +1,5 @@
 package com.anders.ssh.model.annotation;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+
 /**
  * 角色
  * 
@@ -23,10 +24,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tb_role")
-public class Role implements Serializable {
+public class Role implements GrantedAuthority {
 
-	private static final long serialVersionUID = -3030596606244316907L;
-
+	private static final long serialVersionUID = -2204007491091024923L;
 	/**
 	 * 角色编号（主键）
 	 */
@@ -106,5 +106,12 @@ public class Role implements Serializable {
 
 	public void setUserGroups(List<UserGroup> userGroups) {
 		this.userGroups = userGroups;
+	}
+
+	// Spring Security
+	// TODO Anders Zhu : 重构
+	@Override
+	public String getAuthority() {
+		return null;
 	}
 }
