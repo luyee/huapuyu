@@ -183,7 +183,6 @@
 	<classpathentry kind="lib" path="lib/jmock/objenesis-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/hadoop/hadoop-core-0.20.203.0.jar"/>
 	<classpathentry kind="lib" path="lib/hadoop/hadoop-tools-0.20.203.0.jar"/>
-	<classpathentry kind="lib" path="lib/hadoop/spring-hadoop-core-1.0.0.BUILD-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/cassandra/apache-cassandra-1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/cassandra/apache-cassandra-clientutil-1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/cassandra/apache-cassandra-thrift-1.0.0.jar"/>
@@ -373,5 +372,10 @@
 	<classpathentry kind="lib" path="lib/rhq-pluginAnnotations-3.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/snappy-java-1.0.1-rc3.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis-1.0.b2.jar"/>
+	<classpathentry kind="lib" path="lib/hadoop/spring-data-hadoop-1.0.0.M1.jar" sourcepath="lib/hadoop/spring-data-hadoop-1.0.0.M1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ssh/lib/hadoop/spring-data-hadoop-1.0.0.M1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
