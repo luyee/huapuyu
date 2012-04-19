@@ -15,7 +15,7 @@ import com.anders.ssh.dao.Dao;
 public abstract class HibernateDao<PK extends Serializable, T> extends HibernateDaoSupport implements Dao<PK, T> {
 	// 增加setSessionFactoryMocker方法，避免在XML文件中给DAO方法注入SessionFactory。
 	@Resource
-	public void setSessionFactoryMocker(SessionFactory sessionFactory) {
+	public void setSuperSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
 

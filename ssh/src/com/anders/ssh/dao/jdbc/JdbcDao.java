@@ -9,12 +9,10 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.anders.ssh.dao.Dao;
 
-public abstract class JdbcDao<PK extends Serializable, T> extends JdbcDaoSupport implements Dao<PK, T>
-{
+public abstract class JdbcDao<PK extends Serializable, T> extends JdbcDaoSupport implements Dao<PK, T> {
 	// 增加setDataSourceMocker方法，避免在XML文件中给DAO方法注入DataSource。
 	@Resource
-	public void setDataSourceMocker(DataSource dataSource)
-	{
+	public void setSuperDataSource(DataSource dataSource) {
 		super.setDataSource(dataSource);
 	}
 }

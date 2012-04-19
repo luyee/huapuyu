@@ -9,12 +9,10 @@ import org.springframework.orm.jpa.support.JpaDaoSupport;
 
 import com.anders.ssh.dao.Dao;
 
-public abstract class JpaDao<PK extends Serializable, T> extends JpaDaoSupport implements Dao<PK, T>
-{
+public abstract class JpaDao<PK extends Serializable, T> extends JpaDaoSupport implements Dao<PK, T> {
 	// 增加setEntityManagerFactoryMocker方法，避免在XML文件中给DAO方法注入EntityManagerFactory。
 	@Resource
-	public void setEntityManagerFactoryMocker(EntityManagerFactory entityManagerFactory)
-	{
+	public void setSuperEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
 		super.setEntityManagerFactory(entityManagerFactory);
 	}
 }
