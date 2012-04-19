@@ -1,28 +1,26 @@
 package com.anders.ssh.ioc;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+
 /**
  * Setter注入
  * 
- * @author Anders
+ * @author Anders Zhu
  * 
  */
-public class SetterInjection
-{
+public class SetterInjection {
 	private Pojo pojo;
 
-	public Pojo getPojo()
-	{
+	public Pojo getPojo() {
 		return pojo;
 	}
 
-	public void setPojo(Pojo pojo)
-	{
+	public void setPojo(Pojo pojo) {
 		this.pojo = pojo;
 	}
 
 	@Override
-	public String toString()
-	{
-		return this.getClass().getName() + "[id : " + this.pojo.getId() + "; name : " + this.pojo.getName() + "; score : " + this.pojo.getScore() + "]";
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
 	}
 }

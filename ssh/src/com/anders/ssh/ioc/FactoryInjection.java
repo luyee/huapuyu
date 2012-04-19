@@ -1,17 +1,22 @@
 package com.anders.ssh.ioc;
 
-public class FactoryInjection
-{
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+
+/**
+ * 静态工厂注入
+ * 
+ * @author Anders Zhu
+ * 
+ */
+public class FactoryInjection {
 	private Pojo pojo;
 	private int salary;
 	private String department;
 
-	private FactoryInjection()
-	{
+	private FactoryInjection() {
 	}
 
-	public static FactoryInjection createInstance(Pojo pojo, int salary, String department)
-	{
+	public static FactoryInjection createInstance(Pojo pojo, int salary, String department) {
 		FactoryInjection fi = new FactoryInjection();
 		fi.pojo = pojo;
 		fi.salary = salary;
@@ -20,8 +25,7 @@ public class FactoryInjection
 	}
 
 	@Override
-	public String toString()
-	{
-		return this.getClass().getName() + "[id : " + this.pojo.getId() + "; name : " + this.pojo.getName() + "; score : " + this.pojo.getScore() + "; salary : " + this.salary + "; department : " + this.department + "]";
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
 	}
 }

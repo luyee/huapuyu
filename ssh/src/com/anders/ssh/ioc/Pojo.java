@@ -1,44 +1,44 @@
 package com.anders.ssh.ioc;
 
-public class Pojo
-{
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+
+/**
+ * Pojo对象
+ * 
+ * @author Anders Zhu
+ * 
+ */
+public class Pojo {
 	private int id;
 	private String name;
 	private float score;
 
-	public int getId()
-	{
+	public int getId() {
 		return id;
 	}
 
-	public void setId(int id)
-	{
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public float getScore()
-	{
+	public float getScore() {
 		return score;
 	}
 
-	public void setScore(float score)
-	{
+	public void setScore(float score) {
 		this.score = score;
 	}
 
 	@Override
-	public String toString()
-	{
-		return this.getClass().getName() + "[id : " + this.getId() + "; name : " + this.getName() + "; score : " + this.getScore() + "]";
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
 	}
 }
