@@ -8,7 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 
 public class MainTest {
 	public static void main(String[] args) {
-		// ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring.xml");
+		// ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring-test.xml");
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-test.xml");
 		BeanFactory bf = new XmlBeanFactory(new ClassPathResource("spring-test.xml"));
 
