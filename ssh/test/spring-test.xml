@@ -49,6 +49,7 @@
 	</bean>
 	
 	<context:component-scan base-package="com.anders.ssh.taskexecutor"/>
+	<context:component-scan base-package="com.anders.ssh.others"/>
 	<!--  
 	<bean id="dataSource" class="org.unitils.database.UnitilsDataSourceFactoryBean" />
 	-->
