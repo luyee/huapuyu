@@ -16,38 +16,30 @@
 						   http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 	
 	<!-- 普通POJO对象 -->
-	<!--  
-	<bean id="pojo" class="com.anders.ssh.test.Pojo">
+	<bean id="pojo" class="com.anders.ssh.ioc.Pojo">
 		<property name="id" value="123"/>
 		<property name="name" value="zhuzhen"/>
 		<property name="score" value="95"/>
 	</bean>
-	-->
 	
 	<!-- Setter注入 -->  
-	<!--  
-	<bean id="setterInjection" class="com.anders.ssh.test.SetterInjection">
+	<bean id="setterInjection" class="com.anders.ssh.ioc.SetterInjection">
 		<property name="pojo" ref="pojo"/>
 	</bean>
-	-->
 	
 	<!-- 构造器注入 -->   
-	<!--
-	<bean id="constructorInjection" class="com.anders.ssh.test.ConstructorInjection">
+	<bean id="constructorInjection" class="com.anders.ssh.ioc.ConstructorInjection">
 		<constructor-arg index="0" ref="pojo"/>
 		<constructor-arg index="1" type="int" value="10000"/>
 		<constructor-arg index="2" type="java.lang.String" value="cme"/>
 	</bean> 
-	-->
 	
 	<!-- 静态工厂注入 -->
-	<!--
-	<bean id="factoryInjection" class="com.anders.ssh.test.FactoryInjection" factory-method="createInstance">
+	<bean id="factoryInjection" class="com.anders.ssh.ioc.FactoryInjection" factory-method="createInstance">
   		<constructor-arg index="0" ref="pojo"/>
 		<constructor-arg index="1" type="int" value="20000"/>
 		<constructor-arg index="2" type="java.lang.String" value="pm"/> 
 	</bean>
-	-->
 	
 	<bean id="threadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
 		<property name="corePoolSize" value="5" />
