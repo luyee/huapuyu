@@ -7,6 +7,6 @@ public class MainClass {
 	public static void main(String[] args) {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-test.xml");
 		MyApplicationContextAware aca = (MyApplicationContextAware) ctx.getBean("myApplicationContextAware");
-		aca.printCtx();
+		aca.printCtx("手工调用");
 	}
 }

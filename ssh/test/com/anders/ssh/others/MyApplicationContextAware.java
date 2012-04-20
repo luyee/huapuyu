@@ -6,32 +6,27 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MyApplicationContextAware implements ApplicationContextAware
-{
+public class MyApplicationContextAware implements ApplicationContextAware {
 	private ApplicationContext ctx;
 
 	// 继承了ApplicationContextAware接口后，
 	// setApplicationContext方法会在MyApplicationContextAware实例化时自动调用
 	@Override
-	public void setApplicationContext(ApplicationContext ctx) throws BeansException
-	{
+	public void setApplicationContext(ApplicationContext ctx) throws BeansException {
 		this.ctx = ctx;
 		MyApplicationContextAware aca = (MyApplicationContextAware) ctx.getBean("myApplicationContextAware");
-		aca.printCtx();
+		aca.printCtx("自动调用");
 	}
 
-	public void printCtx()
-	{
-		System.out.println("******************This is MyApplicationContextAware******************");
+	public void printCtx(String msg) {
+		System.out.println(msg);
 	}
 
-	public ApplicationContext getCtx()
-	{
+	public ApplicationContext getCtx() {
 		return ctx;
 	}
 
-	public void setCtx(ApplicationContext ctx)
-	{
+	public void setCtx(ApplicationContext ctx) {
 		this.ctx = ctx;
 	}
 }
