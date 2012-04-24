@@ -2,11 +2,14 @@ package com.anders.crm.service.impl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.anders.crm.bo.Resource;
 import com.anders.crm.dao.GenericDao;
 import com.anders.crm.dao.ResourceDao;
 import com.anders.crm.service.ResourceService;
 
+@Service
 public class ResourceServiceImpl extends GenericServiceImpl<Long, Resource> implements ResourceService {
 
 	private ResourceDao resourceDao;
