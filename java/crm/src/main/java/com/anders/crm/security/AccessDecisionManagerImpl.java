@@ -1,7 +1,6 @@
 package com.anders.crm.security;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,7 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+@Deprecated
 public class AccessDecisionManagerImpl implements AccessDecisionManager {
 
 	private static Logger logger = LoggerFactory.getLogger(AccessDecisionManagerImpl.class);
@@ -23,15 +23,14 @@ public class AccessDecisionManagerImpl implements AccessDecisionManager {
 			return;
 		}
 
-		Iterator<ConfigAttribute> it = configAttributes.iterator();
-		while (it.hasNext()) {
-			ConfigAttribute ca = it.next();
-			String roleName = ((SecurityConfig) ca).getAttribute();
-			for (GrantedAuthority ga : authentication.getAuthorities())
-				if (roleName.equals(ga.getAuthority()))
+		for (ConfigAttribute configAttribute : configAttributes) {
+			String roleName = ((SecurityConfig) configAttribute).getAttribute();
+			for (GrantedAuthority grantedAuthority : authentication.getAuthorities())
+				if (roleName.equals(grantedAuthority.getAuthority()))
 					return;
 		}
-		throw new AccessDeniedException("Have not authorities...");
+
+		throw new AccessDeniedException("have no authority");
 	}
 
 	public boolean supports(ConfigAttribute attribute) {

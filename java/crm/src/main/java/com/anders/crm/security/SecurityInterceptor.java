@@ -13,34 +13,44 @@ import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
-import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
+@Deprecated
 public class SecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
-	private FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource;
+	// private FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource;
+	private SecurityMetadataSource securityMetadataSource;
 
 	@Override
-	public Class<? extends Object> getSecureObjectClass() {
+	public Class<?> getSecureObjectClass() {
 		return FilterInvocation.class;
 	}
 
 	@Override
 	public SecurityMetadataSource obtainSecurityMetadataSource() {
-		return filterInvocationSecurityMetadataSource;
+		// return filterInvocationSecurityMetadataSource;
+		return securityMetadataSource;
 	}
 
-	public FilterInvocationSecurityMetadataSource getSecurityMetadataSource() {
-		return filterInvocationSecurityMetadataSource;
+	public SecurityMetadataSource getSecurityMetadataSource() {
+		return securityMetadataSource;
 	}
 
-	public void setSecurityMetadataSource(FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource) {
-		this.filterInvocationSecurityMetadataSource = filterInvocationSecurityMetadataSource;
+	public void setSecurityMetadataSource(SecurityMetadataSource securityMetadataSource) {
+		this.securityMetadataSource = securityMetadataSource;
 	}
+
+	// public FilterInvocationSecurityMetadataSource getSecurityMetadataSource() {
+	// return filterInvocationSecurityMetadataSource;
+	// }
+	//
+	// public void setSecurityMetadataSource(FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource) {
+	// this.filterInvocationSecurityMetadataSource = filterInvocationSecurityMetadataSource;
+	// }
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		FilterInvocation fi = new FilterInvocation(request, response, chain);
-		InterceptorStatusToken token = super.beforeInvocation(fi);
+		FilterInvocation filterInvocation = new FilterInvocation(request, response, chain);
+		InterceptorStatusToken token = super.beforeInvocation(filterInvocation);
 		try {
-			fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
+			filterInvocation.getChain().doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
 		}
 		finally {
 			super.afterInvocation(token, null);
