@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
@@ -19,7 +20,6 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.metadata.ClassMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.util.Assert;
 
 import com.anders.crm.dao.GenericDao;
@@ -31,12 +31,29 @@ import com.anders.crm.utils.Reflections;
  * @author Anders
  * 
  */
-public abstract class GenericDaoImpl<PK extends Serializable, T> extends HibernateDaoSupport implements GenericDao<PK, T> {
+// public abstract class GenericDaoImpl<PK extends Serializable, T> extends HibernateDaoSupport implements GenericDao<PK, T> {
+public abstract class GenericDaoImpl<PK extends Serializable, T> implements GenericDao<PK, T> {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
+	// @Resource(name = "sessionFactory")
+	// public void setSuperSessionFactory(SessionFactory sessionFactory) {
+	// super.setSessionFactory(sessionFactory);
+	// }
+
+	private SessionFactory sessionFactory;
+
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
 	@Resource(name = "sessionFactory")
-	public void setSuperSessionFactory(SessionFactory sessionFactory) {
-		super.setSessionFactory(sessionFactory);
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
+	public Session getSession() {
+		// 事务必须是开启的，否则获取不到
+		return sessionFactory.getCurrentSession();
 	}
 
 	private Class<T> entityClass;
@@ -47,28 +64,32 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> extends Hiberna
 
 	public void delete(final T entity) {
 		Assert.notNull(entity, "entity不能为空");
-		getHibernateTemplate().delete(entity);
+		// getHibernateTemplate().delete(entity);
+		getSession().delete(entity);
 	}
 
 	// TODO Anders Zhu : 观察此方法是否优化
 	public void deleteById(final PK id) {
 		Assert.notNull(id, "id不能为空");
-		getHibernateTemplate().delete(getHibernateTemplate().load(entityClass, id));
-
+		// getHibernateTemplate().delete(getHibernateTemplate().load(entityClass, id));
+		getSession().delete(getSession().load(entityClass, id));
 	}
 
 	public void save(final T entity) {
 		Assert.notNull(entity, "entity不能为空");
-		getHibernateTemplate().save(entity);
+		// getHibernateTemplate().save(entity);
+		getSession().save(entity);
 	}
 
 	public void update(T entity) {
-		getHibernateTemplate().update(entity);
+		// getHibernateTemplate().update(entity);
+		getSession().update(entity);
 	}
 
 	public T getById(final PK id) {
 		Assert.notNull(id, "id不能为空");
-		return getHibernateTemplate().get(entityClass, id);
+		// return getHibernateTemplate().get(entityClass, id);
+		return (T) getSession().get(entityClass, id);
 	}
 
 	public List<T> getByIds(final Collection<PK> ids) {
@@ -81,7 +102,9 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> extends Hiberna
 	}
 
 	public List<T> getAll() {
-		return getHibernateTemplate().loadAll(entityClass);
+		// return getHibernateTemplate().loadAll(entityClass);
+		// TODO Anders Zhu
+		return null;
 	}
 
 	// @SuppressWarnings("unchecked")
