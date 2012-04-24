@@ -33,7 +33,7 @@ public class Role extends BaseBO implements GrantedAuthority {
 	private static final long serialVersionUID = 3690197650654049848L;
 
 	/**
-	 * 主键
+	 * 主键.
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
