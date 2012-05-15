@@ -109,8 +109,15 @@
     </beans:bean>
     
     <!-- 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 -->
+    <!--  
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="userDetailsServiceImpl"/>
+    </authentication-manager>
+    -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userDetailsServiceImpl">
+        	<password-encoder hash="sha"/>
+        </authentication-provider>
     </authentication-manager>
 
     <beans:bean id="userDetailsServiceImpl" class="com.anders.ssh.privilege.security.UserDetailsServiceImpl" />
