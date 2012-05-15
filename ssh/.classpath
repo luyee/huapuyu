@@ -139,17 +139,7 @@
 	<classpathentry kind="lib" path="lib/jbosscache-core-3.2.1.GA.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j/1.6.1/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j/1.6.1/slf4j-log4j12-1.6.1.jar"/>
-	<classpathentry kind="lib" path="lib/unitils/unitils-core-3.2-SNAPSHOT.jar" sourcepath="D:/lib/java/unitils-3.2-SNAPSHOT-with-dependencies/unitils-3.2-SNAPSHOT/unitils-core/src"/>
-	<classpathentry kind="lib" path="lib/unitils/unitils-database-3.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/unitils/unitils-dbmaintainer-3.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/unitils/unitils-easymock-3.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/unitils/unitils-inject-3.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/unitils/unitils-mock-3.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/unitils/unitils-orm-3.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/unitils/unitils-spring-3.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/unitils/unitils-testng-3.2-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/dbunit-2.4.8.jar" sourcepath="D:/lib/java/dbunit-2.4.8-prj/src"/>
-	<classpathentry kind="lib" path="lib/unitils/unitils-dbunit-3.2-SNAPSHOT-anders.jar" sourcepath="D:/lib/java/unitils-3.2-SNAPSHOT-with-dependencies/unitils-3.2-SNAPSHOT/unitils-dbunit/src"/>
 	<classpathentry kind="lib" path="lib/jwebap/commontemplate-0.8.1.jar"/>
 	<classpathentry kind="lib" path="lib/jwebap/jwebap_0.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/jwebap/jxl.jar"/>
@@ -347,5 +337,17 @@
 	<classpathentry kind="lib" path="lib/logback/logback-access-1.0.1.jar" sourcepath="lib/logback/logback-access-1.0.1-sources.jar"/>
 	<classpathentry kind="lib" path="lib/logback/logback-classic-1.0.1.jar" sourcepath="lib/logback/logback-classic-1.0.1-sources.jar"/>
 	<classpathentry kind="lib" path="lib/logback/logback-core-1.0.1.jar" sourcepath="lib/logback/logback-core-1.0.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-core-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-database-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-dbmaintainer-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-dbunit-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-easymock-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-inject-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-io-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-mock-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-orm-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-spring-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/unitils/unitils-testng-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-entitymanager-3.3.1.ga.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
