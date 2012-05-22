@@ -15,3 +15,41 @@ start transaction;
 
 
 alter table tb_userlist add role varchar(2);
+
+
+SELECT 
+CASE aa.type WHEN 0 THEN '企业' WHEN 2 THEN '个人' ELSE aa.type END 客户类型,
+aa.name 客户名称,
+aa.addr 客户地址,
+aa.zip_code 客户邮编,
+aa.mail 客户邮箱,
+aa.fax 客户传真,
+aa.pri_biz 客户主营业务,
+aa.business_scope 客户经营范围,
+aa.source_remark 客户资料来源备注,
+aa.contact_name '联系人名称',
+aa.duty '联系人职务',
+GROUP_CONCAT(e.phone ORDER BY e.id) '联系人电话',
+aa.site_url 客户网站URL,
+aa.site_name 客户网站名称,
+CASE aa.source1 WHEN 1 THEN '总部' WHEN 2 THEN '分公司' ELSE aa.source1 END '一级来源',
+CASE aa.source2 
+WHEN 1 THEN '外采'                          
+WHEN 2 THEN '阿里巴巴'                      
+ELSE aa.source2 END         
+'二级来源',
+aa.remark 备注
+FROM 
+(
+  SELECT c.* FROM
+  (
+    SELECT a.*, b.name contact_name, b.duty, b.id contact_id FROM	
+    (
+      SELECT * FROM hint WHERE last_hint_tag IS NULL AND posid = 153 AND state = 4 AND discard_time > '2012-05-09 19:00:00' AND discard_time < '2012-05-09 20:00:00'
+      UNION ALL
+      SELECT * FROM hint WHERE last_hint_tag IN (1,6,8,118,11,121,102,9,119,10,120,126,136,135,139,143,146) AND posid = 153 AND state = 4 AND discard_time > '2012-05-09 19:00:00' AND discard_time < '2012-05-09 20:00:00'
+    ) a LEFT JOIN hint_contact b ON a.id = b.hint_id LEFT JOIN hint_contact_phone b1 ON b.id = b1.contact_id
+    WHERE b1.phone IS NOT NULL ORDER BY a.id, b.id DESC
+  ) c GROUP BY c.id
+) aa LEFT JOIN hint_contact_phone e ON e.contact_id = aa.contact_id GROUP BY aa.id 
+ORDER BY aa.id LIMIT 270000, 30000;
