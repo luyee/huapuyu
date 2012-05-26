@@ -37,6 +37,9 @@
 	<!-- 
 	注意：mapping-file、class等标签一定要按照http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd中的定义顺序，否则会报错
 	-->
+	<!--  
+	<provider>org.hibernate.ejb.HibernatePersistence</provider>
+	-->
 	<mapping-file>com/anders/ssh/model/xml/Data.hbm.xml</mapping-file>
 	<class>com.anders.ssh.model.xml.Data</class>
 	<exclude-unlisted-classes>true</exclude-unlisted-classes>
