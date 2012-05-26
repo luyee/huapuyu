@@ -212,3 +212,217 @@ DatabaseTableMetaData.java（303）
 4.Tomcat在启动时出现如下异常问题： 
 [apache.catalina.session.ManagerBase:373] IOException while loading persisted sessions: java.io.EOFException 
 处理方法如下：将work下面的文件清空。
+
+5.头大的dbunit问题
+折腾了n多天的unitils和dbunit问题，终于告一段落，现在汇总如下：
+版本：unitils3.3、dbunit2.4.8、dbunit.maven.plugin1.0-beta-3、mysqlJdbc5.1.18
+主要类和文件：
+
+第一个  
+------------------------------------------
+org.dbunit.database.DatabaseTableMetaData的getColumns方法
+------------------------------------------
+public Column[] getColumns() throws DataSetException
+    {
+        logger.debug("getColumns() - start");
+
+		------------------------------------------
+		原来是if (_columns == null)
+		------------------------------------------
+        if (_columns == null || _columns.length == 0)
+        {
+            try
+            {
+                // qualified names support
+				------------------------------------------
+				经过测试下面的schemaName要为null，否则第二个重要类中获取列的方法(ResultSet resultSet = databaseMetaData.getColumns(schemaName, null, tableName, "%");)就得不到表的字段信息
+				这就是造成我crm系统始终报如下错误的原因：
+				[ERROR] Failed to execute goal org.codehaus.mojo:dbunit-maven-plugin:1.0-beta-3:operation (test-compile) on project crm: Error executing database operation: CLEAN_INSERT: tb_role.ID -  (Non-uppercase input column: id) in ColumnNameToIndexes cache map. Note that the map's column names are NOT case sensitive. -> [Help 1]
+				通过修改pom.xml
+				<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>dbunit-maven-plugin</artifactId>
+				<version>${dbunit.maven.plugin.version}</version>
+				<configuration>
+					<dataTypeFactoryName>${dbunit.dataTypeFactoryName}</dataTypeFactoryName>
+					<driver>${jdbc.driverClassName}</driver>
+					<username>${jdbc.username}</username>
+					<password>${jdbc.password}</password>
+					<url>${jdbc.url}</url>
+					<src>${dbunit.initData.src}</src>
+					<type>${dbunit.operation.type}</type>
+					<!--<schema>${dbunit.schema}</schema>-->------------------------这里注释掉
+					<skip>${skipTests}</skip>
+					<transaction>true</transaction>
+				</configuration>
+				------------------------------------------
+            	String schemaName = _qualifiedTableNameSupport.getSchema();
+            	String tableName = _qualifiedTableNameSupport.getTable();
+
+                Connection jdbcConnection = _connection.getConnection();
+                DatabaseMetaData databaseMetaData = jdbcConnection.getMetaData();
+
+                DatabaseConfig config = _connection.getConfig();
+				
+				------------------------------------------
+				metadataHandler是org.dbunit.database.DefaultMetadataHandler类型，而不是org.dbunit.ext.mysql.MySqlMetadataHandler
+				实际上这里metadataHandler应该是MySqlMetadataHandler类型，不知道为什么运行时反而是DefaultMetadataHandler，这就造成我要修改第二个重要类的实现
+				------------------------------------------
+                IMetadataHandler metadataHandler = (IMetadataHandler)config.getProperty(DatabaseConfig.PROPERTY_METADATA_HANDLER);
+				------------------------------------------
+				去调用DefaultMetadataHandler的getColumns方法，见下面第二个重要类
+				------------------------------------------
+                ResultSet resultSet = metadataHandler.getColumns(databaseMetaData, schemaName, tableName);
+
+                try
+                {
+                    IDataTypeFactory dataTypeFactory = super.getDataTypeFactory(_connection);
+                    boolean datatypeWarning = config.getFeature(
+                            DatabaseConfig.FEATURE_DATATYPE_WARNING);
+
+                    List columnList = new ArrayList();
+                    while (resultSet.next())
+                    {
+                        // Check for exact table/schema name match because
+                        // databaseMetaData.getColumns() uses patterns for the lookup
+						见下面第三个重要类
+                        boolean match = metadataHandler.matches(resultSet, schemaName, tableName, _caseSensitiveMetaData);
+                        if(match)
+                        {
+                            Column column = SQLHelper.createColumn(resultSet, dataTypeFactory, datatypeWarning);
+                            if(column != null)
+                            {
+                                columnList.add(column);
+                            }
+                        }
+                        else
+                        {
+                            logger.debug("Skipping <schema.table> '" + resultSet.getString(2) + "." +
+                                    resultSet.getString(3) + "' because names do not exactly match.");
+                        }
+                    }
+
+                    if (columnList.size() == 0)
+                    {
+                    	logger.warn("No columns found for table '"+ tableName +"' that are supported by dbunit. " +
+                    			"Will return an empty column list");
+                    }
+
+                    _columns = (Column[])columnList.toArray(new Column[0]);
+                }
+                finally
+                {
+                    resultSet.close();
+                }
+            }
+            catch (SQLException e)
+            {
+                throw new DataSetException(e);
+            }
+        }
+        return _columns;
+    }
+	
+第二个
+------------------------------------------
+org.dbunit.database.DefaultMetadataHandler的getColumns方法
+------------------------------------------
+	public ResultSet getColumns(DatabaseMetaData databaseMetaData, String schemaName, String tableName)
+    throws SQLException
+    {
+        if(logger.isTraceEnabled())
+            logger.trace("getColumns(databaseMetaData={}, schemaName={}, tableName={}) - start",
+                    new Object[] {databaseMetaData, schemaName, tableName} );
+
+		------------------------------------------
+		原来是ResultSet resultSet = databaseMetaData.getColumns(null, schemaName, tableName, "%");
+		为什么要改成下面形式，因为DefaultMetadataHandler和MySqlMetadataHandler的getColumns实现不同
+		这里databaseMetaData是com.mysql.jdbc.JDBC4DatabaseMetaData类型，应该和MySqlMetadataHandler的getColumns方法一致
+		修改为databaseMetaData.getColumns(schemaName, null, tableName, "%")
+		而不是databaseMetaData.getColumns(null, schemaName, tableName, "%")
+		------------------------------------------
+        ResultSet resultSet = databaseMetaData.getColumns(
+        		schemaName, null, tableName, "%");
+		
+
+        return resultSet;
+    }
+------------------------------------------
+org.dbunit.ext.mysql.MySqlMetadataHandler的getColumns方法
+------------------------------------------
+	public ResultSet getColumns(DatabaseMetaData databaseMetaData, String schemaName, String tableName) 
+    throws SQLException {
+        // Note that MySQL uses the catalogName instead of the schemaName, so
+        // pass in the given schema name as catalog name (first argument).
+        ResultSet resultSet = databaseMetaData.getColumns(
+                schemaName, null, tableName, "%");
+        return resultSet;
+    }
+	
+第三个
+------------------------------------------
+org.dbunit.database.DefaultMetadataHandler的matches方法
+------------------------------------------
+public boolean matches(ResultSet columnsResultSet, String catalog,
+            String schema, String table, String column,
+            boolean caseSensitive) throws SQLException
+    {
+        if(logger.isTraceEnabled())
+            logger.trace("matches(columnsResultSet={}, catalog={}, schema={}," +
+            		" table={}, column={}, caseSensitive={}) - start",
+                    new Object[] {columnsResultSet, catalog, schema,
+                            table, column, Boolean.valueOf(caseSensitive)});
+
+		------------------------------------------
+		原来是
+		String catalogName = columnsResultSet.getString(1);
+        String schemaName = columnsResultSet.getString(2);
+		columnsResultSet.getString(1)一般为数据库名，有值
+		columnsResultSet.getString(2)一般为null
+		这里我们要保证schemaName有值，catalogName可以为null
+		------------------------------------------
+        String catalogName = columnsResultSet.getString(2);
+        String schemaName = columnsResultSet.getString(1);
+        String tableName = columnsResultSet.getString(3);
+        String columnName = columnsResultSet.getString(4);
+
+        if(logger.isDebugEnabled()){
+            logger.debug("Comparing the following values using caseSensitive={} (searched<=>actual): " +
+                    "catalog: {}<=>{} schema: {}<=>{} table: {}<=>{} column: {}<=>{}",
+                    new Object[] {
+                        Boolean.valueOf(caseSensitive),
+                        catalog, catalogName,
+                        schema, schemaName,
+                        table, tableName,
+                        column, columnName
+                    });
+        }
+
+        boolean areEqual =
+                areEqualIgnoreNull(catalog, catalogName, caseSensitive) &&
+                areEqualIgnoreNull(schema, schemaName, caseSensitive) &&
+                areEqualIgnoreNull(table, tableName, caseSensitive) &&
+                areEqualIgnoreNull(column, columnName, caseSensitive);
+        return areEqual;
+    }
+	
+综上所述
+dbunit由于版本较旧、代码实现问题和个人使用问题，和mysql或者oracle等特定驱动配合时，可能会出现各种各样的问题，主要从上面三个方法着手，基本上有如下可能
+1.dbunit前面用的是dbunit自己的Default****类，后面开始用数据库驱动的类，比如MySQL******，两边实现不一致，尽量修改为数据库驱动的代码，比如我上面就修改为和mysql一致
+2.schema问题，这个问题我遇到过两次，一次是上面的pom中多配置了schema，还有一次是在dbunit的数据导入文件中，我按照下面方式去写
+<dataset xmlns="ssh" xmlns:b="ssh_test">
+	<tb_user name="zhuzhen" enable="true" user_name="zhuzhen" password="123" />
+	<tb_user name="guolili" enable="true" user_name="guolili" password="123" />
+	<tb_user name="anders" enable="true" user_name="anders" password="123" />
+	<b:tb_user name="zhuzhen" enable="true" user_name="zhuzhen" password="123" />
+	<b:tb_user name="guolili" enable="true" user_name="guolili" password="123" />
+	<b:tb_user name="anders" enable="true" user_name="anders" password="123" />
+</dataset>
+用两个schema就错了
+后来改为
+<dataset xmlns="ssh_test">
+	<tb_user id="1" name="zhuzhen" enable="true" user_name="zhuzhen" password="123" />
+	<tb_user id="2" name="guolili" enable="true" user_name="guolili" password="123" />
+	<tb_user id="3" name="anders" enable="true" user_name="anders" password="123" />
+</dataset>
+就ok了
