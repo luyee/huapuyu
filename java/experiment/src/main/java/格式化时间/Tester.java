@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.time.DateUtils;
+
 public class Tester {
 	public static void main(String[] args) throws Exception {
 		Date dateNow = new Date();
@@ -26,5 +28,7 @@ public class Tester {
 		System.out.println(d2.getTime() - d1.getTime());
 		System.out.println(d1.compareTo(d2));
 
+		System.out.println(DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH));
+		System.out.println(DateUtils.addDays(new Date(), 1));
 	}
 }
