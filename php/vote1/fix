@@ -1,0 +1,12 @@
+1.浏览器出现如下错误：
+
+Not Found
+
+The requested URL /php/vote1/Examples/Rbac/Public/login was not found on this server.
+
+Apache日志为：
+[Wed Jul 18 23:49:14 2012] [error] [client 127.0.0.1] File does not exist: C:/wamp/www/php/vote1/Examples/Rbac/Public, referer: http://127.0.0.1/php/vote1/Examples/
+[Wed Jul 18 23:49:14 2012] [error] [client 127.0.0.1] File does not exist: C:/wamp/www/favicon.ico
+
+解决方式：开启Apache的rewrite_module
+
