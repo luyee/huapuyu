@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
@@ -31,8 +33,10 @@ import com.anders.crm.utils.Reflections;
  * @author Anders
  * 
  */
-// public abstract class GenericDaoImpl<PK extends Serializable, T> extends HibernateDaoSupport implements GenericDao<PK, T> {
+// public abstract class GenericDaoImpl<PK extends Serializable, T> extends
+// HibernateDaoSupport implements GenericDao<PK, T> {
 public abstract class GenericDaoImpl<PK extends Serializable, T> implements GenericDao<PK, T> {
+
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	// @Resource(name = "sessionFactory")
@@ -63,20 +67,20 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	}
 
 	public void delete(final T entity) {
-		Assert.notNull(entity, "entity不能为空");
+		Assert.notNull(entity, "entity is null");
 		// getHibernateTemplate().delete(entity);
 		getSession().delete(entity);
 	}
 
 	// TODO Anders Zhu : 观察此方法是否优化
 	public void deleteById(final PK id) {
-		Assert.notNull(id, "id不能为空");
+		Assert.notNull(id, "id is null");
 		// getHibernateTemplate().delete(getHibernateTemplate().load(entityClass, id));
 		getSession().delete(getSession().load(entityClass, id));
 	}
 
 	public void save(final T entity) {
-		Assert.notNull(entity, "entity不能为空");
+		Assert.notNull(entity, "entity is null");
 		// getHibernateTemplate().save(entity);
 		getSession().save(entity);
 	}
@@ -86,13 +90,16 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 		getSession().update(entity);
 	}
 
+	@SuppressWarnings("unchecked")
 	public T getById(final PK id) {
-		Assert.notNull(id, "id不能为空");
+		Assert.notNull(id, "id is null");
 		// return getHibernateTemplate().get(entityClass, id);
+		// TODO Anders Zhu : 研究下getSession().load(theClass, id, lockOptions)，参考tcom
 		return (T) getSession().get(entityClass, id);
 	}
 
 	public List<T> getByIds(final Collection<PK> ids) {
+		Assert.notEmpty(ids, "ids is empty");
 		return findList(Restrictions.in(getIdName(), ids));
 	}
 
@@ -103,26 +110,20 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 
 	public List<T> getAll() {
 		// return getHibernateTemplate().loadAll(entityClass);
-		// TODO Anders Zhu
-		return null;
+		return findList();
 	}
-
-	// @SuppressWarnings("unchecked")
-	// public List<T> find(final String hql, final Object... values) {
-	// return getHibernateTemplate().find(hql, values);
-	// }
 
 	/**
 	 * 按属性查找对象列表，匹配方式为相等.
 	 */
 	public List<T> findBy(final String propertyName, final Object value) {
-		Assert.hasText(propertyName, "propertyName cannot null");
+		Assert.hasText(propertyName, "propertyName is empty");
 		Criterion criterion = Restrictions.eq(propertyName, value);
 		return findList(criterion);
 	}
 
-	public List<T> findBy(final String propertyName, final Object value, final String selectPropertyName) {
-		Assert.hasText(propertyName, "propertyName cannot null");
+	public List findBy(final String propertyName, final Object value, final String selectPropertyName) {
+		Assert.hasText(propertyName, "propertyName is empty");
 		Criterion criterion = Restrictions.eq(propertyName, value);
 		ProjectionList projectionList = Projections.projectionList().add(Projections.property(selectPropertyName));
 		return findList(projectionList, criterion);
@@ -133,7 +134,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	 */
 	@SuppressWarnings("unchecked")
 	public T findUniqueBy(final String propertyName, final Object value) {
-		Assert.hasText(propertyName, "propertyName cannot null");
+		Assert.hasText(propertyName, "propertyName is empty");
 		Criterion criterion = Restrictions.eq(propertyName, value);
 		return (T) createCriteria(criterion).uniqueResult();
 	}
@@ -144,6 +145,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	 * @param values
 	 *            数量可变的参数,按顺序绑定.
 	 */
+	@SuppressWarnings("unchecked")
 	public <X> List<X> find(final String hql, final Object... values) {
 		return createQuery(hql, values).list();
 	}
@@ -154,6 +156,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	 * @param values
 	 *            命名参数,按名称绑定.
 	 */
+	@SuppressWarnings("unchecked")
 	public <X> List<X> find(final String hql, final Map<String, ?> values) {
 		return createQuery(hql, values).list();
 	}
@@ -164,6 +167,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	 * @param values
 	 *            数量可变的参数,按顺序绑定.
 	 */
+	@SuppressWarnings("unchecked")
 	public <X> X findUnique(final String hql, final Object... values) {
 		return (X) createQuery(hql, values).uniqueResult();
 	}
@@ -174,6 +178,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	 * @param values
 	 *            命名参数,按名称绑定.
 	 */
+	@SuppressWarnings("unchecked")
 	public <X> X findUnique(final String hql, final Map<String, ?> values) {
 		return (X) createQuery(hql, values).uniqueResult();
 	}
@@ -207,9 +212,10 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	 *            数量可变的参数,按顺序绑定.
 	 */
 	public Query createQuery(final String queryString, final Object... values) {
-		Assert.hasText(queryString, "queryString不能为空");
+		Assert.hasText(queryString, "queryString is empty");
 		Query query = getSession().createQuery(queryString);
-		if (values != null)
+		// if (values != null)
+		if (ArrayUtils.isNotEmpty(values))
 			for (int i = 0; i < values.length; i++)
 				query.setParameter(i, values[i]);
 		return query;
@@ -222,9 +228,10 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	 *            命名参数,按名称绑定.
 	 */
 	public Query createQuery(final String queryString, final Map<String, ?> values) {
-		Assert.hasText(queryString, "queryString不能为空");
+		Assert.hasText(queryString, "queryString is empty");
 		Query query = getSession().createQuery(queryString);
-		if (values != null) {
+		// if (values != null) {
+		if (MapUtils.isNotEmpty(values)) {
 			query.setProperties(values);
 		}
 		return query;
@@ -236,11 +243,13 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	 * @param criterions
 	 *            数量可变的Criterion.
 	 */
+	@SuppressWarnings("unchecked")
 	public List<T> findList(final Criterion... criterions) {
 		return createCriteria(criterions).list();
 	}
 
-	public List<T> findList(final ProjectionList projectionList, final Criterion... criterions) {
+	@SuppressWarnings("unchecked")
+	public List findList(final ProjectionList projectionList, final Criterion... criterions) {
 		return createCriteria(criterions).setProjection(projectionList).list();
 	}
 
@@ -250,6 +259,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	 * @param criterions
 	 *            数量可变的Criterion.
 	 */
+	@SuppressWarnings("unchecked")
 	public T findUnique(final Criterion... criterions) {
 		return (T) createCriteria(criterions).uniqueResult();
 	}
@@ -262,13 +272,14 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	 */
 	public Criteria createCriteria(final Criterion... criterions) {
 		Criteria criteria = getSession().createCriteria(entityClass);
-		for (Criterion c : criterions)
-			criteria.add(c);
+		if (ArrayUtils.isNotEmpty(criterions))
+			for (Criterion c : criterions)
+				criteria.add(c);
 		return criteria;
 	}
 
 	/**
-	 * 初始化对象. 使用load()方法得到的仅是对象Proxy, 在传到View层前需要进行初始化. 如果传入entity, 则只初始化entity的直接属性,但不会初始化延迟加载的关联集合和属性. 如需初始化关联属性,需执行: Hibernate.initialize(user.getRoles())，初始化User的直接属性和关联集合. Hibernate.initialize(user.getDescription())，初始化User的直接属性和延迟加载的Description属性.
+	 * 初始化对象. 使用load()方法得到的仅是对象Proxy, 在传到View层前需要进行初始化. 如果传入entity, 则只初始化entity的直接属性,但不会初始化延迟加载的关联集合和属性. 如需初始化关联属性,需执行: Hibernate.initialize(user.getRoles())，初始化User的直接属性和关联集合. Hibernate.initialize (user.getDescription())，初始化User的直接属性和延迟加载的Description属性.
 	 */
 	public void initProxyObject(Object proxy) {
 		Hibernate.initialize(proxy);
@@ -302,6 +313,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	 * 
 	 * 在修改对象的情景下,如果属性新修改的值(value)等于属性原来的值(orgValue)则不作比较.
 	 */
+	// TODO Anders Zhu : 这个方法研究下
 	public boolean isPropertyUnique(final String propertyName, final Object newValue, final Object oldValue) {
 		if (newValue == null || newValue.equals(oldValue))
 			return true;
