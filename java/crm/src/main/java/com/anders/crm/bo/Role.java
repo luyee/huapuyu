@@ -32,6 +32,9 @@ public class Role extends BaseBO implements GrantedAuthority {
 
 	private static final long serialVersionUID = 3690197650654049848L;
 
+	public static final String ENABLED = "enabled";
+	public static final String NAME = "name";
+
 	/**
 	 * 主键.
 	 */
@@ -78,9 +81,9 @@ public class Role extends BaseBO implements GrantedAuthority {
 	/**
 	 * 资源
 	 */
-	@ManyToMany(targetEntity = Resource.class, fetch = FetchType.LAZY)
-	@JoinTable(name = "rlt_role_to_resource", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "resource_id"))
-	private Set<Resource> resources = new HashSet<Resource>();
+	@ManyToMany(targetEntity = Url.class, fetch = FetchType.LAZY)
+	@JoinTable(name = "rlt_role_to_url", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "url_id"))
+	private Set<Url> urls = new HashSet<Url>();
 	/**
 	 * 用户
 	 */
@@ -164,12 +167,12 @@ public class Role extends BaseBO implements GrantedAuthority {
 		this.version = version;
 	}
 
-	public Set<Resource> getResources() {
-		return resources;
+	public Set<Url> getUrls() {
+		return urls;
 	}
 
-	public void setResources(Set<Resource> resources) {
-		this.resources = resources;
+	public void setUrls(Set<Url> urls) {
+		this.urls = urls;
 	}
 
 	public Set<User> getUsers() {

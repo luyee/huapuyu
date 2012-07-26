@@ -17,14 +17,14 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 /**
- * 资源
+ * URL
  * 
  * @author Anders Zhu
  * 
  */
 @Entity
-@Table(name = "tb_resource")
-public class Resource extends BaseBO {
+@Table(name = "tb_url")
+public class Url extends BaseBO {
 
 	private static final long serialVersionUID = 2414932009925142715L;
 	/**
@@ -34,16 +34,15 @@ public class Resource extends BaseBO {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	/**
-	 * 资源名
+	 * 名称
 	 */
 	@Column(length = 50, nullable = false, unique = true)
 	private String name;
-	// TODO Anders Zhu : 这个名字合适吗？
 	/**
-	 * 资源内容
+	 * URL
 	 */
 	@Column(length = 50, nullable = false, unique = true)
-	private String content;
+	private String url;
 	/**
 	 * 启用（0：启用；1：禁用）
 	 */
@@ -79,8 +78,10 @@ public class Resource extends BaseBO {
 	/**
 	 * 角色
 	 */
-	@ManyToMany(mappedBy = "resources", targetEntity = Role.class, fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy = "urls", targetEntity = Role.class, fetch = FetchType.LAZY)
 	private Set<Role> roles = new HashSet<Role>();
+
+	// getter and setter
 
 	public Long getId() {
 		return id;
@@ -96,14 +97,6 @@ public class Resource extends BaseBO {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 	public Boolean getEnabled() {
@@ -160,6 +153,14 @@ public class Resource extends BaseBO {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }
