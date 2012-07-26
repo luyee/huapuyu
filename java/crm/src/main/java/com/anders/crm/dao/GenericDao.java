@@ -24,14 +24,14 @@ public interface GenericDao<PK extends Serializable, T> {
 
 	List<T> getByIds(final Collection<PK> ids);
 
-	List<T> getAll();
+	// List<T> getAll();
 
 	/**
 	 * 按属性查找对象列表, 匹配方式为相等.
 	 */
 	List<T> findBy(final String propertyName, final Object value);
 
-	List<T> findBy(final String propertyName, final Object value, final String selectPropertyName);
+	List findBy(final String propertyName, final Object value, final String selectPropertyName);
 
 	/**
 	 * 按属性查找唯一对象, 匹配方式为相等.
