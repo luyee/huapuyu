@@ -172,7 +172,7 @@ public class Reflections {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static <T> Class<T> getSuperClassGenricType(final Class clazz) {
-		return getSuperClassGenricType(clazz, 0);
+		return getSuperClassGenricType(clazz, 1);
 	}
 
 	/**
