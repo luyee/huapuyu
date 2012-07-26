@@ -36,12 +36,12 @@
 	</global-method-security> -->
 
 	<http use-expressions="true" access-denied-page="/auth.jsp">
+		<intercept-url pattern="/**" access="denyAll" />
 		<intercept-url pattern="/login.jsp" access="permitAll" />
 		<intercept-url pattern="/WEB-INF/jsp/css/**" access="permitAll" />
 		<intercept-url pattern="/WEB-INF/jsp/images/**" access="permitAll" />
 		<intercept-url pattern="/WEB-INF/jsp/js/**" access="permitAll" />
 		<intercept-url pattern="/WEB-INF/jsp/**" access="isAuthenticated()" />
-		<intercept-url pattern="/**" access="denyAll" />
 		<form-login login-page="/login.jsp" authentication-failure-url="/login.jsp" default-target-url="/index.jsp" />
 		<logout invalidate-session="true" logout-success-url="/" />
 		<remember-me />

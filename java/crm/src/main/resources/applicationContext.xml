@@ -57,6 +57,4 @@
 	<context:annotation-config />
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
-	
-	<import resource="classpath:applicationContext-security.xml"/>
 </beans>
