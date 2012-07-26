@@ -1,93 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<b:beans xmlns="http://www.springframework.org/schema/security" 
-	xmlns:b="http://www.springframework.org/schema/beans" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+<beans:beans xmlns="http://www.springframework.org/schema/security" xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-	http://www.springframework.org/schema/security 
+	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-	<global-method-security pre-post-annotations="enabled">
-		<expression-handler ref="expressionHandler" />
-	</global-method-security>
-
-	<http realm="Contacts Realm">
-		<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<intercept-url pattern="/index.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<intercept-url pattern="/hello.htm" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<intercept-url pattern="/switchuser.jsp" access="ROLE_SUPERVISOR" />
-		<intercept-url pattern="/j_spring_security_switch_user" access="ROLE_SUPERVISOR" />
-		<intercept-url pattern="/**" access="ROLE_USER" />
-
-		<form-login login-page="/login.jsp" authentication-failure-url="/login.jsp?login_error=1" />
-		<http-basic />
-		<logout logout-success-url="/index.jsp" />
-		<remember-me />
-		<custom-filter ref="switchUserProcessingFilter" position="SWITCH_USER_FILTER" />
-	</http>
-
-	<authentication-manager>
-		<authentication-provider>
-			<password-encoder hash="md5" />
-			<jdbc-user-service data-source-ref="dataSource" />
+	<!-- authenticationManager -->
+	<beans:bean id="userDetailsService" class="com.anders.crm.security.UserDetailsServiceImpl" />
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userDetailsService">
 		</authentication-provider>
 	</authentication-manager>
 
-	<!-- Automatically receives AuthenticationEvent messages -->
-	<b:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
+	<!-- accessDecisionManager -->
+	<beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter"/>
+	<beans:bean id="affirmativeBased" class="org.springframework.security.access.vote.AffirmativeBased">
+		<beans:property name="decisionVoters">
+			<beans:list>
+				<beans:ref bean="roleVoter" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
 
-	<!-- Filter used to switch the user context. Note: the switch and exit url must be secured based on the role granted the ability to 'switch' to another user -->
-	<!-- In this example 'rod' has ROLE_SUPERVISOR that can switch to regular ROLE_USER(s) -->
-	<b:bean id="switchUserProcessingFilter" class="org.springframework.security.web.authentication.switchuser.SwitchUserFilter" autowire="byType">
-		<b:property name="targetUrl" value="/secure/index.htm" />
-	</b:bean>
+	<!-- securityMetadataSource -->
+	<!-- <beans:bean id="defaultFilterInvocationSecurityMetadataSource" class="org.springframework.security.web.access.intercept.DefaultFilterInvocationSecurityMetadataSource" /> -->
+	<!-- <beans:bean id="expressionBasedFilterInvocationSecurityMetadataSource" class="org.springframework.security.web.access.expression.ExpressionBasedFilterInvocationSecurityMetadataSource" /> -->
+	<beans:bean id="filterInvocationSecurityMetadataSource" class="com.anders.crm.security.FilterInvocationSecurityMetadataSourceImpl" />
 
-	<b:bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
-		<b:property name="permissionEvaluator" ref="permissionEvaluator" />
-		<b:property name="permissionCacheOptimizer">
-			<b:bean class="org.springframework.security.acls.AclPermissionCacheOptimizer">
-				<b:constructor-arg ref="aclService" />
-			</b:bean>
-		</b:property>
-	</b:bean>
+	<beans:bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="accessDecisionManager" ref="affirmativeBased" />
+		<beans:property name="securityMetadataSource" ref="filterInvocationSecurityMetadataSource" />
+	</beans:bean>
 
-	<b:bean id="permissionEvaluator" class="org.springframework.security.acls.AclPermissionEvaluator">
-		<b:constructor-arg ref="aclService" />
-	</b:bean>
+	<!-- <global-method-security pre-post-annotations="enabled">
+	</global-method-security> -->
 
-	<b:bean id="aclCache" class="org.springframework.security.acls.domain.EhCacheBasedAclCache">
-		<b:constructor-arg>
-			<b:bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-				<b:property name="cacheManager">
-					<b:bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" />
-				</b:property>
-				<b:property name="cacheName" value="aclCache" />
-			</b:bean>
-		</b:constructor-arg>
-	</b:bean>
-
-	<b:bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy">
-		<b:constructor-arg ref="dataSource" />
-		<b:constructor-arg ref="aclCache" />
-		<b:constructor-arg>
-			<b:bean class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
-				<b:constructor-arg>
-					<b:bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
-						<b:constructor-arg value="ROLE_ADMINISTRATOR" />
-					</b:bean>
-				</b:constructor-arg>
-			</b:bean>
-		</b:constructor-arg>
-		<b:constructor-arg>
-			<b:bean class="org.springframework.security.acls.domain.ConsoleAuditLogger" />
-		</b:constructor-arg>
-	</b:bean>
-
-	<b:bean id="aclService" class="org.springframework.security.acls.jdbc.JdbcMutableAclService">
-		<b:constructor-arg ref="dataSource" />
-		<b:constructor-arg ref="lookupStrategy" />
-		<b:constructor-arg ref="aclCache" />
-	</b:bean>
-
-</b:beans>
+	<http use-expressions="true" access-denied-page="/auth.jsp">
+		<intercept-url pattern="/login.jsp" access="permitAll" />
+		<intercept-url pattern="/WEB-INF/jsp/css/**" access="permitAll" />
+		<intercept-url pattern="/WEB-INF/jsp/images/**" access="permitAll" />
+		<intercept-url pattern="/WEB-INF/jsp/js/**" access="permitAll" />
+		<intercept-url pattern="/WEB-INF/jsp/**" access="isAuthenticated()" />
+		<intercept-url pattern="/**" access="denyAll" />
+		<form-login login-page="/login.jsp" authentication-failure-url="/login.jsp" default-target-url="/index.jsp" />
+		<logout invalidate-session="true" logout-success-url="/" />
+		<remember-me />
+		<session-management invalid-session-url="/">
+			<concurrency-control max-sessions="10" error-if-maximum-exceeded="true" />
+		</session-management>
+		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor" />
+	</http>
+</beans:beans>

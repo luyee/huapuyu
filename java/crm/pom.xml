@@ -36,13 +36,14 @@
 						</component>
 					</components>
 					<componentProperties>
-						<drop>true</drop>
+						<drop>false</drop>
 						<jdk5>true</jdk5>
 						<propertyfile>${jdbc.propFile.src}</propertyfile>
 						<configurationfile>${hibernate.cfg.src}</configurationfile>
 						<skip>${skipTests}</skip>
 					</componentProperties>
 				</configuration>
+				<!--
 				<executions>
 					<execution>
 						<phase>process-test-resources</phase>
@@ -51,6 +52,7 @@
 						</goals>
 					</execution>
 				</executions>
+				-->
 				<dependencies>
 					<dependency>
 						<groupId>${jdbc.groupId}</groupId>
@@ -72,7 +74,7 @@
 					<url>${jdbc.url}</url>
 					<src>${dbunit.initData.src}</src>
 					<type>${dbunit.operation.type}</type>
-					<schema>${dbunit.schema}</schema>
+					<!-- <schema>${dbunit.schema}</schema> -->
 					<skip>${skipTests}</skip>
 					<transaction>true</transaction>
 				</configuration>
@@ -230,6 +232,22 @@
 				<exclusion>
 					<artifactId>commons-logging</artifactId>
 					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+			<version>${dbunit.version}</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>junit</artifactId>
+					<groupId>junit</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -391,6 +409,21 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>${commons.dbcp.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>${commons.digester.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-beanutils</artifactId>
+					<groupId>commons-beanutils</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<!-- displaytag -->
 		<dependency>
 			<groupId>displaytag</groupId>
@@ -508,6 +541,16 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-commons-core</artifactId>
 			<version>${spring.data.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-tx</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 
@@ -612,6 +655,7 @@
 		<commons.lang3.version>3.1</commons.lang3.version>
 		<commons.dbcp.version>1.4</commons.dbcp.version>
 		<commons.collections.version>3.2.1</commons.collections.version>
+		<commons.digester.version>1.8</commons.digester.version>
 		<displaytag.version>1.2</displaytag.version>
 		<jmock.version>2.5.1</jmock.version>
 		<servlet.jsp.version>2.2</servlet.jsp.version>
@@ -623,6 +667,7 @@
 		<hibernate3.maven.plugin.version>2.2</hibernate3.maven.plugin.version>
 		<jdk.version>1.5</jdk.version>
 		<dbunit.maven.plugin.version>1.0-beta-3</dbunit.maven.plugin.version>
+		<dbunit.version>2.4.8</dbunit.version>
 		<maven.jetty.plugin.version>6.1.26</maven.jetty.plugin.version>
 		<native2ascii.maven.plugin.version>1.0-alpha-1</native2ascii.maven.plugin.version>
 		<maven.changes.plugin.version>2.6</maven.changes.plugin.version>

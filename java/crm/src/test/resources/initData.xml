@@ -1,3 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
+    <table name="tb_role">
+        <column>id</column>
+        <column>name</column>
+        <column>enabled</column>
+        <column>version</column>
+        <row>
+            <value description="id">1</value>
+            <value description="name">ROLE_ADMIN</value>
+            <value description="enabled">0</value>
+            <value description="version">0</value>
+        </row>
+        <row>
+            <value description="id">2</value>
+            <value description="name">ROLE_USER</value>
+            <value description="enabled">0</value>
+            <value description="version">0</value>
+        </row>
+    </table>
 </dataset>

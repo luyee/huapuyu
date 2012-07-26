@@ -6,6 +6,6 @@
         <mapping class="com.anders.crm.bo.User"/>
         <mapping class="com.anders.crm.bo.UserGroup"/>
         <mapping class="com.anders.crm.bo.Role"/>
-        <mapping class="com.anders.crm.bo.Resource"/>
+        <mapping class="com.anders.crm.bo.Url"/>
     </session-factory>
 </hibernate-configuration>

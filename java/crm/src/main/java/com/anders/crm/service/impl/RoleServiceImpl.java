@@ -34,11 +34,17 @@ public class RoleServiceImpl extends GenericServiceImpl<Long, Role> implements R
 	}
 
 	public List<Role> getRolesByUsername(String username) {
-		// Assert.hasText(username, "'username' must not be empty");
+		// Assert.hasText(username, "username is blank");
 		if (StringUtils.isBlank(username)) {
-			logger.warn("'username' must not be empty");
+			logger.warn("username is blank");
 			return new ArrayList<Role>(0);
 		}
-		return getDao().find("select role from Role role inner join role.users user where role.id = user.id and user.username = ?", username);
+		// TODO Anders Zhu 需要考虑user禁用或锁定等情况
+		return getDao().find("select role from Role role inner join role.users user where role.id = user.id and role.enabled = true and user.enabled = true and user.username = ?", username);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<String> getRoleNames() {
+		return getDao().findBy(Role.ENABLED, true, Role.NAME);
 	}
 }
