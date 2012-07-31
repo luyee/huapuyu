@@ -44,6 +44,7 @@ public class FilterInvocationSecurityMetadataSourceImpl extends DefaultFilterInv
 	}
 
 	// private UrlMatcher urlMatcher = new AntUrlPathMatcher();
+	// private AnyRequestMatcher anyRequestMatcher;
 
 	// TODO Anders Zhu : 是否要考虑并发集合类
 	private static Map<String, Collection<ConfigAttribute>> configAttributeMap = new HashMap<String, Collection<ConfigAttribute>>();

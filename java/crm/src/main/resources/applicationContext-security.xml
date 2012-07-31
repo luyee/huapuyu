@@ -5,41 +5,42 @@
 	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
 	<!-- authenticationManager -->
-	<beans:bean id="userDetailsService" class="com.anders.crm.security.UserDetailsServiceImpl" />
+	<!-- <beans:bean id="userDetailsService" class="com.anders.crm.security.UserDetailsServiceImpl" />
 	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="userDetailsService">
 		</authentication-provider>
-	</authentication-manager>
-
+	</authentication-manager>  -->
+	
 	<!-- accessDecisionManager -->
-	<beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter"/>
+	<!-- <beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter"/>
 	<beans:bean id="affirmativeBased" class="org.springframework.security.access.vote.AffirmativeBased">
 		<beans:property name="decisionVoters">
 			<beans:list>
 				<beans:ref bean="roleVoter" />
 			</beans:list>
 		</beans:property>
-	</beans:bean>
-
+	</beans:bean> -->
+ 
 	<!-- securityMetadataSource -->
 	<!-- <beans:bean id="defaultFilterInvocationSecurityMetadataSource" class="org.springframework.security.web.access.intercept.DefaultFilterInvocationSecurityMetadataSource" /> -->
 	<!-- <beans:bean id="expressionBasedFilterInvocationSecurityMetadataSource" class="org.springframework.security.web.access.expression.ExpressionBasedFilterInvocationSecurityMetadataSource" /> -->
-	<beans:bean id="filterInvocationSecurityMetadataSource" class="com.anders.crm.security.FilterInvocationSecurityMetadataSourceImpl" />
+	
+	<!-- <beans:bean id="filterInvocationSecurityMetadataSource" class="com.anders.crm.security.FilterInvocationSecurityMetadataSourceImpl" /> -->
 
-	<beans:bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+	<!-- <beans:bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
 		<beans:property name="authenticationManager" ref="authenticationManager" />
 		<beans:property name="accessDecisionManager" ref="affirmativeBased" />
-		<beans:property name="securityMetadataSource" ref="filterInvocationSecurityMetadataSource" />
-	</beans:bean>
+		<beans:property name="securityMetadataSource" ref="defaultFilterInvocationSecurityMetadataSource" />
+	</beans:bean> -->
 
 	<global-method-security pre-post-annotations="enabled"/> 
 
 	<http use-expressions="true" access-denied-page="/auth.jsp">
 		<intercept-url pattern="/**" access="denyAll" />
 		<intercept-url pattern="/login.jsp" access="permitAll" />
-		<intercept-url pattern="/WEB-INF/jsp/css/**" access="permitAll" />
-		<intercept-url pattern="/WEB-INF/jsp/images/**" access="permitAll" />
-		<intercept-url pattern="/WEB-INF/jsp/js/**" access="permitAll" />
+		<intercept-url pattern="/WEB-INF/css/**" access="permitAll" />
+		<intercept-url pattern="/WEB-INF/images/**" access="permitAll" />
+		<intercept-url pattern="/WEB-INF/js/**" access="permitAll" />
 		<intercept-url pattern="/WEB-INF/jsp/**" access="isAuthenticated()" />
 		<form-login login-page="/login.jsp" authentication-failure-url="/login.jsp" default-target-url="/index.jsp" />
 		<logout invalidate-session="true" logout-success-url="/" />
@@ -47,6 +48,28 @@
 		<session-management invalid-session-url="/">
 			<concurrency-control max-sessions="10" error-if-maximum-exceeded="true" />
 		</session-management>
-		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor" />
-	</http>
+		<!-- <custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor" /> -->
+	</http> 
+	
+	<!-- 以下测试用 -->
+	<authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user
+                    name="jimi"
+                    authorities="ROLE_USER, ROLE_ADMIN"
+                    password="123" />
+                <user
+                    name="bob"
+                    authorities="ROLE_USER"
+                    password="123" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+    
+	<!-- <http auto-config='true'>
+		<intercept-url pattern="/**" access="ROLE_USER, ROLE_ZHUZHEN" />
+		<intercept-url pattern="/web-inf/jsp/images/**" access="ROLE_ZHUZHEN1" />
+		<intercept-url pattern="/login.jsp" access="ROLE_USER, ROLE_ADMIN" />
+	</http> -->
 </beans:beans>
