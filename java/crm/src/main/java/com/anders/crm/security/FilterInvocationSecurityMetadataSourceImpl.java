@@ -11,7 +11,6 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,8 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.DefaultFilterInvocationSecurityMetadataSource;
+import org.springframework.security.web.util.AntPathRequestMatcher;
+import org.springframework.security.web.util.AnyRequestMatcher;
 import org.springframework.security.web.util.RequestMatcher;
 
 import com.anders.crm.service.RoleService;
@@ -47,54 +48,54 @@ public class FilterInvocationSecurityMetadataSourceImpl extends DefaultFilterInv
 
 	private final Map<RequestMatcher, Collection<ConfigAttribute>> requestMap = new LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>>();
 
-	public Collection<ConfigAttribute> getAllConfigAttributes() {
-		List<String> roleNames = roleService.getRoleNames();
-		if (CollectionUtils.isEmpty(roleNames))
-			return new ArrayList<ConfigAttribute>();
-
-		Set<ConfigAttribute> configAttributes = new HashSet<ConfigAttribute>();
-		for (String roleName : roleNames)
-			configAttributes.add(new SecurityConfig(roleName));
-		return configAttributes;
-	}
-
+	// public Collection<ConfigAttribute> getAllConfigAttributes() {
+	// List<String> roleNames = roleService.getRoleNames();
+	// if (CollectionUtils.isEmpty(roleNames))
+	// return new ArrayList<ConfigAttribute>();
+	//
+	// Set<ConfigAttribute> configAttributes = new HashSet<ConfigAttribute>();
+	// for (String roleName : roleNames)
+	// configAttributes.add(new SecurityConfig(roleName));
+	// return configAttributes;
+	// }
+	//
 	// object is : FilterInvocation: URL: /login.jsp
-	public Collection<ConfigAttribute> getAttributes(Object object) {
-		// if (MapUtils.isEmpty(configAttributeMap)) {
-		// logger.warn("configAttributeMap is empty");
-		// return new ArrayList<ConfigAttribute>();
-		// }
-		//
-		// // FilterInvocation: URL: /xxx/login.jsp
-		// String url = ((FilterInvocation) object).getRequestUrl();
-		// // TODO Anders Zhu : 添加url格式验证
-		// if (StringUtils.isBlank(url)) {
-		// logger.warn("url is blank");
-		// return new ArrayList<ConfigAttribute>();
-		// }
-		//
-		// // Iterator<String> it = resourceMap.keySet().iterator();
-		// // while (it.hasNext()) {
-		// // String resUrl = it.next();
-		// // // TODO Anders Zhu : 修改
-		// // if (urlMatcher.pathMatchesUrl(url, resUrl)) {
-		// // return resourceMap.get(resUrl);
-		// // }
-		// // }
-		// return configAttributeMap.get(url);
-
-		final HttpServletRequest request = ((FilterInvocation) object).getRequest();
-		for (Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry : requestMap.entrySet()) {
-			if (entry.getKey().matches(request)) {
-				return entry.getValue();
-			}
-		}
-		return null;
-	}
-
-	public boolean supports(Class<?> clazz) {
-		return FilterInvocation.class.isAssignableFrom(clazz);
-	}
+	// public Collection<ConfigAttribute> getAttributes(Object object) {
+	// if (MapUtils.isEmpty(configAttributeMap)) {
+	// logger.warn("configAttributeMap is empty");
+	// return new ArrayList<ConfigAttribute>();
+	// }
+	//
+	// // FilterInvocation: URL: /xxx/login.jsp
+	// String url = ((FilterInvocation) object).getRequestUrl();
+	// // TODO Anders Zhu : 添加url格式验证
+	// if (StringUtils.isBlank(url)) {
+	// logger.warn("url is blank");
+	// return new ArrayList<ConfigAttribute>();
+	// }
+	//
+	// // Iterator<String> it = resourceMap.keySet().iterator();
+	// // while (it.hasNext()) {
+	// // String resUrl = it.next();
+	// // // TODO Anders Zhu : 修改
+	// // if (urlMatcher.pathMatchesUrl(url, resUrl)) {
+	// // return resourceMap.get(resUrl);
+	// // }
+	// // }
+	// return configAttributeMap.get(url);
+	//
+	// final HttpServletRequest request = ((FilterInvocation) object).getRequest();
+	// for (Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry : requestMap.entrySet()) {
+	// if (entry.getKey().matches(request)) {
+	// return entry.getValue();
+	// }
+	// }
+	// return null;
+	// }
+	//
+	// public boolean supports(Class<?> clazz) {
+	// return FilterInvocation.class.isAssignableFrom(clazz);
+	// }
 
 	@PostConstruct
 	public void loadAttributes() {
@@ -108,9 +109,40 @@ public class FilterInvocationSecurityMetadataSourceImpl extends DefaultFilterInv
 		// resourceMap.put(resource, caList);
 		// }
 
-		// List<WebExpressionConfigAttribute> configAttributeList = new ArrayList<WebExpressionConfigAttribute>();
-		// configAttributeList.add(e)
-		// requestMap.put(new AnyRequestMatcher(), "/**");
+		List<ConfigAttribute> configAttributeList = new ArrayList<ConfigAttribute>();
+		configAttributeList.add(new SecurityConfig("denyAll"));
+		requestMap.put(new AnyRequestMatcher(), configAttributeList);
+
+		configAttributeList = new ArrayList<ConfigAttribute>();
+		configAttributeList.add(new SecurityConfig("ROLE_USER"));
+		requestMap.put(new AntPathRequestMatcher("/login.jsp"), configAttributeList);
+	}
+
+	@Override
+	public Collection<ConfigAttribute> getAllConfigAttributes() {
+		Set<ConfigAttribute> allAttributes = new HashSet<ConfigAttribute>();
+
+		for (Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry : requestMap.entrySet()) {
+			allAttributes.addAll(entry.getValue());
+		}
+
+		return allAttributes;
+	}
+
+	@Override
+	public Collection<ConfigAttribute> getAttributes(Object object) {
+		final HttpServletRequest request = ((FilterInvocation) object).getRequest();
+		for (Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry : requestMap.entrySet()) {
+			if (entry.getKey().matches(request)) {
+				return entry.getValue();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public boolean supports(Class<?> clazz) {
+		return FilterInvocation.class.isAssignableFrom(clazz);
 	}
 
 	public UrlService getUrlService() {
