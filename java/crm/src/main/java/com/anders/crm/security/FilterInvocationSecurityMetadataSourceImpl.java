@@ -1,31 +1,27 @@
 package com.anders.crm.security;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
-import org.springframework.security.access.SecurityConfig;
+import org.springframework.security.access.expression.SecurityExpressionHandler;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.DefaultFilterInvocationSecurityMetadataSource;
-import org.springframework.security.web.util.AntPathRequestMatcher;
-import org.springframework.security.web.util.AnyRequestMatcher;
+import org.springframework.security.web.access.intercept.UrlService;
 import org.springframework.security.web.util.RequestMatcher;
+import org.springframework.util.Assert;
 
 import com.anders.crm.service.RoleService;
-import com.anders.crm.service.UrlService;
 
 //public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocationSecurityMetadataSource {
+//public class FilterInvocationSecurityMetadataSourceImpl extends DefaultFilterInvocationSecurityMetadataSource {
+@Deprecated
 public class FilterInvocationSecurityMetadataSourceImpl extends DefaultFilterInvocationSecurityMetadataSource {
 
 	private Logger logger = LoggerFactory.getLogger(FilterInvocationSecurityMetadataSourceImpl.class);
@@ -35,8 +31,16 @@ public class FilterInvocationSecurityMetadataSourceImpl extends DefaultFilterInv
 	@Autowired
 	private RoleService roleService;
 
-	public FilterInvocationSecurityMetadataSourceImpl() {
-		super(new LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>>());
+	// public FilterInvocationSecurityMetadataSourceImpl(LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap,
+	// SecurityExpressionHandler<FilterInvocation> expressionHandler) {
+	// super(new LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>>(), null);
+	// FilterInvocationSecurityMetadataSourceParser
+	// HttpConfigurationBuilder
+	// }
+
+	public FilterInvocationSecurityMetadataSourceImpl(LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap, SecurityExpressionHandler<FilterInvocation> expressionHandler) {
+		super(requestMap, null);
+		Assert.notNull(expressionHandler, "A non-null SecurityExpressionHandler is required");
 	}
 
 	// public FilterInvocationSecurityMetadataSourceImpl(LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap) {
@@ -109,35 +113,14 @@ public class FilterInvocationSecurityMetadataSourceImpl extends DefaultFilterInv
 		// resourceMap.put(resource, caList);
 		// }
 
-		List<ConfigAttribute> configAttributeList = new ArrayList<ConfigAttribute>();
-		configAttributeList.add(new SecurityConfig("denyAll"));
-		requestMap.put(new AnyRequestMatcher(), configAttributeList);
-
-		configAttributeList = new ArrayList<ConfigAttribute>();
-		configAttributeList.add(new SecurityConfig("ROLE_USER"));
-		requestMap.put(new AntPathRequestMatcher("/login.jsp"), configAttributeList);
-	}
-
-	@Override
-	public Collection<ConfigAttribute> getAllConfigAttributes() {
-		Set<ConfigAttribute> allAttributes = new HashSet<ConfigAttribute>();
-
-		for (Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry : requestMap.entrySet()) {
-			allAttributes.addAll(entry.getValue());
-		}
-
-		return allAttributes;
-	}
-
-	@Override
-	public Collection<ConfigAttribute> getAttributes(Object object) {
-		final HttpServletRequest request = ((FilterInvocation) object).getRequest();
-		for (Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry : requestMap.entrySet()) {
-			if (entry.getKey().matches(request)) {
-				return entry.getValue();
-			}
-		}
-		return null;
+		// List<ConfigAttribute> configAttributeList = new ArrayList<ConfigAttribute>();
+		// configAttributeList.add(new SecurityConfig("denyAll"));
+		// requestMap.put(new AnyRequestMatcher(), configAttributeList);
+		//
+		// configAttributeList = new ArrayList<ConfigAttribute>();
+		// configAttributeList.add(new SecurityConfig("ROLE_USER"));
+		// requestMap.put(new AntPathRequestMatcher("/login.jsp"), configAttributeList);
+		System.out.println("hello world");
 	}
 
 	@Override

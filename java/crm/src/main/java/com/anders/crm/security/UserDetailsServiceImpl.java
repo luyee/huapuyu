@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		User user = userService.getByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException(username + " is not exist");
+		}
+
+		if (StringUtils.isNotBlank(username)) {
+			username = username.substring(0, username.length() - 1);
 		}
 
 		List<Role> roleList = roleService.getRolesByUsername(username);

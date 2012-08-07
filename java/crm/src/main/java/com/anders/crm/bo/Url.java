@@ -57,7 +57,7 @@ public class Url extends BaseBO {
 	/**
 	 * 新增时间
 	 */
-	@Column(name = "add_time")
+	@Column(name = "add_time", nullable = false)
 	private Date addTime = new Date();
 	/**
 	 * 更新人
