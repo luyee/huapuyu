@@ -8,3 +8,6 @@ Spring 3.1.1
 MyBatis
 Shiro
 CXF
+
+how to run?
+1.配置Tomcat 5.5
