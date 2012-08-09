@@ -1,10 +1,19 @@
 <ivy-module version="2.0">
-    <info organisation="org.apache" module="vote"/>
+    <info organisation="org.apache" module="vote" />
     <dependencies>
     	<!--
-        <dependency org="commons-lang" name="commons-lang" rev="2.0"/>
-        <dependency org="commons-cli" name="commons-cli" rev="1.0"/>
+        <dependency org="commons-lang" name="commons-lang" rev="2.0" />
+        <dependency org="commons-cli" name="commons-cli" rev="1.0" />
         -->
-        <dependency org="org.springframework" name="spring-aspects" rev="3.1.1.RELEASE"/>
+        <dependency org="org.springframework" name="spring-aspects" rev="3.1.2.RELEASE" />
+        <dependency org="org.springframework" name="spring-struts" rev="3.1.2.RELEASE">
+        	<exclude org="struts" name="struts" rev="1.2.9" />
+        </dependency>
+        <dependency org="org.mybatis" name="mybatis-spring" rev="latest.integration" />
+        <dependency org="org.apache.struts" name="struts2-spring-plugin" rev="2.3.1.2">
+        </dependency>
+        <dependency org="org.apache.shiro" name="shiro-core" rev="1.2.0" />
+        <dependency org="org.apache.shiro" name="shiro-web" rev="1.2.0" />
+        <dependency org="org.apache.shiro" name="shiro-spring" rev="1.2.0" />
     </dependencies>
 </ivy-module>

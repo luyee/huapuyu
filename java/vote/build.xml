@@ -4,23 +4,22 @@
 	<property name="source" value="1.6" />
 	<property name="dest" value="dest" />
 
-	<property name="src.dir" value="src" />
-	<property name="classes.dir" value="WebRoot/WEB-INF/classes" />
-	<property name="lib.dir" value="WebRoot/WEB-INF/lib" />
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="classes.dir" value="${basedir}/WebRoot/WEB-INF/classes" />
+	<property name="lib.dir" value="${basedir}/WebRoot/WEB-INF/lib" />
 
 	<property name="ivy.version" value="2.3.0-rc1" />
-	<property name="ivy.dir" value="${basedir}/lib" />
 
 	<target name="download-ivy" unless="skip.download" description="下载ivy">
 		<echo message="下载ivy-${ivy.version}.jar"/>
-		<mkdir dir="${ivy.dir}"/>
-		<get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.version}/ivy-${ivy.version}.jar" dest="${ivy.dir}/ivy-${ivy.version}.jar" usetimestamp="true"/>
+		<mkdir dir="${lib.dir}"/>
+		<get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.version}/ivy-${ivy.version}.jar" dest="${lib.dir}/ivy-${ivy.version}.jar" usetimestamp="true"/>
 	</target>
 
 	<target name="install-ivy" depends="download-ivy" description="安装ivy">
 		<echo message="安装ivy-${ivy.version}.jar"/>
 		<path id="ivy.lib.path">
-			<fileset dir="${ivy.dir}" includes="ivy-${ivy.version}.jar"/>
+			<fileset dir="${lib.dir}" includes="ivy-${ivy.version}.jar"/>
 		</path>
 		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
 	</target>
