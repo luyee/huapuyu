@@ -1,13 +1,13 @@
 <ivy-module version="2.0">
     <info organisation="org.apache" module="vote" />
     <dependencies>
-    	<!--
-        <dependency org="commons-lang" name="commons-lang" rev="2.0" />
-        <dependency org="commons-cli" name="commons-cli" rev="1.0" />
-        -->
+        <dependency org="commons-dbcp" name="commons-dbcp" rev="latest.integration" />
+        
         <dependency org="org.springframework" name="spring-aspects" rev="3.1.2.RELEASE" />
         <dependency org="org.springframework" name="spring-struts" rev="3.1.2.RELEASE">
+        	<!-- 
         	<exclude org="struts" name="struts" />
+        	-->
         </dependency>
         <dependency org="org.mybatis" name="mybatis-spring" rev="latest.integration" />
         <dependency org="org.apache.struts" name="struts2-spring-plugin" rev="2.3.1.2">
@@ -15,5 +15,12 @@
         <dependency org="org.apache.shiro" name="shiro-core" rev="1.2.0" />
         <dependency org="org.apache.shiro" name="shiro-web" rev="1.2.0" />
         <dependency org="org.apache.shiro" name="shiro-spring" rev="1.2.0" />
+        
+        <exclude org="struts" artifact="struts" />
+        <exclude org="javax.servlet.jsp" artifact="jsp-api" />
+        <exclude org="javax.servlet" artifact="jsp-api" />
+        <exclude org="javax.servlet" artifact="servlet-api" />
+        <exclude org="org.springframework.batch" artifact="spring-batch-core" />
+        <exclude org="org.springframework.batch" artifact="spring-batch-infrastructure" />
     </dependencies>
 </ivy-module>
