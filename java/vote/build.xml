@@ -9,17 +9,18 @@
 	<property name="lib.dir" value="${basedir}/WebRoot/WEB-INF/lib" />
 
 	<property name="ivy.version" value="2.3.0-rc1" />
+	<property name="ivy.dir" value="${basedir}/ivy" />
 
 	<target name="download-ivy" unless="skip.download" description="下载ivy">
 		<echo message="下载ivy-${ivy.version}.jar"/>
-		<mkdir dir="${lib.dir}"/>
-		<get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.version}/ivy-${ivy.version}.jar" dest="${lib.dir}/ivy-${ivy.version}.jar" usetimestamp="true"/>
+		<mkdir dir="${ivy.dir}"/>
+		<get src="http://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.version}/ivy-${ivy.version}.jar" dest="${ivy.dir}/ivy-${ivy.version}.jar" usetimestamp="true"/>
 	</target>
 
 	<target name="install-ivy" depends="download-ivy" description="安装ivy">
 		<echo message="安装ivy-${ivy.version}.jar"/>
 		<path id="ivy.lib.path">
-			<fileset dir="${lib.dir}" includes="ivy-${ivy.version}.jar"/>
+			<fileset dir="${ivy.dir}" includes="ivy-${ivy.version}.jar"/>
 		</path>
 		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
 	</target>
@@ -31,6 +32,9 @@
 		<ivy:cachepath organisation="commons-lang" module="commons-lang" revision="2.1" pathid="lib.path.id" inline="true"/>
 		-->
 		<!-- 通过ivy.xml获取jar -->
-		<ivy:retrieve />
+		<!--  
+		<ivy:retrieve pattern="${lib.dir}/[type]/[artifact]-[revision].[ext]" />
+		-->
+		<ivy:retrieve pattern="${lib.dir}/[artifact]-[revision](-[classifier]).[ext]" type="jar,bundle" />
 	</target>
 </project>
