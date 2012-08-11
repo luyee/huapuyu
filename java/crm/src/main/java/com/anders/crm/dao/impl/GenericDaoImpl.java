@@ -28,7 +28,7 @@ import com.anders.crm.dao.GenericDao;
 import com.anders.crm.utils.Reflections;
 
 /**
- * Generic Dao Implement
+ * Generic Data Access Object Implement
  * 
  * @author Anders
  * 

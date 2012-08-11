@@ -1,10 +1,11 @@
 package com.anders.crm.dao.impl;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.anders.crm.bo.Role;
 import com.anders.crm.dao.RoleDao;
 
-@Component
+//@Repository("roleDao")
+@Repository
 public class RoleDaoImpl extends GenericDaoImpl<Long, Role> implements RoleDao {
 }
