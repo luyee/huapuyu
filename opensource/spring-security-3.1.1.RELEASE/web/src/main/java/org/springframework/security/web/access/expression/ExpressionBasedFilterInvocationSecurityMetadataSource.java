@@ -28,7 +28,7 @@ public final class ExpressionBasedFilterInvocationSecurityMetadataSource extends
     public ExpressionBasedFilterInvocationSecurityMetadataSource(
             LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap,
             SecurityExpressionHandler<FilterInvocation> expressionHandler) {
-        super(processMap(requestMap, expressionHandler.getExpressionParser()));
+        super(processMap(requestMap, expressionHandler.getExpressionParser()), expressionHandler.getExpressionParser());
         Assert.notNull(expressionHandler, "A non-null SecurityExpressionHandler is required");
     }
 
