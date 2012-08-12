@@ -280,4 +280,9 @@ public class User extends BaseBO implements UserDetails {
 		this.authorities = authorities;
 	}
 
+	@Override
+	public String toString() {
+		return "hello world";
+	}
+
 }

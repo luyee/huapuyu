@@ -2,8 +2,6 @@ package com.anders.crm.bo;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-
 /**
  * Base Business Object
  * 
@@ -14,9 +12,7 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 public abstract class BaseBO implements Serializable {
 
 	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this);
-	}
+	public abstract String toString();
 
 	// @Override
 	// public abstract boolean equals(Object object);
