@@ -1,0 +1,45 @@
+Manifest-Version: 1.0
+Export-Package: org.springframework.security.acls;version="3.1.1.RELEA
+ SE";uses:="org.aopalliance.intercept,org.springframework.security.acc
+ ess,org.springframework.security.access.vote,org.springframework.secu
+ rity.acls.domain,org.springframework.security.acls.model,org.springfr
+ amework.security.core",org.springframework.security.acls.afterinvocat
+ ion;version="3.1.1.RELEASE";uses:="org.springframework.context,org.sp
+ ringframework.security.access,org.springframework.security.acls.model
+ ,org.springframework.security.core",org.springframework.security.acls
+ .domain;version="3.1.1.RELEASE";uses:="net.sf.ehcache,org.springframe
+ work.security.access.hierarchicalroles,org.springframework.security.a
+ cls.model,org.springframework.security.core",org.springframework.secu
+ rity.acls.jdbc;version="3.1.1.RELEASE";uses:="javax.sql,org.springfra
+ mework.dao,org.springframework.jdbc.core,org.springframework.security
+ .acls.domain,org.springframework.security.acls.model",org.springframe
+ work.security.acls.model;version="3.1.1.RELEASE";uses:="org.springfra
+ mework.security.core"
+Bundle-Vendor: SpringSource
+Implementation-Title: org.springframework.security.acls
+Implementation-Version: 3.1.1.RELEASE
+Bundle-Version: 3.1.1.RELEASE
+Tool: Bundlor 1.0.0.RELEASE
+Bundle-Name: Spring Security Acls
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: org.springframework.security.acls
+Import-Package: javax.sql;version="0";resolution:="optional",net.sf.eh
+ cache;version="[1.4.1, 2.5.0)";resolution:="optional",org.aopalliance
+ .intercept;version="[1.0.0, 2.0.0)",org.apache.commons.logging;versio
+ n="[1.0.4, 2.0.0)",org.springframework.context;version="[3.1.1.RELEAS
+ E, 3.2.0)";resolution:="optional",org.springframework.context.support
+ ;version="[3.1.1.RELEASE, 3.2.0)";resolution:="optional",org.springfr
+ amework.dao;version="[3.0.7.RELEASE, 3.2.0)";resolution:="optional",o
+ rg.springframework.jdbc.core;version="[3.0.7.RELEASE, 3.2.0)";resolut
+ ion:="optional",org.springframework.security.access;version="[3.1.1.R
+ ELEASE, 3.2.0)",org.springframework.security.access.hierarchicalroles
+ ;version="[3.1.1.RELEASE, 3.2.0)",org.springframework.security.access
+ .vote;version="[3.1.1.RELEASE, 3.2.0)",org.springframework.security.c
+ ore;version="[3.1.1.RELEASE, 3.2.0)",org.springframework.security.cor
+ e.context;version="[3.1.1.RELEASE, 3.2.0)",org.springframework.securi
+ ty.core.userdetails;version="[3.1.1.RELEASE, 3.2.0)",org.springframew
+ ork.security.util;version="[3.1.1.RELEASE, 3.2.0)",org.springframewor
+ k.transaction.support;version="[3.0.7.RELEASE, 3.2.0)";resolution:="o
+ ptional",org.springframework.util;version="[3.0.7.RELEASE, 3.2.0)";re
+ solution:="optional"
+
