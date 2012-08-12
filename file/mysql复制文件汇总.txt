@@ -1,0 +1,53 @@
+anders2出现问题
+120521 23:30:58 InnoDB: highest supported file format is Barracuda.
+120521 23:30:58 InnoDB: Waiting for the background threads to start
+120521 23:30:59 InnoDB: 1.1.8 started; log sequence number 1589379
+120521 23:31:00 [Warning] Neither --relay-log nor --relay-log-index were used; so replication may break when this MySQL server acts as a slave and has his hostname changed!! Please use '--relay-log=mysqld-relay-bin' to avoid this problem.
+120521 23:31:00 [ERROR] Failed to open the relay log './X60-relay-bin.000125' (relay_log_pos 4)
+120521 23:31:00 [ERROR] Could not find target log during relay log initialization
+120521 23:31:00 [ERROR] Failed to initialize the master info structure
+120521 23:31:00 [Note] Event Scheduler: Loaded 0 events
+120521 23:31:00 [Note] /usr/sbin/mysqld: ready for connections.
+Version: '5.5.22-0ubuntu1-log' socket: '/var/run/mysqld/mysqld.sock' port: 3306 (Ubuntu)
+120521 23:33:34 [ERROR] Failed to open the relay log './X60-relay-bin.000125' (relay_log_pos 4)
+120521 23:33:34 [ERROR] Could not find target log during relay log initialization
+
+x60出现问题
+120522 21:15:25 [Note] Slave I/O thread: connected to master 'anders@anders1:3306',replication started in log 'mysql-bin.000032' at position 106
+120522 21:15:25 [ERROR] Error reading packet from server: Could not find first log file name in binary log index file ( server_errno=1236)
+120522 21:15:25 [ERROR] Slave I/O: Got fatal error 1236 from master when reading data from binary log: 'Could not find first log file name in binary log index file', Error_code: 1236
+120522 21:15:25 [Note] Slave I/O thread exiting, read up to log 'mysql-bin.000032', position 106
+
+问题解决方法（可能有运气的成份）
+首先，我去anders1的/var/log/mysql/下一看，有很多二进制日志文件，如下
+anders@anders1:/var/log/mysql$ ls -l
+总用量 60
+-rw-rw---- 1 mysql adm 30450 2012-05-22 21:25 error.log
+-rw-rw---- 1 mysql adm   149 2012-05-21 21:23 mysql-bin.000044
+-rw-rw---- 1 mysql adm   125 2012-05-21 21:28 mysql-bin.000045
+-rw-rw---- 1 mysql adm   125 2012-05-21 21:49 mysql-bin.000046
+-rw-rw---- 1 mysql adm   125 2012-05-21 23:42 mysql-bin.000047
+-rw-rw---- 1 mysql adm   261 2012-05-22 21:25 mysql-bin.000048
+-rw-rw---- 1 mysql adm   160 2012-05-22 20:47 mysql-bin.index
+
+然后照《高可用MySQL》书中说的（P81页）reset master，发现日志文件都没了，新创建了mysql-bin.000001文件，如下
+anders@anders1:/var/log/mysql$ ls -l
+总用量 44
+-rw-rw---- 1 mysql adm 30634 2012-05-22 22:00 error.log
+-rw-rw---- 1 mysql adm   384 2012-05-22 22:00 mysql-bin.000001
+-rw-rw---- 1 mysql adm    32 2012-05-22 21:41 mysql-bin.index
+
+然后到x60和anders2上运行
+stop slave
+reset slave
+并且手工删除日志文件 sudo rm *-bin.*
+然后x60上的日志文件也变成了mysql-bin.000001，之后启动x60就正常了
+
+anders2麻烦点，用phpmyadmin查看发现他的master_user变成了test，使用下面命令修复
+stop slave
+change master to master_user = 'anders'
+之后重新启动sql和io进程就全部ok了
+
+总结：原因可能是我升级了ubuntu，造成二进制日志文件不同步了，从服务需要去访问mysql-bin.000032文件，但实际上这个文件已经不存在了
+
+

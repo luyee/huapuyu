@@ -20,15 +20,27 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.util.RequestMatcher;
 
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.ParseException;
+import org.springframework.security.web.util.AntPathRequestMatcher;
+import org.springframework.security.web.util.AnyRequestMatcher;
+import org.springframework.security.web.access.expression.WebExpressionConfigAttribute;
+import org.springframework.security.web.access.intercept.UrlService;
 
 /**
  * Default implementation of <tt>FilterInvocationDefinitionSource</tt>.
@@ -50,8 +62,12 @@ import org.springframework.security.web.util.RequestMatcher;
 public class DefaultFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     protected final Log logger = LogFactory.getLog(getClass());
+	
+	@Autowired
+	private UrlService urlService;
 
     private final Map<RequestMatcher, Collection<ConfigAttribute>> requestMap;
+	private final ExpressionParser parser;
 
     //~ Constructors ===================================================================================================
 
@@ -66,6 +82,14 @@ public class DefaultFilterInvocationSecurityMetadataSource implements FilterInvo
             LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap) {
 
         this.requestMap = requestMap;
+		this.parser = null;
+    }
+	
+	public DefaultFilterInvocationSecurityMetadataSource(
+            LinkedHashMap<RequestMatcher, Collection<ConfigAttribute>> requestMap, ExpressionParser parser) {
+
+        this.requestMap = requestMap;
+		this.parser = parser;
     }
 
     //~ Methods ========================================================================================================
@@ -93,4 +117,85 @@ public class DefaultFilterInvocationSecurityMetadataSource implements FilterInvo
     public boolean supports(Class<?> clazz) {
         return FilterInvocation.class.isAssignableFrom(clazz);
     }
+	
+	@PostConstruct
+	public void loadAttributes() {
+		Map<String, Set<String>> urlMap = urlService.getUrlWithRoleNames();
+		
+		if (parser == null) {
+			if (urlMap != null && !urlMap.isEmpty()) {
+				for (Map.Entry<String, Set<String>> entry : urlMap.entrySet()) {
+					String url = entry.getKey();
+					RequestMatcher requestMatcher = new AntPathRequestMatcher(url);
+					Set<ConfigAttribute> attributes = new HashSet<ConfigAttribute>(1);
+					
+					String roles = "";
+					for (String role : entry.getValue()) {
+						roles += role + ",";
+					}
+					
+					if (StringUtils.hasText(roles)) {
+						roles = roles.substring(0, roles.length() - 1);
+						attributes.add(new SecurityConfig(roles));
+						requestMap.put(requestMatcher, attributes);
+					}
+				}
+			}
+			
+			for (Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry : requestMap.entrySet()) {
+				RequestMatcher request = entry.getKey();
+				String expression = entry.getValue().toArray(new ConfigAttribute[1])[0].getAttribute();
+				logger.debug("Adding web access control expression '" + expression + "', for " + request);
+			}		
+		} else {
+			if (urlMap != null && !urlMap.isEmpty()) {
+				for (Map.Entry<String, Set<String>> entry : urlMap.entrySet()) {
+					String url = entry.getKey();
+					RequestMatcher requestMatcher = new AntPathRequestMatcher(url);
+					Set<ConfigAttribute> attributes = new HashSet<ConfigAttribute>(1);
+					
+					String roles = "";
+					for (String role : entry.getValue()) {
+						roles += "'" + role + "',";
+					}
+					
+					if (StringUtils.hasText(roles)) {
+						roles = roles.substring(0, roles.length() - 1);
+						roles = "hasAnyRole(" + roles + ")";
+						
+						try {
+							attributes.add(new WebExpressionConfigAttribute(parser.parseExpression(roles)));
+						} catch (ParseException e) {
+							throw new IllegalArgumentException("Failed to parse expression");
+						}
+						
+						requestMap.put(requestMatcher, attributes);
+					}
+				}
+				
+				RequestMatcher requestMatcher = new AnyRequestMatcher();
+				Set<ConfigAttribute> attributes = new HashSet<ConfigAttribute>(1);
+				try {
+					attributes.add(new WebExpressionConfigAttribute(parser.parseExpression("denyAll")));
+				} catch (ParseException e) {
+					throw new IllegalArgumentException("Failed to parse expression");
+				}
+				requestMap.put(requestMatcher, attributes);
+			}
+			
+			for (Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry : requestMap.entrySet()) {
+				RequestMatcher request = entry.getKey();
+				String expression = entry.getValue().toArray(new ConfigAttribute[1])[0].toString();
+				logger.debug("Adding web access control expression '" + expression + "', for " + request);
+			}
+		}
+	}
+	
+	public UrlService getUrlService() {
+		return urlService;
+	}
+
+	public void setUrlService(UrlService urlService) {
+		this.urlService = urlService;
+	}
 }

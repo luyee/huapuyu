@@ -4,5 +4,5 @@ import java.util.Map;
 import java.util.Set;
 
 public interface UrlService {
-	public Map<String, Set<String>> getUrlWithRoles();
+	public Map<String, Set<String>> getUrlWithRoleNames();
 }
