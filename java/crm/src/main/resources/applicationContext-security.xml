@@ -5,15 +5,27 @@
 	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
 	<!-- authenticationManager -->
+	<!--  
 	<beans:bean id="userDetailsService" class="com.anders.crm.security.UserDetailsServiceImpl" />
+	-->
 	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="userDetailsService">
 		</authentication-provider>
-	</authentication-manager> 
+	</authentication-manager>
+	<!--  
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="admin" password="123" authorities="ROLE_ADMIN" />
+				<user name="user" password="123" authorities="ROLE_USER" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+	-->
 	
 	<!-- accessDecisionManager -->
 	<!-- 
-	<beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter"/>
+	<beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter" />
 	<beans:bean id="affirmativeBased" class="org.springframework.security.access.vote.AffirmativeBased">
 		<beans:property name="decisionVoters">
 			<beans:list>
@@ -36,7 +48,9 @@
 	</beans:bean>  
 	-->
 
-	<!-- <global-method-security pre-post-annotations="enabled"/> --> 
+	<!-- 
+	<global-method-security pre-post-annotations="enabled"/> 
+	--> 
 
 	<!--
 	<http use-expressions="true" access-denied-page="/auth.jsp">
@@ -53,13 +67,25 @@
 		<session-management invalid-session-url="/">
 			<concurrency-control max-sessions="10" error-if-maximum-exceeded="true" />
 		</session-management>
-		 <custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor" /> 
+		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor" /> 
 	</http> 
 	-->
+
+	<beans:bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+		<beans:property name="authenticationEntryPoint" ref="authenticationEntryPoint" />
+		<beans:property name="accessDeniedHandler" ref="accessDeniedHandler" />
+	</beans:bean>
+	<beans:bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<beans:property name="loginFormUrl" value="/login.jsp" />
+	</beans:bean>
+	<beans:bean id="accessDeniedHandler" class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+		<beans:property name="errorPage" value="/error.jsp" />
+	</beans:bean>
 	
-	<http use-expressions="true">
+	<http use-expressions="true" auto-config="true">
 		<intercept-url pattern="/login.jsp" access="permitAll" />
-		<intercept-url pattern="/**" access="denyAll" />
-		<form-login login-page="/login.jsp" />
+		<intercept-url pattern="/favicon.ico" access="permitAll" />
+		<intercept-url pattern="/error.jsp" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+		<form-login login-page="/login.jsp" default-target-url="/index.jsp" />
 	</http>
 </beans:beans>
