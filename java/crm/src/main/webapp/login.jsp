@@ -31,5 +31,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<%
 		}
 	%>
+	
+	<form id="j_spring_security_check" name="j_spring_security_check" action="j_spring_security_check" method="post">
+		<input type="text" name="j_username" id="j_spring_security_check_j_username" />
+		<input type="password" name="j_password" id="j_spring_security_check_j_password" />
+		<input type="submit" />
+	</form>
   </body>
 </html>
