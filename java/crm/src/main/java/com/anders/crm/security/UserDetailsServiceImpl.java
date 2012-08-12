@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.anders.crm.bo.Role;
 import com.anders.crm.bo.User;
@@ -24,7 +24,7 @@ import com.anders.crm.service.UserService;
  * @author Anders Zhu
  * 
  */
-// @Service
+@Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private static Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
@@ -36,13 +36,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO 测试是否返回null
-		User user = userService.getByUsername(username);
+		User user = userService.getUserByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException(username + " is not exist");
-		}
-
-		if (StringUtils.isNotBlank(username)) {
-			username = username.substring(0, username.length() - 1);
 		}
 
 		List<Role> roleList = roleService.getRolesByUsername(username);
@@ -56,7 +52,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 		user.setAuthorities(new HashSet<GrantedAuthority>(roleList));
 
-		return user;
+		org.springframework.security.core.userdetails.User userdetails = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.isEnabled(), !user.isAccountNonExpired(), !user.isCredentialsNonExpired(), !user.isAccountNonLocked(), user.getAuthorities());
+
+		return userdetails;
 	}
 
 	public UserService getUserService() {

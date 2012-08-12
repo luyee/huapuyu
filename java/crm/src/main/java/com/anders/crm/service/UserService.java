@@ -4,5 +4,5 @@ import com.anders.crm.bo.User;
 
 public interface UserService extends GenericService<Long, User> {
 
-	public User getByUsername(String username);
+	public User getUserByUsername(String username);
 }

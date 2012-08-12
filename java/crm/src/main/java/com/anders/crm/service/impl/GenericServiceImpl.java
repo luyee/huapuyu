@@ -15,7 +15,8 @@ import com.anders.crm.service.GenericService;
  * 
  */
 public abstract class GenericServiceImpl<PK extends Serializable, T> implements GenericService<PK, T> {
+
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	public abstract GenericDao<PK, T> getDao();
+	protected abstract GenericDao<PK, T> getDao();
 }

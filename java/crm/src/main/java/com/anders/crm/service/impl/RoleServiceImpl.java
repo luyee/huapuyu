@@ -13,6 +13,7 @@ import com.anders.crm.dao.GenericDao;
 import com.anders.crm.dao.RoleDao;
 import com.anders.crm.service.RoleService;
 
+//@Service("roleService")
 @Service
 @Transactional
 public class RoleServiceImpl extends GenericServiceImpl<Long, Role> implements RoleService {
@@ -33,6 +34,7 @@ public class RoleServiceImpl extends GenericServiceImpl<Long, Role> implements R
 		this.roleDao = roleDao;
 	}
 
+	@Transactional(readOnly = true)
 	public List<Role> getRolesByUsername(String username) {
 		// Assert.hasText(username, "username is blank");
 		if (StringUtils.isBlank(username)) {
@@ -44,6 +46,7 @@ public class RoleServiceImpl extends GenericServiceImpl<Long, Role> implements R
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<String> getRoleNames() {
 		return getDao().findBy(Role.ENABLED, true, Role.NAME);
 	}
