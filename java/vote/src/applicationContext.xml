@@ -43,11 +43,11 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="typeAliasesPackage" value="com.anders.vote.bo"/>
-        <property name="mapperLocations" value="classpath*:com/anders/vote/bo/*.xml" />
+        <property name="mapperLocations" value="classpath*:com/anders/vote/mapper/*Mapper.xml" />
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.anders.vote.dao"/>
+        <property name="basePackage" value="com.anders.vote.mapper"/>
     </bean>
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
