@@ -3,6 +3,7 @@ package com.anders.crm.bo;
 import java.io.Serializable;
 import java.util.Comparator;
 
+@Deprecated
 public class LabelValue implements Comparable, Serializable {
 
 	private static final long serialVersionUID = 3689355407466181430L;
