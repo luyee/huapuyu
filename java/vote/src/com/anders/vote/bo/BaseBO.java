@@ -26,7 +26,7 @@ public abstract class BaseBO implements Serializable {
 	 */
 	private Long id;
 	/**
-	 * 启用（1：启用；0：禁用）
+	 * 启用（true：启用；false：禁用）
 	 */
 	private boolean enabled = true;
 	/**

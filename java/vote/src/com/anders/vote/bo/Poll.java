@@ -11,7 +11,7 @@ public class Poll extends BaseBO {
 
 	private String remark;
 
-	private List<PollItem> pollItems = new ArrayList<PollItem>();
+	private List<PollOption> pollOptions = new ArrayList<PollOption>();
 
 	public String getTitle() {
 		return title;
@@ -29,12 +29,12 @@ public class Poll extends BaseBO {
 		this.remark = remark;
 	}
 
-	public List<PollItem> getPollItems() {
-		return pollItems;
+	public List<PollOption> getPollOptions() {
+		return pollOptions;
 	}
 
-	public void setPollItems(List<PollItem> pollItems) {
-		this.pollItems = pollItems;
+	public void setPollOptions(List<PollOption> pollOptions) {
+		this.pollOptions = pollOptions;
 	}
 
 }

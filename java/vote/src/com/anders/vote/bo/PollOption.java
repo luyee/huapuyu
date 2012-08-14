@@ -1,11 +1,11 @@
 package com.anders.vote.bo;
 
-public class PollItem extends BaseBO {
+public class PollOption extends BaseBO {
 
 	private static final long serialVersionUID = 628851298167014104L;
 
 	private String title;
-	
+
 	private Poll poll;
 
 	public String getTitle() {

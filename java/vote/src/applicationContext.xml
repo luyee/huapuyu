@@ -82,6 +82,7 @@
                 </entry>
             </util:map>
         </property>
+        <!--  
         <property name="filterChainDefinitions">
             <value>
                 /signup = anon
@@ -89,5 +90,6 @@
                 /** = authc
             </value>
         </property>
+        -->
     </bean>
 </beans>

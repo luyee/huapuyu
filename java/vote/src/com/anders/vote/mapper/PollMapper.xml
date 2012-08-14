@@ -8,13 +8,13 @@
 	    <result column="title" property="title" jdbcType="VARCHAR" />
 	    <result column="remark" property="remark" jdbcType="VARCHAR" />
 	    <result column="enabled" property="enabled" jdbcType="BIT" />
-    	<collection property="pollItems" javaType="ArrayList" ofType="com.anders.vote.bo.PollItem" resultMap="pollItemMap" />
+    	<collection property="pollOptions" javaType="ArrayList" ofType="com.anders.vote.bo.PollOption" resultMap="pollOptionMap" />
 	</resultMap>
 	
-	<resultMap id="pollItemMap" type="com.anders.vote.bo.PollItem">
-		<id column="item_id" property="id" jdbcType="BIGINT" />
-		<result column="item_title" property="title" jdbcType="VARCHAR" />
-		<result column="item_enabled" property="enabled" jdbcType="BIT" />
+	<resultMap id="pollOptionMap" type="com.anders.vote.bo.PollOption">
+		<id column="option_id" property="id" jdbcType="BIGINT" />
+		<result column="option_title" property="title" jdbcType="VARCHAR" />
+		<result column="option_enabled" property="enabled" jdbcType="BIT" />
 	</resultMap>
 	
 	<select id="getById" resultMap="pollMap">
