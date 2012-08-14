@@ -1,21 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <table name="tb_role">
+    <table name="tb_user">
         <column>id</column>
+        <column>user_name</column>
+        <column>password</column>
         <column>name</column>
-        <column>enabled</column>
-        <column>version</column>
+        <column>email</column>
+        <column>add_user_id</column>
+        <column>add_time</column> 
         <row>
             <value description="id">1</value>
-            <value description="name">ROLE_ADMIN</value>
-            <value description="enabled">0</value>
-            <value description="version">0</value>
+            <value description="user_name">zhuzhen</value>
+            <value description="password">123</value>
+            <value description="name">朱振</value>
+            <value description="email">zhuzhen@anders.com</value>
+            <value description="add_user_id">1</value>
+            <value description="add_time">2012-01-01 00:00:00</value>
         </row>
         <row>
             <value description="id">2</value>
-            <value description="name">ROLE_USER</value>
-            <value description="enabled">0</value>
-            <value description="version">0</value>
+            <value description="user_name">tom</value>
+            <value description="password">123</value>
+            <value description="name">Tom</value>
+            <value description="email">tom@anders.com</value>
+            <value description="add_user_id">1</value>
+            <value description="add_time">2012-01-01 00:00:00</value>
+        </row>
+    </table>
+    
+    <table name="tb_user_group">
+        <column>id</column>
+        <column>name</column>
+        <column>add_user_id</column>
+        <column>add_time</column>
+        <row>
+            <value description="id">1</value>
+            <value description="name">管理员组</value>
+            <value description="add_user_id">1</value>
+            <value description="add_time">2012-01-01 00:00:00</value>
+        </row>
+        <row>
+            <value description="id">2</value>
+            <value description="name">普通用户组</value>
+            <value description="add_user_id">1</value>
+            <value description="add_time">2012-01-01 00:00:00</value>
+        </row>
+    </table>
+    
+    <table name="tb_role">
+        <column>id</column>
+        <column>name</column>
+        <column>role</column>
+        <column>add_user_id</column>
+        <column>add_time</column>
+        <row>
+            <value description="id">1</value>
+            <value description="name">管理员角色</value>
+            <value description="role">ROLE_ADMIN</value>
+            <value description="add_user_id">1</value>
+            <value description="add_time">2012-01-01 00:00:00</value>
+        </row>
+        <row>
+            <value description="id">2</value>
+            <value description="name">普通用户角色</value>
+            <value description="role">ROLE_USER</value>
+            <value description="add_user_id">1</value>
+            <value description="add_time">2012-01-01 00:00:00</value>
+        </row>
+    </table>
+    
+    <table name="tb_url">
+        <column>id</column>
+        <column>name</column>
+        <column>url</column>
+        <column>add_user_id</column>
+        <column>add_time</column>
+        <row>
+            <value description="id">1</value>
+            <value description="name">/test1.jsp</value>
+            <value description="url">/test1.jsp</value>
+            <value description="add_user_id">1</value>
+            <value description="add_time">2012-01-01 00:00:00</value>
+        </row>
+        <row>
+            <value description="id">2</value>
+            <value description="name">/test2.jsp</value>
+            <value description="url">/test2.jsp</value>
+            <value description="add_user_id">1</value>
+            <value description="add_time">2012-01-01 00:00:00</value>
         </row>
     </table>
 </dataset>

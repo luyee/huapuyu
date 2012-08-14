@@ -1,13 +1,11 @@
 package com.anders.crm.security;
 
-import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -50,9 +48,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		// for (Role role : roleList)
 		// grantedAuthoritySet.add(role);
 
-		user.setAuthorities(new HashSet<GrantedAuthority>(roleList));
-
-		org.springframework.security.core.userdetails.User userdetails = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.isEnabled(), !user.isAccountNonExpired(), !user.isCredentialsNonExpired(), !user.isAccountNonLocked(), user.getAuthorities());
+		org.springframework.security.core.userdetails.User userdetails = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.isEnabled(), user.isEnabled(), user.isEnabled(), user.isEnabled(), roleList);
 
 		return userdetails;
 	}

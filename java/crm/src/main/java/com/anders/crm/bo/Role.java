@@ -36,6 +36,11 @@ public class Role extends BaseBO implements GrantedAuthority {
 	@Column(length = 50, nullable = false, unique = true)
 	private String name;
 	/**
+	 * 标签
+	 */
+	@Column(length = 50, nullable = false, unique = true)
+	private String role;
+	/**
 	 * 资源集合
 	 */
 	@ManyToMany(targetEntity = Url.class, fetch = FetchType.LAZY)
@@ -90,6 +95,14 @@ public class Role extends BaseBO implements GrantedAuthority {
 
 	public void setUserGroups(Set<UserGroup> userGroups) {
 		this.userGroups = userGroups;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 }
