@@ -26,55 +26,36 @@ public abstract class GenericDaoImpl<PK extends Serializable, T extends BaseBO<P
 
 	@Override
 	public List<T> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return getMapper().findAll();
 	}
 
 	@Override
 	public T findById(PK id) {
-		// TODO Auto-generated method stub
-		return null;
+		return getMapper().findById(id);
 	}
 
 	@Override
 	public List<T> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return getMapper().findAll();
 	}
 
 	@Override
 	public void save(T entity) {
-		// TODO Auto-generated method stub
-
+		getMapper().save(entity);
 	}
 
 	@Override
 	public void update(T entity) {
-		// TODO Auto-generated method stub
-
+		getMapper().update(entity);
 	}
 
 	@Override
 	public void disabledById(PK id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void disabled(T entity) {
-		// TODO Auto-generated method stub
-
+		getMapper().disabledById(id);
 	}
 
 	@Override
 	public void deleteById(PK id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void delete(T entity) {
-		// TODO Auto-generated method stub
-
+		getMapper().deleteById(id);
 	}
 }
