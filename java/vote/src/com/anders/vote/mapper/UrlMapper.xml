@@ -11,11 +11,11 @@
 		<result column="enabled" property="enabled" jdbcType="BIT" />
 	    <result column="add_user_id" property="add_user_id" jdbcType="BIGINT" />
 	    <result column="update_user_id" property="update_user_id" jdbcType="BIGINT" />
-	    <result column="add_time" property="add_time" jdbcType="DATETIME" />
-	    <result column="update_time" property="update_time" jdbcType="DATETIME" />
-	    <result column="version" property="version" jdbcType="INT" />
+	    <result column="add_time" property="add_time" jdbcType="TIMESTAMP" />
+	    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+	    <result column="version" property="version" jdbcType="INTEGER" />
 	    <!-- 以上不需要修改 -->
-	    <collection property="roles" javaType="HashSet" ofType="com.anders.vote.bo.Role" resultMap="roleMap" />
+	    <collection property="roles" javaType="java.util.HashSet" ofType="com.anders.vote.bo.Role" resultMap="roleMap" />
 	</resultMap>
 	
 	<resultMap id="roleMap" type="com.anders.vote.bo.Role">
@@ -25,9 +25,9 @@
 		<result column="role_enabled" property="enabled" jdbcType="BIT" />
 	    <result column="role_add_user_id" property="add_user_id" jdbcType="BIGINT" />
 	    <result column="role_update_user_id" property="update_user_id" jdbcType="BIGINT" />
-	    <result column="role_add_time" property="add_time" jdbcType="DATETIME" />
-	    <result column="role_update_time" property="update_time" jdbcType="DATETIME" />
-	    <result column="role_version" property="version" jdbcType="INT" />
+	    <result column="role_add_time" property="add_time" jdbcType="TIMESTAMP" />
+	    <result column="role_update_time" property="update_time" jdbcType="TIMESTAMP" />
+	    <result column="role_version" property="version" jdbcType="INTEGER" />
 	</resultMap>
 	
 	<sql id="tableName" >

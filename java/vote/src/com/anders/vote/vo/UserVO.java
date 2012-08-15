@@ -1,15 +1,13 @@
-package com.anders.vote.bo;
+package com.anders.vote.vo;
 
-import java.util.HashSet;
-import java.util.Set;
 
 /**
- * 用户BO
+ * 用户VO
  * 
  * @author Anders Zhu
  * 
  */
-public class User extends BaseBO<Long> {
+public class UserVO extends BaseVO<Long> {
 
 	private static final long serialVersionUID = 6424414021596996848L;
 
@@ -29,14 +27,6 @@ public class User extends BaseBO<Long> {
 	 * 邮箱
 	 */
 	private String email;
-	/**
-	 * 角色集合
-	 */
-	private Set<Role> roles = new HashSet<Role>();
-	/**
-	 * 用户组集合
-	 */
-	private Set<UserGroup> userGroups = new HashSet<UserGroup>();
 
 	// getter and setter
 
@@ -70,22 +60,6 @@ public class User extends BaseBO<Long> {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-
-	public Set<UserGroup> getUserGroups() {
-		return userGroups;
-	}
-
-	public void setUserGroups(Set<UserGroup> userGroups) {
-		this.userGroups = userGroups;
 	}
 
 }

@@ -11,13 +11,13 @@
 		<result column="enabled" property="enabled" jdbcType="BIT" />
 	    <result column="add_user_id" property="add_user_id" jdbcType="BIGINT" />
 	    <result column="update_user_id" property="update_user_id" jdbcType="BIGINT" />
-	    <result column="add_time" property="add_time" jdbcType="DATETIME" />
-	    <result column="update_time" property="update_time" jdbcType="DATETIME" />
-	    <result column="version" property="version" jdbcType="INT" />
+	    <result column="add_time" property="add_time" jdbcType="TIMESTAMP" />
+	    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+	    <result column="version" property="version" jdbcType="INTEGER" />
 	    <!-- 以上不需要修改 -->
-	    <collection property="urls" javaType="HashSet" ofType="com.anders.vote.bo.Url" resultMap="urlMap" />
-	    <collection property="users" javaType="HashSet" ofType="com.anders.vote.bo.User" resultMap="userMap" />
-	    <collection property="userGroups" javaType="HashSet" ofType="com.anders.vote.bo.UserGroup" resultMap="userGroupMap" />
+	    <collection property="urls" javaType="java.util.HashSet" ofType="com.anders.vote.bo.Url" resultMap="urlMap" />
+	    <collection property="users" javaType="java.util.HashSet" ofType="com.anders.vote.bo.User" resultMap="userMap" />
+	    <collection property="userGroups" javaType="java.util.HashSet" ofType="com.anders.vote.bo.UserGroup" resultMap="userGroupMap" />
 	</resultMap>
 	
 	<resultMap id="urlMap" type="com.anders.vote.bo.Url">
@@ -27,9 +27,9 @@
 		<result column="url_enabled" property="enabled" jdbcType="BIT" />
 	    <result column="url_add_user_id" property="add_user_id" jdbcType="BIGINT" />
 	    <result column="url_update_user_id" property="update_user_id" jdbcType="BIGINT" />
-	    <result column="url_add_time" property="add_time" jdbcType="DATETIME" />
-	    <result column="url_update_time" property="update_time" jdbcType="DATETIME" />
-	    <result column="url_version" property="version" jdbcType="INT" />
+	    <result column="url_add_time" property="add_time" jdbcType="TIMESTAMP" />
+	    <result column="url_update_time" property="update_time" jdbcType="TIMESTAMP" />
+	    <result column="url_version" property="version" jdbcType="INTEGER" />
 	</resultMap>
 	
 	<resultMap id="userMap" type="com.anders.vote.bo.User">
@@ -41,9 +41,9 @@
 		<result column="user_enabled" property="enabled" jdbcType="BIT" />
 	    <result column="user_add_user_id" property="add_user_id" jdbcType="BIGINT" />
 	    <result column="user_update_user_id" property="update_user_id" jdbcType="BIGINT" />
-	    <result column="user_add_time" property="add_time" jdbcType="DATETIME" />
-	    <result column="user_update_time" property="update_time" jdbcType="DATETIME" />
-	    <result column="user_version" property="version" jdbcType="INT" />
+	    <result column="user_add_time" property="add_time" jdbcType="TIMESTAMP" />
+	    <result column="user_update_time" property="update_time" jdbcType="TIMESTAMP" />
+	    <result column="user_version" property="version" jdbcType="INTEGER" />
 	</resultMap>
 	
 	<resultMap id="userGroupMap" type="com.anders.vote.bo.UserGroup">
@@ -52,9 +52,9 @@
 		<result column="group_enabled" property="enabled" jdbcType="BIT" />
 	    <result column="group_add_user_id" property="add_user_id" jdbcType="BIGINT" />
 	    <result column="group_update_user_id" property="update_user_id" jdbcType="BIGINT" />
-	    <result column="group_add_time" property="add_time" jdbcType="DATETIME" />
-	    <result column="group_update_time" property="update_time" jdbcType="DATETIME" />
-	    <result column="group_version" property="version" jdbcType="INT" />
+	    <result column="group_add_time" property="add_time" jdbcType="TIMESTAMP" />
+	    <result column="group_update_time" property="update_time" jdbcType="TIMESTAMP" />
+	    <result column="group_version" property="version" jdbcType="INTEGER" />
 	</resultMap>
 	
 	<sql id="tableName" >

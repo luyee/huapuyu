@@ -11,9 +11,9 @@
 	    <result column="enabled" property="enabled" jdbcType="BIT" />
 	    <result column="add_user_id" property="add_user_id" jdbcType="BIGINT" />
 	    <result column="update_user_id" property="update_user_id" jdbcType="BIGINT" />
-	    <result column="add_time" property="add_time" jdbcType="DATETIME" />
-	    <result column="update_time" property="update_time" jdbcType="DATETIME" />
-	    <result column="version" property="version" jdbcType="INT" />
+	    <result column="add_time" property="add_time" jdbcType="TIMESTAMP" />
+	    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+	    <result column="version" property="version" jdbcType="INTEGER" />
 	    <!-- 以上不需要修改 -->
     	<collection property="pollOptions" javaType="ArrayList" ofType="com.anders.vote.bo.PollOption" resultMap="pollOptionMap" />
 	</resultMap>
@@ -24,9 +24,9 @@
 		<result column="option_enabled" property="enabled" jdbcType="BIT" />
 	    <result column="option_add_user_id" property="add_user_id" jdbcType="BIGINT" />
 	    <result column="option_update_user_id" property="update_user_id" jdbcType="BIGINT" />
-	    <result column="option_add_time" property="add_time" jdbcType="DATETIME" />
-	    <result column="option_update_time" property="update_time" jdbcType="DATETIME" />
-	    <result column="option_version" property="version" jdbcType="INT" />
+	    <result column="option_add_time" property="add_time" jdbcType="TIMESTAMP" />
+	    <result column="option_update_time" property="update_time" jdbcType="TIMESTAMP" />
+	    <result column="option_version" property="version" jdbcType="INTEGER" />
 	</resultMap>
 	
 	<sql id="tableName" >

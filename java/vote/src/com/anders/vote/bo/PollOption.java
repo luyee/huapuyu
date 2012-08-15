@@ -1,7 +1,7 @@
 package com.anders.vote.bo;
 
 /**
- * 投票选项
+ * 投票选项BO
  * 
  * @author Anders Zhu
  * 

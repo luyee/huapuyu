@@ -82,14 +82,11 @@
                 </entry>
             </util:map>
         </property>
-        <!--  
         <property name="filterChainDefinitions">
             <value>
-                /signup = anon
-                /manageUsers = perms[user:manage]
+                /login.do = anon
                 /** = authc
             </value>
         </property>
-        -->
     </bean>
 </beans>

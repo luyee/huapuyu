@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 投票
+ * 投票BO
  * 
  * @author Anders Zhu
  * 
