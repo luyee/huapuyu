@@ -1,12 +1,25 @@
 package com.anders.vote.bo;
 
-public class PollOption extends BaseBO {
+/**
+ * 投票选项
+ * 
+ * @author Anders Zhu
+ * 
+ */
+public class PollOption extends BaseBO<Long> {
 
 	private static final long serialVersionUID = 628851298167014104L;
 
+	/**
+	 * 标题
+	 */
 	private String title;
-
+	/**
+	 * 投票
+	 */
 	private Poll poll;
+
+	// getter and setter
 
 	public String getTitle() {
 		return title;

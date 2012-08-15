@@ -9,7 +9,7 @@ import java.util.Set;
  * @author Anders Zhu
  * 
  */
-public class Url extends BaseBO {
+public class Url extends BaseBO<Long> {
 
 	private static final long serialVersionUID = 2414932009925142715L;
 

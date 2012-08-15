@@ -2,35 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.anders.vote.mapper.PollMapper">
-	<resultMap id="resultMap" type="com.anders.vote.bo.Poll">
-	    <id column="id" property="id" jdbcType="BIGINT" />
-	    <result column="title" property="title" jdbcType="VARCHAR" />
-	    <result column="remark" property="remark" jdbcType="VARCHAR" />
-	    <!-- 以下不需要修改 -->
-	    <result column="enabled" property="enabled" jdbcType="BIT" />
+<mapper namespace="com.anders.vote.mapper.PollOptionMapper">
+	<resultMap id="resultMap" type="com.anders.vote.bo.PollOption">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<!-- 以下不需要修改 -->
+		<result column="enabled" property="enabled" jdbcType="BIT" />
 	    <result column="add_user_id" property="add_user_id" jdbcType="BIGINT" />
 	    <result column="update_user_id" property="update_user_id" jdbcType="BIGINT" />
 	    <result column="add_time" property="add_time" jdbcType="DATETIME" />
 	    <result column="update_time" property="update_time" jdbcType="DATETIME" />
 	    <result column="version" property="version" jdbcType="INT" />
 	    <!-- 以上不需要修改 -->
-    	<collection property="pollOptions" javaType="ArrayList" ofType="com.anders.vote.bo.PollOption" resultMap="pollOptionMap" />
+	    <association property="poll" column="poll_id" javaType="com.anders.vote.bo.Poll" resultMap="pollMap" />
 	</resultMap>
 	
-	<resultMap id="pollOptionMap" type="com.anders.vote.bo.PollOption">
-		<id column="option_id" property="id" jdbcType="BIGINT" />
-		<result column="option_title" property="title" jdbcType="VARCHAR" />
-		<result column="option_enabled" property="enabled" jdbcType="BIT" />
-	    <result column="option_add_user_id" property="add_user_id" jdbcType="BIGINT" />
-	    <result column="option_update_user_id" property="update_user_id" jdbcType="BIGINT" />
-	    <result column="option_add_time" property="add_time" jdbcType="DATETIME" />
-	    <result column="option_update_time" property="update_time" jdbcType="DATETIME" />
-	    <result column="option_version" property="version" jdbcType="INT" />
+	<resultMap id="pollMap" type="com.anders.vote.bo.Poll">
+	    <id column="poll_id" property="id" jdbcType="BIGINT" />
+	    <result column="poll_title" property="title" jdbcType="VARCHAR" />
+	    <result column="poll_remark" property="remark" jdbcType="VARCHAR" />
+	    <result column="poll_enabled" property="enabled" jdbcType="BIT" />
+	    <result column="poll_add_user_id" property="add_user_id" jdbcType="BIGINT" />
+	    <result column="poll_update_user_id" property="update_user_id" jdbcType="BIGINT" />
+	    <result column="poll_add_time" property="add_time" jdbcType="DATETIME" />
+	    <result column="poll_update_time" property="update_time" jdbcType="DATETIME" />
+	    <result column="poll_version" property="version" jdbcType="INT" />
 	</resultMap>
 	
 	<sql id="tableName" >
-    	tb_poll
+    	tb_poll_option
   	</sql>
 	
 	<select id="getById" resultMap="resultMap">
@@ -60,26 +60,25 @@
     	<include refid="tableName" />
   	</select>
   	
-	<insert id="save" parameterType="com.anders.vote.bo.Poll" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.anders.vote.bo.PollOption" useGeneratedKeys="true" keyProperty="id">
 	    insert into 
-	    <include refid="tableName" />
-	    (title, remark, enabled, add_user_id, update_user_id, add_time, update_time, version) 
+		<include refid="tableName" /> 
+	    (title, enabled, add_user_id, update_user_id, add_time, update_time, version) 
 	    values 
-	    (#{title}, #{remark}, #{enabled}, #{add_user_id}, #{update_user_id}, #{add_time}, #{update_time}, #{version})
+	    (#{title}, #{enabled}, #{add_user_id}, #{update_user_id}, #{add_time}, #{update_time}, #{version})
 	</insert>
 	
-	<update id="update" parameterType="com.anders.vote.bo.Poll">
+	<update id="update" parameterType="com.anders.vote.bo.PollOption">
 	    update 
 		<include refid="tableName" /> 
 		set 
 	    title = #{title}, 
-	    remark = #{remark}, 
 	    enabled = #{enabled},
 	    add_user_id = #{add_user_id},
 	    update_user_id = #{update_user_id},
 	    add_time = #{add_time},
 	    update_time = #{update_time},
-	    version = #{version} 
+	    version = #{version}
 	    where id = #{id}
 	</update>
 	
@@ -91,21 +90,21 @@
     	where id = #{id} and enabled = true
   	</update>
   	
-	<update id="disabled" parameterType="com.anders.vote.bo.Poll">
+	<update id="disabled" parameterType="com.anders.vote.bo.PollOption">
     	update 
-    	<include refid="tableName" /> 
-    	set 
+		<include refid="tableName" /> 
+		set 
     	enabled = false 
     	where id = #{id} and enabled = true
   	</update>
 	
 	<delete id="deleteById">
     	delete from 
-    	<include refid="tableName" />
+    	<include refid="tableName" /> 
     	where id = #{id}
   	</delete>
   	
-	<delete id="delete" parameterType="com.anders.vote.bo.Poll">
+	<delete id="delete" parameterType="com.anders.vote.bo.PollOption">
     	delete from 
     	<include refid="tableName" /> 
     	where id = #{id}

@@ -3,7 +3,7 @@ package com.anders.vote.bo;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserGroup extends BaseBO {
+public class UserGroup extends BaseBO<Long> {
 
 	private static final long serialVersionUID = 2963700485353847916L;
 

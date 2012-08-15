@@ -9,14 +9,14 @@ import java.util.Set;
  * @author Anders Zhu
  * 
  */
-public class User extends BaseBO {
+public class User extends BaseBO<Long> {
 
 	private static final long serialVersionUID = 6424414021596996848L;
 
 	/**
 	 * 账号
 	 */
-	private String username;
+	private String userName;
 	/**
 	 * 密码
 	 */
@@ -40,16 +40,16 @@ public class User extends BaseBO {
 
 	// getter and setter
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getPassword() {
 		return password;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public void setPassword(String password) {

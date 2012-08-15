@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @SuppressWarnings("serial")
-public abstract class BaseBO implements Serializable {
+public abstract class BaseBO<PK extends Serializable> implements Serializable {
 
 	// @Override
 	// public abstract String toString();
@@ -24,11 +24,11 @@ public abstract class BaseBO implements Serializable {
 	/**
 	 * 主键
 	 */
-	private Long id;
+	private PK id;
 	/**
 	 * 启用（true：启用；false：禁用）
 	 */
-	private boolean enabled = true;
+	private Boolean enabled = true;
 	/**
 	 * 新增人
 	 */
@@ -52,19 +52,19 @@ public abstract class BaseBO implements Serializable {
 
 	// getter and setter
 
-	public boolean isEnabled() {
+	public Boolean isEnabled() {
 		return enabled;
 	}
 
-	public Long getId() {
+	public PK getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(PK id) {
 		this.id = id;
 	}
 
-	public void setEnabled(boolean enabled) {
+	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
 

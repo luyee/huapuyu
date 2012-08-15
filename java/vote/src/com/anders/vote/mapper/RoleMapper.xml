@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anders.vote.mapper.RoleMapper">
+	<resultMap id="resultMap" type="com.anders.vote.bo.Role">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="role" property="role" jdbcType="VARCHAR" />
+		<!-- 以下不需要修改 -->
+		<result column="enabled" property="enabled" jdbcType="BIT" />
+	    <result column="add_user_id" property="add_user_id" jdbcType="BIGINT" />
+	    <result column="update_user_id" property="update_user_id" jdbcType="BIGINT" />
+	    <result column="add_time" property="add_time" jdbcType="DATETIME" />
+	    <result column="update_time" property="update_time" jdbcType="DATETIME" />
+	    <result column="version" property="version" jdbcType="INT" />
+	    <!-- 以上不需要修改 -->
+	    <collection property="urls" javaType="HashSet" ofType="com.anders.vote.bo.Url" resultMap="urlMap" />
+	    <collection property="users" javaType="HashSet" ofType="com.anders.vote.bo.User" resultMap="userMap" />
+	    <collection property="userGroups" javaType="HashSet" ofType="com.anders.vote.bo.UserGroup" resultMap="userGroupMap" />
+	</resultMap>
+	
+	<resultMap id="urlMap" type="com.anders.vote.bo.Url">
+		<id column="url_id" property="id" jdbcType="BIGINT" />
+		<result column="url_name" property="title" jdbcType="VARCHAR" />
+		<result column="url_url" property="url" jdbcType="VARCHAR" />
+		<result column="url_enabled" property="enabled" jdbcType="BIT" />
+	    <result column="url_add_user_id" property="add_user_id" jdbcType="BIGINT" />
+	    <result column="url_update_user_id" property="update_user_id" jdbcType="BIGINT" />
+	    <result column="url_add_time" property="add_time" jdbcType="DATETIME" />
+	    <result column="url_update_time" property="update_time" jdbcType="DATETIME" />
+	    <result column="url_version" property="version" jdbcType="INT" />
+	</resultMap>
+	
+	<resultMap id="userMap" type="com.anders.vote.bo.User">
+		<id column="user_id" property="id" jdbcType="BIGINT" />
+		<result column="user_user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="user_password" property="password" jdbcType="VARCHAR" />
+		<result column="user_name" property="name" jdbcType="VARCHAR" />
+		<result column="user_email" property="email" jdbcType="VARCHAR" />
+		<result column="user_enabled" property="enabled" jdbcType="BIT" />
+	    <result column="user_add_user_id" property="add_user_id" jdbcType="BIGINT" />
+	    <result column="user_update_user_id" property="update_user_id" jdbcType="BIGINT" />
+	    <result column="user_add_time" property="add_time" jdbcType="DATETIME" />
+	    <result column="user_update_time" property="update_time" jdbcType="DATETIME" />
+	    <result column="user_version" property="version" jdbcType="INT" />
+	</resultMap>
+	
+	<resultMap id="userGroupMap" type="com.anders.vote.bo.UserGroup">
+		<id column="group_id" property="id" jdbcType="BIGINT" />
+		<result column="group_name" property="name" jdbcType="VARCHAR" />
+		<result column="group_enabled" property="enabled" jdbcType="BIT" />
+	    <result column="group_add_user_id" property="add_user_id" jdbcType="BIGINT" />
+	    <result column="group_update_user_id" property="update_user_id" jdbcType="BIGINT" />
+	    <result column="group_add_time" property="add_time" jdbcType="DATETIME" />
+	    <result column="group_update_time" property="update_time" jdbcType="DATETIME" />
+	    <result column="group_version" property="version" jdbcType="INT" />
+	</resultMap>
+	
+	<sql id="tableName" >
+    	tb_role
+  	</sql>
+	
+	<select id="getById" resultMap="resultMap">
+    	select * 
+    	from  
+    	<include refid="tableName" /> 
+    	where id = #{id} and enabled = true
+  	</select>
+  	
+	<select id="getAll">
+    	select * 
+    	from 
+    	<include refid="tableName" /> 
+    	where enabled = true
+  	</select>
+  	
+	<select id="findById" resultMap="resultMap">
+    	select * 
+    	from 
+    	<include refid="tableName" /> 
+    	where id = #{id} 
+  	</select>
+  	
+	<select id="findAll">
+    	select * 
+    	from 
+    	<include refid="tableName" />
+  	</select>
+  	
+	<insert id="save" parameterType="com.anders.vote.bo.Role" useGeneratedKeys="true" keyProperty="id">
+	    insert into 
+		<include refid="tableName" /> 
+	    (name, role, enabled, add_user_id, update_user_id, add_time, update_time, version) 
+	    values 
+	    (#{name}, #{role}, #{enabled}, #{add_user_id}, #{update_user_id}, #{add_time}, #{update_time}, #{version})
+	</insert>
+	
+	<update id="update" parameterType="com.anders.vote.bo.Role">
+	    update 
+		<include refid="tableName" /> 
+		set 
+	    name = #{name},
+	    role = #{role}, 
+	    enabled = #{enabled},
+	    add_user_id = #{add_user_id},
+	    update_user_id = #{update_user_id},
+	    add_time = #{add_time},
+	    update_time = #{update_time},
+	    version = #{version}
+	    where id = #{id}
+	</update>
+	
+	<update id="disabledById">
+    	update 
+    	<include refid="tableName" /> 
+    	set 
+    	enabled = false 
+    	where id = #{id} and enabled = true
+  	</update>
+  	
+	<update id="disabled" parameterType="com.anders.vote.bo.Role">
+    	update 
+		<include refid="tableName" /> 
+		set 
+    	enabled = false 
+    	where id = #{id} and enabled = true
+  	</update>
+	
+	<delete id="deleteById">
+    	delete from 
+    	<include refid="tableName" /> 
+    	where id = #{id}
+  	</delete>
+  	
+	<delete id="delete" parameterType="com.anders.vote.bo.Role">
+    	delete from 
+    	<include refid="tableName" /> 
+    	where id = #{id}
+  	</delete>
+</mapper>
