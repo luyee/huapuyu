@@ -44,7 +44,7 @@ public abstract class BaseBO implements Serializable {
 	 * 启用（true：启用；false：禁用）
 	 */
 	@Column(nullable = false)
-	private boolean enabled = true;
+	private Boolean enabled = true;
 	/**
 	 * 新增人
 	 */
@@ -83,11 +83,11 @@ public abstract class BaseBO implements Serializable {
 		this.id = id;
 	}
 
-	public boolean isEnabled() {
+	public Boolean isEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(boolean enabled) {
+	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
 
