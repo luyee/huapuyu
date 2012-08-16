@@ -25,7 +25,7 @@ public abstract class BaseBO implements Serializable {
 
 	// @Override
 	// public String toString() {
-	// return getClass().getName() + "@" + Integer.toHexString(hashCode());
+	// return super.toString();
 	// }
 
 	// @Override
@@ -49,7 +49,7 @@ public abstract class BaseBO implements Serializable {
 	 * 新增人
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "add_user_id", nullable = false)
+	@JoinColumn(name = "add_user_id", nullable = true)
 	private User addUser;
 	/**
 	 * 新增时间
@@ -71,7 +71,7 @@ public abstract class BaseBO implements Serializable {
 	 * 乐观锁
 	 */
 	@Version
-	private Integer version;
+	private Integer version = 0;
 
 	// getter and setter
 
