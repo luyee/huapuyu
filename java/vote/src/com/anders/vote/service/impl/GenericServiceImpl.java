@@ -57,4 +57,24 @@ public abstract class GenericServiceImpl<PK extends Serializable, T> implements 
 		getDao().deleteById(id);
 	}
 
+	@Override
+	public boolean isExistById(PK id) {
+		return getDao().isExistById(id);
+	}
+
+	@Override
+	public Long findCountById(PK id) {
+		return getDao().findCountById(id);
+	}
+
+	@Override
+	public void disabled(T entity) {
+		getDao().disabled(entity);
+	}
+
+	@Override
+	public void delete(T entity) {
+		getDao().delete(entity);
+	}
+
 }

@@ -48,7 +48,7 @@ public abstract class BaseBO<PK extends Serializable> implements Serializable {
 	/**
 	 * 乐观锁
 	 */
-	private Integer version;
+	private Integer version = 0;
 
 	// getter and setter
 

@@ -31,6 +31,15 @@ public interface GenericMapper<PK extends Serializable, T> {
 	public T findById(final PK id);
 
 	/**
+	 * 根据主键ID获取BO对象数量
+	 * 
+	 * @param id
+	 *            主键ID
+	 * @return BO对象数量
+	 */
+	public Long findCountById(final PK id);
+
+	/**
 	 * 获取所有的BO对象（包含启用的和禁用的）
 	 * 
 	 * @return BO对象集合
@@ -54,18 +63,18 @@ public interface GenericMapper<PK extends Serializable, T> {
 	public void update(final T entity);
 
 	/**
-	 * 根据主键ID禁用BO对象
+	 * 禁用BO对象
 	 * 
-	 * @param id
-	 *            主键ID
+	 * @param entity
+	 *            BO对象
 	 */
-	public void disabledById(final PK id);
+	public void disabled(final T entity);
 
 	/**
-	 * 根据主键ID删除BO对象
+	 * 删除BO对象
 	 * 
-	 * @param id
-	 *            主键ID
+	 * @param entity
+	 *            BO对象
 	 */
-	public void deleteById(final PK id);
+	public void delete(final T entity);
 }
