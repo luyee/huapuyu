@@ -3,9 +3,14 @@ package com.anders.vote.service.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.anders.vote.service.GenericService;
 
 public abstract class GenericServiceImpl<PK extends Serializable, T> implements GenericService<PK, T> {
+
+	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public void saveOrUpdate(T entity) {

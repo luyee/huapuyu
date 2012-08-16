@@ -3,10 +3,15 @@ package com.anders.vote.dao.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.anders.vote.bo.BaseBO;
 import com.anders.vote.dao.GenericDao;
 
 public abstract class GenericDaoImpl<PK extends Serializable, T extends BaseBO<PK>> implements GenericDao<PK, T> {
+
+	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public T getById(PK id) {
