@@ -369,6 +369,22 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- spring data -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons-core</artifactId>
+			<version>${spring.data.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-tx</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<!-- hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -555,20 +571,16 @@
 			<artifactId>geronimo-annotation_1.0_spec</artifactId>
 			<version>${geronimo.annotation.version}</version>
 		</dependency>
+		<!-- cglib -->
 		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-commons-core</artifactId>
-			<version>${spring.data.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-beans</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-tx</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>${cglib.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>${cglib.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -701,5 +713,6 @@
 		<freemarker.version>2.3.19</freemarker.version>
 		<velocity.tools.version>2.0</velocity.tools.version>
 		<geronimo.annotation.version>1.1.1</geronimo.annotation.version>
+		<cglib.version>2.2.2</cglib.version>
 	</properties>
 </project>
