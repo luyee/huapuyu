@@ -18,6 +18,8 @@ public interface GenericDao<PK extends Serializable, T> {
 
 	void save(final T entity);
 
+	void saveOrUpdate(final T entity);
+
 	void update(T entity);
 
 	T getById(final PK id);

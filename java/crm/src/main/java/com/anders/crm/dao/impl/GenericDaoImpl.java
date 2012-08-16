@@ -30,11 +30,10 @@ import com.anders.crm.utils.Reflections;
 /**
  * Generic Data Access Object Implement
  * 
- * @author Anders
+ * @author Anders Zhu
  * 
  */
-// public abstract class GenericDaoImpl<PK extends Serializable, T> extends
-// HibernateDaoSupport implements GenericDao<PK, T> {
+// public abstract class GenericDaoImpl<PK extends Serializable, T> extends HibernateDaoSupport implements GenericDao<PK, T> {
 public abstract class GenericDaoImpl<PK extends Serializable, T> implements GenericDao<PK, T> {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -56,7 +55,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	}
 
 	public Session getSession() {
-		// 事务必须是开启的，否则获取不到
+		// 必须开启事务，否则获取不到Session
 		return sessionFactory.getCurrentSession();
 	}
 
@@ -86,8 +85,15 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	}
 
 	public void update(T entity) {
+		Assert.notNull(entity, "entity is null");
 		// getHibernateTemplate().update(entity);
 		getSession().update(entity);
+	}
+
+	public void saveOrUpdate(T entity) {
+		Assert.notNull(entity, "entity is null");
+		// getHibernateTemplate().saveOrUpdate(entity);
+		getSession().saveOrUpdate(entity);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -122,7 +128,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 		return findList(criterion);
 	}
 
-	public List findBy(final String propertyName, final Object value, final String selectPropertyName) {
+	public List<T> findBy(final String propertyName, final Object value, final String selectPropertyName) {
 		Assert.hasText(propertyName, "propertyName is empty");
 		Criterion criterion = Restrictions.eq(propertyName, value);
 		ProjectionList projectionList = Projections.projectionList().add(Projections.property(selectPropertyName));
@@ -249,7 +255,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	}
 
 	@SuppressWarnings("unchecked")
-	public List findList(final ProjectionList projectionList, final Criterion... criterions) {
+	public List<T> findList(final ProjectionList projectionList, final Criterion... criterions) {
 		return createCriteria(criterions).setProjection(projectionList).list();
 	}
 
