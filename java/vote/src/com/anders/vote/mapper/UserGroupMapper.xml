@@ -8,10 +8,10 @@
 		<result column="name" property="name" jdbcType="VARCHAR" />
 		<!-- 以下不需要修改 -->
 		<result column="enabled" property="enabled" jdbcType="BIT" />
-	    <result column="add_user_id" property="add_user_id" jdbcType="BIGINT" />
-	    <result column="update_user_id" property="update_user_id" jdbcType="BIGINT" />
-	    <result column="add_time" property="add_time" jdbcType="TIMESTAMP" />
-	    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
+	    <result column="add_user_id" property="addUserId" jdbcType="BIGINT" />
+	    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+	    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+	    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
 	    <result column="version" property="version" jdbcType="INTEGER" />
 	    <!-- 以上不需要修改 -->
 	    <collection property="roles" javaType="java.util.HashSet" ofType="com.anders.vote.bo.Role" resultMap="roleMap" />
@@ -23,10 +23,10 @@
 		<result column="role_name" property="name" jdbcType="VARCHAR" />
 		<result column="role_role" property="role" jdbcType="VARCHAR" />
 		<result column="role_enabled" property="enabled" jdbcType="BIT" />
-	    <result column="role_add_user_id" property="add_user_id" jdbcType="BIGINT" />
-	    <result column="role_update_user_id" property="update_user_id" jdbcType="BIGINT" />
-	    <result column="role_add_time" property="add_time" jdbcType="TIMESTAMP" />
-	    <result column="role_update_time" property="update_time" jdbcType="TIMESTAMP" />
+	    <result column="role_add_user_id" property="addUserId" jdbcType="BIGINT" />
+	    <result column="role_update_user_id" property="updateUserId" jdbcType="BIGINT" />
+	    <result column="role_add_time" property="addTime" jdbcType="TIMESTAMP" />
+	    <result column="role_update_time" property="updateTime" jdbcType="TIMESTAMP" />
 	    <result column="role_version" property="version" jdbcType="INTEGER" />
 	</resultMap>
 	
@@ -37,10 +37,10 @@
 		<result column="user_name" property="name" jdbcType="VARCHAR" />
 		<result column="user_email" property="email" jdbcType="VARCHAR" />
 		<result column="user_enabled" property="enabled" jdbcType="BIT" />
-	    <result column="user_add_user_id" property="add_user_id" jdbcType="BIGINT" />
-	    <result column="user_update_user_id" property="update_user_id" jdbcType="BIGINT" />
-	    <result column="user_add_time" property="add_time" jdbcType="TIMESTAMP" />
-	    <result column="user_update_time" property="update_time" jdbcType="TIMESTAMP" />
+	    <result column="user_add_user_id" property="addUserId" jdbcType="BIGINT" />
+	    <result column="user_update_user_id" property="updateUserId" jdbcType="BIGINT" />
+	    <result column="user_add_time" property="addTime" jdbcType="TIMESTAMP" />
+	    <result column="user_update_time" property="updateTime" jdbcType="TIMESTAMP" />
 	    <result column="user_version" property="version" jdbcType="INTEGER" />
 	</resultMap>
 	
@@ -55,7 +55,7 @@
     	where id = #{id} and enabled = true
   	</select>
   	
-	<select id="getAll">
+	<select id="getAll" resultMap="resultMap">
     	select * 
     	from 
     	<include refid="tableName" /> 
@@ -76,7 +76,7 @@
     	where id = #{id} 
   	</select>
   	
-	<select id="findAll">
+	<select id="findAll" resultMap="resultMap">
     	select * 
     	from 
     	<include refid="tableName" />
@@ -87,7 +87,7 @@
 		<include refid="tableName" /> 
 	    (name, enabled, add_user_id, update_user_id, add_time, update_time, version) 
 	    values 
-	    (#{name}, #{enabled}, #{add_user_id}, #{update_user_id}, #{add_time}, #{update_time}, #{version})
+	    (#{name}, #{enabled}, #{addUserId}, #{updateUserId}, #{addTime}, #{updateTime}, #{version})
 	</insert>
 	
 	<update id="update" parameterType="com.anders.vote.bo.UserGroup">
@@ -96,10 +96,10 @@
 		set 
 	    name = #{name},
 	    enabled = #{enabled},
-	    add_user_id = #{add_user_id},
-	    update_user_id = #{update_user_id},
-	    add_time = #{add_time},
-	    update_time = #{update_time},
+	    add_user_id = #{addUserId},
+	    update_user_id = #{updateUserId},
+	    add_time = #{addTime},
+	    update_time = #{updateTime},
 	    version = version + 1
 	    where id = #{id} and version = #{version}
 	</update>
