@@ -14,6 +14,10 @@ public class Role extends BaseBO<Long> {
 	private static final long serialVersionUID = 3690197650654049848L;
 
 	/**
+	 * 主键
+	 */
+	public Long id;
+	/**
 	 * 名称
 	 */
 	private String name;
@@ -74,6 +78,16 @@ public class Role extends BaseBO<Long> {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

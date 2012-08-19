@@ -14,6 +14,10 @@ public class Url extends BaseBO<Long> {
 	private static final long serialVersionUID = 2414932009925142715L;
 
 	/**
+	 * 主键
+	 */
+	public Long id;
+	/**
 	 * 名称
 	 */
 	private String name;
@@ -50,6 +54,16 @@ public class Url extends BaseBO<Long> {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

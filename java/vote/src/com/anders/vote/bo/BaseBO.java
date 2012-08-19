@@ -22,10 +22,6 @@ public abstract class BaseBO<PK extends Serializable> implements Serializable {
 	// public abstract int hashCode();
 
 	/**
-	 * 主键
-	 */
-	private PK id;
-	/**
 	 * 启用（true：启用；false：禁用）
 	 */
 	private Boolean enabled = true;
@@ -56,13 +52,9 @@ public abstract class BaseBO<PK extends Serializable> implements Serializable {
 		return enabled;
 	}
 
-	public PK getId() {
-		return id;
-	}
+	public abstract PK getId();
 
-	public void setId(PK id) {
-		this.id = id;
-	}
+	public abstract void setId(PK id);
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;

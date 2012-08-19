@@ -14,6 +14,10 @@ public class Poll extends BaseBO<Long> {
 	private static final long serialVersionUID = -4664518583879957397L;
 
 	/**
+	 * 主键
+	 */
+	public Long id;
+	/**
 	 * 标题
 	 */
 	private String title;
@@ -50,6 +54,16 @@ public class Poll extends BaseBO<Long> {
 
 	public void setPollOptions(List<PollOption> pollOptions) {
 		this.pollOptions = pollOptions;
+	}
+
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

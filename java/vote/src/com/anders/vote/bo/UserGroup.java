@@ -14,6 +14,10 @@ public class UserGroup extends BaseBO<Long> {
 	private static final long serialVersionUID = 2963700485353847916L;
 
 	/**
+	 * 主键
+	 */
+	public Long id;
+	/**
 	 * 名称
 	 */
 	private String name;
@@ -50,6 +54,16 @@ public class UserGroup extends BaseBO<Long> {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }
