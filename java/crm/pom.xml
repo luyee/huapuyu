@@ -301,7 +301,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
-		</dependency>
+		</dependency> 
 		<!-- spring security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -384,6 +384,13 @@
 					<artifactId>spring-tx</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<!-- spring web service -->
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws</artifactId>
+			<version>${spring.ws.version}</version>
+			<classifier>all</classifier>
 		</dependency>
 		<!-- hibernate -->
 		<dependency>
@@ -677,6 +684,7 @@
 		<spring.version>3.1.1.RELEASE</spring.version>
 		<spring.data.version>1.2.1.RELEASE</spring.data.version>
 		<spring.security.version>3.1.1.RELEASE</spring.security.version>
+		<spring.ws.version>2.1.0.RELEASE</spring.ws.version>
 		<hibernate.version>4.1.1.Final</hibernate.version>
 		<hibernate.jpa.version>2.0-cr-1</hibernate.jpa.version>
 		<commons.fileupload.version>1.2.2</commons.fileupload.version>
