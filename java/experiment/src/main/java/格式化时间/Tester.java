@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 
 public class Tester {
@@ -30,5 +31,6 @@ public class Tester {
 
 		System.out.println(DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH));
 		System.out.println(DateUtils.addDays(new Date(), 1));
+		System.out.println(DateFormatUtils.ISO_DATE_FORMAT.format(new Date()));
 	}
 }
