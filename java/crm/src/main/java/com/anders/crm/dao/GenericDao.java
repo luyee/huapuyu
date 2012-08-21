@@ -16,6 +16,8 @@ public interface GenericDao<PK extends Serializable, T> {
 	// TODO Anders Zhu : 观察此方法是否优化
 	void deleteById(final PK id);
 
+	void disabledById(final PK id);
+
 	void save(final T entity);
 
 	void saveOrUpdate(final T entity);

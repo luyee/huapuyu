@@ -78,6 +78,12 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 		getSession().delete(getSession().load(entityClass, id));
 	}
 
+	public void disabledById(final PK id) {
+		Assert.notNull(id, "id is null");
+		String hql = String.format("update %s entity set entity.enabled = false where entity.id = %d", entityClass.getSimpleName(), id);
+		getSession().createQuery(hql).executeUpdate();
+	}
+
 	public void save(final T entity) {
 		Assert.notNull(entity, "entity is null");
 		// getHibernateTemplate().save(entity);
