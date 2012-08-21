@@ -32,5 +32,8 @@ public class Tester {
 		System.out.println(DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH));
 		System.out.println(DateUtils.addDays(new Date(), 1));
 		System.out.println(DateFormatUtils.ISO_DATE_FORMAT.format(new Date()));
+		System.out.println(String.format("%tc", new Date()));
+		System.out.println(String.format("%1$s %2$tF %2$tT", "hello world", new Date()));
+		System.out.println(String.format("%s %tF %<tT", "hello world", new Date()));
 	}
 }
