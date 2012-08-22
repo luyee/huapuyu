@@ -49,12 +49,12 @@ public abstract class BaseBO implements Serializable {
 	 * 新增人
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "add_user_id", nullable = true)
+	@JoinColumn(name = "add_user_id", nullable = true, updatable = false)
 	private User addUser;
 	/**
 	 * 新增时间
 	 */
-	@Column(name = "add_time", nullable = false)
+	@Column(name = "add_time", nullable = false, updatable = false)
 	private Date addTime = new Date();
 	/**
 	 * 更新人
