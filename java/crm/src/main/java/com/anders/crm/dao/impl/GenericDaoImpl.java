@@ -65,6 +65,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 		entityClass = Reflections.getSuperClassGenricType(getClass());
 	}
 
+	// TODO Anders Zhu : 为什么删除不掉
 	public void delete(final T entity) {
 		Assert.notNull(entity, "entity is null");
 		// getHibernateTemplate().delete(entity);
@@ -75,12 +76,15 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	public void deleteById(final PK id) {
 		Assert.notNull(id, "id is null");
 		// getHibernateTemplate().delete(getHibernateTemplate().load(entityClass, id));
-		getSession().delete(getSession().load(entityClass, id));
+		// getSession().delete(getSession().load(entityClass, id));
+		String hql = String.format("delete from %s entity where entity.id = %d", entityClass.getSimpleName(), id);
+		getSession().createQuery(hql).executeUpdate();
 	}
 
+	// TODO Anders Zhu : 如何加入版本号
 	public void disabledById(final PK id) {
 		Assert.notNull(id, "id is null");
-		String hql = String.format("update %s entity set entity.enabled = false where entity.id = %d", entityClass.getSimpleName(), id);
+		String hql = String.format("update %s entity set entity.enabled = false, entity.version = entity.version + 1 where entity.id = %d", entityClass.getSimpleName(), id);
 		getSession().createQuery(hql).executeUpdate();
 	}
 
