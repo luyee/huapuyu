@@ -8,6 +8,11 @@
 	<tool>
 		<key>link</key>
 		<scope>request</scope>
-		<class>org.apache.velocity.tools.view.tools.LinkTool</class>
+		<class>org.apache.velocity.tools.generic.LinkTool</class>
 	</tool>
+	<tool>
+		<key>msg</key>
+		<scope>request</scope>
+		<class>org.apache.velocity.tools.generic.ResourceTool</class>
+	</tool>	
 </toolbox>
