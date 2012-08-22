@@ -36,6 +36,8 @@
 						</component>
 					</components>
 					<componentProperties>
+						<create>false</create>
+						<update>false</update>
 						<drop>false</drop>
 						<jdk5>true</jdk5>
 						<propertyfile>${jdbc.propFile.src}</propertyfile>
@@ -43,7 +45,7 @@
 						<skip>${skipTests}</skip>
 					</componentProperties>
 				</configuration>
-				<!--
+				<!--  
 				<executions>
 					<execution>
 						<phase>process-test-resources</phase>
@@ -164,8 +166,8 @@
 						</goals>
 						<configuration>
 							<encoding>UTF8</encoding>
-							<includes>ApplicationResources_*.properties</includes>
-							<excludes>ApplicationResources.properties</excludes>
+							<includes>resources_*.properties</includes>
+							<excludes>resources.properties</excludes>
 						</configuration>
 					</execution>
 				</executions>
@@ -176,7 +178,7 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<excludes>
-					<exclude>ApplicationResources*.properties</exclude>
+					<exclude>resources*.properties</exclude>
 				</excludes>
 				<filtering>true</filtering>
 			</resource>
@@ -703,7 +705,7 @@
 		<subethamail.version>1.2</subethamail.version>
 		<maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
 		<hibernate3.maven.plugin.version>2.2</hibernate3.maven.plugin.version>
-		<jdk.version>1.5</jdk.version>
+		<jdk.version>1.6</jdk.version>
 		<dbunit.maven.plugin.version>1.0-beta-3</dbunit.maven.plugin.version>
 		<dbunit.version>2.4.8</dbunit.version>
 		<maven.jetty.plugin.version>6.1.26</maven.jetty.plugin.version>

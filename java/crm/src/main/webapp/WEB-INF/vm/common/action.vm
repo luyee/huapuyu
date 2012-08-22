@@ -1,0 +1,2 @@
+## 配置工程的上下文路径
+#set($projectContext = "$link.getContextPath()")
