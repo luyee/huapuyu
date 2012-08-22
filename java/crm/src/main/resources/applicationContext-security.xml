@@ -83,6 +83,7 @@
 	</beans:bean>
 	
 	<http use-expressions="true" auto-config="true">
+		<intercept-url pattern="/index.do" access="permitAll" />
 		<intercept-url pattern="/login.jsp" access="permitAll" />
 		<intercept-url pattern="/favicon.ico" access="permitAll" />
 		<intercept-url pattern="/error.jsp" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />

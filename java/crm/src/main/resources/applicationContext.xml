@@ -68,4 +68,10 @@
 	<context:annotation-config />
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- 
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"> 
+		<property name="basename" value="resources"/> 
+	</bean>  
+	-->
 </beans>
