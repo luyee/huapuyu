@@ -1,0 +1,5 @@
+#set($securityController = {
+	"login":		"$projectContext/login.do",
+    "logout":		"$projectContext/logout.do",
+    "register":     "$projectContext/register.do"
+})

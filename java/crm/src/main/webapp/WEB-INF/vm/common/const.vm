@@ -1,2 +1,14 @@
+## 配置工程的上下文路径，如：/crm
+#set($projectContext = "$!link.getContextPath()")
+
+## css根目录
+#set($cssRoot = "$projectContext/WEB-INF/css")
+
+## images根目录
+#set($imagesRoot = "$projectContext/WEB-INF/images")
+
+## javascript根目录
+#set($jsRoot = "$projectContext/WEB-INF/js")
+
 ## 网站title前缀，目前为：夯夯CRM--
 #set($titlePrefix = "$msg.common.title$msg.common.dash")

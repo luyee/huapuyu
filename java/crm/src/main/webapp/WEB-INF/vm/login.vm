@@ -6,13 +6,11 @@
 	#parse("/common/const.vm")
 	#parse("/common/controller.vm")
 	#parse("/common/meta.vm")
-	<title>$titlePrefix$msg.index.title</title>
+	<title>$titlePrefix$msg.login.title</title>
 </head>
 
 <body>
-    <h1>$msg.index.welcome</h1>
-	<a href="$!securityController.login">$msg.index.login</a>
-	<a href="$!securityController.register">$msg.index.register</a>
+    <h1>login</h1>
 </body>
 
 </html>
