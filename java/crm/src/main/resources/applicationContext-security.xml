@@ -84,9 +84,11 @@
 	
 	<http use-expressions="true" auto-config="true">
 		<intercept-url pattern="/index.do" access="permitAll" />
-		<intercept-url pattern="/login.jsp" access="permitAll" />
+		<intercept-url pattern="/login.do" access="permitAll" />
+		<intercept-url pattern="/logout.do" access="permitAll" />
+		<intercept-url pattern="/register.do" access="permitAll" />
 		<intercept-url pattern="/favicon.ico" access="permitAll" />
 		<intercept-url pattern="/error.jsp" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
-		<form-login login-page="/login.jsp" default-target-url="/index.jsp" />
+		<form-login login-page="/login.do" default-target-url="/index.do" />
 	</http>
 </beans:beans>
