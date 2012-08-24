@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,12 +20,16 @@ import org.springframework.web.servlet.ModelAndView;
 public class SecurityController {
 	@RequestMapping(value = "/login.do", method = { RequestMethod.GET })
 	public ModelAndView login(HttpServletRequest request) {
+		String error = request.getParameter("error");
+
 		ModelAndView modelAndView = new ModelAndView("login");
 		List<String> list = new ArrayList<String>();
 		list.add("zhuzhen");
 		list.add("guolili");
 		modelAndView.addObject("list", list);
 		modelAndView.addObject("name", "My First Spring Mvc");
+		if (StringUtils.isNotEmpty(error))
+			modelAndView.addObject("error", "My First Spring Mvc");
 		return modelAndView;
 	}
 

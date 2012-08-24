@@ -90,4 +90,26 @@
             <value description="add_time">2012-01-01 00:00:00</value>
         </row>
     </table>
+    
+    <table name="rlt_role_to_url">
+        <column>role_id</column>
+        <column>url_id</column>
+        <row>
+            <value description="role_id">1</value>
+            <value description="url_id">1</value>
+        </row>
+        <row>
+            <value description="role_id">1</value>
+            <value description="url_id">2</value>
+        </row>
+    </table>
+    
+    <table name="rlt_user_to_role">
+        <column>user_id</column>
+        <column>role_id</column>
+        <row>
+            <value description="user_id">1</value>
+            <value description="role_id">1</value>
+        </row>
+    </table>
 </dataset>

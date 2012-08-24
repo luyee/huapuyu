@@ -10,7 +10,13 @@
 </head>
 
 <body>
-    <h1>login</h1>
+	$!error
+	
+	<form id="login" action="$projectContext/j_spring_security_check" method="post"> 
+		$msg.login.username<input type="text" name="j_username" id="j_spring_security_check_j_username" /> 
+		$msg.login.password<input type="password" name="j_password" id="j_spring_security_check_j_password" /> 
+		<a href="javascript:document.getElementById('login').submit();">$msg.login.login</a>
+	</form>
 </body>
 
 </html>
