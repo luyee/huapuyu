@@ -1,0 +1,107 @@
+apply plugin: 'maven'
+
+// Create a source jar for uploading
+task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.java
+}
+
+artifacts {
+    archives sourceJar
+}
+
+// Configuration for SpringSource s3 maven deployer
+configurations {
+    deployerJars
+}
+dependencies {
+    deployerJars "org.springframework.build.aws:org.springframework.build.aws.maven:3.0.0.RELEASE"
+}
+
+// Remove the archive configuration from the runtime configuration, so that anything added to archives
+// (such as the source jar) is no longer included in the runtime classpath
+configurations.default.extendsFrom = [configurations.runtime] as Set
+// Add the main jar into the default configuration
+artifacts { 'default' jar }
+
+gradle.taskGraph.whenReady {graph ->
+    if (graph.hasTask(uploadArchives)) {
+        // check properties defined and fail early
+        s3AccessKey
+        s3SecretAccessKey
+    }
+}
+
+uploadArchives {
+   // "mavenSyncRepoDir" should be set in properties
+    def releaseRepositoryUrl = "file://${project.properties.mavenSyncRepoDir}"
+    def milestoneRepositoryUrl = 's3://maven.springframework.org/milestone'
+    def snapshotRepositoryUrl = 's3://maven.springframework.org/snapshot'
+
+    repositories.mavenDeployer { deployer ->
+        configuration = configurations.deployerJars
+        if (releaseBuild) {
+            repository(url: releaseRepositoryUrl)
+        } else {
+            def s3credentials = [userName: project.properties.s3AccessKey, passphrase: project.properties.s3SecretAccessKey]
+            repository(url: milestoneRepositoryUrl) {
+                authentication(s3credentials)
+            }
+            snapshotRepository(url: snapshotRepositoryUrl) {
+                authentication(s3credentials)
+            }
+        }
+        customizePom(deployer.pom)
+    }
+}
+
+install {
+    customizePom(repositories.mavenInstaller.pom)
+}
+
+def customizePom(pom) {
+    def optionalDeps = ['ehcache', 'log4j', 'apacheds-core', 'jsp-api', 'jsr250-api', 'ldapsdk', 'aspectjrt', 'aspectjweaver']
+
+    pom.scopeMappings.addMapping(10, configurations.provided, 'provided')
+    pom.whenConfigured { p ->
+        // Remove test scope dependencies from published poms
+        p.dependencies = p.dependencies.findAll {it.scope != 'test'}
+
+        // Flag optional deps
+        p.dependencies.findAll { dep ->
+            optionalDeps.contains(dep.artifactId) ||
+            dep.groupId.startsWith('org.apache.directory') ||
+            dep.groupId.startsWith('org.slf4j')
+        }*.optional = true
+
+        // Hack for specific case of config module
+        if (p.artifactId == 'spring-security-config') {
+            p.dependencies.find { dep -> dep.artifactId == 'spring-security-web'}.optional = true
+            p.dependencies.find { dep -> dep.artifactId == 'spring-web'}.optional = true
+        }
+
+        if (p.artifactId == 'spring-security-core') {
+            p.dependencies.find { dep -> dep.artifactId == 'spring-jdbc'}.optional = true
+            p.dependencies.find { dep -> dep.artifactId == 'spring-tx'}.optional = true
+            p.dependencies.removeAll { dep -> dep.artifactId == 'spring-security-crypto' }
+        }
+    }
+
+    pom.project {
+        licenses {
+            license {
+                name 'The Apache Software License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution 'repo'
+            }
+        }
+        dependencies {
+            dependency {
+                artifactId = groupId = 'commons-logging'
+                scope = 'compile'
+                optional = 'true'
+                version = '1.1.1'
+            }
+        }
+    }
+}
