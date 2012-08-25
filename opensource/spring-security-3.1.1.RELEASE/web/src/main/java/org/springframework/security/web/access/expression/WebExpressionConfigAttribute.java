@@ -9,7 +9,7 @@ import org.springframework.security.access.ConfigAttribute;
  * @author Luke Taylor
  * @since 3.0
  */
-class WebExpressionConfigAttribute implements ConfigAttribute {
+public class WebExpressionConfigAttribute implements ConfigAttribute {
     private final Expression authorizeExpression;
 
     public WebExpressionConfigAttribute(Expression authorizeExpression) {
