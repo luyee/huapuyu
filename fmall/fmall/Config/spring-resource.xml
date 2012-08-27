@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:tx="http://www.springframework.net/tx"
+         xmlns:db="http://www.springframework.net/database"
+         xmlns:aop="http://www.springframework.net/aop"
+         xmlns:tool="http://www.springframework.net/tool"
+         xsi:schemaLocation="http://www.springframework.net/schema/objects 
+                             http://www.springframework.net/schema/objects/spring-objects-1.3.xsd 
+                             http://www.springframework.net/schema/tx 
+                             http://www.springframework.net/schema/tx/spring-tx-1.1.xsd
+                             http://www.springframework.net/schema/db 
+                             http://www.springframework.net/schema/db/spring-database-1.1.xsd
+                             http://www.springframework.net/schema/aop
+                             http://www.springframework.net/schema/aop/spring-aop-1.1.xsd
+                             http://www.springframework.net/schema/tool
+                             http://www.springframework.net/schema/tool/spring-tool-1.1.xsd">
+
+  <object name="messageSource" type="Spring.Context.Support.ResourceSetMessageSource, Spring.Core">
+    <property name="resourceManagers">
+      <list>
+        <ref object="resourceManager" />
+      </list>
+    </property>
+  </object>
+
+  <object name="resourceManager" type="Spring.Objects.Factory.Config.ResourceManagerFactoryObject, Spring.Core">
+    <property name="baseName" value="fmall.Resource" />
+    <property name="assemblyName" value="fmall" />
+  </object>
+
+</objects>
