@@ -1,5 +1,5 @@
 #set($securityController = {
 	"login":		"$projectContext/login.do",
-    "logout":		"$projectContext/logout.do",
+    "logout":		"$projectContext/j_spring_security_logout",
     "register":     "$projectContext/register.do"
 })

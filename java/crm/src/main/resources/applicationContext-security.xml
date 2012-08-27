@@ -71,6 +71,7 @@
 	</http> 
 	-->
 
+	<!--  
 	<beans:bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
 		<beans:property name="authenticationEntryPoint" ref="authenticationEntryPoint" />
 		<beans:property name="accessDeniedHandler" ref="accessDeniedHandler" />
@@ -81,11 +82,12 @@
 	<beans:bean id="accessDeniedHandler" class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
 		<beans:property name="errorPage" value="/error.jsp" />
 	</beans:bean>
+	-->
 	
 	<http use-expressions="true" auto-config="true">
 		<intercept-url pattern="/index.do" access="permitAll" />
 		<intercept-url pattern="/login.do" access="permitAll" />
-		<intercept-url pattern="/j_spring_security_check.do" access="permitAll" />
+		<intercept-url pattern="/get_password.do" access="permitAll" />
 		<intercept-url pattern="/logout.do" access="permitAll" />
 		<intercept-url pattern="/register.do" access="permitAll" />
 		<intercept-url pattern="/favicon.ico" access="permitAll" />

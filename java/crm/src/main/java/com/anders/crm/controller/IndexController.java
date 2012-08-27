@@ -1,14 +1,13 @@
 package com.anders.crm.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.anders.crm.utils.SecurityUtil;
 
 /**
  * 
@@ -18,13 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class IndexController {
 	@RequestMapping(value = "/index.do", method = { RequestMethod.GET })
-	public ModelAndView helloWorld(HttpServletRequest request) {
+	public ModelAndView index(HttpServletRequest request) {
+
 		ModelAndView modelAndView = new ModelAndView("index");
-		List<String> list = new ArrayList<String>();
-		list.add("zhuzhen");
-		list.add("guolili");
-		modelAndView.addObject("list", list);
-		modelAndView.addObject("name", "My First Spring Mvc");
+		modelAndView.addObject("authenticated", SecurityUtil.isAuthenticated());
+		modelAndView.addObject("username", SecurityUtil.getUsername());
 		return modelAndView;
 	}
 }
