@@ -172,16 +172,16 @@ public class DefaultFilterInvocationSecurityMetadataSource implements FilterInvo
 						requestMap.put(requestMatcher, attributes);
 					}
 				}
-				
-				RequestMatcher requestMatcher = new AnyRequestMatcher();
-				Set<ConfigAttribute> attributes = new HashSet<ConfigAttribute>(1);
-				try {
-					attributes.add(new WebExpressionConfigAttribute(parser.parseExpression("denyAll")));
-				} catch (ParseException e) {
-					throw new IllegalArgumentException("Failed to parse expression");
-				}
-				requestMap.put(requestMatcher, attributes);
 			}
+			
+			RequestMatcher requestMatcher = new AnyRequestMatcher();
+			Set<ConfigAttribute> attributes = new HashSet<ConfigAttribute>(1);
+			try {
+				attributes.add(new WebExpressionConfigAttribute(parser.parseExpression("denyAll")));
+			} catch (ParseException e) {
+				throw new IllegalArgumentException("Failed to parse expression");
+			}
+			requestMap.put(requestMatcher, attributes);
 			
 			for (Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry : requestMap.entrySet()) {
 				RequestMatcher request = entry.getKey();
