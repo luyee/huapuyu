@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="9606e4b7-ce5e-4a1e-8541-33a7a2296aea" name="Default" comment="">
+    <list default="true" readonly="true" id="9606e4b7-ce5e-4a1e-8541-33a7a2296aea" name="Default" comment="hello">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="135c683d-af14-4271-ab81-21383e5b63d9" name="Failed commit: Default" comment="" />
@@ -377,7 +377,11 @@
       <created>1346088074110</created>
       <updated>1346088074110</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="hello">
+      <created>1346088111104</created>
+      <updated>1346088111104</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
