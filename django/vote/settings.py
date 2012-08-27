@@ -90,7 +90,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'vote.urls'
 
-TEMPLATE_DIRS = ('D:/code/django/vote/templates',)
+TEMPLATE_DIRS = ('D:/code/python/vote/templates',)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
