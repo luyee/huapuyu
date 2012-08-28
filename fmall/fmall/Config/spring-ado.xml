@@ -12,7 +12,7 @@
                              http://www.springframework.net/schema/db/spring-database-1.1.xsd">
 
   <!--<db:provider id="DbProvider" provider="System.Data.SqlClient" connectionString="Data Source=192.168.2.105;Initial Catalog=ash;Persist Security Info=True;User ID=sa;Password=123"/>-->
-  <db:provider id="DbProvider" provider="MySql.Data.MySqlClient" connectionString="Data Source=xp;User Id=root;Password=123;database=fmall" />
+  <db:provider id="DbProvider" provider="MySql.Data.MySqlClient" connectionString="Data Source=localhost;User Id=root;Password=123;database=fmall" />
 
   <!--<object type="Spring.Objects.Factory.Config.PropertyPlaceholderConfigurer, Spring.Core">
     <property name="ConfigSections" value="databaseSettings"/>
