@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Spring.Web.Mvc;
+using NVelocityEngine;
 
 namespace fmall
 {
@@ -36,6 +37,8 @@ namespace fmall
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            ViewEngines.Engines.Add(NVelocityViewEngine.Default);
         }
     }
 }

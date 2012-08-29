@@ -2,6 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fmall", "fmall\fmall.csproj", "{87E5515C-8B33-4B76-B577-6CF5FCCD17A2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C85E321B-597E-4B47-8E19-5A0736A1BAE2} = {C85E321B-597E-4B47-8E19-5A0736A1BAE2}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NVelocityEngine", "NVelocityEngine\NVelocityEngine.csproj", "{C85E321B-597E-4B47-8E19-5A0736A1BAE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +18,10 @@ Global
 		{87E5515C-8B33-4B76-B577-6CF5FCCD17A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87E5515C-8B33-4B76-B577-6CF5FCCD17A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87E5515C-8B33-4B76-B577-6CF5FCCD17A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C85E321B-597E-4B47-8E19-5A0736A1BAE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C85E321B-597E-4B47-8E19-5A0736A1BAE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C85E321B-597E-4B47-8E19-5A0736A1BAE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C85E321B-597E-4B47-8E19-5A0736A1BAE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
