@@ -1,0 +1,24 @@
+#parse("/common/doctype.vm")
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	#parse("/common/const.vm")
+	#parse("/common/controller.vm")
+	#parse("/common/meta.vm")
+	<title>$titlePrefix$msg.index.title</title>
+	<link type="text/css" rel="stylesheet" href="$projectContext/css/common.css" />
+</head>
+
+<body>
+    <h1>$msg.index.welcome</h1>
+	<div>$username</div>
+	#if(!$authenticated)
+	<a href="$!securityController.login">$msg.index.login</a>
+	<a href="$!securityController.register">$msg.index.register</a>
+	#else
+	<a href="$!securityController.logout">$msg.index.logout</a>
+	#end
+</body>
+
+</html>
