@@ -12,7 +12,9 @@
 </head>
 
 <body>
-    <h1>register</h1>
+    <a href="$!securityController.register_individual">$msg.register.individual</a>
+	<br />
+	<a href="$!securityController.register_enterprise">$msg.register.enterprise</a>
 </body>
 
 </html>
