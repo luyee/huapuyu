@@ -38,7 +38,7 @@
 	</bean>
 
 	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
-		<property name="resourceLoaderPath" value="/WEB-INF/vm/" />
+		<property name="resourceLoaderPath" value="/WEB-INF/" />
 		<property name="velocityProperties">
 			<props>
 				<!-- <prop key="resource.loader">file</prop> <prop key="file.resource.loader.class">org.apache.velocity.runtime.resource.loader.FileResourceLoader</prop> <prop key="file.resource.loader.path">/WEB-INF/vm/</prop> <prop key="file.resource.loader.cache">false</prop> -->

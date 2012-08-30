@@ -2,13 +2,13 @@
 #set($projectContext = "$!link.getContextPath()")
 
 ## css根目录
-#set($cssRoot = "$projectContext/WEB-INF/css")
+#set($cssRoot = "$projectContext/css")
 
 ## images根目录
-#set($imagesRoot = "$projectContext/WEB-INF/images")
+#set($imagesRoot = "$projectContext/images")
 
 ## javascript根目录
-#set($jsRoot = "$projectContext/WEB-INF/js")
+#set($jsRoot = "$projectContext/js")
 
 ## 网站title前缀，目前为：夯夯CRM--
 #set($titlePrefix = "$msg.common.title$msg.common.dash")

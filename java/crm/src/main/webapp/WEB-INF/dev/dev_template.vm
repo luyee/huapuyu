@@ -1,3 +1,5 @@
+##该文件用作开发模板
+
 #parse("/common/const.vm")
 #parse("/common/controller.vm")
 
@@ -7,12 +9,12 @@
 
 <head>
 	#parse("/common/meta.vm")
-	<title>$titlePrefix$msg.register.title</title>
+	<title>$titlePrefix$msg.#*页面title*#</title>
 	#parse("/common/css.vm")
 </head>
 
 <body>
-    <h1>register</h1>
+  
 </body>
 
 </html>

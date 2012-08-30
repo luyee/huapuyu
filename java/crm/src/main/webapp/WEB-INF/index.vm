@@ -1,13 +1,14 @@
+#parse("/common/const.vm")
+#parse("/common/controller.vm")
+
 #parse("/common/doctype.vm")
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	#parse("/common/const.vm")
-	#parse("/common/controller.vm")
 	#parse("/common/meta.vm")
 	<title>$titlePrefix$msg.index.title</title>
-	<link type="text/css" rel="stylesheet" href="$projectContext/css/common.css" />
+	#parse("/common/css.vm")
 </head>
 
 <body>
