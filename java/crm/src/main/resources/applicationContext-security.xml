@@ -85,6 +85,9 @@
 	-->
 	
 	<http use-expressions="true" auto-config="true">
+		<intercept-url pattern="/css/**" access="permitAll" />
+		<intercept-url pattern="/js/**" access="permitAll" />
+		<intercept-url pattern="/images/**" access="permitAll" />
 		<intercept-url pattern="/index.do" access="permitAll" />
 		<intercept-url pattern="/login.do" access="permitAll" />
 		<intercept-url pattern="/get_password.do" access="permitAll" />

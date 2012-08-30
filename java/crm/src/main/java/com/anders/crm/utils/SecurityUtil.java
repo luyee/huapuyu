@@ -1,5 +1,6 @@
 package com.anders.crm.utils;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +16,9 @@ public class SecurityUtil {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof UserDetails) {
 			return ((UserDetails) principal).getUsername();
+		}
+		else if (principal.equals("anonymousUser")) {
+			return StringUtils.EMPTY;
 		}
 		else {
 			return principal.toString();

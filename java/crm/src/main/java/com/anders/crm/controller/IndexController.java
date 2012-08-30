@@ -18,7 +18,6 @@ import com.anders.crm.utils.SecurityUtil;
 public class IndexController {
 	@RequestMapping(value = "/index.do", method = { RequestMethod.GET })
 	public ModelAndView index(HttpServletRequest request) {
-
 		ModelAndView modelAndView = new ModelAndView("index");
 		modelAndView.addObject("authenticated", SecurityUtil.isAuthenticated());
 		modelAndView.addObject("username", SecurityUtil.getUsername());
