@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using NVelocity.Runtime.Resource.Loader;
+using System.Collections.Generic;
 
 namespace NVelocityEngine
 {
@@ -25,20 +26,20 @@ namespace NVelocityEngine
             }
         }
 
-        private Stream CreateTemplate(string filePath)
-        {
-            try
-            {
-                FileInfo file = new FileInfo(filePath);
-                file.Create();
-                return new BufferedStream(file.OpenRead());
-            }
-            catch (Exception exception)
-            {
-                base.runtimeServices.Debug(string.Format("FileResourceLoader : {0}", exception.Message));
-                return null;
-            }
-        }
+        //private Stream CreateTemplate(string filePath)
+        //{
+        //    try
+        //    {
+        //        FileInfo file = new FileInfo(filePath);
+        //        file.Create().Close();
+        //        return new BufferedStream(file.OpenRead());
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        base.runtimeServices.Debug(string.Format("FileResourceLoader : {0}", exception.Message));
+        //        return null;
+        //    }
+        //}
 
         public override long GetLastModified(global::NVelocity.Runtime.Resource.Resource resource)
         {
@@ -58,7 +59,7 @@ namespace NVelocityEngine
             }
             else if (templateName == "VM_global_library.vm")
             {
-                return CreateTemplate(templateName);
+                return null;
             }
             return base.GetResourceStream(templateName);
         }
