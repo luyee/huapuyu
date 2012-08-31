@@ -1,0 +1,20 @@
+##该文件用作开发模板
+
+#parse("/common/const.vm")
+#parse("/common/controller.vm")
+
+#parse("/common/doctype.vm")
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	#parse("/common/meta.vm")
+	<title>$titlePrefix$msg.#*页面title*#</title>
+	#parse("/common/css.vm")
+</head>
+
+<body>
+  
+</body>
+
+</html>
