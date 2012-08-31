@@ -24,4 +24,8 @@ public class SecurityUtil {
 			return principal.toString();
 		}
 	}
+
+	public static String randomPassword() {
+		return "123456";
+	}
 }

@@ -3,5 +3,6 @@
 	"logout":					"$projectContext/j_spring_security_logout",		
 	"register":					"$projectContext/register.do",					
 	"register_individual":		"$projectContext/register_individual.do",		
-	"register_enterprise":     	"$projectContext/register_enterprise.do"		
+	"register_enterprise":     	"$projectContext/register_enterprise.do",
+	"get_password":     		"$projectContext/get_password.do"
 })

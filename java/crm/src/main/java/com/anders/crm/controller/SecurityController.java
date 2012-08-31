@@ -5,10 +5,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.anders.crm.service.UserService;
+import com.anders.crm.vo.GetPasswordVO;
 
 /**
  * 
@@ -17,6 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class SecurityController extends BaseController {
+
+	@Autowired
+	private UserService userService;
 
 	private final static String LOGIN_FAILED = "1";
 
@@ -53,7 +60,7 @@ public class SecurityController extends BaseController {
 	}
 
 	@RequestMapping(value = "/get_password.do", method = { RequestMethod.GET })
-	public ModelAndView getPassword(HttpServletRequest request) {
+	public ModelAndView getPassword() {
 		ModelAndView modelAndView = new ModelAndView("get_password");
 		List<String> list = new ArrayList<String>();
 		list.add("zhuzhen");
@@ -61,6 +68,25 @@ public class SecurityController extends BaseController {
 		modelAndView.addObject("list", list);
 		modelAndView.addObject("name", "My First Spring Mvc");
 		return modelAndView;
+	}
+
+	@RequestMapping(value = "/get_password.do", method = { RequestMethod.POST })
+	// public ModelAndView getPassword(@ModelAttribute("getPasswordVO") GetPasswordVO getPasswordVO) {
+	// public ModelAndView getPassword(@ModelAttribute GetPasswordVO getPasswordVO) {
+	public ModelAndView getPassword(GetPasswordVO getPasswordVO) {
+		ModelAndView modelAndView = new ModelAndView("get_password");
+
+		userService.updatePasswordToDefault(getPasswordVO.getUsername());
+
+		return modelAndView;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 }

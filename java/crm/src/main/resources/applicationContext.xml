@@ -40,12 +40,10 @@
 		<property name="defaultAutoCommit" value="true" />
 	</bean>
 	
-	<!--  
-	<jdbc:initialize-database data-source="dataSource" >
+	<jdbc:initialize-database enabled="false" data-source="dataSource">
         <jdbc:script location="classpath:crm.sql" />
     </jdbc:initialize-database>
-	-->
-
+    
 	<context:component-scan base-package="com.anders.crm" />
 	<!-- 
 	<context:component-scan base-package="com.anders.crm">

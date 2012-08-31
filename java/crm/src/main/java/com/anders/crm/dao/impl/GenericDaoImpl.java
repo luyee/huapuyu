@@ -72,7 +72,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 		getSession().delete(entity);
 	}
 
-	// TODO Anders Zhu : 观察此方法是否优化
+	// TODO Anders Zhu : 观察此方法是否优化,如何加入版本号
 	public void deleteById(final PK id) {
 		Assert.notNull(id, "id is null");
 		// getHibernateTemplate().delete(getHibernateTemplate().load(entityClass, id));
