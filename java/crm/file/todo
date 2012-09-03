@@ -1,3 +1,8 @@
 1.用户密码加密，不显示明文
 2.javascript表单验证
 3.验证码
+
+<link rel="stylesheet" type="text/css" href="$extRoot/resources/css/ext-all.css" />
+ 	<script type="text/javascript" src="$extRoot/adapter/ext/ext-base.js"></script>
+	<script type="text/javascript" src="$extRoot/ext-all.js"></script>
+	<script type="text/javascript" src="$jsRoot/get_password.js"></script>

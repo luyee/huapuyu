@@ -2,6 +2,8 @@
 
 1.框架
 ExtJS
+jQuery
+	https://github.com/posabsolute/jQuery-Validation-Engine
 Velocity
 Hibernate 4.1.1
 Spring 3.1.1
@@ -21,3 +23,5 @@ Tomcat（J2EE服务器）
 
 3.开发环境
 ScrumWorks Pro试用版
+
+注意：由于kaptcha的maven依赖已经找不到了，所以需要下载kaptcha2.3.2.jar放置到自己的.m2文件夹中

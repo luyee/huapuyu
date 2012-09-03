@@ -1,3 +1,9 @@
+<form id="get_password1" action="$!securityController.get_password" method="post"> 
+		$msg.get_password.username$msg.common.colon<input type="text" name="username" id="username" /><br />
+		$msg.get_password.security_code$msg.common.colon<input type="text" name="securityCode" id="securityCode" /><br /> 
+		<a href="javascript:document.getElementById('get_password').submit();">$msg.get_password.submit</a><br />
+	</form>
+
 <bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
         <property name="resourceLoaderPath"><!-- 页面文件的路径,相对于webapp -->
             <value>templates</value>
