@@ -1,9 +1,14 @@
 package com.anders.crm.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.anders.crm.service.UserService;
 import com.anders.crm.vo.GetPasswordVO;
+import com.google.code.kaptcha.Constants;
+import com.google.code.kaptcha.Producer;
 
 /**
  * 
@@ -24,6 +31,8 @@ public class SecurityController extends BaseController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private Producer captchaProducer;
 
 	private final static String LOGIN_FAILED = "1";
 
@@ -59,6 +68,28 @@ public class SecurityController extends BaseController {
 		return modelAndView;
 	}
 
+	@RequestMapping(value = "/get_code.do", method = { RequestMethod.GET })
+	public ModelAndView getSecurityCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.setDateHeader("Expires", 0);
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+		response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+		response.setHeader("Pragma", "no-cache");
+		response.setContentType("image/jpeg");
+
+		String capText = captchaProducer.createText();
+		request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, capText);
+		BufferedImage bi = captchaProducer.createImage(capText);
+		ServletOutputStream out = response.getOutputStream();
+		ImageIO.write(bi, "jpg", out);
+		try {
+			out.flush();
+		}
+		finally {
+			out.close();
+		}
+		return null;
+	}
+
 	@RequestMapping(value = "/get_password.do", method = { RequestMethod.GET })
 	public ModelAndView getPassword() {
 		ModelAndView modelAndView = new ModelAndView("get_password");
@@ -87,6 +118,14 @@ public class SecurityController extends BaseController {
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
+	}
+
+	public Producer getCaptchaProducer() {
+		return captchaProducer;
+	}
+
+	public void setCaptchaProducer(Producer captchaProducer) {
+		this.captchaProducer = captchaProducer;
 	}
 
 }
