@@ -12,3 +12,6 @@
 
 ## 网站title前缀，目前为：夯夯CRM--
 #set($titlePrefix = "$msg.common.title$msg.common.dash")
+
+## Ext JS根目录
+#set($extRoot = "$projectContext/js/ext-3.3.1")
