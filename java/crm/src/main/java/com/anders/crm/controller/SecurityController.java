@@ -10,7 +10,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,7 +68,14 @@ public class SecurityController extends BaseController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/get_code.do")
+	/**
+	 * 获取验证码
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/get_security_code.do")
 	public void getSecurityCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setDateHeader("Expires", 0);
 		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
@@ -90,18 +96,30 @@ public class SecurityController extends BaseController {
 		}
 	}
 
+	/**
+	 * 显示找回密码页面
+	 * 
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/get_password.do", method = { RequestMethod.GET })
 	public ModelAndView getPassword(HttpServletRequest request) {
 		String capText = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-		if (StringUtils.isBlank(capText)) {
-			throw new RuntimeException("security code is blank");
-		}
+		// if (StringUtils.isBlank(capText)) {
+		// throw new RuntimeException("security code is blank");
+		// }
 
 		ModelAndView modelAndView = new ModelAndView("get_password");
 		modelAndView.addObject("defaultCode", capText);
 		return modelAndView;
 	}
 
+	/**
+	 * 找回密码提交操作
+	 * 
+	 * @param getPasswordVO
+	 * @return
+	 */
 	@RequestMapping(value = "/get_password.do", method = { RequestMethod.POST })
 	// public ModelAndView getPassword(@ModelAttribute("getPasswordVO") GetPasswordVO getPasswordVO) {
 	// public ModelAndView getPassword(@ModelAttribute GetPasswordVO getPasswordVO) {
@@ -112,6 +130,8 @@ public class SecurityController extends BaseController {
 
 		return modelAndView;
 	}
+
+	// getter and setter
 
 	public UserService getUserService() {
 		return userService;
