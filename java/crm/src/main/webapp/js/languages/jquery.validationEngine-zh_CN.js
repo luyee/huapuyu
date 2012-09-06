@@ -168,7 +168,13 @@
                     "alertText2": "可接受的格式： ",
                     "alertText3": "mm/dd/yyyy hh:mm:ss AM|PM 或 ", 
                     "alertText4": "yyyy-mm-dd hh:mm:ss AM|PM"
-	            }
+	            },
+	            "ajaxIsExist": {
+                    "url": "ajaxIsExist.do",
+                    "alertText": "* 用户名不存在",
+                    "alertTextOk": "* This name is available",
+                    "alertTextLoad": "* 正在验证用户名..."
+                }
             };
             
         }

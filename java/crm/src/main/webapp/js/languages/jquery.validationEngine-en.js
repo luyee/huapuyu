@@ -181,7 +181,13 @@
                     "alertText2": "Expected Format: ",
                     "alertText3": "mm/dd/yyyy hh:mm:ss AM|PM or ", 
                     "alertText4": "yyyy-mm-dd hh:mm:ss AM|PM"
-	            }
+	            },
+	            "ajaxTest": {
+                    "url": "ajaxTest.do",
+                    "alertText": "* This name is already taken",
+                    "alertTextOk": "* This name is available",
+                    "alertTextLoad": "* Validating, please wait"
+                }
             };
             
         }
