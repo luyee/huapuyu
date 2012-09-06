@@ -171,9 +171,7 @@
 	            },
 	            "ajaxIsExist": {
                     "url": "ajaxIsExist.do",
-                    "alertText": "* 用户名不存在",
-                    "alertTextOk": "* This name is available",
-                    "alertTextLoad": "* 正在验证用户名..."
+                    "alertTextLoad": "* 正在验证..."
                 }
             };
             

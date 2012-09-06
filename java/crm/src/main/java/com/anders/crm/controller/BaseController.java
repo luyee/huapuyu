@@ -2,6 +2,7 @@ package com.anders.crm.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -14,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.anders.crm.bo.User;
 import com.anders.crm.service.UserService;
@@ -41,19 +41,26 @@ public abstract class BaseController {
 	@Autowired
 	private Producer captchaProducer;
 
-	@ResponseBody
+	/**
+	 * AJAX统一调用方法
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	// 原来使用@ResponseBody注解，ajaxIsExist返回字符串，但是发现中文字符串出现乱码，所以只能使用下面的方式
+	// @ResponseBody
 	@RequestMapping(value = "/ajaxIsExist.do")
-	public String ajaxIsExist(HttpServletRequest request) {
+	public void ajaxIsExist(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String fieldName = request.getParameter(AJAX_FIELD_ID);
 		String fieldValue = request.getParameter(AJAX_FIELD_VALUE);
 
 		Object[] resultObjects = new Object[5];
 		resultObjects[0] = fieldName;
 		resultObjects[1] = false;
-		resultObjects[2] = StringUtils.EMPTY;
-		resultObjects[3] = "asfasdfas";
-		resultObjects[4] = "2222";
+		resultObjects[2] = rbms.getMessage("ajax.error", null, request.getLocale());
 
+		// 用户名
 		if (User.USERNAME.equalsIgnoreCase(fieldName)) {
 			boolean isExist = userService.isExistByUsername(fieldValue);
 			String alertText = isExist ? rbms.getMessage("ajax.is_exist.username", null, request.getLocale()) : rbms.getMessage("ajax.is_not_exist.username", null, request.getLocale());
@@ -61,9 +68,28 @@ public abstract class BaseController {
 			resultObjects[1] = isExist;
 			resultObjects[2] = alertText;
 		}
+		// 验证码
+		else if ("securityCode".equalsIgnoreCase(fieldName)) {
+			String securityCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+			if (StringUtils.isBlank(securityCode)) {
+				// TODO Anders Zhu : 新建验证码异常类
+				throw new RuntimeException("securityCode is blank");
+			}
+			boolean isExist = securityCode.equals(fieldValue);
+			String alertText = isExist ? rbms.getMessage("ajax.right.security_code", null, request.getLocale()) : rbms.getMessage("ajax.wrong.security_code", null, request.getLocale());
+
+			resultObjects[1] = isExist;
+			resultObjects[2] = alertText;
+		}
 
 		Gson gson = new Gson();
-		return gson.toJson(resultObjects);
+		String json = gson.toJson(resultObjects);
+		response.setContentType("application/json; charset=utf-8");
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
+		PrintWriter out = response.getWriter();
+		out.println(json);
+		out.flush();
 	}
 
 	/**

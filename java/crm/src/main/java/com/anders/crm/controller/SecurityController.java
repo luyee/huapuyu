@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.anders.crm.vo.GetPasswordVO;
-import com.google.code.kaptcha.Constants;
 
 /**
  * 
@@ -63,13 +62,7 @@ public class SecurityController extends BaseController {
 	 */
 	@RequestMapping(value = "/get_password.do", method = { RequestMethod.GET })
 	public ModelAndView getPassword(HttpServletRequest request) {
-		String capText = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-		// if (StringUtils.isBlank(capText)) {
-		// throw new RuntimeException("security code is blank");
-		// }
-
 		ModelAndView modelAndView = new ModelAndView("get_password");
-		modelAndView.addObject("defaultCode", capText);
 		return modelAndView;
 	}
 
