@@ -10,4 +10,6 @@ public interface UserService extends GenericService<Long, User> {
 
 	void updatePasswordToDefault(String username);
 
+	boolean isExistByUsername(String username);
+
 }

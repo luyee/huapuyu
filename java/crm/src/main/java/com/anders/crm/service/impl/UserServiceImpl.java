@@ -82,4 +82,14 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 		user.setUpdateUser(getUserByUsername("zhuzhen"));
 		getDao().update(user);
 	}
+
+	@Override
+	public boolean isExistByUsername(String username) {
+		if (StringUtils.isBlank(username)) {
+			throw new IllegalArgumentException("username is blank");
+		}
+
+		return userDao.isExistByUsername(username);
+	}
+
 }
