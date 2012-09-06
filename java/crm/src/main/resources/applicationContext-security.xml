@@ -85,7 +85,8 @@
 	-->
 	
 	<http use-expressions="true" auto-config="true">
-		<intercept-url pattern="/get_code.do" access="permitAll" />
+		<intercept-url pattern="/get_security_code.do" access="permitAll" />
+		<intercept-url pattern="/ajaxIsExist.do" access="permitAll" />
 		
 		<intercept-url pattern="/css/**" access="permitAll" />
 		<intercept-url pattern="/js/**" access="permitAll" />

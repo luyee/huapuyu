@@ -1,0 +1,4 @@
+	<link rel="stylesheet" href="$cssDir/validationEngine.jquery.css" type="text/css"/>
+	<link rel="stylesheet" href="$cssDir/template.css" type="text/css"/>
+	<script type="text/javascript" src="$jsDir/languages/jquery.validationEngine-zh_CN.js" charset="utf-8"></script>
+	<script type="text/javascript" src="$jsDir/jquery.validationEngine.js" charset="utf-8"></script>

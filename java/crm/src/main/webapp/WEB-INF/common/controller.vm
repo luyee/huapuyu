@@ -5,5 +5,5 @@
 	"register_individual":		"$projectContext/register_individual.do",		
 	"register_enterprise":     	"$projectContext/register_enterprise.do",
 	"get_password":     		"$projectContext/get_password.do",
-	"get_security_code":     			"$projectContext/get_security_code.do"
+	"get_security_code":     	"$projectContext/get_security_code.do"
 })

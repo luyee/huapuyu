@@ -1,17 +1,20 @@
-## 配置工程的上下文路径，如：/crm
+## 工程的上下文路径，如：/crm
 #set($projectContext = "$!link.getContextPath()")
 
-## css根目录
-#set($cssRoot = "$projectContext/css")
+## css目录
+#set($cssDir = "$projectContext/css")
 
-## images根目录
-#set($imagesRoot = "$projectContext/images")
+## images目录
+#set($imagesDir = "$projectContext/images")
 
-## javascript根目录
-#set($jsRoot = "$projectContext/js")
+## javascript目录
+#set($jsDir = "$projectContext/js")
 
 ## 网站title前缀，目前为：夯夯CRM--
 #set($titlePrefix = "$msg.common.title$msg.common.dash")
 
-## Ext JS根目录
-#set($extRoot = "$projectContext/js/ext-3.3.1")
+## ExtJS目录
+#set($extDir = "$jsDir/ext-3.3.1")
+
+## jQuery文件路径
+#set($jQueryPath = "$jsDir/jquery-1.6.min.js")
