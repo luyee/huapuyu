@@ -17,6 +17,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.anders.crm.bo.User;
+import com.anders.crm.exception.SecurityCodeException;
 import com.anders.crm.service.UserService;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
@@ -31,8 +32,9 @@ import com.google.gson.Gson;
 public abstract class BaseController {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	protected final static String AJAX_FIELD_ID = "fieldId";
-	protected final static String AJAX_FIELD_VALUE = "fieldValue";
+	private final static String AJAX_FIELD_ID = "fieldId";
+	private final static String AJAX_FIELD_VALUE = "fieldValue";
+	private final static String SECURITY_CODE_INPUT_ID = "securityCode";
 
 	@Autowired
 	private UserService userService;
@@ -55,7 +57,7 @@ public abstract class BaseController {
 		String fieldName = request.getParameter(AJAX_FIELD_ID);
 		String fieldValue = request.getParameter(AJAX_FIELD_VALUE);
 
-		Object[] resultObjects = new Object[5];
+		Object[] resultObjects = new Object[3];
 		resultObjects[0] = fieldName;
 		resultObjects[1] = false;
 		resultObjects[2] = rbms.getMessage("ajax.error", null, request.getLocale());
@@ -69,11 +71,10 @@ public abstract class BaseController {
 			resultObjects[2] = alertText;
 		}
 		// 验证码
-		else if ("securityCode".equalsIgnoreCase(fieldName)) {
+		else if (SECURITY_CODE_INPUT_ID.equalsIgnoreCase(fieldName)) {
 			String securityCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
 			if (StringUtils.isBlank(securityCode)) {
-				// TODO Anders Zhu : 新建验证码异常类
-				throw new RuntimeException("securityCode is blank");
+				throw new SecurityCodeException("securityCode is blank");
 			}
 			boolean isExist = securityCode.equals(fieldValue);
 			String alertText = isExist ? rbms.getMessage("ajax.right.security_code", null, request.getLocale()) : rbms.getMessage("ajax.wrong.security_code", null, request.getLocale());
