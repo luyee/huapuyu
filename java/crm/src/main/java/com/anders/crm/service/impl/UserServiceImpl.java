@@ -1,6 +1,8 @@
 package com.anders.crm.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.anders.crm.bo.User;
 import com.anders.crm.dao.GenericDao;
 import com.anders.crm.dao.UserDao;
+import com.anders.crm.service.MailService;
 import com.anders.crm.service.UserService;
 import com.anders.crm.utils.SecurityUtil;
 
@@ -25,6 +28,9 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 
 	@Autowired
 	private ResourceBundleMessageSource rbms;
+
+	@Autowired
+	private MailService mailService;
 
 	@Override
 	public GenericDao<Long, User> getDao() {
@@ -81,6 +87,12 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 		user.setUpdateTime(new Date());
 		user.setUpdateUser(getUserByUsername("zhuzhen"));
 		getDao().update(user);
+
+		Map<String, Object> emailParams = new HashMap<String, Object>();
+		emailParams.put(MailService.EMAIL_TO, user.getEmail());
+		emailParams.put(MailService.EMAIL_SUBJECT, "[夯夯CRM]找回密码");
+		emailParams.put("title", "hello world");
+		mailService.getPassword(emailParams);
 	}
 
 	@Override
@@ -90,6 +102,14 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 		}
 
 		return userDao.isExistByUsername(username);
+	}
+
+	public MailService getMailService() {
+		return mailService;
+	}
+
+	public void setMailService(MailService mailService) {
+		this.mailService = mailService;
 	}
 
 }
