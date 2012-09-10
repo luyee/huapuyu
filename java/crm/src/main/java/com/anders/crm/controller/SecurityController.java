@@ -82,7 +82,6 @@ public class SecurityController extends BaseController {
 
 		return modelAndView;
 	}
-
 	// getter and setter
 
 }

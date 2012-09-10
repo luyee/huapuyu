@@ -85,4 +85,40 @@
 			</bean>
         </property>
 	</bean>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host">
+			<value>${email.host}</value>
+		</property>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">${email.smtp.auth}</prop>
+				<prop key="mail.smtp.timeout">${email.smtp.timeout}</prop>
+			</props>
+		</property>
+		<property name="username">
+			<value>${email.username}</value>
+		</property>
+		<property name="password">
+			<value>${email.password}</value>
+		</property>
+	</bean>
+	
+	<bean id="mailMessage" class="org.springframework.mail.SimpleMailMessage">
+    	<property name="from">
+        	<value>${email.from}</value>
+    	</property>
+    </bean>
+    
+	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+    	<property name="velocityProperties">
+        	<props>
+            	<prop key="resource.loader">class</prop>
+            	<prop key="class.resource.loader.class">
+            	    org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+            	</prop>
+            	<prop key="velocimacro.library"></prop>
+        	</props>
+		</property>
+	</bean>
 </beans>
