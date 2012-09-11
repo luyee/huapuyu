@@ -8,10 +8,19 @@
 	<!--  
 	<beans:bean id="userDetailsService" class="com.anders.crm.security.UserDetailsServiceImpl" />
 	-->
+	
 	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="userDetailsService">
+		    <password-encoder hash="sha-256" base64="true">
+		        <salt-source ref="saltSource" />
+		    </password-encoder>
 		</authentication-provider>
 	</authentication-manager>
+	
+	<beans:bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">    
+  		<beans:property name="userPropertyToUse" value="username" />    
+	</beans:bean>    
+	
 	<!--  
 	<authentication-manager>
 		<authentication-provider>
