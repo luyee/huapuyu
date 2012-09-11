@@ -4,7 +4,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,11 +27,6 @@ public class IndexController {
 		for (String name : names) {
 			System.out.println(name);
 		}
-
-		ShaPasswordEncoder sha = new ShaPasswordEncoder(256);
-		sha.setEncodeHashAsBase64(true);
-		String pwd = sha.encodePassword("123456", "zhuzhen");
-		System.out.println("哈希算法 256: " + pwd + " len=" + pwd.length());
 
 		ModelAndView modelAndView = new ModelAndView("index");
 		modelAndView.addObject("authenticated", SecurityUtil.isAuthenticated());

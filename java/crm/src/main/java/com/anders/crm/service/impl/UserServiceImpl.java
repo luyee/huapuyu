@@ -71,7 +71,7 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 			throw new UsernameNotFoundException(String.format("%s is not exist", username));
 		}
 
-		user.setPassword(SecurityUtil.randomPassword());
+		user.setPassword(SecurityUtil.getSha256Password(SecurityUtil.getRandomPassword(), username));
 		user.setUpdateTime(new Date());
 		user.setUpdateUser(getUserByUsername("zhuzhen"));
 		getDao().update(user);

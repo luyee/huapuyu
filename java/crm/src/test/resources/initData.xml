@@ -11,16 +11,16 @@
         <row>
             <value description="id">1</value>
             <value description="user_name">zhuzhen</value>
-            <value description="password">123</value>
+            <value description="password">MVCtTlrQuYy9gaAW2R7u+qPMXrqXdWqo5sfuTGEP6Fg=</value>
             <value description="name">朱振</value>
-            <value description="email">zhuzhen@anders.com</value>
+            <value description="email">huapuyu@yahoo.com.cn</value>
             <value description="add_user_id">1</value>
             <value description="add_time">2012-01-01 00:00:00</value>
         </row>
         <row>
             <value description="id">2</value>
             <value description="user_name">tom</value>
-            <value description="password">123</value>
+            <value description="password">8FqJySdr6FM83DgVmK6sir5JbHxKryQy+y0XZbQ8dWI=</value>
             <value description="name">Tom</value>
             <value description="email">tom@anders.com</value>
             <value description="add_user_id">1</value>

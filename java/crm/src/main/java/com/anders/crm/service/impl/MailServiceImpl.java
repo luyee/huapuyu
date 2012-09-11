@@ -25,8 +25,8 @@ public class MailServiceImpl implements MailService {
 	@Override
 	public void getPassword(Map<String, Object> emailParams) {
 		// TODO Anders Zhu ：添加异常处理
-		mailMessage.setTo((String) emailParams.get("emailTo"));
-		mailMessage.setSubject((String) emailParams.get("subject"));
+		mailMessage.setTo((String) emailParams.get(MailService.EMAIL_TO));
+		mailMessage.setSubject((String) emailParams.get(MailService.EMAIL_SUBJECT));
 		String result = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "email_get_password.vm", emailParams);
 		mailMessage.setText(result);
 		mailSender.send(mailMessage);
