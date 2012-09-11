@@ -85,8 +85,28 @@
         <property name="filterChainDefinitions">
             <value>
                 /login.do = anon
+                /index.do = anon
+                /add.do = anon
                 /** = authc
             </value>
         </property>
     </bean>
+    
+    <bean id="rbms" class="org.springframework.context.support.ResourceBundleMessageSource"> 
+		<property name="basename" value="message"/> 
+	</bean>  
+	
+    <!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="cache" value="true" />
+		<property name="prefix" value="" />
+		<property name="suffix" value=".ftl" />
+	</bean> -->
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver"> 
+		<property name="exposeSpringMacroHelpers" value="true" /> 
+	</bean>
+	
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer"> 
+	</bean>  
 </beans>

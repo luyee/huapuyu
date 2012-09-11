@@ -14,6 +14,7 @@
         <dependency org="cglib" name="cglib" rev="latest.integration" />
         <dependency org="cglib" name="cglib-nodep" rev="latest.integration" />
         <dependency org="org.apache.struts" name="struts2-spring-plugin" rev="2.3.1.2" />
+        <dependency org="org.apache.struts" name="struts2-convention-plugin" rev="2.3.1.2" />
         <dependency org="org.apache.shiro" name="shiro-core" rev="1.2.0" />
         <dependency org="org.apache.shiro" name="shiro-web" rev="1.2.0" />
         <dependency org="org.apache.shiro" name="shiro-spring" rev="1.2.0" />
