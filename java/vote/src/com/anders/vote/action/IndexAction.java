@@ -1,5 +1,8 @@
 package com.anders.vote.action;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ExceptionMapping;
 import org.apache.struts2.convention.annotation.ExceptionMappings;
@@ -9,6 +12,11 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+
+import com.opensymphony.xwork2.ActionContext;
+
+import freemarker.ext.beans.BeansWrapper;
+import freemarker.ext.beans.ResourceBundleModel;
 
 //Namespace：指定命名空间。
 //ParentPackage：指定父包。
@@ -40,6 +48,12 @@ public class IndexAction extends BaseAction {
 		user = "index";
 		System.out.println(viewResolver.toString());
 		System.out.println(freemarkerConfig.toString());
+
+		// TODO Anders Zhu : 考虑是否用拦截器实现
+		Locale locale = ActionContext.getContext().getLocale();
+		ResourceBundle resourceBundle = ResourceBundle.getBundle("message", locale);
+		ResourceBundleModel rbm = new ResourceBundleModel(resourceBundle, new BeansWrapper());
+		ActionContext.getContext().put("rbm", rbm);
 		return SUCCESS;
 	}
 

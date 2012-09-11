@@ -1,13 +1,11 @@
 <#include "./common/doctype.ftl">
 
-<#import "./common/spring.ftl" as spring />
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
 	<#include "./common/meta.ftl">
 	<title></title>
-	<@spring.message "login.name" />
+	${rbm("login.name")}
 </head>
 
 <body>

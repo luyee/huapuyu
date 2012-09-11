@@ -62,15 +62,18 @@
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="sampleRealm"/>
+        <property name="realm" ref="voteRealm"/>
         <!--  
         <property name="sessionMode" value="native"/> 
         -->
     </bean>
 
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
-
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+	
+    <!--  
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.VoteShiroFilterFactoryBean">
+    -->
+    <bean id="shiroFilter" class="com.anders.vote.security.VoteShiroFilterFactoryBean">    
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login.jsp"/>
         <property name="successUrl" value="/index.jsp"/>
@@ -88,25 +91,12 @@
                 /index.do = anon
                 /add.do = anon
                 /** = authc
+                /remoting/** = authc, roles[b2bClient], perms["remote:invoke:lan,wan"]
             </value>
         </property>
     </bean>
     
-    <bean id="rbms" class="org.springframework.context.support.ResourceBundleMessageSource"> 
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"> 
 		<property name="basename" value="message"/> 
-	</bean>  
-	
-    <!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-		<property name="exposeSpringMacroHelpers" value="true" />
-		<property name="cache" value="true" />
-		<property name="prefix" value="" />
-		<property name="suffix" value=".ftl" />
-	</bean> -->
-	
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver"> 
-		<property name="exposeSpringMacroHelpers" value="true" /> 
-	</bean>
-	
-	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer"> 
 	</bean>  
 </beans>
