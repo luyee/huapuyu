@@ -30,14 +30,6 @@ public class UrlServiceImpl extends GenericServiceImpl<Long, Url> implements Url
 		return urlDao;
 	}
 
-	public UrlDao getUrlDao() {
-		return urlDao;
-	}
-
-	public void setUrlDao(UrlDao urlDao) {
-		this.urlDao = urlDao;
-	}
-
 	@Transactional(readOnly = true)
 	public Map<String, Set<String>> getUrlWithRoleNames() {
 		List<Url> urlList = urlDao.getUrlsFetchRoles();

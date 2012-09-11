@@ -27,7 +27,7 @@ public class SecurityController extends BaseController {
 		String error = request.getParameter("error");
 		ModelAndView modelAndView = new ModelAndView("login");
 		if (LOGIN_FAILED.equals(error)) {
-			modelAndView.addObject("errorMsg", getRbms().getMessage("login.error_msg", null, request.getLocale()));
+			modelAndView.addObject("errorMsg", getMessageSource().getMessage("login.error_msg", null, request.getLocale()));
 		}
 		return modelAndView;
 	}
@@ -82,6 +82,4 @@ public class SecurityController extends BaseController {
 
 		return modelAndView;
 	}
-	// getter and setter
-
 }

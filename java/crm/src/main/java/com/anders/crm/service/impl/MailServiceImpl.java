@@ -32,28 +32,4 @@ public class MailServiceImpl implements MailService {
 		mailSender.send(mailMessage);
 	}
 
-	public MailSender getMailSender() {
-		return mailSender;
-	}
-
-	public void setMailSender(MailSender mailSender) {
-		this.mailSender = mailSender;
-	}
-
-	public SimpleMailMessage getMailMessage() {
-		return mailMessage;
-	}
-
-	public void setMailMessage(SimpleMailMessage mailMessage) {
-		this.mailMessage = mailMessage;
-	}
-
-	public VelocityEngine getVelocityEngine() {
-		return velocityEngine;
-	}
-
-	public void setVelocityEngine(VelocityEngine velocityEngine) {
-		this.velocityEngine = velocityEngine;
-	}
-
 }

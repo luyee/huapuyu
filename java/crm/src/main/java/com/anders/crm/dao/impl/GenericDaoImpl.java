@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.hibernate.Criteria;
@@ -22,6 +20,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.metadata.ClassMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import com.anders.crm.dao.GenericDao;
@@ -43,16 +42,17 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	// super.setSessionFactory(sessionFactory);
 	// }
 
+	@Autowired
 	private SessionFactory sessionFactory;
 
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
-	@Resource(name = "sessionFactory")
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
+	// public SessionFactory getSessionFactory() {
+	// return sessionFactory;
+	// }
+	//
+	// @Resource(name = "sessionFactory")
+	// public void setSessionFactory(SessionFactory sessionFactory) {
+	// this.sessionFactory = sessionFactory;
+	// }
 
 	public Session getSession() {
 		// 必须开启事务，否则获取不到Session
@@ -120,7 +120,7 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	}
 
 	protected String getIdName() {
-		ClassMetadata meta = getSessionFactory().getClassMetadata(entityClass);
+		ClassMetadata meta = sessionFactory.getClassMetadata(entityClass);
 		return meta.getIdentifierPropertyName();
 	}
 

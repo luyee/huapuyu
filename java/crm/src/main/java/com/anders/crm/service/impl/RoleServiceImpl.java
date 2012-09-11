@@ -26,14 +26,6 @@ public class RoleServiceImpl extends GenericServiceImpl<Long, Role> implements R
 		return roleDao;
 	}
 
-	public RoleDao getRoleDao() {
-		return roleDao;
-	}
-
-	public void setRoleDao(RoleDao roleDao) {
-		this.roleDao = roleDao;
-	}
-
 	@Transactional(readOnly = true)
 	public List<Role> getRolesByUsername(String username) {
 		// Assert.hasText(username, "username is blank");

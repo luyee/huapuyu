@@ -34,3 +34,10 @@
           <property name="requestContextAttribute" value="rc"/><!--request属性引用名称-->
              <property name="layoutUrl" value="templates/layout/default.vm"/<!--指定layout文件-->
    </bean>
+   
+   1.ResourceTool问题
+   Velocity Tools中的org.apache.velocity.tools.generic.ResourceTool是用于调用国际化文件的
+   但是经过测试发现ResourceTool继承的类LocaleConfig是通过Locale.getDefault()获得locale
+   而Locale.getDefault()的意思是Gets the current value of the default locale for this instance of the Java Virtual Machine
+   所以就算修改浏览器的语言，也不能实现切换语言
+   在vm文件中使用Velocity Tools国际化的方式是$msg.index.welcome（$msg.国际化Key）

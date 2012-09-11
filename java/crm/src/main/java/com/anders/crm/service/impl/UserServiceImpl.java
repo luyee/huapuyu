@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +26,6 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 	private UserDao userDao;
 
 	@Autowired
-	private ResourceBundleMessageSource rbms;
-
-	@Autowired
 	private MailService mailService;
 
 	@Override
@@ -43,14 +39,6 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
-	}
-
-	public ResourceBundleMessageSource getRbms() {
-		return rbms;
-	}
-
-	public void setRbms(ResourceBundleMessageSource rbms) {
-		this.rbms = rbms;
 	}
 
 	@Override

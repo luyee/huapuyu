@@ -34,6 +34,7 @@
 		<property name="contentType" value="text/html;charset=UTF-8" />
 		<property name="exposeSpringMacroHelpers" value="true" /><!--是否使用spring对宏定义的支持 -->
 		<property name="exposeRequestAttributes" value="true" /><!--是否开放request属性 -->
+		<property name="exposeSessionAttributes" value="true" /><!--是否开放request属性 -->
 		<property name="requestContextAttribute" value="rc" /><!--request属性引用名称 -->
 	</bean>
 
@@ -41,7 +42,12 @@
 		<property name="resourceLoaderPath" value="/WEB-INF/" />
 		<property name="velocityProperties">
 			<props>
-				<!-- <prop key="resource.loader">file</prop> <prop key="file.resource.loader.class">org.apache.velocity.runtime.resource.loader.FileResourceLoader</prop> <prop key="file.resource.loader.path">/WEB-INF/vm/</prop> <prop key="file.resource.loader.cache">false</prop> -->
+				<!-- 
+				<prop key="resource.loader">file</prop> 
+				<prop key="file.resource.loader.class">org.apache.velocity.runtime.resource.loader.FileResourceLoader</prop> 
+				<prop key="file.resource.loader.path">/WEB-INF/</prop> 
+				<prop key="file.resource.loader.cache">false</prop> 
+				-->
 				<prop key="input.encoding">UTF-8</prop><!-- 指定模板引擎进行模板处理的编码 -->
 				<prop key="output.encoding">UTF-8</prop><!-- 指定输出流的编码 -->
 				<prop key="contentType">text/html;charset=UTF-8</prop><!-- contentType -->

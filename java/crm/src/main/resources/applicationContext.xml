@@ -67,9 +67,18 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
-	<bean id="rbms" class="org.springframework.context.support.ResourceBundleMessageSource"> 
-		<property name="basename" value="resources"/> 
+	<!-- 
+	messageSource这个ID千万不能改，否则delegatingMessageSource会获取不到ResourceBundleMessageSource
+	-->
+	<bean id="messageSource" name="resourceBundleMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource"> 
+		<property name="basename" value="resources" /> 
 	</bean>  
+	
+	<!-- 
+	其实也可以不配置DelegatingMessageSource，Spring会自己注册DelegatingMessageSource，问题是默认注册的DelegatingMessageSource，ID也是messageSource，
+	而ResourceBundleMessageSource的ID必须是messageSource，所以@Autowired时会出现两个messageSource，因此需要手工注册DelegatingMessageSource，将其ID改为delegatingMessageSource
+	-->
+	<bean id="delegatingMessageSource" class="org.springframework.context.support.DelegatingMessageSource" /> 
 	
 	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
         <property name="config">

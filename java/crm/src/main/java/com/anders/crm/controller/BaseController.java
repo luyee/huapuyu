@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,8 +14,10 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.DelegatingMessageSource;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.anders.crm.bo.User;
 import com.anders.crm.exception.SecurityCodeException;
@@ -38,8 +41,14 @@ public abstract class BaseController {
 
 	@Autowired
 	private UserService userService;
+	// TODO Anders Zhu : 了解这些注解
+	// @Autowired
+	// @Qualifier
+	// @Value
+	// @Required
+	// @Resource(type = DelegatingMessageSource.class)
 	@Autowired
-	private ResourceBundleMessageSource rbms;
+	private DelegatingMessageSource messageSource;
 	@Autowired
 	private Producer captchaProducer;
 
@@ -60,12 +69,12 @@ public abstract class BaseController {
 		Object[] resultObjects = new Object[3];
 		resultObjects[0] = fieldName;
 		resultObjects[1] = false;
-		resultObjects[2] = rbms.getMessage("ajax.error", null, request.getLocale());
+		resultObjects[2] = messageSource.getMessage("ajax.error", null, request.getLocale());
 
 		// 用户名
 		if (User.USERNAME.equalsIgnoreCase(fieldName)) {
 			boolean isExist = userService.isExistByUsername(fieldValue);
-			String alertText = isExist ? rbms.getMessage("ajax.is_exist.username", null, request.getLocale()) : rbms.getMessage("ajax.is_not_exist.username", null, request.getLocale());
+			String alertText = isExist ? messageSource.getMessage("ajax.is_exist.username", null, request.getLocale()) : messageSource.getMessage("ajax.is_not_exist.username", null, request.getLocale());
 
 			resultObjects[1] = isExist;
 			resultObjects[2] = alertText;
@@ -77,7 +86,7 @@ public abstract class BaseController {
 				throw new SecurityCodeException("securityCode is blank");
 			}
 			boolean isExist = securityCode.equals(fieldValue);
-			String alertText = isExist ? rbms.getMessage("ajax.right.security_code", null, request.getLocale()) : rbms.getMessage("ajax.wrong.security_code", null, request.getLocale());
+			String alertText = isExist ? messageSource.getMessage("ajax.right.security_code", null, request.getLocale()) : messageSource.getMessage("ajax.wrong.security_code", null, request.getLocale());
 
 			resultObjects[1] = isExist;
 			resultObjects[2] = alertText;
@@ -121,19 +130,20 @@ public abstract class BaseController {
 		}
 	}
 
-	public ResourceBundleMessageSource getRbms() {
-		return rbms;
+	public void test(HttpServletRequest request) {
+		ServletContext servletContext = request.getSession().getServletContext();
+		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+		String[] names = context.getBeanDefinitionNames();
+		for (String name : names) {
+			System.out.println(name);
+		}
 	}
 
-	public void setRbms(ResourceBundleMessageSource rbms) {
-		this.rbms = rbms;
+	public DelegatingMessageSource getMessageSource() {
+		return messageSource;
 	}
 
 	public UserService getUserService() {
 		return userService;
-	}
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
 	}
 }

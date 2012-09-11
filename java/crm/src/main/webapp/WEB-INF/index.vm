@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <h1>$msg.index.welcome</h1>
+	<h1>#springMessage("index.welcome")</h1>
 	<div>$username</div>
 	#if(!$authenticated)
 	<a href="$!securityController.login">$msg.index.login</a>
