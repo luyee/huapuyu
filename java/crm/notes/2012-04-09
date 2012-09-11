@@ -1,4 +1,0 @@
-本周基本没有进行开发，只是星期天进行了一些开发，主要内容如下：
-1.下载和配置ScrumWorks Pro免费试用版，并创建CRM和Vote两个产品的第一个Sprint，话说配置比较简单，下载后直接安装就行，只是需要修改JBoss的端口，默认是8080；
-2.完成基本的User、Role、UserGroup和Resource BO对象开发，后续需要研究下RBAC模型和Appfuse、SpringSide以及百度系统如何对权限管理进行建模；
-3.开始开发BaseDAO，需要单元测试SpringSide的BaseDAO封装，后续需要研究下Appfuse、SpringSide以及百度系统如何对DAO进行封装的；
