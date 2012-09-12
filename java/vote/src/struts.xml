@@ -22,7 +22,14 @@
     <constant name="struts.enable.DynamicMethodInvocation" value="false"/> 
     -->
 
-    <package name="default" namespace="/" extends="struts-default">
+    <package name="vote-default" namespace="/" extends="struts-default">
+        <interceptors>
+            <interceptor name="springMessageSourceInterceptor" class="com.anders.vote.interceptor.SpringMessageSourceInterceptor"></interceptor>
+        </interceptors>
+        
+        <default-interceptor-ref name="springMessageSourceInterceptor">
+        </default-interceptor-ref>
+        
         <action name="login" class="com.anders.vote.action.SecurityAction" method="login">
 			<result name="success">/index.jsp</result>
 		</action>
