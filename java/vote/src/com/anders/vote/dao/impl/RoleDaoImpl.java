@@ -14,14 +14,6 @@ public class RoleDaoImpl extends GenericDaoImpl<Long, Role> implements RoleDao {
 	@Autowired
 	private RoleMapper roleMapper;
 
-	public RoleMapper getRoleMapper() {
-		return roleMapper;
-	}
-
-	public void setRoleMapper(RoleMapper roleMapper) {
-		this.roleMapper = roleMapper;
-	}
-
 	@Override
 	public GenericMapper<Long, Role> getMapper() {
 		return roleMapper;

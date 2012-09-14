@@ -14,14 +14,6 @@ public class UserGroupDaoImpl extends GenericDaoImpl<Long, UserGroup> implements
 	@Autowired
 	private UserGroupMapper userGroupMapper;
 
-	public UserGroupMapper getUserGroupMapper() {
-		return userGroupMapper;
-	}
-
-	public void setUserGroupMapper(UserGroupMapper userGroupMapper) {
-		this.userGroupMapper = userGroupMapper;
-	}
-
 	@Override
 	public GenericMapper<Long, UserGroup> getMapper() {
 		return userGroupMapper;

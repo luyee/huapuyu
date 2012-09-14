@@ -33,6 +33,18 @@
 	<sql id="tableName" >
     	tb_url
   	</sql>
+  	
+	<sql id="tableRoleFields">
+	    role.id role_id, 
+	    role.name role_name, 
+	    role.role role_role, 
+	    role.enabled role_enabled, 
+	    role.add_user_id role_add_user_id, 
+	    role.update_user_id role_update_user_id, 
+	    role.add_time role_add_time, 
+	    role.update_time role_update_time, 
+	    role.version role_version
+	</sql>
 	
 	<select id="getById" resultMap="resultMap">
     	select * 
@@ -105,4 +117,16 @@
     	<include refid="tableName" /> 
     	where id = #{id} and version = #{version}
   	</delete>
+  	
+	<!-- 以下为自定义方法 -->
+	<select id="getAllFetchRoles" resultMap="resultMap">
+    	select url.*, <include refid="tableRoleFields" />
+    	from 
+    	<include refid="tableName" /> url, rlt_role_to_url rlt, tb_role role
+    	where 
+    	url.enabled = true and
+    	role.enabled = true and
+    	url.id = rlt.url_id and
+    	role.id = rlt.role_id and 
+  	</select>
 </mapper>

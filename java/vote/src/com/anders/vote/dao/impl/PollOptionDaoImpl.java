@@ -14,14 +14,6 @@ public class PollOptionDaoImpl extends GenericDaoImpl<Long, PollOption> implemen
 	@Autowired
 	private PollOptionMapper pollOptionMapper;
 
-	public PollOptionMapper getPollOptionMapper() {
-		return pollOptionMapper;
-	}
-
-	public void setPollOptionMapper(PollOptionMapper pollOptionMapper) {
-		this.pollOptionMapper = pollOptionMapper;
-	}
-
 	@Override
 	public GenericMapper<Long, PollOption> getMapper() {
 		return pollOptionMapper;

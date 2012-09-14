@@ -27,7 +27,7 @@ import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
-public class VoteShiroFilterFactoryBean implements FactoryBean, BeanPostProcessor {
+public class VoteShiroFilterFactoryBean implements FactoryBean<Object>, BeanPostProcessor {
 
 	private static transient final Logger log = LoggerFactory.getLogger(VoteShiroFilterFactoryBean.class);
 
@@ -117,7 +117,7 @@ public class VoteShiroFilterFactoryBean implements FactoryBean, BeanPostProcesso
 		return instance;
 	}
 
-	public Class getObjectType() {
+	public Class<SpringShiroFilter> getObjectType() {
 		return SpringShiroFilter.class;
 	}
 

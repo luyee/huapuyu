@@ -14,14 +14,6 @@ public class UserDaoImpl extends GenericDaoImpl<Long, User> implements UserDao {
 	@Autowired
 	private UserMapper userMapper;
 
-	public UserMapper getUserMapper() {
-		return userMapper;
-	}
-
-	public void setUserMapper(UserMapper userMapper) {
-		this.userMapper = userMapper;
-	}
-
 	@Override
 	public GenericMapper<Long, User> getMapper() {
 		return userMapper;

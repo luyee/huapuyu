@@ -13,10 +13,15 @@ import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.beans.ResourceBundleModel;
 
+/**
+ * 国际化资源文件绑定拦截器
+ * 
+ * @author Anders Zhu
+ * 
+ */
 public class SpringMessageSourceInterceptor extends AbstractInterceptor {
 
-	protected Logger logger = LoggerFactory
-			.getLogger(SpringMessageSourceInterceptor.class);
+	protected Logger logger = LoggerFactory.getLogger(SpringMessageSourceInterceptor.class);
 
 	private static final long serialVersionUID = -1248711503800167450L;
 
@@ -24,15 +29,12 @@ public class SpringMessageSourceInterceptor extends AbstractInterceptor {
 	public String intercept(ActionInvocation invocation) throws Exception {
 		ActionContext actionContext = invocation.getInvocationContext();
 		Locale locale = actionContext.getLocale();
-		ResourceBundle resourceBundle = ResourceBundle.getBundle("message",
-				locale);
-		ResourceBundleModel rbm = new ResourceBundleModel(resourceBundle,
-				new BeansWrapper());
+		ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", locale);
+		ResourceBundleModel rbm = new ResourceBundleModel(resourceBundle, new BeansWrapper());
 		actionContext.put("resource", rbm);
 
 		if (logger.isDebugEnabled())
-			logger.debug(invocation.getAction().getClass().getName()
-					+ " is binded");
+			logger.debug(invocation.getAction().getClass().getName() + " is binded internationalized resource file");
 
 		return invocation.invoke();
 	}
