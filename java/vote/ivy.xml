@@ -18,12 +18,10 @@
     
     <dependencies>
         <dependency org="commons-dbcp" name="commons-dbcp" rev="latest.integration" />
-        
 		<!--        
         <dependency org="org.springframework" name="spring-aspects" rev="3.1.2.RELEASE" conf="runprod->default" />
         <dependency org="org.springframework" name="spring-test" rev="3.1.2.RELEASE" conf="test->default" />
         -->
-        
 		<dependency org="org.springframework" name="spring-aspects" rev="3.1.2.RELEASE" />
         <dependency org="org.springframework" name="spring-test" rev="3.1.2.RELEASE" />
         <dependency org="org.springframework" name="spring-struts" rev="3.1.2.RELEASE">
@@ -49,9 +47,9 @@
         <dependency org="org.apache.shiro" name="shiro-spring" rev="1.2.0" />
         <dependency org="mysql" name="mysql-connector-java" rev="latest.integration" />
         <dependency org="org.slf4j" name="slf4j-log4j12" rev="latest.integration" />
+       	<!--
        	<dependency org="org.unitils" name="unitils-core" rev="latest.integration" />
         <dependency org="org.unitils" name="unitils-database" rev="latest.integration" />
-        <!--
         <dependency org="org.unitils" name="unitils-dbmaintainer" rev="latest.integration" />
         -->
         <dependency org="org.unitils" name="unitils-dbunit" rev="latest.integration" />
@@ -61,7 +59,9 @@
         <dependency org="org.unitils" name="unitils-io" rev="latest.integration" />
         -->
         <dependency org="org.unitils" name="unitils-mock" rev="latest.integration" />
+        <!--
         <dependency org="org.unitils" name="unitils-orm" rev="latest.integration" />
+        -->
         <dependency org="org.unitils" name="unitils-spring" rev="latest.integration">
         	<exclude org="org.springframework" name="spring-test" />
         </dependency>
@@ -80,6 +80,17 @@
         <exclude org="org.springframework" artifact="spring-webmvc-portlet" />
         <exclude org="javax.portlet" artifact="portlet-api" />
         <exclude org="ant" artifact="ant" />
+        <exclude org="concurrent" artifact="concurrent" />
+        <exclude org="org.hibernate" artifact="hibernate" />
+        <exclude org="org.hibernate" artifact="hibernate-entitymanager" />
+        <exclude org="org.hibernate" artifact="hibernate-validator" />
+        <exclude org="org.hibernate" artifact="hibernate-annotations" />
+        <exclude org="org.hibernate" artifact="hibernate-commons-annotations" />
+        <exclude org="jboss" artifact="javassist" />
+        <exclude org="jboss" artifact="jboss-common-core" />
+        <exclude org="org.unitils" artifact="unitils-orm" />
+        <exclude org="poi" artifact="poi" />
+        <exclude org="hsqldb" artifact="hsqldb" />
         
         <!--
         <conflict org="asm" module="asm-tree" rev="3.3.1" />

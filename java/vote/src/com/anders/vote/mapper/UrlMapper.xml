@@ -127,6 +127,6 @@
     	url.enabled = true and
     	role.enabled = true and
     	url.id = rlt.url_id and
-    	role.id = rlt.role_id and 
+    	role.id = rlt.role_id 
   	</select>
 </mapper>

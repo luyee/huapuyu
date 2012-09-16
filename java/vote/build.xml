@@ -24,8 +24,13 @@
 		</path>
 		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
 	</target>
+	
+	<target name="clear-jar" depends="install-ivy" description="清空jar">
+		<echo message="清空jar" />
+		<delete dir="${lib.dir}" />
+	</target>
 
-	<target name="download-jar" depends="install-ivy" description="下载jar">
+	<target name="download-jar" depends="clear-jar" description="下载jar">
 		<echo message="下载jar" />
 		<!-- 直接获取jar，不通过ivy.xml获取jar -->
 		<!--
@@ -39,6 +44,9 @@
 	</target>
 	
 	<target name="ivy-report" depends="download-jar" description="生成ivy报表">
-	    <ivy:report todir="./"/> 
+	    <!--  
+	    <ivy:report todir="./"/>
+	    --> 
+	    <ivy:report todir="D:/"/>
 	</target>
 </project>
