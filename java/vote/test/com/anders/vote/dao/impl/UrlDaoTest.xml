@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <tb_user 
+        id="1" 
+        user_name="zhuzhen" 
+        password="123" 
+        name="朱振" 
+        email="huapuyu@yahoo.com.cn" 
+        add_user_id="1" 
+        add_time="2012-01-01 00:00:00" />
+    
+    <tb_user 
+        id="2" 
+        user_name="tom" 
+        password="123" 
+        name="Tom" 
+        email="tom@anders.com" 
+        add_user_id="1" 
+        add_time="2012-01-01 00:00:00" />
+    
+    <tb_user_group 
+        id="1" 
+        name="管理员组" 
+        add_user_id="1" 
+        add_time="2012-01-01 00:00:00" />
+    
+    <tb_user_group 
+        id="2" 
+        name="普通用户组" 
+        add_user_id="1" 
+        add_time="2012-01-01 00:00:00" />
+    
+    <tb_role 
+        id="1" 
+        name="管理员角色" 
+        role="ROLE_ADMIN"
+        add_user_id="1" 
+        add_time="2012-01-01 00:00:00" />
+    
+    <tb_role 
+        id="2" 
+        name="普通用户角色" 
+        role="ROLE_USER"
+        add_user_id="1" 
+        add_time="2012-01-01 00:00:00" />
+    
+    <tb_url 
+        id="1" 
+        name="/test1.jsp" 
+        url="/test1.jsp"
+        add_user_id="1" 
+        add_time="2012-01-01 00:00:00" />
+    
+    <tb_url 
+        id="2" 
+        name="/test2.jsp" 
+        url="/test2.jsp"
+        add_user_id="1" 
+        add_time="2012-01-01 00:00:00" />
+    
+    <rlt_role_to_url 
+        role_id="1" 
+        url_id="1" />
+    
+    <rlt_role_to_url 
+        role_id="1" 
+        url_id="2" />
+    
+    <rlt_user_to_role 
+        user_id="1" 
+        role_id="1" />
+</dataset>
