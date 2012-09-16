@@ -25,15 +25,23 @@
         -->
         
 		<dependency org="org.springframework" name="spring-aspects" rev="3.1.2.RELEASE" />
-        <dependency org="org.springframework" name="spring-test" rev="3.1.2.RELEASE" />        
+        <dependency org="org.springframework" name="spring-test" rev="3.1.2.RELEASE" />
         <dependency org="org.springframework" name="spring-struts" rev="3.1.2.RELEASE">
         	<!-- 
         	<exclude org="struts" name="struts" />
         	-->
         </dependency>
         <dependency org="org.mybatis" name="mybatis-spring" rev="latest.integration" />
-        <dependency org="cglib" name="cglib" rev="latest.integration" />
-        <dependency org="cglib" name="cglib-nodep" rev="latest.integration" />
+        <dependency org="cglib" name="cglib" rev="latest.integration">
+        	<!--
+        	<exclude org="ant" name="ant" />
+        	-->
+        </dependency>
+        <dependency org="cglib" name="cglib-nodep" rev="latest.integration">
+        	<!--
+        	<exclude org="ant" name="ant" />
+        	-->
+        </dependency>
         <dependency org="org.apache.struts" name="struts2-spring-plugin" rev="2.3.1.2" />
         <dependency org="org.apache.struts" name="struts2-convention-plugin" rev="2.3.1.2" />
         <dependency org="org.apache.shiro" name="shiro-core" rev="1.2.0" />
@@ -41,7 +49,7 @@
         <dependency org="org.apache.shiro" name="shiro-spring" rev="1.2.0" />
         <dependency org="mysql" name="mysql-connector-java" rev="latest.integration" />
         <dependency org="org.slf4j" name="slf4j-log4j12" rev="latest.integration" />
-        <dependency org="org.unitils" name="unitils-core" rev="latest.integration" />
+       	<dependency org="org.unitils" name="unitils-core" rev="latest.integration" />
         <dependency org="org.unitils" name="unitils-database" rev="latest.integration" />
         <!--
         <dependency org="org.unitils" name="unitils-dbmaintainer" rev="latest.integration" />
@@ -68,8 +76,14 @@
         <exclude org="javax.servlet" artifact="servlet-api" />
         <exclude org="org.springframework.batch" artifact="spring-batch-core" />
         <exclude org="org.springframework.batch" artifact="spring-batch-infrastructure" />
+        <exclude org="org.testng" artifact="testng" />
+        <exclude org="org.springframework" artifact="spring-webmvc-portlet" />
+        <exclude org="javax.portlet" artifact="portlet-api" />
+        <exclude org="ant" artifact="ant" />
         
+        <!--
         <conflict org="asm" module="asm-tree" rev="3.3.1" />
         <conflict org="javassist" module="javassist" rev="3.11.0.GA" />
+        -->
     </dependencies>
 </ivy-module>
