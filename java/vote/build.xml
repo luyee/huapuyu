@@ -37,4 +37,8 @@
 		-->
 		<ivy:retrieve pattern="${lib.dir}/[artifact]-[revision](-[classifier]).[ext]" type="jar,bundle" />
 	</target>
+	
+	<target name="ivy-report" depends="download-jar" description="生成ivy报表">
+	    <ivy:report todir="./"/> 
+	</target>
 </project>
