@@ -1,10 +1,31 @@
 <ivy-module version="2.0">
-    <info organisation="org.apache" module="vote" />
+    <info organisation="com.anders" module="vote" />
+    
+    <!--
+    <configurations>
+    	<conf name="compile" description="This is this configuration that describes modules need to build our project"/>
+    	<conf name="test" extends="compile" description="This is this configuration that describes modules need to run test on our project"/>
+    	<conf name="rundev" extends="compile" description="This is this configuration that describes modules need to execute our project in a dev environement"/>
+    	<conf name="runprod"  extends="compile" description="This is this configuration that describes modules need to execute our project in a production environement"/>    	
+    </configurations>
+    -->
+    
+    <!--
+    <publications>
+      	<artifact name="vote" type="jar" conf="runprod" />
+    </publications>
+    -->
+    
     <dependencies>
         <dependency org="commons-dbcp" name="commons-dbcp" rev="latest.integration" />
         
-        <dependency org="org.springframework" name="spring-aspects" rev="3.1.2.RELEASE" />
-        <dependency org="org.springframework" name="spring-test" rev="3.1.2.RELEASE" />
+		<!--        
+        <dependency org="org.springframework" name="spring-aspects" rev="3.1.2.RELEASE" conf="runprod->default" />
+        <dependency org="org.springframework" name="spring-test" rev="3.1.2.RELEASE" conf="test->default" />
+        -->
+        
+		<dependency org="org.springframework" name="spring-aspects" rev="3.1.2.RELEASE" />
+        <dependency org="org.springframework" name="spring-test" rev="3.1.2.RELEASE" />        
         <dependency org="org.springframework" name="spring-struts" rev="3.1.2.RELEASE">
         	<!-- 
         	<exclude org="struts" name="struts" />
@@ -20,6 +41,26 @@
         <dependency org="org.apache.shiro" name="shiro-spring" rev="1.2.0" />
         <dependency org="mysql" name="mysql-connector-java" rev="latest.integration" />
         <dependency org="org.slf4j" name="slf4j-log4j12" rev="latest.integration" />
+        <dependency org="org.unitils" name="unitils-core" rev="latest.integration" />
+        <dependency org="org.unitils" name="unitils-database" rev="latest.integration" />
+        <!--
+        <dependency org="org.unitils" name="unitils-dbmaintainer" rev="latest.integration" />
+        -->
+        <dependency org="org.unitils" name="unitils-dbunit" rev="latest.integration" />
+        <dependency org="org.unitils" name="unitils-easymock" rev="latest.integration" />
+        <dependency org="org.unitils" name="unitils-inject" rev="latest.integration" />
+        <!--
+        <dependency org="org.unitils" name="unitils-io" rev="latest.integration" />
+        -->
+        <dependency org="org.unitils" name="unitils-mock" rev="latest.integration" />
+        <dependency org="org.unitils" name="unitils-orm" rev="latest.integration" />
+        <dependency org="org.unitils" name="unitils-spring" rev="latest.integration">
+        	<exclude org="org.springframework" name="spring-test" />
+        </dependency>
+        <dependency org="org.unitils" name="unitils-test" rev="latest.integration" />
+        <!--
+        <dependency org="org.unitils" name="unitils-testing" rev="latest.integration" />
+        -->
         
         <exclude org="struts" artifact="struts" />
         <exclude org="javax.servlet.jsp" artifact="jsp-api" />
@@ -27,5 +68,8 @@
         <exclude org="javax.servlet" artifact="servlet-api" />
         <exclude org="org.springframework.batch" artifact="spring-batch-core" />
         <exclude org="org.springframework.batch" artifact="spring-batch-infrastructure" />
+        
+        <conflict org="asm" module="asm-tree" rev="3.3.1" />
+        <conflict org="javassist" module="javassist" rev="3.11.0.GA" />
     </dependencies>
 </ivy-module>
