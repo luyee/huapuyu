@@ -1,6 +1,6 @@
 package com.anders.vote.dao.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,7 +10,7 @@ import com.anders.vote.dao.UrlDao;
 import com.anders.vote.mapper.GenericMapper;
 import com.anders.vote.mapper.UrlMapper;
 
-@Repository
+@Repository("urlDao")
 public class UrlDaoImpl extends GenericDaoImpl<Long, Url> implements UrlDao {
 
 	@Autowired
@@ -22,7 +22,7 @@ public class UrlDaoImpl extends GenericDaoImpl<Long, Url> implements UrlDao {
 	}
 
 	@Override
-	public List<Url> getAllFetchRoles() {
+	public Set<Url> getAllFetchRoles() {
 		return urlMapper.getAllFetchRoles();
 	}
 
