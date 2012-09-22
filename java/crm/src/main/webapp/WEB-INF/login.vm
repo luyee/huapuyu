@@ -15,7 +15,7 @@
 	<h1>$!errorMsg</h1>
 	
 	<form id="login" action="$projectContext/j_spring_security_check" method="post"> 
-		$msg.login.username$msg.common.colon<input type="text" name="j_username" id="j_spring_security_check_j_username" /><br />
+		$msg.login.user_name$msg.common.colon<input type="text" name="j_username" id="j_spring_security_check_j_username" /><br />
 		$msg.login.password$msg.common.colon<input type="password" name="j_password" id="j_spring_security_check_j_password" /><br /> 
 		<a href="javascript:document.getElementById('login').submit();" on="">$msg.login.login</a><br />
 		<a href="$!securityController.get_password">$msg.login.get_password</a>

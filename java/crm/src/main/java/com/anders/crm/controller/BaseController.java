@@ -74,7 +74,7 @@ public abstract class BaseController {
 		// 用户名
 		if (User.USERNAME.equalsIgnoreCase(fieldName)) {
 			boolean isExist = userService.isExistByUsername(fieldValue);
-			String alertText = isExist ? messageSource.getMessage("ajax.is_exist.username", null, request.getLocale()) : messageSource.getMessage("ajax.is_not_exist.username", null, request.getLocale());
+			String alertText = isExist ? messageSource.getMessage("ajax.is_exist.user_name", null, request.getLocale()) : messageSource.getMessage("ajax.is_not_exist.user_name", null, request.getLocale());
 
 			resultObjects[1] = isExist;
 			resultObjects[2] = alertText;
