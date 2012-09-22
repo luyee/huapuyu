@@ -24,14 +24,22 @@
 
     <package name="vote-default" namespace="/" extends="struts-default">
         <interceptors>
-            <interceptor name="springMessageSourceInterceptor" class="com.anders.vote.interceptor.SpringMessageSourceInterceptor"></interceptor>
+            <interceptor name="voteInterceptor" class="com.anders.vote.interceptor.VoteInterceptor"></interceptor>
+            
+            <interceptor-stack name="voteStack">
+            	<interceptor-ref name="defaultStack" />
+            	<interceptor-ref name="voteInterceptor" />
+            </interceptor-stack>
         </interceptors>
         
-        <default-interceptor-ref name="springMessageSourceInterceptor">
-        </default-interceptor-ref>
+        <default-interceptor-ref name="voteStack" />
         
         <action name="login" class="com.anders.vote.action.SecurityAction" method="login">
-			<result name="success">/index.jsp</result>
+			<result name="success" type="freemarker">/WEB-INF/login.ftl</result>
+		</action>
+		
+        <action name="loginx" class="com.anders.vote.action.SecurityAction" method="loginx">
+			<result name="success" type="freemarker">/WEB-INF/index.ftl</result>
 		</action>
     </package>
 

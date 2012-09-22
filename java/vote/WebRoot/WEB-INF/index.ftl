@@ -5,7 +5,7 @@
 <head>
 	<#include "./common/meta.ftl">
 	<title></title>
-	${resource("login.name")}
+	${res("login.name")}
 </head>
 
 <body>

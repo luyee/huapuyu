@@ -5,39 +5,41 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authc.credential.Sha256CredentialsMatcher;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.anders.vote.bo.User;
+import com.anders.vote.service.UserService;
 
 @Component
 public class VoteRealm extends AuthorizingRealm {
 
-	// protected UserDAO userDAO = null;
+	@Autowired
+	private UserService userService;
 
 	public VoteRealm() {
-		setName("VoteRealm"); // This name must match the name in the User class's getPrincipals() method
-		setCredentialsMatcher(new Sha256CredentialsMatcher());
+		setName("VoteRealm");
+		setCredentialsMatcher(new HashedCredentialsMatcher(Sha256Hash.ALGORITHM_NAME));
 	}
-
-	// @Autowired
-	// public void setUserDAO(UserDAO userDAO) {
-	// this.userDAO = userDAO;
-	// }
 
 	/**
 	 * 认证信息
 	 */
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-		// User user = userDAO.findUser(token.getUsername());
-		// if( user != null ) {
-		return new SimpleAuthenticationInfo("zhuzhen", "123456", getName());
-		// } else {
-		// return null;
-		// }
+		User user = userService.getByUserName(token.getUsername());
+		if (user != null) {
+			return new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), getName());
+		}
+		else {
+			return null;
+		}
 	}
 
 	/**

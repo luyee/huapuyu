@@ -1,10 +1,13 @@
 package com.anders.vote.security;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.Filter;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.config.Ini;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.CollectionUtils;
@@ -25,7 +28,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+
+import com.anders.vote.service.UrlService;
 
 public class VoteShiroFilterFactoryBean implements FactoryBean<Object>, BeanPostProcessor {
 
@@ -42,6 +48,9 @@ public class VoteShiroFilterFactoryBean implements FactoryBean<Object>, BeanPost
 	private String unauthorizedUrl;
 
 	private AbstractShiroFilter instance;
+
+	@Autowired
+	private UrlService urlService;
 
 	public VoteShiroFilterFactoryBean() {
 		this.filters = new LinkedHashMap<String, Filter>();
@@ -105,7 +114,24 @@ public class VoteShiroFilterFactoryBean implements FactoryBean<Object>, BeanPost
 			section = ini.getSection(Ini.DEFAULT_SECTION_NAME);
 		}
 
-		section.put("/error.do", "authc, roles[guest]");
+		Map<String, Set<String>> urlMap = urlService.getUrlWithRoleNames();
+		if (MapUtils.isNotEmpty(urlMap)) {
+			for (Iterator<String> iterator = urlMap.keySet().iterator(); iterator.hasNext();) {
+				String url = iterator.next();
+				String roles = StringUtils.EMPTY_STRING;
+				if (CollectionUtils.isEmpty(urlMap.get(url))) {
+					section.put(url, "authc");
+				}
+				else {
+					for (String role : urlMap.get(url)) {
+						roles += role + ",";
+					}
+					roles = roles.substring(0, roles.length() - 1);
+					section.put(url, String.format("authc, roles[%s]", roles));
+				}
+			}
+
+		}
 
 		setFilterChainDefinitionMap(section);
 	}
