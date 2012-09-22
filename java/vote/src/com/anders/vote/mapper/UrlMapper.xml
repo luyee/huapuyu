@@ -119,6 +119,7 @@
   	</delete>
   	
 	<!-- 以下为自定义方法 -->
+	
 	<select id="getAllFetchRoles" resultMap="resultMap">
     	select url.*, <include refid="tableRoleFields" />
     	from 

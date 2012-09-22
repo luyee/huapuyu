@@ -121,4 +121,13 @@
     	<include refid="tableName" /> 
     	where id = #{id} and version = #{version}
   	</delete>
+  	
+	<!-- 以下为自定义方法 -->
+	
+	<select id="getByUserName" resultMap="resultMap">
+    	select * 
+    	from 
+    	<include refid="tableName" /> 
+    	where user_name = #{userName} and enabled = true 
+  	</select>
 </mapper>
