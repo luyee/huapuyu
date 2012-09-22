@@ -19,4 +19,9 @@ public class UserDaoImpl extends GenericDaoImpl<Long, User> implements UserDao {
 		return userMapper;
 	}
 
+	@Override
+	public User getByUserName(String userName) {
+		return userMapper.getByUserName(userName);
+	}
+
 }
