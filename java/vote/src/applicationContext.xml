@@ -75,9 +75,9 @@
     -->
     <bean id="shiroFilter" class="com.anders.vote.security.VoteShiroFilterFactoryBean">    
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/login.jsp"/>
-        <property name="successUrl" value="/index.jsp"/>
-        <property name="unauthorizedUrl" value="/login.jsp"/>
+        <property name="loginUrl" value="/login.do"/>
+        <property name="successUrl" value="/index.do"/>
+        <property name="unauthorizedUrl" value="/login.do?error=1"/>
         <property name="filters">
             <util:map>
                 <entry key="authc">
@@ -88,6 +88,7 @@
         <property name="filterChainDefinitions">
             <value>
                 /login.do = anon
+                /loginx.do = anon
                 /index.do = anon
                 /add.do = anon
                 /** = authc
