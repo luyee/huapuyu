@@ -46,7 +46,7 @@ public class UrlServiceImpl extends GenericServiceImpl<Long, Url> implements Url
 
 			Set<String> roleSet = new HashSet<String>();
 			for (Role role : url.getRoles()) {
-				roleSet.add(role.getName());
+				roleSet.add(role.getRole());
 			}
 			resultMap.put(url.getUrl(), roleSet);
 		}
