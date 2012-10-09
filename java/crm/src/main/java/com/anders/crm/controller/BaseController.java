@@ -130,6 +130,7 @@ public abstract class BaseController {
 		}
 	}
 
+	// TODO Anders Zhu : 测试方法，需要删除
 	public void test(HttpServletRequest request) {
 		ServletContext servletContext = request.getSession().getServletContext();
 		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(servletContext);
