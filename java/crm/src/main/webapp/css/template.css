@@ -81,6 +81,35 @@ form.formular {
 	cursor: pointer;
 }
 
+.formular .a {
+	/* display: block;  */ 
+	margin-bottom: 5px;
+	/* border: 1px solid #AAA; */
+	padding: 4px;
+	margin-top: 20px;
+	/* margin-left: 4px; */
+	float: left;
+	text-decoration: none;
+	cursor: pointer;
+	color: #000;
+}
+
+/* .formular .a:link {   
+	text-decoration: none;   
+} */
+	 
+/* .formular .a:visited {   
+	text-decoration: none;   
+} */
+
+.formular .a:hover {   
+	text-decoration: underline;
+}
+
+/* .formular .a:active {   
+	text-decoration: none;   
+} */
+
 .formular hr {
 	clear: both;
 	visibility: hidden;
