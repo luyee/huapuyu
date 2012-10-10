@@ -7,4 +7,6 @@ package com.anders.crm.utils;
  * 
  */
 public interface Constant {
+	// TODO Anders Zhu ： 此处改为admin
+	public static final String ADMINISTRATOR_USERNAME = "zhuzhen";
 }

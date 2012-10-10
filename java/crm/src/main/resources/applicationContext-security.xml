@@ -94,19 +94,24 @@
 	-->
 	
 	<http use-expressions="true" auto-config="true">
-		<intercept-url pattern="/get_security_code.do" access="permitAll" />
-		<intercept-url pattern="/ajaxIsExist.do" access="permitAll" />
-		
 		<intercept-url pattern="/css/**" access="permitAll" />
 		<intercept-url pattern="/js/**" access="permitAll" />
 		<intercept-url pattern="/images/**" access="permitAll" />
+		<intercept-url pattern="/favicon.ico" access="permitAll" />
+		
 		<intercept-url pattern="/index.do" access="permitAll" />
 		<intercept-url pattern="/login.do" access="permitAll" />
 		<intercept-url pattern="/get_password.do" access="permitAll" />
 		<intercept-url pattern="/logout.do" access="permitAll" />
 		<intercept-url pattern="/register.do" access="permitAll" />
-		<intercept-url pattern="/favicon.ico" access="permitAll" />
+		<intercept-url pattern="/register_individual.do" access="permitAll" />
+		<intercept-url pattern="/register_enterprise.do" access="permitAll" />
+		
+		<intercept-url pattern="/get_security_code.do" access="permitAll" />
+		<intercept-url pattern="/ajaxIsExist.do" access="permitAll" />
+		
 		<intercept-url pattern="/error.jsp" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+		
 		<form-login login-page="/login.do" default-target-url="/index.do" authentication-failure-url="/login.do?error=1" />
 	</http>
 </beans:beans>

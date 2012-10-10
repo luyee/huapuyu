@@ -33,7 +33,7 @@ public class User extends BaseBO {
 	public static final String USERNAME = "username";
 
 	/**
-	 * 账号
+	 * 账户名
 	 */
 	@Column(name = "user_name", nullable = false, length = 50, unique = true)
 	@SearchableProperty

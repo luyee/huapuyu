@@ -15,6 +15,7 @@ import com.anders.crm.dao.GenericDao;
 import com.anders.crm.dao.UserDao;
 import com.anders.crm.service.MailService;
 import com.anders.crm.service.UserService;
+import com.anders.crm.utils.Constant;
 import com.anders.crm.utils.SecurityUtil;
 
 //@Service("userService")
@@ -35,10 +36,6 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 
 	public UserDao getUserDao() {
 		return userDao;
-	}
-
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
 	}
 
 	@Override
@@ -73,7 +70,7 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 
 		user.setPassword(SecurityUtil.getSha256Password(SecurityUtil.getRandomPassword(), username));
 		user.setUpdateTime(new Date());
-		user.setUpdateUser(getUserByUsername("zhuzhen"));
+		user.setUpdateUser(getUserByUsername(Constant.ADMINISTRATOR_USERNAME));
 		getDao().update(user);
 
 		Map<String, Object> emailParams = new HashMap<String, Object>();
@@ -90,14 +87,6 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 		}
 
 		return userDao.isExistByUsername(username);
-	}
-
-	public MailService getMailService() {
-		return mailService;
-	}
-
-	public void setMailService(MailService mailService) {
-		this.mailService = mailService;
 	}
 
 }

@@ -26,9 +26,9 @@ public class SecurityUtil {
 	}
 
 	/**
-	 * 获取用户账号
+	 * 获取账户名
 	 * 
-	 * @return 用户账号
+	 * @return 账户名
 	 */
 	public static String getUsername() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -49,17 +49,26 @@ public class SecurityUtil {
 	}
 
 	/**
-	 * 根据用户账号和明文密码生成加密密码
+	 * 根据账户名和明文密码生成加密密码
 	 * 
 	 * @param password
 	 *            明文密码
 	 * @param username
-	 *            用户账号
+	 *            账户名
 	 * @return 加密密码
 	 */
 	public static String getSha256Password(String password, String username) {
 		ShaPasswordEncoder sha = new ShaPasswordEncoder(256);
 		sha.setEncodeHashAsBase64(true);
 		return sha.encodePassword(password, username);
+	}
+
+	/**
+	 * 用于生成加密密码
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		System.out.println(getSha256Password("123456", Constant.ADMINISTRATOR_USERNAME));
 	}
 }
