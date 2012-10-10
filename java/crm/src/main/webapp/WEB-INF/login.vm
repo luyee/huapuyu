@@ -9,16 +9,36 @@
 	#parse("/common/meta.vm")
 	<title>$titlePrefix$msg.login.title</title>
 	#parse("/common/css.vm")
+	<script type="text/javascript" src="$jQueryPath"></script>
+	#parse("/common/validation.vm")
+	<script >
+		jQuery(document).ready(function(){
+			jQuery("#login").validationEngine();
+		});
+	</script>
 </head>
 
 <body>
-	<h1>$!errorMsg</h1>
-	
-	<form id="login" action="$projectContext/j_spring_security_check" method="post"> 
-		$msg.login.user_name$msg.common.colon<input type="text" name="j_username" id="j_spring_security_check_j_username" /><br />
-		$msg.login.password$msg.common.colon<input type="password" name="j_password" id="j_spring_security_check_j_password" /><br /> 
-		<a href="javascript:document.getElementById('login').submit();" on="">$msg.login.login</a><br />
-		<a href="$!securityController.get_password">$msg.login.get_password</a>
+	<form id="login" class="formular" action="$projectContext/j_spring_security_check" method="post">
+		<fieldset>
+			<legend>
+				$msg.login.title
+			</legend>
+			<label>
+                <span>$msg.login.user_name$msg.common.colon</span>
+				<input class="validate[required,minSize[6],custom[onlyLetterNumber]] text-input" maxlength="20" type="text" name="j_username" id="j_spring_security_check_j_username" />
+            </label>
+			<label>
+                <span>$msg.login.password$msg.common.colon</span>
+				<input class="validate[required,minSize[6]] text-input" maxlength="20" type="password" name="j_password" id="j_spring_security_check_j_password" />
+            </label>
+			<label>
+                <span>$!errorMsg</span>
+            </label>
+		</fieldset>
+		<a class="a" href="$!securityController.get_password">$msg.login.get_password</a>
+		<input class="submit" type="submit" value="$msg.login.login"/>
+		<hr />
 	</form>
 </body>
 

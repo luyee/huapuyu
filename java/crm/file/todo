@@ -1,6 +1,6 @@
-1.用户密码加密，不显示明文
-2.javascript表单验证
-3.验证码
+1.用户密码加密，不显示明文 done
+2.javascript表单验证 done 不过有个小问题，每个输入框有几个验证规则，能否只触发其中一个？
+3.验证码 done
 
 <link rel="stylesheet" type="text/css" href="$extRoot/resources/css/ext-all.css" />
  	<script type="text/javascript" src="$extRoot/adapter/ext/ext-base.js"></script>
