@@ -10,19 +10,19 @@
         <column>add_time</column> 
         <row>
             <value description="id">1</value>
-            <value description="user_name">zhuzhen</value>
-            <value description="password">MVCtTlrQuYy9gaAW2R7u+qPMXrqXdWqo5sfuTGEP6Fg=</value>
-            <value description="name">朱振</value>
-            <value description="email">huapuyu@yahoo.com.cn</value>
+            <value description="user_name">admini</value>
+            <value description="password">zl1mSoiwFioGyoqQ+d96T/i78TcuwA0KbSNnrRdGQ7Y=</value>
+            <value description="name">系统管理员</value>
+            <value description="email">hanghangcrm@yahoo.com.cn</value>
             <value description="add_user_id">1</value>
             <value description="add_time">2012-01-01 00:00:00</value>
         </row>
         <row>
             <value description="id">2</value>
-            <value description="user_name">tom</value>
-            <value description="password">8FqJySdr6FM83DgVmK6sir5JbHxKryQy+y0XZbQ8dWI=</value>
-            <value description="name">Tom</value>
-            <value description="email">tom@anders.com</value>
+            <value description="user_name">zhuzhen</value>
+            <value description="password">MVCtTlrQuYy9gaAW2R7u+qPMXrqXdWqo5sfuTGEP6Fg=</value>
+            <value description="name">朱振</value>
+            <value description="email">huapuyu@yahoo.com.cn</value>
             <value description="add_user_id">1</value>
             <value description="add_time">2012-01-01 00:00:00</value>
         </row>
@@ -35,13 +35,13 @@
         <column>add_time</column>
         <row>
             <value description="id">1</value>
-            <value description="name">管理员组</value>
+            <value description="name">系统管理员组</value>
             <value description="add_user_id">1</value>
             <value description="add_time">2012-01-01 00:00:00</value>
         </row>
         <row>
             <value description="id">2</value>
-            <value description="name">普通用户组</value>
+            <value description="name">个人用户组</value>
             <value description="add_user_id">1</value>
             <value description="add_time">2012-01-01 00:00:00</value>
         </row>
@@ -55,14 +55,14 @@
         <column>add_time</column>
         <row>
             <value description="id">1</value>
-            <value description="name">管理员角色</value>
+            <value description="name">系统管理员角色</value>
             <value description="role">ROLE_ADMIN</value>
             <value description="add_user_id">1</value>
             <value description="add_time">2012-01-01 00:00:00</value>
         </row>
         <row>
             <value description="id">2</value>
-            <value description="name">普通用户角色</value>
+            <value description="name">个人用户角色</value>
             <value description="role">ROLE_USER</value>
             <value description="add_user_id">1</value>
             <value description="add_time">2012-01-01 00:00:00</value>

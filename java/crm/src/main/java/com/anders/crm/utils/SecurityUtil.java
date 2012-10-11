@@ -1,5 +1,7 @@
 package com.anders.crm.utils;
 
+import java.util.Random;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
@@ -43,9 +45,18 @@ public class SecurityUtil {
 		}
 	}
 
+	/**
+	 * 获取随机明文密码
+	 * 
+	 * @return 随机明文密码
+	 */
 	public static String getRandomPassword() {
-		// TODO Anders Zhu : 随机生成6位密码，而不是用123456静态密码
-		return "123456";
+		Random rand = new Random();
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i <= 5; i++) {
+			sb.append(Constant.PASSWORD_CHARS[rand.nextInt(Constant.PASSWORD_CHARS.length)]);
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -70,5 +81,7 @@ public class SecurityUtil {
 	 */
 	public static void main(String[] args) {
 		System.out.println(getSha256Password("123456", Constant.ADMINISTRATOR_USERNAME));
+		System.out.println(getSha256Password("123456", "zhuzhen"));
+		System.out.println(getRandomPassword());
 	}
 }

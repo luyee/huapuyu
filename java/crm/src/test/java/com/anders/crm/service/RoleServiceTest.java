@@ -20,7 +20,6 @@ public class RoleServiceTest {
 		Assert.assertEquals(0, roleService.getRolesByUsername("").size());
 		Assert.assertEquals(0, roleService.getRolesByUsername(" ").size());
 		Assert.assertEquals(0, roleService.getRolesByUsername(null).size());
-		// TODO Anders Zhu
 		roleService.getRolesByUsername("zhuzhen");
 		List<String> tttt = roleService.getRoleNames();
 		for (String ttt : tttt)

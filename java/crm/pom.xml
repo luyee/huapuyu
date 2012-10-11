@@ -73,7 +73,13 @@
 					<driver>${jdbc.driverClassName}</driver>
 					<username>${jdbc.username}</username>
 					<password>${jdbc.password}</password>
-					<url>${jdbc.url}</url>
+					<!--  
+					原来是通过下面的配置直接调用jdbc.url，但是发现dbunit导入初始化数据中文都是乱码，因此只能在这边写死连接串，可能是转换&amp;发生了问题
+					-->
+					<!-- 
+					<url>${jdbc.url}</url> 
+					-->
+					<url>jdbc:mysql://localhost/${db.name}?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</url> 
 					<src>${dbunit.initData.src}</src>
 					<type>${dbunit.operation.type}</type>
 					<!-- <schema>${dbunit.schema}</schema> -->

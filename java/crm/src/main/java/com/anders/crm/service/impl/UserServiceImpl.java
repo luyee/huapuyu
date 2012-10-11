@@ -68,7 +68,9 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 			throw new UsernameNotFoundException(String.format("%s is not exist", username));
 		}
 
-		user.setPassword(SecurityUtil.getSha256Password(SecurityUtil.getRandomPassword(), username));
+		String randPassword = SecurityUtil.getRandomPassword();
+
+		user.setPassword(SecurityUtil.getSha256Password(randPassword, username));
 		user.setUpdateTime(new Date());
 		user.setUpdateUser(getUserByUsername(Constant.ADMINISTRATOR_USERNAME));
 		getDao().update(user);
@@ -76,7 +78,7 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 		Map<String, Object> emailParams = new HashMap<String, Object>();
 		emailParams.put(MailService.EMAIL_TO, user.getEmail());
 		emailParams.put(MailService.EMAIL_SUBJECT, "[夯夯CRM]找回密码");
-		emailParams.put("title", "hello world");
+		emailParams.put("password", randPassword);
 		mailService.getPassword(emailParams);
 	}
 

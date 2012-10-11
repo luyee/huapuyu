@@ -72,7 +72,6 @@ public class FilterInvocationSecurityMetadataSourceImpl extends DefaultFilterInv
 	//
 	// // FilterInvocation: URL: /xxx/login.jsp
 	// String url = ((FilterInvocation) object).getRequestUrl();
-	// // TODO Anders Zhu : 添加url格式验证
 	// if (StringUtils.isBlank(url)) {
 	// logger.warn("url is blank");
 	// return new ArrayList<ConfigAttribute>();
@@ -81,7 +80,6 @@ public class FilterInvocationSecurityMetadataSourceImpl extends DefaultFilterInv
 	// // Iterator<String> it = resourceMap.keySet().iterator();
 	// // while (it.hasNext()) {
 	// // String resUrl = it.next();
-	// // // TODO Anders Zhu : 修改
 	// // if (urlMatcher.pathMatchesUrl(url, resUrl)) {
 	// // return resourceMap.get(resUrl);
 	// // }

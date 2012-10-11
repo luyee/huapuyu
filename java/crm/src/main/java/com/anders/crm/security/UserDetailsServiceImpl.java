@@ -33,7 +33,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private RoleService roleService;
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO 测试是否返回null
 		User user = userService.getUserByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException(username + " is not exist");

@@ -25,6 +25,11 @@ public class MailServiceImpl implements MailService {
 	@Override
 	public void getPassword(Map<String, Object> emailParams) {
 		// TODO Anders Zhu ：添加异常处理
+		// org.springframework.mail.MailSendException: Failed messages: com.sun.mail.smtp.SMTPSendFailedException: 553 From address not verified - see http://help.yahoo.com/l/us/yahoo/mail/original/manage/sendfrom-07.html|; message exceptions (1) are:|Failed message 1: com.sun.mail.smtp.SMTPSendFailedException: 553 From address not verified - see http://help.yahoo.com/l/us/yahoo/mail/original/manage/sendfrom-07.html|
+		// at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:440)
+		// at org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:306)
+		// at org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:296)
+		// at com.anders.crm.service.impl.MailServiceImpl.getPassword(MailServiceImpl.java:32)
 		mailMessage.setTo((String) emailParams.get(MailService.EMAIL_TO));
 		mailMessage.setSubject((String) emailParams.get(MailService.EMAIL_SUBJECT));
 		String result = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "email_get_password.vm", emailParams);
