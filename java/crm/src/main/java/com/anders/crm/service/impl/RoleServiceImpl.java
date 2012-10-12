@@ -33,7 +33,7 @@ public class RoleServiceImpl extends GenericServiceImpl<Long, Role> implements R
 			logger.warn("username is blank");
 			return new ArrayList<Role>(0);
 		}
-		// TODO Anders Zhu 需要考虑user禁用或锁定等情况
+		// TODO Anders Zhu ： 移动到dao中，需要考虑user禁用或锁定等情况
 		return getDao().find("select role from Role role inner join role.users user where role.id = user.id and role.enabled = true and user.enabled = true and user.username = ?", username);
 	}
 
