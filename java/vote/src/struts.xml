@@ -39,7 +39,12 @@
 		</action>
 		
         <action name="loginx" class="com.anders.vote.action.SecurityAction" method="loginx">
+            <!-- <exception-mapping result="error" exception="org.apache.shiro.authc.IncorrectCredentialsException" /> -->
 			<result name="success" type="freemarker">/WEB-INF/index.ftl</result>
+			<result name="error" type="redirectAction">
+			    <param name="actionName">login</param>
+			    <param name="error">1</param>
+			</result>
 		</action>
     </package>
 

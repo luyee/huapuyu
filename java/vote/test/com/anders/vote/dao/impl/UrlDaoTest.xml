@@ -2,25 +2,25 @@
 <dataset>
     <tb_user 
         id="1" 
-        user_name="zhuzhen" 
-        password="123" 
-        name="朱振" 
-        email="huapuyu@yahoo.com.cn" 
+        user_name="admini" 
+        password="123456" 
+        name="系统管理员" 
+        email="hhvote@yahoo.com.cn" 
         add_user_id="1" 
         add_time="2012-01-01 00:00:00" />
     
     <tb_user 
         id="2" 
-        user_name="tom" 
-        password="123" 
-        name="Tom" 
-        email="tom@anders.com" 
+        user_name="zhuzhen" 
+        password="123456" 
+        name="朱振" 
+        email="huapuyu@yahoo.com.cn" 
         add_user_id="1" 
         add_time="2012-01-01 00:00:00" />
     
     <tb_user_group 
         id="1" 
-        name="管理员组" 
+        name="系统管理员组" 
         add_user_id="1" 
         add_time="2012-01-01 00:00:00" />
     
@@ -32,7 +32,7 @@
     
     <tb_role 
         id="1" 
-        name="管理员角色" 
+        name="系统管理员角色" 
         role="ROLE_ADMIN"
         add_user_id="1" 
         add_time="2012-01-01 00:00:00" />

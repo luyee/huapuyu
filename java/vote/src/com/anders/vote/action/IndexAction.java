@@ -22,9 +22,7 @@ import org.apache.struts2.convention.annotation.Results;
 
 @ParentPackage("vote-default")
 @Namespace("/")
-@Results({
-		@Result(name = "success", type = "freemarker", location = "/WEB-INF/index.ftl"),
-		@Result(name = "error", location = "/error.jsp") })
+@Results({ @Result(name = "success", type = "freemarker", location = "/WEB-INF/index.ftl"), @Result(name = "error", location = "/error.jsp") })
 @ExceptionMappings({ @ExceptionMapping(exception = "java.lange.RuntimeException", result = "error") })
 public class IndexAction extends BaseAction {
 

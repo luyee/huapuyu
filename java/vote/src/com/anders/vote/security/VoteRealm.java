@@ -8,9 +8,13 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.crypto.hash.Hash;
 import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
+import org.apache.shiro.util.SimpleByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,17 +29,20 @@ public class VoteRealm extends AuthorizingRealm {
 
 	public VoteRealm() {
 		setName("VoteRealm");
-		setCredentialsMatcher(new HashedCredentialsMatcher(Sha256Hash.ALGORITHM_NAME));
+		HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher(Sha256Hash.ALGORITHM_NAME);
+		// credentialsMatcher.setHashIterations(DefaultPasswordService.DEFAULT_HASH_ITERATIONS);
+		setCredentialsMatcher(credentialsMatcher);
 	}
 
 	/**
 	 * 认证信息
 	 */
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
+
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		User user = userService.getByUserName(token.getUsername());
 		if (user != null) {
-			return new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), getName());
+			return new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), new SimpleByteSource(user.getUserName().toCharArray()), getName());
 		}
 		else {
 			return null;
@@ -61,4 +68,10 @@ public class VoteRealm extends AuthorizingRealm {
 		// }
 	}
 
+	public static void main(String[] args) {
+		ByteSource byteSource = new SimpleByteSource("zhuzhen".toCharArray());
+		System.out.println(byteSource);
+		Hash hash = new SimpleHash(Sha256Hash.ALGORITHM_NAME, "123456", byteSource, 1);
+		System.out.println(hash);
+	}
 }
