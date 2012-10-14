@@ -132,4 +132,18 @@
     	<include refid="tableName" /> 
     	where id = #{id} and version = #{version}
   	</delete>
+  	
+	<!-- 以下为自定义方法 -->
+	
+	<select id="getRolesByUserName" resultType="String">
+	    select role.role
+    	from 
+    	<include refid="tableName" /> role, rlt_user_to_role rlt, tb_user user
+    	where 
+    	user.id = rlt.user_id and 
+    	role.id = rlt.role_id and 
+    	user.user_name = #{userName} and  
+    	user.enabled = true and 
+    	role.enabled = true 
+  	</select>
 </mapper>

@@ -68,7 +68,7 @@ DROP TABLE IF EXISTS tb_user;
 CREATE TABLE tb_user (
   id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键', 
   user_name varchar(50) NOT NULL COMMENT '账号',
-  password varchar(50) NOT NULL COMMENT '密码',
+  password varchar(200) NOT NULL COMMENT '密码',
   name varchar(50) NOT NULL COMMENT '姓名',
   email varchar(50) NOT NULL COMMENT '邮箱',
   enabled bit(1) NOT NULL DEFAULT TRUE COMMENT '启用（1或true：启用；0或false：禁用）',

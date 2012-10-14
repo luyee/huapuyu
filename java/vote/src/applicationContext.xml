@@ -83,13 +83,16 @@
                 <entry key="authc">
                     <bean class="org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter"/>
                 </entry>
+                <entry key="authz">
+                    <bean class="org.apache.shiro.web.filter.authz.RolesAuthorizationFilter"/>
+                </entry>
             </util:map>
         </property>
         <property name="filterChainDefinitions">
             <value>
                 /login.do = anon
                 /loginx.do = anon
-                /index.do = anon
+                /index.do = authz, roles[ROLE_ADMIN]
                 /add.do = anon
                 /** = authc
                 /remoting/** = authc, roles[b2bClient], perms["remote:invoke:lan,wan"]
