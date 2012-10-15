@@ -7,18 +7,27 @@ import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.anders.ssh.model.xml.Data;
 
+/**
+ * 特别注意，如果继承AbstractTransactionalJUnit4SpringContextTests，数据库操作会自动回滚，如果不想回滚，加上@Rollback(false)
+ * 
+ * @author Anders
+ * 
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })
-public class DataDaoImplTest {
+@ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" }, inheritLocations = true)
+public class DataDaoImplTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@Resource(name = "hDataDao")
 	private IDataDao dataDao;
 
 	@Test
+	@Rollback(false)
 	public void testDataAdd() {
 		Data data = new Data();
 		data.setId(1L);
