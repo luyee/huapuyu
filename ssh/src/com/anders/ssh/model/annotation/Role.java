@@ -24,6 +24,8 @@ import org.springframework.security.core.GrantedAuthority;
  */
 @Entity
 @Table(name = "tb_role")
+// TODO Anders Zhu : may be delete comments
+// @NamedQueries({ @NamedQuery(name = "findRoleByName", query = "select r from Role r where r.name = :name ") })
 public class Role implements GrantedAuthority {
 
 	private static final long serialVersionUID = -2204007491091024923L;
