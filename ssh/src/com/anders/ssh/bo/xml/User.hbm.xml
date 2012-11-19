@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.anders.ssh.model.xml">
+
+	<class name="User" table="tb_user">
+		<id name="id" column="id">
+			<generator class="native"/>
+		</id>
+
+		<property name="name" column="name" type="string" not-null="true" length="50"/>
+		<property name="userName" column="user_name" type="string" not-null="true" length="50" unique="true"/>
+		<property name="pwd" column="pwd" type="string" not-null="true" length="50"/>
+		<property name="enable" column="enable" type="boolean" not-null="true"/>
+		<set name="roles" table="rlt_user_to_role" lazy="false">  
+        	<key column="user_id"/>  
+        	<many-to-many class="Role" column="role_id"/>  
+    	</set> 
+    	<set name="userGroups" table="rlt_user_to_user_group" lazy="false">  
+        	<key column="user_id"/>  
+        	<many-to-many class="UserGroup" column="user_group_id"/>  
+    	</set>
+    	<set name="resources" table="rlt_user_to_resource" lazy="false">  
+        	<key column="user_id"/>  
+        	<many-to-many class="Resource" column="resource_id"/>  
+    	</set>
+	</class>
+
+</hibernate-mapping>
