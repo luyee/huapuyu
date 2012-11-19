@@ -6,5 +6,6 @@ import java.util.Set;
 import com.anders.vote.bo.Url;
 
 public interface UrlService extends GenericService<Long, Url> {
+
 	Map<String, Set<String>> getUrlWithRoleNames();
 }
