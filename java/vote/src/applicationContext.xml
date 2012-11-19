@@ -95,6 +95,7 @@
                 /index.do = authz, roles[ROLE_ADMIN]
                 /add.do = anon
                 /** = authc
+                /*.jsp = authz, roles[ROLE_ADMIN]
                 /remoting/** = authc, roles[b2bClient], perms["remote:invoke:lan,wan"]
             </value>
         </property>
