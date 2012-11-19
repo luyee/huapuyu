@@ -10,7 +10,7 @@ public class SecurityAction extends BaseAction /* implements ModelDriven<UserVO>
 
 	private static final long serialVersionUID = -3013656302209804787L;
 
-	private UserVO userVO = new UserVO();
+	private UserVO userVO;
 	private String userName;
 	private String password;
 

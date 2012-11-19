@@ -8,17 +8,17 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 
-//Namespace：指定命名空间。
-//ParentPackage：指定父包。
-//Result：提供了Action结果的映射。（一个结果的映射）
-//Results：Result注解列表
-//ResultPath：指定结果页面的基路径。
-//Action：指定Action的访问URL。
-//Actions：Action注解列表。
-//ExceptionMapping：指定异常映射。（映射一个声明异常）
-//ExceptionMappings：一级声明异常的数组。
-//InterceptorRef：拦截器引用。
-//InterceptorRefs：拦截器引用组。
+//Namespace			：指定命名空间。
+//ParentPackage		：指定父包。
+//Result			：提供了Action结果的映射。（一个结果的映射）
+//Results			：Result注解列表
+//ResultPath		：指定结果页面的基路径。
+//Action			：指定Action的访问URL。
+//Actions			：Action注解列表。
+//ExceptionMapping	：指定异常映射。（映射一个声明异常）
+//ExceptionMappings	：一级声明异常的数组。
+//InterceptorRef	：拦截器引用。
+//InterceptorRefs	：拦截器引用组。
 
 @ParentPackage("vote-default")
 @Namespace("/")
