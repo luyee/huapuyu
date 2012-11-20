@@ -1,6 +1,0 @@
-1.
-类别：PowerDesigner
-
-问题：如何根据sql文件或数据库生成pdm？
-
-解决：File --> Reverse Engineer --> Database --> 弹出New Physical Data Model窗体（图2009-02-25-01.png），Model name中填写pdm名，DBMS中选择相应数据库，点击确定 --> 弹出Database Reverse Engineering Options窗体，如果选择Using script files（图2009-02-25-02.png），再选择要导入的sql文件，点击确定就可以根据sql文件生成pdm；如果选择Using a data source（图2009-02-25-03.png），先要配置数据库连接源，单击Connect to a Data Source按钮（图2009-02-25-04.png）打开Connect to a Data Source窗体（图2009-02-25-05.png），配置一个数据库连接源，单击Connect，返回Database Reverse Engineering Options窗体，点击确定，弹出Database Reverse Engineering窗体（图2009-02-25-06.png），然后选择要导入的表，点击OK就可以根据数据库生成pdm。

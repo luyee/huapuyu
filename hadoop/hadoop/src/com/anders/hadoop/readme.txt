@@ -1,1 +1,0 @@
-请复制run.sh到/home/anders/code/java/hadoop/bin目录下，然后运行./run.sh

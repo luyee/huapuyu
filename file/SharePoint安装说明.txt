@@ -1,6 +1,0 @@
-1.Windows Server 2003 SP2
-2.将Windows Server 2003升级为域服务器
-3.安装Windows SQL Server 2005
-4.安装Windows Studio 2005
-5.安装.NET 3.0 Framework
-6.安装SharePoint 2007

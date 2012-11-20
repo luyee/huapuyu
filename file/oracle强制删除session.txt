@@ -1,2 +1,0 @@
-alter system kill session 'sid,serial#';
-sid和serial#来自于v$session表

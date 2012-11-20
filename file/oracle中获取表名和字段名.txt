@@ -1,3 +1,0 @@
-select * from user_all_tables
-select column_name from user_tab_columns a where a.table_name = Upper('表名');
-select cname from col a where a.tname = Upper('表名');

@@ -1,9 +1,0 @@
-http://www.musikwissenschaft.uni-mainz.de/~ag/tply/tply.html
-
-
-到http://www.musikwissenschaft.uni-mainz.de/~ag/tply/tply.html可以下载tply4.1a.zip，这个软件包包含turbo pascal版的 Lex和Yacc源程序，文档和例子。tply4.1a可在Linux、Dos、Win16、Win32四种操作系统平台以及Free Pascal、Turbo Pascal、Borland Pascal、Delphi等多种语言环境中编译使用，在本文中我们主要介绍Delphi中的使用。
-
-1. 下载软件包后解压缩，我们可以看到在目录中有6个批处理文件，其中maked32.bat适用于delphi。必须确保delphi\bin目录在系统搜索路径中，以让批处理文件找到delphi pascal编译程序dcc32.exe。执行maked32.bat，生成lex.exe、yacc.exe。
-
-
-2. 新建目录，把lex.exe、yacc.exe、yylex.cod、yyparse.cod、lexlib.pas、yacclib.pas拷贝至新目录中，这就构造了Pascal Lex和Yacc的最小运行环境。在原目录中，README文件中有详细的安装信息，tply.doc中有详细的使用说明。

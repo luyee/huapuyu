@@ -1,1 +1,0 @@
-oracle中mandatory关键字指的是字段不为空

@@ -1,2 +1,0 @@
-Button1.Attributes.Add("onclick", "history.back();return false;");
-注意最后的return false;

@@ -1,7 +1,0 @@
-对asp.net mvc1的GetControllerInstance(Type controllerType)进行覆盖后出现了这样的异常“The controller for path /favicon.ico does not implement IController”
-
-我的解决方法是“在根目录添加favicon.ico 文件”，也可以在Globa文件添加routes.IgnoreRoute("{*favicon}", new {favicon=@"(.*/)?favicon.ico(/.*)?"});
-
-从以下地址找到方法
-
-http://forums.asp.net/t/1253084.aspx

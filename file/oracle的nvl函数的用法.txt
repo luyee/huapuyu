@@ -1,7 +1,0 @@
-通过查询获得某个字段的合计值，如果这个值位null将给出一个预设的默认值
-select nvl(sum(t.dwxhl),1) from tb_jhde t where zydm=-1这里关心的nvl的用法，nvl（arg,value）代表如果前面的arg的值为null那么返回的值为后面的value
-
-另一个有关的有用方法
-declare 
-i integer
-select nvl(sum(t.dwxhl),1) into i from tb_jhde t where zydm=-1这样就可以把获得的合计值存储到变量i中，如果查询的值为null就把它的值设置为默认的1
