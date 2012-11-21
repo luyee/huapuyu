@@ -3,7 +3,7 @@
     <tb_user 
         id="1" 
         user_name="admini" 
-        password="0174f13210ad697ef03e3777634449f530ceed1c2609b2db1ed129651de42ed0" 
+        password="10ce31339d02502a96cd04a27ccc7eb2a8478ed97c6bf2fd81497ec82b174397" 
         name="系统管理员" 
         email="hhvote@yahoo.com.cn" 
         add_user_id="1" 
@@ -12,7 +12,7 @@
     <tb_user 
         id="2" 
         user_name="zhuzhen" 
-        password="c39f604182b671f39b075a531725149293f523d2505748f1e5c54da11b45855b" 
+        password="fa6f33b25a526f7fff83c7cbeb0bfb19d757cad6f7099f02e3b6c43e4125a50c" 
         name="朱振" 
         email="huapuyu@yahoo.com.cn" 
         add_user_id="1" 

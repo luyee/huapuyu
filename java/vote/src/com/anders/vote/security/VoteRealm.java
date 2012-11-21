@@ -11,16 +11,16 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.SimpleByteSource;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.anders.vote.bo.User;
 import com.anders.vote.service.RoleService;
 import com.anders.vote.service.UserService;
+import com.anders.vote.utils.Constant;
 
 @Component
 public class VoteRealm extends AuthorizingRealm {
@@ -31,11 +31,12 @@ public class VoteRealm extends AuthorizingRealm {
 	private RoleService roleService;
 
 	public VoteRealm() {
-		setName("VoteRealm");
-		HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher(Sha256Hash.ALGORITHM_NAME);
-		// hashedCredentialsMatcher.setStoredCredentialsHexEncoded(false);
-		// hashedCredentialsMatcher.setHashIterations(DefaultPasswordService.DEFAULT_HASH_ITERATIONS);
-		setCredentialsMatcher(hashedCredentialsMatcher);
+		// setName("VoteRealm");
+		HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(Constant.DEFAULT_ALGORITHM_NAME);
+		matcher.setHashIterations(Constant.DEFAULT_HASH_ITERATIONS);
+		// matcher.setStoredCredentialsHexEncoded(false);
+		// matcher.setHashIterations(DefaultPasswordService.DEFAULT_HASH_ITERATIONS);
+		setCredentialsMatcher(matcher);
 	}
 
 	/**
@@ -46,8 +47,11 @@ public class VoteRealm extends AuthorizingRealm {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		User user = userService.getByUserName(token.getUsername());
 		if (user != null) {
-			return new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), new SimpleByteSource(user.getUserName().toCharArray()), getName());
-		} else {
+			return new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), ByteSource.Util.bytes(user.getUserName()), getName());
+			// return new SimpleAuthenticationInfo(new ShiroUser(user.getLoginName(), user.getName()), user.getPassword(),
+			// ByteSource.Util.bytes(salt), getName());
+		}
+		else {
 			return null;
 		}
 	}
@@ -57,15 +61,15 @@ public class VoteRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		String userName = (String) principals.fromRealm(getName()).iterator().next();
+		// String userName = (String) principals.fromRealm(getName()).iterator().next();
+		String userName = (String) principals.getPrimaryPrincipal();
 		Set<String> roles = roleService.getRolesByUserName(userName);
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		if (CollectionUtils.isNotEmpty(roles)) {
-			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 			info.addRoles(roles);
 			return info;
-		} else {
-			return null;
 		}
+		return info;
 
 		// User user = userDAO.getUser(userId);
 		// if( user != null ) {

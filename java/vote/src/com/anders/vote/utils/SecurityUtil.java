@@ -1,10 +1,8 @@
 package com.anders.vote.utils;
 
 import org.apache.shiro.crypto.hash.Hash;
-import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
-import org.apache.shiro.util.SimpleByteSource;
 
 /**
  * 安全工具类
@@ -24,8 +22,8 @@ public class SecurityUtil {
 	 * @return 加密密码
 	 */
 	public static String getSha256Password(String password, String username) {
-		ByteSource byteSource = new SimpleByteSource(username.toCharArray());
-		Hash hash = new SimpleHash(Sha256Hash.ALGORITHM_NAME, password, byteSource, Constant.DEFAULT_HASH_ITERATIONS);
+		// ByteSource byteSource = new SimpleByteSource(username);
+		Hash hash = new SimpleHash(Constant.DEFAULT_ALGORITHM_NAME, password, ByteSource.Util.bytes(username), Constant.DEFAULT_HASH_ITERATIONS);
 		return hash.toString();
 	}
 
@@ -35,20 +33,26 @@ public class SecurityUtil {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		ByteSource byteSource = new SimpleByteSource("zhuzhen".toCharArray());
+		// ByteSource byteSource = new SimpleByteSource("zhuzhen".toCharArray());
+		ByteSource byteSource = ByteSource.Util.bytes("zhuzhen");
 		System.out.println(byteSource);
-		Hash hash = new SimpleHash(Sha256Hash.ALGORITHM_NAME, "123456", byteSource, Constant.DEFAULT_HASH_ITERATIONS);
+		Hash hash = new SimpleHash(Constant.DEFAULT_ALGORITHM_NAME, "123456", byteSource, Constant.DEFAULT_HASH_ITERATIONS);
 		System.out.println(hash);
 		System.out.println(hash.toBase64());
 		System.out.println(hash.toString());
 
 		System.out.println("********************");
 
-		byteSource = new SimpleByteSource("admini".toCharArray());
+		// byteSource = new SimpleByteSource("admini".toCharArray());
+		byteSource = ByteSource.Util.bytes("admini");
 		System.out.println(byteSource);
-		hash = new SimpleHash(Sha256Hash.ALGORITHM_NAME, "123456", byteSource, Constant.DEFAULT_HASH_ITERATIONS);
+		hash = new SimpleHash(Constant.DEFAULT_ALGORITHM_NAME, "123456", byteSource, Constant.DEFAULT_HASH_ITERATIONS);
 		System.out.println(hash);
 		System.out.println(hash.toBase64());
 		System.out.println(hash.toString());
+
+		System.out.println("********************");
+
+		System.out.println(getSha256Password("123456", "admini"));
 	}
 }
