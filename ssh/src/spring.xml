@@ -23,7 +23,9 @@
 	-->
 	
 	<!-- security -->
+	<!--  
 	<import resource="classpath:config/spring-security.xml"/>
+	-->
 	
 	<!-- xfire -->
 	<!--  
@@ -49,7 +51,9 @@
 	<import resource="classpath:config/spring-mybatis.xml"/>
 	
 	<!-- jpa -->
+	<!--  
 	<import resource="classpath:config/spring-jpa.xml"/>
+	-->
 	
 	<!-- dao -->
 	<!--  
