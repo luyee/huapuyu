@@ -120,7 +120,7 @@ public class VoteShiroFilterFactoryBean implements FactoryBean<Object>, BeanPost
 				String url = iterator.next();
 				String roles = StringUtils.EMPTY_STRING;
 				if (CollectionUtils.isEmpty(urlMap.get(url))) {
-					section.put(url, "authc");
+					section.put(url, "authc, roles[DENY_ALL]");
 				}
 				else {
 					for (String role : urlMap.get(url)) {
@@ -132,6 +132,8 @@ public class VoteShiroFilterFactoryBean implements FactoryBean<Object>, BeanPost
 			}
 
 		}
+
+		section.put("/**", "authc, roles[DENY_ALL]");
 
 		setFilterChainDefinitionMap(section);
 	}

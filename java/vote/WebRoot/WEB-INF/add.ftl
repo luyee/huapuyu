@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <h1>index</h1>
+    <h1>add</h1>
 	
 </body>
 

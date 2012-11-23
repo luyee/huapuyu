@@ -36,7 +36,19 @@ public class IndexAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	@Action(value = "add", results = { @Result(name = "success", type = "freemarker", location = "/WEB-INF/index.ftl") })
+	@Action(value = "test1", results = { @Result(name = "success", type = "freemarker", location = "/WEB-INF/test1.ftl") })
+	public String index1() {
+		user = "index";
+		return SUCCESS;
+	}
+
+	@Action(value = "test2", results = { @Result(name = "success", type = "freemarker", location = "/WEB-INF/test2.ftl") })
+	public String index2() {
+		user = "index";
+		return SUCCESS;
+	}
+
+	@Action(value = "add", results = { @Result(name = "success", type = "freemarker", location = "/WEB-INF/add.ftl") })
 	public String add() {
 		user = "add";
 		return SUCCESS;
