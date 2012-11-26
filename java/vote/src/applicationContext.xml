@@ -85,7 +85,7 @@
                 </entry>
                 <entry key="roles">
                     <bean class="com.anders.vote.security.VoteRolesAuthorizationFilter">
-                        <property name="unauthorizedUrl" value="/unauthorized.jsp"/>
+                        <property name="unauthorizedUrl" value="/401.jsp"/>
                     </bean>
                 </entry>
             </util:map>
@@ -94,10 +94,9 @@
             <value>
                 /login.do = anon
                 /loginx.do = anon
-                /unauthorized.jsp = anon
-                /add.do = authc, roles[ROLE_ADMIN]
+                /401.jsp = anon
+                /403.jsp = anon
                 /404.jsp = anon
-                /remoting/** = authc, roles[b2bClient], perms["remote:invoke:lan,wan"]
             </value>
         </property>
     </bean>
