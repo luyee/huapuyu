@@ -22,6 +22,17 @@ import com.anders.vote.service.RoleService;
 import com.anders.vote.service.UserService;
 import com.anders.vote.utils.Constant;
 
+//org.apache.shiro.web.filter.authc.AnonymousFilter
+//org.apache.shiro.web.filter.authc.FormAuthenticationFilter
+//org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter
+//org.apache.shiro.web.filter.authc.LogoutFilter
+//org.apache.shiro.web.filter.session.NoSessionCreationFilter
+//org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter
+//org.apache.shiro.web.filter.authz.PortFilter
+//org.apache.shiro.web.filter.authz.HttpMethodPermissionFilter
+//org.apache.shiro.web.filter.authz.RolesAuthorizationFilter
+//org.apache.shiro.web.filter.authz.SslFilter
+//org.apache.shiro.web.filter.authc.UserFilter
 @Component
 public class VoteRealm extends AuthorizingRealm {
 
