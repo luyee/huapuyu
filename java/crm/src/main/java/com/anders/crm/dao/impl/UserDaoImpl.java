@@ -19,4 +19,12 @@ public class UserDaoImpl extends GenericDaoImpl<Long, User> implements UserDao {
 		}
 		return false;
 	}
+
+	public boolean isExistByEmail(String email) {
+		Long count = findUnique("select count(*) from User user where user.email = ?", new Object[] { email });
+		if (count != null && count.equals(1L)) {
+			return true;
+		}
+		return false;
+	}
 }

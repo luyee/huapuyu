@@ -91,4 +91,13 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 		return userDao.isExistByUsername(username);
 	}
 
+	@Override
+	public boolean isExistByEmail(String email) {
+		if (StringUtils.isBlank(email)) {
+			throw new IllegalArgumentException("email is blank");
+		}
+
+		return userDao.isExistByEmail(email);
+	}
+
 }

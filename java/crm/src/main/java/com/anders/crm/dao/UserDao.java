@@ -7,4 +7,6 @@ public interface UserDao extends GenericDao<Long, User> {
 	String getNameByUsername(String username);
 
 	boolean isExistByUsername(String username);
+
+	boolean isExistByEmail(String email);
 }

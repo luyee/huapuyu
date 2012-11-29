@@ -31,6 +31,7 @@ public class User extends BaseBO {
 	private static final long serialVersionUID = 6424414021596996848L;
 
 	public static final String USERNAME = "username";
+	public static final String EMAIL = "email";
 
 	/**
 	 * 账户名

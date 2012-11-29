@@ -172,6 +172,10 @@
 	            "ajaxIsExist": {
                     "url": "ajaxIsExist.do",
                     "alertTextLoad": "* 正在验证..."
+                },
+                "ajaxIsNotExist": {
+                    "url": "ajaxIsNotExist.do",
+                    "alertTextLoad": "* 正在验证..."
                 }
             };
             

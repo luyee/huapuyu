@@ -109,6 +109,7 @@
 		
 		<intercept-url pattern="/get_security_code.do" access="permitAll" />
 		<intercept-url pattern="/ajaxIsExist.do" access="permitAll" />
+		<intercept-url pattern="/ajaxIsNotExist.do" access="permitAll" />
 		
 		<intercept-url pattern="/error.jsp" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
 		
