@@ -1,3 +1,6 @@
+注意，ubuntu12.10没有安装新立得，可以用以下命令按照
+sudo apt-get install synaptic
+
 /etc/rc.local  将命令写入该文件，则可以在ubuntu启动时自动运行改命令
 
 
