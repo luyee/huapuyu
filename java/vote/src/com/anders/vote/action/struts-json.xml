@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="json" namespace="/json" extends="json-default">
+
+       	<action name="json1" class="com.anders.vote.action.JsonAction" method="json1">
+			<result type="json" />
+		</action>
+       	
+       	<action name="json2" class="com.anders.vote.action.JsonAction" method="json2">
+			<result type="json" />
+		</action>
+    </package>
+</struts>
+	

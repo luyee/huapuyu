@@ -97,6 +97,8 @@
                 /401.jsp = anon
                 /403.jsp = anon
                 /404.jsp = anon
+                /json/json1.do = anon
+                /json/json2.do = anon
             </value>
         </property>
     </bean>

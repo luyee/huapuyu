@@ -49,4 +49,5 @@
     </package>
 
 	<!-- <include file="com/anders/vote/action/struts-security.xml"/> --> 
+	<include file="com/anders/vote/action/struts-json.xml"/>
 </struts>
