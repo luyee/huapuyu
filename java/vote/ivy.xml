@@ -70,12 +70,10 @@
         <!--
         <dependency org="org.unitils" name="unitils-testing" rev="latest.integration" />
         -->
-        <!--  
         <dependency org="p6spy" name="p6spy" rev="1.3">
         	<exclude org="jboss" name="jboss" />
         	<exclude org="oracle" name="classes12" />    
         </dependency>
-        -->
         
         <exclude org="struts" artifact="struts" />
         <exclude org="javax.servlet.jsp" artifact="jsp-api" />
