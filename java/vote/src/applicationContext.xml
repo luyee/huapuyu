@@ -99,6 +99,10 @@
                 /404.jsp = anon
                 /json/json1.do = anon
                 /json/json2.do = anon
+                /js/** = anon
+                /css/** = anon
+                /images/** = anon
+                /favicon.ico = anon
             </value>
         </property>
     </bean>

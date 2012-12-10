@@ -51,6 +51,9 @@ public class VoteInterceptor extends AbstractInterceptor {
 		String path = String.format("%s://%s:%d%s/", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath());
 		actionContext.getValueStack().set("path", path);
 
+		String context = request.getContextPath();
+		actionContext.getValueStack().set("context", context);
+
 		return invocation.invoke();
 	}
 }
