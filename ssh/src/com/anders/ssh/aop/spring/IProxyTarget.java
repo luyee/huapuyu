@@ -1,7 +1,6 @@
 package com.anders.ssh.aop.spring;
 
-interface IProxyTarget
-{
+interface IProxyTarget {
 	void ShowMessage();
 
 	void ShowName();

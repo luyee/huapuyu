@@ -1,7 +1,6 @@
 package com.anders.ssh.aop.aspectj.annotation;
 
-public interface IPersonService
-{
+public interface IPersonService {
 	public String save(String name, int i);
 
 	public void update(String name);
