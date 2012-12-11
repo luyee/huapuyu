@@ -3,8 +3,7 @@ package com.anders.ssh.annotation;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ZhuZhen implements IZhuZhen
-{
+public class ZhuZhen implements IZhuZhen {
 	private String name;
 	private String relation;
 
@@ -13,8 +12,7 @@ public class ZhuZhen implements IZhuZhen
 	 * 
 	 * @see annotation.IZhuZhen#getName()
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
@@ -23,8 +21,7 @@ public class ZhuZhen implements IZhuZhen
 	 * 
 	 * @see annotation.IZhuZhen#setName(java.lang.String)
 	 */
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -33,8 +30,7 @@ public class ZhuZhen implements IZhuZhen
 	 * 
 	 * @see annotation.IZhuZhen#getRelation()
 	 */
-	public String getRelation()
-	{
+	public String getRelation() {
 		return relation;
 	}
 
@@ -43,20 +39,17 @@ public class ZhuZhen implements IZhuZhen
 	 * 
 	 * @see annotation.IZhuZhen#setRelation(java.lang.String)
 	 */
-	public void setRelation(String relation)
-	{
+	public void setRelation(String relation) {
 		this.relation = relation;
 	}
 
-	public ZhuZhen()
-	{
+	public ZhuZhen() {
 		this.name = "朱振";
 		this.relation = "儿子";
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "姓名：" + this.name + "；关系:" + this.relation;
 	}
 }

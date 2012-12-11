@@ -7,8 +7,7 @@ import org.springframework.stereotype.Component;
 
 //@Component(value = "zhuRongbao")
 @Component
-public class ZhuRongbao
-{
+public class ZhuRongbao {
 	@Autowired
 	// @Qualifier(value = "ffffff")
 	private IZhuZhen zhuZhen;
@@ -27,47 +26,39 @@ public class ZhuRongbao
 	// this.guoLili = guoLili;
 	// }
 
-	public ZhuRongbao()
-	{
+	public ZhuRongbao() {
 		super();
 	}
 
-	public IZhuZhen getZhuZhen()
-	{
+	public IZhuZhen getZhuZhen() {
 		return zhuZhen;
 	}
 
 	// @Autowired
-	public void setZhuZhen(IZhuZhen zhuZhen)
-	{
+	public void setZhuZhen(IZhuZhen zhuZhen) {
 		this.zhuZhen = zhuZhen;
 	}
 
-	public HuangXiaoyan getHuangXiaoyan()
-	{
+	public HuangXiaoyan getHuangXiaoyan() {
 		return huangXiaoyan;
 	}
 
 	// @Autowired
-	public void setHuangXiaoyan(HuangXiaoyan huangXiaoyan)
-	{
+	public void setHuangXiaoyan(HuangXiaoyan huangXiaoyan) {
 		this.huangXiaoyan = huangXiaoyan;
 	}
 
-	public GuoLili getGuoLili()
-	{
+	public GuoLili getGuoLili() {
 		return guoLili;
 	}
 
 	// @Autowired
-	public void setGuoLili(GuoLili guoLili)
-	{
+	public void setGuoLili(GuoLili guoLili) {
 		this.guoLili = guoLili;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "我是朱荣宝，老婆[" + huangXiaoyan.toString() + "]；儿子[" + zhuZhen.toString() + "]；媳妇[" + guoLili.toString() + "]";
 	}
 }

@@ -1,7 +1,6 @@
 package com.anders.ssh.annotation;
 
-public interface IZhuZhen
-{
+public interface IZhuZhen {
 	public abstract String getName();
 
 	public abstract void setName(String name);
