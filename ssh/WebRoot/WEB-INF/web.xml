@@ -52,46 +52,6 @@
  		</param-value>
  	</context-param>
  	
- 	<servlet>
-	    <servlet-name>JspSupportServlet</servlet-name>
-	    <servlet-class>org.apache.struts2.views.JspSupportServlet</servlet-class>
-	    <load-on-startup>1</load-on-startup>
-	</servlet>
-	
-	<!-- Spring Security -->
- 	<filter>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter>
-    <filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>
-      	<url-pattern>/*</url-pattern>
-    </filter-mapping>
- 	
- 	<!-- Struts2 -->
- 	<filter>
-    	<filter-name>struts2</filter-name>
-        <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>struts2</filter-name>
-        <url-pattern>*.struts</url-pattern>
-    </filter-mapping>
-    
-    <!-- Struts1 -->
-    <servlet>
-    	<servlet-name>action</servlet-name>
-    	<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
-    	<init-param>
-    		<param-name>config</param-name>
-    		<param-value>/WEB-INF/struts1/struts-config.xml</param-value>
-    	</init-param>
-    </servlet>
-    <servlet-mapping>
-    	<servlet-name>action</servlet-name>
-    	<url-pattern>*.struts1</url-pattern>
-    </servlet-mapping>
-
     <!-- Wicket -->
 	<!--  
 	<filter>
@@ -202,6 +162,11 @@
 	<!-- Spring配置文件载入 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- 自定义Listener，用于设置ServiceLocator -->
+	<listener>
+		<listener-class>com.anders.ssh.common.InitSystemListener</listener-class>
 	</listener>
 
 	<!-- Spring刷新Introspector防止内存泄露 -->
