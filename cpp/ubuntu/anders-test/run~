@@ -1,0 +1,1 @@
+make -L/usr/lib/oracle/xe/app/oracle/product/10.2.0/client/lib -lclntsh -I/usr/lib/oracle/xe/app/oracle/product/10.2.0/client/rdbms/public -I/usr/lib/oracle/xe/app/oracle/product/10.2.0/client/rdbms/demo 
