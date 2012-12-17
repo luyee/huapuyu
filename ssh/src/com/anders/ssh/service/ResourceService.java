@@ -2,7 +2,7 @@ package com.anders.ssh.service;
 
 import java.util.List;
 
-import com.anders.ssh.model.annotation.Resource;
+import com.anders.ssh.bo.annotation.Resource;
 
 public interface ResourceService {
 	public Resource getById(Long id);

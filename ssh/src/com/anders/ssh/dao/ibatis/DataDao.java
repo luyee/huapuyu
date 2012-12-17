@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.anders.ssh.model.xml.Data;
+import com.anders.ssh.bo.xml.Data;
 
 @Component("ibatisDataDao")
 public class DataDao extends IbatisDao<Long, Data> {

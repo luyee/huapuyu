@@ -14,7 +14,7 @@ import org.hibernate.transform.Transformers;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Component;
 
-import com.anders.ssh.model.annotation.User;
+import com.anders.ssh.bo.annotation.User;
 
 @Component("hibernateUserDao")
 public class UserDao extends HibernateDao<Long, User> {

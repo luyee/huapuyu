@@ -6,25 +6,20 @@ import java.util.StringTokenizer;
 import org.springframework.hadoop.annotation.Mapper;
 import org.springframework.hadoop.annotation.Reducer;
 
-public class PojoMapReducer
-{
+public class PojoMapReducer {
 
 	@Mapper
-	public void map(String value, Map<String, Integer> writer)
-	{
+	public void map(String value, Map<String, Integer> writer) {
 		StringTokenizer itr = new StringTokenizer(value);
-		while (itr.hasMoreTokens())
-		{
+		while (itr.hasMoreTokens()) {
 			writer.put(itr.nextToken(), 1);
 		}
 	}
 
 	@Reducer
-	public int reduce(Iterable<Integer> values)
-	{
+	public int reduce(Iterable<Integer> values) {
 		int sum = 0;
-		for (Integer val : values)
-		{
+		for (Integer val : values) {
 			sum += val;
 		}
 		return sum;

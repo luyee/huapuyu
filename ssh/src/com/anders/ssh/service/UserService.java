@@ -2,7 +2,7 @@ package com.anders.ssh.service;
 
 import java.util.List;
 
-import com.anders.ssh.model.annotation.User;
+import com.anders.ssh.bo.annotation.User;
 
 public interface UserService {
 	public User getById(Long id);

@@ -37,16 +37,16 @@
 	    </property>
 		<property name="mappingResources">
 			<list>
-		    	<value>com/anders/ssh/model/xml/Data.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/Data.hbm.xml</value>
 		    	<!--  
-		    	<value>com/anders/ssh/model/xml/Area.hbm.xml</value>
-		    	<value>com/anders/ssh/model/xml/House.hbm.xml</value>
-		    	<value>com/anders/ssh/model/xml/RentHouse.hbm.xml</value>
-		    	<value>com/anders/ssh/model/xml/SecondHandHouse.hbm.xml</value>
-		    	<value>com/anders/ssh/model/xml/User.hbm.xml</value>
-		    	<value>com/anders/ssh/model/xml/Role.hbm.xml</value>
-		    	<value>com/anders/ssh/model/xml/UserGroup.hbm.xml</value>
-		    	<value>com/anders/ssh/model/xml/Resource.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/Area.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/House.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/RentHouse.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/SecondHandHouse.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/User.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/Role.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/UserGroup.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/Resource.hbm.xml</value>
 		    	-->
 		    </list>
 		</property>
@@ -63,5 +63,4 @@
 	<bean id="hibernateTxManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 	  	<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
-	
 </beans>

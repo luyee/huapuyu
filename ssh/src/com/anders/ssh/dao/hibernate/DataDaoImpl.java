@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Component;
 
-import com.anders.ssh.model.xml.Data;
+import com.anders.ssh.bo.xml.Data;
 
 @Component("hDataDao")
 public class DataDaoImpl extends HibernateDaoSupport implements IDataDao {
@@ -40,12 +40,26 @@ public class DataDaoImpl extends HibernateDaoSupport implements IDataDao {
 
 	@Override
 	public void save(Data data) {
+		System.out.println(getHibernateTemplate().getSessionFactory().getCurrentSession().hashCode());
 		getHibernateTemplate().save(data);
 	}
 
 	@Override
 	public void update(Data data) {
+		System.out.println(getHibernateTemplate().getSessionFactory().getCurrentSession().hashCode());
 		getHibernateTemplate().update(data);
+	}
+
+	@Override
+	public void merge(Data data) {
+		System.out.println(getHibernateTemplate().getSessionFactory().getCurrentSession().hashCode());
+		getHibernateTemplate().merge(data);
+	}
+
+	@Override
+	public void saveOrUpdate(Data data) {
+		System.out.println(getHibernateTemplate().getSessionFactory().getCurrentSession().hashCode());
+		getHibernateTemplate().saveOrUpdate(data);
 	}
 
 }

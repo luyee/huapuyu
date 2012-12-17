@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.anders.ssh.bo.annotation.UserGroup;
 import com.anders.ssh.dao.hibernate.UserGroupDao;
-import com.anders.ssh.model.annotation.UserGroup;
 import com.anders.ssh.service.UserGroupService;
 
 @Component

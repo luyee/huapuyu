@@ -6,16 +6,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class TestImpl implements ITest
-{
-	public String example(String message)
-	{
+public class TestImpl implements ITest {
+	public String example(String message) {
 		return "hello " + message;
 	}
 
 	@Override
-	public User example1(User model)
-	{
+	public User example1(User model) {
 		System.out.println(model.getName() + " : " + model.getAge());
 		model.setName("zhuzhen");
 		model.setAge(28);
@@ -24,10 +21,8 @@ public class TestImpl implements ITest
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List example2(List l)
-	{
-		for (int i = 0; i < l.size(); i++)
-		{
+	public List example2(List l) {
+		for (int i = 0; i < l.size(); i++) {
 			System.out.println((String) l.get(i));
 		}
 
@@ -42,10 +37,8 @@ public class TestImpl implements ITest
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Map example3(Map m)
-	{
-		for (Iterator iterator = m.keySet().iterator(); iterator.hasNext();)
-		{
+	public Map example3(Map m) {
+		for (Iterator iterator = m.keySet().iterator(); iterator.hasNext();) {
 			Integer key = (Integer) iterator.next();
 			System.out.println(m.get(key));
 

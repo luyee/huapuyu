@@ -6,8 +6,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import com.anders.ssh.bo.test.Company;
 import com.anders.ssh.dao.Dao;
-import com.anders.ssh.model.test.Company;
 
 @Component("mybatisCompanyDao")
 public class CompanyDao implements Dao<Long, Company> {

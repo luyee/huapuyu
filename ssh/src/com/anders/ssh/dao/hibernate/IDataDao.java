@@ -2,7 +2,7 @@ package com.anders.ssh.dao.hibernate;
 
 import java.util.List;
 
-import com.anders.ssh.model.xml.Data;
+import com.anders.ssh.bo.xml.Data;
 
 public interface IDataDao {
 	public Data getById(Long id);
@@ -16,4 +16,8 @@ public interface IDataDao {
 	public void deleteById(Long id);
 
 	public List<Data> getAll();
+
+	public void saveOrUpdate(Data data);
+
+	public void merge(Data data);
 }

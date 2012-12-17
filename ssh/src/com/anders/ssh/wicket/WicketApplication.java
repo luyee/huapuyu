@@ -7,11 +7,9 @@ import org.springframework.stereotype.Component;
 import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
 @Component
-public class WicketApplication extends WebApplication
-{
+public class WicketApplication extends WebApplication {
 	@Override
-	public Class<? extends Page> getHomePage()
-	{
+	public Class<? extends Page> getHomePage() {
 		return HomePage.class;
 	}
 
@@ -28,8 +26,7 @@ public class WicketApplication extends WebApplication
 	// }
 
 	// @Override
-	protected void init()
-	{
+	protected void init() {
 		super.init();
 		addComponentInstantiationListener(new SpringComponentInjector(this));
 		getMarkupSettings().setDefaultMarkupEncoding("UTF-8");

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.anders.ssh.bo.annotation.User;
 import com.anders.ssh.dao.hibernate.UserDao;
-import com.anders.ssh.model.annotation.User;
 import com.anders.ssh.service.UserService;
 
 @Component

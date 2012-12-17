@@ -13,8 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/info")
 @Produces( { MediaType.APPLICATION_XML })
-public interface InfoService
-{
+public interface InfoService {
 	@GET
 	// @Path("/info")
 	public List<Info> getInfos();

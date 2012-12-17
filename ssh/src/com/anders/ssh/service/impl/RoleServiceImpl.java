@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.anders.ssh.bo.xml.Role;
 import com.anders.ssh.dao.hibernate.RoleDao;
-import com.anders.ssh.model.xml.Role;
 import com.anders.ssh.service.RoleService;
 
 @Component

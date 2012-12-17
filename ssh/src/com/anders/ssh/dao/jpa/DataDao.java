@@ -2,11 +2,9 @@ package com.anders.ssh.dao.jpa;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import com.anders.ssh.bo.xml.Data;
 
-import com.anders.ssh.model.xml.Data;
-
-@Component("jpaDataDao")
+//@Component("jpaDataDao")
 public class DataDao extends JpaDao<Integer, Data> {
 	@Override
 	public void delete(Data entity) {

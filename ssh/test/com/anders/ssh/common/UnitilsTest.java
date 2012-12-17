@@ -10,8 +10,8 @@ import org.unitils.dbunit.annotation.DataSet;
 import org.unitils.spring.annotation.SpringApplicationContext;
 import org.unitils.spring.annotation.SpringBean;
 
+import com.anders.ssh.bo.xml.Data;
 import com.anders.ssh.dao.hibernate.DataDao;
-import com.anders.ssh.model.xml.Data;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })

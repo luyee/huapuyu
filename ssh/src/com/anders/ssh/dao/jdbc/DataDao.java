@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Component;
 
-import com.anders.ssh.model.xml.Data;
+import com.anders.ssh.bo.xml.Data;
 
 //@Transactional
 @Component("jdbcDataDao")

@@ -9,7 +9,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.anders.ssh.model.xml.Data;
+import com.anders.ssh.bo.xml.Data;
 
 @ContextConfiguration(locations = { "classpath:spring.xml" })
 public class DataDaoTestNG extends AbstractTestNGSpringContextTests {

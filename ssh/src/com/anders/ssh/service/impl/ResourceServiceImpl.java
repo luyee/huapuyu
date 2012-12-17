@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.anders.ssh.bo.annotation.Resource;
 import com.anders.ssh.dao.hibernate.ResourceDao;
-import com.anders.ssh.model.annotation.Resource;
 import com.anders.ssh.service.ResourceService;
 
 @Component

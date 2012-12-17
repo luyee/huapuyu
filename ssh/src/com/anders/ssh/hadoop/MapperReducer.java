@@ -25,18 +25,15 @@ import org.springframework.hadoop.annotation.Reducer;
  * @author Dave Syer
  * 
  */
-public class MapperReducer
-{
+public class MapperReducer {
 
 	@Mapper
-	public void reverse(String key, String value, Map<String, String> output)
-	{
+	public void reverse(String key, String value, Map<String, String> output) {
 		output.put(value, key);
 	}
 
 	@Reducer
-	public void count(String key, List<String> values, Map<String, Integer> output)
-	{
+	public void count(String key, List<String> values, Map<String, Integer> output) {
 		output.put(key, values.size());
 	}
 

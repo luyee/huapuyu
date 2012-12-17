@@ -5,15 +5,12 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.anders.ssh.bo.xml.Data;
 import com.anders.ssh.dao.hibernate.DataDao;
-import com.anders.ssh.model.xml.Data;
 import com.anders.ssh.service.DataService;
 
-@Component
-@Transactional
+@Component("dataService")
 public class DataServiceImpl implements DataService {
 	@Resource(name = "hibernateDataDao")
 	private DataDao dataDao;
@@ -29,13 +26,11 @@ public class DataServiceImpl implements DataService {
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
 	public Data getById(Long id) {
 		return dataDao.getById(id);
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
 	public List<Data> getAll() {
 		return dataDao.getAll();
 	}

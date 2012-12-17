@@ -15,29 +15,31 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import com.anders.ssh.annotation.ZhuZhen;
-
+import com.anders.ssh.bo.xml.Data;
+import com.anders.ssh.dao.hibernate.DataFacade;
+import com.anders.ssh.service.DataService;
 
 @MountPath(path = "home")
-public class HomePage extends WebPage
-{
+public class HomePage extends WebPage {
 	@SpringBean
 	private ZhuZhen zhuZhen;
+	@SpringBean
+	private DataFacade dataFacade;
+	@SpringBean
+	private DataService dataService;
 
-	public HomePage()
-	{
+	public HomePage() {
 		add(new Label("countLabel", zhuZhen.getName()));
 		add(new MyForm("form"));
 	}
 
-	public class MyForm extends Form<Void>
-	{
+	public class MyForm extends Form<Void> {
 		private static final long serialVersionUID = 7526894806464357894L;
 
 		private Integer radioChoice;
 		private Integer radioGroup;
 
-		public MyForm(String id)
-		{
+		public MyForm(String id) {
 			super(id);
 
 			List<Integer> list = new ArrayList<Integer>();
@@ -52,10 +54,23 @@ public class HomePage extends WebPage
 		}
 
 		@Override
-		protected void onSubmit()
-		{
+		protected void onSubmit() {
 			System.out.println(radioChoice);
 			System.out.println(radioGroup);
+
+			List<Data> list1 = dataService.getAll();
+
+			Data data = new Data();
+			data.setId(1L);
+			data.setType(Byte.MIN_VALUE);
+			data.setName("zhuzhen");
+			data.setEnable(true);
+			dataService.save(data);
+
+			List<Data> list2 = dataService.getAll();
+
+			// dataFacade.updateTest();
+
 			super.onSubmit();
 		}
 	}

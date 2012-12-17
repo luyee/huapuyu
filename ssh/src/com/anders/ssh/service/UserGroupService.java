@@ -2,7 +2,7 @@ package com.anders.ssh.service;
 
 import java.util.List;
 
-import com.anders.ssh.model.annotation.UserGroup;
+import com.anders.ssh.bo.annotation.UserGroup;
 
 public interface UserGroupService {
 	public UserGroup getById(Long id);

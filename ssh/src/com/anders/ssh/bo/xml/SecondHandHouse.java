@@ -3,8 +3,7 @@ package com.anders.ssh.bo.xml;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class SecondHandHouse implements Serializable
-{
+public class SecondHandHouse implements Serializable {
 	private static final long serialVersionUID = 4779933743319140372L;
 
 	private Long id;
@@ -18,103 +17,83 @@ public class SecondHandHouse implements Serializable
 	private Data constructType;
 	private Data visitTime;
 
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public House getHouse()
-	{
+	public House getHouse() {
 		return house;
 	}
 
-	public void setHouse(House house)
-	{
+	public void setHouse(House house) {
 		this.house = house;
 	}
 
-	public BigDecimal getPrice()
-	{
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price)
-	{
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
-	public BigDecimal getBuildingArea()
-	{
+	public BigDecimal getBuildingArea() {
 		return buildingArea;
 	}
 
-	public void setBuildingArea(BigDecimal buildingArea)
-	{
+	public void setBuildingArea(BigDecimal buildingArea) {
 		this.buildingArea = buildingArea;
 	}
 
-	public BigDecimal getUsableArea()
-	{
+	public BigDecimal getUsableArea() {
 		return usableArea;
 	}
 
-	public void setUsableArea(BigDecimal usableArea)
-	{
+	public void setUsableArea(BigDecimal usableArea) {
 		this.usableArea = usableArea;
 	}
 
-	public Data getPropety()
-	{
+	public Data getPropety() {
 		return propety;
 	}
 
-	public void setPropety(Data propety)
-	{
+	public void setPropety(Data propety) {
 		this.propety = propety;
 	}
 
-	public Data getPropType()
-	{
+	public Data getPropType() {
 		return propType;
 	}
 
-	public void setPropType(Data propType)
-	{
+	public void setPropType(Data propType) {
 		this.propType = propType;
 	}
 
-	public Data getPropStruct()
-	{
+	public Data getPropStruct() {
 		return propStruct;
 	}
 
-	public void setPropStruct(Data propStruct)
-	{
+	public void setPropStruct(Data propStruct) {
 		this.propStruct = propStruct;
 	}
 
-	public Data getConstructType()
-	{
+	public Data getConstructType() {
 		return constructType;
 	}
 
-	public void setConstructType(Data constructType)
-	{
+	public void setConstructType(Data constructType) {
 		this.constructType = constructType;
 	}
 
-	public Data getVisitTime()
-	{
+	public Data getVisitTime() {
 		return visitTime;
 	}
 
-	public void setVisitTime(Data visitTime)
-	{
+	public void setVisitTime(Data visitTime) {
 		this.visitTime = visitTime;
 	}
 }

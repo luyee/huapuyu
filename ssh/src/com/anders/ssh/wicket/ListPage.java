@@ -19,28 +19,23 @@ import org.wicketstuff.annotation.mount.MountPath;
 
 import com.anders.ssh.annotation.ZhuZhen;
 
-
 @MountPath(path = "list")
-public class ListPage extends WebPage
-{
+public class ListPage extends WebPage {
 	@SpringBean
 	private ZhuZhen zhuZhen;
 
-	public ListPage()
-	{
+	public ListPage() {
 		add(new Label("countLabel", zhuZhen.getName()));
 		add(new MyForm("form"));
 	}
 
-	public class MyForm extends Form<Void>
-	{
+	public class MyForm extends Form<Void> {
 		private static final long serialVersionUID = 7526894806464357894L;
 
 		private Integer radioChoice;
 		private Integer radioGroup;
 
-		public MyForm(String id)
-		{
+		public MyForm(String id) {
 			super(id);
 
 			List<Integer> list = new ArrayList<Integer>();
@@ -55,8 +50,7 @@ public class ListPage extends WebPage
 		}
 
 		@Override
-		protected void onSubmit()
-		{
+		protected void onSubmit() {
 			System.out.println(radioGroup);
 			CharSequence export = "zhuzhen,lusong," + radioGroup.toString();
 			ResourceStreamRequestTarget target = new ResourceStreamRequestTarget(new StringResourceStream(export, "text/csv"));

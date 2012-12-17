@@ -9,8 +9,7 @@ import org.junit.Test;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.hadoop.JobTemplate;
 
-public class KeyValueIntegrationTests
-{
+public class KeyValueIntegrationTests {
 	@Rule
 	public HadoopSetUp setUp = HadoopSetUp.preferClusterRunning("localhost", 9001);
 
@@ -19,11 +18,9 @@ public class KeyValueIntegrationTests
 	private JobTemplate jobTemplate;
 
 	@Before
-	public void init() throws Exception
-	{
+	public void init() throws Exception {
 		jobTemplate = new JobTemplate();
-		if (setUp.isClusterOnline())
-		{
+		if (setUp.isClusterOnline()) {
 			setUp.setJarFile("target/spring-hadoop-core-1.0.0.BUILD-SNAPSHOT-test.jar");
 			jobTemplate.setExtraConfiguration(setUp.getExtraConfiguration());
 		}
@@ -33,17 +30,14 @@ public class KeyValueIntegrationTests
 	}
 
 	@After
-	public void close() throws Exception
-	{
-		if (context != null)
-		{
+	public void close() throws Exception {
+		if (context != null) {
 			context.close();
 		}
 	}
 
 	@Test
-	public void testKeyValueInputFromFile() throws Exception
-	{
+	public void testKeyValueInputFromFile() throws Exception {
 		assertTrue(jobTemplate.run("classpath:/jobs/kv/job-context.xml"));
 	}
 

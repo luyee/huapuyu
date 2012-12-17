@@ -42,11 +42,9 @@ import org.springframework.hadoop.JobTemplate;
  * private JobTemplate jobTemplate;
  * 
  * &#064;Before
- * public void init() throws Exception
- * {
+ * public void init() throws Exception {
  * 	jobTemplate = new JobTemplate();
- * 	if (setUp.isClusterOnline())
- * 	{
+ * 	if (setUp.isClusterOnline()) {
  * 		setUp.setJarFile(&quot;target/my-test.jar&quot;);
  * 		jobTemplate.setExtraConfiguration(setUp.getExtraConfiguration());
  * 		setUp.copy(&quot;src/test/resources/input&quot;, &quot;target/input&quot;);
@@ -56,8 +54,7 @@ import org.springframework.hadoop.JobTemplate;
  * }
  * 
  * &#064;Test
- * public void testJob() throws Exception
- * {
+ * public void testJob() throws Exception {
  * 	assertTrue(jobTemplate.run(JobConfiguration.class));
  * }
  * 
@@ -68,8 +65,7 @@ import org.springframework.hadoop.JobTemplate;
  * @author Dave Syer
  * 
  */
-public class HadoopSetUp extends TestWatchman
-{
+public class HadoopSetUp extends TestWatchman {
 
 	private static Log logger = LogFactory.getLog(HadoopSetUp.class);
 
@@ -94,8 +90,7 @@ public class HadoopSetUp extends TestWatchman
 	 * 
 	 * @return a new rule that assumes an existing running cluster
 	 */
-	public static HadoopSetUp ensureClusterRunning(String hostname, int port)
-	{
+	public static HadoopSetUp ensureClusterRunning(String hostname, int port) {
 		return new HadoopSetUp(hostname, port, true);
 	}
 
@@ -104,8 +99,7 @@ public class HadoopSetUp extends TestWatchman
 	 * 
 	 * @return a new rule that assumes an existing running cluster
 	 */
-	public static HadoopSetUp ensureClusterRunning()
-	{
+	public static HadoopSetUp ensureClusterRunning() {
 		return new HadoopSetUp(true);
 	}
 
@@ -114,8 +108,7 @@ public class HadoopSetUp extends TestWatchman
 	 * 
 	 * @return a new rule that prefers an existing running cluster
 	 */
-	public static HadoopSetUp preferClusterRunning(String hostname, int port)
-	{
+	public static HadoopSetUp preferClusterRunning(String hostname, int port) {
 		return new HadoopSetUp(hostname, port, false);
 	}
 
@@ -124,16 +117,14 @@ public class HadoopSetUp extends TestWatchman
 	 * 
 	 * @return a new rule that prefers an existing running cluster
 	 */
-	public static HadoopSetUp preferClusterRunning()
-	{
+	public static HadoopSetUp preferClusterRunning() {
 		return new HadoopSetUp(false);
 	}
 
 	/**
 	 * @return a new rule that prefers an existing running cluster
 	 */
-	public static HadoopSetUp localOnly()
-	{
+	public static HadoopSetUp localOnly() {
 		return new HadoopSetUp(null, 0, false);
 	}
 
@@ -141,77 +132,64 @@ public class HadoopSetUp extends TestWatchman
 	 * @param jarFile
 	 *            the jar file path
 	 */
-	public void setJarFile(String jarFile)
-	{
+	public void setJarFile(String jarFile) {
 		this.jarFile = jarFile;
 		jobTemplate.setJarFile(jarFile);
 	}
 
-	private HadoopSetUp(String hostname, int port, boolean assumeOnline)
-	{
+	private HadoopSetUp(String hostname, int port, boolean assumeOnline) {
 		this.hostname = hostname;
 		this.port = port;
 		this.assumeOnline = assumeOnline;
 	}
 
-	public String getHostname()
-	{
+	public String getHostname() {
 		return clusterOnline ? hostname : null;
 	}
 
-	public int getPort()
-	{
+	public int getPort() {
 		return port;
 	}
 
-	public String getJarFile()
-	{
+	public String getJarFile() {
 		return jarFile;
 	}
 
-	public HadoopSetUp(boolean assumeOnline)
-	{
+	public HadoopSetUp(boolean assumeOnline) {
 		this("localhost", 9001, assumeOnline);
 	}
 
 	@Override
-	public void starting(FrameworkMethod method)
-	{
+	public void starting(FrameworkMethod method) {
 		init();
 	}
 
-	public void init()
-	{
+	public void init() {
 
-		if ((clusterOnline && !clusterOffline) || (clusterOffline && !clusterOnline))
-		{
+		if ((clusterOnline && !clusterOffline) || (clusterOffline && !clusterOnline)) {
 			// We already tested and it's not there
 			return;
 		}
 
-		if (hostname == null)
-		{
+		if (hostname == null) {
 			// nothing to do
 			return;
 		}
 
 		// Check at the beginning, so this can be used as a static field
-		if (assumeOnline)
-		{
+		if (assumeOnline) {
 			Assume.assumeTrue(clusterOnline);
 		}
 
 		JobClient client = null;
 
-		try
-		{
+		try {
 
 			Configuration configuration = new Configuration();
 			configuration.setInt("ipc.client.connect.max.retries", 1);
 			client = new JobClient(new InetSocketAddress(hostname, port), configuration);
 			ClusterStatus clusterStatus = client.getClusterStatus();
-			if (clusterStatus.getUsedMemory() > 0)
-			{
+			if (clusterStatus.getUsedMemory() > 0) {
 				clusterOffline = false;
 				jarFile = buildJarFile();
 				jobTemplate.setJarFile(jarFile);
@@ -220,37 +198,28 @@ public class HadoopSetUp extends TestWatchman
 			}
 
 		}
-		catch (Exception e)
-		{
-			if (logger.isDebugEnabled())
-			{
+		catch (Exception e) {
+			if (logger.isDebugEnabled()) {
 				logger.warn("Basic connectivity test failed", e);
 			}
-			else
-			{
+			else {
 				logger.warn("Basic connectivity test failed: " + e.getMessage());
 			}
 		}
-		finally
-		{
-			if (client != null)
-			{
-				try
-				{
+		finally {
+			if (client != null) {
+				try {
 					client.close();
 				}
-				catch (IOException e)
-				{
+				catch (IOException e) {
 					logger.warn("Could not close client", e);
 				}
 			}
 		}
 
-		if (clusterOffline)
-		{
+		if (clusterOffline) {
 			clusterOnline = false;
-			if (assumeOnline)
-			{
+			if (assumeOnline) {
 				Assume.assumeTrue(clusterOnline);
 			}
 		}
@@ -262,42 +231,36 @@ public class HadoopSetUp extends TestWatchman
 	/**
 	 * @return true if the cluster is online
 	 */
-	public boolean isClusterOnline()
-	{
+	public boolean isClusterOnline() {
 		return clusterOnline;
 	}
 
 	/**
 	 * @return the configuration
 	 */
-	public Properties getExtraConfiguration()
-	{
+	public Properties getExtraConfiguration() {
 		return jobTemplate.getExtraConfiguration();
 	}
 
 	/**
 	 * @param directory
 	 */
-	public void delete(String directory) throws Exception
-	{
+	public void delete(String directory) throws Exception {
 		FileSystem.get(getConfiguration()).delete(new Path(directory), true);
 	}
 
 	/**
 	 * @param directory
 	 */
-	public void copy(String directory) throws Exception
-	{
+	public void copy(String directory) throws Exception {
 		copy(directory, directory);
 	}
 
 	/**
 	 * @param directory
 	 */
-	public void copy(String directory, String destination) throws Exception
-	{
-		if (!directory.equals(destination))
-		{
+	public void copy(String directory, String destination) throws Exception {
+		if (!directory.equals(destination)) {
 			delete(destination);
 		}
 		FileSystem.get(getConfiguration()).copyFromLocalFile(false, true, new Path(directory), new Path(destination));
@@ -307,59 +270,49 @@ public class HadoopSetUp extends TestWatchman
 	 * @param zipFile
 	 * @param destination
 	 */
-	public void unzip(String zipFile, String destination) throws IOException
-	{
+	public void unzip(String zipFile, String destination) throws IOException {
 		File file = new File(destination);
-		if (file.exists())
-		{
+		if (file.exists()) {
 			FileUtil.fullyDelete(file);
 		}
 		FileUtil.unZip(new File(zipFile), file);
 	}
 
-	public Configuration getConfiguration()
-	{
+	public Configuration getConfiguration() {
 		Configuration configuration = new Configuration();
-		for (Entry<Object, Object> entry : getExtraConfiguration().entrySet())
-		{
+		for (Entry<Object, Object> entry : getExtraConfiguration().entrySet()) {
 			configuration.set((String) entry.getKey(), (String) entry.getValue());
 		}
 		return configuration;
 	}
 
-	private String buildJarFile()
-	{
-		if (jarFile != null)
-		{
+	private String buildJarFile() {
+		if (jarFile != null) {
 			assertTrue("No jar file found at path provided: " + jarFile, new File(jarFile).exists());
 			return jarFile;
 		}
 		String dir = "target";
 		File jobJar = new File(dir, "job.jar");
-		if (jobJar.exists())
-		{
+		if (jobJar.exists()) {
 			assertTrue("Could not delete dummy jar: " + jobJar, jobJar.delete());
 		}
 		File target = new File(dir);
 		target.mkdirs();
 		assertTrue("Could not create directory: " + dir, target.exists() && target.isDirectory());
-		try
-		{
+		try {
 			createJar(jobJar, target);
 			assertTrue("Could not touch new jar file", jobJar.exists());
 			assertTrue(new JarFile(jobJar).entries().hasMoreElements());
 			return jobJar.getAbsolutePath();
 		}
-		catch (IOException e)
-		{
+		catch (IOException e) {
 			logger.error("Could not build jar", e);
 			fail(e.getMessage());
 			return null;
 		}
 	}
 
-	private void createJar(File zipFile, File fileSource) throws IOException
-	{
+	private void createJar(File zipFile, File fileSource) throws IOException {
 
 		FileOutputStream fout = new FileOutputStream(zipFile);
 		ZipOutputStream zout = new ZipOutputStream(fout);
@@ -369,14 +322,11 @@ public class HadoopSetUp extends TestWatchman
 
 	}
 
-	private static void addDirectory(ZipOutputStream zout, File fileSource, String prefix) throws IOException
-	{
+	private static void addDirectory(ZipOutputStream zout, File fileSource, String prefix) throws IOException {
 
 		File[] files = fileSource.listFiles();
-		for (int i = 0; i < files.length; i++)
-		{
-			if (files[i].isDirectory())
-			{
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].isDirectory()) {
 				addDirectory(zout, files[i], prefix + (prefix.endsWith("/") ? "" : "/") + files[i].getName() + "/");
 				continue;
 			}
@@ -384,8 +334,7 @@ public class HadoopSetUp extends TestWatchman
 			FileInputStream fin = new FileInputStream(files[i]);
 			zout.putNextEntry(new ZipEntry(prefix + files[i].getName()));
 			int length;
-			while ((length = fin.read(buffer)) > 0)
-			{
+			while ((length = fin.read(buffer)) > 0) {
 				zout.write(buffer, 0, length);
 			}
 			zout.closeEntry();

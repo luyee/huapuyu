@@ -6,7 +6,7 @@
 
 	<cache />
 	
-	<resultMap id="resultMap" type="com.anders.ssh.model.xml.Data">
+	<resultMap id="resultMap" type="com.anders.ssh.bo.xml.Data">
 	    <id column="id" property="id" jdbcType="BIGINT" />
 	    <result column="name" property="name" jdbcType="VARCHAR" />
 	    <result column="type" property="type" jdbcType="TINYINT" />
