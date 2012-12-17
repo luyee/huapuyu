@@ -1,0 +1,11 @@
+log4j.rootLogger=ALL, stdout, file
+
+log4j.appender.stdout=ora.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=ora.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=[%d{yyyy-MM-dd HH\:mm\:ss}] [%c] %-5p : %m (%F:%L)%n
+
+log4j.appender.file=ora.apache.log4j.FileAppender
+log4j.appender.file.File=log.log
+log4j.appender.file.Append=false
+log4j.appender.file.layout=ora.apache.log4j.PatternLayout
+log4j.appender.file.layout.ConversionPattern=[%d{yyyy-MM-dd HH\:mm\:ss}] [%c] %-5p : %m (%F:%L)%n
