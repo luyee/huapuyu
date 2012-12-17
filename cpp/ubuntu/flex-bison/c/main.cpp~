@@ -1,0 +1,14 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+char* getParseValue(const char*);
+
+int main(int argc, char** argv)
+{
+    char* value = getParseValue("<4628:111228> 23:56:78.025");
+  	printf("%s", value);
+
+    return (EXIT_SUCCESS);
+}
+
+
