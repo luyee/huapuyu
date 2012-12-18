@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.anders.ssh.datasource.lb;
 
 import java.util.ArrayList;
@@ -11,13 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * A weighted round robin strategy implementation.
- * 
- * @author xiemalin
- * 
- */
-public class RoundRobinLBStrategy implements LBStrategy<String> {
+public class RoundRobinLoadBalanceStrategy implements LoadBalanceStrategy<String> {
 
 	private static final int MIN_LB_FACTOR = 1;
 
@@ -27,13 +18,7 @@ public class RoundRobinLBStrategy implements LBStrategy<String> {
 	private Map<String, Integer> currentTargets;
 	private Map<String, Integer> failedTargets;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param lbFactors
-	 *            load balance factors.
-	 */
-	public RoundRobinLBStrategy(Map<String, Integer> lbFactors) {
+	public RoundRobinLoadBalanceStrategy(Map<String, Integer> lbFactors) {
 		currentTargets = Collections.synchronizedMap(lbFactors);
 		failedTargets = Collections.synchronizedMap(new HashMap<String, Integer>(currentTargets.size()));
 		reInitTargets(currentTargets);
@@ -80,11 +65,6 @@ public class RoundRobinLBStrategy implements LBStrategy<String> {
 		return buildBalanceTargets(lbFactors, MIN_LB_FACTOR);
 	}
 
-	/**
-	 * lb factor must great than 0
-	 * 
-	 * @param lbFactor
-	 */
 	private void fixFactor(Map<String, Integer> lbFactors) {
 		Set<Map.Entry<String, Integer>> setEntries = lbFactors.entrySet();
 		for (Map.Entry<String, Integer> entry : setEntries) {

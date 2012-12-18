@@ -48,11 +48,11 @@
 			<value>write</value>
 		</property>
 		<property name="alwaysReplaceExist" value="false"></property>
-		<property name="strategy" ref="roundRobinLBStrategy"></property>
+		<property name="strategy" ref="roundRobinLoadBalanceStrategy"></property>
 	</bean>
 
-	<bean id="roundRobinLBStrategy"
-		class="com.anders.ssh.datasource.lb.RoundRobinLBStrategy">
+	<bean id="roundRobinLoadBalanceStrategy"
+		class="com.anders.ssh.datasource.loadbalance.RoundRobinLoadBalanceStrategy">
 		<constructor-arg>
 			<map key-type="java.lang.String" value-type="java.lang.Integer">
 				<entry key="read02" value="1" />

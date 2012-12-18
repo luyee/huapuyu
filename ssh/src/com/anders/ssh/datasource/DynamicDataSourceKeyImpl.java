@@ -10,8 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 
-import com.anders.ssh.datasource.lb.LBStrategy;
-import com.anders.ssh.datasource.lb.RandomLBStrategy;
+import com.anders.ssh.datasource.lb.LoadBalanceStrategy;
+import com.anders.ssh.datasource.lb.RandomLoadBalanceStrategy;
 
 /**
  * 数据源key的存储控制器
@@ -37,7 +37,7 @@ public class DynamicDataSourceKeyImpl implements DynamicDataSourceKey, Initializ
 	 */
 	private boolean alwaysReplaceExist = false;
 
-	private LBStrategy<String> strategy;
+	private LoadBalanceStrategy<String> strategy;
 
 	/**
 	 * 写(主)库
@@ -111,11 +111,11 @@ public class DynamicDataSourceKeyImpl implements DynamicDataSourceKey, Initializ
 		this.alwaysReplaceExist = alwaysReplaceExist;
 	}
 
-	public LBStrategy<String> getStrategy() {
+	public LoadBalanceStrategy<String> getStrategy() {
 		return strategy;
 	}
 
-	public void setStrategy(LBStrategy<String> strategy) {
+	public void setStrategy(LoadBalanceStrategy<String> strategy) {
 		this.strategy = strategy;
 	}
 
@@ -165,7 +165,7 @@ public class DynamicDataSourceKeyImpl implements DynamicDataSourceKey, Initializ
 		// default using random strategy
 		if (strategy == null) {
 			List<String> list = new ArrayList<String>(readDateSourceMap.values());
-			strategy = new RandomLBStrategy(list);
+			strategy = new RandomLoadBalanceStrategy(list);
 		}
 	}
 }
