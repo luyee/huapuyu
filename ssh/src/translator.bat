@@ -1,1 +1,1 @@
-native2ascii -encoding utf-8 message.txt message_zh_CN.properties
+native2ascii -encoding utf-8 messages.txt messages_zh_CN.properties
