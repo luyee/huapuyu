@@ -10,8 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 
-import com.anders.ssh.datasource.lb.LoadBalanceStrategy;
-import com.anders.ssh.datasource.lb.RandomLoadBalanceStrategy;
+import com.anders.ssh.datasource.loadbalance.LoadBalanceStrategy;
+import com.anders.ssh.datasource.loadbalance.RandomLoadBalanceStrategy;
 
 /**
  * 数据源key的存储控制器
