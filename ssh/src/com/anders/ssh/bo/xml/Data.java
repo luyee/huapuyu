@@ -5,12 +5,22 @@ import java.io.Serializable;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
 public class Data implements Serializable {
+
 	private static final long serialVersionUID = -3076049534246559365L;
 
 	private Long id;
 	private String name;
 	private Byte type;
 	private Boolean enable = true;
+	private Integer version;
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
 
 	public Long getId() {
 		return id;

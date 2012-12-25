@@ -39,7 +39,9 @@ public abstract class HibernateDao<PK extends Serializable, T> extends Hibernate
 
 	@Override
 	public void deleteById(PK id) {
-		getHibernateTemplate().delete(this.getById(id));
+		T entity = getById(id);
+		if (entity != null)
+			getHibernateTemplate().delete(entity);
 	}
 
 	@Override
