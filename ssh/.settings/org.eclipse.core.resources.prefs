@@ -1,12 +1,9 @@
-#Tue Nov 20 00:35:47 CST 2012
+#Fri Dec 21 00:58:38 CST 2012
 eclipse.preferences.version=1
 encoding//src/com/anders/ssh/aop/aspectj/annotation/LoggerAspect.java=UTF-8
 encoding//src/com/anders/ssh/common/Utils.java=UTF-8
 encoding//src/db.properties=UTF-8
 encoding//src/log4j.properties=UTF-8
-encoding//src/message.properties=UTF-8
-encoding//src/message.txt=UTF-8
-encoding//src/message_zh_CN.properties=UTF-8
 encoding//src/messages_en.properties=UTF-8
 encoding//src/messages_zh.properties=UTF-8
 encoding//src/system.properties=UTF-8
