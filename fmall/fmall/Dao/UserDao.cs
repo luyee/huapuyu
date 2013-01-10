@@ -7,7 +7,7 @@ using Spring.Data.NHibernate.Generic.Support;
 
 namespace fmall.Dao
 {
-    public class UserDao : HibernateDaoSupport, IDao<User, long>
+    public class UserDao : HibernateDaoSupport//, IGenericDao<User, long>
     {
         public void save(User user)
         {

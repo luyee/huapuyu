@@ -17,8 +17,10 @@ namespace fmall.Controllers
             ViewBag.Message = "欢迎使用 ASP.NET MVC!";
 
             User user = new User();
+            user.userName = "zhuzhen";
             user.name = "zhuzhen";
-            user.pwd = "123";
+            user.password = "123";
+            user.email = "";
             userDao.save(user);
 
             return View();
