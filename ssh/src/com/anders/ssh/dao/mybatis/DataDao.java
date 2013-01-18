@@ -46,4 +46,10 @@ public class DataDao implements Dao<Long, Data> {
 		dataMapper.update(data);
 	}
 
+	@Override
+	public void saveOrUpdate(Data entity) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

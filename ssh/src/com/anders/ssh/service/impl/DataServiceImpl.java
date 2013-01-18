@@ -44,4 +44,9 @@ public class DataServiceImpl implements DataService {
 	public void update(Data data) {
 		dataDao.update(data);
 	}
+
+	@Override
+	public void saveOrUpdate(Data data) {
+		dataDao.saveOrUpdate(data);
+	}
 }

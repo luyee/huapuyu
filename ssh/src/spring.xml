@@ -17,11 +17,6 @@
 	<!-- annotation -->
 	<import resource="classpath:config/spring-annotation.xml"/>
 	
-	<!-- test -->
-	<!--
-	<import resource="classpath:config/spring-test.xml"/>
-	-->
-	
 	<!-- security -->
 	<!--  
 	<import resource="classpath:config/spring-security.xml"/>
@@ -44,9 +39,7 @@
 	-->
 	
 	<!-- hibernate -->
-	<!--  
 	<import resource="classpath:config/spring-hibernate.xml"/>
-	-->
 	
 	<!-- one master many slaves -->
 	<import resource="classpath:config/spring-omms.xml"/>

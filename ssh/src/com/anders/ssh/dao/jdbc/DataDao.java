@@ -53,4 +53,10 @@ public class DataDao extends JdbcDao<Integer, Data> {
 		Object[] object = new Object[] { entity.getName(), entity.getType(), entity.getId() };
 		getJdbcTemplate().update("UPDATE cfg_data SET name = ?, type = ? WHERE id = ?", object);
 	}
+
+	@Override
+	public void saveOrUpdate(Data entity) {
+		// TODO Auto-generated method stub
+
+	}
 }

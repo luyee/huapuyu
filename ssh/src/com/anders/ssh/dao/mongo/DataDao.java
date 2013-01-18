@@ -42,4 +42,8 @@ public class DataDao extends MongoDao<Integer, Data> {
 	public void update(Data data) {
 		mongoTemplate.updateFirst(new Query(Criteria.where("id").is(data.getId())), Update.update("name", data.getName()), Data.class);
 	}
+
+	@Override
+	public void saveOrUpdate(Data entity) {
+	}
 }

@@ -15,4 +15,6 @@ public interface Dao<PK extends Serializable, T> {
 	public void deleteById(PK id);
 
 	public List<T> getAll();
+
+	public void saveOrUpdate(T entity);
 }

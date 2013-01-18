@@ -46,4 +46,10 @@ public class CompanyDao implements Dao<Long, Company> {
 
 	}
 
+	@Override
+	public void saveOrUpdate(Company entity) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

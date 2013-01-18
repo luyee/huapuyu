@@ -38,4 +38,10 @@ public class DataDao extends JpaDao<Integer, Data> {
 	public void update(Data entity) {
 		getJpaTemplate().merge(entity);
 	}
+
+	@Override
+	public void saveOrUpdate(Data entity) {
+		// TODO Auto-generated method stub
+
+	}
 }

@@ -105,8 +105,21 @@
 		    </list>
 		</property>
 	    -->
-	    <property name="packagesToScan" value="com.anders.ssh.model"/>
+	    <property name="packagesToScan" value="com.anders.ssh.bo"/>
+	    <property name="entityInterceptor">   
+            <ref bean="myIntercept"/>  
+        </property> 
+        <property name="eventListeners">   
+            <map>  
+                <entry key="post-update">  
+                    <ref bean="myListener" />  
+                </entry>  
+            </map>  
+        </property>   
 	</bean>
+	
+	<bean id="myIntercept" class="com.anders.ssh.hibernate.MyIntercept"/> 
+	<bean id="myListener" class="com.anders.ssh.hibernate.MyListener"/>   
 
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">

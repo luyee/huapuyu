@@ -39,4 +39,9 @@ public class DataDao extends IbatisDao<Long, Data> {
 		getSqlMapClientTemplate().delete("deleteById", id);
 	}
 
+	@Override
+	public void saveOrUpdate(Data entity) {
+
+	}
+
 }

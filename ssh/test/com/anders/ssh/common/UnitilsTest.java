@@ -22,8 +22,8 @@ public class UnitilsTest extends UnitilsJUnit4 {
 	private DataDao dataDao;
 
 	@Test
-	// @DataSet("UnitilsTest.xml")
-	@DataSet
+	@DataSet("UnitilsTest.xml")
+	// @DataSet
 	@Transactional(value = TransactionMode.COMMIT, transactionManagerName = "hibernateTxManager")
 	// 报错：org.unitils.core.UnitilsException: Make sure that the persistence provider that is used is an instance of UnitilsHibernatePersistenceProvider
 	public void test1() {

@@ -64,6 +64,12 @@ public abstract class HibernateDao<PK extends Serializable, T> extends Hibernate
 		return getHibernateTemplate().loadAll(entityClass);
 	}
 
+	@Override
+	public void saveOrUpdate(T entity) {
+		getHibernateTemplate().saveOrUpdate(entity);
+		// getHibernateTemplate().merge(entity);
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<T> find(final String hql, final Object... values) {
 		return getHibernateTemplate().find(hql, values);

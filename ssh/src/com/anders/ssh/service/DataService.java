@@ -16,4 +16,6 @@ public interface DataService {
 	public void deleteById(Long id);
 
 	public List<Data> getAll();
+
+	public void saveOrUpdate(Data data);
 }
