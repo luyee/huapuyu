@@ -16,37 +16,50 @@
 	</path>
 
 	<target name="clean">
-			<echo message="清洗项目"/>
-			<delete dir="${classes.dir}"/>
-			<delete dir="${lib.dir}"/>
-			<delete dir="${dest}"/>
+		<echo message="清洗"/>
+		<delete dir="${classes.dir}"/>
+		<delete dir="${lib.dir}"/>
+		<delete dir="${dest}"/>
 	</target>
 	
 	<target depends="clean" name="init">
-		<echo message="初始化项目"/>
+		<echo message="初始化"/>
 		<mkdir dir="${classes.dir}"/>
 		<mkdir dir="${lib.dir}"/>
 		<mkdir dir="${dest}"/>
+		<!--
 		<copy includeemptydirs="false" todir="${classes.dir}">
 			<fileset dir="src" excludes="**/*.java"/>
 		</copy>
+		-->
 		<copy includeemptydirs="false" todir="${lib.dir}" overwrite="true">
 			<fileset dir="lib" includes="**/*.jar" />
 		</copy>
 	</target>
 
 	<target depends="init" name="compile">
-		<echo message="编译项目"/>
-		<javac debug="false" destdir="WebRoot/WEB-INF/classes" source="${source}" target="${target}"  includeantruntime="on">
+		<echo message="编译"/>
+		<javac debug="false" destdir="${classes.dir}" source="${source}" target="${target}"  includeantruntime="on">
 			<src path="src"/>
 			<classpath refid="classpath"/>
 			<compilerarg value="-Xlint:unchecked" />
 			<compilerarg line="-encoding UTF-8" />
 		</javac>
+		<!--
+		<copy todir="webroot/WEB-INF/classes" overwrite="true">
+    		<fileset dir="bes-cfg" includes="aisystem.ini" />
+    	</copy>
+        <copy todir="webroot/WEB-INF" overwrite="true">
+        	<fileset dir="bes-cfg" includes="web.xml" />
+        </copy>
+    	<delete>
+    		<fileset dir="webroot/WEB-INF/lib" includes="ojdbc14.jar,jndi-1.2.1.jar,vbjorb.jar,vbsec.jar,lm.jar,asrt.jar,servlet.jar" />
+    	</delete>
+		-->
 	</target>
 
-	<target depends="clean, compile" name="build">
-		<echo message="压缩成war和jar包"/>
+	<target depends="compile" name="build">
+		<echo message="打包"/>
 		<war warfile="${dest}/ssh.war" basedir="WebRoot" webxml="WebRoot/WEB-INF/web.xml" />
 		<!--
 		<jar jarfile="${dest}/ssh.jar" basedir="${classes.dir}">
@@ -55,6 +68,9 @@
 			<exclude name="com/**/common/*.*"/>
 			<exclude name="struts.properties"/>
 			<exclude name="struts.xml"/>
+		</jar>
+		<jar destfile="${dest}/boss30gk.war">
+			<fileset dir="webroot"/>
 		</jar>
 		-->
 	</target>
