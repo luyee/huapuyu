@@ -43,6 +43,7 @@
         <dependency org="org.apache.struts" name="struts2-spring-plugin" rev="2.3.1.2" />
         <dependency org="org.apache.struts" name="struts2-convention-plugin" rev="2.3.1.2" />
         <dependency org="org.apache.struts" name="struts2-json-plugin" rev="2.3.1.2" />
+        <dependency org="org.apache.struts" name="struts2-junit-plugin" rev="2.3.1.2" />
         <dependency org="org.apache.shiro" name="shiro-core" rev="1.2.0" />
         <dependency org="org.apache.shiro" name="shiro-web" rev="1.2.0" />
         <dependency org="org.apache.shiro" name="shiro-spring" rev="1.2.0" />
@@ -74,6 +75,7 @@
         	<exclude org="jboss" name="jboss" />
         	<exclude org="oracle" name="classes12" />    
         </dependency>
+        <dependency org="com.googlecode.jmockit" name="jmockit" rev="latest.integration" />
         
         <exclude org="struts" artifact="struts" />
         <exclude org="javax.servlet.jsp" artifact="jsp-api" />

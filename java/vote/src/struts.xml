@@ -21,7 +21,8 @@
     <constant name="struts.serve.static.browserCache" value="false" /> 
     <constant name="struts.enable.DynamicMethodInvocation" value="false"/> 
     -->
-
+    <constant name="struts.convention.result.path" value="/WEB-INF/"/>
+    
     <package name="vote-default" namespace="/" extends="struts-default">
         <interceptors>
             <interceptor name="voteInterceptor" class="com.anders.vote.interceptor.VoteInterceptor"></interceptor>

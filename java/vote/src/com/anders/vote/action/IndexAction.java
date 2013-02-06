@@ -54,6 +54,14 @@ public class IndexAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	@Action(value = "forTest", results = { @Result(name = "success", type = "freemarker", location = "/WEB-INF/add.ftl") })
+	public String forTest() {
+		if (user.equals("zhuzhen")) {
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+
 	// getter and setter
 
 	public String getUser() {
