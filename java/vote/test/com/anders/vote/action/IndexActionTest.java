@@ -11,12 +11,17 @@ public class IndexActionTest extends StrutsSpringTestCase {
 
 	@Test
 	public void testForTest1() {
+		// ApplicationContext context = applicationContext;
+		// String[] names = context.getBeanDefinitionNames();
+		// for (String name : names) {
+		// System.out.println(name);
+		// }
+
 		request.setParameter("user", "guolili");
 		ActionProxy proxy = getActionProxy("/forTest.do");
 		IndexAction action = (IndexAction) proxy.getAction();
 		String result = StringUtils.EMPTY;
 		try {
-			System.out.println(resourceLoader.toString());
 			result = proxy.execute();
 		}
 		catch (Exception e) {
