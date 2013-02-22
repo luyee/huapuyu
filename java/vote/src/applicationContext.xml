@@ -99,6 +99,7 @@
                 /404.jsp = anon
                 /json/json1.do = anon
                 /json/json2.do = anon
+                /add.do = anon
                 /js/** = anon
                 /css/** = anon
                 /images/** = anon
