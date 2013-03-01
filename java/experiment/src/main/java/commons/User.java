@@ -1,11 +1,14 @@
 package commons;
 
+import java.util.Date;
+
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
 public class User {
 	private Long id;
 	private String name;
 	private String desc;
+	private Date time;
 
 	public Long getId() {
 		return id;
@@ -29,6 +32,14 @@ public class User {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public Date getTime() {
+		return time;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
 	}
 
 	@Override
