@@ -46,12 +46,15 @@ public class CsvUtil {
 		if (!list.toString().equals("[]")) {
 			if (list.get(0).toString().contains(",")) { // csv文件中，每列之间的是用','来分隔的
 				return list.get(0).toString().split(",").length;
-			} else if (list.get(0).toString().trim().length() != 0) {
+			}
+			else if (list.get(0).toString().trim().length() != 0) {
 				return 1;
-			} else {
+			}
+			else {
 				return 0;
 			}
-		} else {
+		}
+		else {
 			return 0;
 		}
 	}
@@ -77,7 +80,8 @@ public class CsvUtil {
 				temp = it.next().toString();
 				scol = scol.append(temp.split(",")[index] + ",");
 			}
-		} else {
+		}
+		else {
 			for (Iterator<String> it = list.iterator(); it.hasNext();) {
 				temp = it.next().toString();
 				scol = scol.append(temp + ",");
@@ -94,9 +98,11 @@ public class CsvUtil {
 		int colnum = this.getColNum();
 		if (colnum > 1) {
 			temp = list.get(row).toString().split(",")[col];
-		} else if (colnum == 1) {
+		}
+		else if (colnum == 1) {
 			temp = list.get(row).toString();
-		} else {
+		}
+		else {
 			temp = null;
 		}
 		return temp;

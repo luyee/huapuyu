@@ -44,7 +44,8 @@ public class ThreadDemo3 extends Thread {
 		System.out.println("thread " + currentThreadName + " first  read age is:" + student.getAge());
 		try {
 			Thread.sleep(5000);
-		} catch (InterruptedException ex) {
+		}
+		catch (InterruptedException ex) {
 			ex.printStackTrace();
 		}
 		System.out.println("thread " + currentThreadName + " second read age is:" + student.getAge());

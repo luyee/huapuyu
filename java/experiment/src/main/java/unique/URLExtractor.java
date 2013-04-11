@@ -299,7 +299,11 @@ public class URLExtractor {
 		System.out.println(getDomain(url));
 		System.out.println(getPreDomain(url));
 
-		url = "http://www.518tx.com";
+		url = "www.518tx.com";
+		System.out.println(getDomain(url));
+		System.out.println(getPreDomain(url));
+
+		url = "http://www.518tx.com.cn";
 		System.out.println(getDomain(url));
 		System.out.println(getPreDomain(url));
 	}
