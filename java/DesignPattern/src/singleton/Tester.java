@@ -26,24 +26,20 @@ public class Tester {
 	}
 
 	@Test
-	public void test1() {
-		System.out.println(SingletonClass.getInstance().toString());
-		System.out.println(SingletonClass.getInstance().toString());
-		System.out.println(SingletonClass.getInstance().toString());
-
-		// Java中的非常典型的单例模式
-		try {
-			Runtime.getRuntime().exec("notepad.exe");
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void test懒汉() {
+		System.out.println(懒汉.getInstance().toString());
+		System.out.println(懒汉.getInstance().toString());
+		System.out.println(懒汉.getInstance().toString());
 	}
 
 	@Test
-	public void test2() {
-		System.out.println(SingletonClass1.getInstance().toString());
-		System.out.println(SingletonClass1.getInstance().toString());
-		System.out.println(SingletonClass1.getInstance().toString());
+	public void test饿汉() throws IOException {
+		System.out.println(饿汉.getInstance().toString());
+		System.out.println(饿汉.getInstance().toString());
+		System.out.println(饿汉.getInstance().toString());
+
+		// Java中非常典型的饿汉单例模式
+		Runtime runtime = Runtime.getRuntime();
+		runtime.exec("notepad.exe");
 	}
 }
