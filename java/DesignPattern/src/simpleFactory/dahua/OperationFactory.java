@@ -1,16 +1,12 @@
 package simpleFactory.dahua;
 
-public class OperationFactory
-{
-	public enum Operator
-	{
+public class OperationFactory {
+	public enum Operator {
 		ADD, SUB
 	}
 
-	public static Operation<Integer> getOperation(Operator operator)
-	{
-		switch (operator)
-		{
+	public static Operation<Integer> getOperation(Operator operator) {
+		switch (operator) {
 		case ADD:
 			return new AddOperation();
 		case SUB:

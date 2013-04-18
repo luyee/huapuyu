@@ -1,11 +1,8 @@
 package simpleFactory;
 
-public class 普通工厂类
-{
-	public static ICar factory(汽车品牌 carBrand) throws CreateCarException
-	{
-		switch (carBrand)
-		{
+public class 普通工厂类 {
+	public static ICar factory(汽车品牌 carBrand) throws CreateCarException {
+		switch (carBrand) {
 		case 奔驰:
 			return new 奔驰();
 		case 奥迪:

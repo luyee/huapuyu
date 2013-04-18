@@ -5,11 +5,9 @@ import org.junit.Test;
 
 import simpleFactory.dahua.OperationFactory.Operator;
 
-public class Tester
-{
+public class Tester {
 	@Test
-	public void test()
-	{
+	public void test() {
 		Operation<Integer> addOperation = OperationFactory.getOperation(Operator.ADD);
 		addOperation.setA(1);
 		addOperation.setB(2);

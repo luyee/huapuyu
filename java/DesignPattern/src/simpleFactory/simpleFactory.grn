@@ -14,13 +14,6 @@
       <x="92"/>
       <y="230"/>
    </type>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
-      <sourceType="=DesignPattern/src<simpleFactory{°ÂµÏ.java[°ÂµÏ"/>
-      <targetType="=DesignPattern/src<simpleFactory{ICar.java[ICar"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
    <type>
       <name="=DesignPattern/src<simpleFactory{±¦Âí.java[±¦Âí"/>
       <height="-1"/>
@@ -28,13 +21,6 @@
       <x="323"/>
       <y="181"/>
    </type>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
-      <sourceType="=DesignPattern/src<simpleFactory{±¦Âí.java[±¦Âí"/>
-      <targetType="=DesignPattern/src<simpleFactory{ICar.java[ICar"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
    <type>
       <name="=DesignPattern/src<simpleFactory{±¼³Û.java[±¼³Û"/>
       <height="-1"/>
@@ -42,13 +28,6 @@
       <x="368"/>
       <y="13"/>
    </type>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
-      <sourceType="=DesignPattern/src<simpleFactory{±¼³Û.java[±¼³Û"/>
-      <targetType="=DesignPattern/src<simpleFactory{ICar.java[ICar"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
    <type>
       <name="=DesignPattern/src<simpleFactory{·´Éä¹¤³§Àà.java[·´Éä¹¤³§Àà"/>
       <height="-1"/>
@@ -70,5 +49,26 @@
       <x="513"/>
       <y="336"/>
    </note>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
+      <sourceType="=DesignPattern/src<simpleFactory{±¼³Û.java[±¼³Û"/>
+      <targetType="=DesignPattern/src<simpleFactory{ICar.java[ICar"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
+      <sourceType="=DesignPattern/src<simpleFactory{±¦Âí.java[±¦Âí"/>
+      <targetType="=DesignPattern/src<simpleFactory{ICar.java[ICar"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
+      <sourceType="=DesignPattern/src<simpleFactory{°ÂµÏ.java[°ÂµÏ"/>
+      <targetType="=DesignPattern/src<simpleFactory{ICar.java[ICar"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
 </uml>
 

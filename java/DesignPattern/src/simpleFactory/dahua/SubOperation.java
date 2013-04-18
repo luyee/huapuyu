@@ -1,10 +1,8 @@
 package simpleFactory.dahua;
 
-public class SubOperation extends Operation<Integer>
-{
+public class SubOperation extends Operation<Integer> {
 	@Override
-	Integer operator()
-	{
+	Integer operator() {
 		return a - b;
 	}
 }

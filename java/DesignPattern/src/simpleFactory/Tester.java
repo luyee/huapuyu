@@ -13,31 +13,25 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-public class Tester
-{
+public class Tester {
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception
-	{
+	public static void setUpBeforeClass() throws Exception {
 	}
 
 	@AfterClass
-	public static void tearDownAfterClass() throws Exception
-	{
+	public static void tearDownAfterClass() throws Exception {
 	}
 
 	@Before
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 	}
 
 	@After
-	public void tearDown() throws Exception
-	{
+	public void tearDown() throws Exception {
 	}
 
 	@Test
-	public void 普通工厂类() throws CreateCarException, SAXException
-	{
+	public void 普通工厂类() throws CreateCarException, SAXException {
 		ICar 奔驰 = 普通工厂类.factory(汽车品牌.奔驰);
 		奔驰.启动();
 		奔驰.停止();
@@ -55,14 +49,14 @@ public class Tester
 		String className = "org.apache.xerces.parsers.SAXParser";
 		XMLReader xmlReader = XMLReaderFactory.createXMLReader(className);
 		System.out.println(xmlReader.getClass().getName());
+
 		className = "org.apache.crimson.parser.XMLReaderImpl";
 		xmlReader = XMLReaderFactory.createXMLReader(className);
 		System.out.println(xmlReader.getClass().getName());
 	}
 
 	@Test
-	public void 反射工厂类() throws InstantiationException, IllegalAccessException, ClassNotFoundException
-	{
+	public void 反射工厂类() throws InstantiationException, IllegalAccessException, ClassNotFoundException, CreateCarException {
 		ICar 奔驰 = 反射工厂类.getInstance(汽车品牌.奔驰);
 		奔驰.启动();
 		奔驰.停止();
