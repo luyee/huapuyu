@@ -1,100 +1,169 @@
 package 集合;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import junit.framework.Assert;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 public class Tester {
-	public static void main(String[] args) {
-		List<String> l = new ArrayList<String>();
-		l.add("zhuzhen");
-		l.add("guolili");
-		l.add("guolili");
 
-		for (String lTemp : l) {
-			System.out.println(lTemp);
-		}
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+	}
 
-		Set<String> s = new HashSet<String>();
-		s.add("zhuzhen");
-		s.add("guolili");
-		s.add("guolili");
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+	}
 
-		for (String sTemp : s) {
-			System.out.println(sTemp);
-		}
+	@Before
+	public void setUp() throws Exception {
+	}
 
-		System.out.println("-----------------------------");
+	@After
+	public void tearDown() throws Exception {
+	}
 
+	@Test
+	public void testListAndSet() {
 		List<String> list = new ArrayList<String>();
-		list.add("zhangsan");
-		list.add("zhuzhen");
-		list.add("guolili");
-		list.add("cat");
+		list.add("朱振");
+		list.add("郭立立");
+		list.add("郭立立");
+		Assert.assertEquals(3, list.size());
+
+		Set<String> set = new HashSet<String>();
+		set.add("朱振");
+		set.add("郭立立");
+		set.add("郭立立");
+		Assert.assertEquals(2, set.size());
+	}
+
+	@Test
+	public void test安全自删除集合元素() {
+		List<String> list = new ArrayList<String>();
+		list.add("张三");
+		list.add("李四");
+		list.add("王五");
+		list.add("赵六");
+
+		Assert.assertEquals(4, list.size());
 
 		for (Iterator<String> it = list.iterator(); it.hasNext();) {
-			String str = it.next();
-			if (str.equals("zhangsan"))
+			if ("李四".equals(it.next()))
 				it.remove();
 		}
 
-		for (Iterator<String> it = list.iterator(); it.hasNext();) {
-			System.out.println(it.next());
-		}
+		Assert.assertEquals(3, list.size());
+	}
 
-		// 下面两种方法抛出异常
-		// Exception in thread "main" java.util.ConcurrentModificationException
-		// at java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
-		// at java.util.AbstractList$Itr.next(AbstractList.java:343)
-		// at 集合.Tester.main(Tester.java:48)
-		// for (Iterator<String> iterator = list.iterator(); iterator.hasNext();) {
-		// String string = iterator.next();
-		// if (string.equals("cat")) {
-		// list.add("cat5555");
-		// // list.remove("cat");add和remove都会产生异常
-		// }
-		// }
-		try {
-			for (String s123 : list) {
-				if (s123.equals("cat")) {
-					list.add("cat5555");
-					// list.remove("cat");add和remove都会产生异常
-				}
+	// 下面方法抛出如下异常
+	// java.util.ConcurrentModificationException
+	// at java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
+	// at java.util.AbstractList$Itr.next(AbstractList.java:343)
+	@Test(expected = ConcurrentModificationException.class)
+	public void test自删除集合元素1() {
+		List<String> list = new ArrayList<String>();
+		list.add("张三");
+		list.add("李四");
+		list.add("王五");
+		list.add("赵六");
+
+		for (Iterator<String> it = list.iterator(); it.hasNext();) {
+			if ("李四".equals(it.next()))
+				list.remove("李四");
+		}
+	}
+
+	// 下面方法抛出如下异常
+	// java.util.ConcurrentModificationException
+	// at java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
+	// at java.util.AbstractList$Itr.next(AbstractList.java:343)
+	@Test(expected = ConcurrentModificationException.class)
+	public void test自删除集合元素2() {
+		List<String> list = new ArrayList<String>();
+		list.add("张三");
+		list.add("李四");
+		list.add("王五");
+		list.add("赵六");
+
+		for (String name : list) {
+			if ("李四".equals(name)) {
+				list.remove("李四");
 			}
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+	}
 
+	// 下面方法抛出如下异常
+	// java.util.ConcurrentModificationException
+	// at java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
+	// at java.util.AbstractList$Itr.next(AbstractList.java:343)
+	@Test(expected = ConcurrentModificationException.class)
+	public void test自添加集合元素1() {
+		List<String> list = new ArrayList<String>();
+		list.add("张三");
+		list.add("李四");
+		list.add("王五");
+
+		for (Iterator<String> it = list.iterator(); it.hasNext();) {
+			if ("李四".equals(it.next()))
+				list.add("赵六");
+		}
+	}
+
+	// 下面方法抛出如下异常
+	// java.util.ConcurrentModificationException
+	// at java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
+	// at java.util.AbstractList$Itr.next(AbstractList.java:343)
+	@Test(expected = ConcurrentModificationException.class)
+	public void test自添加集合元素2() {
+		List<String> list = new ArrayList<String>();
+		list.add("张三");
+		list.add("李四");
+		list.add("王五");
+
+		for (String name : list) {
+			if ("李四".equals(name)) {
+				list.add("赵六");
+			}
+		}
+	}
+
+	@Test
+	public void test对象引用() {
 		MyVO myVO = new MyVO();
-		List<String> list2222 = myVO.getList();
-		list2222.clear();
-		System.out.println("清空list是否影响MyVO中的list");
+		List<String> list = myVO.getList();
+		list.clear();
+
 		for (Iterator<String> it = myVO.getList().iterator(); it.hasNext();) {
-			System.out.println(it.next());
+			Assert.fail();
 		}
 	}
-}
 
-class MyVO {
-	private List<String> list;
+	@Test
+	public void test数组拷贝() {
+		// 浅拷贝
+		int[] nums1 = new int[] { 12, 13, 14 };
+		int[] nums2 = nums1;
+		Assert.assertTrue(nums1 == nums2);
 
-	public MyVO() {
-		list = new ArrayList<String>();
-		list.add("zhangsan");
-		list.add("zhuzhen");
-		list.add("guolili");
-		list.add("cat");
+		// 深拷贝（1.6版本之前用此方法）
+		int[] nums3 = new int[3];
+		System.arraycopy(nums1, 0, nums3, 0, 3);
+		Assert.assertFalse(nums1 == nums3);
+
+		// 深拷贝（1.6版本之后用此方法）
+		int[] nums4 = Arrays.copyOf(nums1, nums1.length);
+		Assert.assertFalse(nums1 == nums4);
 	}
-
-	public List<String> getList() {
-		return list;
-	}
-
-	public void setList(List<String> list) {
-		this.list = list;
-	}
-
 }
