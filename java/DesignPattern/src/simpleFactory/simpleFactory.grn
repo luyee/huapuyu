@@ -51,14 +51,14 @@
    </note>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
-      <sourceType="=DesignPattern/src<simpleFactory{±¼³Û.java[±¼³Û"/>
+      <sourceType="=DesignPattern/src<simpleFactory{±¦Âí.java[±¦Âí"/>
       <targetType="=DesignPattern/src<simpleFactory{ICar.java[ICar"/>
       <bendpoints>
       </bendpoints>
    </relationship>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.realization.RealizationPart"/>
-      <sourceType="=DesignPattern/src<simpleFactory{±¦Âí.java[±¦Âí"/>
+      <sourceType="=DesignPattern/src<simpleFactory{±¼³Û.java[±¼³Û"/>
       <targetType="=DesignPattern/src<simpleFactory{ICar.java[ICar"/>
       <bendpoints>
       </bendpoints>

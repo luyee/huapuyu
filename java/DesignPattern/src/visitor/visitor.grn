@@ -64,13 +64,6 @@
       <y="489"/>
    </note>
    <relationship>
-      <class="edu.buffalo.cse.green.relationship.association.AssociationPart"/>
-      <sourceType="=DesignPattern/src<visitor{ObjectStructure.java[ObjectStructure"/>
-      <targetType="=DesignPattern/src<visitor{Person.java[Person"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
       <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
       <sourceType="=DesignPattern/src<visitor{成功.java[成功"/>
       <targetType="=DesignPattern/src<visitor{Action.java[Action"/>
@@ -79,7 +72,28 @@
    </relationship>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
+      <sourceType="=DesignPattern/src<visitor{男人.java[男人"/>
+      <targetType="=DesignPattern/src<visitor{Person.java[Person"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
+      <sourceType="=DesignPattern/src<visitor{失败.java[失败"/>
+      <targetType="=DesignPattern/src<visitor{Action.java[Action"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
       <sourceType="=DesignPattern/src<visitor{女人.java[女人"/>
+      <targetType="=DesignPattern/src<visitor{Person.java[Person"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.association.AssociationPart"/>
+      <sourceType="=DesignPattern/src<visitor{ObjectStructure.java[ObjectStructure"/>
       <targetType="=DesignPattern/src<visitor{Person.java[Person"/>
       <bendpoints>
       </bendpoints>
@@ -93,21 +107,7 @@
    </relationship>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=DesignPattern/src<visitor{男人.java[男人"/>
-      <targetType="=DesignPattern/src<visitor{Person.java[Person"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
       <sourceType="=DesignPattern/src<visitor{恋爱.java[恋爱"/>
-      <targetType="=DesignPattern/src<visitor{Action.java[Action"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=DesignPattern/src<visitor{失败.java[失败"/>
       <targetType="=DesignPattern/src<visitor{Action.java[Action"/>
       <bendpoints>
       </bendpoints>

@@ -10,33 +10,30 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.aop.framework.ProxyFactoryBean;
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.scheduling.timer.TimerFactoryBean;
 
-public class Tester
-{
+public class Tester {
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception
-	{
+	public static void setUpBeforeClass() throws Exception {
 	}
 
 	@AfterClass
-	public static void tearDownAfterClass() throws Exception
-	{
+	public static void tearDownAfterClass() throws Exception {
 	}
 
 	@Before
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 	}
 
 	@After
-	public void tearDown() throws Exception
-	{
+	public void tearDown() throws Exception {
 	}
 
 	@Test
-	public void test()
-	{
-		I抽象工厂类 factory = new 奥迪工厂类();
+	public void test() throws Exception {
+		IFactory factory = new 奥迪工厂类();
 		ICar car = factory.factory();
 		car.启动();
 		car.停止();
@@ -57,8 +54,7 @@ public class Tester
 		// 返回java.util.AbstractList$Itr
 		// private class Itr implements Iterator<E>
 		System.out.println(collection.iterator().getClass().getName());
-		for (Iterator<String> iterator = collection.iterator(); iterator.hasNext();)
-		{
+		for (Iterator<String> iterator = collection.iterator(); iterator.hasNext();) {
 			String object = (String) iterator.next();
 			System.out.println(object);
 		}
@@ -70,10 +66,19 @@ public class Tester
 		// private final class KeyIterator extends HashIterator<K>
 		// private abstract class HashIterator<E> implements Iterator<E> {
 		System.out.println(collection.iterator().getClass().getName());
-		for (Iterator<String> iterator = collection.iterator(); iterator.hasNext();)
-		{
+		for (Iterator<String> iterator = collection.iterator(); iterator.hasNext();) {
 			String object = (String) iterator.next();
 			System.out.println(object);
 		}
+
+		FactoryBean factoryBean = new ProxyFactoryBean();
+		// 返回AopProxy，AopProxy继承Object
+		Object object = factoryBean.getObject();
+		System.out.println(object.getClass().getName());
+
+		factoryBean = new TimerFactoryBean();
+		// 返回Timer，Timer继承Object
+		object = factoryBean.getObject();
+		System.out.println(object.getClass().getName());
 	}
 }

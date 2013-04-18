@@ -1,21 +1,21 @@
 <uml>
    <greenVersion="30500"/>
    <type>
-      <name="=DesignPattern/src<singleton{æ‡’æ±‰.javaass"/>
+      <name="=DesignPattern/src<singleton{¶öºº.java[¶öºº"/>
       <height="-1"/>
       <width="-1"/>
-      <x="441"/>
-      <y="28"/>
+      <x="178"/>
+      <y="172"/>
    </type>
    <type>
-      <name="=DesignPattern/src<singleton{é¥¿æ±‰.javass1"/>
+      <name="=DesignPattern/src<singleton{ÀÁºº.java[ÀÁºº"/>
       <height="-1"/>
       <width="-1"/>
-      <x="275"/>
-      <y="158"/>
+      <x="418"/>
+      <y="44"/>
    </type>
    <note>
-      <text="ï¿½ï¿½ï¿½ï¿½Ä£Ê½"/>
+      <text="µ¥ÀýÄ£Ê½"/>
       <height="50"/>
       <width="150"/>
       <x="99"/>

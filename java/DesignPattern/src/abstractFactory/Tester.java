@@ -6,31 +6,25 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class Tester
-{
+public class Tester {
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception
-	{
+	public static void setUpBeforeClass() throws Exception {
 	}
 
 	@AfterClass
-	public static void tearDownAfterClass() throws Exception
-	{
+	public static void tearDownAfterClass() throws Exception {
 	}
 
 	@Before
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 	}
 
 	@After
-	public void tearDown() throws Exception
-	{
+	public void tearDown() throws Exception {
 	}
 
 	@Test
-	public void test()
-	{
+	public void test() {
 		I俱乐部 club = new 尤文图斯();
 		I前锋 forward = club.factory前锋();
 		I球场 field = club.factory球场();
@@ -47,7 +41,6 @@ public class Tester
 		field.名称();
 		field.地点();
 
-		// BeanFactory是抽象工厂模式，但不是太典型，需要找一个典型的抽象工厂模式
-		// XmlBeanFactory
+		// AbstractBeanFactory是典型的抽象工厂模式
 	}
 }

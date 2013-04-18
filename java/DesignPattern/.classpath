@@ -13,5 +13,8 @@
 	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="lib/crimson.jar"/>
+	<classpathentry kind="lib" path="lib/struts2-core-2.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/xwork-core-2.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/struts-core-1.3.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,6 +1,5 @@
 package factoryMethod;
 
-public interface I抽象工厂类
-{
+public interface IFactory {
 	public ICar factory();
 }
