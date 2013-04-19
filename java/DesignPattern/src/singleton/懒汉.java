@@ -1,7 +1,7 @@
 package singleton;
 
 public class 懒汉 {
-	private static 懒汉 singleton = null;
+	private volatile static 懒汉 singleton = null;
 
 	private 懒汉() {
 	}
