@@ -1,36 +1,32 @@
 package prototype.simple;
 
+import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class Tester
-{
+public class Tester {
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception
-	{
+	public static void setUpBeforeClass() throws Exception {
 	}
 
 	@AfterClass
-	public static void tearDownAfterClass() throws Exception
-	{
+	public static void tearDownAfterClass() throws Exception {
 	}
 
 	@Before
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 	}
 
 	@After
-	public void tearDown() throws Exception
-	{
+	public void tearDown() throws Exception {
 	}
 
 	@Test
-	public void test()
-	{
+	public void test() {
 		// 设计clone时的三个条件
 		// x.clone != x
 		// x.clone.getClass() == x.getClass()
@@ -41,13 +37,6 @@ public class Tester
 		Prototype p2 = (Prototype) p1.clone();
 		System.out.println(p2.getClass().getName() + "\t" + p2.hashCode());
 
-		if (p1.equals(p2))
-		{
-			System.out.println("true");
-		}
-		else
-		{
-			System.out.println("false");
-		}
+		Assert.assertTrue(!p1.equals(p2));
 	}
 }
