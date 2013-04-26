@@ -1,6 +1,7 @@
 package jvm;
 
 import java.io.IOException;
+import java.util.Map;
 
 import net.sourceforge.sizeof.SizeOf;
 
@@ -16,14 +17,26 @@ import net.sourceforge.sizeof.SizeOf;
  */
 public class Heap {
 
-	private static char[] array = new char[512 * 1024* 10];
+	private static char[] array = new char[512 * 1024];
 
 	public static void main(String[] args) throws InterruptedException, IllegalArgumentException, IllegalAccessException, IOException {
 		// SizeOf.skipStaticField(true);
 		// SizeOf.setMinSizeToLog(10);
 		SizeOf.deepSizeOf(array);
+
+		for (Map.Entry<Thread, StackTraceElement[]> stackTrace : Thread.getAllStackTraces().entrySet()) {
+			Thread thread = (Thread) stackTrace.getKey();
+			StackTraceElement[] stack = (StackTraceElement[]) stackTrace.getValue();
+			if (thread.equals(Thread.currentThread())) {
+				continue;
+			}
+			for (StackTraceElement element : stack) {
+				System.out.println(element);
+			}
+		}
+
 		// SizeOf.sizeOf(array);
 		// SizeOf.iterativeSizeOf(array);
-		Thread.sleep(3000);
+		Thread.sleep(1000 * 60 * 60);
 	}
 }
