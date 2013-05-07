@@ -94,6 +94,7 @@ class BeanUtilsEx extends BeanUtils {
 
 class UtilDateConverter implements Converter {
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object convert(Class arg0, Object arg1) {
 		System.out.println(arg0);
