@@ -36,8 +36,8 @@
 		<property name="mappingResources">
 			<list>
 		    	<value>com/anders/ssh/bo/xml/Data.hbm.xml</value>
-		    	<!--  
 		    	<value>com/anders/ssh/bo/xml/Area.hbm.xml</value>
+		    	<!--  
 		    	<value>com/anders/ssh/bo/xml/House.hbm.xml</value>
 		    	<value>com/anders/ssh/bo/xml/RentHouse.hbm.xml</value>
 		    	<value>com/anders/ssh/bo/xml/SecondHandHouse.hbm.xml</value>

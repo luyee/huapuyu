@@ -20,7 +20,6 @@
 	<classpathentry kind="lib" path="lib/classworlds-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/dwr-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/ehcache-1.5.0.jar"/>
 	<classpathentry kind="lib" path="lib/ezmorph-1.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/freemarker-2.3.16.jar"/>
 	<classpathentry kind="lib" path="lib/ibatis-2.3.4.726.jar"/>
@@ -311,5 +310,7 @@
 	<classpathentry kind="lib" path="lib/spring/data/spring-data-mongodb-cross-store-1.0.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring/data/spring-data-mongodb-log4j-1.0.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/GroboUtils-5-core.jar"/>
+	<classpathentry kind="lib" path="lib/ehcache-core-2.6.5.jar"/>
+	<classpathentry kind="lib" path="lib/mybatis/mybatis-ehcache-1.0.2.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
