@@ -34,15 +34,13 @@
 	<import resource="classpath:config/spring-axis.xml"/>
 	
 	<!-- jdbc -->
-	<!-- 
 	<import resource="classpath:config/spring-jdbc.xml"/>
-	-->
 	
 	<!-- hibernate -->
 	<import resource="classpath:config/spring-hibernate.xml"/>
 	
-	<!-- one master many slaves -->
-	<import resource="classpath:config/spring-omms.xml"/>
+	<!-- master salves -->
+	<import resource="classpath:config/spring-master-slaves.xml"/>
 	
 	<!-- ibatis -->
 	<import resource="classpath:config/spring-ibatis.xml"/>

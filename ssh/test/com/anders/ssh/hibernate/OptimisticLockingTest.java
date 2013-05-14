@@ -1,7 +1,6 @@
 package com.anders.ssh.hibernate;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,8 +38,12 @@ public class OptimisticLockingTest {
 
 	/**
 	 * 出现乐观锁
+	 * 
+	 * Object of class [com.anders.ssh.bo.xml.Data] with identifier [1]: optimistic locking failed; nested exception is org.hibernate.StaleObjectStateException: Row was updated or deleted by another transaction (or unsaved-value mapping was incorrect): [com.anders.ssh.bo.xml.Data#1]
+	 * 
+	 * Row was updated or deleted by another transaction (or unsaved-value mapping was incorrect): [com.anders.ssh.bo.xml.Data#1]
 	 */
-	@Test
+	@Test(expected = HibernateOptimisticLockingFailureException.class)
 	public void test1() {
 		Data data = new Data();
 		data.setId(1L);
@@ -56,21 +59,12 @@ public class OptimisticLockingTest {
 		dataService.update(data1);
 
 		data2.setName("zhuzhen2");
-		try {
-			dataService.update(data2);
-			Assert.fail();
-		}
-		catch (HibernateOptimisticLockingFailureException ex) {
-			// Object of class [com.anders.ssh.bo.xml.Data] with identifier [1]: optimistic locking failed; nested exception is org.hibernate.StaleObjectStateException: Row was updated or deleted by another transaction (or unsaved-value mapping was incorrect): [com.anders.ssh.bo.xml.Data#1]
-			System.out.println(ex.getMessage());
-			Assert.assertTrue(true);
-		}
+		dataService.update(data2);
 	}
 
 	/**
 	 * 不出现乐观锁
 	 */
-	@Test
 	public void test2() {
 		Data data = new Data();
 		data.setId(1L);

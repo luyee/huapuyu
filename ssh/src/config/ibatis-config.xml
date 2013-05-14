@@ -18,7 +18,8 @@
 		</dataSource>
 	</transactionManager>
 
-	<!-- 下面这种形式会报错
+	<!-- 下面这种形式会报错 -->
+	<!-- 
 	<sqlMap resource="classpath:com/anders/ssh/ibatis/Tb_user.xml" />
 	-->
 	<sqlMap resource="com/anders/ssh/ibatis/ibatis-data.xml" />

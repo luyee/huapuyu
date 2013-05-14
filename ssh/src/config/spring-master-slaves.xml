@@ -24,7 +24,7 @@
 		<property name="password" value="${slave.password}" />
 	</bean>
 
-	<bean id="dataSource" class="com.anders.ssh.datasource.DynamicDataSource">
+	<bean id="msDataSource" class="com.anders.ssh.datasource.DynamicDataSource">
 		<property name="targetDataSources">
 			<map key-type="java.lang.String">
 				<entry key="write" value-ref="write" />
@@ -37,8 +37,7 @@
 		</property>
 	</bean>
 
-	<bean id="dynamicDataSourceKey"
-		class="com.anders.ssh.datasource.DynamicDataSourceKeyImpl">
+	<bean id="dynamicDataSourceKey" class="com.anders.ssh.datasource.DynamicDataSourceKeyImpl">
 		<property name="readDateSourceMap">
 			<map key-type="java.lang.String">
 				<entry key="read02" value="read02" />
@@ -51,8 +50,7 @@
 		<property name="strategy" ref="roundRobinLoadBalanceStrategy"></property>
 	</bean>
 
-	<bean id="roundRobinLoadBalanceStrategy"
-		class="com.anders.ssh.datasource.loadbalance.RoundRobinLoadBalanceStrategy">
+	<bean id="roundRobinLoadBalanceStrategy" class="com.anders.ssh.datasource.loadbalance.RoundRobinLoadBalanceStrategy">
 		<constructor-arg>
 			<map key-type="java.lang.String" value-type="java.lang.Integer">
 				<entry key="read02" value="1" />
@@ -60,8 +58,8 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"/>
+	<bean id="msSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="msDataSource"/>
 		<!--  
 		<property name="configLocation" value="classpath:hibernate.cfg.xml"/>
 		-->
@@ -121,16 +119,12 @@
 	<bean id="myIntercept" class="com.anders.ssh.hibernate.MyIntercept"/> 
 	<bean id="myListener" class="com.anders.ssh.hibernate.MyListener"/>   
 
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory"></property>
+	<bean id="msTxManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="msSessionFactory"></property>
 	</bean>
-	
 
-
-	<bean id="transactionInterceptor"
-		class="org.springframework.transaction.interceptor.TransactionInterceptor">
-		<property name="transactionManager" ref="transactionManager" />
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="msTxManager" />
 		<property name="transactionAttributes">
 			<props>
 				<prop key="query*">PROPAGATION_REQUIRED,readOnly</prop>
@@ -166,8 +160,7 @@
 		</property>
 	</bean>
 
-	<bean id="dynamicDataSourceInterceptor"
-		class="com.anders.ssh.datasource.DynamicDataSourceInterceptor">
+	<bean id="dynamicDataSourceInterceptor" class="com.anders.ssh.datasource.DynamicDataSourceInterceptor">
 		<property name="attributes">
 			<props>
 				<prop key="query*">read</prop>
@@ -207,15 +200,13 @@
 		</property>
 	</bean>
 	
-    <bean id="myDynamicDataSourceInterceptor"
-        class="com.anders.ssh.datasource.MyDynamicDatasourceInteceptor">
+    <bean id="myDynamicDataSourceInterceptor" class="com.anders.ssh.datasource.MyDynamicDatasourceInteceptor">
         <property name="dataSourceKey">
             <ref bean="dynamicDataSourceKey" />
         </property>
     </bean>
 
-	<bean
-		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
 		<property name="beanNames">
 			<list>
 				<value>*Service</value>

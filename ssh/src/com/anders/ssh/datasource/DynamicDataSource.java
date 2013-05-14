@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
@@ -38,7 +39,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Disp
 	 */
 	@Override
 	protected Object determineCurrentLookupKey() {
-		String key = "";
+		String key = StringUtils.EMPTY;
 		try {
 			key = dataSourceKey.getKey();
 		}

@@ -53,7 +53,7 @@
 		    	<value>com.anders.ssh.bo.test.FenBiao</value>
 		    </list>
 		</property>
-	    <property name="packagesToScan" value="com.anders.ssh.bo.test"/>
+	    <property name="packagesToScan" value="com.anders.ssh.bo"/>
 	</bean>
 	
 	<bean id="hibernateTxManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">

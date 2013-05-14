@@ -310,5 +310,6 @@
 	<classpathentry kind="lib" path="lib/spring/data/spring-data-mongodb-1.0.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring/data/spring-data-mongodb-cross-store-1.0.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring/data/spring-data-mongodb-log4j-1.0.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/GroboUtils-5-core.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
