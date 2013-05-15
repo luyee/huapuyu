@@ -312,5 +312,6 @@
 	<classpathentry kind="lib" path="lib/GroboUtils-5-core.jar"/>
 	<classpathentry kind="lib" path="lib/ehcache-core-2.6.5.jar"/>
 	<classpathentry kind="lib" path="lib/mybatis/mybatis-ehcache-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/backport-util-concurrent.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
