@@ -4,13 +4,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.anders.ssh.bo.xml.Data;
 import com.anders.ssh.dao.hibernate.DataDao;
 import com.anders.ssh.service.DataService;
 
-@Component("dataService")
+@Service("dataService")
 public class DataServiceImpl implements DataService {
 	@Resource(name = "hibernateDataDao")
 	private DataDao dataDao;
