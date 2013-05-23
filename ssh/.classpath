@@ -313,5 +313,11 @@
 	<classpathentry kind="lib" path="lib/ehcache-core-2.6.5.jar"/>
 	<classpathentry kind="lib" path="lib/mybatis/mybatis-ehcache-1.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/backport-util-concurrent.jar"/>
+	<classpathentry kind="lib" path="lib/atomikos/atomikos-util.jar"/>
+	<classpathentry kind="lib" path="lib/atomikos/transactions.jar"/>
+	<classpathentry kind="lib" path="lib/atomikos/transactions-api.jar"/>
+	<classpathentry kind="lib" path="lib/atomikos/transactions-hibernate3.jar"/>
+	<classpathentry kind="lib" path="lib/atomikos/transactions-jdbc.jar"/>
+	<classpathentry kind="lib" path="lib/atomikos/transactions-jta.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

@@ -40,7 +40,9 @@
 	<import resource="classpath:config/spring-hibernate.xml"/>
 	
 	<!-- master salves -->
+	<!--  
 	<import resource="classpath:config/spring-master-slaves.xml"/>
+	-->
 	
 	<!-- ibatis -->
 	<import resource="classpath:config/spring-ibatis.xml"/>
@@ -85,19 +87,20 @@
 	<import resource="classpath:config/spring-mongo.xml"/>
 	
 	<!-- lucene -->
-	<!--  
 	<import resource="classpath:config/spring-lucene.xml"/>
-	-->
 	
 	<!-- rmi -->
-	<import resource="classpath:config/spring-rmi.xml"/>
+	<import resource="classpath:config/spring-rmi.xml" />
 	
 	<!-- jmx -->
-	<import resource="classpath:config/spring-jmx.xml"/>
+	<import resource="classpath:config/spring-jmx.xml" />
 	
 	<!-- mail -->
-	<import resource="classpath:config/spring-mail.xml"/>
+	<import resource="classpath:config/spring-mail.xml" />
 	
 	<!-- quartz -->
-	<import resource="classpath:config/spring-quartz.xml"/>
+	<import resource="classpath:config/spring-quartz.xml" />
+	
+	<!-- atomikos -->
+	<import resource="classpath:config/spring-atomikos.xml" />
 </beans>

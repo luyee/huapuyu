@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.anders.ssh.bo.xml.Data;
 import com.anders.ssh.jta.HibernateService;
-import com.anders.ssh.jta.JtaService;
+import com.anders.ssh.jta.JtaFacade;
 import com.anders.ssh.jta.MyBatisService;
 
-@Service("jtaService")
-public class JtaServiceImpl implements JtaService {
+@Service("jtaFacade")
+public class JtaFacadeImpl implements JtaFacade {
 	@Resource(name = "jtaHibernateService")
 	private HibernateService hibernateService;
 
@@ -19,7 +19,7 @@ public class JtaServiceImpl implements JtaService {
 
 	@Override
 	public void save(Data data) {
-		hibernateService.save(data);
 		myBatisService.save(data);
+		hibernateService.save(data);
 	}
 }
