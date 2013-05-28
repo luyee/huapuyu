@@ -11,6 +11,12 @@ import org.springframework.beans.BeanUtils;
 
 public class Tester {
 	public static void main(String[] args) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		System.out.println(StringUtils.reverse("朱振"));
+		System.out.println(StringUtils.reverse("朱A振"));
+		System.out.println(StringUtils.reverse("朱AB振"));
+		System.out.println(StringUtils.reverse("A朱振"));
+		System.out.println(StringUtils.reverse("朱振B"));
+
 		String s1 = null;
 		String s2 = " ";
 		String s3 = StringUtils.EMPTY;
