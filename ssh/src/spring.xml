@@ -102,5 +102,10 @@
 	<import resource="classpath:config/spring-quartz.xml" />
 	
 	<!-- atomikos -->
+	<!--  
 	<import resource="classpath:config/spring-atomikos.xml" />
+	-->
+	
+	<!-- activemq -->
+	<import resource="classpath:config/spring-amq.xml" />
 </beans>

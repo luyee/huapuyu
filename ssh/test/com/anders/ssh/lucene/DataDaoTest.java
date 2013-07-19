@@ -1,6 +1,8 @@
 package com.anders.ssh.lucene;
 
+import org.compass.core.CompassHits;
 import org.compass.core.CompassTemplate;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,11 @@ public class DataDaoTest {
 		person.setId(123);
 		person.setName("zhuzhen");
 		compassTemplate.save(person);
-		System.out.println(compassTemplate.find("zhuzhen").length());
+		CompassHits hits = compassTemplate.find("zhuzhen");
+		Assert.assertEquals(1, hits.length());
+
+		// person = (Person) hits.data(0);
+
+		// Assert.assertEquals(123, person.getId());
 	}
 }
