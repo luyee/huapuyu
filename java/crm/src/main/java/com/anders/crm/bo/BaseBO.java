@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
+import org.hibernate.search.annotations.DocumentId;
+
 /**
  * Base Business Object
  * 
@@ -39,6 +41,7 @@ public abstract class BaseBO implements Serializable {
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@DocumentId
 	private Long id;
 	/**
 	 * 启用（true：启用；false：禁用）

@@ -7,9 +7,15 @@ import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 
 public interface GenericDao<PK extends Serializable, T> {
+	
+	Session getSession();
+	
+	 SessionFactory getSessionFactory();
 
 	void delete(final T entity);
 

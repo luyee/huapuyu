@@ -3,9 +3,14 @@
 
 <hibernate-configuration>
 	<session-factory>
+		<!-- <property name="hibernate.search.default.directory_provider">org.hibernate.search.store.FSDirectoryProvider</property> -->
+		<property name="hibernate.search.default.directory_provider">filesystem</property>    
+     	<property name="hibernate.search.default.indexBase">D:/hibernate/indexes</property>   
+
         <mapping class="com.anders.crm.bo.User"/>
         <mapping class="com.anders.crm.bo.UserGroup"/>
         <mapping class="com.anders.crm.bo.Role"/>
         <mapping class="com.anders.crm.bo.Url"/>
     </session-factory>
+    
 </hibernate-configuration>

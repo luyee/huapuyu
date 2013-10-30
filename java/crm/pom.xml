@@ -402,7 +402,7 @@
 			<classifier>all</classifier>
 		</dependency>
 		<!-- hibernate -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>
 			<version>${hibernate.version}</version>
@@ -414,6 +414,21 @@
 				<exclusion>
 					<artifactId>slf4j-api</artifactId>
 					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency> -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search</artifactId>
+			<version>${hibernate.search.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-lang</artifactId>
+					<groupId>commons-lang</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -507,11 +522,11 @@
 			</exclusions>
 		</dependency>
 		<!-- compass -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.compass-project</groupId>
 			<artifactId>compass</artifactId>
 			<version>${compass.version}</version>
-		</dependency>
+		</dependency> -->
 		<!-- jaxb -->
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -634,6 +649,11 @@
 			<artifactId>p6spy</artifactId>
 			<version>${p6spy.version}</version>
 		</dependency>
+		<!-- <dependency>
+            <groupId>com.chenlb.mmseg4j</groupId>
+            <artifactId>mmseg4j-analysis</artifactId>
+            <version>${mmseg4j.version}</version>
+        </dependency> --> 
 	</dependencies>
 
 	<reporting>
@@ -730,10 +750,11 @@
 		<spring.data.version>1.2.1.RELEASE</spring.data.version>
 		<spring.security.version>3.1.1.RELEASE</spring.security.version>
 		<spring.ws.version>2.1.0.RELEASE</spring.ws.version>
-		<hibernate.version>4.1.1.Final</hibernate.version>
+		<hibernate.version>4.1.3.Final</hibernate.version>
+		<hibernate.search.version>4.4.0.Final</hibernate.search.version>
 		<hibernate.jpa.version>2.0-cr-1</hibernate.jpa.version>
 		<commons.fileupload.version>1.2.2</commons.fileupload.version>
-		<commons.io.version>1.3.2</commons.io.version>
+		<commons.io.version>1.4</commons.io.version>
 		<commons.lang.version>2.6</commons.lang.version>
 		<commons.lang3.version>3.1</commons.lang3.version>
 		<commons.dbcp.version>1.4</commons.dbcp.version>
@@ -772,6 +793,7 @@
 		<jackson.version>1.8.1</jackson.version>
 		<gson.version>2.2.2</gson.version>
 		<p6spy.version>1.3</p6spy.version>
+		<mmseg4j.version>1.9.1</mmseg4j.version>
 		<email.from>hanghangcrm@yahoo.com.cn</email.from>
 		<email.host>smtp.mail.yahoo.com.cn</email.host>
 		<email.username>hanghangcrm</email.username>

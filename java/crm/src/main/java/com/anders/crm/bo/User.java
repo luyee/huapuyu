@@ -13,8 +13,12 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.compass.annotations.Searchable;
-import org.compass.annotations.SearchableProperty;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.Boost;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 
 /**
  * 用户
@@ -24,7 +28,8 @@ import org.compass.annotations.SearchableProperty;
  */
 @Entity
 @Table(name = "tb_user")
-@Searchable
+@Indexed(index = "user")
+//@Analyzer(impl = MMSegAnalyzer.class)
 @XmlRootElement
 public class User extends BaseBO {
 
@@ -37,7 +42,6 @@ public class User extends BaseBO {
 	 * 账户名
 	 */
 	@Column(name = "user_name", nullable = false, length = 50, unique = true)
-	@SearchableProperty
 	private String username;
 	/**
 	 * 密码
@@ -49,13 +53,13 @@ public class User extends BaseBO {
 	 * 姓名
 	 */
 	@Column(nullable = false, length = 50)
-	@SearchableProperty
+	@Field(name = "name", index = Index.YES, store = Store.YES, boost = @Boost(2f))
+	@Boost(1.5f)
 	private String name;
 	/**
 	 * 邮箱
 	 */
 	@Column(nullable = false, length = 50, unique = true)
-	@SearchableProperty
 	private String email;
 	/**
 	 * 角色集合
