@@ -1,12 +1,12 @@
 FilterInvocation
-Guarantees(±£Ö¤) the request and response are instances of HttpServletRequest and HttpServletResponse, and that there are no null objects.
+Guarantees(ä¿è¯) the request and response are instances of HttpServletRequest and HttpServletResponse, and that there are no null objects.
 
 AuthenticationManager
 Processes an Authentication request.
 
-Authentication(ÈÏÖ¤)
-Represents(´ú±í) the token for an authentication request or for an authenticated(¼ø¶¨) principal(Æ¾Ö¤) once the request has been processed by the AuthenticationManager.authenticate(Authentication) method. 
-Once the request has been authenticated, the Authentication will usually be stored in a thread-local SecurityContext managed by the SecurityContextHolder by the authentication mechanism(»úÖÆ,½á¹¹) which is being used. An explicit(Ã÷È·µÄ) authentication can be achieved(È¡µÃ,»ñµÃ), without using one of Spring Security's authentication mechanisms, by creating an Authentication instance and using the code: SecurityContextHolder.getContext().setAuthentication(anAuthentication);
+Authentication(è®¤è¯)
+Represents(ä»£è¡¨) the token for an authentication request or for an authenticated(é‰´å®š) principal(å‡­è¯) once the request has been processed by the AuthenticationManager.authenticate(Authentication) method. 
+Once the request has been authenticated, the Authentication will usually be stored in a thread-local SecurityContext managed by the SecurityContextHolder by the authentication mechanism(æœºåˆ¶,ç»“æ„) which is being used. An explicit(æ˜ç¡®çš„) authentication can be achieved(å–å¾—,è·å¾—), without using one of Spring Security's authentication mechanisms, by creating an Authentication instance and using the code: SecurityContextHolder.getContext().setAuthentication(anAuthentication);
 Note that unless the Authentication has the authenticated property set to true, it will still be authenticated by any security interceptor (for method or web invocations) which encounters it. 
 In most cases, the framework transparently takes care of managing the security context and authentication objects for you.
 
@@ -18,14 +18,14 @@ Stores a security system related configuration attribute.
 When an org.springframework.security.access.intercept.AbstractSecurityInterceptor is set up, a list of configuration attributes is defined for secure object patterns. These configuration attributes have special meaning to a RunAsManager, AccessDecisionManager or AccessDecisionManager delegate. 
 Stored at runtime with other ConfigAttributes for the same secure object target.
 
-AffirmativeBased(Ò»Æ±¾ö¶¨)
-Simple concrete(¾ßÌåµÄ) implementation(ÊµÏÖ) of org.springframework.security.access.AccessDecisionManager that grants access if any AccessDecisionVoter returns an affirmative(ÔŞ³ÉµÄ,¿Ï¶¨µÄ) response.
+AffirmativeBased(ä¸€ç¥¨å†³å®š)
+Simple concrete(å…·ä½“çš„) implementation(å®ç°) of org.springframework.security.access.AccessDecisionManager that grants access if any AccessDecisionVoter returns an affirmative(èµæˆçš„,è‚¯å®šçš„) response.
 
-ConsensusBased(ÉÙÊı·ş´Ó¶àÊı)
-Simple concrete implementation of org.springframework.security.access.AccessDecisionManager that uses a consensus-based(¹²Ê¶) approach(·½Ê½). 
-"Consensus" here means majority(´ó¶àÊı)-rule (ignoring abstains(ÆúÈ¨)) rather than unanimous(Òâ¼ûÒ»ÖÂµÄ,ÎŞÒìÒéµÄ) agreement (ignoring abstains). If you require unanimity, please see UnanimousBased.
+ConsensusBased(å°‘æ•°æœä»å¤šæ•°)
+Simple concrete implementation of org.springframework.security.access.AccessDecisionManager that uses a consensus-based(å…±è¯†) approach(æ–¹å¼). 
+"Consensus" here means majority(å¤§å¤šæ•°)-rule (ignoring abstains(å¼ƒæƒ)) rather than unanimous(æ„è§ä¸€è‡´çš„,æ— å¼‚è®®çš„) agreement (ignoring abstains). If you require unanimity, please see UnanimousBased.
 
-UnanimousBased(Ò»Æ±·ñ¾ö)
+UnanimousBased(ä¸€ç¥¨å¦å†³)
 Simple concrete implementation of org.springframework.security.access.AccessDecisionManager that requires all voters to abstain or grant access.
 
 

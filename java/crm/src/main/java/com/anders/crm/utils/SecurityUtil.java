@@ -28,16 +28,16 @@ public class SecurityUtil {
 	}
 
 	/**
-	 * 获取账户名
+	 * 获取用户名
 	 * 
-	 * @return 账户名
+	 * @return 用户名
 	 */
 	public static String getUsername() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof UserDetails) {
 			return ((UserDetails) principal).getUsername();
 		}
-		else if (principal.equals("anonymousUser")) {
+		else if (principal.equals(Constant.ANONYMOUS_USERNAME)) {
 			return StringUtils.EMPTY;
 		}
 		else {
@@ -60,12 +60,12 @@ public class SecurityUtil {
 	}
 
 	/**
-	 * 根据账户名和明文密码生成加密密码
+	 * 根据用户名和明文密码生成加密密码
 	 * 
 	 * @param password
 	 *            明文密码
 	 * @param username
-	 *            账户名
+	 *            用户名
 	 * @return 加密密码
 	 */
 	public static String getSha256Password(String password, String username) {

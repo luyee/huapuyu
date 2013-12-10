@@ -2,12 +2,18 @@ package com.anders.crm.vo;
 
 import java.io.Serializable;
 
+/**
+ * 注册个人用户VO
+ * 
+ * @author Anders Zhu
+ * 
+ */
 public class RegisterIndividualVO implements Serializable {
 
 	private static final long serialVersionUID = 5958636033146655284L;
 
 	/**
-	 * 账户名
+	 * 用户名
 	 */
 	private String username;
 	/**

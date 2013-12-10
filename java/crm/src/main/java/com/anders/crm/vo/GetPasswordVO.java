@@ -2,6 +2,12 @@ package com.anders.crm.vo;
 
 import java.io.Serializable;
 
+/**
+ * 找回密码VO
+ * 
+ * @author Anders Zhu
+ * 
+ */
 public class GetPasswordVO implements Serializable {
 
 	private static final long serialVersionUID = 8688097078942710951L;
