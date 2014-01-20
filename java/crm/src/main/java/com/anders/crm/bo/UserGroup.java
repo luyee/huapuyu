@@ -11,6 +11,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+/**
+ * 用户组
+ * 
+ * @author Anders Zhu
+ * 
+ */
 @Entity
 @Table(name = "tb_user_group")
 public class UserGroup extends BaseBO {
