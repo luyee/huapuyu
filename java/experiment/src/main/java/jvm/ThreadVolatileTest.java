@@ -19,6 +19,10 @@ public class ThreadVolatileTest {
 		new MyThread().start();
 		new MyThread().start();
 		new MyThread().start();
+
+		for (int i = 0; i < 512 * 1024; i++) {
+			System.out.print(array[0]);
+		}
 	}
 }
 

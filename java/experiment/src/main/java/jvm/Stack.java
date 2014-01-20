@@ -1,5 +1,6 @@
 package jvm;
 
+//VM参数：-Xss20m
 public class Stack {
 
 	public int stackLength = 1;
@@ -16,7 +17,17 @@ public class Stack {
 		}
 		catch (Throwable e) {
 			System.out.println(stack.stackLength);
-			throw new RuntimeException(e);
+//			System.out.println(e.getLocalizedMessage());
+//			System.out.println(e.getMessage());
+//			for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+//				System.out.println(stackTraceElement.getMethodName());
+//			}
+			
+			while (e.getCause() != null) {
+				e = e.getCause();
+				System.out.println(e.getMessage());
+			}
+//			e.printStackTrace();
 		}
 	}
 
