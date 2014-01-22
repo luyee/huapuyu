@@ -28,8 +28,10 @@
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-		<!-- <init-param> <param-name>targetBeanName</param-name> <param-value>springSecurityFilterChain</param-value> 
-			</init-param> -->
+		<init-param>
+			<param-name>targetBeanName</param-name>
+			<param-value>springSecurityFilterChain</param-value>
+		</init-param>
 	</filter>
 
 	<!-- filter mapping -->
@@ -40,8 +42,9 @@
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
-		<!-- <dispatcher>REQUEST</dispatcher> <dispatcher>FORWARD</dispatcher> 
-			<dispatcher>INCLUDE</dispatcher> -->
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
 	</filter-mapping>
 
 	<listener>
