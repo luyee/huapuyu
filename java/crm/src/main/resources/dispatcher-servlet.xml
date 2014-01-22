@@ -28,14 +28,21 @@
 		<property name="cache" value="true" />
 		<property name="prefix" value="" />
 		<property name="suffix" value=".vm" />
-		<property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml" /><!--toolbox配置文件路径 -->
-		<property name="dateToolAttribute" value="date" /><!--日期函数名称 -->
-		<property name="numberToolAttribute" value="number" /><!--数字函数名称 -->
+		<!--toolbox配置文件路径 -->
+		<property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml" />
+		<!--日期函数名称 -->
+		<property name="dateToolAttribute" value="date" />
+		<!--数字函数名称 -->
+		<property name="numberToolAttribute" value="number" />
 		<property name="contentType" value="text/html;charset=UTF-8" />
-		<property name="exposeSpringMacroHelpers" value="true" /><!--是否使用spring对宏定义的支持 -->
-		<property name="exposeRequestAttributes" value="true" /><!--是否开放request属性 -->
-		<property name="exposeSessionAttributes" value="true" /><!--是否开放request属性 -->
-		<property name="requestContextAttribute" value="rc" /><!--request属性引用名称 -->
+		<!--是否使用spring对宏定义的支持 -->
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<!--是否开放request属性 -->
+		<property name="exposeRequestAttributes" value="true" />
+		<!--是否开放request属性 -->
+		<property name="exposeSessionAttributes" value="true" />
+		<!--request属性引用名称 -->
+		<property name="requestContextAttribute" value="rc" />
 	</bean>
 
 	<bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
@@ -48,11 +55,19 @@
 				<prop key="file.resource.loader.path">/WEB-INF/</prop> 
 				<prop key="file.resource.loader.cache">false</prop> 
 				-->
-				<prop key="input.encoding">UTF-8</prop><!-- 指定模板引擎进行模板处理的编码 -->
-				<prop key="output.encoding">UTF-8</prop><!-- 指定输出流的编码 -->
-				<prop key="contentType">text/html;charset=UTF-8</prop><!-- contentType -->
-				<!-- <prop key="velocimacro.library">macro/macros.vm</prop> --><!-- Velocimacro 模板库的列表 -->
-				<!-- <prop key="eventhandler.referenceinsertion.class">com.sde.common.web.escape.reference.NoEscapeHtmlReference</prop> -->
+				<!-- 指定模板引擎进行模板处理的编码 -->
+				<prop key="input.encoding">UTF-8</prop>
+				<!-- 指定输出流的编码 -->
+				<prop key="output.encoding">UTF-8</prop>
+				<!-- contentType -->
+				<prop key="contentType">text/html;charset=UTF-8</prop>
+				<!-- Velocimacro 模板库的列表 -->
+				<!-- 
+				<prop key="velocimacro.library">macro/macros.vm</prop> 
+				-->
+				<!-- 
+				<prop key="eventhandler.referenceinsertion.class">com.sde.common.web.escape.reference.NoEscapeHtmlReference</prop> 
+				-->
 				<prop key="eventhandler.noescape.html.match">/(?:screen_content)|(?:noescape_.*)/</prop>
 			</props>
 		</property>
