@@ -16,6 +16,12 @@ import com.anders.crm.utils.Constant;
 import com.anders.crm.utils.SecurityUtil;
 import com.anders.crm.vo.RegisterIndividualVO;
 
+/**
+ * 注册控制器
+ * 
+ * @author Anders Zhu
+ * 
+ */
 @Controller
 public class RegisterController extends BaseController {
 
@@ -30,12 +36,18 @@ public class RegisterController extends BaseController {
 		return modelAndView;
 	}
 
+	/**
+	 * 注册个人用户展示
+	 */
 	@RequestMapping(value = "/register_individual.do", method = { RequestMethod.GET })
 	public ModelAndView registerIndividual() {
 		ModelAndView modelAndView = new ModelAndView("register/register_individual");
 		return modelAndView;
 	}
 
+	/**
+	 * 注册个人用户操作
+	 */
 	@RequestMapping(value = "/register_individual.do", method = { RequestMethod.POST })
 	public ModelAndView registerIndividual(RegisterIndividualVO registerIndividualVO) {
 		ModelAndView modelAndView = new ModelAndView("register/register_individual");
