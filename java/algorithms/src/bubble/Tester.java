@@ -16,16 +16,32 @@ public class Tester
 		// list.add(random.nextInt(100));
 		// Integer[] array = list.toArray(new Integer[10]);
 
-		Integer[] array = new Integer[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
-		// Integer[] array = new Integer[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		// Integer[] array = new Integer[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+		Integer[] array = new Integer[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
 		System.out.println("****************");
 		System.out.println("排序前数据");
 		System.out.println("****************");
 		for (Integer integer : array)
+		{
 			System.out.print(integer + ", ");
+		}
 		System.out.println("");
 
+		bubble(array);
+
+		System.out.println("****************");
+		System.out.println("排序后数据");
+		System.out.println("****************");
+		for (Integer integer : array)
+		{
+			System.out.print(integer + ", ");
+		}
+		System.out.println("");
+	}
+
+	private void bubble(Integer[] array)
+	{
 		for (int i = array.length - 1; i > 0; i--)
 		// for (int i = 0; i < array.length - 1; i++)
 		{
@@ -34,7 +50,7 @@ public class Tester
 			for (int j = 0; j < i; j++)
 			// for (int j = 0; j < array.length - 1 - i; j++)
 			{
-				if (array[j] > array[j + 1])
+				if (array[j] < array[j + 1])
 				{
 					Integer temp = array[j];
 					array[j] = array[j + 1];
@@ -52,12 +68,5 @@ public class Tester
 			if (breakFlag)
 				break;
 		}
-
-		System.out.println("****************");
-		System.out.println("排序后数据");
-		System.out.println("****************");
-		for (Integer integer : array)
-			System.out.print(integer + ", ");
-		System.out.println("");
 	}
 }
