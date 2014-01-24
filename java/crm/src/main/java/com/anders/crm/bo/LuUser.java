@@ -35,7 +35,7 @@ import org.hibernate.search.annotations.Store;
 @Entity
 @Table(name = "lu_user")
 @Indexed(index = "lu_users")
-//@Analyzer(impl = MMSegAnalyzer.class)
+// @Analyzer(impl = MMSegAnalyzer.class)
 @XmlRootElement
 public class LuUser implements Serializable {
 
@@ -43,9 +43,9 @@ public class LuUser implements Serializable {
 
 	public static final String USERNAME = "username";
 	public static final String EMAIL = "email";
-	
+
 	/**
-	 * 账户名
+	 * 用户名
 	 */
 	@Column(name = "user_name", nullable = false, length = 50, unique = true)
 	private String username;

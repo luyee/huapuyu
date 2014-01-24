@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Boost;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
@@ -29,7 +28,7 @@ import org.hibernate.search.annotations.Store;
 @Entity
 @Table(name = "tb_user")
 @Indexed(index = "user")
-//@Analyzer(impl = MMSegAnalyzer.class)
+// @Analyzer(impl = MMSegAnalyzer.class)
 @XmlRootElement
 public class User extends BaseBO {
 
@@ -39,7 +38,7 @@ public class User extends BaseBO {
 	public static final String EMAIL = "email";
 
 	/**
-	 * 账户名
+	 * 用户名
 	 */
 	@Column(name = "user_name", nullable = false, length = 50, unique = true)
 	private String username;
