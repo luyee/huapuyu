@@ -6,7 +6,7 @@
 	<base href="${path}">
 	<#include "./common/meta.ftl">
 	<title></title>
-	${res("login.name")}
+	${res("login.user_name")}
 </head>
 
 <body>
