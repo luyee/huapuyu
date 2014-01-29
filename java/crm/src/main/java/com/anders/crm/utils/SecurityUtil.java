@@ -36,11 +36,9 @@ public class SecurityUtil {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof UserDetails) {
 			return ((UserDetails) principal).getUsername();
-		}
-		else if (principal.equals(Constant.ANONYMOUS_USERNAME)) {
+		} else if (principal.equals(Constant.ANONYMOUS_USERNAME)) {
 			return StringUtils.EMPTY;
-		}
-		else {
+		} else {
 			return principal.toString();
 		}
 	}
@@ -72,6 +70,15 @@ public class SecurityUtil {
 		ShaPasswordEncoder sha = new ShaPasswordEncoder(256);
 		sha.setEncodeHashAsBase64(true);
 		return sha.encodePassword(password, username);
+	}
+
+	public static String getRandomUsername() {
+		Random rand = new Random();
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < 10; i++) {
+			sb.append(Constant.USERNAME_CHARS[rand.nextInt(Constant.USERNAME_CHARS.length)]);
+		}
+		return sb.toString();
 	}
 
 	/**

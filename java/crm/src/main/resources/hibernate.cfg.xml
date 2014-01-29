@@ -5,7 +5,7 @@
 	<session-factory>
 		<!-- <property name="hibernate.search.default.directory_provider">org.hibernate.search.store.FSDirectoryProvider</property> -->
 		<property name="hibernate.search.default.directory_provider">filesystem</property>    
-     	<property name="hibernate.search.default.indexBase">D:/hibernate/indexes</property>   
+     	<property name="hibernate.search.default.indexBase">C:/temp/hibernate/indexes</property>   
      	<!-- <property name="hibernate.search.indexing_strategy">manual</property> -->
 
         <mapping class="com.anders.crm.bo.User"/>

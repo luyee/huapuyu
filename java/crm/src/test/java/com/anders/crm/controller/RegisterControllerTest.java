@@ -1,7 +1,9 @@
 package com.anders.crm.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,13 +19,17 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerExecutionChain;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
+import org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping;
 
+import com.anders.crm.utils.SecurityUtil;
 import com.anders.crm.vo.RegisterIndividualVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,47 +40,37 @@ public class RegisterControllerTest extends AbstractTransactionalJUnit4SpringCon
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
 
 	@Autowired
-	private RegisterController controller;
-	@Autowired
 	// private RequestMappingHandlerAdapter handlerAdapter;
 	private AnnotationMethodHandlerAdapter handlerAdapter;
-
-	// @BeforeClass
-	// public static void setUp() {
-	// if (handlerMapping == null) {
-	// String[] configs = { "file:/crm/src/main/webapp/WEB-INF/dispatcher-servlet.xml" };
-	// XmlWebApplicationContext context = new XmlWebApplicationContext();
-	// context.setConfigLocations(configs);
-	// MockServletContext mockServletContext = new MockServletContext();
-	// context.setServletContext(mockServletContext);
-	// context.refresh();
-	// mockServletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, context);
-	// handlerMapping = (HandlerMapping) context.getBean(DefaultAnnotationHandlerMapping.class);
-	// handlerAdapter = (HandlerAdapter) context.getBean(context.getBeanNamesForType(AnnotationMethodHandlerAdapter.class)[0]);
-	// }
-	// }
+	@Autowired
+	private DefaultAnnotationHandlerMapping handlerMapping;
 
 	@Test
+	@Rollback(value = true)
 	public void test1() throws NoSuchMethodException, Exception {
-		request.setRequestURI("/register.do");
+		request.setRequestURI("/register_individual.do");
 		request.setMethod(HttpMethod.POST.name());
+		request.setAttribute(HandlerMapping.INTROSPECT_TYPE_LEVEL_MAPPING, true);
+
+		String username = SecurityUtil.getRandomUsername();
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(RegisterIndividualVO.USERNAME, username);
+		map.put(RegisterIndividualVO.PASSWORD, "123456");
+		map.put(RegisterIndividualVO.NAME, username);
+		map.put(RegisterIndividualVO.EMAIL, username + "@hhcrm.com");
+		request.setParameters(map);
+
 		HttpSession session = request.getSession();
 
 		List<GrantedAuthority> ga = new ArrayList<GrantedAuthority>();
 		ga.add(new GrantedAuthorityImpl("ROLE_USER"));
-		User user = new User("zhuzhen", "1234567", true, true, true, true, ga);
+		User user = new User("zhuzhen", "123456", true, true, true, true, ga);
 		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, null));
 		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
 
-		RegisterIndividualVO registerIndividualVO = new RegisterIndividualVO();
-		registerIndividualVO.setUsername("test1");
-		registerIndividualVO.setName("test1");
-		registerIndividualVO.setPassword("123456");
-		registerIndividualVO.setEmail("test1@gmail.com");
+		HandlerExecutionChain chain = handlerMapping.getHandler(request);
 
-		// ModelAndView mav = handlerAdapter.handle(request, response, new HandlerMethod(controller, "register", Model.class, HttpServletRequest.class));
-		// ModelAndView mav = handlerAdapter.handle(request, response, new HandlerMethod(controller, "registerIndividual", RegisterIndividualVO.class));
-		ModelAndView mav = handlerAdapter.handle(request, response, new HandlerMethod(controller, "registerIndividual", RegisterIndividualVO.class));
+		ModelAndView mav = handlerAdapter.handle(request, response, chain.getHandler());
 
 	}
 }
