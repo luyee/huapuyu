@@ -66,9 +66,13 @@ public class SecurityController extends BaseController {
 	@RequestMapping(value = "/get_password.do", method = { RequestMethod.POST })
 	// public ModelAndView getPassword(@ModelAttribute("getPasswordVO") GetPasswordVO getPasswordVO) {
 	// public ModelAndView getPassword(@ModelAttribute GetPasswordVO getPasswordVO) {
-	public ModelAndView getPassword(GetPasswordVO getPasswordVO) {
+	public ModelAndView getPassword(HttpServletRequest request, GetPasswordVO getPasswordVO) {
 		ModelAndView modelAndView = new ModelAndView("get_password");
-		getUserService().updatePasswordToDefault(getPasswordVO.getUsername());
+
+		String from = getMessage("email.from", request);
+		String subject = getMessage("get_password.email.subject", request);
+
+		getUserService().updatePasswordToDefault(getPasswordVO.getUsername(), from, subject);
 		return modelAndView;
 	}
 }

@@ -57,7 +57,7 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 	}
 
 	@Override
-	public void updatePasswordToDefault(String username) {
+	public void updatePasswordToDefault(String username, String from, String subject) {
 		if (StringUtils.isBlank(username)) {
 			throw new IllegalArgumentException("username is blank");
 		}
@@ -77,7 +77,7 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 
 		Map<String, Object> emailParams = new HashMap<String, Object>();
 		emailParams.put("password", randPassword);
-		mailService.getPassword(user.getEmail(), "[夯夯CRM]找回密码", emailParams);
+		mailService.getPassword(from, user.getEmail(), subject, emailParams);
 	}
 
 	@Override

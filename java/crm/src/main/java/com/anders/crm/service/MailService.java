@@ -8,6 +8,7 @@ public interface MailService {
 	// public final static String EMAIL_SUBJECT = "subject";
 
 	public final static String PARAM_PWD = "password";
+	public final static String PARAM_REMARK = "remark";
 
 	/**
 	 * 获取密码

@@ -52,7 +52,7 @@ public class RegisterController extends BaseController {
 	 * 注册个人用户操作
 	 */
 	@RequestMapping(value = "/register_individual.do", method = { RequestMethod.POST })
-	public ModelAndView registerIndividual(RegisterIndividualVO registerIndividualVO) {
+	public ModelAndView registerIndividual(HttpServletRequest request, RegisterIndividualVO registerIndividualVO) {
 		User user = new User();
 		BeanUtils.copyProperties(registerIndividualVO, user);
 		user.setAddUser(getUserService().getUserByUsername(Constant.ADMINISTRATOR_USERNAME));
@@ -62,9 +62,13 @@ public class RegisterController extends BaseController {
 
 		// TODO Anders Zhu : 将成功注册的信息的放到消息队列中异步通知用户注册成功
 
+		String from = getMessage("email.from", request);
+		String subject = getMessage("register_individual.email.subject", request);
+		String remark = getMessage("register_individual.email.remark", request);
+
 		Map<String, Object> emailParams = new HashMap<String, Object>();
-		emailParams.put(MailService.PARAM_PWD, "123");
-		getMailService().registerSuccess(user.getEmail(), "[夯夯CRM]感谢您的注册", emailParams);
+		emailParams.put(MailService.PARAM_REMARK, remark);
+		getMailService().registerSuccess(from, user.getEmail(), subject, emailParams);
 
 		return new ModelAndView("redirect:index.do");
 	}

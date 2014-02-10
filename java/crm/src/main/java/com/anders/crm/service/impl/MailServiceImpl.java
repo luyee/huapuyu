@@ -9,12 +9,13 @@ import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import com.anders.crm.service.MailService;
 
 //@Service("mailService")
-//@Service
+@Service
 public class MailServiceImpl implements MailService {
 
 	@Autowired

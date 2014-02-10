@@ -8,7 +8,7 @@ public interface UserService extends GenericService<Long, User> {
 
 	String getNameByUsername(String username);
 
-	void updatePasswordToDefault(String username);
+	void updatePasswordToDefault(String username, String from, String subject);
 
 	boolean isExistByUsername(String username);
 
