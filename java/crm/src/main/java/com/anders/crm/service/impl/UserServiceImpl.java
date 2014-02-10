@@ -76,10 +76,8 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 		getDao().update(user);
 
 		Map<String, Object> emailParams = new HashMap<String, Object>();
-		emailParams.put(MailService.EMAIL_TO, user.getEmail());
-		emailParams.put(MailService.EMAIL_SUBJECT, "[夯夯CRM]找回密码");
 		emailParams.put("password", randPassword);
-		mailService.getPassword(emailParams);
+		mailService.getPassword(user.getEmail(), "[夯夯CRM]找回密码", emailParams);
 	}
 
 	@Override

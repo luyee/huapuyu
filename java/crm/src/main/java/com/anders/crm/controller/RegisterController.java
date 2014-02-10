@@ -1,7 +1,9 @@
 package com.anders.crm.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.anders.crm.bo.User;
+import com.anders.crm.service.MailService;
 import com.anders.crm.utils.Constant;
 import com.anders.crm.utils.SecurityUtil;
 import com.anders.crm.vo.RegisterIndividualVO;
@@ -50,8 +53,6 @@ public class RegisterController extends BaseController {
 	 */
 	@RequestMapping(value = "/register_individual.do", method = { RequestMethod.POST })
 	public ModelAndView registerIndividual(RegisterIndividualVO registerIndividualVO) {
-		ModelAndView modelAndView = new ModelAndView("register/register_individual");
-
 		User user = new User();
 		BeanUtils.copyProperties(registerIndividualVO, user);
 		user.setAddUser(getUserService().getUserByUsername(Constant.ADMINISTRATOR_USERNAME));
@@ -59,6 +60,12 @@ public class RegisterController extends BaseController {
 
 		getUserService().save(user);
 
-		return modelAndView;
+		// TODO Anders Zhu : 将成功注册的信息的放到消息队列中异步通知用户注册成功
+
+		Map<String, Object> emailParams = new HashMap<String, Object>();
+		emailParams.put(MailService.PARAM_PWD, "123");
+		getMailService().registerSuccess(user.getEmail(), "[夯夯CRM]感谢您的注册", emailParams);
+
+		return new ModelAndView("redirect:index.do");
 	}
 }

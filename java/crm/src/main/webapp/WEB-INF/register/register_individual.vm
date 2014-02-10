@@ -45,8 +45,7 @@
 				<input class="validate[required,custom[email],ajax[ajaxIsNotExist]] text-input" maxlength="50" type="text" name="email" id="email" />
             </label>
 		</fieldset>
-		<a class="a" href="$!securityController.get_password">$msg.login.get_password</a>
-		<input class="submit" type="submit" value="$msg.login.login"/>
+		<input class="submit" type="submit" value="$msg.register_individual.submit"/>
 		<hr />
 	</form>
 </body>

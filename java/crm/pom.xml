@@ -794,11 +794,13 @@
 		<gson.version>2.2.2</gson.version>
 		<p6spy.version>1.3</p6spy.version>
 		<mmseg4j.version>1.9.1</mmseg4j.version>
-		<email.from>hanghangcrm@yahoo.com.cn</email.from>
-		<email.host>smtp.mail.yahoo.com.cn</email.host>
-		<email.username>hanghangcrm</email.username>
+		<!-- 
+		<email.from>夯夯CRM<![CDATA[&lt;hhcrm@sina.com&gt;]]></email.from>
+		<email.host>smtp.sina.com</email.host>
+		<email.username>hhcrm@sina.com</email.username>
 		<email.password>869483811</email.password>
 		<email.smtp.auth>true</email.smtp.auth>
-		<email.smtp.timeout>25000</email.smtp.timeout>
+		<email.smtp.timeout>25000</email.smtp.timeout> 
+		-->
 	</properties>
 </project>

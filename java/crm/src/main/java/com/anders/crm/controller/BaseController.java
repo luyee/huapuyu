@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DelegatingMessageSource;
 
+import com.anders.crm.service.MailService;
 import com.anders.crm.service.UserService;
 
 /**
@@ -20,6 +21,9 @@ public abstract class BaseController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private MailService mailService;
+
 	// TODO Anders Zhu : 了解这些注解
 	// @Autowired
 	// @Qualifier
@@ -39,5 +43,9 @@ public abstract class BaseController {
 
 	public UserService getUserService() {
 		return userService;
+	}
+
+	public MailService getMailService() {
+		return mailService;
 	}
 }
