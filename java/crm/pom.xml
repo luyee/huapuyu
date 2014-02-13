@@ -631,7 +631,9 @@
 		<dependency>
 			<groupId>com.google.code.kaptcha</groupId>
 			<artifactId>kaptcha</artifactId>
-			<version>${kaptcha.version}</version>
+			<version>${kaptcha.version}</version> 
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/kaptcha-2.3.2.jar</systemPath>
 		</dependency>
 		<!-- jackson -->
 		<dependency>
