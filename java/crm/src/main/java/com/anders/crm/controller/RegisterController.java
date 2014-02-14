@@ -69,7 +69,7 @@ public class RegisterController extends BaseController {
 
 		Map<String, Object> emailParams = new HashMap<String, Object>();
 		emailParams.put(MailFacade.PARAM_REMARK, remark);
-		getMailFacade().sendMail(MailType.GET_PASSWORD, from, user.getEmail(), subject, emailParams);
+		getMailFacade().sendMail(MailType.REGISTER_INDIVIDUAL, from, user.getEmail(), subject, emailParams);
 
 		return new ModelAndView("redirect:index.do");
 	}

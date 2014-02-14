@@ -46,7 +46,7 @@ public class RegisterControllerTest extends AbstractTransactionalJUnit4SpringCon
 	private DefaultAnnotationHandlerMapping handlerMapping;
 
 	@Test
-	@Rollback(value = false)
+	@Rollback(value = true)
 	public void test1() throws NoSuchMethodException, Exception {
 		request.setRequestURI("/register_individual.do");
 		request.setMethod(HttpMethod.POST.name());
