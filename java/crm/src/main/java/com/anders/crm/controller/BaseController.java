@@ -31,7 +31,7 @@ public abstract class BaseController {
 	// @Required
 	// @Resource(type = DelegatingMessageSource.class)
 	@Autowired
-	private DelegatingMessageSource messageSource;
+	private DelegatingMessageSource delegatingMessageSource;
 
 	// public DelegatingMessageSource getMessageSource() {
 	// return messageSource;
@@ -42,7 +42,7 @@ public abstract class BaseController {
 	}
 
 	public String getMessage(String code, HttpServletRequest request) {
-		return messageSource.getMessage(code, null, request.getLocale());
+		return delegatingMessageSource.getMessage(code, null, request.getLocale());
 	}
 
 	public UserService getUserService() {
