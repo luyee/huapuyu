@@ -12,9 +12,17 @@ public class GetPasswordVO implements Serializable {
 
 	private static final long serialVersionUID = 8688097078942710951L;
 
+	/**
+	 * 用户名
+	 */
 	private String username;
 
+	/**
+	 * 验证码
+	 */
 	private String securityCode;
+
+	// getter and setter
 
 	public String getUsername() {
 		return username;
@@ -31,5 +39,4 @@ public class GetPasswordVO implements Serializable {
 	public void setSecurityCode(String securityCode) {
 		this.securityCode = securityCode;
 	}
-
 }

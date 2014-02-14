@@ -36,9 +36,11 @@ public class SecurityUtil {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof UserDetails) {
 			return ((UserDetails) principal).getUsername();
-		} else if (principal.equals(Constant.ANONYMOUS_USERNAME)) {
+		}
+		else if (principal.equals(Constant.ANONYMOUS_USERNAME)) {
 			return StringUtils.EMPTY;
-		} else {
+		}
+		else {
 			return principal.toString();
 		}
 	}

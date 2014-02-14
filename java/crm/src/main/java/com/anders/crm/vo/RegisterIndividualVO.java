@@ -34,6 +34,8 @@ public class RegisterIndividualVO implements Serializable {
 	 */
 	private String email;
 
+	// getter and setter
+
 	public String getUsername() {
 		return username;
 	}
@@ -65,5 +67,4 @@ public class RegisterIndividualVO implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 }
