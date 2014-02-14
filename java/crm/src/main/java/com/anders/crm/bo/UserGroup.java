@@ -29,13 +29,13 @@ public class UserGroup extends BaseBO {
 	@Column(length = 50, nullable = false, unique = true)
 	private String name;
 	/**
-	 * 角色
+	 * 角色集合
 	 */
 	@ManyToMany(targetEntity = Role.class, fetch = FetchType.LAZY)
 	@JoinTable(name = "rlt_user_group_to_role", joinColumns = @JoinColumn(name = "user_group_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<Role>();
 	/**
-	 * 用户
+	 * 用户集合
 	 */
 	@ManyToMany(mappedBy = "userGroups", targetEntity = User.class, fetch = FetchType.LAZY)
 	private Set<User> users = new HashSet<User>();

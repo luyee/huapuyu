@@ -26,6 +26,7 @@ import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.Store;
 
+// TODO Anders Zhu : 测试Hibernate Search，后期要删除
 /**
  * 用户
  * 

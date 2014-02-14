@@ -55,7 +55,7 @@ public class Role extends BaseBO implements GrantedAuthority {
 	@ManyToMany(mappedBy = "roles", targetEntity = UserGroup.class, fetch = FetchType.LAZY)
 	private Set<UserGroup> userGroups = new HashSet<UserGroup>();
 
-	// spring security 3
+	// Spring Security 3
 
 	public String getAuthority() {
 		return name;
