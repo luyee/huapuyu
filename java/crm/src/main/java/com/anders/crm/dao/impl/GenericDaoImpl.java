@@ -45,10 +45,10 @@ public abstract class GenericDaoImpl<PK extends Serializable, T> implements Gene
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	 public SessionFactory getSessionFactory() {
-	 return sessionFactory;
-	 }
-	
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
 	// @Resource(name = "sessionFactory")
 	// public void setSessionFactory(SessionFactory sessionFactory) {
 	// this.sessionFactory = sessionFactory;

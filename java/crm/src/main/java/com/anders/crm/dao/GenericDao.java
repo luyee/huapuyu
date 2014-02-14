@@ -12,10 +12,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 
 public interface GenericDao<PK extends Serializable, T> {
-	
+
 	Session getSession();
-	
-	 SessionFactory getSessionFactory();
+
+	SessionFactory getSessionFactory();
 
 	void delete(final T entity);
 

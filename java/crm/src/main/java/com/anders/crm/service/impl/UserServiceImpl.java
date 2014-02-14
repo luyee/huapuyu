@@ -13,9 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.anders.crm.bo.User;
 import com.anders.crm.dao.GenericDao;
 import com.anders.crm.dao.UserDao;
-import com.anders.crm.service.MailService;
+import com.anders.crm.facade.MailFacade;
 import com.anders.crm.service.UserService;
 import com.anders.crm.utils.Constant;
+import com.anders.crm.utils.MailType;
 import com.anders.crm.utils.SecurityUtil;
 
 //@Service("userService")
@@ -27,7 +28,7 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 	private UserDao userDao;
 
 	@Autowired
-	private MailService mailService;
+	private MailFacade mailFacade;
 
 	@Override
 	public GenericDao<Long, User> getDao() {
@@ -77,7 +78,7 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 
 		Map<String, Object> emailParams = new HashMap<String, Object>();
 		emailParams.put("password", randPassword);
-		mailService.getPassword(from, user.getEmail(), subject, emailParams);
+		mailFacade.sendMail(MailType.REGISTER_INDIVIDUAL, from, user.getEmail(), subject, emailParams);
 	}
 
 	@Override

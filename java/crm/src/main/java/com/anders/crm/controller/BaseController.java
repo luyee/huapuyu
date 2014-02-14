@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DelegatingMessageSource;
 
-import com.anders.crm.service.MailService;
+import com.anders.crm.facade.MailFacade;
 import com.anders.crm.service.UserService;
 
 /**
@@ -17,12 +17,12 @@ import com.anders.crm.service.UserService;
  * 
  */
 public abstract class BaseController {
-	protected Logger logger = LoggerFactory.getLogger(getClass());
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private MailService mailService;
+	private MailFacade mailFacade;
 
 	// TODO Anders Zhu : 了解这些注解
 	// @Autowired
@@ -37,6 +37,10 @@ public abstract class BaseController {
 	// return messageSource;
 	// }
 
+	protected Logger getLogger() {
+		return this.logger;
+	}
+
 	public String getMessage(String code, HttpServletRequest request) {
 		return messageSource.getMessage(code, null, request.getLocale());
 	}
@@ -45,7 +49,7 @@ public abstract class BaseController {
 		return userService;
 	}
 
-	public MailService getMailService() {
-		return mailService;
+	public MailFacade getMailFacade() {
+		return mailFacade;
 	}
 }
