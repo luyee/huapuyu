@@ -46,7 +46,7 @@ public class RegisterControllerTest extends AbstractTransactionalJUnit4SpringCon
 	private DefaultAnnotationHandlerMapping handlerMapping;
 
 	@Test
-	@Rollback(value = true)
+	@Rollback(value = false)
 	public void test1() throws NoSuchMethodException, Exception {
 		request.setRequestURI("/register_individual.do");
 		request.setMethod(HttpMethod.POST.name());
@@ -57,7 +57,8 @@ public class RegisterControllerTest extends AbstractTransactionalJUnit4SpringCon
 		map.put(RegisterIndividualVO.USERNAME, username);
 		map.put(RegisterIndividualVO.PASSWORD, "123456");
 		map.put(RegisterIndividualVO.NAME, username);
-		map.put(RegisterIndividualVO.EMAIL, username + "@hhcrm.com");
+		// map.put(RegisterIndividualVO.EMAIL, username + "@hhcrm.com");
+		map.put(RegisterIndividualVO.EMAIL, "huapuyu@qq.com");
 		request.setParameters(map);
 
 		HttpSession session = request.getSession();
