@@ -7,3 +7,6 @@
  	<script type="text/javascript" src="$extRoot/adapter/ext/ext-base.js"></script>
 	<script type="text/javascript" src="$extRoot/ext-all.js"></script>
 	<script type="text/javascript" src="$jsRoot/get_password.js"></script>
+	
+	
+1.lucene
