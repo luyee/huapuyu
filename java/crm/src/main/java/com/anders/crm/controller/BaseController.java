@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.context.support.DelegatingMessageSource;
 
 import com.anders.crm.facade.MailFacade;
 import com.anders.crm.service.UserService;
@@ -31,7 +31,7 @@ public abstract class BaseController {
 	// @Required
 	// @Resource(type = DelegatingMessageSource.class)
 	@Autowired
-	private ResourceBundleMessageSource messageSource;
+	private DelegatingMessageSource messageSource;
 
 	// public DelegatingMessageSource getMessageSource() {
 	// return messageSource;
