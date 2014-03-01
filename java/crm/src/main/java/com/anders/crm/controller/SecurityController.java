@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.anders.crm.utils.CommonUtil;
 import com.anders.crm.vo.GetPasswordVO;
 
 /**
@@ -64,15 +65,17 @@ public class SecurityController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/get_password.do", method = { RequestMethod.POST })
-	// public ModelAndView getPassword(@ModelAttribute("getPasswordVO") GetPasswordVO getPasswordVO) {
-	// public ModelAndView getPassword(@ModelAttribute GetPasswordVO getPasswordVO) {
+	// public ModelAndView getPassword(@ModelAttribute("getPasswordVO")
+	// GetPasswordVO getPasswordVO) {
+	// public ModelAndView getPassword(@ModelAttribute GetPasswordVO
+	// getPasswordVO) {
 	public ModelAndView getPassword(HttpServletRequest request, GetPasswordVO getPasswordVO) {
 		ModelAndView modelAndView = new ModelAndView("get_password");
 
 		String from = getMessage("email.from", request);
 		String subject = getMessage("get_password.email.subject", request);
 
-		getUserService().updatePasswordToDefault(getPasswordVO.getUsername(), from, subject);
+		getUserService().updatePasswordToDefault(CommonUtil.getLocale(request), getPasswordVO.getUsername(), from, subject);
 		return modelAndView;
 	}
 }

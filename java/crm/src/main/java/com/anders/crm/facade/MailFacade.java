@@ -8,8 +8,7 @@ public interface MailFacade {
 	// public final static String EMAIL_TO = "email_to";
 	// public final static String EMAIL_SUBJECT = "subject";
 
-	public final static String PARAM_PWD = "password";
-	public final static String PARAM_REMARK = "remark";
+	public final static String USER = "user";
 
 	/**
 	 * 发送邮件
@@ -25,5 +24,5 @@ public interface MailFacade {
 	 * @param emailParams
 	 *            邮件参数
 	 */
-	void sendMail(MailType mailType, String from, String to, String subject, Map<String, Object> emailParams);
+	void sendMail(MailType mailType, String locale, String from, String to, String subject, Map<String, Object> emailParams);
 }

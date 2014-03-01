@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import com.anders.crm.facade.MailFacade;
+import com.anders.crm.utils.Constant;
 import com.anders.crm.utils.MailType;
 import com.anders.crm.utils.MailUtil;
 
@@ -25,20 +26,33 @@ public class MailFacadeImpl implements MailFacade {
 	private VelocityEngine velocityEngine;
 
 	@Override
-	public void sendMail(MailType mailType, String from, String to, String subject, Map<String, Object> emailParams) {
+	public void sendMail(MailType mailType, String locale, String from, String to, String subject, Map<String, Object> emailParams) {
 		// TODO Anders Zhu ：添加异常处理
-		// org.springframework.mail.MailSendException: Failed messages: com.sun.mail.smtp.SMTPSendFailedException: 553 From address not verified - see http://help.yahoo.com/l/us/yahoo/mail/original/manage/sendfrom-07.html|; message exceptions (1) are:|Failed message 1: com.sun.mail.smtp.SMTPSendFailedException: 553 From address not verified - see http://help.yahoo.com/l/us/yahoo/mail/original/manage/sendfrom-07.html|
-		// at org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:440)
-		// at org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:306)
-		// at org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:296)
-		// at com.anders.crm.service.impl.MailServiceImpl.getPassword(MailServiceImpl.java:32)
+		// org.springframework.mail.MailSendException: Failed messages:
+		// com.sun.mail.smtp.SMTPSendFailedException: 553 From address not
+		// verified - see
+		// http://help.yahoo.com/l/us/yahoo/mail/original/manage/sendfrom-07.html|;
+		// message exceptions (1) are:|Failed message 1:
+		// com.sun.mail.smtp.SMTPSendFailedException: 553 From address not
+		// verified - see
+		// http://help.yahoo.com/l/us/yahoo/mail/original/manage/sendfrom-07.html|
+		// at
+		// org.springframework.mail.javamail.JavaMailSenderImpl.doSend(JavaMailSenderImpl.java:440)
+		// at
+		// org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:306)
+		// at
+		// org.springframework.mail.javamail.JavaMailSenderImpl.send(JavaMailSenderImpl.java:296)
+		// at
+		// com.anders.crm.service.impl.MailServiceImpl.getPassword(MailServiceImpl.java:32)
 		// mailMessage.setTo(to);
 		// mailMessage.setSubject(subject);
-		// String result = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "email/get_password.vm", emailParams);
+		// String result =
+		// VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
+		// "email/get_password.vm", emailParams);
 		// mailMessage.setText(result);
 		// mailSender.send(mailMessage);
 
-		String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, String.format("email/%s.vm", mailType.getName()), emailParams);
+		String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, String.format("email/%s_%s.vm", mailType.getName(), locale), Constant.UNICODE_UTF8, emailParams);
 
 		try {
 			MailUtil.sendMail(mailSender, from, to, subject, text);

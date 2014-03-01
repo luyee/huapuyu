@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.anders.crm.bo.User;
 import com.anders.crm.facade.MailFacade;
+import com.anders.crm.utils.CommonUtil;
 import com.anders.crm.utils.Constant;
 import com.anders.crm.utils.MailType;
 import com.anders.crm.utils.SecurityUtil;
@@ -65,11 +66,11 @@ public class RegisterController extends BaseController {
 
 		String from = getMessage("email.from", request);
 		String subject = getMessage("register_individual.email.subject", request);
-		String remark = getMessage("register_individual.email.remark", request);
 
 		Map<String, Object> emailParams = new HashMap<String, Object>();
-		emailParams.put(MailFacade.PARAM_REMARK, remark);
-		getMailFacade().sendMail(MailType.REGISTER_INDIVIDUAL, from, user.getEmail(), subject, emailParams);
+		emailParams.put(MailFacade.USER, registerIndividualVO);
+
+		getMailFacade().sendMail(MailType.REGISTER_INDIVIDUAL, CommonUtil.getLocale(request), from, registerIndividualVO.getEmail(), subject, emailParams);
 
 		return new ModelAndView("redirect:index.do");
 	}

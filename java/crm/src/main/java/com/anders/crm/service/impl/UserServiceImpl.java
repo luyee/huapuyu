@@ -58,7 +58,7 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 	}
 
 	@Override
-	public void updatePasswordToDefault(String username, String from, String subject) {
+	public void updatePasswordToDefault(String locale, String username, String from, String subject) {
 		if (StringUtils.isBlank(username)) {
 			throw new IllegalArgumentException("username is blank");
 		}
@@ -77,8 +77,9 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 		getDao().update(user);
 
 		Map<String, Object> emailParams = new HashMap<String, Object>();
+		emailParams.put("user", user);
 		emailParams.put("password", randPassword);
-		mailFacade.sendMail(MailType.REGISTER_INDIVIDUAL, from, user.getEmail(), subject, emailParams);
+		mailFacade.sendMail(MailType.GET_PASSWORD, locale, from, user.getEmail(), subject, emailParams);
 	}
 
 	@Override
