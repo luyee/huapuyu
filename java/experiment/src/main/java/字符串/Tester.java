@@ -39,6 +39,12 @@ public class Tester {
 		stringBuilder.append("is ");
 		stringBuilder.append("stringBuilder");
 		System.out.println(stringBuilder.toString());
-	}
 
+		String str = "";
+		String[] strs = str.split(",");
+		System.out.println(strs.length);
+		for (String s : strs) {
+			System.out.println("****" + s + "****");
+		}
+	}
 }

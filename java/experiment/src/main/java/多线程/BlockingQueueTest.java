@@ -14,15 +14,10 @@ public class BlockingQueueTest {
 		// // TODO Auto-generated catch block
 		// e.printStackTrace();
 		// }
-		new MyTest().get();
-	}
-}
 
-class MyTest {
-	private HintTransferQueueProcessor hintTransferQueueProcessor = new HintTransferQueueProcessor();
-
-	public void get() {
-		System.out.println("afasdfa");
+		HintTransferQueueProcessor hintTransferQueueProcessor = new HintTransferQueueProcessor();
+		hintTransferQueueProcessor.addHint(123L);
+		hintTransferQueueProcessor.addHint(1234L);
 	}
 }
 
