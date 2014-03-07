@@ -1,63 +1,110 @@
 package syn;
 
+import org.apache.log4j.Logger;
+
 public class Tester {
+
 	public static void main(String[] args) {
-		SynClass sc = new SynClass();
+		接口 i = new 非同步类();
 
-		MyThread1 thread1 = new MyThread1(sc);
-		thread1.start();
+		线程1 t1 = new 线程1(i);
+		t1.start();
 
-		MyThread2 thread2 = new MyThread2(sc);
-		thread2.start();
+		线程2 t2 = new 线程2(i);
+		t2.start();
+
+		i = new 同步类();
+
+		t1 = new 线程1(i);
+		t1.start();
+
+		t2 = new 线程2(i);
+		t2.start();
 	}
 }
 
-class MyThread1 extends Thread {
-	private SynClass sc;
+class 线程1 extends Thread {
+	private 接口 i;
 
-	public MyThread1(SynClass sc) {
-		this.sc = sc;
+	public 线程1(接口 i) {
+		this.i = i;
 	}
 
 	@Override
 	public void run() {
-		sc.method1();
+		i.方法1();
 		super.run();
 	}
 }
 
-class MyThread2 extends Thread {
-	private SynClass sc;
+class 线程2 extends Thread {
+	private 接口 i;
 
-	public MyThread2(SynClass sc) {
-		this.sc = sc;
+	public 线程2(接口 i) {
+		this.i = i;
 	}
 
 	@Override
 	public void run() {
-		sc.method2();
+		i.方法2();
 		super.run();
 	}
 }
 
-class SynClass {
-	public synchronized void method1() {
+interface 接口 {
+	void 方法1();
+
+	void 方法2();
+}
+
+class 同步类 implements 接口 {
+	private static final Logger logger = Logger.getLogger(同步类.class);
+
+	@Override
+	public synchronized void 方法1() {
 		try {
 			Thread.sleep(5000);
 		}
 		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println("method1...");
+		logger.debug(this.getClass().getSimpleName() + "方法1执行完毕");
 	}
 
-	public synchronized void method2() {
+	@Override
+	public synchronized void 方法2() {
 		try {
 			Thread.sleep(5000);
 		}
 		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println("method2...");
+		logger.debug(this.getClass().getSimpleName() + "方法2执行完毕");
+	}
+}
+
+class 非同步类 implements 接口 {
+	private static final Logger logger = Logger.getLogger(非同步类.class);
+
+	@Override
+	public void 方法1() {
+		try {
+			Thread.sleep(5000);
+		}
+		catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		logger.debug(this.getClass().getSimpleName() + "方法1执行完毕");
+	}
+
+	@Override
+	public void 方法2() {
+		try {
+			Thread.sleep(5000);
+		}
+		catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		logger.debug(this.getClass().getSimpleName() + "方法2执行完毕");
 	}
 }
