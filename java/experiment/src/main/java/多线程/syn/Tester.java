@@ -1,4 +1,4 @@
-package syn;
+package 多线程.syn;
 
 import org.apache.log4j.Logger;
 
