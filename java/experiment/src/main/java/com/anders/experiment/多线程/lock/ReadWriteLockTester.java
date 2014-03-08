@@ -1,4 +1,4 @@
-package 多线程.lock;
+package com.anders.experiment.多线程.lock;
 
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;

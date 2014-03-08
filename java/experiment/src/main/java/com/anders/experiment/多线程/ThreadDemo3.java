@@ -1,4 +1,4 @@
-package 多线程;
+package com.anders.experiment.多线程;
 
 import java.util.Random;
 

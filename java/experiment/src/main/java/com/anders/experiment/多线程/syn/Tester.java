@@ -1,4 +1,4 @@
-package 多线程.syn;
+package com.anders.experiment.多线程.syn;
 
 import org.apache.log4j.Logger;
 
