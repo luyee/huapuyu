@@ -24,6 +24,11 @@ public class Tester {
 			System.out.println(e.getCause());
 			System.out.println("********************分割线********************");
 			System.out.println(e);
+			System.out.println("********************分割线********************");
+			StackTraceElement[] stackTraceElements = e.getStackTrace();
+			for (StackTraceElement stackTraceElement : stackTraceElements) {
+				System.out.println(stackTraceElement);
+			}
 		}
 	}
 
