@@ -1,4 +1,4 @@
-package 集合;
+package com.anders.experiment.集合;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ public class Tester {
 	}
 
 	@Test
-	public void testListAndSet() {
+	public void testHashSet和ArrayList区别() {
 		List<String> list = new ArrayList<String>();
 		list.add("朱振");
 		list.add("郭立立");
@@ -69,10 +69,11 @@ public class Tester {
 
 	// 下面方法抛出如下异常
 	// java.util.ConcurrentModificationException
-	// at java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
+	// at
+	// java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
 	// at java.util.AbstractList$Itr.next(AbstractList.java:343)
 	@Test(expected = ConcurrentModificationException.class)
-	public void test自删除集合元素1() {
+	public void test非安全自删除集合元素1() {
 		List<String> list = new ArrayList<String>();
 		list.add("张三");
 		list.add("李四");
@@ -87,10 +88,11 @@ public class Tester {
 
 	// 下面方法抛出如下异常
 	// java.util.ConcurrentModificationException
-	// at java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
+	// at
+	// java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
 	// at java.util.AbstractList$Itr.next(AbstractList.java:343)
 	@Test(expected = ConcurrentModificationException.class)
-	public void test自删除集合元素2() {
+	public void test非安全自删除集合元素2() {
 		List<String> list = new ArrayList<String>();
 		list.add("张三");
 		list.add("李四");
@@ -106,10 +108,11 @@ public class Tester {
 
 	// 下面方法抛出如下异常
 	// java.util.ConcurrentModificationException
-	// at java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
+	// at
+	// java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
 	// at java.util.AbstractList$Itr.next(AbstractList.java:343)
 	@Test(expected = ConcurrentModificationException.class)
-	public void test自添加集合元素1() {
+	public void test非安全自添加集合元素1() {
 		List<String> list = new ArrayList<String>();
 		list.add("张三");
 		list.add("李四");
@@ -123,10 +126,11 @@ public class Tester {
 
 	// 下面方法抛出如下异常
 	// java.util.ConcurrentModificationException
-	// at java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
+	// at
+	// java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
 	// at java.util.AbstractList$Itr.next(AbstractList.java:343)
 	@Test(expected = ConcurrentModificationException.class)
-	public void test自添加集合元素2() {
+	public void test非安全自添加集合元素2() {
 		List<String> list = new ArrayList<String>();
 		list.add("张三");
 		list.add("李四");
