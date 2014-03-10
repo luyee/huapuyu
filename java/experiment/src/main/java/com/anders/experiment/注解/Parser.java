@@ -1,11 +1,11 @@
-package annotation;
+package com.anders.experiment.注解;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class Parser {
 	public void parser() throws SecurityException, NoSuchMethodException, NoSuchFieldException {
-		TestClass testClass = new TestClass();
+		注解类 testClass = new 注解类();
 
 		// 类的注解
 		Annotation4Class annotation4Class = testClass.getClass().getAnnotation(Annotation4Class.class);

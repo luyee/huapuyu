@@ -1,7 +1,7 @@
-package annotation;
+package com.anders.experiment.注解;
 
 @Annotation4Class(myClass = "this is a class")
-public class TestClass {
+public class 注解类 {
 	@Annotation4Field(isTrue = false, myField = "this is a field")
 	private String myField = "hello world";
 

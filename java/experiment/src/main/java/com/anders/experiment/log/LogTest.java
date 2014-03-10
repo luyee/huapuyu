@@ -1,4 +1,4 @@
-package log;
+package com.anders.experiment.log;
 
 import org.apache.log4j.Logger;
 
@@ -9,5 +9,4 @@ public class LogTest {
 	public void print() {
 		logger.info("此日志不会在日志文件中显示");
 	}
-
 }
