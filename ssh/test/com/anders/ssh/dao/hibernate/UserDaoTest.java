@@ -1,5 +1,7 @@
 package com.anders.ssh.dao.hibernate;
 
+import javax.annotation.Resource;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -10,7 +12,7 @@ import com.anders.ssh.bo.annotation.User;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })
 public class UserDaoTest {
-	@javax.annotation.Resource(name = "hibernateUserDao")
+	@Resource(name = "hibernateUserDao")
 	private UserDao userDao;
 
 	@Test
