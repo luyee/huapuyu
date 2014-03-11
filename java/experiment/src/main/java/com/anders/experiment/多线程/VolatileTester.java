@@ -2,15 +2,25 @@ package com.anders.experiment.多线程;
 
 import org.apache.log4j.Logger;
 
-//TODO Anders Zhu : 实在不能重现volatile
 /**
- * 实在不能重现volatile
+ * 不能重现volatile的原因：只有在对变量读取频率很高的情况下，虚拟机才不会及时回写主内存，而当频率没有达到虚拟机认为的高频率时，普通变量和volatile是同样的处理逻辑。
+ * 如在每个循环中执行System
+ * .out.println("")加大了读取变量的时间间隔，使虚拟机认为读取频率并不那么高，所以实现了和添加volatile关键字一样的效果。volatile的效果在jdk1.2及之前很容易重现
+ * ，但随着虚拟机的不断优化，如今的普通变量的可见性已经不是那么严重的问题了，这也是volatile如今确实不太有使用场景的原因吧。
  * 
  * @author Anders Zhu
  * 
  */
-public class VolatileTester {
+public class VolatileTester extends Thread {
 	private static final Logger logger = Logger.getLogger(VolatileTester.class);
+
+	private static boolean done = false;
+
+	@Override
+	public void run() {
+		while (!done) {
+		}
+	}
 
 	public static void main(String[] args) throws InterruptedException {
 		// 接口 value = new 非volatile类();
@@ -28,13 +38,11 @@ public class VolatileTester {
 		// logger.debug(value.getValue());
 
 		// volatile不能提供原子性，因此上面的操作没有意义
-
-		非volatile线程 t1 = new 非volatile线程();
-		// for (int i = 0; i < 100; i++) {
-		t1.start();
-		// }
+		for (int i = 0; i < 100; i++) {
+			new VolatileTester().start();
+		}
 		Thread.sleep(5000);
-		t1.setDone();
+		done = true;
 
 		// logger.debug("***************************************************");
 
@@ -131,39 +139,5 @@ class 线程 extends Thread {
 
 	public 线程(接口 value) {
 		this.value = value;
-	}
-}
-
-class 非volatile线程 extends Thread {
-	private static final Logger logger = Logger.getLogger(非volatile线程.class);
-
-	private boolean done = false;
-
-	@Override
-	public void run() {
-		while (!done) {
-			;
-		}
-	}
-
-	public void setDone() {
-		done = true;
-	}
-}
-
-class volatile线程 extends Thread {
-	private static final Logger logger = Logger.getLogger(volatile线程.class);
-
-	private volatile boolean done = false;
-
-	@Override
-	public void run() {
-		while (!done) {
-			;
-		}
-	}
-
-	public void setDone() {
-		done = true;
 	}
 }
