@@ -47,13 +47,14 @@ public class Tester {
 	public void test列表Filter2() {
 		列表Filter fc1 = new 列表Filter();
 		fc1.addFilter(new HtmlFilter());
+
 		列表Filter fc2 = new 列表Filter();
 		fc2.addFilter(new SesitiveFilter());
 		fc2.addFilter(fc1);
 
 		列表FilterProcessor mp = new 列表FilterProcessor();
 		mp.setMsg("hello world, <script>, 敏感");
-		mp.setFc(fc2);
+		mp.setFc(fc1);
 		String msg = mp.process();
 		System.out.println(msg);
 	}
