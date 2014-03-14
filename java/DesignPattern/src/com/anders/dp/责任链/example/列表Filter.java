@@ -1,13 +1,13 @@
-package chainOfResponsibility.example3;
+package com.anders.dp.责任链.example;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterChain implements Filter
+public class 列表Filter implements Filter
 {
 	private List<Filter> filters = new ArrayList<Filter>();
 
-	public FilterChain addFilter(Filter filter)
+	public 列表Filter addFilter(Filter filter)
 	{
 		this.filters.add(filter);
 		return this;

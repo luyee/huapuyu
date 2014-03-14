@@ -1,8 +1,8 @@
-package chainOfResponsibility;
+package com.anders.dp.责任链;
 
-public class 班长 extends Handler
+public class 排长 extends Handler
 {
-	public 班长(String name)
+	public 排长(String name)
 	{
 		this.name = name;
 	}
@@ -10,7 +10,7 @@ public class 班长 extends Handler
 	@Override
 	public void handleRequest(String request)
 	{
-		if ("集合全班士兵".equals(request))
+		if ("集合全排士兵".equals(request))
 		{
 			System.out.println(this.name + "可以" + request);
 		}

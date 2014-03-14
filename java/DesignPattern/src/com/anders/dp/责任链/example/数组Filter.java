@@ -1,6 +1,7 @@
-package chainOfResponsibility.example1;
+package com.anders.dp.责任链.example;
 
-public class MsgProcessor
+
+public class 数组Filter
 {
 	private String msg;
 

@@ -1,4 +1,4 @@
-package chainOfResponsibility;
+package com.anders.dp.责任链;
 
 import org.junit.After;
 import org.junit.AfterClass;

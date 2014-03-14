@@ -1,4 +1,4 @@
-package chainOfResponsibility;
+package com.anders.dp.责任链;
 
 public class 连长 extends Handler
 {
