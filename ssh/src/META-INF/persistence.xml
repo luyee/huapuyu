@@ -40,8 +40,10 @@
 	<!--  
 	<provider>org.hibernate.ejb.HibernatePersistence</provider>
 	-->
+	<!--
 	<mapping-file>com/anders/ssh/model/xml/Data.hbm.xml</mapping-file>
 	<class>com.anders.ssh.model.xml.Data</class>
+	-->
 	<exclude-unlisted-classes>true</exclude-unlisted-classes>
    	<properties>
 		<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>

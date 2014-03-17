@@ -19,7 +19,9 @@
 	<context:component-scan base-package="com.anders.ssh.annotation"/>
 	<!--  
 	<context:component-scan base-package="com.anders.ssh.others"/>
+	-->
 	<context:component-scan base-package="com.anders.ssh.wicket"/>
+	<!-- 
 	<context:component-scan base-package="com.anders.ssh.dao"/>
 	<context:component-scan base-package="com.anders.ssh.security"/>
 	-->

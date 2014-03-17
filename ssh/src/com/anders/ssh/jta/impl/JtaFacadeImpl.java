@@ -4,7 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.anders.ssh.bo.xml.Data;
+import com.anders.ssh.bo.test.Account;
 import com.anders.ssh.jta.HibernateService;
 import com.anders.ssh.jta.JtaFacade;
 import com.anders.ssh.jta.MyBatisService;
@@ -18,8 +18,8 @@ public class JtaFacadeImpl implements JtaFacade {
 	private MyBatisService myBatisService;
 
 	@Override
-	public void save(Data data) {
-		myBatisService.save(data);
-		hibernateService.save(data);
+	public void save(Account account) {
+		myBatisService.save(account);
+		hibernateService.save(account);
 	}
 }

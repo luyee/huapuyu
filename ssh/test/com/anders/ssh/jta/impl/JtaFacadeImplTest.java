@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.anders.ssh.bo.xml.Data;
+import com.anders.ssh.bo.test.Account;
 import com.anders.ssh.jta.JtaFacade;
 import com.anders.ssh.jta.JtaFacade1;
 
@@ -22,9 +22,8 @@ public class JtaFacadeImplTest {
 	private JtaFacade1 jtaFacade1;
 
 	public void testAdd1() {
-		Data data = new Data();
+		Account data = new Account();
 		data.setId(1L);
-		data.setType(Byte.MIN_VALUE);
 		data.setName("zhuzhen");
 		data.setEnable(true);
 		jtaFacade.save(data);
@@ -32,11 +31,10 @@ public class JtaFacadeImplTest {
 
 	@Test
 	public void testAdd2() {
-		Data data = new Data();
+		Account data = new Account();
 		data.setId(1L);
-		data.setType(Byte.MIN_VALUE);
 		data.setName("zhuzhen");
 		data.setEnable(true);
-		jtaFacade1.save(data);
+		// jtaFacade1.save(data);
 	}
 }

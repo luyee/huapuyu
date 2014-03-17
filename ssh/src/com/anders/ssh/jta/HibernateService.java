@@ -1,7 +1,7 @@
 package com.anders.ssh.jta;
 
-import com.anders.ssh.bo.xml.Data;
+import com.anders.ssh.bo.test.Account;
 
 public interface HibernateService {
-	public void save(Data data);
+	void save(Account account);
 }

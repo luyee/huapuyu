@@ -31,6 +31,9 @@ public class Account implements Serializable {
 	@Column(nullable = true, length = 50)
 	private String name;
 
+	@Column(name = "enable", nullable = false)
+	private Boolean enable = true;
+
 	@ManyToMany(mappedBy = "accounts", targetEntity = Company.class)
 	private List<Company> companies = new ArrayList<Company>(0);
 
@@ -56,6 +59,14 @@ public class Account implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Boolean getEnable() {
+		return enable;
+	}
+
+	public void setEnable(Boolean enable) {
+		this.enable = enable;
 	}
 
 }

@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.anders.ssh.bo.xml.Data;
-import com.anders.ssh.service.DataService;
+import com.anders.ssh.bo.test.Account;
+import com.anders.ssh.service.AccountService;
 
 /**
  * 多个线程操作同一条记录，如果该记录不存在，则insert，否则则update，测试会不会出现两个线程insert两条记录
@@ -24,7 +24,7 @@ import com.anders.ssh.service.DataService;
 @ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })
 public class SaveOrUpdateTest {
 	@Autowired
-	private DataService dataService;
+	private AccountService accountService;
 
 	// @Before
 	// public void before() {
@@ -60,19 +60,18 @@ public class SaveOrUpdateTest {
 		TestRunnable testRunnable = new TestRunnable() {
 			@Override
 			public void runTest() throws Throwable {
-				if (dataService != null) {
-					Data data = dataService.getById(1L);
-					if (data == null) {
-						data = new Data();
-						data.setId(1L);
-						data.setType(Byte.MIN_VALUE);
-						data.setName("zhuzhen");
-						data.setEnable(true);
+				if (accountService != null) {
+					Account account = accountService.getById(1L);
+					if (account == null) {
+						account = new Account();
+						account.setId(1L);
+						account.setName("zhuzhen");
+						account.setEnable(true);
 					}
 					else {
-						data.setName(String.valueOf(new Random().nextInt()));
+						account.setName(String.valueOf(new Random().nextInt()));
 					}
-					dataService.saveOrUpdate(data);
+					accountService.saveOrUpdate(account);
 				}
 			}
 		};

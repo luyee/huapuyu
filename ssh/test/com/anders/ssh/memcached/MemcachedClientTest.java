@@ -16,17 +16,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring.xml" })
 public class MemcachedClientTest {
-	@Resource
+	@Resource(name = "memcachedClient")
 	private MemcachedClient memcachedClient;
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void test1() {
 		List<String> list = new ArrayList<String>();
 		list.add("Tom");
 		list.add("Jim");
 		memcachedClient.add("users", 3600, list);
-		Assert.assertEquals(2, ((List<String>) memcachedClient.get("users"))
-				.size());
+		Assert.assertEquals(2, ((List<String>) memcachedClient.get("users")).size());
 	}
 
 	@Test

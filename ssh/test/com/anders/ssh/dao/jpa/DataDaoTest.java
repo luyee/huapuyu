@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.anders.ssh.bo.xml.Data;
+import com.anders.ssh.bo.test.Account;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })
@@ -19,20 +19,19 @@ public class DataDaoTest {
 	// [2011-09-06 23:06:03] [org.springframework.test.context.TestContextManager] ERROR : Caught exception while allowing TestExecutionListener [org.springframework.test.context.support.DependencyInjectionTestExecutionListener@8fa0d1] to prepare test instance [com.anders.ssh.dao.hibernate.DataDaoTest@18706f6] (TestContextManager.java:324)
 	// org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.anders.ssh.dao.hibernate.DataDaoTest': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanNotOfRequiredTypeException: Bean named 'jpaDataDao' must be of type [com.anders.ssh.dao.jpa.DataDao], but was actually of type [$Proxy22]
 	// @Autowired
-	// @Qualifier("jdbcDataDao")
-	@Resource(name = "jpaDataDao")
-	private DataDao dataDao;
+	// @Qualifier("jdbcAccountDao")
+	@Resource(name = "jpaAccountDao")
+	private AccountDao accountDao;
 
 	@Test
 	public void testDataAdd() {
-		Data data = new Data();
-		data.setId(1L);
-		data.setType(Byte.MIN_VALUE);
-		data.setName("zhuzhen");
-		data.setEnable(true);
-		dataDao.save(data);
+		Account account = new Account();
+		account.setId(1L);
+		account.setName("zhuzhen");
+		account.setEnable(true);
+		accountDao.save(account);
 
-		List<Data> dataList = dataDao.getAll();
+		List<Account> dataList = accountDao.getAll();
 		Assert.assertEquals(1, dataList.size());
 		Assert.assertEquals("zhuzhen", dataList.get(0).getName());
 	}

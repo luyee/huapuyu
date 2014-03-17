@@ -30,7 +30,7 @@ public class WicketApplication extends WebApplication {
 		super.init();
 		addComponentInstantiationListener(new SpringComponentInjector(this));
 		getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
-		new AnnotatedMountScanner().scanPackage("wicket").mount(this);
+		new AnnotatedMountScanner().scanPackage("com.anders.ssh.wicket").mount(this);
 		getDebugSettings().setAjaxDebugModeEnabled(false);
 	}
 

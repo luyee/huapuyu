@@ -15,18 +15,15 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import com.anders.ssh.annotation.ZhuZhen;
-import com.anders.ssh.bo.xml.Data;
-import com.anders.ssh.dao.hibernate.DataFacade;
-import com.anders.ssh.service.DataService;
+import com.anders.ssh.bo.test.Account;
+import com.anders.ssh.service.AccountService;
 
 @MountPath(path = "home")
 public class HomePage extends WebPage {
 	@SpringBean
 	private ZhuZhen zhuZhen;
 	@SpringBean
-	private DataFacade dataFacade;
-	@SpringBean
-	private DataService dataService;
+	private AccountService accountService;
 
 	public HomePage() {
 		add(new Label("countLabel", zhuZhen.getName()));
@@ -58,16 +55,15 @@ public class HomePage extends WebPage {
 			System.out.println(radioChoice);
 			System.out.println(radioGroup);
 
-			List<Data> list1 = dataService.getAll();
+			List<Account> list1 = accountService.getAll();
 
-			Data data = new Data();
-			data.setId(1L);
-			data.setType(Byte.MIN_VALUE);
-			data.setName("zhuzhen");
-			data.setEnable(true);
-			dataService.save(data);
+			Account account = new Account();
+			account.setId(1L);
+			account.setName("zhuzhen");
+			account.setEnable(true);
+			accountService.save(account);
 
-			List<Data> list2 = dataService.getAll();
+			List<Account> list2 = accountService.getAll();
 
 			// dataFacade.updateTest();
 

@@ -9,8 +9,8 @@ import org.springframework.orm.hibernate3.HibernateOptimisticLockingFailureExcep
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.anders.ssh.bo.xml.Data;
-import com.anders.ssh.service.DataService;
+import com.anders.ssh.bo.test.Account;
+import com.anders.ssh.service.AccountService;
 
 /**
  * 测试Hibernate乐观锁
@@ -22,18 +22,18 @@ import com.anders.ssh.service.DataService;
 @ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })
 public class OptimisticLockingTest {
 	@Autowired
-	private DataService dataService;
+	private AccountService accountService;
 
 	@Before
 	public void before() {
-		dataService.deleteById(1L);
-		dataService.deleteById(2L);
+		accountService.deleteById(1L);
+		accountService.deleteById(2L);
 	}
 
 	@After
 	public void after() {
-		dataService.deleteById(1L);
-		dataService.deleteById(2L);
+		accountService.deleteById(1L);
+		accountService.deleteById(2L);
 	}
 
 	/**
@@ -45,40 +45,38 @@ public class OptimisticLockingTest {
 	 */
 	@Test(expected = HibernateOptimisticLockingFailureException.class)
 	public void test1() {
-		Data data = new Data();
-		data.setId(1L);
-		data.setType(Byte.MIN_VALUE);
-		data.setName("zhuzhen");
-		data.setEnable(true);
-		dataService.save(data);
+		Account account = new Account();
+		account.setId(1L);
+		account.setName("zhuzhen");
+		account.setEnable(true);
+		accountService.save(account);
 
-		Data data1 = dataService.getById(1L);
-		Data data2 = dataService.getById(1L);
+		Account data1 = accountService.getById(1L);
+		Account data2 = accountService.getById(1L);
 
 		data1.setName("zhuzhen1");
-		dataService.update(data1);
+		accountService.update(data1);
 
 		data2.setName("zhuzhen2");
-		dataService.update(data2);
+		accountService.update(data2);
 	}
 
 	/**
 	 * 不出现乐观锁
 	 */
 	public void test2() {
-		Data data = new Data();
-		data.setId(1L);
-		data.setType(Byte.MIN_VALUE);
-		data.setName("zhuzhen");
-		data.setEnable(true);
-		dataService.save(data);
+		Account account = new Account();
+		account.setId(1L);
+		account.setName("zhuzhen");
+		account.setEnable(true);
+		accountService.save(account);
 
-		Data data1 = dataService.getById(1L);
+		Account data1 = accountService.getById(1L);
 		data1.setName("zhuzhen1");
-		dataService.update(data1);
+		accountService.update(data1);
 
-		Data data2 = dataService.getById(1L);
+		Account data2 = accountService.getById(1L);
 		data2.setName("zhuzhen2");
-		dataService.update(data2);
+		accountService.update(data2);
 	}
 }

@@ -10,16 +10,16 @@ import org.unitils.dbunit.annotation.DataSet;
 import org.unitils.spring.annotation.SpringApplicationContext;
 import org.unitils.spring.annotation.SpringBean;
 
-import com.anders.ssh.bo.xml.Data;
-import com.anders.ssh.dao.hibernate.DataDao;
+import com.anders.ssh.bo.test.Account;
+import com.anders.ssh.dao.hibernate.AccountDao;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })
 @RunWith(UnitilsJUnit4TestClassRunner.class)
 @SpringApplicationContext( { "classpath:spring.xml", "classpath:spring-test.xml" })
 public class UnitilsTest extends UnitilsJUnit4 {
-	@SpringBean("hibernateDataDao")
-	private DataDao dataDao;
+	@SpringBean("hibernateAccountDao")
+	private AccountDao accountDao;
 
 	@Test
 	@DataSet("UnitilsTest.xml")
@@ -27,12 +27,11 @@ public class UnitilsTest extends UnitilsJUnit4 {
 	@Transactional(value = TransactionMode.COMMIT, transactionManagerName = "hibernateTxManager")
 	// 报错：org.unitils.core.UnitilsException: Make sure that the persistence provider that is used is an instance of UnitilsHibernatePersistenceProvider
 	public void test1() {
-		Data data = new Data();
-		data.setId(123L);
-		data.setName("test");
-		data.setEnable(true);
-		data.setType((byte) 123);
-		dataDao.save(data);
+		Account account = new Account();
+		account.setId(123L);
+		account.setName("test");
+		account.setEnable(true);
+		accountDao.save(account);
 		// throw new RuntimeException();
 		// System.out.println("123");
 	}

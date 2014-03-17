@@ -1,7 +1,0 @@
-<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
-	<t:form>
-		<div>名称：<t:textfield t:value="data.name"/></div>
-		<div>类型：<t:textfield t:value="data.type"/></div>
-		<div><t:submit value="添加"/></div>
-	</t:form>
-</html>

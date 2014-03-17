@@ -22,6 +22,6 @@
 	<!-- 
 	<sqlMap resource="classpath:com/anders/ssh/ibatis/Tb_user.xml" />
 	-->
-	<sqlMap resource="com/anders/ssh/ibatis/ibatis-data.xml" />
+	<sqlMap resource="com/anders/ssh/ibatis/ibatis-account.xml" />
 
 </sqlMapConfig>

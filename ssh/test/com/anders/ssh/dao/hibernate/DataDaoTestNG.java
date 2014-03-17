@@ -9,23 +9,22 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.anders.ssh.bo.xml.Data;
+import com.anders.ssh.bo.test.Account;
 
 @ContextConfiguration(locations = { "classpath:spring.xml" })
 public class DataDaoTestNG extends AbstractTestNGSpringContextTests {
 	@Resource(name = "hibernateDataDao")
-	private DataDao dataDao;
+	private AccountDao accountDao;
 
 	@Test
 	public void testUserAdd() {
-		Data data = new Data();
-		data.setId(1L);
-		data.setType(Byte.MIN_VALUE);
-		data.setName("zhuzhen");
-		data.setEnable(true);
-		dataDao.save(data);
+		Account account = new Account();
+		account.setId(1L);
+		account.setName("zhuzhen");
+		account.setEnable(true);
+		accountDao.save(account);
 
-		List<Data> dataList = dataDao.getAll();
+		List<Account> dataList = accountDao.getAll();
 		Assert.assertEquals(1, dataList.size());
 		Assert.assertEquals("zhuzhen", dataList.get(0).getName());
 	}

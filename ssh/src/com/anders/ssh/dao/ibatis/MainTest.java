@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.sql.SQLException;
 
-import com.anders.ssh.bo.xml.Data;
+import com.anders.ssh.bo.test.Account;
 import com.ibatis.common.resources.Resources;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapClientBuilder;
@@ -20,12 +20,12 @@ public class MainTest {
 		Reader reader = Resources.getResourceAsReader("config/ibatis-config.xml");
 		SqlMapClient sqlMapClient = SqlMapClientBuilder.buildSqlMapClient(reader);
 
-		Data data = new Data();
-		data.setId(1L);
-		data.setName("zhuzhen");
-		data.setType(Byte.MIN_VALUE);
+		Account account = new Account();
+		account.setId(1L);
+		account.setName("zhuzhen");
+		account.setEnable(true);
 
-		sqlMapClient.insert("dataSave", data);
+		sqlMapClient.insert("save", account);
 		reader.close();
 	}
 }
