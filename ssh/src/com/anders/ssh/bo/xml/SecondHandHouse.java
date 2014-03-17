@@ -3,6 +3,7 @@ package com.anders.ssh.bo.xml;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+@Deprecated
 public class SecondHandHouse implements Serializable {
 	private static final long serialVersionUID = 4779933743319140372L;
 

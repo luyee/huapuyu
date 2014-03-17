@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@Deprecated
 public class Role implements Serializable {
 	private static final long serialVersionUID = -4225855582860642624L;
 

@@ -2,6 +2,7 @@ package com.anders.ssh.bo.xml;
 
 import java.io.Serializable;
 
+@Deprecated
 public class House implements Serializable {
 	private static final long serialVersionUID = -6059443771590411309L;
 

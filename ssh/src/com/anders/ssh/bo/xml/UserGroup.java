@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@Deprecated
 public class UserGroup implements Serializable {
 	private static final long serialVersionUID = -7550715239549912247L;
 

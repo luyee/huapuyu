@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
+@Deprecated
 public class Data implements Serializable {
 
 	private static final long serialVersionUID = -3076049534246559365L;

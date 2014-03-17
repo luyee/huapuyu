@@ -3,6 +3,7 @@ package com.anders.ssh.bo.xml;
 import java.util.HashSet;
 import java.util.Set;
 
+@Deprecated
 public class User {
 	private static final long serialVersionUID = 5989698534331721397L;
 

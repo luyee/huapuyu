@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@Deprecated
 public class Resource implements Serializable {
 	private static final long serialVersionUID = -8246262126931423368L;
 

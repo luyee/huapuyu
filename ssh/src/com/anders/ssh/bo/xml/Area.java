@@ -3,6 +3,7 @@ package com.anders.ssh.bo.xml;
 import java.io.Serializable;
 import java.util.Set;
 
+@Deprecated
 public class Area implements Serializable {
 	private static final long serialVersionUID = -31200209980445216L;
 
