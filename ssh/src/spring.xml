@@ -28,10 +28,14 @@
 	-->
 	
 	<!-- cxf -->
+	<!--  
 	<import resource="classpath:config/spring-cxf.xml"/>
+	-->
 	
 	<!-- axis2 -->
+	<!--  
 	<import resource="classpath:config/spring-axis.xml"/>
+	-->
 	
 	<!-- jdbc -->
 	<import resource="classpath:config/spring-jdbc.xml"/>
@@ -81,25 +85,37 @@
 	-->
 	
 	<!-- memcached -->
+	<!--  
 	<import resource="classpath:config/spring-memcached.xml"/>
+	-->
 	
 	<!-- mongodb -->
 	<import resource="classpath:config/spring-mongo.xml"/>
 	
 	<!-- lucene -->
+	<!--  
 	<import resource="classpath:config/spring-lucene.xml"/>
+	-->
 	
 	<!-- rmi -->
+	<!--  
 	<import resource="classpath:config/spring-rmi.xml" />
+	-->
 	
 	<!-- jmx -->
+	<!--  
 	<import resource="classpath:config/spring-jmx.xml" />
+	-->
 	
 	<!-- mail -->
+	<!--  
 	<import resource="classpath:config/spring-mail.xml" />
+	-->
 	
 	<!-- quartz -->
+	<!--  
 	<import resource="classpath:config/spring-quartz.xml" />
+	-->
 	
 	<!-- atomikos -->
 	<!--  
@@ -107,5 +123,7 @@
 	-->
 	
 	<!-- activemq -->
+	<!--  
 	<import resource="classpath:config/spring-amq.xml" />
+	-->
 </beans>

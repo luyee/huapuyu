@@ -13,7 +13,9 @@
 	<context:component-scan base-package="com.anders.ssh.common"/>
 	<context:component-scan base-package="com.anders.ssh.dao"/>
 	<context:component-scan base-package="com.anders.ssh.service"/>
+	<!--  
 	<context:component-scan base-package="com.anders.ssh.jta"/>
+	-->
 	<context:component-scan base-package="com.anders.ssh.annotation"/>
 	<!--  
 	<context:component-scan base-package="com.anders.ssh.others"/>

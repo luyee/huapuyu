@@ -48,11 +48,13 @@
 		    	-->
 		    </list>
 		</property>
+		<!--  
 		<property name="annotatedClasses">
 			<list>
 		    	<value>com.anders.ssh.bo.test.FenBiao</value>
 		    </list>
 		</property>
+		-->
 	    <property name="packagesToScan" value="com.anders.ssh.bo"/>
 	</bean>
 	

@@ -116,6 +116,7 @@
   	-->  
   	
   	<!-- CXF -->
+  	<!--  
   	<servlet>    
         <servlet-name>CXFServlet</servlet-name>    
         <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>    
@@ -124,8 +125,10 @@
         <servlet-name>CXFServlet</servlet-name>    
         <url-pattern>/cxf/*</url-pattern>    
     </servlet-mapping>
+    -->
 
 	<!-- axis2 -->
+	<!--  
 	<servlet>
 		<servlet-name>axis2</servlet-name>
 		<servlet-class>
@@ -144,6 +147,7 @@
 		<servlet-name>axis2</servlet-name>
 		<url-pattern>*.jws</url-pattern>
 	</servlet-mapping>
+	-->
 
 	<!-- Hibernate -->
     <filter>
@@ -179,6 +183,7 @@
  	</welcome-file-list>
  	
  	<!-- hessian,burlap,http invoker配置的servlet,很不幸，spring mvc也用这个配置 -->
+ 	<!--  
  	<servlet>      
    		<servlet-name>dispatcher</servlet-name>      
    		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
@@ -187,6 +192,7 @@
    		<servlet-name>dispatcher</servlet-name>  
    		<url-pattern>*.mvc</url-pattern>  
 	</servlet-mapping>
+	-->
  
  	<!-- 无用配置，暂时保留 -->
  	<!--
