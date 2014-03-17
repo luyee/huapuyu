@@ -1,4 +1,4 @@
-package command;
+package com.anders.dp.命令;
 
 import org.junit.After;
 import org.junit.AfterClass;
