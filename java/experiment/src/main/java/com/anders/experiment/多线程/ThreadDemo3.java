@@ -17,16 +17,6 @@ public class ThreadDemo3 extends Thread {
 		stuLocal.set(stu);
 	}
 
-	public static void main(String[] args) {
-		Student stu = new Student();
-		ThreadDemo3 td31 = new ThreadDemo3(stu);
-		ThreadDemo3 td32 = new ThreadDemo3(stu);
-		ThreadDemo3 td33 = new ThreadDemo3(stu);
-		td31.start();
-		td32.start();
-		td33.start();
-	}
-
 	@Override
 	public void run() {
 		accessStudent();
@@ -38,17 +28,29 @@ public class ThreadDemo3 extends Thread {
 		System.out.println(currentThreadName + " is running!");
 		Random random = new Random();
 		int age = random.nextInt(100);
-		System.out.println("thread " + currentThreadName + " set age to:" + age);
+		System.out
+				.println("thread " + currentThreadName + " set age to:" + age);
 		Student student = stuLocal.get();
 		student.setAge(age);
-		System.out.println("thread " + currentThreadName + " first  read age is:" + student.getAge());
+		System.out.println("thread " + currentThreadName
+				+ " first  read age is:" + student.getAge());
 		try {
 			Thread.sleep(5000);
-		}
-		catch (InterruptedException ex) {
+		} catch (InterruptedException ex) {
 			ex.printStackTrace();
 		}
-		System.out.println("thread " + currentThreadName + " second read age is:" + student.getAge());
+		System.out.println("thread " + currentThreadName
+				+ " second read age is:" + student.getAge());
 
+	}
+
+	public static void main(String[] args) {
+		Student stu = new Student();
+		ThreadDemo3 td31 = new ThreadDemo3(stu);
+		ThreadDemo3 td32 = new ThreadDemo3(stu);
+		ThreadDemo3 td33 = new ThreadDemo3(stu);
+		td31.start();
+		td32.start();
+		td33.start();
 	}
 }
