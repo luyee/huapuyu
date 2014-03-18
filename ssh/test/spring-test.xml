@@ -136,9 +136,12 @@
 	    <property name="packagesToScan" value="com.anders.ssh.bo"/>
 	</bean>
     
-    <bean id="hibernateTxManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <!-- 这个事务管理器的ID不要改，貌似Spring默认会使用这个ID -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 	  	<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
 	<!--  
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">

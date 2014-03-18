@@ -16,7 +16,7 @@ public class AccountDaoUnitilsTest extends UnitilsJUnit4 {
 
 	@Test
 	@DataSet("AccountDaoTest.xml")
-	@Transactional(transactionManagerName = "hibernateTxManager")
+	@Transactional(transactionManagerName = "transactionManager")
 	public void testSaveOrUpdate() {
 		Account account = new Account();
 		account.setId(1L);
