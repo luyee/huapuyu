@@ -1,4 +1,4 @@
-package proxy;
+package com.anders.dp.代理;
 
 public class ProxySubject extends Subject
 {

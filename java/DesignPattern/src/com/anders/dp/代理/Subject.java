@@ -1,4 +1,4 @@
-package proxy;
+package com.anders.dp.代理;
 
 abstract public class Subject
 {
