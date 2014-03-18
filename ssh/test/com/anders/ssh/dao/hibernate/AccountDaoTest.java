@@ -21,6 +21,7 @@ import com.anders.ssh.bo.test.Account;
  * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
+// inheritLocations的属性，默认为 true,表示子类可以继承该设置
 @ContextConfiguration(locations = { "classpath:spring-test.xml" }, inheritLocations = true)
 public class AccountDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@Resource(name = "hibernateAccountDao")
