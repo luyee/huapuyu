@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.anders.ssh.bo.test.Company;
-import com.anders.ssh.dao.GenericDao;
+import com.anders.ssh.dao.mybatis.CompanyDao;
 import com.anders.ssh.dao.mybatis.CompanyMapper;
 import com.anders.ssh.dao.mybatis.GenericMapper;
 import com.anders.ssh.dao.mybatis.MybatisDao;
 
 @Component("mybatisCompanyDao")
-public class CompanyDaoImpl extends MybatisDao<Long, Company> implements GenericDao<Long, Company> {
+public class CompanyDaoImpl extends MybatisDao<Long, Company> implements CompanyDao {
 
 	@Resource
 	private CompanyMapper companyMapper;

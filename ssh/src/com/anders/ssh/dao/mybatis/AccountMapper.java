@@ -10,7 +10,9 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.anders.ssh.bo.test.Account;
+import com.anders.ssh.util.MyBatisMapper;
 
+@MyBatisMapper
 @CacheNamespace(implementation = org.mybatis.caches.ehcache.EhcacheCache.class)
 public interface AccountMapper extends GenericMapper<Long, Account> {
 	@Insert("INSERT INTO tb_account (id, name, enable) VALUES (#{id}, #{name}, #{enable})")
