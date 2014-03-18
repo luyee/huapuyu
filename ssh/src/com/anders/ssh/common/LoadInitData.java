@@ -14,8 +14,6 @@
  */
 package com.anders.ssh.common;
 
-import javax.annotation.PostConstruct;
-
 import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.DefaultDataSet;
@@ -90,7 +88,7 @@ public class LoadInitData {
 		this.fileName = fileName;
 	}
 
-	@PostConstruct
+	// @PostConstruct
 	public void load() throws Exception {
 		databaseTester = new JdbcDatabaseTester(this.driver, this.url, this.userName, this.password);
 		// databaseTester = new JdbcDatabaseTester(this.driver, this.url, this.userName, this.password, this.userName);
@@ -98,8 +96,7 @@ public class LoadInitData {
 		if (this.enable) {
 			IDataSet dataSet = new XmlDataSet(getClass().getResourceAsStream(fileName));
 			databaseTester.setDataSet(dataSet);
-		}
-		else {
+		} else {
 			IDataSet dataSet = new DefaultDataSet();
 			databaseTester.setDataSet(dataSet);
 		}

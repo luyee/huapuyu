@@ -90,7 +90,9 @@
 	-->
 	
 	<!-- mongodb -->
+	<!--  
 	<import resource="classpath:config/spring-mongo.xml"/>
+	-->
 	
 	<!-- lucene -->
 	<!--  

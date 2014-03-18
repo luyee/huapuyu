@@ -11,7 +11,14 @@
 
 	<context:annotation-config/>
 	<context:component-scan base-package="com.anders.ssh.common"/>
-	<context:component-scan base-package="com.anders.ssh.dao"/>
+	<context:component-scan base-package="com.anders.ssh.dao.hibernate"/>
+	<context:component-scan base-package="com.anders.ssh.dao.ibatis"/>
+	<context:component-scan base-package="com.anders.ssh.dao.jdbc"/>
+	<context:component-scan base-package="com.anders.ssh.dao.jpa"/>
+	<!--  
+	<context:component-scan base-package="com.anders.ssh.dao.mongo"/>
+	-->
+	<context:component-scan base-package="com.anders.ssh.dao.mybatis"/>
 	<context:component-scan base-package="com.anders.ssh.service"/>
 	<!--  
 	<context:component-scan base-package="com.anders.ssh.jta"/>

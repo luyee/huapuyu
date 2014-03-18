@@ -12,20 +12,19 @@ import org.testng.annotations.Test;
 import com.anders.ssh.bo.test.Account;
 
 @ContextConfiguration(locations = { "classpath:spring.xml" })
-public class DataDaoTestNG extends AbstractTestNGSpringContextTests {
-	@Resource(name = "hibernateDataDao")
+public class AccountDaoTestngTest extends AbstractTestNGSpringContextTests {
+	@Resource(name = "hibernateAccountDao")
 	private AccountDao accountDao;
 
 	@Test
-	public void testUserAdd() {
+	public void testSave() {
 		Account account = new Account();
-		account.setId(1L);
 		account.setName("zhuzhen");
 		account.setEnable(true);
 		accountDao.save(account);
 
-		List<Account> dataList = accountDao.getAll();
-		Assert.assertEquals(1, dataList.size());
-		Assert.assertEquals("zhuzhen", dataList.get(0).getName());
+		List<Account> list = accountDao.getAll();
+		Assert.assertEquals(1, list.size());
+		Assert.assertEquals("zhuzhen", list.get(0).getName());
 	}
 }

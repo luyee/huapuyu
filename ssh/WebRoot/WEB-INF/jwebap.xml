@@ -26,7 +26,7 @@
 		</component-param>
 		<component-param style="longtext">
 			<name>detect-clazzs</name>
-			<value>com.anders.ssh.dao.hibernate.UserDao</value>
+			<value>com.anders.ssh.dao.hibernate.AccountDao</value>
 		</component-param>
 	</component>
 

@@ -35,7 +35,7 @@ public class CommonTest extends AbstractTransactionalJUnit4SpringContextTests {
 
 	@Test
 	public void 测试一级缓存中save和update是否执行一条insert语句() throws Throwable {
-		accountDao.getTemplate().execute(new HibernateCallback<Object>() {
+		accountDao.getHibernateTemplate().execute(new HibernateCallback<Object>() {
 
 			@Override
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
@@ -63,7 +63,7 @@ public class CommonTest extends AbstractTransactionalJUnit4SpringContextTests {
 		user2.setName("lisi");
 		accountDao.save(user2);
 
-		List<Map<String, Object>> list = accountDao.getTemplate().executeFind(new HibernateCallback<Object>() {
+		List<Map<String, Object>> list = accountDao.getHibernateTemplate().executeFind(new HibernateCallback<Object>() {
 			@Override
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				return session.createQuery("select id as id, name as name from User").setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
@@ -79,7 +79,7 @@ public class CommonTest extends AbstractTransactionalJUnit4SpringContextTests {
 
 	@Test
 	public void 测试update和merge区别1() {
-		accountDao.getTemplate().execute(new HibernateCallback<Object>() {
+		accountDao.getHibernateTemplate().execute(new HibernateCallback<Object>() {
 			@Override
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				Session session1 = session.getSessionFactory().openSession();
@@ -105,7 +105,7 @@ public class CommonTest extends AbstractTransactionalJUnit4SpringContextTests {
 
 	@Test(expected = HibernateSystemException.class)
 	public void 测试update和merge区别2() {
-		accountDao.getTemplate().execute(new HibernateCallback<Object>() {
+		accountDao.getHibernateTemplate().execute(new HibernateCallback<Object>() {
 			@Override
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				Session session1 = session.getSessionFactory().openSession();

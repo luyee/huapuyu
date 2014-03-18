@@ -21,59 +21,36 @@ import com.anders.ssh.bo.test.Account;
  * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" }, inheritLocations = true)
-public class DataDaoImplTest extends AbstractTransactionalJUnit4SpringContextTests {
-	// @Autowired
-	// @Qualifier("jdbcAccountDao")
+@ContextConfiguration(locations = { "classpath:spring-test.xml" }, inheritLocations = true)
+public class AccountDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@Resource(name = "hibernateAccountDao")
 	private AccountDao accountDao;
 
-	@Rollback(false)
-	public void testDataAdd() {
+	@Test
+	@Rollback(true)
+	public void testSave() {
 		Account account = new Account();
-		account.setId(1L);
 		account.setName("zhuzhen");
 		account.setEnable(true);
 		accountDao.save(account);
 
-		List<Account> dataList = accountDao.getAll();
-		Assert.assertEquals(1, dataList.size());
+		List<Account> list = accountDao.getAll();
 
-		accountDao.delete(account);
+		Assert.assertEquals(1, list.size());
+		Assert.assertEquals("zhuzhen", list.get(0).getName());
 	}
 
 	@Test
-	@Rollback(false)
-	public void testDataSaveOrUpdate() {
-		Account account = new Account();
-		account.setId(1L);
-		account.setName("zhuzhen1");
-		account.setEnable(true);
-
-		accountDao.saveOrUpdate(account);
-	}
-
-	@Test
-	@Rollback(false)
-	public void testDataSaveOrUpdate1() {
-		Account account = new Account();
-		account.setId(2L);
-		account.setName("zhuzhen2");
-		account.setEnable(true);
-		accountDao.save(account);
-
-		account.setName("zhuzhen3");
-
-		accountDao.saveOrUpdate(account);
-	}
-
 	@Rollback(true)
-	public void testDataMerge() {
+	public void testSaveOrUpdate() {
 		Account account = new Account();
-		account.setId(2L);
-		account.setName("zhuzhen2");
-		account.setEnable(false);
+		account.setName("guolili");
+		account.setEnable(true);
+		accountDao.saveOrUpdate(account);
 
-		// accountDao.merge(account);
+		List<Account> list = accountDao.getAll();
+
+		Assert.assertEquals(1, list.size());
+		Assert.assertEquals("guolili", list.get(0).getName());
 	}
 }
