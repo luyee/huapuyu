@@ -34,32 +34,38 @@ public abstract class JpaDao<PK extends Serializable, T> extends JpaDaoSupport i
 
 	@Override
 	public void delete(T entity) {
+		Assert.notNull(entity);
 		getJpaTemplate().remove(entity);
 	}
 
 	@Override
 	public void deleteById(PK id) {
+		Assert.notNull(id);
 		getJpaTemplate().remove(getJpaTemplate().getReference(entityClass, id));
 	}
 
 	@Override
 	public void save(T entity) {
+		Assert.notNull(entity);
 		getJpaTemplate().persist(entity);
 	}
 
 	@Override
 	public void update(T entity) {
+		Assert.notNull(entity);
 		getJpaTemplate().merge(entity);
 	}
 
 	@Override
 	public T getById(PK id) {
+		Assert.notNull(id);
 		return getJpaTemplate().find(entityClass, id);
 	}
 
 	@Override
 	public List<T> getAll() {
-		throw new RuntimeException("没有实现");
+		String hql = String.format("select %1$s from %2$s %1$s", entityClass.getSimpleName().toLowerCase(), entityClass.getSimpleName());
+		return getJpaTemplate().find(hql);
 	}
 
 	@Override

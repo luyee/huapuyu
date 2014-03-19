@@ -63,32 +63,36 @@
 		<property name="queueCapacity" value="25" />
 	</bean>
 	
-	<!-- unitils配置 -->
-	<!--  
+	<!-- jpa unitils配置 -->
+	<!-- 
+	LocalEntityManagerFactoryBean:使用JPA PersistenceProvider自动检测机制( according to JPA's Java SE  bootstrapping )，并且大多数情况下，你只能定义一下persistence unit name
+	从JNDI获取EntityManagerFactory:应用发布在javaee5的服务器中
+	<beans>
+		<jee:jndi-lookup id="myEmf" jndi-name="persistence/myPersistenceUnit"/>
+	</beans>
+	LocalContainerEntityManagerFactoryBean:spring扮演了容器的角色。完全掌管JPA
+	-->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        -->
         <!-- 
 			没有配置jpaVendorAdapter，单测时会报如下错误：
 			org.unitils.core.UnitilsException: Make sure that the persistence provider that is used is an instance of UnitilsHibernatePersistenceProvider
 				at org.unitils.orm.jpa.util.provider.hibernate.HibernateJpaProviderSupport.getProviderSpecificConfigurationObject(HibernateJpaProviderSupport.java:78)
 		-->
-		<!--  
         <property name="jpaVendorAdapter">
-                <bean class="org.unitils.orm.jpa.util.provider.hibernate.UnitilsHibernateJpaVendorAdapter"/>
+			<bean class="org.unitils.orm.jpa.util.provider.hibernate.UnitilsHibernateJpaVendorAdapter"/>
         </property>
-        -->
         <!-- 
          	由于在spring-test.xml中已经为entityManagerFactory配置了datasource，所以如果在persistence-test.xml继续配置jdbc，则会报如下错误：
          	ERROR [2012-05-26 16:37:04] [org.hibernate.tool.hbm2ddl.SchemaExport] schema export unsuccessful (SchemaExport.java:287)
 			java.lang.UnsupportedOperationException: Not supported by BasicDataSource
         -->
-        <!--  
         <property name="persistenceXmlLocation" value="persistence-test.xml"/>
-        -->
-        <!--  
     </bean>
-    -->
+    
+    <bean id="jpaTxManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+	  	<property name="entityManagerFactory" ref="entityManagerFactory"/>
+	</bean>
     
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>

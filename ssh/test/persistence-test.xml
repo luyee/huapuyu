@@ -13,8 +13,13 @@
 	<!--  
 	<provider>org.hibernate.ejb.HibernatePersistence</provider>
 	-->
+	<!--  
 	<mapping-file>com/anders/ssh/model/xml/Data.hbm.xml</mapping-file>
-	<class>com.anders.ssh.model.xml.Data</class>
+	-->
+	<class>com.anders.ssh.bo.test.Account</class>
+	<class>com.anders.ssh.bo.test.Company</class>
+	<class>com.anders.ssh.bo.test.CompanyInfo</class>
+	<class>com.anders.ssh.bo.test.Department</class>
 	<exclude-unlisted-classes>true</exclude-unlisted-classes>
    	<properties>
 		<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
@@ -30,7 +35,7 @@
         <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/ssh_test?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8&amp;amp;zeroDateTimeBehavior=convertToNull"/>
         -->
         <property name="hibernate.show_sql" value="true"/>
-        <property name="hibernate.hbm2ddl.auto" value="create"/>
+        <property name="hibernate.hbm2ddl.auto" value="none"/>
 	</properties> 
 </persistence-unit>
 
