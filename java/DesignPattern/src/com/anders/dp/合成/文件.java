@@ -1,29 +1,24 @@
-package composite;
+package com.anders.dp.合成;
 
-public class Leaf implements Component
-{
+public class 文件 implements IFile {
 
 	@Override
-	public Component getComponent()
-	{
+	public IFile getFile() {
 		return this;
 	}
 
 	@Override
-	public void sampleOperation(String msg)
-	{
+	public void 显示文件信息(String msg) {
 		System.out.println(msg + this.getClass().getName());
 	}
 
 	@Override
-	public void add(Component component)
-	{
+	public void add(IFile file) {
 		throw new RuntimeException("Can't invoke this method!");
 	}
 
 	@Override
-	public void remove(Component component)
-	{
+	public void remove(IFile file) {
 		throw new RuntimeException("Can't invoke this method!");
 	}
 
