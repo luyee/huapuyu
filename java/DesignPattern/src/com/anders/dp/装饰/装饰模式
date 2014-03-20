@@ -1,0 +1,57 @@
+齐天大圣七十二变
+
+有点类似于适配器模式，不过需要对相应的方法进行扩展
+
+在适配器的基础再包装一层类，对相应的方法进行扩展
+
+
+要点：
+
+1． 装饰者和被装饰对象有相同的超类型。
+
+2． 可以用一个或多个装饰者包装一个对象。
+
+3． 装饰者可以在所委托被装饰者的行为之前或之后，加上自己的行为，以达到特定的目的。
+
+4． 对象可以在任何时候被装饰，所以可以在运行时动态的，不限量的用你喜欢的装饰者来装饰对象。
+
+5． 装饰模式中使用继承的关键是想达到装饰者和被装饰对象的类型匹配，而不是获得其行为。
+
+6． 装饰者一般对组件的客户是透明的，除非客户程序依赖于组件的具体类型。在实际项目中可以根据需要为装饰者添加新的行为，做到“半透明”装饰者。
+
+7． 适配器模式的用意是改变对象的接口而不一定改变对象的性能，而装饰模式的用意是保持接口并增加对象的职责。
+
+编写一个装饰者把所有的输入流内的大写字符转化成小写字符：
+
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+public class LowerCaseInputStream extends FilterInputStream
+{
+	protected LowerCaseInputStream(InputStream in)
+	{
+		super(in);
+	}
+	
+	@Override
+	public int read() throws IOException
+	{
+		int c = super.read();
+		return (c == -1 ? c : Character.toLowerCase((char) c));
+	}
+	
+	@Override
+	public int read(byte[] b, int offset, int len) throws IOException
+	{
+		int result = super.read(b, offset, len);
+		
+		for (int i = offset; i < offset + result; i++)
+		{
+			b[i] = (byte) Character.toLowerCase((char) b[i]);
+		}
+		
+		return result;
+		
+	}
+}

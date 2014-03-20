@@ -1,4 +1,4 @@
-package decorator;
+package com.anders.dp.装饰;
 
 import org.junit.After;
 import org.junit.AfterClass;

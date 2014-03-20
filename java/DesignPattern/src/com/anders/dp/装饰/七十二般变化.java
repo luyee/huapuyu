@@ -1,4 +1,4 @@
-package decorator;
+package com.anders.dp.装饰;
 
 public class 七十二般变化 implements 齐天大圣
 {

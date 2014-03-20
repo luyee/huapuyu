@@ -1,4 +1,4 @@
-package decorator;
+package com.anders.dp.装饰;
 
 public class 大圣本尊 implements 齐天大圣
 {
