@@ -1,4 +1,4 @@
-package com.anders.dp.命令;
+package com.anders.dp.行为模式.责任链;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -31,9 +31,13 @@ public class Tester
 	@Test
 	public void test()
 	{
-		Receiver receiver = new Receiver();
-		Command command = new ConcreteCommand(receiver);
-		Invoker invoker = new Invoker(command);
-		invoker.action();
+		Handler 班长 = new 班长("班长");
+		Handler 排长 = new 排长("排长");
+		Handler 连长 = new 连长("连长");
+		班长.setNextHandler(排长);
+		排长.setNextHandler(连长);
+		班长.handleRequest("集合全班士兵");
+		班长.handleRequest("集合全排士兵");
+		班长.handleRequest("集合全连士兵");
 	}
 }

@@ -1,4 +1,4 @@
-package com.anders.dp.不变;
+package com.anders.dp.行为模式.不变;
 
 public class Tester {
 	public static void main(String[] args) {

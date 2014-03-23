@@ -1,4 +1,4 @@
-package com.anders.dp.责任链;
+package com.anders.dp.行为模式.责任链;
 
 public class 排长 extends Handler
 {
