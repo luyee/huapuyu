@@ -1,4 +1,4 @@
-package defaultAdapter;
+package com.anders.dp.缺省适配;
 
 public abstract class 天星 implements 和尚
 {

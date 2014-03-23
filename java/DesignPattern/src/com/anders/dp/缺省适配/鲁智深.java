@@ -1,4 +1,4 @@
-package defaultAdapter;
+package com.anders.dp.缺省适配;
 
 public class 鲁智深 extends 天星
 {

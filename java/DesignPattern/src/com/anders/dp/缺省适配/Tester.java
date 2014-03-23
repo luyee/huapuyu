@@ -1,4 +1,4 @@
-package defaultAdapter;
+package com.anders.dp.缺省适配;
 
 import org.junit.After;
 import org.junit.AfterClass;
