@@ -1,4 +1,4 @@
-package facade;
+package com.anders.dp.结构模式.外观;
 
 public class Sensor
 {
