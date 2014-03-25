@@ -1,4 +1,4 @@
-package memento;
+package com.anders.dp.行为模式.备忘录;
 
 import org.junit.After;
 import org.junit.AfterClass;

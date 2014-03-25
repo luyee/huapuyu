@@ -1,4 +1,4 @@
-package memento;
+package com.anders.dp.行为模式.备忘录;
 
 /*
  * 创始人，发起人

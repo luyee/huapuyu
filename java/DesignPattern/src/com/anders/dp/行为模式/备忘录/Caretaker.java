@@ -1,4 +1,4 @@
-package memento;
+package com.anders.dp.行为模式.备忘录;
 
 /*
  * 看管者，看守人，照顾者，假设为：游戏记录管理器

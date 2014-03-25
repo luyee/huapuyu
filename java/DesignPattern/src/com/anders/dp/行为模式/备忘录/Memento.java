@@ -1,4 +1,4 @@
-package memento;
+package com.anders.dp.行为模式.备忘录;
 
 /*
  * 纪念物，令人回忆的东西，纪念品，假设为：游戏记录
