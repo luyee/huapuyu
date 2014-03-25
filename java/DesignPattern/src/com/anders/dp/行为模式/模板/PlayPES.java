@@ -1,4 +1,4 @@
-package templateMethod;
+package com.anders.dp.行为模式.模板;
 
 public abstract class PlayPES
 {

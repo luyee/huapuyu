@@ -1,4 +1,4 @@
-package templateMethod;
+package com.anders.dp.行为模式.模板;
 
 import org.junit.After;
 import org.junit.AfterClass;
