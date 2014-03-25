@@ -1,4 +1,4 @@
-package strategy;
+package com.anders.dp.行为模式.策略;
 
 public class Context
 {
