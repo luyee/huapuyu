@@ -88,7 +88,9 @@ public class DynamicDataSourceKeyImpl implements DynamicDataSourceKey, Initializ
 
 	public String getKey() {
 		if (DB_KEY.get() == null) {
-			setWriteKey();
+			setReadKey();
+			// 老线索使用的是默认设置为写KEY
+			// setWriteKey();
 		}
 		String key = DB_KEY.get();
 		log.debug("get data source Key[" + DB_KEY.get() + "]");
