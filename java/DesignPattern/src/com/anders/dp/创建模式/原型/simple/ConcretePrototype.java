@@ -1,15 +1,12 @@
 package com.anders.dp.创建模式.原型.simple;
 
-public class ConcretePrototype implements Prototype
-{
-	public Object clone()
-	{
-		try
-		{
+public class ConcretePrototype implements Prototype {
+	@Override
+	public Object clone() {
+		try {
 			return super.clone();
 		}
-		catch (CloneNotSupportedException e)
-		{
+		catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
 

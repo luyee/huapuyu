@@ -1,6 +1,7 @@
 package com.anders.dp.创建模式.原型.register;
 
 public class ConcretePrototype implements Prototype {
+	@Override
 	public synchronized Object clone() {
 		Prototype prototype = null;
 
