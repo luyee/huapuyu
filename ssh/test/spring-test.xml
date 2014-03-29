@@ -30,6 +30,11 @@
 	<!-- mybatis -->
 	<import resource="classpath:config/spring-mybatis.xml"/>
 	
+	<!-- mongodb -->
+	<import resource="classpath:config/spring-mongo.xml"/>
+	
+	<import resource="classpath:config/spring-redis.xml"/>
+	
 	<!-- 普通POJO对象 -->
 	<bean id="pojo" class="com.anders.ssh.ioc.Pojo">
 		<property name="id" value="123"/>

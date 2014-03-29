@@ -7,7 +7,14 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="typeAliasesPackage" value="com.anders.ssh.bo"/>
         <property name="mapperLocations" value="classpath*:com/anders/ssh/mybatis/mybatis-*.xml" />
+        <property name="plugins">
+        	<array>
+            	<ref bean="myInterceptor"/>
+        	</array>
+    	</property>
     </bean>
+    
+    <bean id="myInterceptor" class="com.anders.ssh.mybatis.MyInterceptor" />
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.anders.ssh.dao.mybatis" />
