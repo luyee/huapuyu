@@ -1,4 +1,4 @@
-package flyweight.simple;
+package com.anders.dp.结构模式.享元.composite;
 
 public class ConcreteFlyweight extends Flyweight
 {
@@ -6,7 +6,6 @@ public class ConcreteFlyweight extends Flyweight
 
 	public ConcreteFlyweight(Character state)
 	{
-		System.out.println("Character " + state + " is initing······");
 		this.intrinsicState = state;
 	}
 

@@ -1,4 +1,4 @@
-package flyweight.simple;
+package com.anders.dp.结构模式.享元.simple;
 
 import java.util.HashMap;
 import java.util.Iterator;

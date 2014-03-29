@@ -1,4 +1,4 @@
-package flyweight.composite;
+package com.anders.dp.结构模式.享元.composite;
 
 import org.junit.After;
 import org.junit.AfterClass;
