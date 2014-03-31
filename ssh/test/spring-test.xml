@@ -35,6 +35,8 @@
 	
 	<import resource="classpath:config/spring-redis.xml"/>
 	
+	<import resource="classpath:config/spring-log.xml"/>
+	
 	<!-- 普通POJO对象 -->
 	<bean id="pojo" class="com.anders.ssh.ioc.Pojo">
 		<property name="id" value="123"/>

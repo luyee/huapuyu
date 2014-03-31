@@ -90,9 +90,10 @@
 	-->
 	
 	<!-- mongodb -->
-	<!--  
 	<import resource="classpath:config/spring-mongo.xml"/>
-	-->
+	
+	<!-- redis -->
+	<import resource="classpath:config/spring-redis.xml"/>
 	
 	<!-- lucene -->
 	<!--  
@@ -128,4 +129,7 @@
 	<!--  
 	<import resource="classpath:config/spring-amq.xml" />
 	-->
+	
+	<!-- log -->
+	<import resource="classpath:config/spring-log.xml" />
 </beans>

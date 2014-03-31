@@ -16,6 +16,7 @@ import org.wicketstuff.annotation.mount.MountPath;
 
 import com.anders.ssh.annotation.ZhuZhen;
 import com.anders.ssh.bo.test.Account;
+import com.anders.ssh.log.CallPK;
 import com.anders.ssh.service.AccountService;
 
 @MountPath(path = "home")
@@ -24,6 +25,8 @@ public class HomePage extends WebPage {
 	private ZhuZhen zhuZhen;
 	@SpringBean
 	private AccountService accountService;
+	@SpringBean
+	private CallPK callPK;
 
 	public HomePage() {
 		add(new Label("countLabel", zhuZhen.getName()));
@@ -52,6 +55,8 @@ public class HomePage extends WebPage {
 
 		@Override
 		protected void onSubmit() {
+			callPK.setCallPK();
+
 			System.out.println(radioChoice);
 			System.out.println(radioGroup);
 
