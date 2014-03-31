@@ -162,6 +162,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/SizeOf.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>1.9.2</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
