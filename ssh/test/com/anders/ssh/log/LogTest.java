@@ -27,12 +27,12 @@ public class LogTest extends AbstractTransactionalJUnit4SpringContextTests {
 	@Resource(name = "hibernateAccountDao")
 	private AccountDao accountDao;
 	@Resource
-	private CallPK callPK;
+	private LogCallPK logCallPK;
 
 	@Test
 	@Rollback(true)
 	public void testSave() {
-		callPK.setCallPK(UUID.randomUUID().toString());
+		logCallPK.setLogCallPK(UUID.randomUUID().toString());
 
 		Account account = new Account();
 		account.setName("zhuzhen");

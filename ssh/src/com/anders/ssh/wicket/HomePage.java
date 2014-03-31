@@ -16,7 +16,7 @@ import org.wicketstuff.annotation.mount.MountPath;
 
 import com.anders.ssh.annotation.ZhuZhen;
 import com.anders.ssh.bo.test.Account;
-import com.anders.ssh.log.CallPK;
+import com.anders.ssh.log.LogCallPK;
 import com.anders.ssh.service.AccountService;
 
 @MountPath(path = "home")
@@ -26,7 +26,7 @@ public class HomePage extends WebPage {
 	@SpringBean
 	private AccountService accountService;
 	@SpringBean
-	private CallPK callPK;
+	private LogCallPK logCallPK;
 
 	public HomePage() {
 		add(new Label("countLabel", zhuZhen.getName()));
@@ -55,12 +55,12 @@ public class HomePage extends WebPage {
 
 		@Override
 		protected void onSubmit() {
-			callPK.setCallPK();
+			logCallPK.setLogCallPK();
 
 			System.out.println(radioChoice);
 			System.out.println(radioGroup);
 
-			List<Account> list1 = accountService.getAll();
+			// List<Account> list1 = accountService.getAll();
 
 			Account account = new Account();
 			account.setId(1L);
@@ -68,7 +68,7 @@ public class HomePage extends WebPage {
 			account.setEnable(true);
 			accountService.save(account);
 
-			List<Account> list2 = accountService.getAll();
+			// List<Account> list2 = accountService.getAll();
 
 			// dataFacade.updateTest();
 

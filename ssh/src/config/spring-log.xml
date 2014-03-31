@@ -18,10 +18,10 @@
 	</bean>
 	
 	<bean id="logAroundAdvice" class="com.anders.ssh.log.LogAroundAdvice">
-		<property name="callPK">
-			<ref bean="callPK" />
+		<property name="logCallPK">
+			<ref bean="logCallPK" />
 		</property>
 	</bean>
 	
-	<bean id="callPK" class="com.anders.ssh.log.CallPK" />
+	<bean id="logCallPK" class="com.anders.ssh.log.LogCallPK" />
 </beans>
