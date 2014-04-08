@@ -29,5 +29,9 @@ public class Tester {
 		target.木工();
 		target.瓦工();
 		target.漆工();
+
+		// InputStream
+		// byte[]
+		// ByteArrayInputStream
 	}
 }
