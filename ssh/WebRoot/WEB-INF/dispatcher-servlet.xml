@@ -24,9 +24,13 @@
 	</bean>
 	 
 	<!-- Http Invoker，使用Java标准的序列化机制，通过Http实现远程调用 -->
+	<!--  
 	<bean name="/andersHttp.mvc" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+	-->
+	<bean name="/andersHttp.mvc" class="com.anders.ssh.rmi.MyHttpInvokerServiceExporter">
 		<property name="service" ref="andersHttp" />
 	 	<property name="serviceInterface" value="com.anders.ssh.rmi.AndersHttp" />
+	 	<property name="logCallPK" ref="logCallPK" />
 	</bean>
 	
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"></bean>
@@ -36,5 +40,7 @@
 		<property name="suffix" value=".jsp"></property>
 	</bean>
 	
+	<!--  
 	<bean name="/helloWorld.mvc" class="com.anders.ssh.mvc.controller.HelloWorldController"></bean>
+	-->
 </beans>
