@@ -85,9 +85,7 @@
 	-->
 	
 	<!-- memcached -->
-	<!--  
 	<import resource="classpath:config/spring-memcached.xml"/>
-	-->
 	
 	<!-- mongodb -->
 	<import resource="classpath:config/spring-mongo.xml"/>
@@ -126,9 +124,7 @@
 	-->
 	
 	<!-- activemq -->
-	<!--  
 	<import resource="classpath:config/spring-amq.xml" />
-	-->
 	
 	<!-- log -->
 	<import resource="classpath:config/spring-log.xml" />

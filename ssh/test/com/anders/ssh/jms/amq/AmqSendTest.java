@@ -1,25 +1,27 @@
 package com.anders.ssh.jms.amq;
 
+import javax.annotation.Resource;
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.Session;
 
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:spring-amq-test.xml" })
 public class AmqSendTest {
 
-	@Test
-	public void testSend() throws JMSException {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("config/spring-amq.xml");
-		JmsTemplate jmsTemplate = (JmsTemplate) ctx.getBean("jmsTemplate");
-		// Destination dest = (Destination) ctx.getBean("queueDest");
+	@Resource
+	private JmsTemplate jmsTemplate;
 
-		// jmsTemplate.send("queueDest", new MessageCreator() {
+	@Test
+	public void testTopicSend() throws JMSException {
 		jmsTemplate.send("topicDest", new MessageCreator() {
 			public Message createMessage(Session session) throws JMSException {
 				MapMessage message = session.createMapMessage();
@@ -27,6 +29,16 @@ public class AmqSendTest {
 				return message;
 			}
 		});
+	}
 
+	@Test
+	public void testQueueSend() throws JMSException {
+		jmsTemplate.send("queueDest", new MessageCreator() {
+			public Message createMessage(Session session) throws JMSException {
+				MapMessage message = session.createMapMessage();
+				message.setString("name", "zhuzhen");
+				return message;
+			}
+		});
 	}
 }

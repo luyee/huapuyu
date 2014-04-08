@@ -12,6 +12,7 @@ import org.apache.wicket.markup.html.form.RadioGroup;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.springframework.jms.core.JmsTemplate;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import com.anders.ssh.annotation.ZhuZhen;
@@ -27,6 +28,8 @@ public class HomePage extends WebPage {
 	private AccountService accountService;
 	@SpringBean
 	private LogCallPK logCallPK;
+	@SpringBean
+	private JmsTemplate jmsTemplate;
 
 	public HomePage() {
 		add(new Label("countLabel", zhuZhen.getName()));
@@ -71,6 +74,23 @@ public class HomePage extends WebPage {
 			// List<Account> list2 = accountService.getAll();
 
 			// dataFacade.updateTest();
+
+			// 发送消息
+			// jmsTemplate.send("topicDest", new MessageCreator() {
+			// public Message createMessage(Session session) throws JMSException {
+			// MapMessage message = session.createMapMessage();
+			// message.setString("name", "zhuzhen");
+			// return message;
+			// }
+			// });
+			//
+			// jmsTemplate.send("queueDest", new MessageCreator() {
+			// public Message createMessage(Session session) throws JMSException {
+			// MapMessage message = session.createMapMessage();
+			// message.setString("name", "zhuzhen");
+			// return message;
+			// }
+			// });
 
 			super.onSubmit();
 		}
