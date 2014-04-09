@@ -162,10 +162,19 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/SizeOf.jar</systemPath>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.jasypt</groupId>
 			<artifactId>jasypt</artifactId>
 			<version>1.9.2</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>3.5.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
