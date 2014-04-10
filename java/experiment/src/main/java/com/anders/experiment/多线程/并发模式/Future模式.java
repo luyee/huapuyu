@@ -34,6 +34,7 @@ public class Future模式 {
 		for (int i = 0; i < 10; i++) {
 			results.add(exe1.submit(new TaskWithResult(i)));
 		}
+		System.out.println("线程池关闭");
 		exe1.shutdown();
 
 		for (Future<String> fs : results) {
@@ -60,12 +61,10 @@ class TaskWithResult implements Callable<String> {
 	}
 
 	public String call() {
-		for (int i = 0; i < 10; i++) {
-			System.out.println(Thread.currentThread() + ":" + i);
-		}
+		System.out.println(Thread.currentThread() + " : 休眠5秒");
 
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(5000);
 		}
 		catch (InterruptedException e) {
 			e.printStackTrace();
