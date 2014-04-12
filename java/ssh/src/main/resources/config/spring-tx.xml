@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           				   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           				   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	
+	<!-- 如果用xml来配置事务，则可以删除下面的配置 -->
+	<!--  
+	<tx:annotation-driven transaction-manager="hibernateTxManager"/>
+	-->
+	
+	<tx:advice id="hibernateTxAdvice" transaction-manager="hibernateTxManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="*" read-only="true" propagation="NOT_SUPPORTED" />
+  		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+  		<aop:pointcut id="hibernateTxPointcut" expression="execution(* com.anders.ssh.jta.impl.HibernateServiceImpl.*(..))" />
+  		<aop:advisor pointcut-ref="hibernateTxPointcut" advice-ref="hibernateTxAdvice" />
+	</aop:config>
+	
+	<tx:advice id="mybatisTxAdvice" transaction-manager="mybatisTxManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="*" read-only="true" propagation="NOT_SUPPORTED" />
+  		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+  		<aop:pointcut id="mybatisTxPointcut" expression="execution(* com.anders.ssh.jta.impl.MyBatisServiceImpl.*(..))" />
+  		<aop:advisor pointcut-ref="mybatisTxPointcut" advice-ref="mybatisTxAdvice" />
+	</aop:config>
+	
+	<!-- 主从数据库切换 -->
+	<!--  
+	<bean id="dataSourceAdvice" class="com.anders.ssh.aop.spring.DataSourceAdvice" />
+	<aop:config>
+	-->
+		<!--  
+		<aop:advisor pointcut="execution(* com.anders.ssh.dao..*Dao.*(..))" advice-ref="dataSourceAdvice" />
+		-->
+		<!--  
+		<aop:advisor pointcut="execution(* com.anders.ssh.dao.hibernate.DataDaoImpl.*(..))" advice-ref="dataSourceAdvice" />
+	</aop:config>-->
+	
+	<!-- 以下用来配置事务 -->
+	<!--
+	<aop:config>
+  		<aop:pointcut id="txPointcut" expression="execution(* com.anders.ssh.dao.jpa.Tb_departDao.*(..))"/>
+  		<aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice"/>
+	</aop:config>
+	
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" propagation="NOT_SUPPORTED"/>
+			<tx:method name="*"/>
+			<tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="delete*" propagation="REQUIRED" />
+            <tx:method name="*" read-only="true" />
+  		</tx:attributes>
+	</tx:advice>
+	-->
+</beans>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 看axis网站的使用说明 -->
+	<!--  
+	<bean id="applicationContext" class="org.apache.axis2.extensions.spring.receivers.ApplicationContextHolder" />
+	-->
+
+	<!-- Axis2 Web Service, but to Spring, its just another bean that has dependencies -->
+	<bean id="springAwareService" class="com.anders.ssh.webservice.axis.rs.SpringAwareService">
+		<property name="myBean" ref="myBean" />
+	</bean>
+
+	<!-- just another bean / interface with a wired implementation, that's injected by Spring
+		into the Web Service -->
+	<bean id="myBean" class="com.anders.ssh.webservice.axis.rs.MyBeanImpl">
+		<property name="val" value="Spring, emerge thyself" />
+	</bean>
+</beans>

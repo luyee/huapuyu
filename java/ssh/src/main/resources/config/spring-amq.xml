@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:amq="http://activemq.apache.org/schema/core" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<bean id="jmsConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory" destroy-method="stop">
+		<property name="connectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property name="brokerURL">
+					<!-- <value>${amq.url}</value> -->
+					<value>tcp://127.0.0.1:61616</value>
+				</property>
+			</bean>
+		</property>
+		<property name="maxConnections" value="10" />
+	</bean>
+
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="sessionTransacted" value="true" />
+	</bean>
+	
+	<!--  
+	<bean id="topicDest" class="org.apache.activemq.command.ActiveMQTopic">
+		<constructor-arg value="topicDest" />
+	</bean>
+	<bean id="queueDest" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="queueDest" />
+	</bean>
+	-->
+	
+	<amq:queue name="queueDest" physicalName="queueDest" />
+	<amq:topic name="topicDest" physicalName="topicDest" />
+	
+	<bean id="commonMessageListener" name="commonMessageListener" class="com.anders.ssh.jms.amq.CommonMessageListener" />
+	
+	<bean id="queueJmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="destination" ref="queueDest" />
+		<property name="messageListener" ref="commonMessageListener" />
+		<property name="sessionTransacted" value="true" />
+		<property name="concurrentConsumers" value="10" />
+	</bean>
+
+	<bean id="topicJmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="destination" ref="topicDest" />
+		<property name="messageListener" ref="commonMessageListener" />
+		<property name="sessionTransacted" value="true" />
+		<property name="concurrentConsumers" value="1" />
+	</bean>
+</beans>

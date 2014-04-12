@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 非Annotation时,使用org.springframework.orm.hibernate3.LocalSessionFactoryBean,
+        它注入实体类的方式是setMappingResources(),而Hibernate Annotation所用的映射方式
+        不是mapping resource,而是mapping class,这就要用到LocalSessionFactoryBean的子类
+        AnnotationSessionFactoryBean了.因为AnnotationSessionFactoryBean它支持实体的注入
+        方式setAnnotatedClasses,即对应Hibernate中的mapping class.参见这两个类的源代码. -->
+	<!--
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">	
+	-->
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+		<property name="hibernateProperties">
+	    	<props>
+	    		<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+	    		<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+	    		<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+	    		<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+	    		<!--  
+	    		<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+	    		<prop key="hibernate.cache.provider_class">${hibernate.cache.provider_class}</prop>
+				<prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+				<prop key="hibernate.cache.use_structured_entries">${hibernate.cache.use_structured_entries}</prop>
+				<prop key="hibernate.cache.region_prefix">${hibernate.cache.region_prefix}</prop>
+				<prop key="hibernate.memcached.servers">${memcached.servers}</prop>
+				<prop key="hibernate.memcached.memcacheClientFactory">${hibernate.memcached.memcacheClientFactory}</prop>
+				-->
+	    	</props>
+	    </property>
+		<property name="mappingResources">
+			<list>
+				<!--  
+		    	<value>com/anders/ssh/bo/xml/Data.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/Area.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/House.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/RentHouse.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/SecondHandHouse.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/User.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/Role.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/UserGroup.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/Resource.hbm.xml</value>
+		    	-->
+		    </list>
+		</property>
+		<!--  
+		<property name="annotatedClasses">
+			<list>
+		    	<value>com.anders.ssh.bo.test.FenBiao</value>
+		    </list>
+		</property>
+		-->
+	    <property name="packagesToScan" value="com.anders.ssh.bo"/>
+	</bean>
+	
+	<bean id="hibernateTxManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	  	<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+</beans>

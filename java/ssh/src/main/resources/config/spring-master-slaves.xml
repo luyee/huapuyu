@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- one master many slaves -->
+
+	<bean id="parentDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" abstract="true">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		<property name="maxActive" value="100" />
+		<property name="maxWait" value="1000" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="defaultAutoCommit" value="true" />
+	</bean>
+
+	<bean id="write" parent="parentDataSource"></bean>
+
+	<bean id="read02" destroy-method="close" parent="parentDataSource">
+		<property name="url" value="${slave.url}" />
+		<property name="username" value="${slave.username}" />
+		<property name="password" value="${slave.password}" />
+	</bean>
+
+	<bean id="msDataSource" class="com.anders.ssh.datasource.DynamicDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry key="write" value-ref="write" />
+				<entry key="read02" value-ref="read02" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="write" />
+		<property name="dataSourceKey">
+			<ref local="dynamicDataSourceKey" />
+		</property>
+	</bean>
+
+	<bean id="dynamicDataSourceKey" class="com.anders.ssh.datasource.DynamicDataSourceKeyImpl">
+		<property name="readDateSourceMap">
+			<map key-type="java.lang.String">
+				<entry key="read02" value="read02" />
+			</map>
+		</property>
+		<property name="writeKey">
+			<value>write</value>
+		</property>
+		<property name="alwaysReplaceExist" value="false"></property>
+		<property name="strategy" ref="roundRobinLoadBalanceStrategy"></property>
+	</bean>
+
+	<bean id="roundRobinLoadBalanceStrategy" class="com.anders.ssh.datasource.loadbalance.RoundRobinLoadBalanceStrategy">
+		<constructor-arg>
+			<map key-type="java.lang.String" value-type="java.lang.Integer">
+				<entry key="read02" value="1" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="msSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="msDataSource"/>
+		<!--  
+		<property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+		-->
+		<property name="hibernateProperties">
+	    	<props>
+	    		<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+	    		<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+	    		<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+	    		<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+	    		<!--  
+	    		<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+	    		<prop key="hibernate.cache.provider_class">${hibernate.cache.provider_class}</prop>
+				<prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+				<prop key="hibernate.cache.use_structured_entries">${hibernate.cache.use_structured_entries}</prop>
+				<prop key="hibernate.cache.region_prefix">${hibernate.cache.region_prefix}</prop>
+				<prop key="hibernate.memcached.servers">${memcached.servers}</prop>
+				<prop key="hibernate.memcached.memcacheClientFactory">${hibernate.memcached.memcacheClientFactory}</prop>
+				-->
+	    	</props>
+	    </property>
+		<property name="mappingResources">
+			<list>
+		    	<value>com/anders/ssh/bo/xml/Data.hbm.xml</value>
+		    	<!--  
+		    	<value>com/anders/ssh/bo/xml/Area.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/House.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/RentHouse.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/SecondHandHouse.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/User.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/Role.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/UserGroup.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/Resource.hbm.xml</value>
+		    	-->
+		    </list>
+		</property>
+		<!--  
+		<property name="annotatedClasses">
+			<list>
+		    	<value>model.Tb_user</value>
+		    </list>
+		</property>
+	    -->
+	    <property name="packagesToScan" value="com.anders.ssh.bo"/>
+	    <property name="entityInterceptor">   
+            <ref bean="myIntercept"/>  
+        </property> 
+        <property name="eventListeners">   
+            <map>  
+                <entry key="post-update">  
+                    <ref bean="myListener" />  
+                </entry>  
+            </map>  
+        </property>   
+	</bean>
+	
+	<bean id="myIntercept" class="com.anders.ssh.hibernate.MyIntercept"/> 
+	<bean id="myListener" class="com.anders.ssh.hibernate.MyListener"/>   
+
+	<bean id="msTxManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="msSessionFactory"></property>
+	</bean>
+
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="msTxManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="query*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="is*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="get*">PROPAGATION_SUPPORTS,readOnly</prop>
+				<prop key="load*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="count*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="list*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="check*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="save*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="del*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="add*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="update*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="mod*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="do*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="findByIdWithNewTransaction">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="findCleanoutPassCount">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="findInspectCount">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="findAssignRuleByUnitPosId">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="addOrUpdateSaleSet">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="updateByTime">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="followTimeOut">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="shelveMature">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="followTimeOutAndAband">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="outLeave">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="onApplicationEvent">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="lock*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="unlock*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="dynamicDataSourceInterceptor" class="com.anders.ssh.datasource.DynamicDataSourceInterceptor">
+		<property name="attributes">
+			<props>
+				<prop key="query*">read</prop>
+				<prop key="is*">read</prop>
+				<prop key="find*">read</prop>
+				<prop key="get*">read</prop>
+				<prop key="load*">read</prop>
+				<prop key="count*">read</prop>
+				<prop key="list*">read</prop>
+				<prop key="check*">read</prop>
+				<prop key="save*">write</prop>
+				<prop key="upd*">write</prop>
+				<prop key="del*">write</prop>
+				<prop key="add*">write</prop>
+				<prop key="edit*">write</prop>
+				<prop key="update*">write</prop>
+				<prop key="mod*">write</prop>
+				<prop key="do*">write</prop>
+				<prop key="findByIdWithNewTransaction">read</prop>
+				<prop key="findCleanoutPassCount">read</prop>
+				<prop key="findInspectCount">read</prop>
+				<prop key="findAssignRuleByUnitPosId">read</prop>
+				<prop key="addOrUpdateSaleSet">write</prop>
+				<prop key="updateByTime">write</prop>
+				<prop key="followTimeOut">write</prop>
+				<prop key="shelveMature">write</prop>
+				<prop key="followTimeOutAndAband">write</prop>
+				<prop key="outLeave">write</prop>
+				<prop key="onApplicationEvent">write</prop>
+				<prop key="lock*">write</prop>
+				<prop key="unlock*">write</prop>
+				<prop key="*">read</prop>
+			</props>
+		</property>
+		<property name="dataSourceKey">
+			<ref bean="dynamicDataSourceKey" />
+		</property>
+	</bean>
+	
+    <bean id="myDynamicDataSourceInterceptor" class="com.anders.ssh.datasource.MyDynamicDatasourceInteceptor">
+        <property name="dataSourceKey">
+            <ref bean="dynamicDataSourceKey" />
+        </property>
+    </bean>
+
+	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>dynamicDataSourceInterceptor</value>
+				<value>myDynamicDataSourceInterceptor</value>
+				<value>transactionInterceptor</value>
+			</list>
+		</property>
+	</bean>
+</beans>
