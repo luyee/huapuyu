@@ -6,17 +6,23 @@
 	<!-- one master many slaves -->
 
 	<bean id="parentDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" abstract="true">
-		<property name="driverClassName" value="${driver}" />
-		<property name="url" value="${url}" />
-		<property name="username" value="${username}" />
-		<property name="password" value="${password}" />
+		<property name="driverClassName" value="${master.driver}" />
+		<property name="url" value="${master.url}" />
+		<property name="username" value="${master.username}" />
+		<property name="password" value="${master.password}" />
 		<property name="maxActive" value="100" />
 		<property name="maxWait" value="1000" />
 		<property name="poolPreparedStatements" value="true" />
 		<property name="defaultAutoCommit" value="true" />
 	</bean>
 
-	<bean id="write" parent="parentDataSource"></bean>
+	<bean id="write" parent="parentDataSource" />
+
+	<bean id="read01" destroy-method="close" parent="parentDataSource">
+		<property name="url" value="${slave.url}" />
+		<property name="username" value="${slave.username}" />
+		<property name="password" value="${slave.password}" />
+	</bean>
 
 	<bean id="read02" destroy-method="close" parent="parentDataSource">
 		<property name="url" value="${slave.url}" />
@@ -28,6 +34,7 @@
 		<property name="targetDataSources">
 			<map key-type="java.lang.String">
 				<entry key="write" value-ref="write" />
+				<entry key="read01" value-ref="read01" />
 				<entry key="read02" value-ref="read02" />
 			</map>
 		</property>
@@ -40,19 +47,21 @@
 	<bean id="dynamicDataSourceKey" class="com.anders.ssh.datasource.DynamicDataSourceKeyImpl">
 		<property name="readDateSourceMap">
 			<map key-type="java.lang.String">
+				<entry key="read01" value="read01" />
 				<entry key="read02" value="read02" />
 			</map>
 		</property>
 		<property name="writeKey">
 			<value>write</value>
 		</property>
-		<property name="alwaysReplaceExist" value="false"></property>
-		<property name="strategy" ref="roundRobinLoadBalanceStrategy"></property>
+		<property name="alwaysReplaceExist" value="false" />
+		<property name="strategy" ref="roundRobinLoadBalanceStrategy" />
 	</bean>
 
 	<bean id="roundRobinLoadBalanceStrategy" class="com.anders.ssh.datasource.loadbalance.RoundRobinLoadBalanceStrategy">
 		<constructor-arg>
 			<map key-type="java.lang.String" value-type="java.lang.Integer">
+				<entry key="read01" value="1" />
 				<entry key="read02" value="1" />
 			</map>
 		</constructor-arg>
@@ -83,8 +92,8 @@
 	    </property>
 		<property name="mappingResources">
 			<list>
-		    	<value>com/anders/ssh/bo/xml/Data.hbm.xml</value>
 		    	<!--  
+		    	<value>com/anders/ssh/bo/xml/Data.hbm.xml</value>
 		    	<value>com/anders/ssh/bo/xml/Area.hbm.xml</value>
 		    	<value>com/anders/ssh/bo/xml/House.hbm.xml</value>
 		    	<value>com/anders/ssh/bo/xml/RentHouse.hbm.xml</value>
@@ -103,7 +112,7 @@
 		    </list>
 		</property>
 	    -->
-	    <property name="packagesToScan" value="com.anders.ssh.bo"/>
+	    <property name="packagesToScan" value="com.anders.ssh.bo.test"/>
 	    <property name="entityInterceptor">   
             <ref bean="myIntercept"/>  
         </property> 
@@ -200,11 +209,13 @@
 		</property>
 	</bean>
 	
+	<!--  
     <bean id="myDynamicDataSourceInterceptor" class="com.anders.ssh.datasource.MyDynamicDatasourceInteceptor">
         <property name="dataSourceKey">
             <ref bean="dynamicDataSourceKey" />
         </property>
     </bean>
+    -->
 
 	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
 		<property name="beanNames">
@@ -215,7 +226,9 @@
 		<property name="interceptorNames">
 			<list>
 				<value>dynamicDataSourceInterceptor</value>
+				<!--  
 				<value>myDynamicDataSourceInterceptor</value>
+				-->
 				<value>transactionInterceptor</value>
 			</list>
 		</property>
