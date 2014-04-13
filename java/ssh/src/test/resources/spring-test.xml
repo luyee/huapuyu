@@ -31,7 +31,14 @@
 	<import resource="classpath:config/spring-mybatis.xml"/>
 	
 	<!-- mongodb -->
-	<!-- <import resource="classpath:config/spring-mongo.xml"/> -->
+	<!--  
+	<import resource="classpath:config/spring-mongo.xml"/>
+	
+	<import resource="classpath:config/spring-redis.xml"/>
+	-->
+	
+	<import resource="classpath:config/spring-log.xml"/>
+	
 	
 	<bean id="threadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
 		<property name="corePoolSize" value="5" />
@@ -49,23 +56,23 @@
 	</beans>
 	LocalContainerEntityManagerFactoryBean:spring扮演了容器的角色。完全掌管JPA
 	-->
-	<!-- <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource"/> -->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
         <!-- 
 			没有配置jpaVendorAdapter，单测时会报如下错误：
 			org.unitils.core.UnitilsException: Make sure that the persistence provider that is used is an instance of UnitilsHibernatePersistenceProvider
 				at org.unitils.orm.jpa.util.provider.hibernate.HibernateJpaProviderSupport.getProviderSpecificConfigurationObject(HibernateJpaProviderSupport.java:78)
 		-->
-        <!-- <property name="jpaVendorAdapter">
+        <property name="jpaVendorAdapter">
 			<bean class="org.unitils.orm.jpa.util.provider.hibernate.UnitilsHibernateJpaVendorAdapter"/>
-        </property> -->
+        </property>
         <!-- 
          	由于在spring-test.xml中已经为entityManagerFactory配置了datasource，所以如果在persistence-test.xml继续配置jdbc，则会报如下错误：
          	ERROR [2012-05-26 16:37:04] [org.hibernate.tool.hbm2ddl.SchemaExport] schema export unsuccessful (SchemaExport.java:287)
 			java.lang.UnsupportedOperationException: Not supported by BasicDataSource
         -->
-        <!-- <property name="persistenceXmlLocation" value="persistence-test.xml"/>
-    </bean> -->
+        <property name="persistenceXmlLocation" value="persistence-test.xml"/>
+    </bean>
     
     <bean id="jpaTxManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 	  	<property name="entityManagerFactory" ref="entityManagerFactory"/>
@@ -124,6 +131,7 @@
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
+	<!--  
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${dev.driver}" />
 		<property name="url" value="${dev.url}" />
@@ -134,6 +142,7 @@
 		<property name="poolPreparedStatements" value="true" />
 		<property name="defaultAutoCommit" value="true" />
 	</bean>
+	-->
     
-	<!-- <bean id="dataSource" class="org.unitils.database.UnitilsDataSourceFactoryBean" /> -->
+	<bean id="dataSource" class="org.unitils.database.UnitilsDataSourceFactoryBean" />
 </beans>

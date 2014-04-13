@@ -24,7 +24,7 @@ public interface AccountMapper extends GenericMapper<Long, Account> {
 	void deleteById(Long id);
 
 	@Select("SELECT * FROM tb_account WHERE id = #{id}")
-	@Results( { @Result(property = "id", column = "id"), @Result(property = "name", column = "name"), @Result(property = "enable", column = "enable") })
+	@Results({ @Result(property = "id", column = "id"), @Result(property = "name", column = "name"), @Result(property = "enable", column = "enable") })
 	Account getById(Long id);
 
 	@Update("UPDATE tb_account SET name = #{name}, enable = #{enable} WHERE id = #{id}")
