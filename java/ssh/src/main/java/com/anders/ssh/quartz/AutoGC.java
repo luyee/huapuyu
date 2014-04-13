@@ -5,14 +5,19 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-public class AutoGc extends QuartzJobBean {
+// quartz2和spring有兼容性问题，所以使用quartz1.8
+public class AutoGC extends QuartzJobBean {
 
-	private static Logger log = Logger.getLogger(AutoGc.class);
+	private static Logger log = Logger.getLogger(AutoGC.class);
 
 	private int timeout;
 
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
+	}
+
+	public int getTimeout() {
+		return timeout;
 	}
 
 	private void gc() throws Exception {
@@ -35,7 +40,7 @@ public class AutoGc extends QuartzJobBean {
 	}
 
 	public static void main(String[] args) {
-		AutoGc gc = new AutoGc();
+		AutoGC gc = new AutoGC();
 		try {
 			gc.gc();
 		}
