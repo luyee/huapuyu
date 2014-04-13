@@ -42,7 +42,7 @@
 	<tx:annotation-driven transaction-manager="txManager"/>
 	 -->
 	<aop:config>
-  		<aop:pointcut id="txPointcut" expression="execution(* com.anders.ssh.dao.jpa.Tb_departDao.*(..))"/>
+  		<aop:pointcut id="txPointcut" expression="execution(* com.anders.ssh.dao.jpa.AccountDao.*(..))"/>
   		<aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice"/>
 	</aop:config>
 	<tx:advice id="txAdvice" transaction-manager="txManager">
