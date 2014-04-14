@@ -194,24 +194,22 @@
 			<version>6.8.8</version>
 			<scope>test</scope>
 		</dependency>
-		<!--  
+		<!-- dbunit本来应该是用来做测试，scope应该是test，但是LoadInitData用到了dbunit，所以scope为compile -->		
 		<dependency>
 			<groupId>org.dbunit</groupId>
 			<artifactId>dbunit</artifactId>
-			<version>2.4.9</version>
-			<scope>test</scope>
+			<version>2.4.8</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>junit</artifactId>
 					<groupId>junit</groupId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
 				</exclusion>
-			</exclusions> 
+			</exclusions>
 		</dependency>
-		-->
 		<!-- unitils -->
 		<dependency>
 			<groupId>org.unitils</groupId>
@@ -451,80 +449,6 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 		
-		<!-- spring data -->
-		<!--  
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-			<version>${spring.data.mongo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb-log4j</artifactId>
-			<version>${spring.data.mongo.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>log4j</artifactId>
-					<groupId>log4j</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-redis</artifactId>
-			<version>${spring.data.redis.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>jcl-over-slf4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-			</exclusions> 
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-hadoop</artifactId>
-			<version>${spring.data.hadoop.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-context-support</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>junit</artifactId>
-					<groupId>junit</groupId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-codec</groupId>
-					<artifactId>commons-codec</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-httpclient</groupId>
-					<artifactId>commons-httpclient</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-lang</groupId>
-					<artifactId>commons-lang</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-mapper-asl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-core-asl</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		-->
-		
 		<!-- ibatis -->
 		<dependency>
 			<groupId>org.apache.ibatis</groupId>
@@ -662,6 +586,38 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- 不用升级了，经过尝试spring3.0.7只能和1.1.2搭配 -->		
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>1.1.2.RELEASE</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-tx</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-context</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-beans</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-expression</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
 	<properties>
@@ -684,13 +640,6 @@
 		<jdk.version>1.6</jdk.version>
 		<!-- version -->
 		<spring.version>3.0.7.RELEASE</spring.version>
-		<spring.data.mongo.version>1.4.1.RELEASE</spring.data.mongo.version>
-		<!-- 
-		<spring.data.redis.version>1.2.0.RELEASE</spring.data.redis.version>
-		<spring.data.hadoop.version>1.0.2.RELEASE</spring.data.hadoop.version> -->
-		<spring.data.mongo.version>1.0.0.RELEASE</spring.data.mongo.version>
-		<spring.data.redis.version>1.0.0.RELEASE</spring.data.redis.version>
-		<spring.data.hadoop.version>1.0.0.RELEASE</spring.data.hadoop.version>
 		<hibernate.version>3.6.9.Final</hibernate.version>
 		<slf4j.version>1.7.6</slf4j.version>
 		<unitils.version>3.3</unitils.version>

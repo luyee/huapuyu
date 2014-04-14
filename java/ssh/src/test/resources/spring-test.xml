@@ -31,9 +31,9 @@
 	<import resource="classpath:config/spring-mybatis.xml"/>
 	
 	<!-- mongodb -->
-	<!--  
 	<import resource="classpath:config/spring-mongo.xml"/>
 	
+	<!-- 
 	<import resource="classpath:config/spring-redis.xml"/>
 	-->
 	

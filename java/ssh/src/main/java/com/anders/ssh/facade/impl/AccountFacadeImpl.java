@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.junit.Assert;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import com.anders.ssh.bo.test.Account;
 import com.anders.ssh.facade.AccountFacade;
@@ -26,7 +26,7 @@ public class AccountFacadeImpl implements AccountFacade {
 
 		List<Account> list = accountService.getAll();
 
-		Assert.assertEquals(0, list.size());
+		Assert.isTrue(list.size() == 0);
 	}
 
 }
