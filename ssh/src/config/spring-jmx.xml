@@ -24,4 +24,18 @@
 	 		<value>zhuzhen</value>
 	 	</property>
 	</bean>
+	
+	<bean id="server" class="org.springframework.jmx.support.ConnectorServerFactoryBean" depends-on="registry">  
+        <property name="objectName">  
+            <value>connector:name=rmi</value>  
+        </property>  
+        <property name="serviceUrl">  
+            <value>service:jmx:rmi://localhost/jndi/rmi://localhost:1199/jmxrmi</value>  
+        </property>  
+    </bean>  
+    <bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean">  
+        <property name="port">  
+            <value>1199</value>  
+        </property>  
+    </bean>
 </beans>
