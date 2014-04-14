@@ -1,10 +1,10 @@
 package com.anders.experiment.多线程.syn;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * synchronized如果放在方法的前面，其实也是锁住对象，因此对于同一个对象，
- * 如果调用同样有synchronized标识的两个不同方法method1和method2，后调用的方法会等待先调用的结束后再执行。
+ * synchronized如果放在方法的前面，其实也是锁住对象，因此对于同一个对象， 如果调用同样有synchronized标识的两个不同方法method1和method2，后调用的方法会等待先调用的结束后再执行。
  * 
  * @author Anders Zhu
  * 
@@ -65,7 +65,7 @@ interface 接口 {
 }
 
 class 同步类 implements 接口 {
-	private static final Logger logger = Logger.getLogger(同步类.class);
+	private static final Logger LOG = LoggerFactory.getLogger(同步类.class);
 
 	@Override
 	public synchronized void 方法1() {
@@ -74,7 +74,7 @@ class 同步类 implements 接口 {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		logger.debug(this.getClass().getSimpleName() + "方法1执行完毕");
+		LOG.debug(this.getClass().getSimpleName() + "方法1执行完毕");
 	}
 
 	@Override
@@ -84,12 +84,12 @@ class 同步类 implements 接口 {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		logger.debug(this.getClass().getSimpleName() + "方法2执行完毕");
+		LOG.debug(this.getClass().getSimpleName() + "方法2执行完毕");
 	}
 }
 
 class 非同步类 implements 接口 {
-	private static final Logger logger = Logger.getLogger(非同步类.class);
+	private static final Logger LOG = LoggerFactory.getLogger(非同步类.class);
 
 	@Override
 	public void 方法1() {
@@ -98,7 +98,7 @@ class 非同步类 implements 接口 {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		logger.debug(this.getClass().getSimpleName() + "方法1执行完毕");
+		LOG.debug(this.getClass().getSimpleName() + "方法1执行完毕");
 	}
 
 	@Override
@@ -108,6 +108,6 @@ class 非同步类 implements 接口 {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		logger.debug(this.getClass().getSimpleName() + "方法2执行完毕");
+		LOG.debug(this.getClass().getSimpleName() + "方法2执行完毕");
 	}
 }

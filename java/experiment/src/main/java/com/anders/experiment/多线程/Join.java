@@ -1,10 +1,11 @@
 package com.anders.experiment.多线程;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Join {
 
-	private static final Logger logger = Logger.getLogger(Join.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Join.class);
 
 	public static void main(String[] args) throws InterruptedException {
 
@@ -17,31 +18,31 @@ public class Join {
 		t2.join();
 		t1.join();
 
-		logger.debug("主线程结束");
+		LOG.debug("主线程结束");
 	}
 
 }
 
 class Join线程1 extends Thread {
 
-	private static final Logger logger = Logger.getLogger(Join线程1.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Join线程1.class);
 
 	@Override
 	public void run() {
 		for (int i = 0; i < 100; i++) {
-			logger.debug(i);
+			LOG.debug("{}", i);
 		}
 	}
 }
 
 class Join线程2 extends Thread {
 
-	private static final Logger logger = Logger.getLogger(Join线程2.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Join线程2.class);
 
 	@Override
 	public void run() {
 		for (int i = 0; i < 100; i++) {
-			logger.debug(i);
+			LOG.debug("{}", i);
 		}
 	}
 }

@@ -2,7 +2,8 @@ package com.anders.experiment.多线程.lock;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 当写操作时，其他线程无法读或写；当读操作时，其它线程无法写，但却可以读。
@@ -57,14 +58,14 @@ class Get线程 extends Thread {
 }
 
 class 测试类 {
-	private static final Logger logger = Logger.getLogger(测试类.class);
+	private static final Logger LOG = LoggerFactory.getLogger(测试类.class);
 
 	private ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
 	public void get() {
 		readWriteLock.readLock().lock();
 		try {
-			logger.debug("read");
+			LOG.debug("read");
 			// System.out.println(readWriteLock.getReadHoldCount());
 			// System.out.println(readWriteLock.getReadLockCount());
 			Thread.sleep(5000);
@@ -78,7 +79,7 @@ class 测试类 {
 	public void set() {
 		readWriteLock.writeLock().lock();
 		try {
-			logger.debug("write");
+			LOG.debug("write");
 			// System.out.println(readWriteLock.getWriteHoldCount());
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {

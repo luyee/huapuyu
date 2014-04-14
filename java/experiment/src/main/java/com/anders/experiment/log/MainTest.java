@@ -1,13 +1,14 @@
 package com.anders.experiment.log;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MainTest {
 
-	private static final Logger logger = Logger.getLogger(MainTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(MainTest.class);
 
 	public static void main(String[] args) {
-		logger.info("此日志会在日志文件中显示");
+		LOG.info("此日志会在日志文件中显示");
 		new LogTest().print();
 	}
 }
