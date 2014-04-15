@@ -3,15 +3,14 @@ package com.anders.ssh.common;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class InitSystemListener implements ServletContextListener {
 
-	private static final long serialVersionUID = 8920435030558656346L;
-
-	private final Logger logger = Logger.getLogger(InitSystemListener.class);
+	private final Logger LOG = LoggerFactory.getLogger(InitSystemListener.class);
 
 	public void contextInitialized(ServletContextEvent event) {
 
@@ -33,7 +32,7 @@ public class InitSystemListener implements ServletContextListener {
 			ServiceLocator.getInstance().setFactory(factory);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e.getMessage());
 		}
 	}
 

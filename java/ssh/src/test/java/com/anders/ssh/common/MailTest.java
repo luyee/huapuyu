@@ -12,19 +12,19 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring.xml", "classpath:spring-test.xml" })
+@ContextConfiguration(locations = { "classpath:spring-mail-test.xml" })
 public class MailTest {
 	@Resource
 	private JavaMailSender javaMailSender;
 
 	@Test
-	public void test1() {
+	public void test() {
 		try {
 			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-			mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress("zhuzhen01@baidu.com"));
-			mimeMessage.setFrom(new InternetAddress("huapuyu@yahoo.com.cn"));
-			mimeMessage.setSubject("test");
-			mimeMessage.setText("hello world");
+			mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress("huapuyu@sina.com"));
+			mimeMessage.setFrom(new InternetAddress("huapuyu@qq.com"));
+			mimeMessage.setSubject("SSH Test");
+			mimeMessage.setText("Hello World");
 			javaMailSender.send(mimeMessage);
 		}
 		catch (Exception ex) {

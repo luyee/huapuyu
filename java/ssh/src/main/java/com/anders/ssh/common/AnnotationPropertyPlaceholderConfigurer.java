@@ -19,6 +19,14 @@ public class AnnotationPropertyPlaceholderConfigurer extends PropertyPlaceholder
 
 	private Properties properties;
 
+	public Properties getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Properties properties) {
+		this.properties = properties;
+	}
+
 	@Override
 	protected void processProperties(ConfigurableListableBeanFactory beanFactory, Properties properties) throws BeansException {
 		// {load.init.data=false}
@@ -26,9 +34,11 @@ public class AnnotationPropertyPlaceholderConfigurer extends PropertyPlaceholder
 
 		super.processProperties(beanFactory, properties);
 
-		// beanFactory.getBeanDefinitionNames() = 获得所有被spring管理的bean的id，如：dataSource,sessionFactory,txManager
+		// beanFactory.getBeanDefinitionNames() =
+		// 获得所有被spring管理的bean的id，如：dataSource,sessionFactory,txManager
 		for (String name : beanFactory.getBeanDefinitionNames()) {
-			// clazz：获得PropertyPlaceholderConfigurer对象，class org.springframework.beans.factory.config.PropertyPlaceholderConfigurer
+			// clazz：获得PropertyPlaceholderConfigurer对象，class
+			// org.springframework.beans.factory.config.PropertyPlaceholderConfigurer
 			Class<?> clazz = beanFactory.getType(name);
 			// mpv：PropertyValues: length=1; bean property 'locations'
 			MutablePropertyValues mpv = beanFactory.getBeanDefinition(name).getPropertyValues();
@@ -42,7 +52,8 @@ public class AnnotationPropertyPlaceholderConfigurer extends PropertyPlaceholder
 				// 从set或get去配置
 				// property：org.springframework.beans.GenericTypeAwarePropertyDescriptor@cb4756ac
 				for (PropertyDescriptor property : BeanUtils.getPropertyDescriptors(clazz)) {
-					// public void org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.setBeanName(java.lang.String)
+					// public void
+					// org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.setBeanName(java.lang.String)
 					Method setter = property.getWriteMethod();
 					Method getter = property.getReadMethod();
 					Config annotation = null;
@@ -78,7 +89,8 @@ public class AnnotationPropertyPlaceholderConfigurer extends PropertyPlaceholder
 				for (Field field : clazz.getDeclaredFields()) {
 					// if (log.isDebugEnabled())
 					// {
-					// log.debug("examining field=[" + clazz.getName() + "." + field.getName() + "]");
+					// log.debug("examining field=[" + clazz.getName() + "." + field.getName() +
+					// "]");
 					// }
 					if (field.isAnnotationPresent(Config.class)) {
 						Config annotation = field.getAnnotation(Config.class);

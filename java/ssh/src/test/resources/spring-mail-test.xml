@@ -5,7 +5,7 @@
 
 	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host">
-			<value>smtp.mail.yahoo.com.cn</value>
+			<value>smtp.qq.com</value>
 		</property>
 		<property name="javaMailProperties">
 			<props>

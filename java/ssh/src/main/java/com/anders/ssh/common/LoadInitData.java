@@ -19,12 +19,16 @@ import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.DefaultDataSet;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.XmlDataSet;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Component;
 
-@Component
+/**
+ * 已经没什么用了，有unitils就行了
+ * 
+ * @author Anders
+ * 
+ */
+// @Component
 // 原来没有加@DependsOn，造成先导入初始化数据，后hibernate创建表
-@DependsOn("sessionFactory")
+// @DependsOn("sessionFactory")
 public class LoadInitData {
 	private IDatabaseTester databaseTester = null;
 	@Config(name = "driver")
@@ -91,12 +95,14 @@ public class LoadInitData {
 	// @PostConstruct
 	public void load() throws Exception {
 		databaseTester = new JdbcDatabaseTester(this.driver, this.url, this.userName, this.password);
-		// databaseTester = new JdbcDatabaseTester(this.driver, this.url, this.userName, this.password, this.userName);
+		// databaseTester = new JdbcDatabaseTester(this.driver, this.url, this.userName,
+		// this.password, this.userName);
 
 		if (this.enable) {
 			IDataSet dataSet = new XmlDataSet(getClass().getResourceAsStream(fileName));
 			databaseTester.setDataSet(dataSet);
-		} else {
+		}
+		else {
 			IDataSet dataSet = new DefaultDataSet();
 			databaseTester.setDataSet(dataSet);
 		}

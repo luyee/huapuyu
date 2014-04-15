@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,13 +30,12 @@ public class EnumTest {
 
 	@Test
 	public void test() {
-		System.out.println("hello : " + Period.LONG + ", end!");
-		System.out.println(Period.LONG.getClass().getName());
-
+		System.out.println(Period.LONG);
+		Assert.assertEquals("com.anders.ssh.common.EnumTest$Period", Period.LONG.getClass().getName());
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("短期", "短期");
-		System.out.println(map.get(Period.SHORT));
-		System.out.println(map.get(Period.SHORT.toString()));
+		Assert.assertNull(map.get(Period.SHORT));
+		Assert.assertEquals("短期", map.get(Period.SHORT.toString()));
 	}
 
 	public enum Period {
@@ -62,6 +62,5 @@ public class EnumTest {
 		public String toString() {
 			return this.label;
 		}
-
 	}
 }
