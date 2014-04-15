@@ -13,6 +13,8 @@ import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
+import com.anders.ssh.annotation.Config;
+
 public class AnnotationPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
 
 	private final static Log log = LogFactory.getLog(AnnotationPropertyPlaceholderConfigurer.class);

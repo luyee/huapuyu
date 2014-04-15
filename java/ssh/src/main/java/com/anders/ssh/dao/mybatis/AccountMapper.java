@@ -9,8 +9,8 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.anders.ssh.annotation.MyBatisMapper;
 import com.anders.ssh.bo.test.Account;
-import com.anders.ssh.mybatis.MyBatisMapper;
 
 @MyBatisMapper
 @CacheNamespace(implementation = org.mybatis.caches.ehcache.EhcacheCache.class)

@@ -20,6 +20,8 @@ import org.dbunit.dataset.DefaultDataSet;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.XmlDataSet;
 
+import com.anders.ssh.annotation.Config;
+
 /**
  * 已经没什么用了，有unitils就行了
  * 

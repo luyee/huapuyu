@@ -8,6 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+//ServletContextListener
+//ServletContextAttributeListene
+//HttpSessionListener
+//HttpSessionActivationListener
+//HttpSessionAttributeListener
+//HttpSessionBindingListener
+//ServletRequestListener
+//ServletRequestAttributeListener
 public class InitSystemListener implements ServletContextListener {
 
 	private final Logger LOG = LoggerFactory.getLogger(InitSystemListener.class);
