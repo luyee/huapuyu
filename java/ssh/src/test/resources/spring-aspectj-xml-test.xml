@@ -14,12 +14,12 @@
 	<aop:aspectj-autoproxy/>
 	
 	<!-- xml配置 -->
-	<bean id="personService" class="com.anders.ssh.aop.aspectj.impl.PersonServiceImpl"/> 
+	<bean id="custService" class="com.anders.ssh.aop.impl.CustServiceImpl"/> 
 	<bean id="loggerAspect" class="com.anders.ssh.aop.aspectj.xml.LoggerAspect"/> 
 	
 	<aop:config>
   		<aop:aspect id="aspect" ref="loggerAspect">
-  			<aop:pointcut id="anyMethod" expression="execution(* com.anders.ssh.aop.aspectj.impl.PersonServiceImpl.*(..))"/>
+  			<aop:pointcut id="anyMethod" expression="execution(* com.anders.ssh.aop.impl.CustServiceImpl.*(..))"/>
   			<!--  
   			<aop:pointcut id="anyMethod" expression="execution(java.lang.String com.anders.ssh.aop.aspectj.xml.PersonService.*(..))"/>
   			<aop:pointcut id="anyMethod" expression="execution(* com.anders.ssh.aop.aspectj.xml.PersonService.*(java.lang.String, ..))"/>
@@ -39,7 +39,7 @@
 	<tx:annotation-driven transaction-manager="jdbcTxManager"/>
 	 -->
 	<aop:config>
-  		<aop:pointcut id="txPointcut" expression="execution(* com.anders.ssh.aop.aspectj.impl.PersonServiceImpl.*(..))"/>
+  		<aop:pointcut id="txPointcut" expression="execution(* com.anders.ssh.aop.impl.CustServiceImpl.*(..))"/>
   		<aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice"/>
 	</aop:config>
 	<tx:advice id="txAdvice" transaction-manager="jdbcTxManager">

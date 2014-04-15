@@ -1,12 +1,12 @@
-package com.anders.ssh.aop.aspectj.impl;
+package com.anders.ssh.aop.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.anders.ssh.aop.aspectj.PersonService;
+import com.anders.ssh.aop.CustService;
 
-public class PersonServiceImpl implements PersonService {
-	private static final Logger LOG = LoggerFactory.getLogger(PersonServiceImpl.class);
+public class CustServiceImpl implements CustService {
+	private static final Logger LOG = LoggerFactory.getLogger(CustServiceImpl.class);
 
 	@Override
 	public void get(String name, long i) {
@@ -17,7 +17,7 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public String save(String name, int i) {
 		LOG.debug("save : " + name);
-		return "save : " + name;
+		return "保存成功";
 	}
 
 	@Override

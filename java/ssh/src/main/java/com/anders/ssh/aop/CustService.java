@@ -1,6 +1,6 @@
-package com.anders.ssh.aop.aspectj;
+package com.anders.ssh.aop;
 
-public interface PersonService {
+public interface CustService {
 	public String save(String name, int i);
 
 	public void update(String name);

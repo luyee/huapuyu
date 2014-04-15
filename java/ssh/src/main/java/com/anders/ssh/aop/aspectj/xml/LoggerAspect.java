@@ -27,9 +27,9 @@ public class LoggerAspect {
 	}
 
 	public Object loggerAround(ProceedingJoinPoint pjp) throws Throwable {
-		LOG.debug("环绕通知：前");
+		LOG.debug("环绕通知开始");
 		Object object = pjp.proceed();
-		LOG.debug("环绕通知：后");
+		LOG.debug("环绕通知结束");
 		return object;
 	}
 }

@@ -11,7 +11,7 @@
 	<aop:aspectj-autoproxy/>
 	
 	<!-- 注解进行配置，不需要在配置文件写任何配置信息，只需要写入如下bean信息就可以了 -->
-	<bean id="personService" class="com.anders.ssh.aop.aspectj.impl.PersonServiceImpl"/>
+	<bean id="custService" class="com.anders.ssh.aop.impl.CustServiceImpl"/>
 	<bean id="loggerAspect" class="com.anders.ssh.aop.aspectj.annotation.LoggerAspect"/> 
 	
 </beans>

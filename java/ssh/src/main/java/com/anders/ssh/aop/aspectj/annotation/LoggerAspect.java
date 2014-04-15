@@ -18,7 +18,7 @@ public class LoggerAspect {
 
 	// 切入点 * aspectj.. * .* (..) 表示任意类型的返回类型 包名 包括子包 所有有类 所有方法 任意参数
 	// @Pointcut("execution (* aspectj.PersonService.*(..))")
-	@Pointcut("execution (* com.anders.ssh.aop.aspectj..*.*(..))")
+	@Pointcut("execution (* com.anders.ssh.aop..*.*(..))")
 	private void anyMethod() {
 	}
 
@@ -45,9 +45,9 @@ public class LoggerAspect {
 
 	@Around("anyMethod()")
 	public Object loggerAround(ProceedingJoinPoint pjp) throws Throwable {
-		LOG.debug("环绕通知：前");
+		LOG.debug("环绕通知开始");
 		Object object = pjp.proceed();
-		LOG.debug("环绕通知：后");
+		LOG.debug("环绕通知结束");
 		return object;
 	}
 }
