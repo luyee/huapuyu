@@ -1,6 +1,6 @@
 package com.anders.ssh.aop.spring;
 
-interface IProxyTarget {
+public interface ProxyTarget {
 	void ShowMessage();
 
 	void ShowName();

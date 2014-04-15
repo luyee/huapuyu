@@ -1,6 +1,9 @@
-package com.anders.ssh.aop.spring;
+package com.anders.ssh.aop.spring.impl;
 
-public class ManualProxyTarget implements IProxyTarget {
+import com.anders.ssh.aop.spring.ProxyTarget;
+
+
+public class ManualProxyTarget implements ProxyTarget {
 	public void ShowMessage() {
 		System.out.println(this.getClass().getName() + " : ShowMessage");
 		// throw new RuntimeException("错误");
