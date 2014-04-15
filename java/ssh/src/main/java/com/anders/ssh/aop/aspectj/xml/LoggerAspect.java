@@ -1,30 +1,35 @@
 package com.anders.ssh.aop.aspectj.xml;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoggerAspect {
+
+	private static final Logger LOG = LoggerFactory.getLogger(LoggerAspect.class);
+
 	public void loggerBefore() {
-		System.out.println("前置通知");
+		LOG.debug("前置通知");
 	}
 
 	// public void loggerAfterReturning(String result)
 	public void loggerAfterReturning() {
-		System.out.println("后置通知");
+		LOG.debug("后置通知");
 	}
 
 	// public void loggerThrowing(Exception e)
 	public void loggerThrowing() {
-		System.out.println("异常通知");
+		LOG.debug("异常通知");
 	}
 
 	public void loggerAfter() {
-		System.out.println("最后通知");
+		LOG.debug("最后通知");
 	}
 
 	public Object loggerAround(ProceedingJoinPoint pjp) throws Throwable {
-		System.out.println("环绕通知-�?");
+		LOG.debug("环绕通知：前");
 		Object object = pjp.proceed();
-		System.out.println("环绕通知-�?");
+		LOG.debug("环绕通知：后");
 		return object;
 	}
 }
