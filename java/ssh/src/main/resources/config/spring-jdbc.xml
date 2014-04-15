@@ -60,7 +60,7 @@
 	    <property name="password" value="${oracle.password}"/>
 	</bean>
 	
-	<bean id="mutiDataSource" class="com.anders.ssh.aop.spring.DynamicDataSource">
+	<bean id="mutiDataSource" class="com.anders.ssh.aop.datasource.DynamicDataSource">
 		<property name="targetDataSources">
 			<map key-type="java.lang.String">
 				<entry key="slave" value-ref="slaveDataSource" />
