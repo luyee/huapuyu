@@ -13,25 +13,25 @@ import com.anders.ssh.aop.CustService;
 @ContextConfiguration(locations = { "classpath:spring-aspectj-xml-test.xml" })
 public class AspectjTest {
 	@Resource
-	private CustService personService;
+	private CustService custService;
 
 	@Test(expected = RuntimeException.class)
 	public void testDelete() {
-		personService.delete("zhuzhen");
+		custService.delete("zhuzhen");
 	}
 
 	@Test
 	public void testSave() {
-		personService.save("zhuzhen", 1);
+		custService.save("zhuzhen", 1);
 	}
 
 	@Test
 	public void testUpdate() {
-		personService.update("zhuzhen");
+		custService.update("zhuzhen");
 	}
 
 	@Test
 	public void testGet() {
-		personService.get("zhuzhen", 2);
+		custService.get("zhuzhen", 2);
 	}
 }

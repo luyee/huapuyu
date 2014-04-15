@@ -1,4 +1,4 @@
-package com.anders.ssh.aop.spring;
+package com.anders.ssh.aop.datasource;
 
 import java.lang.reflect.Method;
 

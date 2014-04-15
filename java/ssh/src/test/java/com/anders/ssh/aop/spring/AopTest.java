@@ -7,23 +7,34 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.anders.ssh.aop.CustService;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring-aop-test.xml" })
 public class AopTest {
-	// @Resource
-	// private ProxyFactoryBean proxyFactoryBean;
 	@Resource
-	private ProxyTarget autoProxyTarget;
+	private CustService custService;
+	@Resource(name = "proxyCustService")
+	private CustService proxyCustService;
+
+	@Test(expected = RuntimeException.class)
+	public void testDelete() {
+		proxyCustService.delete("zhuzhen");
+	}
 
 	@Test
-	public void testDelete() {
-		// proxyFactoryBean.ShowMessage();
-		// proxyFactoryBean.ShowName();
-		// proxyFactoryBean.printMessage();
+	public void testSave() {
+		custService.save("zhuzhen", 1);
+	}
 
-		autoProxyTarget.ShowMessage();
-		autoProxyTarget.ShowName();
-		autoProxyTarget.printMessage();
+	@Test
+	public void testUpdate() {
+		proxyCustService.update("zhuzhen");
+	}
+
+	@Test
+	public void testGet() {
+		custService.get("zhuzhen", 2);
 	}
 
 }

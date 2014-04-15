@@ -4,8 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<!-- 目标对象 -->
-	<bean id="manualProxyTarget" class="com.anders.ssh.aop.spring.impl.ManualProxyTarget"/>
-	<bean id="autoProxyTarget" class="com.anders.ssh.aop.spring.impl.AutoProxyTarget"/>
+	<bean id="custService" class="com.anders.ssh.aop.impl.CustServiceImpl"/>
 	
 	<!-- 环绕 -->
 	<bean id="aroundAdvice" class="com.anders.ssh.aop.spring.AroundAdvice"/>
@@ -29,9 +28,9 @@
 	和Advisor配合使用，可以实现细粒度的控制目标类。
 	-->
 	<!-- 配置方法1 -->
-	<bean id="proxyTargetFactory" class="org.springframework.aop.framework.ProxyFactoryBean">
+	<bean id="proxyCustService" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<!-- 注入目标对象 --> 
-        <property name="target" ref="manualProxyTarget"/>
+        <property name="target" ref="custService"/>
         <!-- 注入Advice/Interceptor -->
         <property name="interceptorNames">
             <list>
@@ -40,52 +39,47 @@
                 <value>afterAdvice</value>
                 <value>throwAdvice</value>
                 <value>aroundAdvice</value> 
-                <value>aroundAdvisor</value> 
-                <value>beforeAdvisor</value>
                 -->
+                <value>throwAdvisor</value> 
+                <value>beforeAdvisor</value>
             </list>
         </property>
         <!-- 以下配置可有可无 -->
         <property name="proxyInterfaces"> 
-        	<value>com.anders.ssh.aop.spring.ProxyTarget</value>
+        	<value>com.anders.ssh.aop.CustService</value>
         </property>
     </bean>
     
     <!-- 匹配方法名 -->
-    <!-- 
-    <bean id="aroundAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
-		<property name="advice" ref="aroundAdvice"/>
+    <bean id="throwAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="advice" ref="throwAdvice"/>
     	<property name="mappedNames">
       		<list>
-        		<value>Show*</value>
+        		<value>delet*</value>
       		</list>
     	</property>
 	</bean>
-	-->
     
     <!-- 匹配类名和方法名 -->
     <bean id="beforeAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
 		<property name="advice" ref="beforeAdvice"/>
     	<property name="patterns">
       		<list>
-        		<value>.*ManualProxyTarget.*Message</value>
+        		<value>.*ustService.*pdate</value>
       		</list>
     	</property>
 	</bean>
     
     <!-- 配置方法2 -->
-    <bean id="ProxyCreator" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+    <bean id="autoProxyCreator" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
 		<property name="beanNames">
 			<list>
-				<!--  
-				<value>autoProxyTarget</value>
-				-->
-				<value>auto*</value>
+				<value>cust*</value>
 			</list>
 		</property>
 		<property name="interceptorNames">
 			<list>
-				<value>afterAdvice</value>
+				<value>aroundAdvice</value>
 			</list>
 		</property>
 	</bean>

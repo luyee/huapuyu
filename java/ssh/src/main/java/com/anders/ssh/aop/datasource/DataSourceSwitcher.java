@@ -1,4 +1,4 @@
-package com.anders.ssh.aop.spring;
+package com.anders.ssh.aop.datasource;
 
 import org.springframework.util.Assert;
 
