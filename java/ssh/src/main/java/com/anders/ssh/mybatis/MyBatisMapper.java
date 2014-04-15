@@ -1,4 +1,4 @@
-package com.anders.ssh.util;
+package com.anders.ssh.mybatis;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
