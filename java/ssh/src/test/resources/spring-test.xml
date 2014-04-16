@@ -21,9 +21,6 @@
 	<!-- annotation -->
 	<import resource="classpath:config/spring-annotation.xml"/>
 	
-	<context:component-scan base-package="com.anders.ssh.taskexecutor"/>
-	<context:component-scan base-package="com.anders.ssh.others"/>
-	
 	<!-- ibatis -->
 	<import resource="classpath:config/spring-ibatis.xml"/>
 	
@@ -38,13 +35,7 @@
 	
 	<import resource="classpath:config/spring-log.xml"/>
 	
-	
-	<bean id="threadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-		<property name="corePoolSize" value="5" />
-		<property name="keepAliveSeconds" value="200" />
-		<property name="maxPoolSize" value="10" />
-		<property name="queueCapacity" value="25" />
-	</bean>
+	<context:component-scan base-package="com.anders.ssh.others"/>
 	
 	<!-- jpa unitilsÅäÖÃ -->
 	<!-- 
