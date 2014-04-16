@@ -19,7 +19,7 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.anders.ssh.dao.mybatis" />
         <!-- 很奇特，下面这个配置不加的话，貌似MapperScannerConfigurer会给basePackage路径下的Dao接口也会实例化，造成有companyDao和accountDao -->
-        <property name="annotationClass" value="com.anders.ssh.util.MyBatisMapper" />
+        <property name="annotationClass" value="com.anders.ssh.annotation.MyBatisMapper" />
     </bean>
 	
 	<bean id="mybatisTxManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

@@ -843,6 +843,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>net.sourceforge</groupId>
+			<artifactId>groboutils</artifactId>
+			<version>5</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/GroboUtils-5-core.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<properties>
