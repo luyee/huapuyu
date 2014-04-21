@@ -49,11 +49,13 @@ public class LuceneUtil {
 
 		for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
 			Document doc = indexSearcher.doc(scoreDoc.doc);
+			// System.out.println(doc.get("contents"));
+			System.out.println(doc.get("filename"));
 			System.out.println(doc.get("fullpath"));
 		}
 
-		indexReader.close();
 		indexSearcher.close();
+		indexReader.close();
 	}
 
 	public static Directory index内存() throws IOException {
@@ -81,7 +83,8 @@ public class LuceneUtil {
 					Document doc = new Document();
 					doc.add(new Field("contents", new FileReader(file)));
 					doc.add(new Field("filename", file.getName(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-					doc.add(new Field("fullpath", file.getCanonicalPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+					// 不保存，搜索时查不到
+					doc.add(new Field("fullpath", file.getCanonicalPath(), Field.Store.NO, Field.Index.NOT_ANALYZED));
 					indexWriter.addDocument(doc);
 				}
 			}
@@ -122,8 +125,8 @@ public class LuceneUtil {
 			System.out.println(doc.get("fullpath"));
 		}
 
-		indexReader.close();
 		indexSearcher.close();
+		indexReader.close();
 	}
 
 	public static void index文件() throws IOException {
@@ -199,8 +202,8 @@ public class LuceneUtil {
 			System.out.println(doc.get("name"));
 		}
 
-		indexReader.close();
 		indexSearcher.close();
+		indexReader.close();
 	}
 
 	public static Directory index文件_自定义内容() throws IOException {
