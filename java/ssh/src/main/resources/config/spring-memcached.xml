@@ -19,10 +19,12 @@
 		<!-- Set the default operation timeout in milliseconds -->
 		<property name="opTimeout" value="1000" />
 		<property name="timeoutExceptionThreshold" value="1998" />
-		<!-- <property name="hashAlg" value="KETAMA_HASH" /> -->
+		<property name="hashAlg" value="KETAMA_HASH" /> 
+		<!--  
 		<property name="hashAlg">
             <value type="net.spy.memcached.DefaultHashAlgorithm">KETAMA_HASH</value>
 		</property>
+		-->
 		<!-- Set the locator type {ARRAY_MOD | CONSISTENT} (defaults to ARRAY_MOD) -->
 		<property name="locatorType" value="CONSISTENT" />
 		<!-- Set the failure mode {Cancel | Redistribute | Retry} (defaults to Redistribute) -->

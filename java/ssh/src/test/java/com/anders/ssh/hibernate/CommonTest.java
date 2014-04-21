@@ -56,6 +56,7 @@ public class CommonTest extends AbstractTransactionalJUnit4SpringContextTests {
 		});
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@Rollback(true)
 	public void 测试获取Map结果1() {
@@ -78,6 +79,7 @@ public class CommonTest extends AbstractTransactionalJUnit4SpringContextTests {
 		Assert.assertEquals("lisi", list.get(1).get("name"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@Rollback(true)
 	public void 测试获取Map结果2() {

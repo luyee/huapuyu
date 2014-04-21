@@ -23,6 +23,7 @@ public class CompanyDaoImpl extends HibernateDao<Long, Company> implements Compa
 	// super.setSessionFactory(sessionFactory);
 	// }
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> getAccountNameByName(final String name) {
 		return getHibernateTemplate().executeFind(new HibernateCallback<Object>() {

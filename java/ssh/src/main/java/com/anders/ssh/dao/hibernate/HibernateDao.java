@@ -26,6 +26,7 @@ public abstract class HibernateDao<PK extends Serializable, T> extends Hibernate
 		entityClass = getSuperClassGenricType();
 	}
 
+	@SuppressWarnings("unchecked")
 	public Class<T> getSuperClassGenricType() {
 		Type type = getClass().getGenericSuperclass();
 		Type[] params = ((ParameterizedType) type).getActualTypeArguments();
@@ -76,6 +77,7 @@ public abstract class HibernateDao<PK extends Serializable, T> extends Hibernate
 		// getHibernateTemplate().merge(entity);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<T> find(final String hql, final Object... values) {
 		return getHibernateTemplate().find(hql, values);
 	}

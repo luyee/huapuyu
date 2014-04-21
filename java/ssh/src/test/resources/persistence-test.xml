@@ -34,8 +34,14 @@
         <property name="hibernate.connection.password" value="123"/>
         <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/ssh_test?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8&amp;amp;zeroDateTimeBehavior=convertToNull"/>
         -->
-        <property name="hibernate.show_sql" value="true"/>
-        <property name="hibernate.hbm2ddl.auto" value="none"/>
+        <property name="hibernate.cache.provider_class" value="org.hibernate.cache.EhCacheProvider" />
+		<property name="hibernate.cache.use_query_cache" value="true" />
+		<property name="hibernate.cache.use_second_level_cache" value="true" />
+		<property name="hibernate.cache.use_structured_entries" value="true" />
+		<property name="hibernate.cache.region_prefix" value="prefix" />
+		<property name="hibernate.generate_statistics" value="true" />
+        <property name="hibernate.show_sql" value="true" />
+        <property name="hibernate.hbm2ddl.auto" value="none" />
 	</properties> 
 </persistence-unit>
 

@@ -12,6 +12,14 @@
 		<url>http://www.anders.com</url>
 	</organization>
 	
+	<!--  
+	<repository>
+    	<id>hibernate-memcached</id>
+    	<name>hibernate-memcached</name>
+    	<url>http://raykrueger.googlecode.com/svn/repository</url>
+	</repository>
+	-->
+	
 	<build>
 		<plugins>
 			<!-- maven -->
@@ -451,7 +459,26 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.6.9.Final</version>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>${hibernate.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>hibernate-core</artifactId>
+					<groupId>org.hibernate</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>ehcache-core</artifactId>
+					<groupId>net.sf.ehcache</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<!-- slf4j -->
@@ -685,11 +712,6 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>net.spy</groupId>
-			<artifactId>spymemcached</artifactId>
-			<version>2.11.0</version>
-		</dependency> 
-		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
@@ -850,6 +872,28 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/GroboUtils-5-core.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>hibernate-memcached</groupId>
+			<artifactId>hibernate-memcached</artifactId>
+			<version>1.2.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/hibernate-memcached-1.2.2.jar</systemPath>
+		</dependency>
+		<!--  
+		<dependency>
+    		<groupId>com.googlecode</groupId>
+    		<artifactId>hibernate-memcached</artifactId>
+    		<version>1.2.2</version>
+		</dependency>
+		-->
+		<!-- 2.7.3以上版本和hibernate-memcached存在兼容性问题，如果不使用hibernate-memcached，可以使用高版本spymemcached -->
+		<dependency>
+			<groupId>net.spy</groupId>
+			<artifactId>spymemcached</artifactId>
+			<version>2.7.3</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/spymemcached-2.7.3.jar</systemPath>
+		</dependency> 
 	</dependencies>
 
 	<properties>
