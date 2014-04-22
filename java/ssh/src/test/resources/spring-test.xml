@@ -25,6 +25,7 @@
 	<context:component-scan base-package="com.anders.ssh.dao.redis"/>
 	<context:component-scan base-package="com.anders.ssh.dao.mybatis"/>
 	<context:component-scan base-package="com.anders.ssh.service"/>
+	<context:component-scan base-package="com.anders.ssh.others"/>
 						   
 	<!-- property -->
 	<import resource="classpath:config/spring-property.xml"/>
@@ -41,10 +42,9 @@
 	<!-- redis -->
 	<import resource="classpath:config/spring-redis.xml"/>
 	
+	<!-- log -->
 	<import resource="classpath:config/spring-log.xml"/>
 	
-	<context:component-scan base-package="com.anders.ssh.others"/>
-    
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="configLocation" value="classpath:hibernate.cfg.xml"/>

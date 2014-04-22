@@ -14,7 +14,11 @@
     	</property>
     </bean>
     
-    <bean id="myInterceptor" class="com.anders.ssh.mybatis.MyInterceptor" />
+    <bean id="myInterceptor" class="com.anders.ssh.mybatis.MyInterceptor">
+    	<property name="logCallPK">
+			<ref bean="logCallPK" />
+		</property>
+	</bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.anders.ssh.dao.mybatis" />

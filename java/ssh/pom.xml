@@ -894,6 +894,19 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/spymemcached-2.7.3.jar</systemPath>
 		</dependency> 
+		<dependency>
+			<groupId>org.mybatis.caches</groupId>
+			<artifactId>mybatis-memcached</artifactId>
+			<version>1.0.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>spymemcached</artifactId>
+					<groupId>net.spy</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
 	<properties>

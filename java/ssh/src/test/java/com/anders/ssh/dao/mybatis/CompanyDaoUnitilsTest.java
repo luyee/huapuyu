@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.unitils.UnitilsJUnit4;
+import org.unitils.UnitilsJUnit4TestClassRunner;
 import org.unitils.database.annotations.Transactional;
 import org.unitils.dbunit.annotation.DataSet;
 import org.unitils.spring.annotation.SpringApplicationContext;
@@ -12,6 +14,7 @@ import org.unitils.spring.annotation.SpringBean;
 
 import com.anders.ssh.bo.test.Company;
 
+@RunWith(UnitilsJUnit4TestClassRunner.class)
 @SpringApplicationContext("classpath:spring-test.xml")
 public class CompanyDaoUnitilsTest extends UnitilsJUnit4 {
 
