@@ -353,6 +353,10 @@ sudo apt-get install ssh
 Java
 JDK: sudo apt-get install sun-java6-jdk
 JRE: sudo apt-get install sun-java6-jre
+
+JDK: sudo apt-get install openjdk-6-jdk
+JRE: sudo apt-get install openjdk-6-jre
+
 提示：安装过程中需要你回答是否同意使用协议（终端中红蓝色的提示界面），此时按Tab键至OK，再按回车即可正常安装。 
 
 
