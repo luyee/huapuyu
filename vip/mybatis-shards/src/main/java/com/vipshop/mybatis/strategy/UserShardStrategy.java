@@ -6,17 +6,22 @@ import javax.sql.DataSource;
 
 import com.vipshop.mybatis.common.ShardParam;
 
+/**
+ * 
+ * @author Kolor
+ */
 public class UserShardStrategy extends ShardStrategy {
 
 	@Override
 	public DataSource getTargetDataSource() {
 		ShardParam shardParam = getShardParam();
+		//
 		Long param = (Long) shardParam.getShardValue();
-		Map<String, DataSource> map = this.getMysqlDataSources();
+		Map<String, DataSource> map = this.getShardDataSources();
 		if (param > 100) {
-			return map.get("ds2");
+			return map.get("dataSourceSlave");
 		}
-		return map.get("ds1");
+		return getMainDataSource();
 	}
 
 	@Override

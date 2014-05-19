@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.vipshop.mybatis.strategy;
 
 import java.util.Map;
@@ -7,32 +10,32 @@ import javax.sql.DataSource;
 import com.vipshop.mybatis.common.ShardParam;
 
 /**
- * 分表策略抽象类
+ * 分表策略接口
  * 
- * @author Anders Zhu
+ * @author sean.he
  * 
  */
 public abstract class ShardStrategy {
 
-	private static final ThreadLocal<Map<String, DataSource>> oracleDataSources = new ThreadLocal<Map<String, DataSource>>();
-	private static final ThreadLocal<Map<String, DataSource>> mysqlDataSources = new ThreadLocal<Map<String, DataSource>>();
+	private static final ThreadLocal<DataSource> mainDataSource = new ThreadLocal<DataSource>();
+	private static final ThreadLocal<Map<String, DataSource>> shardDataSources = new ThreadLocal<Map<String, DataSource>>();
 	private static final ThreadLocal<String> sql = new ThreadLocal<String>();
 	private static final ThreadLocal<ShardParam> shardParam = new ThreadLocal<ShardParam>();
 
-	public Map<String, DataSource> getOracleDataSources() {
-		return oracleDataSources.get();
+	public DataSource getMainDataSource() {
+		return mainDataSource.get();
 	}
 
-	public void setOracleDataSources(Map<String, DataSource> oracleDataSources) {
-		ShardStrategy.oracleDataSources.set(oracleDataSources);
+	public void setMainDataSource(DataSource mainDataSource) {
+		ShardStrategy.mainDataSource.set(mainDataSource);
 	}
 
-	public Map<String, DataSource> getMysqlDataSources() {
-		return mysqlDataSources.get();
+	public Map<String, DataSource> getShardDataSources() {
+		return shardDataSources.get();
 	}
 
-	public void setMysqlDataSources(Map<String, DataSource> mysqlDataSources) {
-		ShardStrategy.mysqlDataSources.set(mysqlDataSources);
+	public void setShardDataSources(Map<String, DataSource> shardDataSources) {
+		ShardStrategy.shardDataSources.set(shardDataSources);
 	}
 
 	public String getSql() {
@@ -53,5 +56,16 @@ public abstract class ShardStrategy {
 
 	public abstract DataSource getTargetDataSource();
 
+	/**
+	 * 得到实际表名
+	 * 
+	 * @param baseTableName
+	 *            逻辑表名,一般是没有前缀或者是后缀的表名
+	 * @param params
+	 *            mybatis执行某个statement时使用的参数
+	 * @param mapperId
+	 *            mybatis配置的statement id
+	 * @return
+	 */
 	public abstract String getTargetSql();
 }
