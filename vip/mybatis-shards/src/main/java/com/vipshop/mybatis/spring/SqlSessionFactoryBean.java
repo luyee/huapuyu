@@ -61,10 +61,6 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 
 	public void setDefaultDataSource(DataSource defaultDataSource) {
 		if (defaultDataSource instanceof TransactionAwareDataSourceProxy) {
-			// If we got a TransactionAwareDataSourceProxy, we need to perform
-			// transactions for its underlying target DataSource, else data
-			// access code won't see properly exposed transactions (i.e.
-			// transactions for the target DataSource).
 			this.defaultDataSource = ((TransactionAwareDataSourceProxy) defaultDataSource).getTargetDataSource();
 		}
 		else {
@@ -136,7 +132,7 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 				shardSqlSessionFactory.put(entry.getKey(), buildSqlSessionFactory(entry.getValue()));
 			}
 		}
-		//
+
 		if (shardStrategyConfig != null) {
 			shardStrategyMap = new HashMap<String, ShardStrategy>();
 			for (Map.Entry<String, Class<?>> entry : shardStrategyConfig.entrySet()) {
@@ -151,7 +147,6 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 					throw new RuntimeException("new instance for class " + clazz.getName() + " failed, error:" + e.getMessage());
 				}
 			}
-			//
 			shardStrategyConfig = null;
 		}
 	}
@@ -162,10 +157,10 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 
 		Configuration configuration = null;
 		SpringManagedTransactionFactory transactionFactory = null;
-		//
+
 		configuration = new Configuration();
 		configuration.addInterceptor(plugin);
-		//
+
 		transactionFactory = new SpringManagedTransactionFactory(dataSource);
 
 		Environment environment = new Environment(SqlSessionFactoryBean.class.getSimpleName(), transactionFactory, dataSource);
@@ -176,10 +171,7 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 				if (mapperLocation == null) {
 					continue;
 				}
-				// this block is a workaround for issue
-				// http://code.google.com/p/mybatis/issues/detail?id=235
-				// when running MyBatis 3.0.4. But not always works.
-				// Not needed in 3.0.5 and above.
+
 				String path;
 				if (mapperLocation instanceof ClassPathResource) {
 					path = ((ClassPathResource) mapperLocation).getPath();
