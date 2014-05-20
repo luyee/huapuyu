@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+		<property name="driverClass" value="${ds.driver}" />
+		<property name="jdbcUrl" value="${ds.url}" />
+		<property name="username" value="${ds.username}" />
+		<property name="password" value="${ds.password}" />
+		<property name="idleConnectionTestPeriodInMinutes" value="5" />
+		<property name="idleMaxAgeInMinutes" value="30" />
+		<property name="maxConnectionsPerPartition" value="30" />
+		<property name="minConnectionsPerPartition" value="5" />
+		<property name="partitionCount" value="2" />
+		<property name="acquireIncrement" value="5" />
+		<property name="statementsCacheSize" value="150" />
+		<property name="releaseHelperThreads" value="8" />
+		<property name="connectionTestStatement" value="select 1 from dual" />
+	</bean>
+
+	<bean id="dataSource_mysql_1" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+		<property name="driverClass" value="${ds.mysql1.driver}" />
+		<property name="jdbcUrl" value="${ds.mysql1.url}" />
+		<property name="username" value="${ds.mysql1.username}" />
+		<property name="password" value="${ds.mysql1.password}" />
+		<property name="idleConnectionTestPeriodInMinutes" value="5" />
+		<property name="idleMaxAgeInMinutes" value="30" />
+		<property name="maxConnectionsPerPartition" value="30" />
+		<property name="minConnectionsPerPartition" value="5" />
+		<property name="partitionCount" value="2" />
+		<property name="acquireIncrement" value="5" />
+		<property name="statementsCacheSize" value="150" />
+		<property name="releaseHelperThreads" value="8" />
+		<property name="connectionTestStatement" value="select 1 from dual" />
+	</bean>
+	
+	<bean id="dataSource_mysql_2" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+		<property name="driverClass" value="${ds.mysql2.driver}" />
+		<property name="jdbcUrl" value="${ds.mysql2.url}" />
+		<property name="username" value="${ds.mysql2.username}" />
+		<property name="password" value="${ds.mysql2.password}" />
+		<property name="idleConnectionTestPeriodInMinutes" value="5" />
+		<property name="idleMaxAgeInMinutes" value="30" />
+		<property name="maxConnectionsPerPartition" value="30" />
+		<property name="minConnectionsPerPartition" value="5" />
+		<property name="partitionCount" value="2" />
+		<property name="acquireIncrement" value="5" />
+		<property name="statementsCacheSize" value="150" />
+		<property name="releaseHelperThreads" value="8" />
+		<property name="connectionTestStatement" value="select 1 from dual" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="com.vipshop.mybatis.spring.SqlSessionFactoryBean">
+		<property name="defaultDataSource" ref="dataSource" />
+		<property name="shardDataSourceList">
+			<util:list>
+				<ref bean="dataSource_mysql_1" />
+				<ref bean="dataSource_mysql_2" />
+			</util:list>
+		</property>
+		<property name="mapperLocations">
+			<array>
+				<value>classpath:mybatis/user-mapper.xml</value>
+			</array>
+		</property>
+		<property name="shardStrategy">
+			<map>
+				<entry key="shard_user">
+					<value>com.vipshop.mybatis.shard.UserShardStrategy</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="userDao" class="com.vipshop.mybatis.dao.impl.UserDaoImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+</beans>
