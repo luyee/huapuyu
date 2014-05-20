@@ -1,15 +1,12 @@
-package com.vipshop.mybatis.strategy;
+package com.vipshop.mybatis.shard;
 
 import java.util.Map;
 
 import javax.sql.DataSource;
 
 import com.vipshop.mybatis.common.ShardParam;
+import com.vipshop.mybatis.strategy.ShardStrategy;
 
-/**
- * 
- * @author Kolor
- */
 public class UserShardStrategy extends ShardStrategy {
 
 	@Override
@@ -18,10 +15,13 @@ public class UserShardStrategy extends ShardStrategy {
 		//
 		Long param = (Long) shardParam.getShardValue();
 		Map<String, DataSource> map = this.getShardDataSources();
-		if (param > 100) {
-			return map.get("dataSourceSlave");
+		if (param > 100 && param <= 200) {
+			return map.get("dataSource_mysql_1");
 		}
-		return getMainDataSource();
+		else if (param > 200) {
+			return map.get("dataSource_mysql_2");
+		}
+		return getDefaultDataSource();
 	}
 
 	@Override
