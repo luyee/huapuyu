@@ -40,11 +40,13 @@ public class ShardPlugin implements Interceptor {
 	public Object intercept(Invocation invocation) throws Throwable {
 		StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
 
+		// 原始SQL
 		String sql = statementHandler.getBoundSql().getSql();
 		if (log.isDebugEnabled()) {
 			log.debug("Original SQL [ " + sql + " ]");
 		}
 
+		// 经过转换后的SQL
 		String targetSql = sqlConverter.convert(sql, statementHandler);
 		if (log.isDebugEnabled()) {
 			log.debug("Converted SQL [ " + targetSql + " ]");
