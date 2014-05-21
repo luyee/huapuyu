@@ -68,10 +68,18 @@
 		<property name="shardStrategy">
 			<map>
 				<entry key="shard_user">
-					<value>com.vipshop.mybatis.shard.UserShardStrategy</value>
+					<value>com.vipshop.mybatis.strategy.UserShardStrategy</value>
 				</entry>
 			</map>
 		</property>
+		<property name="plugins">
+        	<array>
+            	<ref bean="shardPlugin" />
+        	</array>
+    	</property>
+	</bean>
+	
+    <bean id="shardPlugin" class="com.vipshop.mybatis.plugin.ShardPlugin">
 	</bean>
 
 	<bean id="userDao" class="com.vipshop.mybatis.dao.impl.UserDaoImpl">

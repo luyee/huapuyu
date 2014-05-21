@@ -11,6 +11,7 @@ import javax.sql.DataSource;
  * 
  */
 public interface MultiDataSourceSupport {
+
 	public DataSource getDefaultDataSource();
 
 	public Map<String, DataSource> getShardDataSources();

@@ -1,5 +1,7 @@
 package com.vipshop.mybatis.spring;
 
+import static org.springframework.util.Assert.notNull;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -9,9 +11,12 @@ import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.mapping.Environment;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -32,6 +37,11 @@ import com.vipshop.mybatis.converter.SqlConverter;
 import com.vipshop.mybatis.plugin.ShardPlugin;
 import com.vipshop.mybatis.strategy.ShardStrategy;
 
+/**
+ * 
+ * @author Anders
+ * 
+ */
 public class SqlSessionFactoryBean implements ApplicationContextAware, MultiDataSourceSupport {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -39,21 +49,20 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 	private ApplicationContext applicationContext;
 
 	private DataSource defaultDataSource;
-
 	private SqlSessionFactory defaultSqlSessionFactory;
-
 	private Map<String, DataSource> shardDataSources;
-
 	private Map<String, SqlSessionFactory> shardSqlSessionFactory;
-
 	private List<DataSource> shardDataSourceList;
-
-	private Resource[] mapperLocations;
 
 	private Map<String, ShardStrategy> shardStrategyMap = new HashMap<String, ShardStrategy>();
 	private Map<String, Class<?>> shardStrategyConfig = new HashMap<String, Class<?>>();
-
 	private SqlConverter sqlConverter = new DefaultSqlConverter();
+
+	private Resource[] mapperLocations;
+	private Interceptor[] plugins;
+
+	// 新添加的属性
+	private SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
 
 	public DataSource getDefaultDataSource() {
 		return defaultDataSource;
@@ -97,15 +106,26 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 	}
 
 	public void afterPropertiesSet() throws Exception {
-		if (defaultDataSource == null && (shardDataSourceList == null || shardDataSourceList.size() == 0)) {
-			throw new RuntimeException(" Property 'defaultDataSource' and property 'shardDataSourceList' can not be null together! ");
+		notNull(defaultDataSource, "Property 'defaultDataSource' is required");
+		notNull(sqlSessionFactoryBuilder, "Property 'sqlSessionFactoryBuilder' is required");
+		if (CollectionUtils.isNotEmpty(shardDataSourceList) && MapUtils.isEmpty(shardStrategyConfig)) {
+			throw new IllegalArgumentException("Property 'shardStrategy' is required");
 		}
-		if (shardDataSourceList != null && shardDataSourceList.size() > 0) {
+
+		// 没有shardDataSourceList也可以，提供最原始的功能
+		// if (CollectionUtils.isEmpty(shardDataSourceList)) {
+		// throw new IllegalArgumentException("Property 'shardDataSourceList' is required");
+		// }
+
+		if (CollectionUtils.isNotEmpty(shardDataSourceList)) {
 			shardDataSources = new LinkedHashMap<String, DataSource>();
+			// 从Spring容器中获取所有的DataSource
+			// TODO Anders : 此处代码是否要升级
 			Map<String, DataSource> dataSourceMap = applicationContext.getBeansOfType(DataSource.class);
 			for (Entry<String, DataSource> entry : dataSourceMap.entrySet()) {
 				for (int i = 0; i < shardDataSourceList.size(); i++) {
 					DataSource ds = shardDataSourceList.get(i);
+
 					if (entry.getValue() == ds) {
 						DataSource dataSource = entry.getValue();
 						if (dataSource instanceof TransactionAwareDataSourceProxy) {
@@ -116,38 +136,41 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 				}
 			}
 		}
-		if (defaultDataSource == null) {
-			if (shardDataSourceList.get(0) instanceof TransactionAwareDataSourceProxy) {
-				this.defaultDataSource = ((TransactionAwareDataSourceProxy) shardDataSourceList.get(0)).getTargetDataSource();
-			}
-			else {
-				defaultDataSource = shardDataSources.get(0);
-			}
-		}
+
+		// DataSource不能为空
+		// if (defaultDataSource == null) {
+		// if (shardDataSourceList.get(0) instanceof TransactionAwareDataSourceProxy) {
+		// this.defaultDataSource = ((TransactionAwareDataSourceProxy) shardDataSourceList.get(0)).getTargetDataSource();
+		// }
+		// else {
+		// defaultDataSource = shardDataSources.get(0);
+		// }
+		// }
 
 		this.defaultSqlSessionFactory = buildSqlSessionFactory(getDefaultDataSource());
-		if (getShardDataSources() != null && getShardDataSources().size() > 0) {
-			shardSqlSessionFactory = new LinkedHashMap<String, SqlSessionFactory>(getShardDataSources().size());
-			for (Entry<String, DataSource> entry : getShardDataSources().entrySet()) {
+
+		if (MapUtils.isNotEmpty(shardDataSources)) {
+			shardSqlSessionFactory = new LinkedHashMap<String, SqlSessionFactory>(shardDataSources.size());
+			for (Entry<String, DataSource> entry : shardDataSources.entrySet()) {
 				shardSqlSessionFactory.put(entry.getKey(), buildSqlSessionFactory(entry.getValue()));
 			}
 		}
 
-		if (shardStrategyConfig != null) {
+		if (MapUtils.isNotEmpty(shardStrategyConfig)) {
 			shardStrategyMap = new HashMap<String, ShardStrategy>();
 			for (Map.Entry<String, Class<?>> entry : shardStrategyConfig.entrySet()) {
 				Class<?> clazz = entry.getValue();
 				if (!ShardStrategy.class.isAssignableFrom(clazz)) {
-					throw new IllegalArgumentException("class " + clazz.getName() + " is illegal, subclass of ShardStrategy is required.");
+					throw new IllegalArgumentException("Class " + clazz.getName() + " is illegal, subClass of ShardStrategy is required.");
 				}
+
 				try {
 					shardStrategyMap.put(entry.getKey(), (ShardStrategy) (entry.getValue().newInstance()));
 				}
 				catch (Exception e) {
-					throw new RuntimeException("new instance for class " + clazz.getName() + " failed, error:" + e.getMessage());
+					throw new RuntimeException(e.getMessage());
 				}
 			}
-			shardStrategyConfig = null;
 		}
 	}
 
