@@ -3,7 +3,7 @@ package com.vipshop.mybatis.strategy;
 import javax.sql.DataSource;
 
 /**
- * 不分表策�?
+ * 不分表策略
  * 
  * @author Anders
  * 

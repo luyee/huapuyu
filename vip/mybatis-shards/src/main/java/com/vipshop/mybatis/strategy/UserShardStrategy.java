@@ -1,11 +1,10 @@
-package com.vipshop.mybatis.shard;
+package com.vipshop.mybatis.strategy;
 
 import java.util.Map;
 
 import javax.sql.DataSource;
 
 import com.vipshop.mybatis.common.ShardParam;
-import com.vipshop.mybatis.strategy.ShardStrategy;
 
 public class UserShardStrategy extends ShardStrategy {
 

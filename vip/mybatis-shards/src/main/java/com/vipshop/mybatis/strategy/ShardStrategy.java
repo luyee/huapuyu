@@ -7,7 +7,7 @@ import javax.sql.DataSource;
 import com.vipshop.mybatis.common.ShardParam;
 
 /**
- * 分表策略抽象�?
+ * 分表策略抽象类
  * 
  * @author Anders
  * 
