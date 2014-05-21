@@ -3,6 +3,7 @@ package com.vipshop.mybatis.spring;
 import static org.springframework.util.Assert.notNull;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -13,6 +14,8 @@ import javax.sql.DataSource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.mapping.Environment;
@@ -20,21 +23,20 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.NestedIOException;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
-import org.springframework.util.ObjectUtils;
 
 import com.vipshop.mybatis.converter.DefaultSqlConverter;
 import com.vipshop.mybatis.converter.SqlConverter;
-import com.vipshop.mybatis.plugin.ShardPlugin;
 import com.vipshop.mybatis.strategy.ShardStrategy;
 
 /**
@@ -175,36 +177,116 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 	}
 
 	private SqlSessionFactory buildSqlSessionFactory(DataSource dataSource) throws IOException {
-		ShardPlugin plugin = new ShardPlugin();
-		plugin.setSqlConverter(sqlConverter);
+		Configuration configuration;
 
-		Configuration configuration = null;
-		SpringManagedTransactionFactory transactionFactory = null;
+		XMLConfigBuilder xmlConfigBuilder = null;
+		if (this.configLocation != null) {
+			xmlConfigBuilder = new XMLConfigBuilder(this.configLocation.getInputStream(), null, this.configurationProperties);
+			configuration = xmlConfigBuilder.getConfiguration();
+		}
+		else {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Property 'configLocation' not specified, using default MyBatis Configuration");
+			}
+			configuration = new Configuration();
+			configuration.setVariables(this.configurationProperties);
+		}
 
-		configuration = new Configuration();
-		configuration.addInterceptor(plugin);
+		if (this.objectFactory != null) {
+			configuration.setObjectFactory(this.objectFactory);
+		}
 
-		transactionFactory = new SpringManagedTransactionFactory(dataSource);
+		if (this.objectWrapperFactory != null) {
+			configuration.setObjectWrapperFactory(this.objectWrapperFactory);
+		}
 
-		Environment environment = new Environment(SqlSessionFactoryBean.class.getSimpleName(), transactionFactory, dataSource);
+		if (hasLength(this.typeAliasesPackage)) {
+			String[] typeAliasPackageArray = tokenizeToStringArray(this.typeAliasesPackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
+			for (String packageToScan : typeAliasPackageArray) {
+				configuration.getTypeAliasRegistry().registerAliases(packageToScan, typeAliasesSuperType == null ? Object.class : typeAliasesSuperType);
+				if (logger.isDebugEnabled()) {
+					logger.debug("Scanned package: '" + packageToScan + "' for aliases");
+				}
+			}
+		}
+
+		if (!isEmpty(this.typeAliases)) {
+			for (Class<?> typeAlias : this.typeAliases) {
+				configuration.getTypeAliasRegistry().registerAlias(typeAlias);
+				if (logger.isDebugEnabled()) {
+					logger.debug("Registered type alias: '" + typeAlias + "'");
+				}
+			}
+		}
+
+		if (!isEmpty(this.plugins)) {
+			for (Interceptor plugin : this.plugins) {
+				configuration.addInterceptor(plugin);
+				if (logger.isDebugEnabled()) {
+					logger.debug("Registered plugin: '" + plugin + "'");
+				}
+			}
+		}
+
+		if (hasLength(this.typeHandlersPackage)) {
+			String[] typeHandlersPackageArray = tokenizeToStringArray(this.typeHandlersPackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
+			for (String packageToScan : typeHandlersPackageArray) {
+				configuration.getTypeHandlerRegistry().register(packageToScan);
+				if (logger.isDebugEnabled()) {
+					logger.debug("Scanned package: '" + packageToScan + "' for type handlers");
+				}
+			}
+		}
+
+		if (!isEmpty(this.typeHandlers)) {
+			for (TypeHandler<?> typeHandler : this.typeHandlers) {
+				configuration.getTypeHandlerRegistry().register(typeHandler);
+				if (logger.isDebugEnabled()) {
+					logger.debug("Registered type handler: '" + typeHandler + "'");
+				}
+			}
+		}
+
+		if (xmlConfigBuilder != null) {
+			try {
+				xmlConfigBuilder.parse();
+
+				if (logger.isDebugEnabled()) {
+					logger.debug("Parsed configuration file: '" + this.configLocation + "'");
+				}
+			}
+			catch (Exception ex) {
+				throw new NestedIOException("Failed to parse config resource: " + this.configLocation, ex);
+			}
+			finally {
+				ErrorContext.instance().reset();
+			}
+		}
+
+		if (this.transactionFactory == null) {
+			this.transactionFactory = new SpringManagedTransactionFactory();
+		}
+
+		Environment environment = new Environment(this.environment, this.transactionFactory, dataSource);
 		configuration.setEnvironment(environment);
 
-		if (!ObjectUtils.isEmpty(this.mapperLocations)) {
+		if (this.databaseIdProvider != null) {
+			try {
+				configuration.setDatabaseId(this.databaseIdProvider.getDatabaseId(dataSource));
+			}
+			catch (SQLException e) {
+				throw new NestedIOException("Failed getting a databaseId", e);
+			}
+		}
+
+		if (ArrayUtils.isNotEmpty(this.mapperLocations)) {
 			for (Resource mapperLocation : this.mapperLocations) {
 				if (mapperLocation == null) {
 					continue;
 				}
 
-				String path;
-				if (mapperLocation instanceof ClassPathResource) {
-					path = ((ClassPathResource) mapperLocation).getPath();
-				}
-				else {
-					path = mapperLocation.toString();
-				}
-
 				try {
-					XMLMapperBuilder xmlMapperBuilder = new XMLMapperBuilder(mapperLocation.getInputStream(), configuration, path, configuration.getSqlFragments());
+					XMLMapperBuilder xmlMapperBuilder = new XMLMapperBuilder(mapperLocation.getInputStream(), configuration, mapperLocation.toString(), configuration.getSqlFragments());
 					xmlMapperBuilder.parse();
 				}
 				catch (Exception e) {
@@ -214,23 +296,27 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 					ErrorContext.instance().reset();
 				}
 
-				if (this.logger.isDebugEnabled()) {
-					this.logger.debug("Parsed mapper file: '" + mapperLocation + "'");
+				if (logger.isDebugEnabled()) {
+					logger.debug("Parsed mapper file: '" + mapperLocation + "'");
 				}
 			}
 		}
 		else {
-			if (this.logger.isDebugEnabled()) {
-				this.logger.debug("Property 'mapperLocations' was not specified or no matching resources found");
+			if (logger.isDebugEnabled()) {
+				logger.debug("Property 'mapperLocations' was not specified or no matching resources found");
 			}
 		}
 
-		return new SqlSessionFactoryBuilder().build(configuration);
+		return this.sqlSessionFactoryBuilder.build(configuration);
 	}
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
+	}
+
+	public void setPlugins(Interceptor[] plugins) {
+		this.plugins = plugins;
 	}
 
 }
