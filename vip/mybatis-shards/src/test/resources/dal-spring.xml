@@ -53,7 +53,7 @@
 	</bean>
 
 	<bean id="sqlSessionFactory" class="com.vipshop.mybatis.spring.SqlSessionFactoryBean">
-		<property name="defaultDataSource" ref="dataSource" />
+		<property name="dataSource" ref="dataSource" />
 		<property name="shardDataSourceList">
 			<util:list>
 				<ref bean="dataSource_mysql_1" />

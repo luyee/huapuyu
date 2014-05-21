@@ -1,114 +1,184 @@
 package com.vipshop.mybatis.spring;
 
 import static org.springframework.util.Assert.notNull;
+import static org.springframework.util.ObjectUtils.isEmpty;
+import static org.springframework.util.StringUtils.hasLength;
+import static org.springframework.util.StringUtils.tokenizeToStringArray;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 
 import javax.sql.DataSource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.executor.ErrorContext;
+import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.reflection.factory.ObjectFactory;
+import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.NestedIOException;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 
-import com.vipshop.mybatis.converter.DefaultSqlConverter;
-import com.vipshop.mybatis.converter.SqlConverter;
 import com.vipshop.mybatis.strategy.ShardStrategy;
 
-/**
- * 
- * @author Anders
- * 
- */
-public class SqlSessionFactoryBean implements ApplicationContextAware, MultiDataSourceSupport {
+public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, InitializingBean, ApplicationListener<ApplicationEvent>, ApplicationContextAware {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+	private static final Logger logger = LoggerFactory.getLogger(SqlSessionFactoryBean.class);
 
+	private Resource configLocation;
+
+	private Resource[] mapperLocations;
+
+	private DataSource dataSource;
+
+	private TransactionFactory transactionFactory;
+
+	private Properties configurationProperties;
+
+	private SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
+
+	private SqlSessionFactory sqlSessionFactory;
+
+	private String environment = SqlSessionFactoryBean.class.getSimpleName();
+
+	private boolean failFast;
+
+	private Interceptor[] plugins;
+
+	private TypeHandler<?>[] typeHandlers;
+
+	private String typeHandlersPackage;
+
+	private Class<?>[] typeAliases;
+
+	private String typeAliasesPackage;
+
+	private Class<?> typeAliasesSuperType;
+
+	private DatabaseIdProvider databaseIdProvider;
+
+	private ObjectFactory objectFactory;
+
+	private ObjectWrapperFactory objectWrapperFactory;
+
+	// 新增属性
 	private ApplicationContext applicationContext;
-
-	private DataSource defaultDataSource;
-	private SqlSessionFactory defaultSqlSessionFactory;
+	// private DataSource defaultDataSource;
+	// private SqlSessionFactory defaultSqlSessionFactory;
 	private Map<String, DataSource> shardDataSources;
 	private Map<String, SqlSessionFactory> shardSqlSessionFactory;
 	private List<DataSource> shardDataSourceList;
-
 	private Map<String, ShardStrategy> shardStrategyMap = new HashMap<String, ShardStrategy>();
 	private Map<String, Class<?>> shardStrategyConfig = new HashMap<String, Class<?>>();
-	private SqlConverter sqlConverter = new DefaultSqlConverter();
 
-	private Resource[] mapperLocations;
-	private Interceptor[] plugins;
+	// private SqlConverter sqlConverter = new DefaultSqlConverter();
 
-	// 新添加的属性
-	private SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
-
-	public DataSource getDefaultDataSource() {
-		return defaultDataSource;
+	public void setObjectFactory(ObjectFactory objectFactory) {
+		this.objectFactory = objectFactory;
 	}
 
-	public void setDefaultDataSource(DataSource defaultDataSource) {
-		if (defaultDataSource instanceof TransactionAwareDataSourceProxy) {
-			this.defaultDataSource = ((TransactionAwareDataSourceProxy) defaultDataSource).getTargetDataSource();
-		}
-		else {
-			this.defaultDataSource = defaultDataSource;
-		}
+	public void setObjectWrapperFactory(ObjectWrapperFactory objectWrapperFactory) {
+		this.objectWrapperFactory = objectWrapperFactory;
 	}
 
-	public void setShardDataSourceList(List<DataSource> shardDataSourceList) {
-		this.shardDataSourceList = shardDataSourceList;
+	public DatabaseIdProvider getDatabaseIdProvider() {
+		return databaseIdProvider;
 	}
 
-	public Map<String, DataSource> getShardDataSources() {
-		return shardDataSources;
+	public void setDatabaseIdProvider(DatabaseIdProvider databaseIdProvider) {
+		this.databaseIdProvider = databaseIdProvider;
+	}
+
+	public void setPlugins(Interceptor[] plugins) {
+		this.plugins = plugins;
+	}
+
+	public void setTypeAliasesPackage(String typeAliasesPackage) {
+		this.typeAliasesPackage = typeAliasesPackage;
+	}
+
+	public void setTypeAliasesSuperType(Class<?> typeAliasesSuperType) {
+		this.typeAliasesSuperType = typeAliasesSuperType;
+	}
+
+	public void setTypeHandlersPackage(String typeHandlersPackage) {
+		this.typeHandlersPackage = typeHandlersPackage;
+	}
+
+	public void setTypeHandlers(TypeHandler<?>[] typeHandlers) {
+		this.typeHandlers = typeHandlers;
+	}
+
+	public void setTypeAliases(Class<?>[] typeAliases) {
+		this.typeAliases = typeAliases;
+	}
+
+	public void setFailFast(boolean failFast) {
+		this.failFast = failFast;
+	}
+
+	public void setConfigLocation(Resource configLocation) {
+		this.configLocation = configLocation;
 	}
 
 	public void setMapperLocations(Resource[] mapperLocations) {
 		this.mapperLocations = mapperLocations;
 	}
 
-	public void setShardStrategy(Map<String, Class<?>> shardStrategyMap) {
-		this.shardStrategyConfig = shardStrategyMap;
+	public void setConfigurationProperties(Properties sqlSessionFactoryProperties) {
+		this.configurationProperties = sqlSessionFactoryProperties;
 	}
 
-	public SqlSessionFactory getDefaultSqlSessionFactory() {
-		return defaultSqlSessionFactory;
+	public void setDataSource(DataSource dataSource) {
+		if (dataSource instanceof TransactionAwareDataSourceProxy) {
+			this.dataSource = ((TransactionAwareDataSourceProxy) dataSource).getTargetDataSource();
+		}
+		else {
+			this.dataSource = dataSource;
+		}
 	}
 
-	public Map<String, SqlSessionFactory> getShardSqlSessionFactory() {
-		return shardSqlSessionFactory;
+	public void setSqlSessionFactoryBuilder(SqlSessionFactoryBuilder sqlSessionFactoryBuilder) {
+		this.sqlSessionFactoryBuilder = sqlSessionFactoryBuilder;
 	}
 
-	public Map<String, ShardStrategy> getShardStrategyMap() {
-		return shardStrategyMap;
+	public void setTransactionFactory(TransactionFactory transactionFactory) {
+		this.transactionFactory = transactionFactory;
+	}
+
+	public void setEnvironment(String environment) {
+		this.environment = environment;
 	}
 
 	public void afterPropertiesSet() throws Exception {
-		notNull(defaultDataSource, "Property 'defaultDataSource' is required");
+		notNull(dataSource, "Property 'dataSource' is required");
 		notNull(sqlSessionFactoryBuilder, "Property 'sqlSessionFactoryBuilder' is required");
 		if (CollectionUtils.isNotEmpty(shardDataSourceList) && MapUtils.isEmpty(shardStrategyConfig)) {
 			throw new IllegalArgumentException("Property 'shardStrategy' is required");
@@ -116,13 +186,14 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 
 		// 没有shardDataSourceList也可以，提供最原始的功能
 		// if (CollectionUtils.isEmpty(shardDataSourceList)) {
-		// throw new IllegalArgumentException("Property 'shardDataSourceList' is required");
+		// throw new
+		// IllegalArgumentException("Property 'shardDataSourceList' is required");
 		// }
 
 		if (CollectionUtils.isNotEmpty(shardDataSourceList)) {
 			shardDataSources = new LinkedHashMap<String, DataSource>();
 			// 从Spring容器中获取所有的DataSource
-			// TODO Anders : 此处代码是否要升级
+			// TODO Anders : 此处代码是否要升级？
 			Map<String, DataSource> dataSourceMap = applicationContext.getBeansOfType(DataSource.class);
 			for (Entry<String, DataSource> entry : dataSourceMap.entrySet()) {
 				for (int i = 0; i < shardDataSourceList.size(); i++) {
@@ -141,15 +212,17 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 
 		// DataSource不能为空
 		// if (defaultDataSource == null) {
-		// if (shardDataSourceList.get(0) instanceof TransactionAwareDataSourceProxy) {
-		// this.defaultDataSource = ((TransactionAwareDataSourceProxy) shardDataSourceList.get(0)).getTargetDataSource();
+		// if (shardDataSourceList.get(0) instanceof
+		// TransactionAwareDataSourceProxy) {
+		// this.defaultDataSource = ((TransactionAwareDataSourceProxy)
+		// shardDataSourceList.get(0)).getTargetDataSource();
 		// }
 		// else {
 		// defaultDataSource = shardDataSources.get(0);
 		// }
 		// }
 
-		this.defaultSqlSessionFactory = buildSqlSessionFactory(getDefaultDataSource());
+		this.sqlSessionFactory = buildSqlSessionFactory(dataSource);
 
 		if (MapUtils.isNotEmpty(shardDataSources)) {
 			shardSqlSessionFactory = new LinkedHashMap<String, SqlSessionFactory>(shardDataSources.size());
@@ -176,7 +249,8 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 		}
 	}
 
-	private SqlSessionFactory buildSqlSessionFactory(DataSource dataSource) throws IOException {
+	protected SqlSessionFactory buildSqlSessionFactory(DataSource dataSource) throws IOException {
+
 		Configuration configuration;
 
 		XMLConfigBuilder xmlConfigBuilder = null;
@@ -264,22 +338,23 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 		}
 
 		if (this.transactionFactory == null) {
-			this.transactionFactory = new SpringManagedTransactionFactory();
+			this.transactionFactory = new SpringManagedTransactionFactory(dataSource);
 		}
 
-		Environment environment = new Environment(this.environment, this.transactionFactory, dataSource);
+		Environment environment = new Environment(this.environment, this.transactionFactory, this.dataSource);
 		configuration.setEnvironment(environment);
 
 		if (this.databaseIdProvider != null) {
-			try {
-				configuration.setDatabaseId(this.databaseIdProvider.getDatabaseId(dataSource));
-			}
-			catch (SQLException e) {
-				throw new NestedIOException("Failed getting a databaseId", e);
-			}
+			// TODO Anders Zhu
+			// try {
+			// configuration.setDatabaseId(this.databaseIdProvider.getDatabaseId(this.dataSource));
+			// }
+			// catch (SQLException e) {
+			// throw new NestedIOException("Failed getting a databaseId", e);
+			// }
 		}
 
-		if (ArrayUtils.isNotEmpty(this.mapperLocations)) {
+		if (!isEmpty(this.mapperLocations)) {
 			for (Resource mapperLocation : this.mapperLocations) {
 				if (mapperLocation == null) {
 					continue;
@@ -310,13 +385,86 @@ public class SqlSessionFactoryBean implements ApplicationContextAware, MultiData
 		return this.sqlSessionFactoryBuilder.build(configuration);
 	}
 
+	public SqlSessionFactory getObject() throws Exception {
+		if (this.sqlSessionFactory == null) {
+			afterPropertiesSet();
+		}
+
+		return this.sqlSessionFactory;
+	}
+
+	public Class<? extends SqlSessionFactory> getObjectType() {
+		return this.sqlSessionFactory == null ? SqlSessionFactory.class : this.sqlSessionFactory.getClass();
+	}
+
+	public boolean isSingleton() {
+		return true;
+	}
+
+	public void onApplicationEvent(ApplicationEvent event) {
+		if (failFast && event instanceof ContextRefreshedEvent) {
+			this.sqlSessionFactory.getConfiguration().getMappedStatementNames();
+		}
+	}
+
+	public DataSource getDataSource() {
+		return dataSource;
+	}
+
+	public Map<String, DataSource> getShardDataSources() {
+		return shardDataSources;
+	}
+
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}
 
-	public void setPlugins(Interceptor[] plugins) {
-		this.plugins = plugins;
+	public List<DataSource> getShardDataSourceList() {
+		return shardDataSourceList;
 	}
 
+	public void setShardDataSourceList(List<DataSource> shardDataSourceList) {
+		this.shardDataSourceList = shardDataSourceList;
+	}
+
+	public Map<String, Class<?>> getShardStrategyConfig() {
+		return shardStrategyConfig;
+	}
+
+	public void setShardStrategyConfig(Map<String, Class<?>> shardStrategyConfig) {
+		this.shardStrategyConfig = shardStrategyConfig;
+	}
+
+	public SqlSessionFactory getSqlSessionFactory() {
+		return sqlSessionFactory;
+	}
+
+	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
+		this.sqlSessionFactory = sqlSessionFactory;
+	}
+
+	public Map<String, SqlSessionFactory> getShardSqlSessionFactory() {
+		return shardSqlSessionFactory;
+	}
+
+	public void setShardSqlSessionFactory(Map<String, SqlSessionFactory> shardSqlSessionFactory) {
+		this.shardSqlSessionFactory = shardSqlSessionFactory;
+	}
+
+	public Map<String, ShardStrategy> getShardStrategyMap() {
+		return shardStrategyMap;
+	}
+
+	public void setShardStrategyMap(Map<String, ShardStrategy> shardStrategyMap) {
+		this.shardStrategyMap = shardStrategyMap;
+	}
+
+	public void setShardStrategy(Map<String, Class<?>> shardStrategyMap) {
+		this.shardStrategyConfig = shardStrategyMap;
+	}
 }

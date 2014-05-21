@@ -25,7 +25,7 @@ public class UserShardStrategy extends ShardStrategy {
 		else if (param > 200) {
 			return map.get("dataSource_mysql_2");
 		}
-		return getDefaultDataSource();
+		return getDataSource();
 	}
 
 	@Override

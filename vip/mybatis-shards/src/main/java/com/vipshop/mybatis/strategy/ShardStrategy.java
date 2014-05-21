@@ -14,17 +14,17 @@ import com.vipshop.mybatis.common.ShardParam;
  */
 public abstract class ShardStrategy {
 
-	private static final ThreadLocal<DataSource> defaultDataSource = new ThreadLocal<DataSource>();
+	private static final ThreadLocal<DataSource> dataSource = new ThreadLocal<DataSource>();
 	private static final ThreadLocal<Map<String, DataSource>> shardDataSources = new ThreadLocal<Map<String, DataSource>>();
 	private static final ThreadLocal<String> sql = new ThreadLocal<String>();
 	private static final ThreadLocal<ShardParam> shardParam = new ThreadLocal<ShardParam>();
 
-	public DataSource getDefaultDataSource() {
-		return defaultDataSource.get();
+	public DataSource getDataSource() {
+		return dataSource.get();
 	}
 
-	public void setDefaultDataSource(DataSource defaultDataSource) {
-		ShardStrategy.defaultDataSource.set(defaultDataSource);
+	public void setDataSource(DataSource dataSource) {
+		ShardStrategy.dataSource.set(dataSource);
 	}
 
 	public Map<String, DataSource> getShardDataSources() {

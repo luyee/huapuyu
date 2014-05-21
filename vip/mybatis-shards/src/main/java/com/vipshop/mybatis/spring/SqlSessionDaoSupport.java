@@ -51,7 +51,7 @@ public abstract class SqlSessionDaoSupport implements InitializingBean {
 		sqlSessionFactoryBean.afterPropertiesSet();
 		//
 		dataSourceMap = new LinkedHashMap<DataSource, SqlSessionTemplate>();
-		dataSourceMap.put(sqlSessionFactoryBean.getDefaultDataSource(), new SqlSessionTemplate(sqlSessionFactoryBean.getDefaultSqlSessionFactory()));
+		dataSourceMap.put(sqlSessionFactoryBean.getDataSource(), new SqlSessionTemplate(sqlSessionFactoryBean.getSqlSessionFactory()));
 
 		Map<String, DataSource> shardDataSources = sqlSessionFactoryBean.getShardDataSources();
 		if (shardDataSources != null) {
@@ -67,27 +67,27 @@ public abstract class SqlSessionDaoSupport implements InitializingBean {
 		@Override
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 			try {
-				DataSource targetDS = sqlSessionFactoryBean.getDefaultDataSource();
+				DataSource targetDS = sqlSessionFactoryBean.getDataSource();
 
 				//
 				if (args == null || args.length == 0) {
 					// 准备事务
 					prepareTx(targetDS);
 					//
-					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDefaultDataSource()), args);
+					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDataSource()), args);
 				}
 				if (!(args[0] instanceof String)) {
 					// 准备事务
 					prepareTx(targetDS);
 					//
-					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDefaultDataSource()), args);
+					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDataSource()), args);
 				}
 				ShardParam shardParam = (args.length > 1 && args[1] instanceof ShardParam) ? (ShardParam) args[1] : null;
 				if (shardParam == null) {
 					// 准备事务
 					prepareTx(targetDS);
 					//
-					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDefaultDataSource()), args);
+					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDataSource()), args);
 				}
 				else {
 					args[1] = shardParam.getParams();
@@ -106,11 +106,11 @@ public abstract class SqlSessionDaoSupport implements InitializingBean {
 					shardStrategy = NoShardStrategy.INSTANCE;
 				}
 
-				Configuration configuration = sqlSessionFactoryBean.getDefaultSqlSessionFactory().getConfiguration();
+				Configuration configuration = sqlSessionFactoryBean.getSqlSessionFactory().getConfiguration();
 				MappedStatement mappedStatement = configuration.getMappedStatement(statement);
 				BoundSql boundSql = mappedStatement.getBoundSql(wrapCollection(shardParam.getParams()));
 
-				shardStrategy.setDefaultDataSource(sqlSessionFactoryBean.getDefaultDataSource());
+				shardStrategy.setDataSource(sqlSessionFactoryBean.getDataSource());
 				shardStrategy.setShardDataSources(sqlSessionFactoryBean.getShardDataSources());
 				shardStrategy.setShardParam(shardParam);
 				shardStrategy.setSql(boundSql.getSql());
@@ -120,7 +120,7 @@ public abstract class SqlSessionDaoSupport implements InitializingBean {
 				targetDS = shardStrategy.getTargetDataSource();
 				SqlSessionTemplate sqlSessionTemplate = null;
 				if (targetDS == null || (sqlSessionTemplate = dataSourceMap.get(targetDS)) == null) {
-					targetDS = sqlSessionFactoryBean.getDefaultDataSource();
+					targetDS = sqlSessionFactoryBean.getDataSource();
 					sqlSessionTemplate = dataSourceMap.get(targetDS);
 				}
 
@@ -135,7 +135,7 @@ public abstract class SqlSessionDaoSupport implements InitializingBean {
 		}
 
 		/**
-		 * �?准备事务
+		 * �?准备事务
 		 * 
 		 * @param targetDS
 		 */

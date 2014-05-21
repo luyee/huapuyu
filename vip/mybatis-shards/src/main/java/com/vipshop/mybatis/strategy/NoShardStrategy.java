@@ -19,7 +19,7 @@ public class NoShardStrategy extends ShardStrategy {
 
 	@Override
 	public DataSource getTargetDataSource() {
-		return getDefaultDataSource();
+		return getDataSource();
 	}
 
 }
