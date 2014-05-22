@@ -48,13 +48,10 @@ public class MultiDataSourceTransactionManager extends AbstractPlatformTransacti
 		String[] names = beanFactory.getBeanDefinitionNames();
 		if (names != null) {
 			for (String name : names) {
-				//
 				BeanDefinition beanDef = beanFactory.getBeanDefinition(name);
 				if (beanDef != null) {
 					if (replaceAdviceClass.getName().equals(beanDef.getBeanClassName())) {
-						//
 						logger.warn("advice " + replaceAdviceClass + " is replaced by " + newAdviceClass);
-						//
 						beanDef.setBeanClassName(newAdviceClass.getName());
 					}
 				}

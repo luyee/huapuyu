@@ -29,7 +29,6 @@ public class ShardParam {
 	}
 
 	public ShardParam(String name, Object shardValue, Object params) {
-		super();
 		this.name = name;
 		this.shardValue = shardValue;
 		this.params = params;
