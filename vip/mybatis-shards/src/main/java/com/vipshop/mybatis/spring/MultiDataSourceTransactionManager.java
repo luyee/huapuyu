@@ -32,7 +32,7 @@ public class MultiDataSourceTransactionManager extends AbstractPlatformTransacti
 	private static final Logger logger = LoggerFactory.getLogger(MultiDataSourceTransactionManager.class);
 
 	private Class<?> replaceAdviceClass = TransactionInterceptor.class;
-	private Class<?> newAdviceClass = ExtTransactionInterceptor.class;
+	private Class<?> newAdviceClass = TransactionInterceptorExt.class;
 	private AtomicBoolean replaced = new AtomicBoolean();
 
 	public MultiDataSourceTransactionManager() {
