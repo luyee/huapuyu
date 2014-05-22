@@ -5,11 +5,13 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
 /**
- * @Description: 事务信息包装�?
- * @author Kolor
- * @date 2012-8-3 下午2:07:47
+ * 事务信息包装类
+ * 
+ * @author Anders
+ * 
  */
 public class TransactionInfoWrap {
+
 	private final PlatformTransactionManager transactionManager;
 
 	private final TransactionAttribute transactionAttribute;
@@ -18,8 +20,7 @@ public class TransactionInfoWrap {
 
 	private TransactionStatus transactionStatus;
 
-	public TransactionInfoWrap(PlatformTransactionManager transactionManager,
-			TransactionAttribute transactionAttribute, String joinpointIdentification) {
+	public TransactionInfoWrap(PlatformTransactionManager transactionManager, TransactionAttribute transactionAttribute, String joinpointIdentification) {
 		this.transactionManager = transactionManager;
 		this.transactionAttribute = transactionAttribute;
 		this.joinpointIdentification = joinpointIdentification;
@@ -33,27 +34,20 @@ public class TransactionInfoWrap {
 		return this.transactionAttribute;
 	}
 
-	/**
-	 * Return a String representation of this joinpoint (usually a Method call) for use in logging.
-	 */
 	public String getJoinpointIdentification() {
 		return this.joinpointIdentification;
 	}
 
-	public void newTransactionStatus(TransactionStatus status) {
-		this.transactionStatus = status;
+	public void setTransactionStatus(TransactionStatus transactionStatus) {
+		this.transactionStatus = transactionStatus;
 	}
 
 	public TransactionStatus getTransactionStatus() {
 		return this.transactionStatus;
 	}
 
-	/**
-	 * Return whether a transaction was created by this aspect, or whether we just have a placeholder to keep
-	 * ThreadLocal stack integrity.
-	 */
 	public boolean hasTransaction() {
-		return (this.transactionStatus != null);
+		return this.transactionStatus != null;
 	}
 
 	@Override

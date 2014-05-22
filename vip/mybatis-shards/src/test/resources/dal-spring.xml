@@ -54,7 +54,7 @@
 
 	<bean id="sqlSessionFactory" class="com.vipshop.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="shardDataSourceList">
+		<property name="shardDataSources">
 			<util:list>
 				<ref bean="dataSource_mysql_1" />
 				<ref bean="dataSource_mysql_2" />
@@ -65,7 +65,7 @@
 				<value>classpath:mybatis/user-mapper.xml</value>
 			</array>
 		</property>
-		<property name="shardStrategy">
+		<property name="shardStrategies">
 			<map>
 				<entry key="shard_user">
 					<value>com.vipshop.mybatis.strategy.UserShardStrategy</value>
@@ -80,7 +80,10 @@
 	</bean>
 	
     <bean id="shardPlugin" class="com.vipshop.mybatis.plugin.ShardPlugin">
+    	<property name="sqlConverter" ref="sqlConverter" />
 	</bean>
+	
+	<bean id="sqlConverter" class="com.vipshop.mybatis.converter.DefaultSqlConverter" />
 
 	<bean id="userDao" class="com.vipshop.mybatis.dao.impl.UserDaoImpl">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />

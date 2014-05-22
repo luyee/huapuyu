@@ -9,79 +9,74 @@ import javax.sql.DataSource;
 
 import org.springframework.transaction.TransactionStatus;
 
-/**
- * @Description: 事务处理相关数据持有�?
- * @author Kolor
- * @date 2012-8-3 下午1:54:29
- */
 public class TransactionHolder {
-	private static ThreadLocal<Map<DataSource, LinkedList<TransactionInfoWrap>>> tranTreeHolder = new ThreadLocal<Map<DataSource, LinkedList<TransactionInfoWrap>>>();
-	private static ThreadLocal<DataSource> dsHolder = new ThreadLocal<DataSource>();
-	private static ThreadLocal<TransactionInfoWrap> txInfoHolder = new ThreadLocal<TransactionInfoWrap>();
-	private static ThreadLocal<Map<TransactionStatus, DataSource>> statusDSHolder = new ThreadLocal<Map<TransactionStatus, DataSource>>();
+	private static ThreadLocal<Map<DataSource, LinkedList<TransactionInfoWrap>>> DS2TREE_HOLDER = new ThreadLocal<Map<DataSource, LinkedList<TransactionInfoWrap>>>();
+	private static ThreadLocal<DataSource> DS_HOLDER = new ThreadLocal<DataSource>();
+	private static ThreadLocal<TransactionInfoWrap> INFO_HOLDER = new ThreadLocal<TransactionInfoWrap>();
+	private static ThreadLocal<Map<TransactionStatus, DataSource>> STATUS2DS_HOLDER = new ThreadLocal<Map<TransactionStatus, DataSource>>();
 
-	static void addStatusDS(TransactionStatus status, DataSource ds) {
-		Map<TransactionStatus, DataSource> map = statusDSHolder.get();
+	static void addStatus2DataSource(TransactionStatus status, DataSource dataSource) {
+		Map<TransactionStatus, DataSource> map = STATUS2DS_HOLDER.get();
 		if (map == null) {
 			map = new HashMap<TransactionStatus, DataSource>();
-			statusDSHolder.set(map);
+			STATUS2DS_HOLDER.set(map);
 		}
-		//
-		map.put(status, ds);
+
+		map.put(status, dataSource);
 	}
 
-	static DataSource removeStatusDS(TransactionStatus status) {
-		Map<TransactionStatus, DataSource> map = statusDSHolder.get();
+	static DataSource removeStatus2DataSource(TransactionStatus status) {
+		Map<TransactionStatus, DataSource> map = STATUS2DS_HOLDER.get();
 		if (map != null) {
 			DataSource ds = map.remove(status);
 			if (map.isEmpty()) {
-				statusDSHolder.remove();
+				STATUS2DS_HOLDER.remove();
 			}
 			return ds;
 		}
 		return null;
 	}
 
-	static void setDataSource(DataSource ds) {
-		dsHolder.set(ds);
+	static void setDataSource(DataSource dataSource) {
+		DS_HOLDER.set(dataSource);
 	}
 
 	public static DataSource getDataSource() {
-		return dsHolder.get();
+		return DS_HOLDER.get();
 	}
 
-	static void addTxInfo2Tree(DataSource ds, TransactionInfoWrap txInfo) {
-		Map<DataSource, LinkedList<TransactionInfoWrap>> map = tranTreeHolder.get();
+	static void addTxInfo2Tree(DataSource dataSource, TransactionInfoWrap transactionInfoWrap) {
+		Map<DataSource, LinkedList<TransactionInfoWrap>> map = DS2TREE_HOLDER.get();
 		if (map == null) {
 			map = new LinkedHashMap<DataSource, LinkedList<TransactionInfoWrap>>();
-			tranTreeHolder.set(map);
+			DS2TREE_HOLDER.set(map);
 		}
-		//
-		LinkedList<TransactionInfoWrap> subTree = map.get(ds);
-		if (subTree == null) {
-			subTree = new LinkedList<TransactionInfoWrap>();
-			map.put(ds, subTree);
+
+		LinkedList<TransactionInfoWrap> txTree = map.get(dataSource);
+		if (txTree == null) {
+			txTree = new LinkedList<TransactionInfoWrap>();
+			map.put(dataSource, txTree);
 		}
-		//
-		subTree.add(txInfo);
+
+		txTree.add(transactionInfoWrap);
 	}
 
-	static Map<DataSource, LinkedList<TransactionInfoWrap>> getTxTree() {
-		return tranTreeHolder.get();
+	static Map<DataSource, LinkedList<TransactionInfoWrap>> getDataSource2TxTree() {
+		return DS2TREE_HOLDER.get();
 	}
 
-	static void setTransactionInfo(TransactionInfoWrap txInfo) {
-		txInfoHolder.set(txInfo);
+	static void setTransactionInfoWrap(TransactionInfoWrap transactionInfoWrap) {
+		INFO_HOLDER.set(transactionInfoWrap);
 	}
 
-	static TransactionInfoWrap getTransactionInfo() {
-		return txInfoHolder.get();
+	static TransactionInfoWrap getTransactionInfoWrap() {
+		return INFO_HOLDER.get();
 	}
 
 	static void clearAll() {
-		tranTreeHolder.remove();
-		dsHolder.remove();
-		txInfoHolder.remove();
-		statusDSHolder.remove();
+		DS2TREE_HOLDER.remove();
+		DS_HOLDER.remove();
+		INFO_HOLDER.remove();
+		STATUS2DS_HOLDER.remove();
 	}
 }

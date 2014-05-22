@@ -27,11 +27,6 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 import com.vipshop.mybatis.util.ReflectionUtils;
 
-/**
- * @Description: 多数据库事务管理实现�?
- * @author Kolor
- * @date 2012-8-2 下午4:16:16
- */
 public class MultiDataSourceTransactionManager extends AbstractPlatformTransactionManager implements ResourceTransactionManager, InitializingBean, BeanFactoryPostProcessor {
 	private static final long serialVersionUID = -5155071464588415023L;
 	private static final Logger logger = LoggerFactory.getLogger(MultiDataSourceTransactionManager.class);
@@ -40,11 +35,6 @@ public class MultiDataSourceTransactionManager extends AbstractPlatformTransacti
 	private Class<?> newAdviceClass = ExtTransactionInterceptor.class;
 	private AtomicBoolean replaced = new AtomicBoolean();
 
-	/**
-	 * Create a new DataSourceTransactionManager instance. A DataSource has to be set to be able to use it.
-	 * 
-	 * @see #setDataSource
-	 */
 	public MultiDataSourceTransactionManager() {
 		setNestedTransactionAllowed(true);
 	}
@@ -82,9 +72,6 @@ public class MultiDataSourceTransactionManager extends AbstractPlatformTransacti
 		return txObject;
 	}
 
-	/**
-	 * This implementation sets the isolation level but ignores the timeout.
-	 */
 	@Override
 	protected void doBegin(Object transaction, TransactionDefinition definition) {
 		DataSourceTransactionObject txObject = (DataSourceTransactionObject) transaction;
@@ -224,9 +211,6 @@ public class MultiDataSourceTransactionManager extends AbstractPlatformTransacti
 		txObject.getConnectionHolder().clear();
 	}
 
-	/**
-	 * DataSource transaction object, representing a ConnectionHolder. Used as transaction object by DataSourceTransactionManager.
-	 */
 	private static class DataSourceTransactionObject extends JdbcTransactionObjectSupport {
 
 		private boolean newConnectionHolder;

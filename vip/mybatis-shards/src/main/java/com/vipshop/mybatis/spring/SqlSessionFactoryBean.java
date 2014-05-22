@@ -6,6 +6,7 @@ import static org.springframework.util.StringUtils.hasLength;
 import static org.springframework.util.StringUtils.tokenizeToStringArray;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,7 +35,6 @@ import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -48,7 +48,7 @@ import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 
 import com.vipshop.mybatis.strategy.ShardStrategy;
 
-public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, InitializingBean, ApplicationListener<ApplicationEvent>, ApplicationContextAware {
+public class SqlSessionFactoryBean implements /* FactoryBean<SqlSessionFactory>, */InitializingBean, ApplicationListener<ApplicationEvent>, ApplicationContextAware {
 
 	private static final Logger logger = LoggerFactory.getLogger(SqlSessionFactoryBean.class);
 
@@ -90,15 +90,11 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
 	// 新增属性
 	private ApplicationContext applicationContext;
-	// private DataSource defaultDataSource;
-	// private SqlSessionFactory defaultSqlSessionFactory;
-	private Map<String, DataSource> shardDataSources;
-	private Map<String, SqlSessionFactory> shardSqlSessionFactory;
-	private List<DataSource> shardDataSourceList;
+	private Map<String, DataSource> shardDataSourceMap;
+	private Map<String, SqlSessionFactory> shardSqlSessionFactoryMap;
 	private Map<String, ShardStrategy> shardStrategyMap = new HashMap<String, ShardStrategy>();
-	private Map<String, Class<?>> shardStrategyConfig = new HashMap<String, Class<?>>();
-
-	// private SqlConverter sqlConverter = new DefaultSqlConverter();
+	private List<DataSource> shardDataSources;
+	private Map<String, Class<?>> shardStrategies = new HashMap<String, Class<?>>();
 
 	public void setObjectFactory(ObjectFactory objectFactory) {
 		this.objectFactory = objectFactory;
@@ -180,31 +176,31 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 	public void afterPropertiesSet() throws Exception {
 		notNull(dataSource, "Property 'dataSource' is required");
 		notNull(sqlSessionFactoryBuilder, "Property 'sqlSessionFactoryBuilder' is required");
-		if (CollectionUtils.isNotEmpty(shardDataSourceList) && MapUtils.isEmpty(shardStrategyConfig)) {
-			throw new IllegalArgumentException("Property 'shardStrategy' is required");
+		if (CollectionUtils.isNotEmpty(shardDataSources) && MapUtils.isEmpty(shardStrategies)) {
+			throw new IllegalArgumentException("Property 'shardStrategies' is required");
 		}
 
 		// 没有shardDataSourceList也可以，提供最原始的功能
 		// if (CollectionUtils.isEmpty(shardDataSourceList)) {
 		// throw new
-		// IllegalArgumentException("Property 'shardDataSourceList' is required");
+		// IllegalArgumentException("Property 'shardDataSources' is required");
 		// }
 
-		if (CollectionUtils.isNotEmpty(shardDataSourceList)) {
-			shardDataSources = new LinkedHashMap<String, DataSource>();
+		if (CollectionUtils.isNotEmpty(shardDataSources)) {
+			shardDataSourceMap = new LinkedHashMap<String, DataSource>();
 			// 从Spring容器中获取所有的DataSource
 			// TODO Anders : 此处代码是否要升级？
 			Map<String, DataSource> dataSourceMap = applicationContext.getBeansOfType(DataSource.class);
 			for (Entry<String, DataSource> entry : dataSourceMap.entrySet()) {
-				for (int i = 0; i < shardDataSourceList.size(); i++) {
-					DataSource ds = shardDataSourceList.get(i);
+				for (int i = 0; i < shardDataSources.size(); i++) {
+					DataSource ds = shardDataSources.get(i);
 
 					if (entry.getValue() == ds) {
 						DataSource dataSource = entry.getValue();
 						if (dataSource instanceof TransactionAwareDataSourceProxy) {
 							dataSource = ((TransactionAwareDataSourceProxy) dataSource).getTargetDataSource();
 						}
-						shardDataSources.put(entry.getKey(), dataSource);
+						shardDataSourceMap.put(entry.getKey(), dataSource);
 					}
 				}
 			}
@@ -224,16 +220,16 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 
 		this.sqlSessionFactory = buildSqlSessionFactory(dataSource);
 
-		if (MapUtils.isNotEmpty(shardDataSources)) {
-			shardSqlSessionFactory = new LinkedHashMap<String, SqlSessionFactory>(shardDataSources.size());
-			for (Entry<String, DataSource> entry : shardDataSources.entrySet()) {
-				shardSqlSessionFactory.put(entry.getKey(), buildSqlSessionFactory(entry.getValue()));
+		if (MapUtils.isNotEmpty(shardDataSourceMap)) {
+			shardSqlSessionFactoryMap = new LinkedHashMap<String, SqlSessionFactory>(shardDataSourceMap.size());
+			for (Entry<String, DataSource> entry : shardDataSourceMap.entrySet()) {
+				shardSqlSessionFactoryMap.put(entry.getKey(), buildSqlSessionFactory(entry.getValue()));
 			}
 		}
 
-		if (MapUtils.isNotEmpty(shardStrategyConfig)) {
+		if (MapUtils.isNotEmpty(shardStrategies)) {
 			shardStrategyMap = new HashMap<String, ShardStrategy>();
-			for (Map.Entry<String, Class<?>> entry : shardStrategyConfig.entrySet()) {
+			for (Map.Entry<String, Class<?>> entry : shardStrategies.entrySet()) {
 				Class<?> clazz = entry.getValue();
 				if (!ShardStrategy.class.isAssignableFrom(clazz)) {
 					throw new IllegalArgumentException("Class " + clazz.getName() + " is illegal, subClass of ShardStrategy is required.");
@@ -338,20 +334,19 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 		}
 
 		if (this.transactionFactory == null) {
-			this.transactionFactory = new SpringManagedTransactionFactory(dataSource);
+			this.transactionFactory = new SpringManagedTransactionFactory();
 		}
 
-		Environment environment = new Environment(this.environment, this.transactionFactory, this.dataSource);
+		Environment environment = new Environment(this.environment, this.transactionFactory, dataSource);
 		configuration.setEnvironment(environment);
 
 		if (this.databaseIdProvider != null) {
-			// TODO Anders Zhu
-			// try {
-			// configuration.setDatabaseId(this.databaseIdProvider.getDatabaseId(this.dataSource));
-			// }
-			// catch (SQLException e) {
-			// throw new NestedIOException("Failed getting a databaseId", e);
-			// }
+			try {
+				configuration.setDatabaseId(this.databaseIdProvider.getDatabaseId(dataSource));
+			}
+			catch (SQLException e) {
+				throw new NestedIOException("Failed getting a databaseId", e);
+			}
 		}
 
 		if (!isEmpty(this.mapperLocations)) {
@@ -385,34 +380,40 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 		return this.sqlSessionFactoryBuilder.build(configuration);
 	}
 
-	public SqlSessionFactory getObject() throws Exception {
-		if (this.sqlSessionFactory == null) {
-			afterPropertiesSet();
-		}
+	// @Override
+	// public SqlSessionFactory getObject() throws Exception {
+	// if (this.sqlSessionFactory == null) {
+	// afterPropertiesSet();
+	// }
+	//
+	// return this.sqlSessionFactory;
+	// }
 
-		return this.sqlSessionFactory;
-	}
+	// @Override
+	// public Class<? extends SqlSessionFactory> getObjectType() {
+	// return this.sqlSessionFactory == null ? SqlSessionFactory.class : this.sqlSessionFactory.getClass();
+	// }
 
-	public Class<? extends SqlSessionFactory> getObjectType() {
-		return this.sqlSessionFactory == null ? SqlSessionFactory.class : this.sqlSessionFactory.getClass();
-	}
+	// public boolean isSingleton() {
+	// return true;
+	// }
 
-	public boolean isSingleton() {
-		return true;
-	}
-
+	// TODO Anders Zhu : 此处考虑升级
+	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (failFast && event instanceof ContextRefreshedEvent) {
 			this.sqlSessionFactory.getConfiguration().getMappedStatementNames();
 		}
 	}
 
+	// 新增方法
+
 	public DataSource getDataSource() {
 		return dataSource;
 	}
 
-	public Map<String, DataSource> getShardDataSources() {
-		return shardDataSources;
+	public Map<String, DataSource> getShardDataSourceMap() {
+		return shardDataSourceMap;
 	}
 
 	public ApplicationContext getApplicationContext() {
@@ -424,47 +425,36 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
 		this.applicationContext = applicationContext;
 	}
 
-	public List<DataSource> getShardDataSourceList() {
-		return shardDataSourceList;
+	public List<DataSource> getShardDataSources() {
+		return shardDataSources;
 	}
 
-	public void setShardDataSourceList(List<DataSource> shardDataSourceList) {
-		this.shardDataSourceList = shardDataSourceList;
+	public void setShardDataSources(List<DataSource> shardDataSources) {
+		this.shardDataSources = shardDataSources;
 	}
 
-	public Map<String, Class<?>> getShardStrategyConfig() {
-		return shardStrategyConfig;
+	public Map<String, Class<?>> getShardStrategies() {
+		return shardStrategies;
 	}
 
-	public void setShardStrategyConfig(Map<String, Class<?>> shardStrategyConfig) {
-		this.shardStrategyConfig = shardStrategyConfig;
+	public void setShardStrategies(Map<String, Class<?>> shardStrategies) {
+		this.shardStrategies = shardStrategies;
 	}
 
 	public SqlSessionFactory getSqlSessionFactory() {
 		return sqlSessionFactory;
 	}
 
-	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
-		this.sqlSessionFactory = sqlSessionFactory;
-	}
-
-	public Map<String, SqlSessionFactory> getShardSqlSessionFactory() {
-		return shardSqlSessionFactory;
-	}
-
-	public void setShardSqlSessionFactory(Map<String, SqlSessionFactory> shardSqlSessionFactory) {
-		this.shardSqlSessionFactory = shardSqlSessionFactory;
+	public Map<String, SqlSessionFactory> getShardSqlSessionFactoryMap() {
+		return shardSqlSessionFactoryMap;
 	}
 
 	public Map<String, ShardStrategy> getShardStrategyMap() {
 		return shardStrategyMap;
 	}
 
-	public void setShardStrategyMap(Map<String, ShardStrategy> shardStrategyMap) {
-		this.shardStrategyMap = shardStrategyMap;
+	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
+		this.sqlSessionFactory = sqlSessionFactory;
 	}
 
-	public void setShardStrategy(Map<String, Class<?>> shardStrategyMap) {
-		this.shardStrategyConfig = shardStrategyMap;
-	}
 }

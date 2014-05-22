@@ -1,5 +1,7 @@
 package com.vipshop.mybatis.spring;
 
+import static org.springframework.util.Assert.notNull;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -12,13 +14,16 @@ import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.springframework.beans.factory.InitializingBean;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DaoSupport;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
@@ -26,7 +31,8 @@ import com.vipshop.mybatis.common.ShardParam;
 import com.vipshop.mybatis.strategy.NoShardStrategy;
 import com.vipshop.mybatis.strategy.ShardStrategy;
 
-public abstract class SqlSessionDaoSupport implements InitializingBean {
+public abstract class SqlSessionDaoSupport extends DaoSupport {
+
 	private SqlSessionFactoryBean sqlSessionFactoryBean;
 
 	private Map<DataSource, SqlSessionTemplate> dataSourceMap;
@@ -47,16 +53,22 @@ public abstract class SqlSessionDaoSupport implements InitializingBean {
 	}
 
 	@Override
-	public final void afterPropertiesSet() throws Exception {
-		sqlSessionFactoryBean.afterPropertiesSet();
-		//
+	protected void checkDaoConfig() throws IllegalArgumentException {
+		notNull(this.sqlSession, "Property 'sqlSessionFactory' or 'sqlSessionTemplate' are required");
+	}
+
+	@Override
+	protected void initDao() throws Exception {
+		// TODO Anders Zhu 这个可以没有
+		// sqlSessionFactoryBean.afterPropertiesSet();
+
 		dataSourceMap = new LinkedHashMap<DataSource, SqlSessionTemplate>();
 		dataSourceMap.put(sqlSessionFactoryBean.getDataSource(), new SqlSessionTemplate(sqlSessionFactoryBean.getSqlSessionFactory()));
 
-		Map<String, DataSource> shardDataSources = sqlSessionFactoryBean.getShardDataSources();
-		if (shardDataSources != null) {
+		Map<String, DataSource> shardDataSources = sqlSessionFactoryBean.getShardDataSourceMap();
+		if (MapUtils.isNotEmpty(shardDataSources)) {
 			for (Entry<String, DataSource> entry : shardDataSources.entrySet()) {
-				SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getShardSqlSessionFactory().get(entry.getKey());
+				SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getShardSqlSessionFactoryMap().get(entry.getKey());
 				dataSourceMap.put(entry.getValue(), new SqlSessionTemplate(sqlSessionFactory));
 			}
 		}
@@ -67,33 +79,26 @@ public abstract class SqlSessionDaoSupport implements InitializingBean {
 		@Override
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 			try {
-				DataSource targetDS = sqlSessionFactoryBean.getDataSource();
+				DataSource targetDataSource = sqlSessionFactoryBean.getDataSource();
 
-				//
-				if (args == null || args.length == 0) {
-					// 准备事务
-					prepareTx(targetDS);
-					//
+				// args第一个参数为MyBatis statement，第二个参数为方法参数
+				if (ArrayUtils.isEmpty(args)) {
+					prepareTx(targetDataSource);
 					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDataSource()), args);
 				}
 				if (!(args[0] instanceof String)) {
-					// 准备事务
-					prepareTx(targetDS);
-					//
+					prepareTx(targetDataSource);
 					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDataSource()), args);
 				}
 				ShardParam shardParam = (args.length > 1 && args[1] instanceof ShardParam) ? (ShardParam) args[1] : null;
 				if (shardParam == null) {
-					// 准备事务
-					prepareTx(targetDS);
-					//
+					prepareTx(targetDataSource);
 					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDataSource()), args);
 				}
 				else {
 					args[1] = shardParam.getParams();
 				}
 
-				//
 				String statement;
 				String shardStrategyName;
 				ShardStrategy shardStrategy;
@@ -111,21 +116,20 @@ public abstract class SqlSessionDaoSupport implements InitializingBean {
 				BoundSql boundSql = mappedStatement.getBoundSql(wrapCollection(shardParam.getParams()));
 
 				shardStrategy.setDataSource(sqlSessionFactoryBean.getDataSource());
-				shardStrategy.setShardDataSources(sqlSessionFactoryBean.getShardDataSources());
+				shardStrategy.setShardDataSources(sqlSessionFactoryBean.getShardDataSourceMap());
 				shardStrategy.setShardParam(shardParam);
 				shardStrategy.setSql(boundSql.getSql());
-				//
+
 				StrategyHolder.setShardStrategy(shardStrategy);
-				// 重新指定目标DataSource
-				targetDS = shardStrategy.getTargetDataSource();
+
+				targetDataSource = shardStrategy.getTargetDataSource();
 				SqlSessionTemplate sqlSessionTemplate = null;
-				if (targetDS == null || (sqlSessionTemplate = dataSourceMap.get(targetDS)) == null) {
-					targetDS = sqlSessionFactoryBean.getDataSource();
-					sqlSessionTemplate = dataSourceMap.get(targetDS);
+				if (targetDataSource == null || (sqlSessionTemplate = dataSourceMap.get(targetDataSource)) == null) {
+					targetDataSource = sqlSessionFactoryBean.getDataSource();
+					sqlSessionTemplate = dataSourceMap.get(targetDataSource);
 				}
 
-				// 准备事务
-				prepareTx(targetDS);
+				prepareTx(targetDataSource);
 
 				return method.invoke(sqlSessionTemplate, args);
 			}
@@ -135,47 +139,51 @@ public abstract class SqlSessionDaoSupport implements InitializingBean {
 		}
 
 		/**
-		 * �?准备事务
+		 * 准备事务
 		 * 
-		 * @param targetDS
+		 * @param dataSource
 		 */
-		private void prepareTx(DataSource targetDS) {
-			//
-			TransactionHolder.setDataSource(targetDS);
+		private void prepareTx(DataSource dataSource) {
+			TransactionHolder.setDataSource(dataSource);
 
-			// for transaction
-			TransactionInfoWrap txInfo = TransactionHolder.getTransactionInfo();
-			if (txInfo != null) {
-				TransactionAttribute attr = txInfo.getTransactionAttribute();
-				if (attr != null) {
-					createTxIfAbsent(targetDS, txInfo);
+			TransactionInfoWrap transactionInfoWrap = TransactionHolder.getTransactionInfoWrap();
+			if (transactionInfoWrap != null) {
+				TransactionAttribute transactionAttribute = transactionInfoWrap.getTransactionAttribute();
+				if (transactionAttribute != null) {
+					createTxIfAbsent(dataSource, transactionInfoWrap);
 				}
 			}
 		}
 
 		/**
-		 * 如果不存在则创建事务
+		 * 不存在则创建事务
+		 * 
+		 * @param dataSource
+		 * @param transactionInfoWrap
+		 */
+		private void createTxIfAbsent(DataSource dataSource, TransactionInfoWrap transactionInfoWrap) {
+			Map<DataSource, LinkedList<TransactionInfoWrap>> ds2TxTree = TransactionHolder.getDataSource2TxTree();
+			if (ds2TxTree == null || !ds2TxTree.containsKey(dataSource)) {
+				createTx(dataSource, transactionInfoWrap);
+			}
+		}
+
+		/**
+		 * 创建事务
 		 * 
 		 * @param targetDS
 		 * @param txInfo
 		 */
-		private void createTxIfAbsent(DataSource targetDS, TransactionInfoWrap txInfo) {
-			Map<DataSource, LinkedList<TransactionInfoWrap>> txTree = TransactionHolder.getTxTree();
-			if (txTree == null || !txTree.containsKey(targetDS)) {
-				createTx(targetDS, txInfo);
-			}
-		}
-
-		private void createTx(DataSource targetDS, TransactionInfoWrap txInfo) {
-			TransactionStatus txStatus = txInfo.getTransactionManager().getTransaction(txInfo.getTransactionAttribute());
+		private void createTx(DataSource dataSource, TransactionInfoWrap transactionInfoWrap) {
+			TransactionStatus transactionStatus = transactionInfoWrap.getTransactionManager().getTransaction(transactionInfoWrap.getTransactionAttribute());
 			// txStatus = new TransactionStatusWrap((DefaultTransactionStatus)
 			// txStatus);
-			TransactionHolder.addStatusDS(txStatus, targetDS);
-			//
-			TransactionInfoWrap txInfoCopy = txInfo.newCopy();
-			txInfoCopy.newTransactionStatus(txStatus);
-			//
-			TransactionHolder.addTxInfo2Tree(targetDS, txInfoCopy);
+			TransactionHolder.addStatus2DataSource(transactionStatus, dataSource);
+
+			TransactionInfoWrap txInfoCopy = transactionInfoWrap.newCopy();
+			txInfoCopy.setTransactionStatus(transactionStatus);
+
+			TransactionHolder.addTxInfo2Tree(dataSource, txInfoCopy);
 		}
 
 		private Object wrapCollection(final Object object) {

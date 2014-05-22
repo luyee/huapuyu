@@ -12,8 +12,17 @@ public class ShardParam {
 
 	public static final ShardParam NO_SHARD = new ShardParam();
 
+	/*
+	 * XML中配置的分片策略器的name
+	 */
 	private String name;
+	/*
+	 * 分片字段的值
+	 */
 	private Object shardValue;
+	/*
+	 * MyBatis方法的参数
+	 */
 	private Object params;
 
 	public ShardParam() {
