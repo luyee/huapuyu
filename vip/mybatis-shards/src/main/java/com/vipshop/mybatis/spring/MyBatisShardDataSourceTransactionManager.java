@@ -27,15 +27,17 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 import com.vipshop.mybatis.util.ReflectionUtils;
 
-public class MultiDataSourceTransactionManager extends AbstractPlatformTransactionManager implements ResourceTransactionManager, InitializingBean, BeanFactoryPostProcessor {
+public class MyBatisShardDataSourceTransactionManager extends AbstractPlatformTransactionManager implements ResourceTransactionManager, InitializingBean, BeanFactoryPostProcessor {
+	
 	private static final long serialVersionUID = -5155071464588415023L;
-	private static final Logger logger = LoggerFactory.getLogger(MultiDataSourceTransactionManager.class);
+	
+	private static final Logger logger = LoggerFactory.getLogger(MyBatisShardDataSourceTransactionManager.class);
 
 	private Class<?> replaceAdviceClass = TransactionInterceptor.class;
 	private Class<?> newAdviceClass = TransactionInterceptorExt.class;
 	private AtomicBoolean replaced = new AtomicBoolean();
 
-	public MultiDataSourceTransactionManager() {
+	public MyBatisShardDataSourceTransactionManager() {
 		setNestedTransactionAllowed(true);
 	}
 
