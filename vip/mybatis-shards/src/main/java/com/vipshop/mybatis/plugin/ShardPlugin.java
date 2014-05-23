@@ -1,9 +1,11 @@
 package com.vipshop.mybatis.plugin;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.util.Properties;
 
 import org.apache.ibatis.executor.statement.StatementHandler;
+import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
@@ -11,9 +13,9 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ReflectionUtils;
 
 import com.vipshop.mybatis.converter.SqlConverter;
-import com.vipshop.mybatis.util.ReflectionUtils;
 
 /**
  * 分表插件
@@ -53,7 +55,11 @@ public class ShardPlugin implements Interceptor {
 		}
 
 		if (!sql.equals(targetSql)) {
-			ReflectionUtils.setFieldValue(statementHandler.getBoundSql(), "sql", targetSql);
+			// ReflectionUtils.setFieldValue(statementHandler.getBoundSql(),
+			// "sql", targetSql);
+			Field field = BoundSql.class.getDeclaredField("sql");
+			ReflectionUtils.makeAccessible(field);
+			ReflectionUtils.setField(field, statementHandler.getBoundSql(), targetSql);
 		}
 
 		return invocation.proceed();

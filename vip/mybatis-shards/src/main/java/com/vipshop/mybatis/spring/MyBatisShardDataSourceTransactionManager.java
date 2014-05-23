@@ -16,7 +16,7 @@
 
 package com.vipshop.mybatis.spring;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -43,10 +43,11 @@ import org.springframework.transaction.support.DefaultTransactionStatus;
 import org.springframework.transaction.support.ResourceTransactionManager;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.Assert;
-
-import com.vipshop.mybatis.util.ReflectionUtils;
+import org.springframework.util.ReflectionUtils;
 
 /**
+ * MyBatis和JDBC共用DataSourceTransactionManager，所以MyBatisShardDataSourceTransactionManager基本上参考DataSourceTransactionManager源代码（{@link org.springframework.jdbc.datasource.DataSourceTransactionManager}），
+ * DataSourceTransactionManager依赖DataSource进行事务管理，MyBatisShardDataSourceTransactionManager对这部分代码进行了修改，DataSource从TransactionHolder中获取（{@link com.vipshop.mybatis.spring.TransactionHolder}）。
  * {@link org.springframework.transaction.PlatformTransactionManager}
  * implementation for a single JDBC {@link javax.sql.DataSource}. This class is
  * capable of working in any environment with any JDBC driver, as long as the setup
@@ -237,14 +238,17 @@ private static final long serialVersionUID = 2820946650703387354L;
 		// txObject.getConnectionHolder().isTransactionActive());
 
 		if (txObject.getConnectionHolder() != null) {
+			boolean isTransactionActive;
 			try {
-				boolean isTransactionActive = (Boolean) ReflectionUtils
-						.invokeMethod(txObject.getConnectionHolder(),
-								"isTransactionActive", new Class[] {},
-								new Object[] {});
+				Method method = ConnectionHolder.class.getDeclaredMethod("isTransactionActive", new Class[] {});
+				ReflectionUtils.makeAccessible(method);
+				isTransactionActive = (Boolean) ReflectionUtils.invokeMethod(method, txObject.getConnectionHolder(), new Object[] {});
 				return isTransactionActive;
 			}
-			catch (InvocationTargetException e) {
+			catch (SecurityException e) {
+				throw new RuntimeException(e);
+			}
+			catch (NoSuchMethodException e) {
 				throw new RuntimeException(e);
 			}
 		}
@@ -290,8 +294,10 @@ private static final long serialVersionUID = 2820946650703387354L;
 				}
 				con.setAutoCommit(false);
 			}
-//			txObject.getConnectionHolder().setTransactionActive(true);
-			ReflectionUtils.invokeMethod(txObject.getConnectionHolder(), "setTransactionActive", new Class[] { boolean.class }, new Object[] { true });
+			// txObject.getConnectionHolder().setTransactionActive(true);
+			Method method = ConnectionHolder.class.getDeclaredMethod("setTransactionActive", new Class[] { boolean.class });
+			ReflectionUtils.makeAccessible(method);
+			ReflectionUtils.invokeMethod(method, txObject.getConnectionHolder(), new Object[] { true });
 
 
 			int timeout = determineTimeout(definition);

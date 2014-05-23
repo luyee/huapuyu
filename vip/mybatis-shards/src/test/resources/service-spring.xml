@@ -25,12 +25,12 @@
 		<property name="fileEncoding" value="UTF-8" />
 	</bean>
 	
-	<bean id="userService" class="com.vipshop.mybatis.service.impl.UserServiceImpl" />
-	
 	<!-- 事务配置 -->
-	<bean name="userTransactionManager" class="com.vipshop.mybatis.spring.MultiDataSourceTransactionManager"/>
+	<bean name="transactionManager" class="com.vipshop.mybatis.spring.MyBatisShardDataSourceTransactionManager"/>
+	
+	<bean id="userService" class="com.vipshop.mybatis.service.impl.UserServiceImpl" />
 
-	<tx:advice id="userTxAdvice" transaction-manager="userTransactionManager">
+	<tx:advice id="userTxAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="*" propagation="NOT_SUPPORTED" />
 		</tx:attributes>
