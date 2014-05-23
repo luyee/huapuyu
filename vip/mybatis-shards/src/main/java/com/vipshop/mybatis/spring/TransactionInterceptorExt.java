@@ -30,6 +30,9 @@ import java.io.Serializable;
 import java.util.Properties;
 
 /**
+ * 代码内容和TransactionInterceptor完全一致({@link org.springframework.transaction.interceptor.TransactionInterceptor})，
+ * TransactionInterceptor继承了TransactionAspectSupport({@link org.springframework.transaction.interceptor.TransactionAspectSupport})，
+ * TransactionInterceptorExt改为继承自定义的TransactionAspectSupportExt({@link com.vipshop.mybatis.spring.TransactionAspectSupportExt})。
  * AOP Alliance MethodInterceptor for declarative transaction
  * management using the common Spring transaction infrastructure
  * ({@link org.springframework.transaction.PlatformTransactionManager}).

@@ -254,7 +254,7 @@ public abstract class TransactionAspectSupportExt implements BeanFactoryAware, I
 		if (txAttr == null || !(tm instanceof CallbackPreferringPlatformTransactionManager)) {
 			// Standard transaction demarcation with getTransaction and commit/rollback calls.
 			// TransactionInfo txInfo = createTransactionIfNecessary(tm, txAttr, joinpointIdentification);
-			holdTransactionDef(tm, txAttr, joinpointIdentification);
+			holdTransactionInfo(tm, txAttr, joinpointIdentification);
 			Object retVal = null;
 			try {
 				// This is an around advice: Invoke the next interceptor in the chain.
@@ -279,7 +279,7 @@ public abstract class TransactionAspectSupportExt implements BeanFactoryAware, I
 					@Override
 					public Object doInTransaction(TransactionStatus status) {
 						// TransactionInfo txInfo = prepareTransactionInfo(tm, txAttr, joinpointIdentification, status);
-						holdTransactionDef(tm, txAttr, joinpointIdentification);
+						holdTransactionInfo(tm, txAttr, joinpointIdentification);
 						try {
 							return invocation.proceedWithInvocation();
 						}
@@ -659,6 +659,7 @@ public abstract class TransactionAspectSupportExt implements BeanFactoryAware, I
 		}
 	}
 
+	// 参考了阿里的Corba
 	private void prepareCommitOrRollback(TransactionInfoWrap txInfoWrap) {
 		DefaultTransactionStatus status = (DefaultTransactionStatus) txInfoWrap.getTransactionStatus();
 		if (!TransactionSynchronizationManager.isSynchronizationActive() && status.isNewSynchronization()) {
@@ -669,7 +670,6 @@ public abstract class TransactionAspectSupportExt implements BeanFactoryAware, I
 			TransactionSynchronizationManager.setCurrentTransactionName(definition.getName());
 			TransactionSynchronizationManager.initSynchronization();
 		}
-
 		TransactionHolder.setDataSource(TransactionHolder.removeStatus2DataSource(status));
 	}
 
@@ -685,11 +685,9 @@ public abstract class TransactionAspectSupportExt implements BeanFactoryAware, I
 
 				while (it.hasNext()) {
 					TransactionInfoWrap txInfoWrap = it.next();
-
 					TransactionInfo txInfo = new TransactionInfo(txInfoWrap.getTransactionManager(), txInfoWrap.getTransactionAttribute(), txInfoWrap.getJoinpointIdentification());
 					txInfo.newTransactionStatus(txInfoWrap.getTransactionStatus());
 					prepareCommitOrRollback(txInfoWrap);
-
 					commitTransactionAfterReturning(txInfo);
 				}
 			}
@@ -704,7 +702,6 @@ public abstract class TransactionAspectSupportExt implements BeanFactoryAware, I
 
 				while (it.hasNext()) {
 					TransactionInfoWrap txInfoWrap = it.next();
-
 					TransactionInfo txInfo = new TransactionInfo(txInfoWrap.getTransactionManager(), txInfoWrap.getTransactionAttribute(), txInfoWrap.getJoinpointIdentification());
 					txInfo.newTransactionStatus(txInfoWrap.getTransactionStatus());
 					prepareCommitOrRollback(txInfoWrap);
@@ -729,7 +726,7 @@ public abstract class TransactionAspectSupportExt implements BeanFactoryAware, I
 		return true;
 	}
 
-	private void holdTransactionDef(PlatformTransactionManager tm, TransactionAttribute txAttr, final String joinpointIdentification) {
+	private void holdTransactionInfo(PlatformTransactionManager tm, TransactionAttribute txAttr, final String joinpointIdentification) {
 		if (txAttr != null && txAttr.getName() == null) {
 			txAttr = new DelegatingTransactionAttribute(txAttr) {
 				private static final long serialVersionUID = -4048722540573517964L;

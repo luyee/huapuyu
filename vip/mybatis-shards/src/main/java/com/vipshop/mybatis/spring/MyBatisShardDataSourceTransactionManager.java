@@ -119,7 +119,7 @@ import org.springframework.util.ReflectionUtils;
 public class MyBatisShardDataSourceTransactionManager extends AbstractPlatformTransactionManager
 		implements ResourceTransactionManager, /*InitializingBean,*/ BeanFactoryPostProcessor {
 
-private static final long serialVersionUID = 2820946650703387354L;
+	private static final long serialVersionUID = 2820946650703387354L;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MyBatisShardDataSourceTransactionManager.class);
 	

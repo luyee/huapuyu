@@ -9,6 +9,12 @@ import javax.sql.DataSource;
 
 import org.springframework.transaction.TransactionStatus;
 
+/**
+ * 事务信息、数据源、事务状态Holder
+ * 
+ * @author Anders
+ * 
+ */
 public class TransactionHolder {
 	private static ThreadLocal<Map<DataSource, LinkedList<TransactionInfoWrap>>> DS2TREE_HOLDER = new ThreadLocal<Map<DataSource, LinkedList<TransactionInfoWrap>>>();
 	private static ThreadLocal<DataSource> DS_HOLDER = new ThreadLocal<DataSource>();

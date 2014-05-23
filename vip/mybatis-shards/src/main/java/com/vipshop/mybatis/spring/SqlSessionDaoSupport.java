@@ -74,6 +74,11 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 		}
 	}
 
+	/**
+	 * 此Handler并没有做相关的事务操作，只是将相关的事务信息保存到ThreadLocal中，具体的事务处理还是由TransactionAspectSupportExt处理
+	 * @author Anders
+	 *
+	 */
 	private class SessionHandler implements InvocationHandler {
 
 		@Override
