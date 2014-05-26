@@ -1,4 +1,4 @@
-package com.vipshop.mybatis.spring;
+package com.vipshop.mybatis.common;
 
 import com.vipshop.mybatis.strategy.ShardStrategy;
 
@@ -16,11 +16,11 @@ public class StrategyHolder {
 		return STRATEGY_HOLDER.get();
 	}
 
-	static void removeShardStrategy() {
+	public static void removeShardStrategy() {
 		STRATEGY_HOLDER.remove();
 	}
 
-	static void setShardStrategy(ShardStrategy shardStrategy) {
+	public static void setShardStrategy(ShardStrategy shardStrategy) {
 		STRATEGY_HOLDER.set(shardStrategy);
 	}
 

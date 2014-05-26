@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.mybatis.spring.config;
+package com.vipshop.mybatis.config;
 
 import java.lang.annotation.Annotation;
 

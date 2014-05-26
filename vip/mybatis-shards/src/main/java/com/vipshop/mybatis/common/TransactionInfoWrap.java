@@ -1,4 +1,4 @@
-package com.vipshop.mybatis.spring;
+package com.vipshop.mybatis.common;
 
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;

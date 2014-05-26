@@ -45,9 +45,11 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
+import com.vipshop.mybatis.common.TransactionHolder;
+
 /**
  * MyBatis和JDBC共用DataSourceTransactionManager，所以MyBatisShardDataSourceTransactionManager基本上参考DataSourceTransactionManager源代码（{@link org.springframework.jdbc.datasource.DataSourceTransactionManager}），
- * DataSourceTransactionManager依赖DataSource进行事务管理，MyBatisShardDataSourceTransactionManager对这部分代码进行了修改，DataSource从TransactionHolder中获取（{@link com.vipshop.mybatis.spring.TransactionHolder}）。
+ * DataSourceTransactionManager依赖DataSource进行事务管理，MyBatisShardDataSourceTransactionManager对这部分代码进行了修改，DataSource从TransactionHolder中获取（{@link com.vipshop.mybatis.common.TransactionHolder}）。
  * {@link org.springframework.transaction.PlatformTransactionManager}
  * implementation for a single JDBC {@link javax.sql.DataSource}. This class is
  * capable of working in any environment with any JDBC driver, as long as the setup

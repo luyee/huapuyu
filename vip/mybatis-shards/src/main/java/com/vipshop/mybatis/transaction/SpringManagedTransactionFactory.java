@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.mybatis.spring.transaction;
+package com.vipshop.mybatis.transaction;
 
 import java.sql.Connection;
 import java.util.Properties;

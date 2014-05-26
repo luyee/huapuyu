@@ -52,6 +52,9 @@ import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.StringUtils;
 
+import com.vipshop.mybatis.common.TransactionHolder;
+import com.vipshop.mybatis.common.TransactionInfoWrap;
+
 /**
  * Base class for transactional aspects, such as the {@link TransactionInterceptor} or an AspectJ aspect.
  * 

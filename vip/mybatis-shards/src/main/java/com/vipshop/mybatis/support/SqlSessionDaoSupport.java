@@ -1,4 +1,4 @@
-package com.vipshop.mybatis.spring;
+package com.vipshop.mybatis.support;
 
 import static org.springframework.util.Assert.notNull;
 
@@ -27,7 +27,11 @@ import org.springframework.dao.support.DaoSupport;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
+import com.vipshop.mybatis.SqlSessionFactoryBean;
 import com.vipshop.mybatis.common.ShardParam;
+import com.vipshop.mybatis.common.StrategyHolder;
+import com.vipshop.mybatis.common.TransactionHolder;
+import com.vipshop.mybatis.common.TransactionInfoWrap;
 import com.vipshop.mybatis.strategy.NoShardStrategy;
 import com.vipshop.mybatis.strategy.ShardStrategy;
 

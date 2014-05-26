@@ -3,7 +3,7 @@ package com.vipshop.mybatis.converter;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.springframework.stereotype.Component;
 
-import com.vipshop.mybatis.spring.StrategyHolder;
+import com.vipshop.mybatis.common.StrategyHolder;
 import com.vipshop.mybatis.strategy.NoShardStrategy;
 import com.vipshop.mybatis.strategy.ShardStrategy;
 

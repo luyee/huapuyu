@@ -1,4 +1,4 @@
-package com.vipshop.mybatis.spring;
+package com.vipshop.mybatis;
 
 import static org.springframework.util.Assert.notNull;
 import static org.springframework.util.ObjectUtils.isEmpty;

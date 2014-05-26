@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.mybatis.spring;
+package com.vipshop.mybatis;
 
 import static java.lang.reflect.Proxy.newProxyInstance;
 import static org.apache.ibatis.reflection.ExceptionUtil.unwrapThrowable;

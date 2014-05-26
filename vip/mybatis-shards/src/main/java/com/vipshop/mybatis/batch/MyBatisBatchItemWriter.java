@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.mybatis.spring.batch;
+package com.vipshop.mybatis.batch;
 
 import static org.springframework.util.Assert.isTrue;
 import static org.springframework.util.Assert.notNull;
