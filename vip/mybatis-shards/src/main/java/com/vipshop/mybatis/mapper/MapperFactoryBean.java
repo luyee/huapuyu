@@ -89,6 +89,10 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
   @Override
   protected void checkDaoConfig() {
     super.checkDaoConfig();
+    
+    if (isDataSourceMapEmpty()) {
+    	initDao();
+    }
 
     notNull(this.mapperInterface, "Property 'mapperInterface' is required");
 

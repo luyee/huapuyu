@@ -188,8 +188,6 @@ public class SqlSessionFactoryBean implements /* FactoryBean<SqlSessionFactory>,
 
 		if (CollectionUtils.isNotEmpty(shardDataSources)) {
 			shardDataSourceMap = new LinkedHashMap<String, DataSource>();
-			// 从Spring容器中获取所有的DataSource
-			// TODO Anders : 此处代码是否要升级？
 			Map<String, DataSource> dataSourceMap = applicationContext.getBeansOfType(DataSource.class);
 			for (Entry<String, DataSource> entry : dataSourceMap.entrySet()) {
 				for (int i = 0; i < shardDataSources.size(); i++) {

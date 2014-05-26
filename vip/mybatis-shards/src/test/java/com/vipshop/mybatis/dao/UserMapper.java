@@ -7,8 +7,10 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.vipshop.mybatis.annotation.MyBatisMapper;
 import com.vipshop.mybatis.bo.User;
 
+@MyBatisMapper
 public interface UserMapper  {
 	@Insert("insert into $[user]$ (id, name) values (#{id}, #{name})")
 	void save(User User);
