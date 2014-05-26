@@ -17,8 +17,6 @@ package com.vipshop.mybatis.config;
 
 import java.lang.annotation.Annotation;
 
-import org.mybatis.spring.mapper.MapperFactoryBean;
-import org.mybatis.spring.mapper.ClassPathMapperScanner;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanNameGenerator;
@@ -28,6 +26,9 @@ import org.springframework.beans.factory.xml.XmlReaderContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
+
+import com.vipshop.mybatis.mapper.ClassPathMapperScanner;
+import com.vipshop.mybatis.mapper.MapperFactoryBean;
 
 /**
  * A {#code BeanDefinitionParser} that handles the element scan of the MyBatis.

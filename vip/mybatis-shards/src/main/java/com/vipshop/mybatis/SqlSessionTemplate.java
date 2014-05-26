@@ -17,9 +17,9 @@ package com.vipshop.mybatis;
 
 import static java.lang.reflect.Proxy.newProxyInstance;
 import static org.apache.ibatis.reflection.ExceptionUtil.unwrapThrowable;
-import static org.mybatis.spring.SqlSessionUtils.closeSqlSession;
-import static org.mybatis.spring.SqlSessionUtils.getSqlSession;
-import static org.mybatis.spring.SqlSessionUtils.isSqlSessionTransactional;
+import static com.vipshop.mybatis.SqlSessionUtils.closeSqlSession;
+import static com.vipshop.mybatis.SqlSessionUtils.getSqlSession;
+import static com.vipshop.mybatis.SqlSessionUtils.isSqlSessionTransactional;
 import static org.springframework.util.Assert.notNull;
 
 import java.lang.reflect.InvocationHandler;

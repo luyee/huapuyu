@@ -19,9 +19,10 @@ import static org.springframework.util.Assert.notNull;
 
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.session.Configuration;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.FactoryBean;
+
+import com.vipshop.mybatis.SqlSessionTemplate;
+import com.vipshop.mybatis.support.SqlSessionDaoSupport;
 
 /**
  * BeanFactory that enables injection of MyBatis mapper interfaces. It can be set up with a

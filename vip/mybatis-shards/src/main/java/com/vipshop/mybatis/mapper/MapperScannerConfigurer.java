@@ -21,7 +21,6 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.PropertyValues;
@@ -40,6 +39,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.util.StringUtils;
+
+import com.vipshop.mybatis.SqlSessionTemplate;
 
 /**
  * BeanDefinitionRegistryPostProcessor that searches recursively starting from a base package for

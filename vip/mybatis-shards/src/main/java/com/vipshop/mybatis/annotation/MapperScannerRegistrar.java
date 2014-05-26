@@ -19,8 +19,6 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mybatis.spring.mapper.ClassPathMapperScanner;
-import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
@@ -31,6 +29,9 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
+
+import com.vipshop.mybatis.mapper.ClassPathMapperScanner;
+import com.vipshop.mybatis.mapper.MapperFactoryBean;
 
 /**
  * A {@link ImportBeanDefinitionRegistrar} to allow annotation configuration of

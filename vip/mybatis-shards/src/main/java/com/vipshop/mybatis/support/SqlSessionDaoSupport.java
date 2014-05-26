@@ -21,13 +21,13 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DaoSupport;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
 import com.vipshop.mybatis.SqlSessionFactoryBean;
+import com.vipshop.mybatis.SqlSessionTemplate;
 import com.vipshop.mybatis.common.ShardParam;
 import com.vipshop.mybatis.common.StrategyHolder;
 import com.vipshop.mybatis.common.TransactionHolder;

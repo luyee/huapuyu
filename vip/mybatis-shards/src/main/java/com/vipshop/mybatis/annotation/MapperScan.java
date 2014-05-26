@@ -22,10 +22,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.mybatis.spring.mapper.MapperFactoryBean;
-import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.annotation.Import;
+
+import com.vipshop.mybatis.mapper.MapperFactoryBean;
+import com.vipshop.mybatis.mapper.MapperScannerConfigurer;
 
 /**
  * Use this annotation to register MyBatis mapper interfaces when using Java

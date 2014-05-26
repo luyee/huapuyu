@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.Set;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
@@ -36,6 +35,8 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.util.StringUtils;
+
+import com.vipshop.mybatis.SqlSessionTemplate;
 
 /**
  * A {@link ClassPathBeanDefinitionScanner} that registers Mappers by

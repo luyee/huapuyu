@@ -24,8 +24,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.batch.item.database.AbstractPagingItemReader;
+
+import com.vipshop.mybatis.SqlSessionTemplate;
 
 /**
  * {@code org.springframework.batch.item.ItemReader} for reading database

@@ -31,7 +31,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.type.TypeHandler;
-import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -47,6 +46,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 
 import com.vipshop.mybatis.strategy.ShardStrategy;
+import com.vipshop.mybatis.transaction.SpringManagedTransactionFactory;
 
 public class SqlSessionFactoryBean implements /* FactoryBean<SqlSessionFactory>, */InitializingBean, ApplicationListener<ApplicationEvent>, ApplicationContextAware {
 
