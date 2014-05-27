@@ -40,6 +40,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
 
+import com.vipshop.mybatis.annotation.MyBatisMapper;
 import com.vipshop.mybatis.bo.User;
 import com.vipshop.mybatis.common.ShardParam;
 import com.vipshop.mybatis.common.SqlSessionFactoryHolder;
@@ -357,12 +358,13 @@ public class SqlSessionTemplate implements SqlSession {
   private class SqlSessionInterceptor implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     	
-    	Annotation[] annotations =  method.getDeclaredAnnotations();
-    	if (ArrayUtils.isEmpty(annotations)) {
+    	MyBatisMapper myBatisMapper =  method.getAnnotation(MyBatisMapper.class);
+    	if (myBatisMapper == null) {
     		throw new RuntimeException("没有配置分片参数");
     	}
     	
-    	
+    	String shardField = myBatisMapper.shardField();
+    	String shardName = myBatisMapper.shardName();
     	
     	 SqlSession sqlSession = null;
     	
