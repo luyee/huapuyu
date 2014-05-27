@@ -30,6 +30,7 @@ import org.springframework.transaction.interceptor.TransactionAttribute;
 import com.vipshop.mybatis.SqlSessionFactoryBean;
 import com.vipshop.mybatis.SqlSessionTemplate;
 import com.vipshop.mybatis.common.ShardParam;
+import com.vipshop.mybatis.common.SqlSessionFactoryHolder;
 import com.vipshop.mybatis.common.StrategyHolder;
 import com.vipshop.mybatis.common.TransactionHolder;
 import com.vipshop.mybatis.common.TransactionInfoWrap;
@@ -43,7 +44,7 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 	private Map<DataSource, SqlSessionTemplate> dataSourceMap;
 
 	private SqlSession sqlSession;
-
+	
 	{
 		sqlSession = (SqlSession) Proxy.newProxyInstance(SqlSessionDaoSupport.class.getClassLoader(), new Class[] { SqlSession.class }, new SessionHandler());
 	}
@@ -78,12 +79,17 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 		if (isDataSourceMapEmpty()) {
 			dataSourceMap = new LinkedHashMap<DataSource, SqlSessionTemplate>();
 			dataSourceMap.put(sqlSessionFactoryBean.getDataSource(), new SqlSessionTemplate(sqlSessionFactoryBean.getSqlSessionFactory()));
+//			SqlSessionFactoryHolder.addDataSource2SqlSessionFactory(sqlSessionFactoryBean.getDataSource(), sqlSessionFactoryBean.getSqlSessionFactory());
+			SqlSessionFactoryHolder.addDataSource2SqlSessionFactory(1L, sqlSessionFactoryBean.getSqlSessionFactory());
 	
 			Map<String, DataSource> shardDataSources = sqlSessionFactoryBean.getShardDataSourceMap();
 			if (MapUtils.isNotEmpty(shardDataSources)) {
+				long i = 2;
 				for (Entry<String, DataSource> entry : shardDataSources.entrySet()) {
 					SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getShardSqlSessionFactoryMap().get(entry.getKey());
 					dataSourceMap.put(entry.getValue(), new SqlSessionTemplate(sqlSessionFactory));
+//					SqlSessionFactoryHolder.addDataSource2SqlSessionFactory(entry.getValue(), sqlSessionFactory);
+					SqlSessionFactoryHolder.addDataSource2SqlSessionFactory(i++, sqlSessionFactory);
 				}
 			}
 		}
@@ -105,11 +111,11 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 
 				// args第一个参数为MyBatis statement，第二个参数为方法参数
 				if (ArrayUtils.isEmpty(args)) {
-					prepareTx(targetDataSource);
+//					prepareTx(targetDataSource);
 					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDataSource()), args);
 				}
 				else if (method.getName().equals("getMapper")) {
-					prepareTx(targetDataSource);
+//					prepareTx(targetDataSource);
 					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDataSource()), args);
 				}
 				

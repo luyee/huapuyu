@@ -22,12 +22,14 @@ import static com.vipshop.mybatis.SqlSessionUtils.getSqlSession;
 import static com.vipshop.mybatis.SqlSessionUtils.isSqlSessionTransactional;
 import static org.springframework.util.Assert.notNull;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.executor.BatchResult;
 import org.apache.ibatis.session.Configuration;
@@ -37,6 +39,10 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
+
+import com.vipshop.mybatis.bo.User;
+import com.vipshop.mybatis.common.ShardParam;
+import com.vipshop.mybatis.common.SqlSessionFactoryHolder;
 
 /**
  * Thread safe, Spring managed, {@code SqlSession} that works with Spring
@@ -127,7 +133,7 @@ public class SqlSessionTemplate implements SqlSession {
 
     notNull(sqlSessionFactory, "Property 'sqlSessionFactory' is required");
     notNull(executorType, "Property 'executorType' is required");
-
+    
     this.sqlSessionFactory = sqlSessionFactory;
     this.executorType = executorType;
     this.exceptionTranslator = exceptionTranslator;
@@ -350,10 +356,41 @@ public class SqlSessionTemplate implements SqlSession {
    */
   private class SqlSessionInterceptor implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-      SqlSession sqlSession = getSqlSession(
-          SqlSessionTemplate.this.sqlSessionFactory,
-          SqlSessionTemplate.this.executorType,
-          SqlSessionTemplate.this.exceptionTranslator);
+    	
+    	Annotation[] annotations =  method.getDeclaredAnnotations();
+    	if (ArrayUtils.isEmpty(annotations)) {
+    		throw new RuntimeException("没有配置分片参数");
+    	}
+    	
+    	
+    	
+    	 SqlSession sqlSession = null;
+    	
+    	User user = (User) args[1];
+    	
+    	if (user.getId() > 100 && user.getId() <= 200) {
+    		 sqlSession = getSqlSession(
+    				SqlSessionFactoryHolder.getDataSource2SqlSessionFactory(2),
+    		          SqlSessionTemplate.this.executorType,
+    		          SqlSessionTemplate.this.exceptionTranslator);
+    	}
+    	else if (user.getId() > 200 && user.getId() <= 300) {
+    		 sqlSession = getSqlSession(
+    				SqlSessionFactoryHolder.getDataSource2SqlSessionFactory(3),
+    		          SqlSessionTemplate.this.executorType,
+    		          SqlSessionTemplate.this.exceptionTranslator);
+    	} else {
+    		  sqlSession = getSqlSession(
+       	          SqlSessionTemplate.this.sqlSessionFactory,
+       	          SqlSessionTemplate.this.executorType,
+       	          SqlSessionTemplate.this.exceptionTranslator);
+    	}
+      
+//      if (ArrayUtils.isNotEmpty(args)) {
+//    	  ShardParam shardParam = new ShardParam(String.valueOf(args[0]), ((User)args[1]).getId(), args[1]);
+//    	  args[1] = shardParam;
+//      }
+      
       try {
         Object result = method.invoke(sqlSession, args);
         if (!isSqlSessionTransactional(sqlSession, SqlSessionTemplate.this.sqlSessionFactory)) {
@@ -361,6 +398,7 @@ public class SqlSessionTemplate implements SqlSession {
           // a commit/rollback before calling close()
           sqlSession.commit(true);
         }
+        
         return result;
       } catch (Throwable t) {
         Throwable unwrapped = unwrapThrowable(t);

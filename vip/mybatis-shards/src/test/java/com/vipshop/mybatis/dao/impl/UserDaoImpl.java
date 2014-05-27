@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import com.vipshop.mybatis.bo.User;
+import com.vipshop.mybatis.common.ShardParam;
 import com.vipshop.mybatis.dao.UserDao;
 import com.vipshop.mybatis.dao.UserMapper;
 

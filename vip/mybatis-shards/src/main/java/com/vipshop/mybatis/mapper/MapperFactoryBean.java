@@ -22,6 +22,7 @@ import org.apache.ibatis.session.Configuration;
 import org.springframework.beans.factory.FactoryBean;
 
 import com.vipshop.mybatis.SqlSessionTemplate;
+import com.vipshop.mybatis.common.SqlSessionFactoryHolder;
 import com.vipshop.mybatis.support.SqlSessionDaoSupport;
 
 /**
@@ -96,7 +97,9 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
 
     notNull(this.mapperInterface, "Property 'mapperInterface' is required");
 
-    Configuration configuration = getSqlSession().getConfiguration();
+    for (int i = 1 ; i < 4 ;i++) {
+    	Configuration configuration = SqlSessionFactoryHolder.getDataSource2SqlSessionFactory(i).getConfiguration();
+//    Configuration configuration = getSqlSession().getConfiguration();
     if (this.addToConfig && !configuration.hasMapper(this.mapperInterface)) {
       try {
         configuration.addMapper(this.mapperInterface);
@@ -106,6 +109,8 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
       } finally {
         ErrorContext.instance().reset();
       }
+    }
+    
     }
   }
 
