@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -80,17 +81,22 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 			dataSourceMap = new LinkedHashMap<DataSource, SqlSessionTemplate>();
 			dataSourceMap.put(sqlSessionFactoryBean.getDataSource(), new SqlSessionTemplate(sqlSessionFactoryBean.getSqlSessionFactory()));
 //			SqlSessionFactoryHolder.addDataSource2SqlSessionFactory(sqlSessionFactoryBean.getDataSource(), sqlSessionFactoryBean.getSqlSessionFactory());
-			SqlSessionFactoryHolder.addDataSource2SqlSessionFactory(1L, sqlSessionFactoryBean.getSqlSessionFactory());
+			SqlSessionFactoryHolder.addDataSourceId2SqlSessionFactory("dataSource", sqlSessionFactoryBean.getSqlSessionFactory());
 	
 			Map<String, DataSource> shardDataSources = sqlSessionFactoryBean.getShardDataSourceMap();
 			if (MapUtils.isNotEmpty(shardDataSources)) {
-				long i = 2;
 				for (Entry<String, DataSource> entry : shardDataSources.entrySet()) {
 					SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getShardSqlSessionFactoryMap().get(entry.getKey());
 					dataSourceMap.put(entry.getValue(), new SqlSessionTemplate(sqlSessionFactory));
 //					SqlSessionFactoryHolder.addDataSource2SqlSessionFactory(entry.getValue(), sqlSessionFactory);
-					SqlSessionFactoryHolder.addDataSource2SqlSessionFactory(i++, sqlSessionFactory);
+					SqlSessionFactoryHolder.addDataSourceId2SqlSessionFactory(entry.getKey(), sqlSessionFactory);
 				}
+			}
+			
+			for (Iterator<String> iterator = sqlSessionFactoryBean.getShardStrategyMap().keySet().iterator(); iterator.hasNext();) {
+				String strategyName = iterator.next();
+				SqlSessionFactoryHolder.addStrategyName2ShardStrategy(strategyName, sqlSessionFactoryBean.getShardStrategyMap().get(strategyName));
+				
 			}
 		}
 	}

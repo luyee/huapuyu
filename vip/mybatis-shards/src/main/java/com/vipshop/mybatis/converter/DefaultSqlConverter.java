@@ -13,9 +13,9 @@ public class DefaultSqlConverter implements SqlConverter {
 	public String convert(String sql, StatementHandler statementHandler) {
 		ShardStrategy strategy = StrategyHolder.getShardStrategy();
 		if (strategy == null || strategy instanceof NoShardStrategy) {
-	    	  return "insert into user_0 (id, name) values (?, ?)";
+//	    	  return "insert into user_0 (id, name) values (?, ?)";
 			
-//			return sql;
+			return sql;
 		}
 		return strategy.getTargetSql();
 	}

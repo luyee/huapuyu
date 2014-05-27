@@ -7,8 +7,8 @@ import java.lang.annotation.Target;
 
 @Target( { ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MyBatisMapper {
-	String shardName() default "";
+public @interface Shard {
+	String name() default "";
 	
-	String shardField() default "";
+	String field() default "";
 }

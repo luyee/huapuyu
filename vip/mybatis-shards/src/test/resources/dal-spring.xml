@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 		
 	<context:annotation-config/>
 	
@@ -57,7 +60,7 @@
 		<property name="connectionTestStatement" value="select 1 from dual" />
 	</bean>
 
-	<bean id="sqlSessionFactory" class="com.vipshop.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory" class="com.vipshop.mybatis.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="shardDataSources">
 			<util:list>
@@ -91,11 +94,12 @@
 	
 	<bean id="sqlConverter" class="com.vipshop.mybatis.converter.DefaultSqlConverter" />
 	
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<bean class="com.vipshop.mybatis.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.vipshop.mybatis.dao" />
+        <property name="annotationClass" value="com.vipshop.mybatis.annotation.Mapper" />
     </bean>
 
-	<bean id="userDao" class="com.vipshop.mybatis.dao.impl.UserDaoImpl">
+	<!-- <bean id="userDao" class="com.vipshop.mybatis.dao.impl.UserDaoImpl">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
+	</bean> -->
 </beans>

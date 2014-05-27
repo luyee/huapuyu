@@ -15,23 +15,24 @@
  */
 package com.vipshop.mybatis;
 
-import static java.lang.reflect.Proxy.newProxyInstance;
-import static org.apache.ibatis.reflection.ExceptionUtil.unwrapThrowable;
 import static com.vipshop.mybatis.SqlSessionUtils.closeSqlSession;
 import static com.vipshop.mybatis.SqlSessionUtils.getSqlSession;
 import static com.vipshop.mybatis.SqlSessionUtils.isSqlSessionTransactional;
+import static java.lang.reflect.Proxy.newProxyInstance;
+import static org.apache.ibatis.reflection.ExceptionUtil.unwrapThrowable;
 import static org.springframework.util.Assert.notNull;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.executor.BatchResult;
+import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.ResultHandler;
@@ -40,10 +41,13 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
 
-import com.vipshop.mybatis.annotation.MyBatisMapper;
+import com.vipshop.mybatis.annotation.Shard;
 import com.vipshop.mybatis.bo.User;
 import com.vipshop.mybatis.common.ShardParam;
 import com.vipshop.mybatis.common.SqlSessionFactoryHolder;
+import com.vipshop.mybatis.common.StrategyHolder;
+import com.vipshop.mybatis.strategy.NoShardStrategy;
+import com.vipshop.mybatis.strategy.ShardStrategy;
 
 /**
  * Thread safe, Spring managed, {@code SqlSession} that works with Spring
@@ -358,35 +362,63 @@ public class SqlSessionTemplate implements SqlSession {
   private class SqlSessionInterceptor implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     	
-    	MyBatisMapper myBatisMapper =  method.getAnnotation(MyBatisMapper.class);
-    	if (myBatisMapper == null) {
-    		throw new RuntimeException("没有配置分片参数");
-    	}
+			String fullName = String.valueOf(args[0]);
+			String className = fullName.substring(0, fullName.lastIndexOf("."));
+			String methodName = fullName.substring(fullName.lastIndexOf(".") + 1, fullName.length());
+
+			Class clazz = Class.forName(className);
+			Method meth = clazz.getMethod(methodName, args[1].getClass());
+
+			String shardField = null;
+			String shardName = null;
+
+			Shard shard = meth.getAnnotation(Shard.class);
+			if (shard == null) {
+				throw new RuntimeException("没有配置分片参数");
+			}
+
+			shardField = shard.field();
+			shardName = shard.name();
+
+			Object shardFieldValue = BeanUtils.getProperty(args[1], shardField);
+			ShardParam shardParam = new ShardParam();
+			shardParam.setName(shardName);
+			shardParam.setShardValue(shardFieldValue);
+			shardParam.setParams(args[1]);
     	
-    	String shardField = myBatisMapper.shardField();
-    	String shardName = myBatisMapper.shardName();
     	
-    	 SqlSession sqlSession = null;
-    	
+			ShardStrategy shardStrategy = SqlSessionFactoryHolder.getStrategyName2ShardStrategy().get(shardName);
+			if (shardStrategy == null) {
+				shardStrategy = NoShardStrategy.INSTANCE;
+			}
+			
+			
+			
     	User user = (User) args[1];
-    	
+    	String dataSourceId = null;
     	if (user.getId() > 100 && user.getId() <= 200) {
-    		 sqlSession = getSqlSession(
-    				SqlSessionFactoryHolder.getDataSource2SqlSessionFactory(2),
-    		          SqlSessionTemplate.this.executorType,
-    		          SqlSessionTemplate.this.exceptionTranslator);
+    		dataSourceId = "dataSource_mysql_1";
     	}
     	else if (user.getId() > 200 && user.getId() <= 300) {
-    		 sqlSession = getSqlSession(
-    				SqlSessionFactoryHolder.getDataSource2SqlSessionFactory(3),
-    		          SqlSessionTemplate.this.executorType,
-    		          SqlSessionTemplate.this.exceptionTranslator);
+    		dataSourceId = "dataSource_mysql_2";
     	} else {
-    		  sqlSession = getSqlSession(
-       	          SqlSessionTemplate.this.sqlSessionFactory,
-       	          SqlSessionTemplate.this.executorType,
-       	          SqlSessionTemplate.this.exceptionTranslator);
+    		dataSourceId = "dataSource";
     	}
+    	
+    	SqlSession sqlSession = getSqlSession(
+     	          SqlSessionFactoryHolder.getDataSourceId2SqlSessionFactory().get(dataSourceId),
+     	          SqlSessionTemplate.this.executorType,
+     	          SqlSessionTemplate.this.exceptionTranslator);
+    	
+    	Configuration configuration = SqlSessionFactoryHolder.getDataSourceId2SqlSessionFactory().get(dataSourceId).getConfiguration();
+		MappedStatement mappedStatement = configuration.getMappedStatement(String.valueOf(args[0]));
+		BoundSql boundSql = mappedStatement.getBoundSql(shardParam.getParams());
+		
+    	shardStrategy.setDataSource(configuration.getEnvironment().getDataSource());
+		shardStrategy.setShardParam(shardParam);
+		shardStrategy.setSql(boundSql.getSql());
+		
+		StrategyHolder.setShardStrategy(shardStrategy);
       
 //      if (ArrayUtils.isNotEmpty(args)) {
 //    	  ShardParam shardParam = new ShardParam(String.valueOf(args[0]), ((User)args[1]).getId(), args[1]);
