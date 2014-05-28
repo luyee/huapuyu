@@ -68,11 +68,11 @@
 				<ref bean="dataSource_mysql_2" />
 			</util:list>
 		</property>
-		<!-- <property name="mapperLocations">
+		<property name="mapperLocations">
 			<array>
 				<value>classpath:mybatis/user-mapper.xml</value>
 			</array>
-		</property> -->
+		</property> 
 		<property name="typeAliasesPackage" value="com.vipshop.mybatis.bo"/>
 		<property name="shardStrategies">
 			<map>
@@ -94,10 +94,10 @@
 	
 	<bean id="sqlConverter" class="com.vipshop.mybatis.converter.DefaultSqlConverter" />
 	
-	<bean class="com.vipshop.mybatis.mapper.MapperScannerConfigurer">
+	<!-- <bean class="com.vipshop.mybatis.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.vipshop.mybatis.dao" />
         <property name="annotationClass" value="com.vipshop.mybatis.annotation.Mapper" />
-    </bean>
+    </bean> -->
 
 	<!-- <bean id="userDao" class="com.vipshop.mybatis.dao.impl.UserDaoImpl">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />

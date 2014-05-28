@@ -97,8 +97,6 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 
 		@Override
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-			System.out.println(this);
-			
 			try {
 				DataSource targetDataSource = sqlSessionFactoryBean.getDataSource();
 
@@ -129,7 +127,7 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 
 				shardStrategy = sqlSessionFactoryBean.getShardStrategyMap().get(shardStrategyName);
 				if (shardStrategy == null) {
-					shardStrategy = NoShardStrategy.INSTANCE;
+					shardStrategy = NoShardStrategy.getInstance();
 				}
 
 				Configuration configuration = sqlSessionFactoryBean.getSqlSessionFactory().getConfiguration();
