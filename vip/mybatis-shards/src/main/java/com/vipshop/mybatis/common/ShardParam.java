@@ -19,7 +19,7 @@ public class ShardParam {
 	/*
 	 * 分片字段的值
 	 */
-	private Object shardValue;
+	private String shardValue;
 	/*
 	 * MyBatis方法的参数
 	 */
@@ -28,7 +28,7 @@ public class ShardParam {
 	public ShardParam() {
 	}
 
-	public ShardParam(String name, Object shardValue, Object params) {
+	public ShardParam(String name, String shardValue, Object params) {
 		this.name = name;
 		this.shardValue = shardValue;
 		this.params = params;
@@ -42,11 +42,11 @@ public class ShardParam {
 		this.name = name;
 	}
 
-	public Object getShardValue() {
+	public String getShardValue() {
 		return shardValue;
 	}
 
-	public void setShardValue(Object shardValue) {
+	public void setShardValue(String shardValue) {
 		this.shardValue = shardValue;
 	}
 

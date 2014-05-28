@@ -10,7 +10,10 @@ import javax.sql.DataSource;
  */
 public class NoShardStrategy extends ShardStrategy {
 
-	public static final NoShardStrategy INSTANCE = new NoShardStrategy();
+	private static final NoShardStrategy INSTANCE = new NoShardStrategy();
+	
+	private NoShardStrategy() {
+	}
 
 	@Override
 	public String getTargetSql() {
@@ -22,4 +25,7 @@ public class NoShardStrategy extends ShardStrategy {
 		return getDataSource();
 	}
 
+	public static NoShardStrategy getInstance() {
+		return INSTANCE;
+	}
 }

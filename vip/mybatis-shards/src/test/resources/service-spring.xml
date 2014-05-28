@@ -26,20 +26,18 @@
 	</bean>
 	
 	<!-- 事务配置 -->
-	<bean name="transactionManager" class="com.vipshop.mybatis.spring.MyBatisShardDataSourceTransactionManager"/>
+	<bean name="transactionManager" class="com.vipshop.mybatis.spring.MyBatisShardDataSourceTransactionManager"/> 
 	
-	<bean id="userService" class="com.vipshop.mybatis.service.impl.UserServiceImpl" />
-
 	<tx:advice id="userTxAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="*" propagation="NOT_SUPPORTED" />
+			<tx:method name="*" propagation="REQUIRED" />
 		</tx:attributes>
 	</tx:advice>
 	
 	<aop:config>
 		<!-- UserService事务管理 -->
 		<aop:pointcut id="userServiceOperation"
-			expression="execution(* com.vipshop.mybatis.service..*Service.*(..))" />
+			expression="execution(* com.vipshop.mybatis.service.impl.UserServiceImpl.*(..))" />
 
 		<aop:advisor advice-ref="userTxAdvice" pointcut-ref="userServiceOperation" />
 	</aop:config>

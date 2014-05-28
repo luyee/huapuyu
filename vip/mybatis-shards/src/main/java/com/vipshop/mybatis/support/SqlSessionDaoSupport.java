@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +18,6 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.ParameterMap;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -31,7 +29,6 @@ import org.springframework.transaction.interceptor.TransactionAttribute;
 import com.vipshop.mybatis.SqlSessionFactoryBean;
 import com.vipshop.mybatis.SqlSessionTemplate;
 import com.vipshop.mybatis.common.ShardParam;
-import com.vipshop.mybatis.common.SqlSessionFactoryHolder;
 import com.vipshop.mybatis.common.StrategyHolder;
 import com.vipshop.mybatis.common.TransactionHolder;
 import com.vipshop.mybatis.common.TransactionInfoWrap;
@@ -68,35 +65,22 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 		return MapUtils.isEmpty(dataSourceMap);
 	}
 	
-	protected boolean isDataSourceMapNotEmpty() {
-		return MapUtils.isNotEmpty(dataSourceMap);
+	public Map<DataSource, SqlSessionTemplate> getDataSourceMap() {
+		return dataSourceMap;
 	}
 
 	@Override
 	protected void initDao() {
-		// TODO Anders Zhu 这个可以没有
-		// sqlSessionFactoryBean.afterPropertiesSet();
-		
 		if (isDataSourceMapEmpty()) {
 			dataSourceMap = new LinkedHashMap<DataSource, SqlSessionTemplate>();
 			dataSourceMap.put(sqlSessionFactoryBean.getDataSource(), new SqlSessionTemplate(sqlSessionFactoryBean.getSqlSessionFactory()));
-//			SqlSessionFactoryHolder.addDataSource2SqlSessionFactory(sqlSessionFactoryBean.getDataSource(), sqlSessionFactoryBean.getSqlSessionFactory());
-			SqlSessionFactoryHolder.addDataSourceId2SqlSessionFactory("dataSource", sqlSessionFactoryBean.getSqlSessionFactory());
 	
 			Map<String, DataSource> shardDataSources = sqlSessionFactoryBean.getShardDataSourceMap();
 			if (MapUtils.isNotEmpty(shardDataSources)) {
 				for (Entry<String, DataSource> entry : shardDataSources.entrySet()) {
 					SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBean.getShardSqlSessionFactoryMap().get(entry.getKey());
 					dataSourceMap.put(entry.getValue(), new SqlSessionTemplate(sqlSessionFactory));
-//					SqlSessionFactoryHolder.addDataSource2SqlSessionFactory(entry.getValue(), sqlSessionFactory);
-					SqlSessionFactoryHolder.addDataSourceId2SqlSessionFactory(entry.getKey(), sqlSessionFactory);
 				}
-			}
-			
-			for (Iterator<String> iterator = sqlSessionFactoryBean.getShardStrategyMap().keySet().iterator(); iterator.hasNext();) {
-				String strategyName = iterator.next();
-				SqlSessionFactoryHolder.addStrategyName2ShardStrategy(strategyName, sqlSessionFactoryBean.getShardStrategyMap().get(strategyName));
-				
 			}
 		}
 	}
@@ -110,20 +94,18 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 
 		@Override
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-			System.out.println(this);
-			
-			try {
+//			try {
 				DataSource targetDataSource = sqlSessionFactoryBean.getDataSource();
 
 				// args第一个参数为MyBatis statement，第二个参数为方法参数
-				if (ArrayUtils.isEmpty(args)) {
-//					prepareTx(targetDataSource);
+//				if (ArrayUtils.isEmpty(args)) {
+					prepareTx(targetDataSource);
 					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDataSource()), args);
-				}
-				else if (method.getName().equals("getMapper")) {
-//					prepareTx(targetDataSource);
-					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDataSource()), args);
-				}
+//				}
+//				else if (method.getName().equals("getMapper")) {
+////					prepareTx(targetDataSource);
+//					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDataSource()), args);
+//				}
 				
 //				if (!(args[0] instanceof String)) {
 //					prepareTx(targetDataSource);
@@ -138,6 +120,7 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 //					args[1] = shardParam.getParams();
 //				}
 
+				/*
 				String statement;
 				String shardStrategyName;
 				ShardStrategy shardStrategy;
@@ -153,8 +136,6 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 
 				Configuration configuration = sqlSessionFactoryBean.getSqlSessionFactory().getConfiguration();
 				MappedStatement mappedStatement = configuration.getMappedStatement(statement);
-				
-				ParameterMap ParameterMap = mappedStatement.getParameterMap();
 				
 				BoundSql boundSql = mappedStatement.getBoundSql(wrapCollection(shardParam.getParams()));
 
@@ -174,11 +155,11 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 
 				prepareTx(targetDataSource);
 				
-				return method.invoke(sqlSessionTemplate, args);
-			}
-			finally {
-				StrategyHolder.removeShardStrategy();
-			}
+				return method.invoke(sqlSessionTemplate, args);*/
+//			}
+//			finally {
+//				StrategyHolder.removeShardStrategy();
+//			}
 		}
 
 		/**

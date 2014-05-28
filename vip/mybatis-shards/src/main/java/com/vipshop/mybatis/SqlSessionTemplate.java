@@ -25,10 +25,16 @@ import static org.springframework.util.Assert.notNull;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.sql.Connection;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.executor.BatchResult;
 import org.apache.ibatis.mapping.BoundSql;
@@ -40,12 +46,17 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.interceptor.TransactionAttribute;
+import org.springframework.util.Assert;
 
 import com.vipshop.mybatis.annotation.Shard;
-import com.vipshop.mybatis.bo.User;
 import com.vipshop.mybatis.common.ShardParam;
 import com.vipshop.mybatis.common.SqlSessionFactoryHolder;
 import com.vipshop.mybatis.common.StrategyHolder;
+import com.vipshop.mybatis.common.TransactionHolder;
+import com.vipshop.mybatis.common.TransactionInfoWrap;
+import com.vipshop.mybatis.exception.MyBatisRuntimeException;
 import com.vipshop.mybatis.strategy.NoShardStrategy;
 import com.vipshop.mybatis.strategy.ShardStrategy;
 
@@ -93,7 +104,7 @@ public class SqlSessionTemplate implements SqlSession {
   private final SqlSession sqlSessionProxy;
 
   private final PersistenceExceptionTranslator exceptionTranslator;
-
+  
   /**
    * Constructs a Spring managed SqlSession with the {@code SqlSessionFactory}
    * provided as an argument.
@@ -360,13 +371,27 @@ public class SqlSessionTemplate implements SqlSession {
    * pass a {@code PersistenceException} to the {@code PersistenceExceptionTranslator}.
    */
   private class SqlSessionInterceptor implements InvocationHandler {
+		/**
+		 * args应该有两个参数，第一个是Mapper方法的方法名，如com.vipshop.***.dao.*Mapper，
+		 * 第二个是Mapper方法的参数
+		 */
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-    	
+			if (ArrayUtils.isEmpty(args)) {
+				throw new IllegalArgumentException("the parameters of "
+						+ method.getName() + " is empty");
+			}
+			if (StringUtils.isBlank(String.valueOf(args[0]))) {
+				throw new IllegalArgumentException(
+						"the name of method is blank");
+			}
+			Assert.notNull(args[1], "the parameter of method is null");
+
 			String fullName = String.valueOf(args[0]);
 			String className = fullName.substring(0, fullName.lastIndexOf("."));
-			String methodName = fullName.substring(fullName.lastIndexOf(".") + 1, fullName.length());
+			String methodName = fullName.substring(
+					fullName.lastIndexOf(".") + 1, fullName.length());
 
-			Class clazz = Class.forName(className);
+			Class<?> clazz = Class.forName(className);
 			Method meth = clazz.getMethod(methodName, args[1].getClass());
 
 			String shardField = null;
@@ -374,60 +399,66 @@ public class SqlSessionTemplate implements SqlSession {
 
 			Shard shard = meth.getAnnotation(Shard.class);
 			if (shard == null) {
-				throw new RuntimeException("没有配置分片参数");
+				throw new MyBatisRuntimeException(fullName
+						+ " should specify shard field and shard strategy");
 			}
 
 			shardField = shard.field();
 			shardName = shard.name();
 
-			Object shardFieldValue = BeanUtils.getProperty(args[1], shardField);
-			ShardParam shardParam = new ShardParam();
-			shardParam.setName(shardName);
-			shardParam.setShardValue(shardFieldValue);
-			shardParam.setParams(args[1]);
-    	
-    	
-			ShardStrategy shardStrategy = SqlSessionFactoryHolder.getStrategyName2ShardStrategy().get(shardName);
-			if (shardStrategy == null) {
-				shardStrategy = NoShardStrategy.INSTANCE;
+			if (StringUtils.isBlank(shardField)
+					|| StringUtils.isBlank(shardField)) {
+				throw new MyBatisRuntimeException(fullName
+						+ " should specify shard field and shard strategy");
 			}
+
+			String shardFieldValue = BeanUtils.getProperty(args[1], shardField);
+			if (StringUtils.isBlank(shardFieldValue)) {
+				throw new MyBatisRuntimeException(fullName
+						+ " can not get the value of "
+						+ args[1].getClass().getName() + "." + shardField);
+			}
+
+			ShardParam shardParam = new ShardParam(shardName, shardFieldValue, args[1]);
+
+			SqlSessionFactoryBean sqlSessionFactoryBean = SqlSessionFactoryHolder.getSqlSessionFactoryBean();
+			ShardStrategy shardStrategy = sqlSessionFactoryBean.getShardStrategyMap().get(shardName);
+			if (shardStrategy == null) {
+				shardStrategy = NoShardStrategy.getInstance();
+			}
+
+			shardStrategy.setDataSource(sqlSessionFactoryBean.getDataSource());
+			shardStrategy.setShardDataSources(sqlSessionFactoryBean.getShardDataSourceMap());
+			shardStrategy.setShardParam(shardParam);
 			
+			SqlSessionFactory sessionFactory = sqlSessionFactoryBean.getAllDS2SqlSessionFactoryMap(shardStrategy.getTargetDataSource());
+			if (sessionFactory == null) {
+				sessionFactory = sqlSessionFactoryBean.getSqlSessionFactory();
+			}
+
+//			SqlSession sqlSession = getSqlSession(SqlSessionTemplate.this.sqlSessionFactory,
+//					SqlSessionTemplate.this.executorType,
+//					SqlSessionTemplate.this.exceptionTranslator);
 			
+			SqlSession sqlSession = getSqlSession(sessionFactory,
+					sqlSessionFactory.getConfiguration().getDefaultExecutorType(),
+					new MyBatisExceptionTranslator(
+				            sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(), true));
 			
-    	User user = (User) args[1];
-    	String dataSourceId = null;
-    	if (user.getId() > 100 && user.getId() <= 200) {
-    		dataSourceId = "dataSource_mysql_1";
-    	}
-    	else if (user.getId() > 200 && user.getId() <= 300) {
-    		dataSourceId = "dataSource_mysql_2";
-    	} else {
-    		dataSourceId = "dataSource";
-    	}
-    	
-    	SqlSession sqlSession = getSqlSession(
-     	          SqlSessionFactoryHolder.getDataSourceId2SqlSessionFactory().get(dataSourceId),
-     	          SqlSessionTemplate.this.executorType,
-     	          SqlSessionTemplate.this.exceptionTranslator);
-    	
-    	Configuration configuration = SqlSessionFactoryHolder.getDataSourceId2SqlSessionFactory().get(dataSourceId).getConfiguration();
-		MappedStatement mappedStatement = configuration.getMappedStatement(String.valueOf(args[0]));
-		BoundSql boundSql = mappedStatement.getBoundSql(shardParam.getParams());
-		
-    	shardStrategy.setDataSource(configuration.getEnvironment().getDataSource());
-		shardStrategy.setShardParam(shardParam);
-		shardStrategy.setSql(boundSql.getSql());
-		
-		StrategyHolder.setShardStrategy(shardStrategy);
-      
-//      if (ArrayUtils.isNotEmpty(args)) {
-//    	  ShardParam shardParam = new ShardParam(String.valueOf(args[0]), ((User)args[1]).getId(), args[1]);
-//    	  args[1] = shardParam;
-//      }
-      
+			Configuration configuration = sessionFactory.getConfiguration();
+			MappedStatement mappedStatement = configuration
+					.getMappedStatement(String.valueOf(args[0]));
+			BoundSql boundSql = mappedStatement.getBoundSql(shardParam
+					.getParams());
+
+			shardStrategy.setSql(boundSql.getSql());
+
+			StrategyHolder.setShardStrategy(shardStrategy);
+			
+			prepareTx(shardStrategy.getTargetDataSource());
       try {
         Object result = method.invoke(sqlSession, args);
-        if (!isSqlSessionTransactional(sqlSession, SqlSessionTemplate.this.sqlSessionFactory)) {
+        if (!isSqlSessionTransactional(sqlSession, sessionFactory)) {
           // force commit even on non-dirty sessions because some databases require
           // a commit/rollback before calling close()
           sqlSession.commit(true);
@@ -438,7 +469,7 @@ public class SqlSessionTemplate implements SqlSession {
         Throwable unwrapped = unwrapThrowable(t);
         if (SqlSessionTemplate.this.exceptionTranslator != null && unwrapped instanceof PersistenceException) {
           // release the connection to avoid a deadlock if the translator is no loaded. See issue #22
-          closeSqlSession(sqlSession, SqlSessionTemplate.this.sqlSessionFactory);
+          closeSqlSession(sqlSession, sessionFactory);
           sqlSession = null;
           Throwable translated = SqlSessionTemplate.this.exceptionTranslator.translateExceptionIfPossible((PersistenceException) unwrapped);
           if (translated != null) {
@@ -448,10 +479,78 @@ public class SqlSessionTemplate implements SqlSession {
         throw unwrapped;
       } finally {
         if (sqlSession != null) {
-          closeSqlSession(sqlSession, SqlSessionTemplate.this.sqlSessionFactory);
+          closeSqlSession(sqlSession,sessionFactory);
         }
+        StrategyHolder.removeShardStrategy();
       }
     }
   }
 
+  /**
+	 * 准备事务
+	 * 
+	 * @param dataSource
+	 */
+	private void prepareTx(DataSource dataSource) {
+		TransactionHolder.setDataSource(dataSource);
+
+		TransactionInfoWrap transactionInfoWrap = TransactionHolder.getTransactionInfoWrap();
+		if (transactionInfoWrap != null) {
+			TransactionAttribute transactionAttribute = transactionInfoWrap.getTransactionAttribute();
+			if (transactionAttribute != null) {
+				createTxIfAbsent(dataSource, transactionInfoWrap);
+			}
+		}
+	}
+
+	/**
+	 * 不存在则创建事务
+	 * 
+	 * @param dataSource
+	 * @param transactionInfoWrap
+	 */
+	private void createTxIfAbsent(DataSource dataSource, TransactionInfoWrap transactionInfoWrap) {
+		Map<DataSource, LinkedList<TransactionInfoWrap>> ds2TxTree = TransactionHolder.getDataSource2TxTree();
+		if (ds2TxTree == null || !ds2TxTree.containsKey(dataSource)) {
+			createTx(dataSource, transactionInfoWrap);
+		}
+	}
+
+	/**
+	 * 创建事务
+	 * 
+	 * @param targetDS
+	 * @param txInfo
+	 */
+	private void createTx(DataSource dataSource, TransactionInfoWrap transactionInfoWrap) {
+		TransactionStatus transactionStatus = transactionInfoWrap.getTransactionManager().getTransaction(transactionInfoWrap.getTransactionAttribute());
+		// txStatus = new TransactionStatusWrap((DefaultTransactionStatus)
+		// txStatus);
+		TransactionHolder.addStatus2DataSource(transactionStatus, dataSource);
+
+		TransactionInfoWrap txInfoCopy = transactionInfoWrap.newCopy();
+		txInfoCopy.setTransactionStatus(transactionStatus);
+
+		TransactionHolder.addTxInfo2Tree(dataSource, txInfoCopy);
+	}
+
+	private Object wrapCollection(final Object object) {
+		if (object instanceof List) {
+			return new HashMap<String, Object>() {
+				private static final long serialVersionUID = -2533602760878803345L;
+				{
+					put("list", object);
+				}
+			};
+		}
+		else if (object != null && object.getClass().isArray()) {
+			return new HashMap<String, Object>() {
+				private static final long serialVersionUID = 8371167260656531195L;
+				{
+					put("array", object);
+				}
+			};
+		}
+		return object;
+	}
 }

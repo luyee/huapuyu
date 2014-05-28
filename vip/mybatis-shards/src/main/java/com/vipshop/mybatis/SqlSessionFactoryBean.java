@@ -45,6 +45,7 @@ import org.springframework.core.NestedIOException;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 
+import com.vipshop.mybatis.common.SqlSessionFactoryHolder;
 import com.vipshop.mybatis.strategy.ShardStrategy;
 import com.vipshop.mybatis.transaction.SpringManagedTransactionFactory;
 
@@ -92,9 +93,11 @@ public class SqlSessionFactoryBean implements /* FactoryBean<SqlSessionFactory>,
 	private ApplicationContext applicationContext;
 	private Map<String, DataSource> shardDataSourceMap;
 	private Map<String, SqlSessionFactory> shardSqlSessionFactoryMap;
-	private Map<String, ShardStrategy> shardStrategyMap = new HashMap<String, ShardStrategy>();
+	private Map<String, SqlSessionFactory> allSqlSessionFactoryMap;
+	private Map<String, ShardStrategy> shardStrategyMap = new HashMap<String, ShardStrategy>();;
 	private List<DataSource> shardDataSources;
 	private Map<String, Class<?>> shardStrategies = new HashMap<String, Class<?>>();
+	private Map<DataSource, SqlSessionFactory> allDS2SqlSessionFactoryMap;
 
 	public void setObjectFactory(ObjectFactory objectFactory) {
 		this.objectFactory = objectFactory;
@@ -217,11 +220,18 @@ public class SqlSessionFactoryBean implements /* FactoryBean<SqlSessionFactory>,
 		// }
 
 		this.sqlSessionFactory = buildSqlSessionFactory(dataSource);
+		allSqlSessionFactoryMap = new LinkedHashMap<String, SqlSessionFactory>(shardDataSourceMap.size() + 1);
+		allDS2SqlSessionFactoryMap = new LinkedHashMap<DataSource, SqlSessionFactory>(shardDataSourceMap.size() + 1);
+		allSqlSessionFactoryMap.put("dataSource", sqlSessionFactory);
+		allDS2SqlSessionFactoryMap.put(dataSource, sqlSessionFactory);
 
 		if (MapUtils.isNotEmpty(shardDataSourceMap)) {
 			shardSqlSessionFactoryMap = new LinkedHashMap<String, SqlSessionFactory>(shardDataSourceMap.size());
 			for (Entry<String, DataSource> entry : shardDataSourceMap.entrySet()) {
-				shardSqlSessionFactoryMap.put(entry.getKey(), buildSqlSessionFactory(entry.getValue()));
+				SqlSessionFactory ssf = buildSqlSessionFactory(entry.getValue());
+				shardSqlSessionFactoryMap.put(entry.getKey(), ssf);
+				allSqlSessionFactoryMap.put(entry.getKey(), ssf);
+				allDS2SqlSessionFactoryMap.put(entry.getValue(), ssf);
 			}
 		}
 
@@ -241,6 +251,8 @@ public class SqlSessionFactoryBean implements /* FactoryBean<SqlSessionFactory>,
 				}
 			}
 		}
+		
+		SqlSessionFactoryHolder.setSqlSessionFactoryBean(this);
 	}
 
 	protected SqlSessionFactory buildSqlSessionFactory(DataSource dataSource) throws IOException {
@@ -426,7 +438,7 @@ public class SqlSessionFactoryBean implements /* FactoryBean<SqlSessionFactory>,
 	public List<DataSource> getShardDataSources() {
 		return shardDataSources;
 	}
-
+	
 	public void setShardDataSources(List<DataSource> shardDataSources) {
 		this.shardDataSources = shardDataSources;
 	}
@@ -445,6 +457,14 @@ public class SqlSessionFactoryBean implements /* FactoryBean<SqlSessionFactory>,
 
 	public Map<String, SqlSessionFactory> getShardSqlSessionFactoryMap() {
 		return shardSqlSessionFactoryMap;
+	}
+	
+	public Map<String, SqlSessionFactory> getAllSqlSessionFactoryMap() {
+		return allSqlSessionFactoryMap;
+	}
+
+	public SqlSessionFactory getAllDS2SqlSessionFactoryMap(DataSource dataSource) {
+		return allDS2SqlSessionFactoryMap.get(dataSource);
 	}
 
 	public Map<String, ShardStrategy> getShardStrategyMap() {

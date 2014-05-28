@@ -17,12 +17,11 @@ public class UserShardStrategy extends ShardStrategy {
 	@Override
 	public DataSource getTargetDataSource() {
 		ShardParam shardParam = getShardParam();
-		Long param = (Long) shardParam.getShardValue();
+		Long param = Long.parseLong(String.valueOf(shardParam.getShardValue()));
 		Map<String, DataSource> map = this.getShardDataSources();
 		if (param > 100 && param <= 200) {
 			return map.get("dataSource_mysql_1");
-		}
-		else if (param > 200) {
+		} else if (param > 200) {
 			return map.get("dataSource_mysql_2");
 		}
 		return getDataSource();
