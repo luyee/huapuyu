@@ -435,33 +435,37 @@ public class SqlSessionTemplate implements SqlSession {
 			if (sessionFactory == null) {
 				sessionFactory = sqlSessionFactoryBean.getSqlSessionFactory();
 			}
-
+			
 //			SqlSession sqlSession = getSqlSession(SqlSessionTemplate.this.sqlSessionFactory,
 //					SqlSessionTemplate.this.executorType,
 //					SqlSessionTemplate.this.exceptionTranslator);
 			
+			System.out.println("*********************************************");
 			SqlSession sqlSession = getSqlSession(sessionFactory,
-					sqlSessionFactory.getConfiguration().getDefaultExecutorType(),
+					sessionFactory.getConfiguration().getDefaultExecutorType(),
 					new MyBatisExceptionTranslator(
-				            sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(), true));
+							sessionFactory.getConfiguration().getEnvironment().getDataSource(), true));
 			
 			Configuration configuration = sessionFactory.getConfiguration();
 			MappedStatement mappedStatement = configuration
 					.getMappedStatement(String.valueOf(args[0]));
-			BoundSql boundSql = mappedStatement.getBoundSql(shardParam
-					.getParams());
+			BoundSql boundSql = mappedStatement.getBoundSql(wrapCollection(shardParam
+					.getParams()));
 
 			shardStrategy.setSql(boundSql.getSql());
+			System.out.println(boundSql.getSql() + "_" + shardFieldValue);
 
 			StrategyHolder.setShardStrategy(shardStrategy);
 			
 			prepareTx(shardStrategy.getTargetDataSource());
+			
       try {
         Object result = method.invoke(sqlSession, args);
         if (!isSqlSessionTransactional(sqlSession, sessionFactory)) {
           // force commit even on non-dirty sessions because some databases require
           // a commit/rollback before calling close()
           sqlSession.commit(true);
+          System.out.println("commit");
         }
         
         return result;
@@ -480,6 +484,7 @@ public class SqlSessionTemplate implements SqlSession {
       } finally {
         if (sqlSession != null) {
           closeSqlSession(sqlSession,sessionFactory);
+          System.out.println("close");
         }
         StrategyHolder.removeShardStrategy();
       }

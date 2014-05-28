@@ -15,10 +15,6 @@ import java.util.Map.Entry;
 import javax.sql.DataSource;
 
 import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +24,8 @@ import org.springframework.transaction.interceptor.TransactionAttribute;
 
 import com.vipshop.mybatis.SqlSessionFactoryBean;
 import com.vipshop.mybatis.SqlSessionTemplate;
-import com.vipshop.mybatis.common.ShardParam;
-import com.vipshop.mybatis.common.StrategyHolder;
 import com.vipshop.mybatis.common.TransactionHolder;
 import com.vipshop.mybatis.common.TransactionInfoWrap;
-import com.vipshop.mybatis.strategy.NoShardStrategy;
-import com.vipshop.mybatis.strategy.ShardStrategy;
 
 public abstract class SqlSessionDaoSupport extends DaoSupport {
 
@@ -99,7 +91,7 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 
 				// args第一个参数为MyBatis statement，第二个参数为方法参数
 //				if (ArrayUtils.isEmpty(args)) {
-					prepareTx(targetDataSource);
+//					prepareTx(targetDataSource);
 					return method.invoke(dataSourceMap.get(sqlSessionFactoryBean.getDataSource()), args);
 //				}
 //				else if (method.getName().equals("getMapper")) {
