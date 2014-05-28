@@ -1,3 +1,0 @@
-sudo dpkg-reconfigure gdm
-
-Then choose gdm and select Ok.

@@ -1,9 +1,0 @@
-存储过程里不能直接使用DDL语句。如：
-ALTER ...
-CREATE ...
-TRUNCATE 等。
-
-
-必须使用如下形式
-execute immediate 'truncate ...';
-

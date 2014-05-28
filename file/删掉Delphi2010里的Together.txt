@@ -1,8 +1,0 @@
-删掉Delphi2010里的Together
-
-这个工具相信很少会有人用到，而且放着很占地方，也拖慢启动速度，于是找个方法删掉之
-首先打开注册表，找到HKCU\Software\CodeGear\BDS\7.0\Disabled IDE Packages
-在里面添加一条$(BDS)\Bin\TGIDE140.bpl=Modeling IDE Integration
-随后打开Delphi2010的安装目录，找到bin目录，打开之，把里面所有以Borland.Together开头的dll全部删除
-最后一步，打开C:\Windows\Assembly目录，将其中以Borland.Together开头的程序集全部删除
-然后重新启动Delphi2010，就不会再有Together了，启动速度也能得到一定的提升。 
