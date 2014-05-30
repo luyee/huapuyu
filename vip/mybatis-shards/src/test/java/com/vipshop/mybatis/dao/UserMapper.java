@@ -13,20 +13,20 @@ import com.vipshop.mybatis.bo.User;
 
 @Mapper
 public interface UserMapper {
-	@Insert("insert into $[user]$ (id, name) values (#{id}, #{name})")
+	@Insert("insert into $[table]$ (id, name) values (#{id}, #{name})")
 	@Shard(name = "shard_user", field = "id")
 	void save(User User);
 
-	@Delete("DELETE FROM $[user]$ WHERE id = #{id}")
+	@Delete("DELETE FROM $[table]$ WHERE id = #{id}")
 	@Shard(name = "shard_user", field = "id")
 	void deleteById(Long id);
 
-	@Select("SELECT * FROM $[user]$ WHERE id = #{id}")
+	@Select("SELECT * FROM $[table]$ WHERE id = #{id}")
 	@Shard(name = "shard_user", field = "id")
 	@Results({ @Result(property = "id", column = "id"), @Result(property = "name", column = "name") })
 	User getById(Long id);
 
-	@Update("update $[user]$ set name = #{name} where id = #{id}")
+	@Update("update $[table]$ set name = #{name} where id = #{id}")
 	@Shard(name = "shard_user", field = "id")
 	void update(User user);
 }

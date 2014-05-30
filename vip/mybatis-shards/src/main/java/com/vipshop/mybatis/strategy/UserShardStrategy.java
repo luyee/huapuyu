@@ -33,7 +33,7 @@ public class UserShardStrategy extends ShardStrategy {
 		ShardParam shardParam = getShardParam();
 		Long param = Long.parseLong(String.valueOf(shardParam.getShardValue()));
 		String tableName = "user_" + (param % 2);
-		targetSql = targetSql.replaceAll("\\$\\[user\\]\\$", tableName);
+		targetSql = targetSql.replaceAll("\\$\\[table\\]\\$", tableName);
 		return targetSql;
 	}
 
