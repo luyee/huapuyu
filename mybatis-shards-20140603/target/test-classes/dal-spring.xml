@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       	   				   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean id="ds1" class="com.mchange.v2.c3p0.ComboPooledDataSource">  
+          <property name="user" value="${ds1.username}" />  
+          <property name="password" value="${ds1.pwd}" />  
+          <property name="driverClass" value="${ds1.driver}" />  
+          <property name="jdbcUrl" value="${ds1.url}" />  
+          <property name="maxPoolSize" value="20" />  
+          <property name="minPoolSize" value="2" />  
+          <property name="initialPoolSize" value="2" />  
+          <property name="maxIdleTime" value="60" /> 
+     </bean>
+     
+     <bean id="ds2" class="com.mchange.v2.c3p0.ComboPooledDataSource">  
+          <property name="user" value="${ds2.username}" />  
+          <property name="password" value="${ds2.pwd}" />  
+          <property name="driverClass" value="${ds2.driver}" />  
+          <property name="jdbcUrl" value="${ds2.url}" />  
+          <property name="maxPoolSize" value="20" />  
+          <property name="minPoolSize" value="2" />  
+          <property name="initialPoolSize" value="2" />  
+          <property name="maxIdleTime" value="60" />  
+     </bean>
+	
+	<bean id="sqlSessionFactory" class="com.vipshop.mybatis.spring.SqlSessionFactoryBean">
+		<property name="defaultDataSource" ref="ds1" />
+		<property name="mysqlDataSourceList">
+			<util:list>
+				<ref bean="ds1" />
+			</util:list>
+		</property>
+		<property name="oracleDataSourceList">
+			<util:list>
+				<ref bean="ds2" />
+			</util:list>
+		</property>
+		<property name="mapperLocations">
+			<array>
+				<value>classpath:mybatis/user-mapper.xml</value>
+			</array>
+		</property>
+		<property name="shardStrategy">
+			<map>
+				<entry key="Shard-User">
+					<value>com.vipshop.mybatis.strategy.UserShardStrategy</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="userDao" class="org.summercool.mybatis.demo.dao.impl.UserDaoImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+</beans>
