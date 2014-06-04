@@ -14,6 +14,9 @@
 			<property name="searchString" value="Example" />
 			<property name="replaceString" value="Criteria" />
 		</plugin>
+		
+		<plugin type="com.anders.ssh.mybatis.MySQLPagePlugin">
+		</plugin>
 
 		<commentGenerator>
 			<property name="suppressAllComments" value="true" />
@@ -27,10 +30,10 @@
 			targetProject="ssh\src\main\java\" />
 
 		<sqlMapGenerator targetPackage="com.anders.ssh.mybatis"
-			targetProject="ssh\src\main\resource\" />
+			targetProject="ssh\src\main\resources\" />
 
 		<javaClientGenerator targetPackage="com.anders.ssh.mybatis.dao"
-			targetProject="ssh\src\main\java\" type="ANNOTATEDMAPPER">
+			targetProject="ssh\src\main\java\" type="ANNOTATEDMAPPER"><!-- XMLMAPPER ANNOTATEDMAPPER -->
 			<!-- <property name="rootInterface" value="com.anders.ssh.mybatis.dao.GenericMapper" /> -->
 		</javaClientGenerator>
 

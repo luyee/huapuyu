@@ -64,10 +64,10 @@ public class RenameExampleMethodPlugin extends PluginAdapter {
 		// introspectedTable.setUpdateByPrimaryKeyWithBLOBsStatementId("updateByPrimaryKeyWithBLOBs");
 		// introspectedTable.setBaseResultMapId("BaseResultMap");
 		// introspectedTable.setResultMapWithBLOBsId("ResultMapWithBLOBs");
-		// introspectedTable.setExampleWhereClauseId("Example_Where_Clause");
+		introspectedTable.setExampleWhereClauseId(rename(introspectedTable.getExampleWhereClauseId()));// introspectedTable.setExampleWhereClauseId("Example_Where_Clause");
 		// introspectedTable.setBaseColumnListId("Base_Column_List");
 		// introspectedTable.setBlobColumnListId("Blob_Column_List");
-		// introspectedTable.setMyBatis3UpdateByExampleWhereClauseId("Update_By_Example_Where_Clause");
+		introspectedTable.setMyBatis3UpdateByExampleWhereClauseId(rename(introspectedTable.getMyBatis3UpdateByExampleWhereClauseId()));// introspectedTable.setMyBatis3UpdateByExampleWhereClauseId("Update_By_Example_Where_Clause");
 
 	}
 
