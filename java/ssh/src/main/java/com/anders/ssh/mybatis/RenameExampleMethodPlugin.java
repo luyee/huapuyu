@@ -73,26 +73,23 @@ public class RenameExampleMethodPlugin extends PluginAdapter {
 
 	@Override
 	public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-		List<Method> methods = interfaze.getMethods();
-		for (Method method : methods) {
-			renameMethod(method);
+		renameMethod(interfaze.getMethods());
 
-			// 参数名为example的改名为criteria
-			// List<Parameter> params = method.getParameters();
-			// for (Parameter parameter : params) {
-			// try {
-			// Field field = Parameter.class.getDeclaredField("name");
-			// makeAccessible(field);
-			// setField(field, parameter, rename(parameter.getName()));
-			// }
-			// catch (SecurityException e) {
-			// e.printStackTrace();
-			// }
-			// catch (NoSuchFieldException e) {
-			// e.printStackTrace();
-			// }
-			// }
-		}
+		// 参数名为example的改名为criteria
+		// List<Parameter> params = method.getParameters();
+		// for (Parameter parameter : params) {
+		// try {
+		// Field field = Parameter.class.getDeclaredField("name");
+		// makeAccessible(field);
+		// setField(field, parameter, rename(parameter.getName()));
+		// }
+		// catch (SecurityException e) {
+		// e.printStackTrace();
+		// }
+		// catch (NoSuchFieldException e) {
+		// e.printStackTrace();
+		// }
+		// }
 
 		// 给Mapper接口添加泛型父接口
 		// Set<FullyQualifiedJavaType> fullyQualifiedJavaTypeSet = interfaze.getSuperInterfaceTypes();
@@ -109,22 +106,20 @@ public class RenameExampleMethodPlugin extends PluginAdapter {
 
 	@Override
 	public boolean providerGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-		List<Method> methods = topLevelClass.getMethods();
-		for (Method method : methods) {
-			renameMethod(method);
-		}
+		renameMethod(topLevelClass.getMethods());
 		return true;
 	}
 
-	private void renameMethod(Method method) {
-		method.setName(rename(method.getName()));
+	private void renameMethod(List<Method> methods) {
+		if (methods != null && methods.size() > 0) {
+			for (Method method : methods) {
+				method.setName(rename(method.getName()));
+			}
+		}
 	}
 
 	private String rename(String name) {
-		System.out.println(name);
 		Matcher matcher = pattern.matcher(name);
-		String newName = matcher.replaceAll(replaceString);
-		System.out.println(newName);
 		return matcher.replaceAll(replaceString);
 	}
 
