@@ -61,18 +61,23 @@ public class MySQLPagePlugin extends PluginAdapter {
 		method.addBodyLine("applyWhere(example, false);");
 
 		method.addBodyLine("");
+		method.addBodyLine("StringBuilder sb = new StringBuilder();");
 		method.addBodyLine("if (example != null && example.getOrderByClause() != null) {");
 		method.addBodyLine("ORDER_BY(example.getOrderByClause());");
+		method.addBodyLine("sb.append(SQL());");
 		method.addBodyLine("if (example.getLimitStart() >= 0) {");
-		method.addBodyLine("SET(\"limit #{example.limitStart}\");");
+		method.addBodyLine("sb.append(\"limit #{example.limitStart}\");");
 		method.addBodyLine("if (example.getLimitCount() >= 0) {");
-		method.addBodyLine("SET(\", #{example.limitCount}\");");
+		method.addBodyLine("sb.append(\", #{example.limitCount}\");");
 		method.addBodyLine("}");
 		method.addBodyLine("}");
+		method.addBodyLine("}");
+		method.addBodyLine("else {");
+		method.addBodyLine("sb.append(SQL());");
 		method.addBodyLine("}");
 
 		method.addBodyLine("");
-		method.addBodyLine("return SQL();");
+		method.addBodyLine("return sb.toString();");
 
 		return true;
 	}
