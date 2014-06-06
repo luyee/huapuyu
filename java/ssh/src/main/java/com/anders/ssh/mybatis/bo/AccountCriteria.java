@@ -10,6 +10,16 @@ public class AccountCriteria {
 
     protected List<Criteria> oredCriteria;
 
+    protected int limitStart = -1;
+
+    protected int limitCount = -1;
+
+    private boolean id = false;
+
+    private boolean enable = false;
+
+    private boolean name = false;
+
     public AccountCriteria() {
         oredCriteria = new ArrayList<Criteria>();
     }
@@ -61,6 +71,58 @@ public class AccountCriteria {
         oredCriteria.clear();
         orderByClause = null;
         distinct = false;
+        limitStart = -1;
+        limitCount = -1;
+        id = false;
+        enable = false;
+        name = false;
+    }
+
+    public int getLimitStart() {
+        return limitStart;
+    }
+
+    public void setLimitStart(int limitStart) {
+        this.limitStart = limitStart;
+    }
+
+    public int getLimitCount() {
+        return limitCount;
+    }
+
+    public void setLimitCount(int limitCount) {
+        this.limitCount = limitCount;
+    }
+
+    public boolean isId() {
+        return id;
+    }
+
+    public AccountCriteria addId() {
+        this.id = true;
+        return this;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public AccountCriteria addEnable() {
+        this.enable = true;
+        return this;
+    }
+
+    public boolean isName() {
+        return name;
+    }
+
+    public AccountCriteria addName() {
+        this.name = true;
+        return this;
+    }
+
+    public boolean isCustomizeSelect() {
+        return id | enable | name ;
     }
 
     protected abstract static class GeneratedCriteria {
