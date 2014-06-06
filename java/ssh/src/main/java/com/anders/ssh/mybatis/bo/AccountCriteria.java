@@ -125,6 +125,23 @@ public class AccountCriteria {
         return id | enable | name ;
     }
 
+    public String getSelectFields() {
+        StringBuilder sb = new StringBuilder();
+        if (id) {
+            if (distinct)
+            sb.append("distinct ");
+            sb.append("id, ");
+        }
+        if (enable) {
+            sb.append("enable, ");
+        }
+        if (name) {
+            sb.append("name, ");
+        }
+        String fields = sb.toString();
+        return fields.substring(0, fields.length() - 2);
+    }
+
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
 

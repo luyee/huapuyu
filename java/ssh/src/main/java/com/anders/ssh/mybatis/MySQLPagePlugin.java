@@ -2,6 +2,7 @@ package com.anders.ssh.mybatis;
 
 import static org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities.getSelectListPhrase;
 import static org.mybatis.generator.internal.util.StringUtility.escapeStringForJava;
+import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
 import java.util.List;
 
@@ -89,6 +90,35 @@ public class MySQLPagePlugin extends PluginAdapter {
 
 		isOptionFieldMethod.addBodyLine("return " + isCustomizeSelectBody.substring(0, isCustomizeSelectBody.length() - 2) + ";");
 		topLevelClass.addMethod(isOptionFieldMethod);
+
+		Method getSelectFieldMethod = new Method();
+		getSelectFieldMethod.setVisibility(JavaVisibility.PUBLIC);
+		getSelectFieldMethod.setReturnType(FullyQualifiedJavaType.getStringInstance());
+		getSelectFieldMethod.setName("getSelectFields");
+		getSelectFieldMethod.addBodyLine("StringBuilder sb = new StringBuilder();");
+
+		List<IntrospectedColumn> introspectedColumnList = introspectedTable.getNonBLOBColumns();
+		if (introspectedColumnList == null || introspectedColumnList.size() <= 0)
+			return false;
+
+		boolean distinctCheck = true;
+		for (IntrospectedColumn introspectedColumn : introspectedColumnList) {
+
+			getSelectFieldMethod.addBodyLine("if (" + introspectedColumn.getJavaProperty() + ") {");
+			if (distinctCheck) {
+				getSelectFieldMethod.addBodyLine("if (distinct)");
+				getSelectFieldMethod.addBodyLine("sb.append(\"distinct \");");
+			}
+
+			distinctCheck = false;
+
+			getSelectFieldMethod.addBodyLine("sb.append(\"" + introspectedColumn.getActualColumnName() + ", \");");
+			getSelectFieldMethod.addBodyLine("}");
+		}
+
+		getSelectFieldMethod.addBodyLine("String fields = sb.toString();");
+		getSelectFieldMethod.addBodyLine("return fields.substring(0, fields.length() - 2);");
+		topLevelClass.addMethod(getSelectFieldMethod);
 
 		return true;
 	}
@@ -183,11 +213,8 @@ public class MySQLPagePlugin extends PluginAdapter {
 		method.addBodyLine("if (example != null && example.getOrderByClause() != null) {");
 		method.addBodyLine("ORDER_BY(example.getOrderByClause());");
 		method.addBodyLine("sb.append(SQL());");
-		method.addBodyLine("if (example.getLimitStart() >= 0) {");
-		method.addBodyLine("sb.append(\" limit #{limitStart}\");");
-		method.addBodyLine("if (example.getLimitCount() >= 0) {");
-		method.addBodyLine("sb.append(\", #{limitCount}\");");
-		method.addBodyLine("}");
+		method.addBodyLine("if (example.getLimitStart() >= 0 && example.getLimitCount() > 0) {");
+		method.addBodyLine("sb.append(\" limit #{limitStart}, #{limitCount}\");");
 		method.addBodyLine("}");
 		method.addBodyLine("}");
 		method.addBodyLine("else {");
@@ -204,23 +231,66 @@ public class MySQLPagePlugin extends PluginAdapter {
 
 	@Override
 	public boolean sqlMapSelectByExampleWithoutBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-		XmlElement isOrderByElemen = (XmlElement) element.getElements().get(element.getElements().size() - 1);
+		// XmlElement isOrderByElemen = (XmlElement) element.getElements().get(element.getElements().size() - 1);
+		//
+		// // generate limit xml
+		// XmlElement isGreaterEqualStartElement = new XmlElement("if");
+		// isGreaterEqualStartElement.addAttribute(new Attribute("test", "limitStart >= 0 and limitCount > 0"));
+		// isGreaterEqualStartElement.addElement(new TextElement("limit ${limitStart}, ${limitCount}"));
+		//
+		// isOrderByElemen.addElement(isGreaterEqualStartElement);
+		// return true;
 
-		// generate limit start xml
-		XmlElement isGreaterEqualStartElement = new XmlElement("isGreaterEqual");
-		isGreaterEqualStartElement.addAttribute(new Attribute("property", "limitStart"));
-		isGreaterEqualStartElement.addAttribute(new Attribute("compareValue", "0"));
-		isGreaterEqualStartElement.addElement(new TextElement("limit $limitStart$"));
+		element.getElements().clear();
 
-		// generate limit count xml
-		XmlElement isGreaterEqualCountElement = new XmlElement("isGreaterEqual");
-		isGreaterEqualCountElement.addAttribute(new Attribute("property", "limitCount"));
-		isGreaterEqualCountElement.addAttribute(new Attribute("compareValue", "0"));
-		isGreaterEqualCountElement.addElement(new TextElement(", $limitCount$"));
+		element.addElement(new TextElement("select"));
 
-		isGreaterEqualStartElement.addElement(isGreaterEqualCountElement);
+		XmlElement chooseElement = new XmlElement("choose");
+		element.addElement(chooseElement);
 
-		isOrderByElemen.addElement(isGreaterEqualStartElement);
+		XmlElement isCustomizeSelectElementIf = new XmlElement("when");
+		XmlElement isCustomizeSelectElementElse = new XmlElement("otherwise");
+
+		chooseElement.addElement(isCustomizeSelectElementIf);
+		chooseElement.addElement(isCustomizeSelectElementElse);
+
+		isCustomizeSelectElementIf.addAttribute(new Attribute("test", "customizeSelect"));
+
+		XmlElement ifDisElement = new XmlElement("if");
+		ifDisElement.addAttribute(new Attribute("test", "distinct"));
+		ifDisElement.addElement(new TextElement("distinct"));
+
+		isCustomizeSelectElementElse.addElement(ifDisElement);
+
+		StringBuilder sb = new StringBuilder();
+		if (stringHasValue(introspectedTable.getSelectByExampleQueryId())) {
+			sb.append('\'');
+			sb.append(introspectedTable.getSelectByExampleQueryId());
+			sb.append("' as QUERYID,");
+			isCustomizeSelectElementElse.addElement(new TextElement(sb.toString()));
+		}
+		isCustomizeSelectElementElse.addElement(getBaseColumnListElement(introspectedTable));
+
+		isCustomizeSelectElementIf.addElement(new TextElement("${selectFields}"));
+
+		sb.setLength(0);
+		sb.append("from ");
+		sb.append(introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime());
+
+		element.addElement((new TextElement(sb.toString())));
+		element.addElement(getExampleIncludeElement(introspectedTable));
+
+		XmlElement ifOrderByElement = new XmlElement("if");
+		ifOrderByElement.addAttribute(new Attribute("test", "orderByClause != null"));
+		ifOrderByElement.addElement(new TextElement("order by ${orderByClause}"));
+
+		XmlElement limitElement = new XmlElement("if");
+		limitElement.addAttribute(new Attribute("test", "limitStart >= 0 and limitCount > 0"));
+		limitElement.addElement(new TextElement("limit ${limitStart}, ${limitCount}"));
+		ifOrderByElement.addElement(limitElement);
+
+		element.addElement(ifOrderByElement);
+
 		return true;
 	}
 
@@ -274,5 +344,22 @@ public class MySQLPagePlugin extends PluginAdapter {
 		method.addBodyLine("return this;");
 		commentGenerator.addGeneralMethodComment(method, introspectedTable);
 		topLevelClass.addMethod(method);
+	}
+
+	protected XmlElement getBaseColumnListElement(IntrospectedTable introspectedTable) {
+		XmlElement answer = new XmlElement("include");
+		answer.addAttribute(new Attribute("refid", introspectedTable.getBaseColumnListId()));
+		return answer;
+	}
+
+	protected XmlElement getExampleIncludeElement(IntrospectedTable introspectedTable) {
+		XmlElement ifElement = new XmlElement("if");
+		ifElement.addAttribute(new Attribute("test", "_parameter != null"));
+
+		XmlElement includeElement = new XmlElement("include");
+		includeElement.addAttribute(new Attribute("refid", introspectedTable.getExampleWhereClauseId()));
+		ifElement.addElement(includeElement);
+
+		return ifElement;
 	}
 }

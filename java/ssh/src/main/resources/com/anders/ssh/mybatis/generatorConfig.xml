@@ -16,7 +16,7 @@
 		</plugin>
 		
 		<plugin type="com.anders.ssh.mybatis.MySQLPagePlugin">
-		</plugin>
+		</plugin> 
 
 		<commentGenerator>
 			<property name="suppressAllComments" value="true" />
@@ -33,7 +33,7 @@
 			targetProject="ssh\src\main\resources\" />
 
 		<javaClientGenerator targetPackage="com.anders.ssh.mybatis.dao"
-			targetProject="ssh\src\main\java\" type="ANNOTATEDMAPPER"><!-- XMLMAPPER ANNOTATEDMAPPER -->
+			targetProject="ssh\src\main\java\" type="XMLMAPPER"><!-- XMLMAPPER ANNOTATEDMAPPER -->
 			<!-- <property name="rootInterface" value="com.anders.ssh.mybatis.dao.GenericMapper" /> -->
 		</javaClientGenerator>
 

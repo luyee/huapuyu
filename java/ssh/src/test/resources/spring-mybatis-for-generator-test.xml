@@ -30,8 +30,9 @@
 	<import resource="classpath:config/spring-property.xml"/>
 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="dataSourceTarget"/>
         <property name="typeAliasesPackage" value="com.anders.ssh.mybatis.bo"/>
+        <property name="mapperLocations" value="classpath*:com/anders/ssh/mybatis/*Mapper.xml" />
         <property name="plugins">
         	<array>
             	<ref bean="myInterceptor"/>

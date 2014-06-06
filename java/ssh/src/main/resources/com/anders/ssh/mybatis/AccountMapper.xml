@@ -69,16 +69,26 @@
   </sql>
   <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.anders.ssh.mybatis.bo.AccountCriteria" >
     select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
+    <choose >
+      <when test="customizeSelect" >
+        ${selectFields}
+      </when>
+      <otherwise >
+        <if test="distinct" >
+          distinct
+        </if>
+        <include refid="Base_Column_List" />
+      </otherwise>
+    </choose>
     from tb_account
     <if test="_parameter != null" >
       <include refid="Criteria_Where_Clause" />
     </if>
     <if test="orderByClause != null" >
       order by ${orderByClause}
+      <if test="limitStart >= 0 and limitCount > 0" >
+        limit ${limitStart}, ${limitCount}
+      </if>
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >

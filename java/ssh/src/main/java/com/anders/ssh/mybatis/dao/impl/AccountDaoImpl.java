@@ -32,8 +32,13 @@ public class AccountDaoImpl implements AccountDao {
 	public Account getById(Long id) {
 		// return accountMapper.selectByPrimaryKey(id);
 		AccountCriteria accountCriteria = new AccountCriteria();
+		accountCriteria.addId().addName();
+		accountCriteria.setDistinct(true);
 		Criteria criteria = accountCriteria.createCriteria();
 		criteria.andIdEqualTo(1L);
+		accountCriteria.setOrderByClause("id");
+		accountCriteria.setLimitStart(0);
+		accountCriteria.setLimitCount(1);
 		// Set<String> fields = new HashSet<String>();
 		// fields.add("name");
 		return accountMapper.selectByCriteria(accountCriteria).get(0);
@@ -65,12 +70,11 @@ public class AccountDaoImpl implements AccountDao {
 	@Override
 	public int updateBySelective(Account entity) {
 		AccountCriteria accountCriteria = new AccountCriteria();
+		accountCriteria.addEnable().addId().addName();
 		Criteria criteria = accountCriteria.createCriteria();
 		criteria.andNameEqualTo("zhuzhen");
-		// accountMapper.updateByExample(entity, accountCriteria);
 
-		// return accountMapper.updateByPrimaryKeySelective(entity);
-		return 0;
+		return accountMapper.updateByCriteriaSelective(entity, accountCriteria);
 	}
 
 }
