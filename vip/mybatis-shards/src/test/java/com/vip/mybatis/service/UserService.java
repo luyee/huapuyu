@@ -1,4 +1,4 @@
-package com.vipshop.mybatis.service;
+package com.vip.mybatis.service;
 
 public interface UserService {
 	public void testAddUsers();

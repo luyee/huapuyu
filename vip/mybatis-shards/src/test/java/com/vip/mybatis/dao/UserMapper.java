@@ -1,4 +1,4 @@
-package com.vipshop.mybatis.dao;
+package com.vip.mybatis.dao;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.vip.mybatis.annotation.Mapper;
 import com.vip.mybatis.annotation.Shard;
-import com.vipshop.mybatis.bo.User;
+import com.vip.mybatis.bo.User;
 
 @Mapper
 public interface UserMapper {

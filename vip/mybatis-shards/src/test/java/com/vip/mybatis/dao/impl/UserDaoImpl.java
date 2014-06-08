@@ -1,13 +1,13 @@
-package com.vipshop.mybatis.dao.impl;
+package com.vip.mybatis.dao.impl;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import com.vip.mybatis.bo.User;
+import com.vip.mybatis.dao.UserDao;
+import com.vip.mybatis.dao.UserMapper;
 import com.vip.mybatis.util.ShardParam;
-import com.vipshop.mybatis.bo.User;
-import com.vipshop.mybatis.dao.UserDao;
-import com.vipshop.mybatis.dao.UserMapper;
 
 //@Component("userDao")
 //public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {

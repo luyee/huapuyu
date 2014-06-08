@@ -1,6 +1,6 @@
-package com.vipshop.mybatis.dao;
+package com.vip.mybatis.dao;
 
-import com.vipshop.mybatis.bo.User;
+import com.vip.mybatis.bo.User;
 
 public interface UserDao {
 	public boolean insert(User user);

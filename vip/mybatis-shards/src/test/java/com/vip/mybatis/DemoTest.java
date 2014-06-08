@@ -1,10 +1,10 @@
-package com.vipshop.mybatis;
+package com.vip.mybatis;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.vipshop.mybatis.service.UserService;
+import com.vip.mybatis.service.UserService;
 
 public class DemoTest {
 

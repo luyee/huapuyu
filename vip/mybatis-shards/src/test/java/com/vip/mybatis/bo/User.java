@@ -1,4 +1,4 @@
-package com.vipshop.mybatis.bo;
+package com.vip.mybatis.bo;
 
 public class User {
 	private long id;

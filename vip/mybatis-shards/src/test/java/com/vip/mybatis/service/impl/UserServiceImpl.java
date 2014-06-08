@@ -1,12 +1,12 @@
-package com.vipshop.mybatis.service.impl;
+package com.vip.mybatis.service.impl;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import com.vipshop.mybatis.bo.User;
-import com.vipshop.mybatis.dao.UserDao;
-import com.vipshop.mybatis.service.UserService;
+import com.vip.mybatis.bo.User;
+import com.vip.mybatis.dao.UserDao;
+import com.vip.mybatis.service.UserService;
 
 @Component("userService")
 public class UserServiceImpl implements UserService {
