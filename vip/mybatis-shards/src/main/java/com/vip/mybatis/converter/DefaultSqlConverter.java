@@ -1,11 +1,11 @@
-package com.vipshop.mybatis.converter;
+package com.vip.mybatis.converter;
 
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.springframework.stereotype.Component;
 
-import com.vipshop.mybatis.common.StrategyHolder;
-import com.vipshop.mybatis.strategy.NoShardStrategy;
-import com.vipshop.mybatis.strategy.ShardStrategy;
+import com.vip.mybatis.strategy.NoShardStrategy;
+import com.vip.mybatis.strategy.ShardStrategy;
+import com.vip.mybatis.util.StrategyHolder;
 
 @Component("sqlConverter")
 public class DefaultSqlConverter implements SqlConverter {

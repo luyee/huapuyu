@@ -1,4 +1,4 @@
-package com.vipshop.mybatis.exception;
+package com.vip.mybatis.exception;
 
 /**
  * MyBatis运行时异常

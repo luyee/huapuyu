@@ -7,8 +7,8 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.vipshop.mybatis.annotation.Mapper;
-import com.vipshop.mybatis.annotation.Shard;
+import com.vip.mybatis.annotation.Mapper;
+import com.vip.mybatis.annotation.Shard;
 import com.vipshop.mybatis.bo.User;
 
 @Mapper

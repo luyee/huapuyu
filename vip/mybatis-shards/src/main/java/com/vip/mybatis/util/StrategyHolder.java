@@ -1,6 +1,6 @@
-package com.vipshop.mybatis.common;
+package com.vip.mybatis.util;
 
-import com.vipshop.mybatis.strategy.ShardStrategy;
+import com.vip.mybatis.strategy.ShardStrategy;
 
 /**
  * 分片策略ThreadLocal

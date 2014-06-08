@@ -1,10 +1,10 @@
-package com.vipshop.mybatis.strategy;
+package com.vip.mybatis.strategy;
 
 import java.util.Map;
 
 import javax.sql.DataSource;
 
-import com.vipshop.mybatis.common.ShardParam;
+import com.vip.mybatis.util.ShardParam;
 
 /**
  * 分表策略抽象类

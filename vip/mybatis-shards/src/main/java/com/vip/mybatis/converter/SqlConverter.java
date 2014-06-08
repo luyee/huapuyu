@@ -1,4 +1,4 @@
-package com.vipshop.mybatis.converter;
+package com.vip.mybatis.converter;
 
 import org.apache.ibatis.executor.statement.StatementHandler;
 

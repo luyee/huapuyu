@@ -1,4 +1,4 @@
-package com.vipshop.mybatis.common;
+package com.vip.mybatis.util;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 

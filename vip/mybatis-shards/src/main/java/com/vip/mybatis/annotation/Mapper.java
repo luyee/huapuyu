@@ -1,4 +1,4 @@
-package com.vipshop.mybatis.annotation;
+package com.vip.mybatis.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

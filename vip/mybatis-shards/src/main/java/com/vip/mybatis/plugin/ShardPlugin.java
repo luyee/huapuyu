@@ -1,4 +1,4 @@
-package com.vipshop.mybatis.plugin;
+package com.vip.mybatis.plugin;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
-import com.vipshop.mybatis.converter.SqlConverter;
+import com.vip.mybatis.converter.SqlConverter;
 
 /**
  * 分表插件

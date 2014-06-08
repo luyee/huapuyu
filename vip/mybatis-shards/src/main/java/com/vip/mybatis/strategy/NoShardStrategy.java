@@ -1,4 +1,4 @@
-package com.vipshop.mybatis.strategy;
+package com.vip.mybatis.strategy;
 
 import javax.sql.DataSource;
 
