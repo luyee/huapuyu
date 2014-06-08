@@ -9,8 +9,8 @@
 		
 	<context:annotation-config/>
 	
-	<context:component-scan base-package="com.vipshop.mybatis.dao"/>
-	<context:component-scan base-package="com.vipshop.mybatis.service"/>
+	<context:component-scan base-package="com.vip.mybatis.dao"/>
+	<context:component-scan base-package="com.vip.mybatis.service"/>
 
 	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
 		<property name="driverClass" value="${ds.driver}" />
@@ -73,11 +73,11 @@
 				<value>classpath:mybatis/user-mapper.xml</value>
 			</array>
 		</property> -->
-		<property name="typeAliasesPackage" value="com.vipshop.mybatis.bo"/>
+		<property name="typeAliasesPackage" value="com.vip.mybatis.bo"/>
 		<property name="shardStrategies">
 			<map>
 				<entry key="shard_user">
-					<value>com.vipshop.mybatis.strategy.UserShardStrategy</value>
+					<value>com.vip.mybatis.strategy.UserShardStrategy</value>
 				</entry>
 			</map>
 		</property>
@@ -88,15 +88,15 @@
     	</property>
 	</bean>
 	
-    <bean id="shardPlugin" class="com.vipshop.mybatis.plugin.ShardPlugin">
+    <bean id="shardPlugin" class="com.vip.mybatis.plugin.ShardPlugin">
     	<property name="sqlConverter" ref="sqlConverter" />
 	</bean>
 	
-	<bean id="sqlConverter" class="com.vipshop.mybatis.converter.DefaultSqlConverter" />
+	<bean id="sqlConverter" class="com.vip.mybatis.converter.DefaultSqlConverter" />
 	
-	<bean class="com.vipshop.mybatis.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.vipshop.mybatis.dao" />
-        <property name="annotationClass" value="com.vipshop.mybatis.annotation.Mapper" />
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.vip.mybatis.dao" />
+        <property name="annotationClass" value="com.vip.mybatis.annotation.Mapper" />
     </bean>
 
 	<!-- <bean id="userDao" class="com.vipshop.mybatis.dao.impl.UserDaoImpl">

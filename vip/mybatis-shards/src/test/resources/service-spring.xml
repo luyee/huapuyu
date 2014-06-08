@@ -25,8 +25,9 @@
 		<property name="fileEncoding" value="UTF-8" />
 	</bean>
 	
-	<!-- 事务配置 -->
-	<bean name="transactionManager" class="com.vipshop.mybatis.spring.MyBatisShardDataSourceTransactionManager"/> 
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	  	<property name="dataSource" ref="dataSource"/>
+	</bean>
 	
 	<tx:advice id="userTxAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
@@ -37,7 +38,7 @@
 	<aop:config>
 		<!-- UserService事务管理 -->
 		<aop:pointcut id="userServiceOperation"
-			expression="execution(* com.vipshop.mybatis.service.impl.UserServiceImpl.*(..))" />
+			expression="execution(* com.vip.mybatis.service.impl.UserServiceImpl.*(..))" />
 
 		<aop:advisor advice-ref="userTxAdvice" pointcut-ref="userServiceOperation" />
 	</aop:config>
