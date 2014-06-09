@@ -79,8 +79,8 @@ public class ShardDataSourceInterceptor implements MethodInterceptor, Initializi
 
 		StrategyHolder.setShardStrategy(shardStrategy);
 
-		ShardDataSource shardDataSource = (ShardDataSource) applicationContext.getBean("shardDataSource");
-		shardDataSource.setDataSource(dynamicDataSourceMap.get(shardStrategy.getTargetDynamicDataSource()));
+//		ShardDataSource shardDataSource = (ShardDataSource) applicationContext.getBean("shardDataSource");
+//		shardDataSource.setDataSource(dynamicDataSourceMap.get(shardStrategy.getTargetDynamicDataSource()));
 
 		DynamicDataSourceInterceptor dynamicDataSourceInterceptor = (DynamicDataSourceInterceptor) applicationContext.getBean("dynamicDataSourceInterceptor");
 		dynamicDataSourceInterceptor.setDataSourceKey(dynamicDataSourceKeyMap.get(shardStrategy.getTargetDynamicDataSource()));

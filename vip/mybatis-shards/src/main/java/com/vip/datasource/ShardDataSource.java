@@ -1,37 +1,36 @@
 package com.vip.datasource;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
-import org.springframework.jdbc.datasource.AbstractDataSource;
+import com.vip.datasource.util.Constants;
+import com.vip.mybatis.strategy.ShardStrategy;
+import com.vip.mybatis.util.StrategyHolder;
 
-public class ShardDataSource extends AbstractDataSource {
+public class ShardDataSource extends AbstractRoutingDataSource {
 
-	// private final Logger logger = LoggerFactory.getLogger(ShardDataSource.class);
+	 private final Logger logger = LoggerFactory.getLogger(ShardDataSource.class);
 
-	private DynamicDataSource dataSource;
+	 @Override
+	 protected Object determineCurrentLookupKey() {
+		 String key = StringUtils.EMPTY;
+			try {
+				ShardStrategy shardStrategy =  StrategyHolder.getShardStrategy();
+				if (shardStrategy == null)
+					return Constants.DEFAULT_DYNAMIC_DS;
+				key = shardStrategy.getTargetDynamicDataSource();
+				if (StringUtils.isBlank(key)) 
+					return Constants.DEFAULT_DYNAMIC_DS;
+				
+			}
+			catch (Throwable e) {
+				logger.error("get datasource key fail, will use default datasource");
+			}
+			return key;
+	 }
 
-	// @Override
-	// protected Object determineCurrentLookupKey() {
-	// return dataSource.determineCurrentLookupKey();
-	// }
-
-	@Override
-	public Connection getConnection() throws SQLException {
-		return dataSource.getConnection();
-	}
-
-	@Override
-	public Connection getConnection(String username, String password) throws SQLException {
-		return dataSource.getConnection(username, password);
-	}
-
-	public DynamicDataSource getDataSource() {
-		return dataSource;
-	}
-
-	public void setDataSource(DynamicDataSource dataSource) {
-		this.dataSource = dataSource;
-	}
+	
 
 }
