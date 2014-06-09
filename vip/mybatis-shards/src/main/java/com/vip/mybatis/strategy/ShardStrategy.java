@@ -1,7 +1,7 @@
 package com.vip.mybatis.strategy;
 
 import com.vip.datasource.util.Constants;
-import com.vip.mybatis.util.ShardParam;
+import com.vip.mybatis.util.ShardParameter;
 
 /**
  * 分表策略抽象类
@@ -14,7 +14,7 @@ public abstract class ShardStrategy {
 	// private static final ThreadLocal<DataSource> dataSource = new ThreadLocal<DataSource>();
 	// private static final ThreadLocal<Map<String, DataSource>> shardDataSources = new ThreadLocal<Map<String, DataSource>>();
 	private static final ThreadLocal<String> sql = new ThreadLocal<String>();
-	private static final ThreadLocal<ShardParam> shardParam = new ThreadLocal<ShardParam>();
+	private static final ThreadLocal<ShardParameter> shardParameter = new ThreadLocal<ShardParameter>();
 
 	// public DataSource getDataSource() {
 	// return dataSource.get();
@@ -44,12 +44,12 @@ public abstract class ShardStrategy {
 		ShardStrategy.sql.set(sql);
 	}
 
-	public ShardParam getShardParam() {
-		return shardParam.get();
+	public ShardParameter getShardParameter() {
+		return shardParameter.get();
 	}
 
-	public void setShardParam(ShardParam shardParam) {
-		ShardStrategy.shardParam.set(shardParam);
+	public void setShardParameter(ShardParameter shardParameter) {
+		ShardStrategy.shardParameter.set(shardParameter);
 	}
 
 	// public abstract DataSource getTargetDataSource();

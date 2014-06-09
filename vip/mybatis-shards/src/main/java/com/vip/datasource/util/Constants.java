@@ -10,11 +10,11 @@ public interface Constants {
 	 */
 	public final static String READ_KEY = "READ";
 
-	// TODO Anders oracle是否和mysql一致
+	// TODO Anders MySQL什么版本开始支持dual
 	/**
 	 * validate sql
 	 */
-	public final static String VALIDATE_SQL = "SELECT 1";
+	public final static String VALIDATE_SQL = "SELECT 1 FROM dual";
 
 	/**
 	 * default dynamic datasource

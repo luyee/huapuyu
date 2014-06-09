@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -17,23 +18,33 @@ import com.vip.datasource.DynamicDataSourceKey;
 import com.vip.datasource.ShardDataSource;
 import com.vip.mybatis.annotation.Shard;
 import com.vip.mybatis.strategy.ShardStrategy;
-import com.vip.mybatis.util.ShardParam;
+import com.vip.mybatis.util.ShardParameter;
 import com.vip.mybatis.util.StrategyHolder;
 
 /**
- * annotation dynamic datasource interceptor
+ * shard dynamic datasource interceptor
  * 
  * @author Anders
  * 
  */
 public class ShardDataSourceInterceptor implements MethodInterceptor, InitializingBean, ApplicationContextAware {
 
-	private DynamicDataSourceKey dataSourceKey;
-
-	private Map<String, DynamicDataSource> name2DynamicDataSourceMap = new HashMap<String, DynamicDataSource>();
-
+	/**
+	 * key : dynamic datasource id in spring, value : DynamicDataSource bean in spring
+	 */
+	private Map<String, DynamicDataSource> dynamicDataSourceMap = new HashMap<String, DynamicDataSource>();
+	/**
+	 * key : shard strategy name, value : ShardStrategy instance
+	 */
 	private Map<String, ShardStrategy> shardStrategyMap;
-	private Map<String, Class<?>> shardStrategyConfig = new HashMap<String, Class<?>>();
+	/**
+	 * key : shard strategy name, value : ShardStrategy class
+	 */
+	private Map<String, Class<?>> shardStrategyClassMap = new HashMap<String, Class<?>>();
+	/**
+	 * key : dynamic datasource id in spring, value : DynamicDataSourceKey bean in spring
+	 */
+	private Map<String, DynamicDataSourceKey> dynamicDataSourceKeyMap = new HashMap<String, DynamicDataSourceKey>();
 
 	private ApplicationContext applicationContext;
 
@@ -47,51 +58,41 @@ public class ShardDataSourceInterceptor implements MethodInterceptor, Initializi
 		}
 
 		Object[] args = invocation.getArguments();
-		String fieldValue = null;
+		String shardFieldValue = null;
 
-		// for (Object o : args) {
-		// if (o.getClass().getName().equals(shardAnnotation.fieldType().getName())) {
-		// fieldValue = BeanUtils.getProperty(o, shardAnnotation.fieldName());
-		// break;
-		// }
-		// }
+		for (Object o : args) {
+			// TODO Anders 需要添加更多的逻辑判断，有性能问题，需要优化
+			if (o.getClass().getName().equals(shardAnnotation.classType().getName())) {
+				shardFieldValue = BeanUtils.getProperty(o, shardAnnotation.fieldName());
+				break;
+			}
+		}
 
-		fieldValue = "123";
+		Assert.notNull(shardFieldValue);
 
-		Assert.notNull(fieldValue);
-
-		ShardParam shardParam = new ShardParam();
-		shardParam.setName(shardAnnotation.name());
-		shardParam.setShardValue(fieldValue);
+		ShardParameter shardParameter = new ShardParameter();
+		shardParameter.setName(shardAnnotation.name());
+		shardParameter.setValue(shardFieldValue);
 
 		ShardStrategy shardStrategy = shardStrategyMap.get(shardAnnotation.name());
-		shardStrategy.setShardParam(shardParam);
+		shardStrategy.setShardParameter(shardParameter);
 
 		StrategyHolder.setShardStrategy(shardStrategy);
 
 		ShardDataSource shardDataSource = (ShardDataSource) applicationContext.getBean("shardDataSource");
-		shardDataSource.setDataSource(name2DynamicDataSourceMap.get(shardStrategy.getTargetDynamicDataSource()));
+		shardDataSource.setDataSource(dynamicDataSourceMap.get(shardStrategy.getTargetDynamicDataSource()));
+
+		DynamicDataSourceInterceptor dynamicDataSourceInterceptor = (DynamicDataSourceInterceptor) applicationContext.getBean("dynamicDataSourceInterceptor");
+		dynamicDataSourceInterceptor.setDataSourceKey(dynamicDataSourceKeyMap.get(shardStrategy.getTargetDynamicDataSource()));
 
 		return invocation.proceed();
 	}
 
-	public void setDataSourceKey(DynamicDataSourceKey dataSourceKey) {
-		this.dataSourceKey = dataSourceKey;
-	}
-
-	public Map<String, ShardStrategy> getShardStrategyMap() {
-		return shardStrategyMap;
-	}
-
-	public void setShardStrategies(Map<String, Class<?>> shardStrategies) {
-		this.shardStrategyConfig = shardStrategies;
-	}
-
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if (MapUtils.isNotEmpty(shardStrategyConfig)) {
+		if (MapUtils.isNotEmpty(shardStrategyClassMap)) {
 			shardStrategyMap = new HashMap<String, ShardStrategy>();
-			for (Map.Entry<String, Class<?>> entry : shardStrategyConfig.entrySet()) {
+			for (Map.Entry<String, Class<?>> entry : shardStrategyClassMap.entrySet()) {
 				Class<?> clazz = entry.getValue();
 				if (!ShardStrategy.class.isAssignableFrom(clazz)) {
 					throw new IllegalArgumentException("class " + clazz.getName() + " is illegal, subclass of ShardStrategy is required.");
@@ -104,12 +105,20 @@ public class ShardDataSourceInterceptor implements MethodInterceptor, Initializi
 				}
 			}
 
-			shardStrategyConfig = null;
+			shardStrategyClassMap = null;
 		}
 	}
 
+	public void setShardStrategies(Map<String, Class<?>> shardStrategies) {
+		this.shardStrategyClassMap = shardStrategies;
+	}
+
 	public void setShardDataSources(Map<String, DynamicDataSource> shardDataSources) {
-		this.name2DynamicDataSourceMap = shardDataSources;
+		this.dynamicDataSourceMap = shardDataSources;
+	}
+
+	public void setShardDataSourceKeys(Map<String, DynamicDataSourceKey> shardDataSourceKeys) {
+		this.dynamicDataSourceKeyMap = shardDataSourceKeys;
 	}
 
 	@Override

@@ -3,40 +3,40 @@ package com.vip.mybatis.util;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
 /**
- * 分片参数
+ * shard parameter
  * 
  * @author Anders
  * 
  */
-public class ShardParam {
+public class ShardParameter {
 
-	public static final ShardParam NO_SHARD = new ShardParam();
+	public static final ShardParameter NO_SHARD = new ShardParameter();
 
-	/*
-	 * XML中配置的分片策略器的name
+	/**
+	 * shard strategy name
 	 */
 	private String name;
-	/*
-	 * 分片字段的值
+	/**
+	 * shard field value
 	 */
-	private String shardValue;
-	/*
-	 * MyBatis方法的参数
+	private String value;
+	/**
+	 * 
 	 */
 	private Object params;
 
-	public ShardParam() {
+	public ShardParameter() {
 	}
 
-	public ShardParam(String name, String shardValue, Object params) {
+	public ShardParameter(String name, String value, Object params) {
 		this.name = name;
-		this.shardValue = shardValue;
+		this.value = value;
 		this.params = params;
 	}
 
-	public ShardParam(String name, String shardValue) {
+	public ShardParameter(String name, String value) {
 		this.name = name;
-		this.shardValue = shardValue;
+		this.value = value;
 	}
 
 	public String getName() {
@@ -47,12 +47,12 @@ public class ShardParam {
 		this.name = name;
 	}
 
-	public String getShardValue() {
-		return shardValue;
+	public String getValue() {
+		return value;
 	}
 
-	public void setShardValue(String shardValue) {
-		this.shardValue = shardValue;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	public Object getParams() {

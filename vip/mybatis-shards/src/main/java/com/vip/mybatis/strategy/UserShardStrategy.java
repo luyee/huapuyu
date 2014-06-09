@@ -1,6 +1,6 @@
 package com.vip.mybatis.strategy;
 
-import com.vip.mybatis.util.ShardParam;
+import com.vip.mybatis.util.ShardParameter;
 
 /**
  * Demo分表策略（根据参数范围确定数据源和分表）
@@ -12,22 +12,26 @@ public class UserShardStrategy extends ShardStrategy {
 
 	@Override
 	public String getTargetDynamicDataSource() {
-		ShardParam shardParam = getShardParam();
-		Long param = Long.parseLong(shardParam.getShardValue());
+		ShardParameter shardParameter = getShardParameter();
+		Long param = Long.parseLong(shardParameter.getValue());
 		if (param > 100 && param <= 200) {
+			System.out.println("dataSource2");
 			return "dataSource2";
 		}
 		else if (param > 200) {
+			System.out.println("dataSource3");
 			return "dataSource3";
 		}
+		
+		System.out.println("dataSource");
 		return getDefaultDataSource();
 	}
 
 	@Override
 	public String getTargetSql() {
 		String targetSql = getSql();
-		ShardParam shardParam = getShardParam();
-		Long param = Long.parseLong(shardParam.getShardValue());
+		ShardParameter shardParameter = getShardParameter();
+		Long param = Long.parseLong(shardParameter.getValue());
 		String tableName = "user" + (param % 2);
 		targetSql = targetSql.replaceAll("\\$\\[table\\]\\$", tableName);
 		return targetSql;

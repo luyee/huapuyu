@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.vip.mybatis.bo.User;
 import com.vip.mybatis.dao.UserDao;
 import com.vip.mybatis.dao.UserMapper;
-import com.vip.mybatis.util.ShardParam;
+import com.vip.mybatis.util.ShardParameter;
 
 //@Component("userDao")
 //public class UserDaoImpl extends SqlSessionDaoSupport implements UserDao {

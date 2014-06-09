@@ -9,11 +9,17 @@ import com.vip.mybatis.service.UserService;
 @Component("userService")
 public class UserServiceImpl implements UserService {
 
+	@Shard(name = "shard_user", classType = User.class, fieldType = Long.class, fieldName = "id")
+	@Override
+	public void save(User user) {
+		
+	}
+
 	// @Resource
 	// private UserDao userDao;
 
-	@Shard(name = "shard_user", classType = User.class, fieldType = Long.class, fieldName = "id")
-	public void testAddUsers(Long id) {
+//	@Shard(name = "shard_user", classType = User.class, fieldType = Long.class, fieldName = "id")
+//	public void testAddUsers(Long id) {
 		// ShardParam shardParam = new ShardParam("shard_user", id);
 
 		// StrategyHolder.setShardStrategy(shardStrategy);
@@ -42,7 +48,7 @@ public class UserServiceImpl implements UserService {
 		 * 
 		 * user6.setName("lisi"); userDao.update(user6);
 		 */
-	}
+//	}
 	// public void setUserDao(UserDao userDao) {
 	// this.userDao = userDao;
 	// }

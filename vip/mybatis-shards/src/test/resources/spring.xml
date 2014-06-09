@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/context
@@ -9,7 +11,8 @@
 		http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
 		http://www.springframework.org/schema/util 
-		http://www.springframework.org/schema/util/spring-util-4.0.xsd" default-autowire="byName">
+		http://www.springframework.org/schema/util/spring-util-4.0.xsd"
+	default-autowire="byName">
 
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -154,7 +157,7 @@
 			</map>
 		</constructor-arg>
 	</bean>
-	
+
 	<!-- group 2 -->
 	<bean id="dataSource2" class="com.vip.datasource.DynamicDataSource">
 		<property name="targetDataSources">
@@ -190,7 +193,7 @@
 			</map>
 		</constructor-arg>
 	</bean>
-	
+
 	<!-- group 3 -->
 	<bean id="dataSource3" class="com.vip.datasource.DynamicDataSource">
 		<property name="targetDataSources">
@@ -226,7 +229,7 @@
 			</map>
 		</constructor-arg>
 	</bean>
-	
+
 	<bean id="shardDataSource" class="com.vip.datasource.ShardDataSource">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
@@ -239,34 +242,12 @@
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="transactionAttributes">
 			<props>
-				<prop key="query*">PROPAGATION_REQUIRED,readOnly</prop>
-				<prop key="is*">PROPAGATION_REQUIRED,readOnly</prop>
-				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
 				<prop key="get*">PROPAGATION_SUPPORTS,readOnly</prop>
-				<prop key="load*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
 				<prop key="count*">PROPAGATION_REQUIRED,readOnly</prop>
-				<prop key="list*">PROPAGATION_REQUIRED,readOnly</prop>
-				<prop key="check*">PROPAGATION_REQUIRED,readOnly</prop>
 				<prop key="save*">PROPAGATION_REQUIRED,-Throwable</prop>
-				<prop key="del*">PROPAGATION_REQUIRED,-Throwable</prop>
-				<prop key="add*">PROPAGATION_REQUIRED,-Throwable</prop>
-				<prop key="edit*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED,-Throwable</prop>
 				<prop key="update*">PROPAGATION_REQUIRED,-Throwable</prop>
-				<prop key="mod*">PROPAGATION_REQUIRED,-Throwable</prop>
-				<prop key="do*">PROPAGATION_REQUIRED,-Throwable</prop>
-				<prop key="findByIdWithNewTransaction">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
-				<prop key="findCleanoutPassCount">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
-				<prop key="findInspectCount">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
-				<prop key="findAssignRuleByUnitPosId">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
-				<prop key="addOrUpdateSaleSet">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
-				<prop key="updateByTime">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
-				<prop key="followTimeOut">PROPAGATION_REQUIRED,-Throwable</prop>
-				<prop key="shelveMature">PROPAGATION_REQUIRED,-Throwable</prop>
-				<prop key="followTimeOutAndAband">PROPAGATION_REQUIRED,-Throwable</prop>
-				<prop key="outLeave">PROPAGATION_REQUIRED,-Throwable</prop>
-				<prop key="onApplicationEvent">PROPAGATION_REQUIRED,-Throwable</prop>
-				<prop key="lock*">PROPAGATION_REQUIRED,-Throwable</prop>
-				<prop key="unlock*">PROPAGATION_REQUIRED,-Throwable</prop>
 				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
 			</props>
 		</property>
@@ -275,35 +256,12 @@
 	<bean id="dynamicDataSourceInterceptor" class="com.vip.datasource.interceptor.DynamicDataSourceInterceptor">
 		<property name="attributes">
 			<props>
-				<prop key="query*">read</prop>
-				<prop key="is*">read</prop>
-				<prop key="find*">read</prop>
 				<prop key="get*">read</prop>
-				<prop key="load*">read</prop>
+				<prop key="find*">read</prop>
 				<prop key="count*">read</prop>
-				<prop key="list*">read</prop>
-				<prop key="check*">read</prop>
 				<prop key="save*">write</prop>
-				<prop key="upd*">write</prop>
-				<prop key="del*">write</prop>
-				<prop key="add*">write</prop>
-				<prop key="edit*">write</prop>
+				<prop key="delete*">write</prop>
 				<prop key="update*">write</prop>
-				<prop key="mod*">write</prop>
-				<prop key="do*">write</prop>
-				<prop key="findByIdWithNewTransaction">read</prop>
-				<prop key="findCleanoutPassCount">read</prop>
-				<prop key="findInspectCount">read</prop>
-				<prop key="findAssignRuleByUnitPosId">read</prop>
-				<prop key="addOrUpdateSaleSet">write</prop>
-				<prop key="updateByTime">write</prop>
-				<prop key="followTimeOut">write</prop>
-				<prop key="shelveMature">write</prop>
-				<prop key="followTimeOutAndAband">write</prop>
-				<prop key="outLeave">write</prop>
-				<prop key="onApplicationEvent">write</prop>
-				<prop key="lock*">write</prop>
-				<prop key="unlock*">write</prop>
 				<prop key="*">read</prop>
 			</props>
 		</property>
@@ -312,7 +270,8 @@
 		</property>
 	</bean>
 
-	<!-- <bean id="myDynamicDataSourceInterceptor" class="com.anders.ssh.datasource.MyDynamicDatasourceInteceptor"> <property name="dataSourceKey"> <ref bean="dynamicDataSourceKey" /> </property> </bean> -->
+	<!-- <bean id="myDynamicDataSourceInterceptor" class="com.anders.ssh.datasource.MyDynamicDatasourceInteceptor"> <property 
+		name="dataSourceKey"> <ref bean="dynamicDataSourceKey" /> </property> </bean> -->
 
 	<bean id="shardDataSourceInterceptor" class="com.vip.datasource.interceptor.ShardDataSourceInterceptor">
 		<property name="shardStrategies">
@@ -327,6 +286,13 @@
 				<entry key="dataSource" value-ref="dataSource" />
 				<entry key="dataSource2" value-ref="dataSource2" />
 				<entry key="dataSource3" value-ref="dataSource3" />
+			</map>
+		</property>
+		<property name="shardDataSourceKeys">
+			<map key-type="java.lang.String">
+				<entry key="dataSource" value-ref="dynamicDataSourceKey" />
+				<entry key="dataSource2" value-ref="dynamicDataSourceKey2" />
+				<entry key="dataSource3" value-ref="dynamicDataSourceKey3" />
 			</map>
 		</property>
 	</bean>

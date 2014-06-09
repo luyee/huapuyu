@@ -1,5 +1,7 @@
 package com.vip.mybatis.service;
 
+import com.vip.mybatis.bo.User;
+
 public interface UserService {
-	public void testAddUsers(Long id);
+	 void save(User user);
 }

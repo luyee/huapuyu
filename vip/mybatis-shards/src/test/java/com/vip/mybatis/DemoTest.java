@@ -14,7 +14,7 @@ public class DemoTest {
 	@Before
 	public void init() {
 		// appCtx = new ClassPathXmlApplicationContext(new String[] { "dal-spring.xml", "service-spring.xml" });
-		appCtx = new ClassPathXmlApplicationContext(new String[] { "spring-master-slaves.xml" });
+		appCtx = new ClassPathXmlApplicationContext(new String[] { "spring.xml" });
 	}
 
 	@Test
@@ -22,7 +22,8 @@ public class DemoTest {
 		UserService userService = appCtx.getBean("userService", UserService.class);
 		try {
 			User user = new User();
-			userService.testAddUsers(123L);
+			user.setId(123L);
+			userService.save(user);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
