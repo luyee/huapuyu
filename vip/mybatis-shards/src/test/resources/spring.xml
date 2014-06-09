@@ -316,4 +316,25 @@
 	<context:annotation-config />
 
 	<context:component-scan base-package="com.vip.mybatis.service" />
+	
+	<bean id="shardPlugin" class="com.vip.mybatis.plugin.ShardPlugin">
+    	<property name="sqlConverter" ref="sqlConverter" />
+	</bean>
+	
+	<bean id="sqlConverter" class="com.vip.mybatis.converter.DefaultSqlConverter" />
+	
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.vip.mybatis.dao" />
+    </bean>
+    
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="shardDataSource"/>
+        <property name="typeAliasesPackage" value="com.vip.mybatis.bo"/>
+        <property name="mapperLocations" value="classpath*:com/vip/mybatis/mapper/*Mapper.xml" />
+        <property name="plugins">
+        	<array>
+            	<ref bean="shardPlugin"/>
+        	</array>
+    	</property>
+    </bean>
 </beans>
