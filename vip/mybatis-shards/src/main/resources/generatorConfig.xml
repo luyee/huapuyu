@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+  <classPathEntry location="D:/code/java/ssh/lib/mysql-connector-java-5.1.29.jar" />
+  <context id="context1" >
+    <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">  
+    	<property name="searchString" value="Example$" />  
+    	<property name="replaceString" value="Criteria" />  
+	</plugin> 
+    
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" 
+    	connectionURL="jdbc:mysql://localhost:3306/ssh_dev?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf8&amp;amp;zeroDateTimeBehavior=convertToNull" 
+    	userId="root" 
+    	password="123" />
+    <javaModelGenerator targetPackage="com.anders.ssh.bo.mybatis" targetProject="ssh\src\main\java\" />
+    <sqlMapGenerator targetPackage="com.anders.ssh.mybatis" targetProject="ssh\src\main\resource\" />
+    <!-- <javaClientGenerator targetPackage="com.anders.ssh.mybatis.client" targetProject="ssh" type="XMLMAPPER" /> -->
+    <javaClientGenerator targetPackage="com.anders.ssh.mybatis.dao" targetProject="ssh\src\main\java\" type="ANNOTATEDMAPPER">
+    	<!-- <property name="enableSubPackages" value="false" /> -->
+    	<property name="useLegacyBuilder" value="false" />
+    </javaClientGenerator>
+    <table schema="ssh" tableName="tb_account" domainObjectName="Account">
+      <!-- <columnOverride column="???" property="???" /> -->
+    </table>
+  </context>
+</generatorConfiguration>
+
+<!-- <generatorConfiguration >  
+  <context id="context1" >  
+    <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@192.168.2.21:1521:ORCL" userId="atfm" password="atfm" />  
+    <javaModelGenerator targetPackage="com.topsci.atfm.persistence.mybatis.model" targetProject="ATFM" />  
+    <sqlMapGenerator targetPackage="com.topsci.atfm.persistence.mybatis.mapper" targetProject="ATFM" ></sqlMapGenerator>  
+    <javaClientGenerator targetPackage="com.topsci.atfm.persistence.mybatis.client" targetProject="ATFM" type="XMLMAPPER" />  
+    <table schema="" tableName="ATFM_ROUTE_CTRL" ></table>  
+    <table tableName="SYN_TRACK_EST" domainObjectName="AtfmTrack"></table>  
+  </context>  
+</generatorConfiguration> -->

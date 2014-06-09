@@ -1,5 +1,5 @@
 package com.vip.mybatis.service;
 
 public interface UserService {
-	public void testAddUsers();
+	public void testAddUsers(Long id);
 }

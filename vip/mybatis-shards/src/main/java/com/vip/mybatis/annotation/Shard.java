@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * 分片注解
  * 
@@ -14,7 +16,11 @@ import java.lang.annotation.Target;
 @Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Shard {
-	String name() default "";
+	String name() default StringUtils.EMPTY;
 
-	String field() default "";
+	Class<?> classType();
+
+	Class<?> fieldType();
+
+	String fieldName() default StringUtils.EMPTY;
 }

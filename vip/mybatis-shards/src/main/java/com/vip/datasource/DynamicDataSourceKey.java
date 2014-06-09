@@ -2,7 +2,6 @@ package com.vip.datasource;
 
 import java.util.Map;
 
-
 public interface DynamicDataSourceKey {
 	/**
 	 * 设置读(从)库数据源对应关系
@@ -17,7 +16,7 @@ public interface DynamicDataSourceKey {
 	 * @param key
 	 * @return
 	 */
-	public abstract String getKey(String key);
+	public abstract String getReadKey(String key);
 
 	/**
 	 * 获得写(主)库数据源key
@@ -62,13 +61,13 @@ public interface DynamicDataSourceKey {
 
 	public void recoverDateSourceKey(String key);
 
-	public void reSetKey();
+	public void resetKey();
 
 	public boolean isCurrentWriteKey();
 
-	public boolean hasReadKeyCandidate();
+	public boolean hasReadKey();
 
-	public boolean hasDataSourceFailed();
+	public boolean hasFailedDataSource();
 
 	public Map<String, String> getFailedDataSourceKeys();
 

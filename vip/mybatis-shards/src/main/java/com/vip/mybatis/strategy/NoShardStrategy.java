@@ -1,6 +1,5 @@
 package com.vip.mybatis.strategy;
 
-import javax.sql.DataSource;
 
 /**
  * 不分表策略
@@ -11,7 +10,7 @@ import javax.sql.DataSource;
 public class NoShardStrategy extends ShardStrategy {
 
 	private static final NoShardStrategy INSTANCE = new NoShardStrategy();
-	
+
 	private NoShardStrategy() {
 	}
 
@@ -21,8 +20,8 @@ public class NoShardStrategy extends ShardStrategy {
 	}
 
 	@Override
-	public DataSource getTargetDataSource() {
-		return getDataSource();
+	public String getTargetDynamicDataSource() {
+		return getDefaultDataSource();
 	}
 
 	public static NoShardStrategy getInstance() {

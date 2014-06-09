@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,17 +16,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
+import com.vip.datasource.util.Constants;
 
 public class DynamicDataSource extends AbstractRoutingDataSource implements DisposableBean {
-	private final Logger log = LoggerFactory.getLogger(DynamicDataSource.class);
+
+	private final Logger logger = LoggerFactory.getLogger(DynamicDataSource.class);
 
 	private DynamicDataSourceKey dataSourceKey;
 
 	private DataSourceRecoverHeartBeat recoverHeartBeat;
 
-	private Map<String, DataSource> dsMap = new ConcurrentHashMap<String, DataSource>();
+	private Map<String, DataSource> key2DataSourceMap = new ConcurrentHashMap<String, DataSource>();
 
-	private ExecutorService exe;
+	private ExecutorService executorService;
 
 	@Override
 	protected Object determineCurrentLookupKey() {
@@ -36,7 +37,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Disp
 			key = dataSourceKey.getKey();
 		}
 		catch (Throwable e) {
-			log.error("get datasource key fail, will use default datasource");
+			logger.error("get datasource key fail, will use default datasource");
 		}
 		return key;
 	}
@@ -46,52 +47,78 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Disp
 		return getConnectionFromDataSource(null, null);
 	}
 
+	@Override
+	public Connection getConnection(String username, String password) throws SQLException {
+		return getConnectionFromDataSource(username, password);
+	}
 
 	private Connection getConnectionFromDataSource(String username, String password) throws SQLException {
 
-		Connection con = null;
+		Connection connection = null;
 		DataSource ds = determineTargetDataSource();
 		try {
 			if (username == null && password == null) {
-				con = super.getConnection();
+				connection = super.getConnection();
 			}
 			else {
-				con = super.getConnection(username, password);
+				connection = super.getConnection(username, password);
 			}
-			validateConnection(con);
+			validateConnection(connection);
 		}
 		catch (Exception e) {
-			// here detected a invalidate datasource
-			if (dataSourceKey.isCurrentWriteKey()) { // write datasource failed
+			if (dataSourceKey.isCurrentWriteKey()) {
 				throw new SQLException(e.getMessage());
 			}
-			// read datasource failed, try to do failover action
 			String key = (String) determineCurrentLookupKey();
 			dataSourceKey.removeDataSourceKey(key);
-			dsMap.put(key, ds);
+			key2DataSourceMap.put(key, ds);
 			executeHeartBeat();
 
-			if (dataSourceKey.hasReadKeyCandidate()) {
-				dataSourceKey.reSetKey();
+			if (dataSourceKey.hasReadKey()) {
+				dataSourceKey.resetKey();
 				return getConnectionFromDataSource(username, password);
 			}
-			throw new SQLException(e.getMessage()); // no more datasource available, throw out exception
+			throw new SQLException(e.getMessage());
 		}
-		return con;
+		return connection;
 	}
 
 	private void validateConnection(Connection connection) throws SQLException {
-		PreparedStatement stmt = connection.prepareStatement("select 1"); 
+		PreparedStatement stmt = connection.prepareStatement(Constants.VALIDATE_SQL);
 		stmt.executeQuery();
 		stmt.close();
 	}
 
-	/**
-	 * get SQL Connection
-	 */
 	@Override
-	public Connection getConnection(String username, String password) throws SQLException {
-		return getConnectionFromDataSource(username, password);
+	public void destroy() throws Exception {
+		shutdownHeartBeat();
+	}
+
+	private synchronized void executeHeartBeat() {
+		if (recoverHeartBeat == null) {
+			recoverHeartBeat = new DataSourceRecoverHeartBeat(this);
+			if (executorService == null) {
+				executorService = Executors.newFixedThreadPool(1);
+			}
+			executorService.execute(recoverHeartBeat);
+		}
+		else {
+			if (!recoverHeartBeat.isRuning()) {
+				if (executorService == null) {
+					executorService = Executors.newFixedThreadPool(1);
+				}
+				executorService.execute(recoverHeartBeat);
+			}
+		}
+	}
+
+	private synchronized void shutdownHeartBeat() {
+		if (recoverHeartBeat != null) {
+			recoverHeartBeat.close();
+		}
+		if (executorService != null) {
+			executorService.shutdown();
+		}
 	}
 
 	public DynamicDataSourceKey getDataSourceKey() {
@@ -102,38 +129,18 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Disp
 		this.dataSourceKey = dataSourceKey;
 	}
 
-	private synchronized void executeHeartBeat() {
-		if (recoverHeartBeat == null) {
-			recoverHeartBeat = new DataSourceRecoverHeartBeat(this);
-			if (exe == null) {
-				exe = Executors.newFixedThreadPool(1);
-			}
-			exe.execute(recoverHeartBeat);
-		}
-		else {
-			if (!recoverHeartBeat.isRuning()) {
-				if (exe == null) {
-					exe = Executors.newFixedThreadPool(1);
-				}
-				exe.execute(recoverHeartBeat);
-			}
-		}
-	}
-
-	private synchronized void shutdownHeartBean() {
-		if (recoverHeartBeat != null) {
-			recoverHeartBeat.close();
-		}
-		if (exe != null) {
-			exe.shutdown();
-		}
-	}
-
-	
+	/**
+	 * datasource heart beat
+	 * 
+	 * @author Anders
+	 * 
+	 */
 	private static class DataSourceRecoverHeartBeat implements Runnable {
+
+		private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceRecoverHeartBeat.class);
+
 		private DynamicDataSource dynamicDataSource;
 		private boolean runing;
-
 		private boolean close = false;
 
 		public boolean isRuning() {
@@ -151,37 +158,32 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Disp
 		public void run() {
 			runing = true;
 			DynamicDataSourceKey dataSourceKey = dynamicDataSource.getDataSourceKey();
-			Map<String, String> failedDataSources;
-			Set<String> dataSourceKeys;
-			while (dataSourceKey.hasDataSourceFailed() && !close) {
+			// Map<String, String> failedDataSources;
+			// Set<String> dataSourceKeys;
+			while (dataSourceKey.hasFailedDataSource() && !close) {
 
-				failedDataSources = dataSourceKey.getFailedDataSourceKeys();
-				dataSourceKeys = failedDataSources.keySet();
-				for (String dsKey : dataSourceKeys) {
+				// failedDataSources = dataSourceKey.getFailedDataSourceKeys();
+				// dataSourceKeys = failedDataSources.keySet();
+				for (String key : dataSourceKey.getFailedDataSourceKeys().keySet()) {
 					try {
-						DataSource ds = dynamicDataSource.dsMap.get(dsKey);
-						Connection con = ds.getConnection();
-						dynamicDataSource.validateConnection(con);
-						dataSourceKey.recoverDateSourceKey(dsKey);
-						System.out.println("key=" + dsKey + " valid ok!!!!!");
+						DataSource ds = dynamicDataSource.key2DataSourceMap.get(key);
+						Connection connection = ds.getConnection();
+						dynamicDataSource.validateConnection(connection);
+						dataSourceKey.recoverDateSourceKey(key);
+						LOGGER.debug("key = " + key + " valid ok");
 					}
 					catch (Exception e) {
-						System.out.println("key=" + dsKey + " valid failed");
-						// not recover.
+						LOGGER.error("key = " + key + " valid failed");
 					}
 				}
-				// sleep 1 seconds
 				try {
 					Thread.sleep(1000);
 				}
 				catch (Exception e) {
+					LOGGER.error(e.getMessage());
 				}
 			}
 			runing = false;
 		}
-	}
-
-	public void destroy() throws Exception {
-		shutdownHeartBean();
 	}
 }

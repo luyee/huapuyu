@@ -34,6 +34,11 @@ public class ShardParam {
 		this.params = params;
 	}
 
+	public ShardParam(String name, String shardValue) {
+		this.name = name;
+		this.shardValue = shardValue;
+	}
+
 	public String getName() {
 		return name;
 	}

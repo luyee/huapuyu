@@ -14,92 +14,84 @@ import org.springframework.beans.factory.InitializingBean;
 import com.vip.datasource.strategy.LoadBalanceStrategy;
 import com.vip.datasource.strategy.RandomLoadBalanceStrategy;
 
-
 public class DynamicDataSourceKeyImpl implements DynamicDataSourceKey, InitializingBean {
-	private static final Logger log = LoggerFactory.getLogger(DynamicDataSourceKeyImpl.class);
-	/**
-	 * 数据源key的存储
-	 */
-	private static final ThreadLocal<String> DB_KEY = new ThreadLocal<String>();
 
-	/**
-	 * 读(从)库
-	 */
-	private Map<String, String> readDateSourceMap = new HashMap<String, String>();
+	private static final Logger LOGGER = LoggerFactory.getLogger(DynamicDataSourceKeyImpl.class);
 
-	private Map<String, String> failedDataSourceMap = new ConcurrentHashMap<String, String>();
-
-	/**
-	 * 如果数据源标示位已经设置，是否进行替换操作， 默认为 false
-	 */
+	private static final ThreadLocal<String> DS_KEY = new ThreadLocal<String>();
+	private Map<String, String> readKey2DateSourceMap = new HashMap<String, String>();
+	private Map<String, String> failedKey2DataSourceMap = new ConcurrentHashMap<String, String>();
 	private boolean alwaysReplaceExist = false;
-
 	private LoadBalanceStrategy<String> strategy;
+	private String writeKey;
 
-	/**
-	 * 写(主)库
-	 */
-	public String writeKey;
-
+	@Override
 	public void setReadDateSourceMap(Map<String, String> readDateSourceMap) {
-		this.readDateSourceMap = Collections.synchronizedMap(readDateSourceMap);
+		this.readKey2DateSourceMap = Collections.synchronizedMap(readDateSourceMap);
 
 	}
 
-	public String getKey(String key) {
-		return readDateSourceMap.get(key);
+	@Override
+	public String getReadKey(String key) {
+		return readKey2DateSourceMap.get(key);
 	}
 
+	@Override
 	public String getWriteKey() {
 		return writeKey;
 	}
 
+	@Override
 	public void setWriteKey(String writeKey) {
 		this.writeKey = writeKey;
 	}
 
+	@Override
 	public void setWriteKey() {
-		DB_KEY.set(writeKey);
-		log.debug("set data source writeKey[" + DB_KEY.get() + "]");
+		DS_KEY.set(writeKey);
+		LOGGER.debug("set datasource write key [" + DS_KEY.get() + "]");
 
 	}
 
+	@Override
 	public void setReadKey() {
-		if (!alwaysReplaceExist && DB_KEY.get() != null) {
-			log.debug("data source already has a readKey[" + DB_KEY.get() + "] and ignore to replace it");
+		if (!alwaysReplaceExist && DS_KEY.get() != null) {
+			LOGGER.debug("datasource already has a read key [" + DS_KEY.get() + "] and ignore to replace it");
 			return;
 		}
-		DB_KEY.set(strategy.elect());
-		log.debug("set data source readKey[" + DB_KEY.get() + "]");
+		DS_KEY.set(strategy.elect());
+		LOGGER.debug("set data source readKey[" + DS_KEY.get() + "]");
 	}
 
+	@Override
 	public void setKey(String key) {
-		if (!alwaysReplaceExist && DB_KEY.get() != null && !writeKey.equals(key)) {
-			log.debug("data source already has a readKey[" + DB_KEY.get() + "] and ignore to replace it");
+		if (!alwaysReplaceExist && DS_KEY.get() != null && !writeKey.equals(key)) {
+			LOGGER.debug("datasource already has a read key [" + DS_KEY.get() + "] and ignore to replace it");
 			return;
 		}
 
-		DB_KEY.set(readDateSourceMap.get(key));
-		log.debug("set data source key[" + DB_KEY.get() + "]");
+		DS_KEY.set(readKey2DateSourceMap.get(key));
+		LOGGER.debug("set datasource key [" + DS_KEY.get() + "]");
 	}
 
+	@Override
 	public String getKey() {
-		if (DB_KEY.get() == null) {
-			setReadKey();
-			// 老线索使用的是默认设置为写KEY
-			// setWriteKey();
+		if (DS_KEY.get() == null) {
+			// default key is read key
+			setReadKey(); // TODO Anders 这里是否要改为write
 		}
-		String key = DB_KEY.get();
-		log.debug("get data source Key[" + DB_KEY.get() + "]");
+		String key = DS_KEY.get();
+		LOGGER.debug("get datasource Key [" + DS_KEY.get() + "]");
 		return key;
 	}
 
+	@Override
 	public void clearKey() {
-		DB_KEY.remove();
+		DS_KEY.remove();
 	}
 
 	public static void clearKeyForce() {
-		DB_KEY.remove();
+		DS_KEY.remove();
 	}
 
 	public boolean isAlwaysReplaceExist() {
@@ -118,52 +110,58 @@ public class DynamicDataSourceKeyImpl implements DynamicDataSourceKey, Initializ
 		this.strategy = strategy;
 	}
 
+	@Override
 	public synchronized void removeDataSourceKey(String key) {
-		if (readDateSourceMap.containsKey(key)) {
-			failedDataSourceMap.put(key, readDateSourceMap.get(key));
-			readDateSourceMap.remove(key);
-
+		if (readKey2DateSourceMap.containsKey(key)) {
+			failedKey2DataSourceMap.put(key, readKey2DateSourceMap.get(key));
+			readKey2DateSourceMap.remove(key);
 			strategy.removeTarget(key);
 		}
 	}
 
+	@Override
 	public synchronized void recoverDateSourceKey(String key) {
-		if (failedDataSourceMap.containsKey(key)) {
-			readDateSourceMap.put(key, readDateSourceMap.get(key));
-			failedDataSourceMap.remove(key);
-
+		if (failedKey2DataSourceMap.containsKey(key)) {
+			readKey2DateSourceMap.put(key, readKey2DateSourceMap.get(key));
+			failedKey2DataSourceMap.remove(key);
 			strategy.recoverTarget(key);
 		}
 	}
 
-	public void reSetKey() {
+	@Override
+	public void resetKey() {
 		String key = getKey();
 		if (!writeKey.equals(key)) {
 			setReadKey();
 		}
 	}
 
+	@Override
 	public boolean isCurrentWriteKey() {
-		String key = DB_KEY.get();
+		String key = DS_KEY.get();
 		return writeKey.equals(key);
 	}
 
-	public boolean hasReadKeyCandidate() {
-		return !readDateSourceMap.isEmpty();
+	@Override
+	public boolean hasReadKey() {
+		return !readKey2DateSourceMap.isEmpty();
 	}
 
-	public synchronized boolean hasDataSourceFailed() {
-		return !failedDataSourceMap.isEmpty();
+	@Override
+	public synchronized boolean hasFailedDataSource() {
+		return !failedKey2DataSourceMap.isEmpty();
 	}
 
+	@Override
 	public Map<String, String> getFailedDataSourceKeys() {
-		return failedDataSourceMap;
+		return failedKey2DataSourceMap;
 	}
 
+	@Override
 	public void afterPropertiesSet() throws Exception {
-		// default using random strategy
 		if (strategy == null) {
-			List<String> list = new ArrayList<String>(readDateSourceMap.values());
+			List<String> list = new ArrayList<String>(readKey2DateSourceMap.values());
+			// TODO Anders 写死了
 			strategy = new RandomLoadBalanceStrategy(list);
 		}
 	}

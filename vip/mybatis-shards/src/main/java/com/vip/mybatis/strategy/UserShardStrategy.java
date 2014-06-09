@@ -1,9 +1,5 @@
 package com.vip.mybatis.strategy;
 
-import java.util.Map;
-
-import javax.sql.DataSource;
-
 import com.vip.mybatis.util.ShardParam;
 
 /**
@@ -15,24 +11,24 @@ import com.vip.mybatis.util.ShardParam;
 public class UserShardStrategy extends ShardStrategy {
 
 	@Override
-	public DataSource getTargetDataSource() {
+	public String getTargetDynamicDataSource() {
 		ShardParam shardParam = getShardParam();
-		Long param = Long.parseLong(String.valueOf(shardParam.getShardValue()));
-		Map<String, DataSource> map = this.getShardDataSources();
+		Long param = Long.parseLong(shardParam.getShardValue());
 		if (param > 100 && param <= 200) {
-			return map.get("dataSource_mysql_1");
-		} else if (param > 200) {
-			return map.get("dataSource_mysql_2");
+			return "dataSource2";
 		}
-		return getDataSource();
+		else if (param > 200) {
+			return "dataSource3";
+		}
+		return getDefaultDataSource();
 	}
 
 	@Override
 	public String getTargetSql() {
 		String targetSql = getSql();
 		ShardParam shardParam = getShardParam();
-		Long param = Long.parseLong(String.valueOf(shardParam.getShardValue()));
-		String tableName = "user_" + (param % 2);
+		Long param = Long.parseLong(shardParam.getShardValue());
+		String tableName = "user" + (param % 2);
 		targetSql = targetSql.replaceAll("\\$\\[table\\]\\$", tableName);
 		return targetSql;
 	}
