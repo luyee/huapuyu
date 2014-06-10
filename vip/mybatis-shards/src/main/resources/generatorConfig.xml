@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<classPathEntry location="D:/code/java/ssh/lib/mysql-connector-java-5.1.29.jar" />
+
+	<context id="context1">
+
+		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Criteria" />
+		</plugin>
+
+		<plugin type="com.vip.mybatis.generator.RenameExampleMethodPlugin">
+			<property name="searchString" value="Example" />
+			<property name="replaceString" value="Criteria" />
+		</plugin>
+
+		<plugin type="com.vip.mybatis.generator.MySQLPagePlugin">
+		</plugin>
+
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/db1_master?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf8&amp;amp;zeroDateTimeBehavior=convertToNull"
+			userId="root" password="123" />
+
+		<javaModelGenerator targetPackage="com.vip.mybatis.bo" targetProject="ssh\src\test\java\" />
+
+		<sqlMapGenerator targetPackage="com.vip.mybatis.mapper" targetProject="ssh\src\test\resources\" />
+
+		<javaClientGenerator targetPackage="com.vip.mybatis.dao" targetProject="ssh\src\test\java\"
+			type="XMLMAPPER"><!-- XMLMAPPER ANNOTATEDMAPPER -->
+			<!-- <property name="rootInterface" value="com.anders.ssh.mybatis.dao.GenericMapper" /> -->
+		</javaClientGenerator>
+
+		<table schema="db1_master" tableName="user1" domainObjectName="User">
+		</table>
+	</context>
+
+</generatorConfiguration>
