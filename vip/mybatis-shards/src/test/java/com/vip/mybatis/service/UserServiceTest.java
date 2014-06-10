@@ -1,10 +1,12 @@
 package com.vip.mybatis.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -17,8 +19,8 @@ public class UserServiceTest /* extends AbstractTransactionalJUnit4SpringContext
 	private UserService userService;
 
 	@Test
-	@Rollback(true)
-	public void testSave() {
+	// @Rollback(true)
+	public void testCRUD() {
 		User user = new User();
 		user.setId(1);
 		user.setName("zhuzhen");
@@ -33,10 +35,26 @@ public class UserServiceTest /* extends AbstractTransactionalJUnit4SpringContext
 		user.setId(201);
 		user.setName("zhulili");
 		userService.save(user);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", 1);
+		map.put("name", "zhuzhen1");
+		userService.update(map);
+
+		map = new HashMap<String, Object>();
+		map.put("id", 101);
+		map.put("name", "guolili101");
+		userService.update(map);
+
+		map = new HashMap<String, Object>();
+		map.put("id", 201);
+		map.put("name", "zhulili201");
+		userService.update(map);
+
 	}
 
 	@Test
-	public void test() {
+	public void testDelete() {
 
 	}
 }
