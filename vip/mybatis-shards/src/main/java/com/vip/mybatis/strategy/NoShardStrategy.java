@@ -1,6 +1,5 @@
 package com.vip.mybatis.strategy;
 
-
 /**
  * 不分表策略
  * 
@@ -15,8 +14,8 @@ public class NoShardStrategy extends ShardStrategy {
 	}
 
 	@Override
-	public String getTargetSql() {
-		return getSql();
+	public String getTargetSql(String sql) {
+		return sql;
 	}
 
 	@Override

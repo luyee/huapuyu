@@ -17,14 +17,13 @@
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:config.properties</value>
+				<value>classpath*:config.properties</value>
 			</list>
 		</property>
-		<property name="fileEncoding" value="UTF-8" />
 	</bean>
 
 	<!-- group 1 -->
-	<!-- <bean id="parentDataSource1" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+	<bean id="parentDataSource1" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<property name="url" value="${db1.master.url}" />
 		<property name="username" value="${db1.master.username}" />
 		<property name="password" value="${db1.master.password}" />
@@ -41,13 +40,13 @@
 		<property name="testOnReturn" value="false" />
 		<property name="poolPreparedStatements" value="true" />
 		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
-	</bean> -->
+	</bean>
 
-	 <bean id="parentDataSource1" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> <property name="driverClassName" 
+	<!-- <bean id="parentDataSource1" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> <property name="driverClassName" 
 		value="${db1.master.driver}" /> <property name="url" value="${db1.master.url}" /> <property name="username" value="${db1.master.username}" 
 		/> <property name="password" value="${db1.master.password}" /> <property name="maxActive" value="3" /> <property name="maxWait" 
 		value="1000" /> <property name="poolPreparedStatements" value="true" /> <property name="defaultAutoCommit" value="true" /> 
-		</bean> 
+		</bean> -->
 
 	<bean id="ds1_write" parent="parentDataSource1" />
 
@@ -64,7 +63,7 @@
 	</bean>
 
 	<!-- group 2 -->
-	<!-- <bean id="parentDataSource2" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+	<bean id="parentDataSource2" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<property name="url" value="${db2.master.url}" />
 		<property name="username" value="${db2.master.username}" />
 		<property name="password" value="${db2.master.password}" />
@@ -81,13 +80,13 @@
 		<property name="testOnReturn" value="false" />
 		<property name="poolPreparedStatements" value="true" />
 		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
-	</bean> -->
+	</bean>
 
-	<bean id="parentDataSource2" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> <property name="driverClassName" 
+	<!-- <bean id="parentDataSource2" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> <property name="driverClassName" 
 		value="${db2.master.driver}" /> <property name="url" value="${db2.master.url}" /> <property name="username" value="${db2.master.username}" 
 		/> <property name="password" value="${db2.master.password}" /> <property name="maxActive" value="3" /> <property name="maxWait" 
 		value="1000" /> <property name="poolPreparedStatements" value="true" /> <property name="defaultAutoCommit" value="true" /> 
-		</bean> 
+		</bean> -->
 
 	<bean id="ds2_write" parent="parentDataSource2" />
 
@@ -104,25 +103,30 @@
 	</bean>
 
 	<!-- group 3 -->
-	<!-- <bean id="parentDataSource3" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
-		<property name="url" value="${db3.master.url}" /> <property name="username" value="${db3.master.username}" /> <property name="password" 
-		value="${db3.master.password}" /> <property name="driverClassName" value="${db3.master.driver}" /> <property name="initialSize" 
-		value="3" /> <property name="minIdle" value="3" /> <property name="maxActive" value="3" /> <property name="maxWait" value="60000" 
-		/> <property name="timeBetweenEvictionRunsMillis" value="60000" /> <property name="minEvictableIdleTimeMillis" value="300000" 
-		/> <property name="validationQuery" value="SELECT 1" /> <property name="testWhileIdle" value="true" /> <property name="testOnBorrow" 
-		value="false" /> <property name="testOnReturn" value="false" /> <property name="poolPreparedStatements" value="true" /> <property 
-		name="maxPoolPreparedStatementPerConnectionSize" value="20" /> </bean> -->
-
-	<bean id="parentDataSource3" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${db2.master.driver}" />
-		<property name="url" value="${db2.master.url}" />
-		<property name="username" value="${db2.master.username}" />
-		<property name="password" value="${db2.master.password}" />
+	<bean id="parentDataSource3" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="url" value="${db3.master.url}" />
+		<property name="username" value="${db3.master.username}" />
+		<property name="password" value="${db3.master.password}" />
+		<property name="driverClassName" value="${db3.master.driver}" />
+		<property name="initialSize" value="3" />
+		<property name="minIdle" value="3" />
 		<property name="maxActive" value="3" />
-		<property name="maxWait" value="1000" />
+		<property name="maxWait" value="60000" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
 		<property name="poolPreparedStatements" value="true" />
-		<property name="defaultAutoCommit" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
 	</bean>
+
+	<!-- <bean id="parentDataSource3" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> <property name="driverClassName" 
+		value="${db2.master.driver}" /> <property name="url" value="${db2.master.url}" /> <property name="username" value="${db2.master.username}" 
+		/> <property name="password" value="${db2.master.password}" /> <property name="maxActive" value="3" /> <property name="maxWait" 
+		value="1000" /> <property name="poolPreparedStatements" value="true" /> <property name="defaultAutoCommit" value="true" /> 
+		</bean> -->
 
 	<bean id="ds3_write" parent="parentDataSource3" />
 
@@ -249,7 +253,7 @@
 	<bean id="dataSource" class="com.vip.datasource.ShardDataSource">
 		<property name="targetDataSources">
 			<map key-type="java.lang.String">
-				<entry key="dataSource1" value-ref="dataSource1" />
+				<entry key="defaultDataSource" value-ref="dataSource1" />
 				<entry key="dataSource2" value-ref="dataSource2" />
 				<entry key="dataSource3" value-ref="dataSource3" />
 			</map>
@@ -303,11 +307,9 @@
 				</entry>
 			</map>
 		</property>
-		<!-- <property name="shardDataSources"> <map key-type="java.lang.String"> <entry key="dataSource" value-ref="dataSource" 
-			/> <entry key="dataSource2" value-ref="dataSource2" /> <entry key="dataSource3" value-ref="dataSource3" /> </map> </property> -->
 		<property name="shardDataSourceKeys">
 			<map key-type="java.lang.String">
-				<entry key="dataSource1" value-ref="dynamicDataSourceKey1" />
+				<entry key="defaultDataSource" value-ref="dynamicDataSourceKey1" />
 				<entry key="dataSource2" value-ref="dynamicDataSourceKey2" />
 				<entry key="dataSource3" value-ref="dynamicDataSourceKey3" />
 			</map>
@@ -323,7 +325,7 @@
 		<property name="interceptorNames">
 			<list>
 				<value>shardDataSourceInterceptor</value>
-				<value>dynamicDataSourceInterceptor</value>
+				<value>dynamicDataSourceInterceptor</value> 
 				<!-- <value>myDynamicDataSourceInterceptor</value> -->
 				<value>transactionInterceptor</value>
 			</list>
@@ -342,21 +344,17 @@
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.vip.mybatis.dao" />
-		<!-- <property name="sqlSessionTemplate" ref="sqlSessionTemplate" /> -->
-		<!-- <property name="sqlSessionFactory" ref="sqlSessionFactory" /> -->
+		<property name="sqlSessionFactoryBeanName" value="msqlSessionFactory" />
 	</bean>
 
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="msqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="typeAliasesPackage" value="com.vip.mybatis.bo" />
-		<!-- <property name="mapperLocations" value="classpath*:com/vip/mybatis/mapper/*Mapper.xml" /> -->
+		<property name="mapperLocations" value="classpath*:com/vip/mybatis/mapper/*Mapper.xml" /> 
 		<property name="plugins">
 			<array>
 				<ref bean="shardPlugin" />
 			</array>
 		</property>
 	</bean>
-
-	<!-- <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"> <constructor-arg> <ref bean="sqlSessionFactory" 
-		/> </constructor-arg> </bean> -->
 </beans>

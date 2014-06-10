@@ -13,7 +13,6 @@ public abstract class ShardStrategy {
 
 	// private static final ThreadLocal<DataSource> dataSource = new ThreadLocal<DataSource>();
 	// private static final ThreadLocal<Map<String, DataSource>> shardDataSources = new ThreadLocal<Map<String, DataSource>>();
-	private static final ThreadLocal<String> sql = new ThreadLocal<String>();
 	private static final ThreadLocal<ShardParameter> shardParameter = new ThreadLocal<ShardParameter>();
 
 	// public DataSource getDataSource() {
@@ -36,14 +35,6 @@ public abstract class ShardStrategy {
 		return Constants.DEFAULT_DYNAMIC_DS;
 	}
 
-	public String getSql() {
-		return sql.get();
-	}
-
-	public void setSql(String sql) {
-		ShardStrategy.sql.set(sql);
-	}
-
 	public ShardParameter getShardParameter() {
 		return shardParameter.get();
 	}
@@ -55,5 +46,5 @@ public abstract class ShardStrategy {
 	// public abstract DataSource getTargetDataSource();
 	public abstract String getTargetDynamicDataSource();
 
-	public abstract String getTargetSql();
+	public abstract String getTargetSql(String sql);
 }

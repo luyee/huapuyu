@@ -1,5 +1,8 @@
 package com.vip.mybatis.strategy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vip.mybatis.util.ShardParameter;
 
 /**
@@ -10,31 +13,32 @@ import com.vip.mybatis.util.ShardParameter;
  */
 public class UserShardStrategy extends ShardStrategy {
 
+	private final Logger logger = LoggerFactory.getLogger(UserShardStrategy.class);
+
+	// TODO Anders 想办法把这里直接通过字符串获取shard datasource改掉
 	@Override
 	public String getTargetDynamicDataSource() {
 		ShardParameter shardParameter = getShardParameter();
 		Long param = Long.parseLong(shardParameter.getValue());
 		if (param > 100 && param <= 200) {
-			System.out.println("dataSource2");
+			logger.debug("shard datasource switch to dataSource2");
 			return "dataSource2";
 		}
 		else if (param > 200) {
-			System.out.println("dataSource3");
+			logger.debug("shard datasource switch to dataSource3");
 			return "dataSource3";
 		}
-		
-		System.out.println("dataSource");
+
+		logger.debug("shard datasource switch to " + getDefaultDataSource());
 		return getDefaultDataSource();
 	}
 
 	@Override
-	public String getTargetSql() {
-		String targetSql = getSql();
+	public String getTargetSql(String sql) {
 		ShardParameter shardParameter = getShardParameter();
 		Long param = Long.parseLong(shardParameter.getValue());
 		String tableName = "user" + (param % 2);
-		targetSql = targetSql.replaceAll("\\$\\[table\\]\\$", tableName);
-		return targetSql;
+		return sql.replaceAll("\\$\\[user\\]\\$", tableName);
 	}
 
 }

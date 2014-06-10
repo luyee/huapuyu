@@ -35,6 +35,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Disp
 		String key = StringUtils.EMPTY;
 		try {
 			key = dataSourceKey.getKey();
+			logger.debug("dynamic datasource switch to " + key);
 		}
 		catch (Throwable e) {
 			logger.error("get datasource key fail, will use default datasource");

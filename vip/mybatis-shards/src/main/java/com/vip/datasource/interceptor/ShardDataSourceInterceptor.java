@@ -13,9 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.Assert;
 
-import com.vip.datasource.DynamicDataSource;
 import com.vip.datasource.DynamicDataSourceKey;
-import com.vip.datasource.ShardDataSource;
 import com.vip.mybatis.annotation.Shard;
 import com.vip.mybatis.strategy.ShardStrategy;
 import com.vip.mybatis.util.ShardParameter;
@@ -32,7 +30,7 @@ public class ShardDataSourceInterceptor implements MethodInterceptor, Initializi
 	/**
 	 * key : dynamic datasource id in spring, value : DynamicDataSource bean in spring
 	 */
-	private Map<String, DynamicDataSource> dynamicDataSourceMap = new HashMap<String, DynamicDataSource>();
+	// private Map<String, DynamicDataSource> dynamicDataSourceMap = new HashMap<String, DynamicDataSource>();
 	/**
 	 * key : shard strategy name, value : ShardStrategy instance
 	 */
@@ -79,8 +77,8 @@ public class ShardDataSourceInterceptor implements MethodInterceptor, Initializi
 
 		StrategyHolder.setShardStrategy(shardStrategy);
 
-//		ShardDataSource shardDataSource = (ShardDataSource) applicationContext.getBean("shardDataSource");
-//		shardDataSource.setDataSource(dynamicDataSourceMap.get(shardStrategy.getTargetDynamicDataSource()));
+		// ShardDataSource shardDataSource = (ShardDataSource) applicationContext.getBean("shardDataSource");
+		// shardDataSource.setDataSource(dynamicDataSourceMap.get(shardStrategy.getTargetDynamicDataSource()));
 
 		DynamicDataSourceInterceptor dynamicDataSourceInterceptor = (DynamicDataSourceInterceptor) applicationContext.getBean("dynamicDataSourceInterceptor");
 		dynamicDataSourceInterceptor.setDataSourceKey(dynamicDataSourceKeyMap.get(shardStrategy.getTargetDynamicDataSource()));
@@ -113,9 +111,9 @@ public class ShardDataSourceInterceptor implements MethodInterceptor, Initializi
 		this.shardStrategyClassMap = shardStrategies;
 	}
 
-	public void setShardDataSources(Map<String, DynamicDataSource> shardDataSources) {
-		this.dynamicDataSourceMap = shardDataSources;
-	}
+	// public void setShardDataSources(Map<String, DynamicDataSource> shardDataSources) {
+	// this.dynamicDataSourceMap = shardDataSources;
+	// }
 
 	public void setShardDataSourceKeys(Map<String, DynamicDataSourceKey> shardDataSourceKeys) {
 		this.dynamicDataSourceKeyMap = shardDataSourceKeys;

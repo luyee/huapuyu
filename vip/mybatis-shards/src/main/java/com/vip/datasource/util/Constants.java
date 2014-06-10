@@ -19,5 +19,5 @@ public interface Constants {
 	/**
 	 * default dynamic datasource
 	 */
-	public final static String DEFAULT_DYNAMIC_DS = "dataSource1";
+	public final static String DEFAULT_DYNAMIC_DS = "defaultDataSource";
 }
