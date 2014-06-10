@@ -22,7 +22,7 @@
 	</appender>
 
 	<logger name="com.vip" additivity="false">
-		<level value="debug" />
+		<level value="all" />
 		<appender-ref ref="hsf" />
 	</logger>
 

@@ -8,19 +8,21 @@ import java.lang.annotation.Target;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * 分片注解
+ * shard annotation
  * 
  * @author Anders
  * 
  */
-@Target({ ElementType.METHOD })
+@Target({ ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Shard {
+public @interface ShardParam {
+	/**
+	 * shard strategy name
+	 */
 	String name() default StringUtils.EMPTY;
 
-	Class<?> classType();
-
-	Class<?> fieldType();
-
-	String fieldName() default StringUtils.EMPTY;
+	/**
+	 * shard object's field
+	 */
+	String field() default StringUtils.EMPTY;
 }

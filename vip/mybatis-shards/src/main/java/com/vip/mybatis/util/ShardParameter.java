@@ -20,18 +20,8 @@ public class ShardParameter {
 	 * shard field value
 	 */
 	private String value;
-	/**
-	 * 
-	 */
-	private Object params;
 
 	public ShardParameter() {
-	}
-
-	public ShardParameter(String name, String value, Object params) {
-		this.name = name;
-		this.value = value;
-		this.params = params;
 	}
 
 	public ShardParameter(String name, String value) {
@@ -53,14 +43,6 @@ public class ShardParameter {
 
 	public void setValue(String value) {
 		this.value = value;
-	}
-
-	public Object getParams() {
-		return params;
-	}
-
-	public void setParams(Object params) {
-		this.params = params;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.vip.datasource.interceptor;
 
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,10 +12,10 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.util.Assert;
 
 import com.vip.datasource.DynamicDataSourceKey;
-import com.vip.mybatis.annotation.Shard;
+import com.vip.datasource.util.Utils;
+import com.vip.mybatis.annotation.ShardParam;
 import com.vip.mybatis.strategy.ShardStrategy;
 import com.vip.mybatis.util.ShardParameter;
 import com.vip.mybatis.util.StrategyHolder;
@@ -27,10 +28,6 @@ import com.vip.mybatis.util.StrategyHolder;
  */
 public class ShardDataSourceInterceptor implements MethodInterceptor, InitializingBean, ApplicationContextAware {
 
-	/**
-	 * key : dynamic datasource id in spring, value : DynamicDataSource bean in spring
-	 */
-	// private Map<String, DynamicDataSource> dynamicDataSourceMap = new HashMap<String, DynamicDataSource>();
 	/**
 	 * key : shard strategy name, value : ShardStrategy instance
 	 */
@@ -46,39 +43,52 @@ public class ShardDataSourceInterceptor implements MethodInterceptor, Initializi
 
 	private ApplicationContext applicationContext;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
-		Shard shardAnnotation = invocation.getThis().getClass().getMethod(invocation.getMethod().getName(), invocation.getMethod().getParameterTypes()).getAnnotation(Shard.class);
-
-		// no shard annotation, use default datasource
-		if (shardAnnotation == null) {
-			return invocation.proceed();
-		}
-
 		Object[] args = invocation.getArguments();
-		String shardFieldValue = null;
+
+		// TODO Anders 无参数方法，设置默认值
+
+		int i = 0;
+
+		ShardStrategy shardStrategy = null;
+
+		StrategyHolder.removeShardStrategy();
 
 		for (Object o : args) {
-			// TODO Anders 需要添加更多的逻辑判断，有性能问题，需要优化
-			if (o.getClass().getName().equals(shardAnnotation.classType().getName())) {
-				shardFieldValue = BeanUtils.getProperty(o, shardAnnotation.fieldName());
-				break;
+			Annotation[] annotations = invocation.getThis().getClass().getMethod(invocation.getMethod().getName(), invocation.getMethod().getParameterTypes()).getParameterAnnotations()[i];
+			for (Annotation annotation : annotations) {
+				if (annotation instanceof ShardParam) {
+
+					String name = ((ShardParam) annotation).name();
+					String field = ((ShardParam) annotation).field();
+
+					ShardParameter shardParameter = new ShardParameter();
+					shardParameter.setName(((ShardParam) annotation).name());
+
+					if (Utils.isBasicType(o)) {
+						shardParameter.setValue(String.valueOf(o));
+					}
+					else if (Utils.isMapType(o)) {
+						shardParameter.setValue(String.valueOf(((Map<String, Object>) o).get(field)));
+					}
+					else {
+						shardParameter.setValue(BeanUtils.getProperty(o, field));
+					}
+
+					shardStrategy = shardStrategyMap.get(name);
+					shardStrategy.setShardParameter(shardParameter);
+
+					// default according to first argument
+					if (i++ == 0) {
+						StrategyHolder.setShardStrategy(shardStrategy);
+					}
+
+					StrategyHolder.addShardStrategies(name, shardStrategy);
+				}
 			}
 		}
-
-		Assert.notNull(shardFieldValue);
-
-		ShardParameter shardParameter = new ShardParameter();
-		shardParameter.setName(shardAnnotation.name());
-		shardParameter.setValue(shardFieldValue);
-
-		ShardStrategy shardStrategy = shardStrategyMap.get(shardAnnotation.name());
-		shardStrategy.setShardParameter(shardParameter);
-
-		StrategyHolder.setShardStrategy(shardStrategy);
-
-		// ShardDataSource shardDataSource = (ShardDataSource) applicationContext.getBean("shardDataSource");
-		// shardDataSource.setDataSource(dynamicDataSourceMap.get(shardStrategy.getTargetDynamicDataSource()));
 
 		DynamicDataSourceInterceptor dynamicDataSourceInterceptor = (DynamicDataSourceInterceptor) applicationContext.getBean("dynamicDataSourceInterceptor");
 		dynamicDataSourceInterceptor.setDataSourceKey(dynamicDataSourceKeyMap.get(shardStrategy.getTargetDynamicDataSource()));
@@ -110,10 +120,6 @@ public class ShardDataSourceInterceptor implements MethodInterceptor, Initializi
 	public void setShardStrategies(Map<String, Class<?>> shardStrategies) {
 		this.shardStrategyClassMap = shardStrategies;
 	}
-
-	// public void setShardDataSources(Map<String, DynamicDataSource> shardDataSources) {
-	// this.dynamicDataSourceMap = shardDataSources;
-	// }
 
 	public void setShardDataSourceKeys(Map<String, DynamicDataSourceKey> shardDataSourceKeys) {
 		this.dynamicDataSourceKeyMap = shardDataSourceKeys;

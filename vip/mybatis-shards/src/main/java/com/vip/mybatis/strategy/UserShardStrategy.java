@@ -1,9 +1,13 @@
 package com.vip.mybatis.strategy;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vip.datasource.util.Utils;
 import com.vip.mybatis.util.ShardParameter;
+import com.vip.mybatis.util.StrategyHolder;
 
 /**
  * Demo分表策略（根据参数范围确定数据源和分表）
@@ -35,7 +39,8 @@ public class UserShardStrategy extends ShardStrategy {
 
 	@Override
 	public String getTargetSql(String sql) {
-		ShardParameter shardParameter = getShardParameter();
+		Map<String, ShardStrategy> map = StrategyHolder.getShardStrategies();
+		ShardParameter shardParameter = map.get(Utils.getMatchTableName(sql)).getShardParameter();
 		Long param = Long.parseLong(shardParameter.getValue());
 		String tableName = "user" + (param % 2);
 		return sql.replaceAll("\\$\\[user\\]\\$", tableName);

@@ -302,7 +302,7 @@
 	<bean id="shardDataSourceInterceptor" class="com.vip.datasource.interceptor.ShardDataSourceInterceptor">
 		<property name="shardStrategies">
 			<map>
-				<entry key="shard_user">
+				<entry key="user">
 					<value>com.vip.mybatis.strategy.UserShardStrategy</value>
 				</entry>
 			</map>
