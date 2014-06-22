@@ -3,7 +3,7 @@ package com.anders.ssh.mybatis.bo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountCriteria {
+public class UserCriteria {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -16,11 +16,9 @@ public class AccountCriteria {
 
     private boolean id = false;
 
-    private boolean enable = false;
-
     private boolean name = false;
 
-    public AccountCriteria() {
+    public UserCriteria() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -74,7 +72,6 @@ public class AccountCriteria {
         limitStart = -1;
         limitCount = -1;
         id = false;
-        enable = false;
         name = false;
     }
 
@@ -98,17 +95,8 @@ public class AccountCriteria {
         return id;
     }
 
-    public AccountCriteria addId() {
+    public UserCriteria addId() {
         this.id = true;
-        return this;
-    }
-
-    public boolean isEnable() {
-        return enable;
-    }
-
-    public AccountCriteria addEnable() {
-        this.enable = true;
         return this;
     }
 
@@ -116,13 +104,13 @@ public class AccountCriteria {
         return name;
     }
 
-    public AccountCriteria addName() {
+    public UserCriteria addName() {
         this.name = true;
         return this;
     }
 
     public boolean isCustomizeSelect() {
-        return id | enable | name ;
+        return id | name ;
     }
 
     public String getSelectFields() {
@@ -130,10 +118,7 @@ public class AccountCriteria {
         if (id) {
             if (distinct)
             sb.append("distinct ");
-            sb.append("id, ");
-        }
-        if (enable) {
-            sb.append("enable, ");
+            sb.append("ID, ");
         }
         if (name) {
             sb.append("name, ");
@@ -184,122 +169,62 @@ public class AccountCriteria {
         }
 
         public Criteria andIdIsNull() {
-            addCriterion("id is null");
+            addCriterion("ID is null");
             return (Criteria) this;
         }
 
         public Criteria andIdIsNotNull() {
-            addCriterion("id is not null");
+            addCriterion("ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Long value) {
-            addCriterion("id =", value, "id");
+        public Criteria andIdEqualTo(Integer value) {
+            addCriterion("ID =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Long value) {
-            addCriterion("id <>", value, "id");
+        public Criteria andIdNotEqualTo(Integer value) {
+            addCriterion("ID <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Long value) {
-            addCriterion("id >", value, "id");
+        public Criteria andIdGreaterThan(Integer value) {
+            addCriterion("ID >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("id >=", value, "id");
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ID >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Long value) {
-            addCriterion("id <", value, "id");
+        public Criteria andIdLessThan(Integer value) {
+            addCriterion("ID <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Long value) {
-            addCriterion("id <=", value, "id");
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ID <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Long> values) {
-            addCriterion("id in", values, "id");
+        public Criteria andIdIn(List<Integer> values) {
+            addCriterion("ID in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Long> values) {
-            addCriterion("id not in", values, "id");
+        public Criteria andIdNotIn(List<Integer> values) {
+            addCriterion("ID not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Long value1, Long value2) {
-            addCriterion("id between", value1, value2, "id");
+        public Criteria andIdBetween(Integer value1, Integer value2) {
+            addCriterion("ID between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Long value1, Long value2) {
-            addCriterion("id not between", value1, value2, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnableIsNull() {
-            addCriterion("enable is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnableIsNotNull() {
-            addCriterion("enable is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnableEqualTo(Boolean value) {
-            addCriterion("enable =", value, "enable");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnableNotEqualTo(Boolean value) {
-            addCriterion("enable <>", value, "enable");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnableGreaterThan(Boolean value) {
-            addCriterion("enable >", value, "enable");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnableGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("enable >=", value, "enable");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnableLessThan(Boolean value) {
-            addCriterion("enable <", value, "enable");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnableLessThanOrEqualTo(Boolean value) {
-            addCriterion("enable <=", value, "enable");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnableIn(List<Boolean> values) {
-            addCriterion("enable in", values, "enable");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnableNotIn(List<Boolean> values) {
-            addCriterion("enable not in", values, "enable");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnableBetween(Boolean value1, Boolean value2) {
-            addCriterion("enable between", value1, value2, "enable");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnableNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("enable not between", value1, value2, "enable");
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ID not between", value1, value2, "id");
             return (Criteria) this;
         }
 

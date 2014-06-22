@@ -23,7 +23,7 @@
 		</commentGenerator>
 
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://localhost:3306/ssh_dev?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf8&amp;amp;zeroDateTimeBehavior=convertToNull"
+			connectionURL="jdbc:mysql://localhost:3306/db1_master?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf8&amp;amp;zeroDateTimeBehavior=convertToNull"
 			userId="root" password="123" />
 
 		<javaModelGenerator targetPackage="com.anders.ssh.mybatis.bo"
@@ -37,7 +37,7 @@
 			<!-- <property name="rootInterface" value="com.anders.ssh.mybatis.dao.GenericMapper" /> -->
 		</javaClientGenerator>
 
-		<table schema="ssh" tableName="tb_account" domainObjectName="Account">
+		<table schema="db1_master" tableName="user1" domainObjectName="User">
 		</table>
 	</context>
 

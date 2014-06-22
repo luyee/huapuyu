@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.anders.ssh.mybatis.dao.AccountMapper" >
-  <resultMap id="BaseResultMap" type="com.anders.ssh.mybatis.bo.Account" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="enable" property="enable" jdbcType="BIT" />
+<mapper namespace="com.anders.ssh.mybatis.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.anders.ssh.mybatis.bo.User" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Criteria_Where_Clause" >
@@ -65,9 +64,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, enable, name
+    ID, name
   </sql>
-  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.anders.ssh.mybatis.bo.AccountCriteria" >
+  <select id="selectByCriteria" resultMap="BaseResultMap" parameterType="com.anders.ssh.mybatis.bo.UserCriteria" >
     select
     <choose >
       <when test="customizeSelect" >
@@ -80,7 +79,7 @@
         <include refid="Base_Column_List" />
       </otherwise>
     </choose>
-    from tb_account
+    from user1
     <if test="_parameter != null" >
       <include refid="Criteria_Where_Clause" />
     </if>
@@ -91,34 +90,31 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from tb_account
-    where id = #{id,jdbcType=BIGINT}
+    from user1
+    where ID = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from tb_account
-    where id = #{id,jdbcType=BIGINT}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user1
+    where ID = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByCriteria" parameterType="com.anders.ssh.mybatis.bo.AccountCriteria" >
-    delete from tb_account
+  <delete id="deleteByCriteria" parameterType="com.anders.ssh.mybatis.bo.UserCriteria" >
+    delete from user1
     <if test="_parameter != null" >
       <include refid="Criteria_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.anders.ssh.mybatis.bo.Account" >
-    insert into tb_account (id, enable, name)
-    values (#{id,jdbcType=BIGINT}, #{enable,jdbcType=BIT}, #{name,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.anders.ssh.mybatis.bo.User" >
+    insert into user1 (ID, name)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.anders.ssh.mybatis.bo.Account" >
-    insert into tb_account
+  <insert id="insertSelective" parameterType="com.anders.ssh.mybatis.bo.User" >
+    insert into user1
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        id,
-      </if>
-      <if test="enable != null" >
-        enable,
+        ID,
       </if>
       <if test="name != null" >
         name,
@@ -126,30 +122,24 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="enable != null" >
-        #{enable,jdbcType=BIT},
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByCriteria" parameterType="com.anders.ssh.mybatis.bo.AccountCriteria" resultType="java.lang.Integer" >
-    select count(*) from tb_account
+  <select id="countByCriteria" parameterType="com.anders.ssh.mybatis.bo.UserCriteria" resultType="java.lang.Integer" >
+    select count(*) from user1
     <if test="_parameter != null" >
       <include refid="Criteria_Where_Clause" />
     </if>
   </select>
   <update id="updateByCriteriaSelective" parameterType="map" >
-    update tb_account
+    update user1
     <set >
       <if test="record.id != null" >
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.enable != null" >
-        enable = #{record.enable,jdbcType=BIT},
+        ID = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
@@ -160,30 +150,25 @@
     </if>
   </update>
   <update id="updateByCriteria" parameterType="map" >
-    update tb_account
-    set id = #{record.id,jdbcType=BIGINT},
-      enable = #{record.enable,jdbcType=BIT},
+    update user1
+    set ID = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Criteria_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.anders.ssh.mybatis.bo.Account" >
-    update tb_account
+  <update id="updateByPrimaryKeySelective" parameterType="com.anders.ssh.mybatis.bo.User" >
+    update user1
     <set >
-      <if test="enable != null" >
-        enable = #{enable,jdbcType=BIT},
-      </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where ID = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.anders.ssh.mybatis.bo.Account" >
-    update tb_account
-    set enable = #{enable,jdbcType=BIT},
-      name = #{name,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+  <update id="updateByPrimaryKey" parameterType="com.anders.ssh.mybatis.bo.User" >
+    update user1
+    set name = #{name,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

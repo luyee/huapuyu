@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="zookeeperFactoryBean" class="com.anders.ssh.zookeeper.ZookeeperFactoryBean" lazy-init="false">
+		<property name="zkConnectionString" value="localhost:2181" />
+		<!-- 设置zookeeper的事件监听者，本例是一个logback日志级别znode监听器 -->
+		<property name="listeners">
+			<list>
+				<bean class="com.anders.ssh.zookeeper.LogbackLevelListener">
+					<constructor-arg value="/zk_test/logbacklevel" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>
