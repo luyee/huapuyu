@@ -24,6 +24,10 @@
 	<bean name="accountService" class="com.anders.ssh.service.impl.AccountServiceImpl">
 		<property name="accountDao" ref="mybatisAccountDao"/>
 	</bean>
+
+	<bean name="systemService" class="com.anders.ssh.service.impl.SystemServiceImpl">
+		<property name="accountService" ref="accountService"/>
+	</bean>	
 						   
 	<!-- jdbc -->
 	<import resource="classpath:config/spring-jdbc.xml"/>						   
@@ -39,5 +43,46 @@
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 	  	<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<bean id="transactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="query*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="is*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="get*">PROPAGATION_SUPPORTS,readOnly</prop>
+				<prop key="load*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="count*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="list*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="check*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="save*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="del*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="add*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="edit*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="update*">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="mod*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="do*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="getById">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="test">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>transactionInterceptor</value>
+			</list>
+		</property>
 	</bean>
 </beans>
