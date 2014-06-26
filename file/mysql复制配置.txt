@@ -1,0 +1,12 @@
+CREATE USER 'anders'@'%' IDENTIFIED BY '123';
+GRANT REPLICATION SLAVE ON *.* TO 'anders'@'%';
+
+change master to master_host='192.168.2.66', master_port=3307, master_user='anders', master_password='123';
+
+RESET MASTER;
+SHOW MASTER STATUS;
+
+STOP SLAVE;
+RESET SLAVE;
+START SLAVE;
+SHOW SLAVE STATUS;
