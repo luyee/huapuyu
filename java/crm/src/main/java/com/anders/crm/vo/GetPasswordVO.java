@@ -2,12 +2,17 @@ package com.anders.crm.vo;
 
 import java.io.Serializable;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 找回密码VO
  * 
  * @author Anders Zhu
  * 
  */
+@Setter
+@Getter
 public class GetPasswordVO implements Serializable {
 
 	private static final long serialVersionUID = 8688097078942710951L;
@@ -22,21 +27,4 @@ public class GetPasswordVO implements Serializable {
 	 */
 	private String securityCode;
 
-	// getter and setter
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getSecurityCode() {
-		return securityCode;
-	}
-
-	public void setSecurityCode(String securityCode) {
-		this.securityCode = securityCode;
-	}
 }
