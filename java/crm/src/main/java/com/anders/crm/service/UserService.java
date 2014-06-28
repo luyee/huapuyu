@@ -14,4 +14,5 @@ public interface UserService extends GenericService<Long, User> {
 
 	boolean isExistByEmail(String email);
 
+	void saveIndividual(User user);
 }

@@ -60,7 +60,7 @@ public class RegisterController extends BaseController {
 		user.setAddUser(getUserService().getUserByUsername(Constant.ADMINISTRATOR_USERNAME));
 		user.setPassword(SecurityUtil.getSha256Password(user.getPassword(), user.getUsername()));
 
-		getUserService().save(user);
+		getUserService().saveIndividual(user);
 
 		// TODO Anders Zhu : 将成功注册的信息的放到消息队列中异步通知用户注册成功
 

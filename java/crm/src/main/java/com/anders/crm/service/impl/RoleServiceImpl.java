@@ -26,6 +26,13 @@ public class RoleServiceImpl extends GenericServiceImpl<Long, Role> implements R
 		return roleDao;
 	}
 
+	/**
+	 * 根据用户名获取权限
+	 * 
+	 * @param username
+	 *            用户名
+	 * @return 权限列表
+	 */
 	@Transactional(readOnly = true)
 	public List<Role> getRolesByUsername(String username) {
 		// Assert.hasText(username, "username is blank");
@@ -33,8 +40,7 @@ public class RoleServiceImpl extends GenericServiceImpl<Long, Role> implements R
 			logger.warn("username is blank");
 			return new ArrayList<Role>(0);
 		}
-		// TODO Anders Zhu ： 移动到dao中，需要考虑user禁用或锁定等情况
-		return getDao().find("select role from Role role inner join role.users user where role.id = user.id and role.enabled = true and user.enabled = true and user.username = ?", username);
+		return roleDao.getRolesByUsername(username);
 	}
 
 	@SuppressWarnings("unchecked")

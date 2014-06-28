@@ -25,10 +25,18 @@ public class UserDaoTest {
 		user.setPassword("123");
 		user.setName("Zhu Zhen");
 		user.setEmail("email8");
+		user.setVersion(11);
 		userDao.saveOrUpdate(user);
-		user.setId(null);
 		user.setName("adfvasdfasdf");
+		user.setVersion(15);
 		userDao.saveOrUpdate(user);
+
+		User user1 = userDao.getById(user.getId());
+		System.out.println("**************" + user1.getId() + "****************");
+		System.out.println("**************" + user1.getEmail() + "****************");
+		System.out.println("**************" + user1.getName() + "****************");
+
+		// userDao.deleteById(2L);
 	}
 
 	@Test

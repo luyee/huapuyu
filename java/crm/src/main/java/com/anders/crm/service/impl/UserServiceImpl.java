@@ -2,21 +2,27 @@ package com.anders.crm.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
+import com.anders.crm.bo.Role;
 import com.anders.crm.bo.User;
 import com.anders.crm.dao.GenericDao;
+import com.anders.crm.dao.RoleDao;
 import com.anders.crm.dao.UserDao;
 import com.anders.crm.facade.MailFacade;
 import com.anders.crm.service.UserService;
 import com.anders.crm.utils.Constant;
 import com.anders.crm.utils.MailType;
+import com.anders.crm.utils.RoleType;
 import com.anders.crm.utils.SecurityUtil;
 
 //@Service("userService")
@@ -26,6 +32,9 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 
 	@Autowired
 	private UserDao userDao;
+
+	@Autowired
+	private RoleDao roleDao;
 
 	@Autowired
 	private MailFacade mailFacade;
@@ -100,4 +109,20 @@ public class UserServiceImpl extends GenericServiceImpl<Long, User> implements U
 		return userDao.isExistByEmail(email);
 	}
 
+	@Override
+	public void saveIndividual(User user) {
+		Assert.notNull(user, "user is null");
+
+		// 获取个人用户角色
+		Role role = roleDao.getById(RoleType.ROLE_USER.getValue());
+
+		Assert.notNull(role, "role is null");
+
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(role);
+
+		user.setRoles(roles);
+
+		userDao.save(user);
+	}
 }

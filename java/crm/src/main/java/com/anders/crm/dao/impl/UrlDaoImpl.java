@@ -12,7 +12,7 @@ import com.anders.crm.dao.UrlDao;
 public class UrlDaoImpl extends GenericDaoImpl<Long, Url> implements UrlDao {
 
 	public List<Url> getUrlsFetchRoles() {
-		String sql = "select url from Url url inner join url.roles role where url.enabled = true and role.enabled = true";
-		return find(sql);
+		String hql = "select url from Url url inner join url.roles role where url.enabled = true and role.enabled = true";
+		return find(hql);
 	}
 }
