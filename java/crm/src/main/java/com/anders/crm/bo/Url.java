@@ -9,12 +9,17 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * URL
  * 
  * @author Anders Zhu
  * 
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "tb_url")
 public class Url extends BaseBO {
@@ -36,31 +41,5 @@ public class Url extends BaseBO {
 	 */
 	@ManyToMany(mappedBy = "urls", targetEntity = Role.class, fetch = FetchType.LAZY)
 	private Set<Role> roles = new HashSet<Role>();
-
-	// getter and setter
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
 
 }

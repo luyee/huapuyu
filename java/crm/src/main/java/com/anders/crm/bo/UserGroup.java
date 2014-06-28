@@ -11,12 +11,17 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 用户组
  * 
  * @author Anders Zhu
  * 
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "tb_user_group")
 public class UserGroup extends BaseBO {
@@ -39,31 +44,5 @@ public class UserGroup extends BaseBO {
 	 */
 	@ManyToMany(mappedBy = "userGroups", targetEntity = User.class, fetch = FetchType.LAZY)
 	private Set<User> users = new HashSet<User>();
-
-	// getter and setter
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
 
 }

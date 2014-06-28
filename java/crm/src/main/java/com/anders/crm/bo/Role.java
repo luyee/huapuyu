@@ -11,6 +11,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -19,6 +22,8 @@ import org.springframework.security.core.GrantedAuthority;
  * @author Anders Zhu
  * 
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "tb_role")
 public class Role extends BaseBO implements GrantedAuthority {
@@ -60,47 +65,4 @@ public class Role extends BaseBO implements GrantedAuthority {
 	public String getAuthority() {
 		return name;
 	}
-
-	// getter and setter
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Set<Url> getUrls() {
-		return urls;
-	}
-
-	public void setUrls(Set<Url> urls) {
-		this.urls = urls;
-	}
-
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-
-	public Set<UserGroup> getUserGroups() {
-		return userGroups;
-	}
-
-	public void setUserGroups(Set<UserGroup> userGroups) {
-		this.userGroups = userGroups;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
 }

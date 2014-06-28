@@ -13,6 +13,9 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.search.annotations.Boost;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
@@ -25,6 +28,8 @@ import org.hibernate.search.annotations.Store;
  * @author Anders Zhu
  * 
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "tb_user")
 @Indexed(index = "user")
@@ -72,55 +77,4 @@ public class User extends BaseBO {
 	@ManyToMany(targetEntity = UserGroup.class, fetch = FetchType.LAZY)
 	@JoinTable(name = "rlt_user_to_user_group", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "user_group_id"))
 	private Set<UserGroup> userGroups = new HashSet<UserGroup>();
-
-	// getter and setter
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-
-	public Set<UserGroup> getUserGroups() {
-		return userGroups;
-	}
-
-	public void setUserGroups(Set<UserGroup> userGroups) {
-		this.userGroups = userGroups;
-	}
-
 }

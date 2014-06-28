@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.search.annotations.DocumentId;
 
 /**
@@ -21,20 +24,11 @@ import org.hibernate.search.annotations.DocumentId;
  * @author Anders Zhu
  * 
  */
+@Setter
+@Getter
 @MappedSuperclass
 @SuppressWarnings("serial")
 public abstract class BaseBO implements Serializable {
-
-	// @Override
-	// public String toString() {
-	// return super.toString();
-	// }
-
-	// @Override
-	// public abstract boolean equals(Object object);
-
-	// @Override
-	// public abstract int hashCode();
 
 	/**
 	 * 主键
@@ -75,63 +69,4 @@ public abstract class BaseBO implements Serializable {
 	 */
 	@Version
 	private Integer version = 0;
-
-	// getter and setter
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public User getAddUser() {
-		return addUser;
-	}
-
-	public void setAddUser(User addUser) {
-		this.addUser = addUser;
-	}
-
-	public Date getAddTime() {
-		return addTime;
-	}
-
-	public void setAddTime(Date addTime) {
-		this.addTime = addTime;
-	}
-
-	public User getUpdateUser() {
-		return updateUser;
-	}
-
-	public void setUpdateUser(User updateUser) {
-		this.updateUser = updateUser;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public Integer getVersion() {
-		return version;
-	}
-
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
-
 }
