@@ -21,9 +21,12 @@ public class CglibProxyFactory implements MethodInterceptor {
 		PersonServiceBean bean = (PersonServiceBean) this.targerObject;
 		Object result = null;
 		if (bean.getUser() != null) {
+			System.out.println(proxy.getClass());
 			System.out.println(method.getName() + " : user is not null");
 			result = method.invoke(this.targerObject, args);
-		} else {
+		}
+		else {
+			System.out.println(proxy.getClass());
 			System.out.println(method.getName() + " : user is null");
 		}
 		return result;
