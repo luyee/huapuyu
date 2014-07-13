@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="GBK"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:context="http://www.springframework.org/schema/context" 
@@ -15,7 +15,7 @@
 
 	<!-- <bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"></bean> <bean name="/helloWorld.do" class="com.anders.maizu.controller.HelloWorldController"></bean> -->
 
-	<!-- å¾ˆæžç¬‘çš„æ˜¯ï¼Œcomponent-scanå¿…é¡»æ”¾åœ¨æœ¬æ–‡ä»¶ä¸­ï¼Œä¸èƒ½æ”¾åœ¨spring.xmlæ–‡ä»¶ä¸­ï¼Œå¦åˆ™å¥½åƒæ‰¾ä¸åˆ°Controller -->
+	<!-- ºÜ¸ãÐ¦µÄÊÇ£¬component-scan±ØÐë·ÅÔÚ±¾ÎÄ¼þÖÐ£¬²»ÄÜ·ÅÔÚspring.xmlÎÄ¼þÖÐ£¬·ñÔòºÃÏñÕÒ²»µ½Controller -->
 	<context:component-scan base-package="com.anders.crm.controller" />
 
 	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" /> <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> <property name="prefix" value="/WEB-INF/jsp/"></property> <property name="suffix" value=".jsp"></property> </bean> -->
@@ -28,20 +28,20 @@
 		<property name="cache" value="true" />
 		<property name="prefix" value="" />
 		<property name="suffix" value=".vm" />
-		<!--toolboxé…ç½®æ–‡ä»¶è·¯å¾„ -->
+		<!--toolboxÅäÖÃÎÄ¼þÂ·¾¶ -->
 		<property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml" />
-		<!--æ—¥æœŸå‡½æ•°åç§° -->
+		<!--ÈÕÆÚº¯ÊýÃû³Æ -->
 		<property name="dateToolAttribute" value="date" />
-		<!--æ•°å­—å‡½æ•°åç§° -->
+		<!--Êý×Öº¯ÊýÃû³Æ -->
 		<property name="numberToolAttribute" value="number" />
 		<property name="contentType" value="text/html;charset=UTF-8" />
-		<!--æ˜¯å¦ä½¿ç”¨springå¯¹å®å®šä¹‰çš„æ”¯æŒ -->
+		<!--ÊÇ·ñÊ¹ÓÃspring¶Ôºê¶¨ÒåµÄÖ§³Ö -->
 		<property name="exposeSpringMacroHelpers" value="true" />
-		<!--æ˜¯å¦å¼€æ”¾requestå±žæ€§ -->
+		<!--ÊÇ·ñ¿ª·ÅrequestÊôÐÔ -->
 		<property name="exposeRequestAttributes" value="true" />
-		<!--æ˜¯å¦å¼€æ”¾requestå±žæ€§ -->
+		<!--ÊÇ·ñ¿ª·ÅrequestÊôÐÔ -->
 		<property name="exposeSessionAttributes" value="true" />
-		<!--requestå±žæ€§å¼•ç”¨åç§° -->
+		<!--requestÊôÐÔÒýÓÃÃû³Æ -->
 		<property name="requestContextAttribute" value="rc" />
 	</bean>
 
@@ -55,13 +55,13 @@
 				<prop key="file.resource.loader.path">/WEB-INF/</prop> 
 				<prop key="file.resource.loader.cache">false</prop> 
 				-->
-				<!-- æŒ‡å®šæ¨¡æ¿å¼•æ“Žè¿›è¡Œæ¨¡æ¿å¤„ç†çš„ç¼–ç  -->
+				<!-- Ö¸¶¨Ä£°åÒýÇæ½øÐÐÄ£°å´¦ÀíµÄ±àÂë -->
 				<prop key="input.encoding">UTF-8</prop>
-				<!-- æŒ‡å®šè¾“å‡ºæµçš„ç¼–ç  -->
+				<!-- Ö¸¶¨Êä³öÁ÷µÄ±àÂë -->
 				<prop key="output.encoding">UTF-8</prop>
 				<!-- contentType -->
 				<prop key="contentType">text/html;charset=UTF-8</prop>
-				<!-- Velocimacro æ¨¡æ¿åº“çš„åˆ—è¡¨ -->
+				<!-- Velocimacro Ä£°å¿âµÄÁÐ±í -->
 				<!-- 
 				<prop key="velocimacro.library">macro/macros.vm</prop> 
 				-->
