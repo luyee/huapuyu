@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.anders.crm.service.LuUserService;
 
@@ -22,12 +21,10 @@ public class LuUserSearchTest {
 
 	@Test
 	public void test1() {
-//		luUserService.addLucene();
+		// luUserService.addLucene();
 		luUserService.getLucene();
-
 	}
 
-	@Transactional()
 	@Rollback(false)
 	public void testGet() throws InterruptedException {
 		FullTextSession fullTextSession = Search.getFullTextSession(luUserDao.getSession());

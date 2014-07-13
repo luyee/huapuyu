@@ -24,12 +24,12 @@ public class ContactInfo extends BaseBO {
 	private static final long serialVersionUID = 6424414021596996848L;
 
 	/**
-	 * 联系方式类型
+	 * 类型
 	 */
 	@Column(nullable = false)
 	private ContactInfoType type;
 	/**
-	 * 联系方式内容
+	 * 内容
 	 */
 	@Column(nullable = false, length = 50)
 	private String info;
@@ -38,5 +38,4 @@ public class ContactInfo extends BaseBO {
 	 */
 	@Column(length = 500)
 	private String remark;
-
 }

@@ -3,11 +3,12 @@ package com.anders.crm.bo;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -30,20 +31,15 @@ public class Cust extends BaseBO {
 	private static final long serialVersionUID = 6424414021596996848L;
 
 	/**
-	 * 名称
-	 */
-	@Column(nullable = false, length = 50)
-	private String name;
-	/**
-	 * 客户类型
+	 * 类型
 	 */
 	@Column(nullable = false)
 	private CustType type;
 	/**
-	 * 联系人
+	 * 名称
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "cust")
-	private List<Contact> contacts = new ArrayList<Contact>(0);
+	@Column(nullable = false, length = 50)
+	private String name;
 	/**
 	 * 网站
 	 */
@@ -59,4 +55,10 @@ public class Cust extends BaseBO {
 	 */
 	@Column(length = 500)
 	private String remark;
+	/**
+	 * 联系人
+	 */
+	@ManyToMany(targetEntity = Contact.class, fetch = FetchType.LAZY)
+	@JoinTable(name = "rlt_cust_to_contact", joinColumns = @JoinColumn(name = "cust_id"), inverseJoinColumns = @JoinColumn(name = "contact_id"))
+	private List<Contact> contacts = new ArrayList<Contact>(0);
 }

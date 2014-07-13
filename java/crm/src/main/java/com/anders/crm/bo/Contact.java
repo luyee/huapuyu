@@ -8,13 +8,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import com.anders.crm.utils.ContactInfoType;
 
 /**
  * 联系人
@@ -56,53 +56,68 @@ public class Contact extends BaseBO {
 	@Column(length = 500)
 	private String remark;
 	/**
+	 * 客户
+	 */
+	@ManyToMany(mappedBy = "contacts", targetEntity = Cust.class, fetch = FetchType.LAZY)
+	private List<Cust> custs = new ArrayList<Cust>();
+	/**
 	 * 座机
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "contact")
-	private List<ContactInfoType> phones = new ArrayList<ContactInfoType>(0);
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = "contact_id")
+	private List<ContactInfo> phones = new ArrayList<ContactInfo>(0);
 	/**
 	 * 手机
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "contact")
-	private List<ContactInfoType> mobiles = new ArrayList<ContactInfoType>(0);
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = "contact_id")
+	private List<ContactInfo> mobiles = new ArrayList<ContactInfo>(0);
 	/**
 	 * 传真
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "contact")
-	private List<ContactInfoType> faxes = new ArrayList<ContactInfoType>(0);
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = "contact_id")
+	private List<ContactInfo> faxes = new ArrayList<ContactInfo>(0);
 	/**
 	 * 邮箱
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "contact")
-	private List<ContactInfoType> emails = new ArrayList<ContactInfoType>(0);
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = "contact_id")
+	private List<ContactInfo> emails = new ArrayList<ContactInfo>(0);
 	/**
 	 * QQ
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "contact")
-	private List<ContactInfoType> qqs = new ArrayList<ContactInfoType>(0);
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = "contact_id")
+	private List<ContactInfo> qqs = new ArrayList<ContactInfo>(0);
 	/**
 	 * 微信
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "contact")
-	private List<ContactInfoType> wechats = new ArrayList<ContactInfoType>(0);
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = "contact_id")
+	private List<ContactInfo> wechats = new ArrayList<ContactInfo>(0);
 	/**
 	 * 微博
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "contact")
-	private List<ContactInfoType> weibos = new ArrayList<ContactInfoType>(0);
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = "contact_id")
+	private List<ContactInfo> weibos = new ArrayList<ContactInfo>(0);
 	/**
 	 * LinkedIn
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "contact")
-	private List<ContactInfoType> linkedins = new ArrayList<ContactInfoType>(0);
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = "contact_id")
+	private List<ContactInfo> linkedins = new ArrayList<ContactInfo>(0);
 	/**
 	 * Skype
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "contact")
-	private List<ContactInfoType> skypes = new ArrayList<ContactInfoType>(0);
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = "contact_id")
+	private List<ContactInfo> skypes = new ArrayList<ContactInfo>(0);
 	/**
 	 * MSN
 	 */
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "contact")
-	private List<ContactInfoType> msns = new ArrayList<ContactInfoType>(0);
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinColumn(name = "contact_id")
+	private List<ContactInfo> msns = new ArrayList<ContactInfo>(0);
 }
