@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.anders.ssh.bo.test.Account;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:spring-test.xml" })
+@ContextConfiguration(locations = { "classpath:spring-redis-test.xml" })
 public class AccountDaoTest {
 	@Resource(name = "redisAccountDao")
 	private AccountDao accountDao;
