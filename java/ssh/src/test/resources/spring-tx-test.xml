@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:data="http://www.anders.com/schema/data"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       	   				   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           				   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           				   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+           				   http://www.anders.com/schema/data http://www.anders.com/schema/data/anders-data-1.0.xsd">
+						   
+	<context:annotation-config/>
+	
+	<context:component-scan base-package="com.anders.ssh.dao.hibernate"/>
+	<context:component-scan base-package="com.anders.ssh.service"/>
+						   
+	<!-- property -->
+	<import resource="classpath:config/spring-property.xml"/>
+	
+	<!-- log -->
+	<import resource="classpath:config/spring-log.xml"/>
+	
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+		<property name="hibernateProperties">
+	    	<props>
+	    		<prop key="hibernate.dialect">${dev.hibernate.dialect}</prop>
+	    		<prop key="hibernate.show_sql">${dev.hibernate.show_sql}</prop>
+	    		<prop key="hibernate.format_sql">${dev.hibernate.format_sql}</prop>
+	    		<prop key="hibernate.hbm2ddl.auto">${dev.hibernate.hbm2ddl.auto}</prop>
+	    		<prop key="hibernate.cache.provider_class">${hibernate.cache.provider_class}</prop>
+				<prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop> 
+				<prop key="hibernate.cache.use_structured_entries">${hibernate.cache.use_structured_entries}</prop>
+				<prop key="hibernate.cache.region_prefix">${hibernate.cache.region_prefix}</prop> 
+				<prop key="hibernate.memcached.servers">${memcached.servers}</prop>  
+				<prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+				<!-- 
+				<prop key="hibernate.memcached.memcacheClientFactory">${hibernate.memcached.memcacheClientFactory}</prop> 
+				-->
+	    	</props>
+	    </property>
+		<property name="mappingResources">
+			<list>
+				<!--  
+		    	<value>com/anders/ssh/bo/xml/Data.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/Area.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/House.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/RentHouse.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/SecondHandHouse.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/User.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/Role.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/UserGroup.hbm.xml</value>
+		    	<value>com/anders/ssh/bo/xml/Resource.hbm.xml</value>
+		    	-->
+		    </list>
+		</property>
+		<!--  
+		<property name="annotatedClasses">
+			<list>
+		    	<value>com.anders.ssh.bo.test.FenBiao</value>
+		    </list>
+		</property>
+		-->
+	    <property name="packagesToScan" value="com.anders.ssh.bo"/>
+	</bean>
+    
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	  	<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<data:annotation-driven transaction-manager="transactionManager"/>
+	
+	<bean id="dataSource" class="org.unitils.database.UnitilsDataSourceFactoryBean" />
+</beans>

@@ -1,1 +1,2 @@
 http\://www.anders.com/ssh/schema/account=com.anders.ssh.common.MyNamespaceHandlerSupport
+http\://www.anders.com/schema/data=com.anders.ssh.common.DataNamespaceHandler
