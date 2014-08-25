@@ -1,4 +1,4 @@
-package com.anders.experiment.获取jar中文件;
+package com.anders.experiment.读取压缩包;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +13,7 @@ public class GetFileFromJar {
 	public static void main(String[] args) throws IOException {
 		JarFile jarFile = new JarFile("e:/data.jar");
 		Enumeration<JarEntry> jarEntries = jarFile.entries();
+
 		InputStream is = jarFile.getInputStream(jarFile
 				.getEntry("target/test-classes/persistence-test.xml"));
 
