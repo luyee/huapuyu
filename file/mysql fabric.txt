@@ -1,0 +1,39 @@
+创建用户并赋予权限，在fabric所有库上执行
+CREATE USER 'fabric'@'%' IDENTIFIED BY '123';
+GRANT ALL ON *.* TO 'fabric'@'%';
+
+创建fabric库和相关表
+C:\Program Files\MySQL\MySQL Utilities>mysqlfabric manage setup --param=storage.
+user=fabric --param=storage.password=123
+[INFO] 1403806738.648000 - MainThread - Initializing persister: user (fabric), s
+erver (192.168.2.66:3307), database (fabric).
+Finishing initial setup
+=======================
+Password for admin user is not yet set.
+Password for admin/xmlrpc:
+Repeat Password:
+Password set.
+
+启动fabric
+C:\Program Files\MySQL\MySQL Utilities>mysqlfabric manage start
+[INFO] 1403806819.970000 - MainThread - Initializing persister: user (fabric), s
+erver (192.168.2.66:3307), database (fabric).
+[INFO] 1403806819.980000 - MainThread - Loading Services.
+[INFO] 1403806820.010000 - MainThread - Fabric node starting.
+[INFO] 1403806820.010000 - MainThread - Starting Executor.
+[INFO] 1403806820.010000 - MainThread - Setting 5 executor(s).
+[INFO] 1403806820.010000 - Executor-0 - Started.
+[INFO] 1403806820.010000 - Executor-1 - Started.
+[INFO] 1403806820.020000 - Executor-2 - Started.
+[INFO] 1403806820.020000 - Executor-3 - Started.
+[INFO] 1403806820.030000 - MainThread - Executor started.
+[INFO] 1403806820.030000 - Executor-4 - Started.
+[INFO] 1403806820.060000 - MainThread - Starting failure detector.
+[INFO] 1403806820.060000 - XML-RPC-Server - XML-RPC protocol server ('192.168.2.
+66', 32274) started.
+[INFO] 1403806820.060000 - XML-RPC-Server - Setting 5 XML-RPC session(s).
+[INFO] 1403806820.060000 - XML-RPC-Session-0 - Started XML-RPC-Session.
+[INFO] 1403806820.060000 - XML-RPC-Session-1 - Started XML-RPC-Session.
+[INFO] 1403806820.060000 - XML-RPC-Session-2 - Started XML-RPC-Session.
+[INFO] 1403806820.070000 - XML-RPC-Session-3 - Started XML-RPC-Session.
+[INFO] 1403806820.080000 - XML-RPC-Session-4 - Started XML-RPC-Session.
