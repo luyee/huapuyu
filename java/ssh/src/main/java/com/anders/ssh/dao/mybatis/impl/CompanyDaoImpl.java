@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.anders.ssh.bo.test.Company;
+import com.anders.ssh.bo.test.CompanyInfo;
 import com.anders.ssh.dao.mybatis.CompanyDao;
 import com.anders.ssh.dao.mybatis.CompanyMapper;
 import com.anders.ssh.dao.mybatis.GenericMapper;
@@ -45,7 +46,7 @@ public class CompanyDaoImpl extends MybatisDao<Long, Company> implements Company
 	@Override
 	public Company getById(Long id) {
 		Assert.notNull(id);
-		throw new RuntimeException("没有实现");
+		return companyMapper.getById(id);
 	}
 
 	@Override
@@ -64,6 +65,21 @@ public class CompanyDaoImpl extends MybatisDao<Long, Company> implements Company
 	public void saveOrUpdate(Company company) {
 		Assert.notNull(company);
 		throw new RuntimeException("没有实现");
+	}
+
+	@Override
+	public void batchUpdate(List<Company> list) {
+		companyMapper.batchUpdate(list);
+	}
+
+	@Override
+	public List<Company> batchSelect(List<Long> list) {
+		return companyMapper.batchSelect(list);
+	}
+
+	@Override
+	public List<CompanyInfo> getCompanyInfoById(Long id) {
+		return companyMapper.getCompanyInfoById(id);
 	}
 
 }
