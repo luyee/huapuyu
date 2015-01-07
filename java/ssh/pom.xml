@@ -1236,6 +1236,11 @@
 			<artifactId>metrics-core</artifactId>
 			<version>2.2.0</version>
 		</dependency>
+		<dependency>
+    		<groupId>com.github.jsqlparser</groupId>
+    		<artifactId>jsqlparser</artifactId>
+    		<version>0.9</version>
+		</dependency>
 	</dependencies>
 
 	<properties>
