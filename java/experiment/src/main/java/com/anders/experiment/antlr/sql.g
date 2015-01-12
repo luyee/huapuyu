@@ -1,0 +1,275 @@
+header 
+{
+package com.vip.venus.jdbc.parser;
+}
+
+class SQLParser extends Parser;
+
+options
+{
+	exportVocab=SQL;
+	buildAST=true;
+	k=3;    // For 'not like', 'not in', etc.
+}
+
+tokens
+{
+	// -- HQL Keyword tokens --
+	//ALL="all";
+	//ANY="any";
+	AND="and";
+	AS="as";
+	//ASCENDING="asc";
+	//AVG="avg";
+	//BETWEEN="between";
+	//CLASS="class";
+	//COUNT="count";
+	DELETE="delete";
+	//DESCENDING="desc";
+	DOT;
+	//DISTINCT="distinct";
+	//ELEMENTS="elements";
+	//ESCAPE="escape";
+	//EXISTS="exists";
+	//FALSE="false";
+	//FETCH="fetch";
+	FROM="from";
+	//FULL="full";
+	//GROUP="group";
+	//HAVING="having";
+	IN="in";
+	//INDICES="indices";
+	//INNER="inner";
+	INSERT="insert";
+	INTO="into";
+	//IS="is";
+	//JOIN="join";
+	//LEFT="left";
+	//LIKE="like";
+	//MAX="max";
+	//MIN="min";
+	//NEW="new";
+	//NOT="not";
+	//NULL="null";
+	OR="or";
+	//ORDER="order";
+	//OUTER="outer";
+	//PROPERTIES="properties";
+	//RIGHT="right";
+	SELECT="select";
+	SET="set";
+	//SOME="some";
+	//SUM="sum";
+	//TRUE="true";
+	//UNION="union";
+	UPDATE="update";
+	//VERSIONED="versioned";
+	WHERE="where";
+	//NULLS="nulls";
+	//FIRST;
+	//LAST;
+
+	// -- SQL tokens --
+	// These aren't part of HQL, but the SQL fragment parser uses the HQL lexer, so they need to be declared here.
+	//CASE="case";	// a "searched case statement", whereas CASE2 represents a "simple case statement"
+	//END="end";
+	//ELSE="else";
+	//THEN="then";
+	//WHEN="when";
+	//ON="on";
+	//WITH="with";
+
+	// -- JPAQL tokens --
+	//BOTH="both";
+	//EMPTY="empty";
+	//LEADING="leading";
+	//MEMBER="member";
+	//OBJECT="object";
+	//OF="of";
+	//TRAILING="trailing";
+	//KEY;
+	//VALUE;
+	//ENTRY;
+
+	// -- Synthetic token types --
+	//AGGREGATE;		// One of the aggregate functions (e.g. min, max, avg)
+	//ALIAS;
+	//CONSTRUCTOR;
+	//CASE2;			// a "simple case statement", whereas CASE represents a "searched case statement"
+	//CAST;
+	//EXPR_LIST;
+	//FILTER_ENTITY;		// FROM element injected because of a filter expression (happens during compilation phase 2)
+	//IN_LIST;
+	//INDEX_OP;
+	//IS_NOT_NULL;
+	//IS_NULL;			// Unary 'is null' operator.
+	//METHOD_CALL;
+	//NOT_BETWEEN;
+	//NOT_IN;
+	//NOT_LIKE;
+	//ORDER_ELEMENT;
+	ROOT;
+	//RANGE;
+	//ROW_STAR;
+	//SELECT_FROM;
+	//UNARY_MINUS;
+	//UNARY_PLUS;
+	//VECTOR_EXPR;		// ( x, y, z )
+	//WEIRD_IDENT;		// Identifiers that were keywords when they came in.
+
+	// Literal tokens.
+	//CONSTANT;
+	//NUM_DOUBLE;
+	//NUM_FLOAT;
+	//NUM_LONG;
+	//NUM_BIG_INTEGER;
+	//NUM_BIG_DECIMAL;
+	//JAVA_CONSTANT;
+}
+
+statement
+	: selectStatement 
+	;
+	
+selectStatement
+	: selectRoot {
+		#selectStatement = #([ROOT,"root"], #selectStatement);
+	}
+	;
+	
+selectRoot
+	: selectClause fromClause (whereClause)?
+	;
+	
+selectClause
+	: SELECT^ selectedList
+	;
+	
+selectedList
+	: STAR | (aliasedExpression (COMMA aliasedExpression)*)
+	;
+	
+aliasedExpression
+	: IDENT (IDENT | (AS^ IDENT))?
+	;
+
+fromClause
+	: FROM^ aliasedExpression 
+	;
+	
+whereClause
+	: WHERE^ logicalExpression
+	;
+
+logicalExpression
+	: expression
+	;
+
+expression
+	: logicalOrExpression
+	;
+
+logicalOrExpression
+	: logicalAndExpression (OR^ logicalAndExpression)*
+	;
+
+logicalAndExpression
+	: negatedExpression (AND^ negatedExpression)*
+	;
+
+negatedExpression
+	: equalityExpression 
+	;
+
+equalityExpression
+	: IDENT EQ^ constant
+	;
+
+constant
+	: IDENT
+	| NUMERICAL
+	| QUOTED_STRING
+	| PARAM
+	;
+	
+// ***********************
+// *        LEXER        *
+// ***********************
+
+class SQLLexer extends Lexer;
+
+options {
+	exportVocab=SQL;   
+	testLiterals = false;
+	k=2; 
+	charVocabulary='\u0000'..'\uFFFE';
+	caseSensitive = false;
+	caseSensitiveLiterals = false;
+}
+
+// -- Keywords --
+
+EQ: '=';
+LT: '<';
+GT: '>';
+SQL_NE: "<>";
+NE: "!=" | "^=";
+LE: "<=";
+GE: ">=";
+
+COMMA: ',';
+
+OPEN: '(';
+CLOSE: ')';
+OPEN_BRACKET: '[';
+CLOSE_BRACKET: ']';
+
+CONCAT: "||";
+PLUS: '+';
+MINUS: '-';
+STAR: '*';
+DIV: '/';
+MOD: '%';
+COLON: ':';
+PARAM: '?';
+
+IDENT options { testLiterals=true; }
+	: ID_START_LETTER ( ID_LETTER )*
+	;
+
+protected
+ID_START_LETTER
+    :    '_'
+    |    '$'
+    |    'a'..'z'
+    |    '\u0080'..'\ufffe'       // HHH-558 : Allow unicode chars in identifiers
+    ;
+
+protected
+ID_LETTER
+    :    ID_START_LETTER
+    |    '0'..'9'
+    ;
+
+QUOTED_STRING
+	:	 '\'' ( (ESCqs)=> ESCqs | ~'\'' )* '\''
+	;
+
+NUMERICAL
+	:	 ('1'..'9') ('0'..'9')*
+	;
+
+protected
+ESCqs
+	:
+		'\'' '\''
+	;
+
+WS  :   (   ' '
+		|   '\t'
+		|   '\r' '\n' { newline(); }
+		|   '\n'      { newline(); }
+		|   '\r'      { newline(); }
+		)
+		{$setType(Token.SKIP);} //ignore this token
+	;
