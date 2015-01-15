@@ -1,6 +1,8 @@
 header 
 {
 package com.vip.venus.jdbc.parser;
+
+import com.vip.venus.jdbc.parser.exception.SQLParserException;
 }
 
 class SQLParser extends Parser;
@@ -9,12 +11,12 @@ options
 {
 	exportVocab=SQL;
 	buildAST=true;
-	k=3;    // For 'not like', 'not in', etc.
+	k=3;  
+	defaultErrorHandler=false;  
 }
 
 tokens
 {
-	// -- HQL Keyword tokens --
 	//ALL="all";
 	//ANY="any";
 	AND="and";
@@ -42,6 +44,7 @@ tokens
 	//INNER="inner";
 	INSERT="insert";
 	INTO="into";
+	VALUES="values";
 	//IS="is";
 	//JOIN="join";
 	//LEFT="left";
@@ -108,7 +111,11 @@ tokens
 	//NOT_IN;
 	//NOT_LIKE;
 	//ORDER_ELEMENT;
-	ROOT;
+	SELECT_ROOT;
+	INSERT_ROOT;
+	DELETE_ROOT;
+	UPDATE_ROOT;
+	COLUMN_LIST;
 	//RANGE;
 	//ROW_STAR;
 	//SELECT_FROM;
@@ -128,17 +135,19 @@ tokens
 }
 
 statement
-	: selectStatement 
+	: (selectStatement | insertStatement | deleteStatement | updateStatement)
+	exception 
+	catch [Throwable e] {throw new SQLParserException(e);}
 	;
 	
 selectStatement
 	: selectRoot {
-		#selectStatement = #([ROOT,"root"], #selectStatement);
+		#selectStatement = #([SELECT_ROOT,"select_root"], #selectStatement);
 	}
 	;
 	
 selectRoot
-	: selectClause fromClause (whereClause)?
+	: selectClause fromClause whereClause
 	;
 	
 selectClause
@@ -161,8 +170,64 @@ whereClause
 	: WHERE^ logicalExpression
 	;
 
+insertStatement
+	: insertRoot {
+		#insertStatement = #([INSERT_ROOT,"insert_root"], #insertStatement);
+	}
+	;
+	
+insertRoot
+	: insertClause columnList valuesClause
+	;
+
+insertClause
+	: INSERT^ INTO! IDENT
+	;
+
+columnList
+	: OPEN! IDENT (COMMA! IDENT)* CLOSE! {
+		#columnList = #([COLUMN_LIST,"column_list"], #columnList);
+	}
+	;
+
+valuesClause
+	: VALUES^ OPEN! variable (COMMA! variable)* CLOSE!
+	;
+
+deleteStatement
+	: deleteRoot {
+		#deleteStatement = #([DELETE_ROOT,"delete_root"], #deleteStatement);
+	}
+	;
+
+deleteRoot
+	: deleteClause whereClause
+	;
+
+deleteClause
+	: DELETE^ FROM! IDENT
+	;
+
 logicalExpression
 	: expression
+	;
+
+updateStatement
+	: updateRoot {
+		#updateStatement = #([UPDATE_ROOT,"update_root"], #updateStatement);
+	}
+	;
+
+updateRoot
+	: updateClause setClause whereClause
+	;
+
+updateClause
+	: UPDATE^ aliasedExpression 
+	;
+
+setClause
+	: SET^ equalityExpression (COMMA! equalityExpression)*
 	;
 
 expression
@@ -182,19 +247,32 @@ negatedExpression
 	;
 
 equalityExpression
+	: equalsToExpression | inExpression
+	;
+
+equalsToExpression
 	: IDENT EQ^ constant
 	;
 
+inExpression
+	: IDENT IN^ OPEN! variable (COMMA! variable)* CLOSE!
+	;
+
 constant
+	: column
+	| variable
+	;
+
+column
 	: IDENT
-	| NUMERICAL
+	;
+
+variable
+	: NUMERICAL
 	| QUOTED_STRING
 	| PARAM
 	;
-	
-// ***********************
-// *        LEXER        *
-// ***********************
+
 
 class SQLLexer extends Lexer;
 
@@ -206,8 +284,6 @@ options {
 	caseSensitive = false;
 	caseSensitiveLiterals = false;
 }
-
-// -- Keywords --
 
 EQ: '=';
 LT: '<';
@@ -242,7 +318,7 @@ ID_START_LETTER
     :    '_'
     |    '$'
     |    'a'..'z'
-    |    '\u0080'..'\ufffe'       // HHH-558 : Allow unicode chars in identifiers
+    |    '\u0080'..'\ufffe'       
     ;
 
 protected
@@ -271,5 +347,5 @@ WS  :   (   ' '
 		|   '\n'      { newline(); }
 		|   '\r'      { newline(); }
 		)
-		{$setType(Token.SKIP);} //ignore this token
+		{$setType(Token.SKIP);} 
 	;

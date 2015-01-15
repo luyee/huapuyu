@@ -2,59 +2,42 @@ header
 {
 package com.vip.venus.jdbc.parser;
 
+import com.vip.venus.jdbc.parser.exception.SQLParserException;
 import com.vip.venus.jdbc.parser.expression.Alias;
-import com.vip.venus.jdbc.parser.expression.Column;
 import com.vip.venus.jdbc.parser.expression.Expression;
-import com.vip.venus.jdbc.parser.expression.Numerical;
-import com.vip.venus.jdbc.parser.expression.Param;
-import com.vip.venus.jdbc.parser.expression.QuotedString;
+import com.vip.venus.jdbc.parser.expression.ExpressionList;
 import com.vip.venus.jdbc.parser.expression.operators.conditional.AndExpression;
 import com.vip.venus.jdbc.parser.expression.operators.conditional.OrExpression;
 import com.vip.venus.jdbc.parser.expression.operators.relational.EqualsTo;
+import com.vip.venus.jdbc.parser.expression.operators.relational.In;
+import com.vip.venus.jdbc.parser.expression.variable.Column;
+import com.vip.venus.jdbc.parser.expression.variable.Numerical;
+import com.vip.venus.jdbc.parser.expression.variable.Param;
+import com.vip.venus.jdbc.parser.expression.variable.QuotedString;
 import com.vip.venus.jdbc.parser.statement.Statement;
+import com.vip.venus.jdbc.parser.statement.delete.Delete;
+import com.vip.venus.jdbc.parser.statement.insert.Insert;
 import com.vip.venus.jdbc.parser.statement.select.Select;
 import com.vip.venus.jdbc.parser.statement.select.from.Table;
 import com.vip.venus.jdbc.parser.statement.select.select.AllColumns;
 import com.vip.venus.jdbc.parser.statement.select.select.SelectExpression;
-import com.vip.venus.jdbc.parser.statement.select.select.SelectItem;
+import com.vip.venus.jdbc.parser.statement.update.Update;
 }
 
 class SQLTreeParser extends TreeParser;
 
 options
 {
-	// Note: importVocab and exportVocab cause ANTLR to share the token type numbers between the
-	// two grammars.  This means that the token type constants from the source tree are the same
-	// as those in the target tree.  If this is not the case, tree translation can result in
-	// token types from the *source* tree being present in the target tree.
-	importVocab=SQL;        // import definitions from "Hql"
-	exportVocab=SQLTree;     // Call the resulting definitions "HqlSql"
+	importVocab=SQL;        
+	exportVocab=SQLTree;    
 	buildAST=true;
 }
 
 tokens
 {
-	FROM_FRAGMENT;	// A fragment of SQL that represents a table reference in a FROM clause.
-	//IMPLIED_FROM;	// An implied FROM element.
-	//JOIN_FRAGMENT;	// A JOIN fragment.
-	//SELECT_CLAUSE;
-	//LEFT_OUTER;
-	//RIGHT_OUTER;
-	//ALIAS_REF;      // An IDENT that is a reference to an entity via it's alias.
-	//PROPERTY_REF;   // A DOT that is a reference to a property in an entity.
-	//SQL_TOKEN;      // A chunk of SQL that is 'rendered' already.
-	//SELECT_COLUMNS; // A chunk of SQL representing a bunch of select columns.
-	//SELECT_EXPR;    // A select expression, generated from a FROM element.
-	//THETA_JOINS;	// Root of theta join condition subtree.
-	//FILTERS;		// Root of the filters condition subtree.
-	//METHOD_NAME;    // An IDENT that is a method name.
-	//NAMED_PARAM;    // A named parameter (:foo).
-	//BOGUS;          // Used for error state detection, etc.
-	//RESULT_VARIABLE_REF;   // An IDENT that refers to result variable
-	                       // (i.e, an alias for a select expression) 
+	FROM_FRAGMENT;	
 }
 
-// -- Declarations --
 {
 	private Statement statement;
 
@@ -66,103 +49,184 @@ tokens
 		if (statement instanceof Select) {
 			return (Select) statement;
 		}
-		// FIXME Anders add exception msg
-		throw new RuntimeException();
+		// FIXME Anders
+		throw new SQLParserException("");
+	}
+
+	public Insert getInsert() {
+		if (statement instanceof Insert) {
+			return (Insert) statement;
+		}
+		// FIXME Anders
+		throw new SQLParserException("");
+	}
+
+	public Delete getDelete() {
+		if (statement instanceof Delete) {
+			return (Delete) statement;
+		}
+		// FIXME Anders
+		throw new SQLParserException("");
+	}
+
+	public Update getUpdate() {
+		if (statement instanceof Update) {
+			return (Update) statement;
+		}
+		// FIXME Anders
+		throw new SQLParserException("");
 	}
 
 	public void createStatement(int statementType) {
 		if (statementType == SELECT) {
 			statement = new Select();
 		} else if (statementType == INSERT) {
-			//statement = new Insert();
+			statement = new Insert();
 		} else if (statementType == DELETE) {
-			//statement = new Delete();
+			statement = new Delete();
 		} else if (statementType == UPDATE) {
-			//statement = new Update();
+			statement = new Update();
 		} else {
-			// FIXME Anders add exception msg
-			throw new RuntimeException();
+			throw new SQLParserException("not support statement type : " + statementType);
 		}
 	}
 
-	public void createAllColumns() {
-		SelectItem item = new AllColumns();
-		getSelect().addSelectItem(item);
-	}
-
-	public void createSelectExpression(AST column, AST alias, boolean useAs) {
+	public SelectExpression createSelectExpression(AST column, AST alias, boolean useAs) {
 		SelectExpression item = new SelectExpression();
 		item.setExpression(new Column(column.getText()));
 		if (alias != null) {
 			item.setAlias(new Alias(alias.getText(), useAs));
 		}
-		getSelect().addSelectItem(item);
+		return item;
 	}
 
-	public void createTable(AST table, AST alias, boolean useAs) {
+	public Table createTable(AST table, AST alias, boolean useAs) {
 		Table item = new Table();
 		item.setName(table.getText());
-		String aliasName = (alias == null) ? null : alias.getText();
-		item.setAlias(new Alias(aliasName, useAs));
-		getSelect().setFromItem(item);
+		if (alias != null) {
+			item.setAlias(new Alias(alias.getText(), useAs));
+		}
+		return item;
 	}
 
-	public void setWhere(Expression where) {
-		getSelect().setWhere(where);
+	public ExpressionList createSetList(AST setAst) {
+		AST ast = setAst.getFirstChild();
+		if (ast == null) {
+			throw new SQLParserException("expressions is null");
+		}
+
+		ExpressionList expressionList = new ExpressionList();
+		do {
+			AST left = ast.getFirstChild();
+			if (left == null) {
+				throw new SQLParserException("left is null");
+			}
+			AST right = left.getNextSibling();
+			if (left == null) {
+				throw new SQLParserException("right is null");
+			}
+			expressionList.addExpression(new EqualsTo(new Column(left.getText()), new Numerical(right.getText())));
+			ast = ast.getNextSibling();
+		} while (ast != null);
+
+		return expressionList;
+	}
+
+	public ExpressionList createColumnList(AST exprAst) {
+		AST ast = exprAst.getFirstChild();
+		if (ast == null) {
+			throw new SQLParserException("expressions is null");
+		}
+
+		ExpressionList expressionList = new ExpressionList();
+		do {
+			expressionList.addExpression(new Column(ast.getText()));
+			ast = ast.getNextSibling();
+		} while (ast != null);
+
+		return expressionList;
+	}
+
+	public ExpressionList createExpressionList(AST exprAst) {
+		AST ast = exprAst.getFirstChild();
+		if (ast == null) {
+			throw new SQLParserException("expressions is null");
+		}
+
+		ExpressionList expressionList = new ExpressionList();
+		do {
+			expressionList.addExpression(new Numerical(ast.getText()));
+			ast = ast.getNextSibling();
+		} while (ast != null);
+
+		return expressionList;
+	}
+
+	public In createIn(AST exprAst) {
+		AST ast = exprAst.getFirstChild();
+		if (ast == null) {
+			throw new SQLParserException("column is null");
+		}
+		String column = ast.getText();
+
+		ast = ast.getNextSibling();
+		if (ast == null) {
+			throw new SQLParserException("in expressions is null");
+		}
+
+		ExpressionList expressionList = new ExpressionList();
+		do {
+			expressionList.addExpression(new Numerical(ast.getText()));
+			ast = ast.getNextSibling();
+		} while (ast != null);
+
+		return new In(new Column(column), expressionList);
 	}
 }
 
-// The main statement rule.
 statement
-	: selectStatement 
+	: selectStatement | insertStatement | deleteStatement | updateStatement
 	;
 
 selectStatement
 	: selectRoot
 	;
 
-selectRoot
-	: #(ROOT { 
+selectRoot {
+	Expression where = null;
+	}
+	: #(SELECT_ROOT { 
 		createStatement(SELECT); 
 	} 
 		s:selectClause
 		f:fromClause
-		(w:whereClause)?
+		where=whereClause {getSelect().setWhere(where);}
 	) {
-		// Antlr note: #x_in refers to the input AST, #x refers to the output AST
-		//#selectRoot = #([ROOT,"root"], #s);
-		//beforeStatementCompletion( "select" );
-		//processQuery( #s, #query );
-		//afterStatementCompletion( "select" );
 	}
 	;
 
 selectClause
 	: #(SELECT { 
-			//handleClauseStart( SELECT ); 
-			//beforeSelectClause(); 
 	} 
-		x:selectedList
+		selectedList
 	) {
-		//#selectClause = #([SELECT_CLAUSE,"{select clause}"], #x);
-			//System.out.println(#x);
 	}
 	;
 
 selectedList
 	: STAR {
-		createAllColumns();
+		getSelect().addSelectItem(new AllColumns());
 	} | (selectExpression (COMMA! selectExpression)*)
 	;
 	
 selectExpression
 	: c1:IDENT (a1:IDENT)? {
-		createSelectExpression(#c1, #a1, false);
+		getSelect().addSelectItem(createSelectExpression(#c1, #a1, false));
 	} | #(AS 
 			c2:IDENT 
 			a2:IDENT
 		) {
-		createSelectExpression(#c2, #a2, true);
+		getSelect().addSelectItem(createSelectExpression(#c2, #a2, true));
 	}
 	;
 	
@@ -175,21 +239,95 @@ fromClause
 
 fromExpression
 	: c1:IDENT (a1:IDENT)? {
-		createTable(#c1, #a1, false);
+		statement.setFromItem(createTable(#c1, #a1, false));
 	} | #(AS 
 			c2:IDENT 
 			a2:IDENT
 		) {
-		createTable(#c2, #a2, true);
+		statement.setFromItem(createTable(#c2, #a2, true));
 	}
 	;
 	
-whereClause {
-		Expression expr = null;
+whereClause returns [Expression expr] {
+		expr = null;
 	}
 	: #(WHERE expr=logicalExpression) {
-		setWhere(expr);
 	}
+	;
+
+insertStatement
+	: insertRoot
+	;
+
+insertRoot
+	: #(INSERT_ROOT { 
+		createStatement(INSERT); 
+	} 
+		i:insertClause
+		c:columnList {getInsert().setColumnList(createColumnList(#c));}
+		v:valuesClause {getInsert().setExpressionList(createExpressionList(#v));}
+	) {
+	}
+	;
+
+insertClause
+	: #(INSERT 
+		i:IDENT) {
+		statement.setFromItem(createTable(#i, null, false));
+	}
+	;
+
+columnList
+	: #(COLUMN_LIST column (column)*)
+	;
+
+valuesClause
+	: #(VALUES variable (variable)*)
+	;
+
+deleteStatement {
+		Expression where = null;
+	}
+	: #(DELETE_ROOT { 
+		createStatement(DELETE); 
+	}
+		d:deleteClause
+		where=whereClause {getDelete().setWhere(where);}
+	)
+	;
+
+deleteClause
+	: #(DELETE
+		i:IDENT {
+			statement.setFromItem(createTable(#i, null, false));
+		}
+	)
+	;
+
+updateStatement {
+	Expression where = null;
+	}
+	: #(UPDATE_ROOT {
+		createStatement(UPDATE); 
+	}
+		updateClause 
+		s:setClause {getUpdate().setSetList(createSetList(#s));}
+		where=whereClause {getUpdate().setWhere(where);}
+	)
+	;
+
+updateClause
+	: #(UPDATE {
+	}
+		fromExpression) {
+	} 
+	;
+
+setClause
+	: #(SET
+		(equalityExpression)+ {
+		}
+	)
 	;
 
 logicalExpression returns [Expression expr] {
@@ -241,6 +379,13 @@ negatedExpression returns [Expression expr] {
 
 equalityExpression returns [Expression expr] {
 		expr = null;
+	}
+	: expr=equalsToExpression 
+	| i:inExpression {expr=createIn(#i);}
+	;
+
+equalsToExpression returns [Expression expr] {
+		expr = null;
 		Expression rr = null;
 	}
 	: #(EQ 
@@ -252,11 +397,27 @@ equalityExpression returns [Expression expr] {
 	}
 	;
 
+inExpression 
+	: #(IN IDENT (variable)+)
+	;
+
 constant returns [Expression value] {
 		value = null;
 	}
+	: value=column
+	| value=variable
+	;
+
+column returns [Expression value] {
+		value = null;
+	}
 	: i:IDENT {value = new Column(#i.getText());}
-	| n:NUMERICAL {value = new Numerical(#n.getText());}
+	;
+
+variable returns [Expression value] {
+		value = null;
+	}
+	: n:NUMERICAL {value = new Numerical(#n.getText());}
 	| q:QUOTED_STRING {value = new QuotedString(#q.getText());}
 	| PARAM {value = new Param();}
 	;
