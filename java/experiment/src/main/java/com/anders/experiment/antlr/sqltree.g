@@ -2,6 +2,11 @@ header
 {
 package com.vip.venus.jdbc.parser;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.vip.venus.jdbc.parser.exception.SQLParserException;
 import com.vip.venus.jdbc.parser.expression.Alias;
 import com.vip.venus.jdbc.parser.expression.Expression;
@@ -40,6 +45,16 @@ tokens
 
 {
 	private Statement statement;
+	private int paramIndex = 0;
+	private Map<String, List<Integer>> paramIndexMap = new HashMap<String, List<Integer>>();
+
+	public int getParamCount() {
+		return this.paramIndex;
+	}
+
+	public Map<String, List<Integer>> getParamIndexMap() {
+		return this.paramIndexMap;
+	}
 
 	public Statement getStatement() {
 		return this.statement;
@@ -162,21 +177,31 @@ tokens
 		return expressionList;
 	}
 
-	public In createIn(AST exprAst) {
+	public In createIn(AST exprAst, int preIndex) {
 		AST ast = exprAst.getFirstChild();
 		if (ast == null) {
 			throw new SQLParserException("column is null");
 		}
 		String column = ast.getText();
+		List<Integer> indexes = paramIndexMap.get(column);
+		if (indexes == null) {
+			indexes = new ArrayList<Integer>();
+			paramIndexMap.put(column, indexes);
+		}
 
 		ast = ast.getNextSibling();
 		if (ast == null) {
 			throw new SQLParserException("in expressions is null");
 		}
 
+		int index = preIndex;
 		ExpressionList expressionList = new ExpressionList();
 		do {
+			// FIXME Anders Numerical need to setting right type
 			expressionList.addExpression(new Numerical(ast.getText()));
+			if (ast.getType() == PARAM) {
+				indexes.add(++index);
+			}
 			ast = ast.getNextSibling();
 		} while (ast != null);
 
@@ -381,7 +406,7 @@ equalityExpression returns [Expression expr] {
 		expr = null;
 	}
 	: expr=equalsToExpression 
-	| i:inExpression {expr=createIn(#i);}
+	| i:inExpression {expr=createIn(#i, paramIndex);}
 	;
 
 equalsToExpression returns [Expression expr] {
@@ -394,11 +419,21 @@ equalsToExpression returns [Expression expr] {
 			rr=constant {
 		}) {
 		expr = new EqualsTo(new Column(#ll.getText()), rr);
+		if (rr instanceof Param) {
+			List<Integer> indexes = paramIndexMap.get(#ll.getText());
+			if (indexes == null) {
+				indexes = new ArrayList<Integer>();
+				paramIndexMap.put(#ll.getText(), indexes);
+			}
+			indexes.add(++paramIndex);
+		}
 	}
 	;
 
 inExpression 
-	: #(IN IDENT (variable)+)
+	: #(IN IDENT (variable)+) {
+
+	}
 	;
 
 constant returns [Expression value] {
@@ -419,5 +454,5 @@ variable returns [Expression value] {
 	}
 	: n:NUMERICAL {value = new Numerical(#n.getText());}
 	| q:QUOTED_STRING {value = new QuotedString(#q.getText());}
-	| PARAM {value = new Param();}
+	| PARAM {value = new Param();++paramIndex;}
 	;
