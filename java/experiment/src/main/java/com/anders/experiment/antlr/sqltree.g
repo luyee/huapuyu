@@ -19,6 +19,7 @@ import com.vip.venus.jdbc.parser.expression.variable.Column;
 import com.vip.venus.jdbc.parser.expression.variable.Numerical;
 import com.vip.venus.jdbc.parser.expression.variable.Param;
 import com.vip.venus.jdbc.parser.expression.variable.QuotedString;
+import com.vip.venus.jdbc.parser.expression.variable.Variable;
 import com.vip.venus.jdbc.parser.statement.Statement;
 import com.vip.venus.jdbc.parser.statement.delete.Delete;
 import com.vip.venus.jdbc.parser.statement.insert.Insert;
@@ -47,6 +48,7 @@ tokens
 	private Statement statement;
 	private int paramIndex = 0;
 	private Map<String, List<Integer>> paramIndexMap = new HashMap<String, List<Integer>>();
+	private Map<String, List<String>> paramValueMap = new HashMap<String, List<String>>();
 
 	public int getParamCount() {
 		return this.paramIndex;
@@ -54,6 +56,10 @@ tokens
 
 	public Map<String, List<Integer>> getParamIndexMap() {
 		return this.paramIndexMap;
+	}
+
+	public Map<String, List<String>> getParamValueMap() {
+		return this.paramValueMap;
 	}
 
 	public Statement getStatement() {
@@ -140,7 +146,19 @@ tokens
 			if (left == null) {
 				throw new SQLParserException("right is null");
 			}
-			expressionList.addExpression(new EqualsTo(new Column(left.getText()), new Numerical(right.getText())));
+
+			Variable variable = null;
+			if (right.getType() == PARAM) {
+				variable = new Param();
+			} else if (right.getType() == NUMERICAL) {
+				variable = new Numerical(right.getText());
+			} else if (right.getType() == QUOTED_STRING) {
+				variable = new QuotedString(right.getText());
+			} else {
+				throw new UnsupportedOperationException();
+			}
+
+			expressionList.addExpression(new EqualsTo(new Column(left.getText()), variable));
 			ast = ast.getNextSibling();
 		} while (ast != null);
 
@@ -170,7 +188,17 @@ tokens
 
 		ExpressionList expressionList = new ExpressionList();
 		do {
-			expressionList.addExpression(new Numerical(ast.getText()));
+			Variable variable = null;
+			if (ast.getType() == PARAM) {
+				variable = new Param();
+			} else if (ast.getType() == NUMERICAL) {
+				variable = new Numerical(ast.getText());
+			} else if (ast.getType() == QUOTED_STRING) {
+				variable = new QuotedString(ast.getText());
+			} else {
+				throw new UnsupportedOperationException();
+			}
+			expressionList.addExpression(variable);
 			ast = ast.getNextSibling();
 		} while (ast != null);
 
@@ -188,6 +216,11 @@ tokens
 			indexes = new ArrayList<Integer>();
 			paramIndexMap.put(column, indexes);
 		}
+		List<String> values = paramValueMap.get(column);
+		if (values == null) {
+			values = new ArrayList<String>();
+			paramValueMap.put(column, values);
+		}
 
 		ast = ast.getNextSibling();
 		if (ast == null) {
@@ -197,10 +230,17 @@ tokens
 		int index = preIndex;
 		ExpressionList expressionList = new ExpressionList();
 		do {
-			// FIXME Anders Numerical need to setting right type
-			expressionList.addExpression(new Numerical(ast.getText()));
 			if (ast.getType() == PARAM) {
+				expressionList.addExpression(new Param());
 				indexes.add(++index);
+			} else if (ast.getType() == NUMERICAL) {
+				expressionList.addExpression(new Numerical(ast.getText()));
+				values.add(ast.getText());
+			} else if (ast.getType() == QUOTED_STRING) {
+				expressionList.addExpression(new QuotedString(ast.getText()));
+				values.add(ast.getText());
+			} else {
+				throw new UnsupportedOperationException();
 			}
 			ast = ast.getNextSibling();
 		} while (ast != null);
@@ -416,7 +456,7 @@ equalsToExpression returns [Expression expr] {
 	: #(EQ 
 			ll:IDENT {
 		}
-			rr=constant {
+			rr=variable {
 		}) {
 		expr = new EqualsTo(new Column(#ll.getText()), rr);
 		if (rr instanceof Param) {
@@ -426,13 +466,21 @@ equalsToExpression returns [Expression expr] {
 				paramIndexMap.put(#ll.getText(), indexes);
 			}
 			indexes.add(++paramIndex);
+		} else if (rr instanceof Numerical) {
+			List<String> values = paramValueMap.get(#ll.getText());
+			if (values == null) {
+				values = new ArrayList<String>();
+				paramValueMap.put(#ll.getText(), values);
+			}
+			values.add(rr.toStr());
+		} else {
+			throw new UnsupportedOperationException();
 		}
 	}
 	;
 
 inExpression 
 	: #(IN IDENT (variable)+) {
-
 	}
 	;
 
@@ -454,5 +502,5 @@ variable returns [Expression value] {
 	}
 	: n:NUMERICAL {value = new Numerical(#n.getText());}
 	| q:QUOTED_STRING {value = new QuotedString(#q.getText());}
-	| PARAM {value = new Param();++paramIndex;}
+	| PARAM {value = new Param();}
 	;
