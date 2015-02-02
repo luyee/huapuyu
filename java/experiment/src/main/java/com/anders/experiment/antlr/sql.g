@@ -251,7 +251,7 @@ equalityExpression
 	;
 
 equalsToExpression
-	: IDENT EQ^ constant
+	: IDENT EQ^ variable
 	;
 
 inExpression
