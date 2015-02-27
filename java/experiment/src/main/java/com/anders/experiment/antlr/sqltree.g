@@ -49,6 +49,7 @@ tokens
 	private int paramIndex = 0;
 	private Map<String, List<Integer>> paramIndexMap = new HashMap<String, List<Integer>>();
 	private Map<String, List<String>> paramValueMap = new HashMap<String, List<String>>();
+	private Map<String, Table> tableMap = new HashMap<String, Table>();
 
 	public int getParamCount() {
 		return this.paramIndex;
@@ -70,32 +71,28 @@ tokens
 		if (statement instanceof Select) {
 			return (Select) statement;
 		}
-		// FIXME Anders
-		throw new SQLParserException("");
+		throw new SQLParserException("only support select statement");
 	}
 
 	public Insert getInsert() {
 		if (statement instanceof Insert) {
 			return (Insert) statement;
 		}
-		// FIXME Anders
-		throw new SQLParserException("");
+		throw new SQLParserException("only support insert statement");
 	}
 
 	public Delete getDelete() {
 		if (statement instanceof Delete) {
 			return (Delete) statement;
 		}
-		// FIXME Anders
-		throw new SQLParserException("");
+		throw new SQLParserException("only support delete statement");
 	}
 
 	public Update getUpdate() {
 		if (statement instanceof Update) {
 			return (Update) statement;
 		}
-		// FIXME Anders
-		throw new SQLParserException("");
+		throw new SQLParserException("only support update statement");
 	}
 
 	public void createStatement(int statementType) {
@@ -114,7 +111,7 @@ tokens
 
 	public SelectExpression createSelectExpression(AST column, AST alias, boolean useAs) {
 		SelectExpression item = new SelectExpression();
-		item.setExpression(new Column(column.getText()));
+		item.setExpression(createColumn(column.getText()));
 		if (alias != null) {
 			item.setAlias(new Alias(alias.getText(), useAs));
 		}
@@ -126,7 +123,10 @@ tokens
 		item.setName(table.getText());
 		if (alias != null) {
 			item.setAlias(new Alias(alias.getText(), useAs));
+			tableMap.put(alias.getText(), item);
 		}
+		tableMap.put(table.getText(), item);
+		
 		return item;
 	}
 
@@ -158,7 +158,7 @@ tokens
 				throw new UnsupportedOperationException();
 			}
 
-			expressionList.addExpression(new EqualsTo(new Column(left.getText()), variable));
+			expressionList.addExpression(new EqualsTo(createColumn(left.getText()), variable));
 			ast = ast.getNextSibling();
 		} while (ast != null);
 
@@ -173,7 +173,7 @@ tokens
 
 		ExpressionList expressionList = new ExpressionList();
 		do {
-			expressionList.addExpression(new Column(ast.getText()));
+			expressionList.addExpression(createColumn(ast.getText()));
 			ast = ast.getNextSibling();
 		} while (ast != null);
 
@@ -245,7 +245,16 @@ tokens
 			ast = ast.getNextSibling();
 		} while (ast != null);
 
-		return new In(new Column(column), expressionList);
+		return new In(createColumn(column), expressionList);
+	}
+
+	public Column createColumn(String text) {
+		//if (text.contains(".")) {
+		//	String[] str = text.split(".");
+		//	return new Column(str[0], str[1]);
+		//} 
+		//return new Column(text);
+		return new Column(tableMap, text);
 	}
 }
 
@@ -390,7 +399,7 @@ updateClause
 
 setClause
 	: #(SET
-		(equalityExpression)+ {
+		(setEqualityExpression)+ {
 		}
 	)
 	;
@@ -449,6 +458,36 @@ equalityExpression returns [Expression expr] {
 	| i:inExpression {expr=createIn(#i, paramIndex);}
 	;
 
+setEqualityExpression returns [Expression expr] {
+		expr = null;
+	}
+	: expr=setEqualsToExpression 
+	;
+
+setEqualsToExpression returns [Expression expr] {
+		expr = null;
+		Expression rr = null;
+	}
+	: #(EQ 
+			ll:IDENT {
+		}
+			rr=variable {
+		}) {
+		expr = new EqualsTo(createColumn(#ll.getText()), rr);
+		if (rr instanceof Param) {
+			List<Integer> indexes = paramIndexMap.get(#ll.getText());
+			if (indexes == null) {
+				indexes = new ArrayList<Integer>();
+				paramIndexMap.put(#ll.getText(), indexes);
+			}
+			indexes.add(++paramIndex);
+		} else if (rr instanceof Numerical) {
+		} else {
+			throw new UnsupportedOperationException();
+		}
+	}
+	;
+
 equalsToExpression returns [Expression expr] {
 		expr = null;
 		Expression rr = null;
@@ -458,7 +497,7 @@ equalsToExpression returns [Expression expr] {
 		}
 			rr=variable {
 		}) {
-		expr = new EqualsTo(new Column(#ll.getText()), rr);
+		expr = new EqualsTo(createColumn(#ll.getText()), rr);
 		if (rr instanceof Param) {
 			List<Integer> indexes = paramIndexMap.get(#ll.getText());
 			if (indexes == null) {
@@ -494,7 +533,7 @@ constant returns [Expression value] {
 column returns [Expression value] {
 		value = null;
 	}
-	: i:IDENT {value = new Column(#i.getText());}
+	: i:IDENT {value = createColumn(#i.getText());}
 	;
 
 variable returns [Expression value] {

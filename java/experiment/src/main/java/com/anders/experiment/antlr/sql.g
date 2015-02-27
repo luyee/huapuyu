@@ -28,7 +28,7 @@ tokens
 	//COUNT="count";
 	DELETE="delete";
 	//DESCENDING="desc";
-	DOT;
+	//DOT;
 	//DISTINCT="distinct";
 	//ELEMENTS="elements";
 	//ESCAPE="escape";
@@ -135,7 +135,7 @@ tokens
 }
 
 statement
-	: (selectStatement | insertStatement | deleteStatement | updateStatement)
+	: (selectStatement | insertStatement | deleteStatement | updateStatement) EOF 
 	exception 
 	catch [Throwable e] {throw new SQLParserException(e);}
 	;
@@ -308,6 +308,7 @@ DIV: '/';
 MOD: '%';
 COLON: ':';
 PARAM: '?';
+DOT: '.';
 
 IDENT options { testLiterals=true; }
 	: ID_START_LETTER ( ID_LETTER )*
@@ -325,6 +326,7 @@ protected
 ID_LETTER
     :    ID_START_LETTER
     |    '0'..'9'
+    |	 DOT // FIXME Anders need to edit
     ;
 
 QUOTED_STRING
