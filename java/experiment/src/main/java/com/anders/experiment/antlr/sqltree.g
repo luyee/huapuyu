@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.vip.venus.jdbc.parser.common.JoinType;
 import com.vip.venus.jdbc.parser.exception.SQLParserException;
 import com.vip.venus.jdbc.parser.expression.Alias;
 import com.vip.venus.jdbc.parser.expression.Expression;
@@ -23,6 +24,7 @@ import com.vip.venus.jdbc.parser.expression.variable.Variable;
 import com.vip.venus.jdbc.parser.statement.Statement;
 import com.vip.venus.jdbc.parser.statement.delete.Delete;
 import com.vip.venus.jdbc.parser.statement.insert.Insert;
+import com.vip.venus.jdbc.parser.statement.select.Join;
 import com.vip.venus.jdbc.parser.statement.select.Select;
 import com.vip.venus.jdbc.parser.statement.select.from.Table;
 import com.vip.venus.jdbc.parser.statement.select.select.AllColumns;
@@ -305,10 +307,36 @@ selectExpression
 	;
 	
 fromClause
-	: #(FROM {
+	: #(FROM
+	fromExpression (joinClause)*)
+	;
+
+joinClause {
+		Table table = null;
+		Expression on = null;
 	}
-	fromExpression) {
-	} 
+	: #(LEFT table=joinExpression on=onClause) {
+		getSelect().addJoin(new Join(JoinType.LEFT, table, on));
+	} |
+	#(RIGHT table=joinExpression on=onClause) {
+		getSelect().addJoin(new Join(JoinType.RIGHT, table, on));
+	} |
+	#(JOIN table=joinExpression on=onClause) {
+		getSelect().addJoin(new Join(JoinType.INNER, table, on));
+	}
+	;
+
+joinExpression returns [Table table] {
+		table = null;
+	}
+	: c1:IDENT (a1:IDENT)? {
+		table = createTable(#c1, #a1, false);
+	} | #(AS 
+			c2:IDENT 
+			a2:IDENT
+		) {
+		table = createTable(#c2, #a2, true);
+	}
 	;
 
 fromExpression
@@ -326,6 +354,13 @@ whereClause returns [Expression expr] {
 		expr = null;
 	}
 	: #(WHERE expr=logicalExpression) {
+	}
+	;
+
+onClause returns [Expression expr] {
+		expr = null;
+	}
+	: #(ON expr=logicalExpression) {
 	}
 	;
 
@@ -495,7 +530,7 @@ equalsToExpression returns [Expression expr] {
 	: #(EQ 
 			ll:IDENT {
 		}
-			rr=variable {
+			rr=constant {
 		}) {
 		expr = new EqualsTo(createColumn(#ll.getText()), rr);
 		if (rr instanceof Param) {
@@ -512,6 +547,7 @@ equalsToExpression returns [Expression expr] {
 				paramValueMap.put(#ll.getText(), values);
 			}
 			values.add(rr.toStr());
+		} else if (rr instanceof Column) {
 		} else {
 			throw new UnsupportedOperationException();
 		}

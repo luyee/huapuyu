@@ -68,6 +68,12 @@ tokens
 	UPDATE="update";
 	//VERSIONED="versioned";
 	WHERE="where";
+	LEFT="left";
+	RIGHT="right";
+	INNER="inner";
+	CROSS="cross";
+	JOIN="join";
+	ON="on";
 	//NULLS="nulls";
 	//FIRST;
 	//LAST;
@@ -163,7 +169,17 @@ aliasedExpression
 	;
 
 fromClause
-	: FROM^ aliasedExpression 
+	: FROM^ aliasedExpression (joinClause)* 
+	;
+
+joinClause
+	: LEFT^ JOIN! aliasedExpression onClause |
+	RIGHT^ JOIN! aliasedExpression onClause |
+	JOIN^ aliasedExpression onClause
+	;
+
+onClause
+	: ON^ logicalExpression
 	;
 	
 whereClause
@@ -251,7 +267,7 @@ equalityExpression
 	;
 
 equalsToExpression
-	: IDENT EQ^ variable
+	: IDENT EQ^ constant
 	;
 
 inExpression
