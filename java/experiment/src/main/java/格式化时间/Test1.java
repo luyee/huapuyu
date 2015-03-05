@@ -19,7 +19,8 @@ public class Test1 {
 		// // 转化位id 填充到map中
 		// buildCoreWordMap(10L, coreWordRuleMap);
 		//
-		// for (Iterator<Long> iterator = coreWordRuleMap.keySet().iterator(); iterator.hasNext();) {
+		// for (Iterator<Long> iterator = coreWordRuleMap.keySet().iterator();
+		// iterator.hasNext();) {
 		// Long type = iterator.next();
 		// System.out.println(type);
 		// System.out.println(coreWordRuleMap.get(type));
@@ -44,6 +45,10 @@ public class Test1 {
 		user2.setName("guolili");
 
 		System.out.println(user1.getUser2().getName());
+
+		Long beginTime = System.nanoTime();
+
+		System.out.println((System.nanoTime() - beginTime) / 1000);
 	}
 
 	private static List<Long> bitToInt(int intValue) {
@@ -52,8 +57,7 @@ public class Test1 {
 		while (true) {
 			if ((Double.valueOf(Math.pow(2, i)).intValue() | intValue) == intValue) {
 				ret.add(Long.valueOf(i));
-			}
-			else if (Double.valueOf(Math.pow(2, i)).intValue() > intValue) {
+			} else if (Double.valueOf(Math.pow(2, i)).intValue() > intValue) {
 				break;
 			}
 			i++;
@@ -61,7 +65,8 @@ public class Test1 {
 		return ret;
 	}
 
-	private static void buildCoreWordMap(Long coreWordRuleId, Map<Long, Object> coreWordRuleMap) {
+	private static void buildCoreWordMap(Long coreWordRuleId,
+			Map<Long, Object> coreWordRuleMap) {
 		List<Long> coreWordRuleList = null;
 		// 将位表示转化为数值表示
 		if (coreWordRuleId != null) {
