@@ -25,7 +25,7 @@ public class HQLParserTest {
 		String hql = "select new Map(id as id, name as name) from Account order by id";
 		QueryTranslatorImpl queryTranslatorImpl = new QueryTranslatorImpl(hql, "select new Map(id as id, name as name) from com.anders.ssh.bo.test.Account order by id", new HashMap(), SesssessionFactory);
 		queryTranslatorImpl.compile(null, false);
-		System.out.println(queryTranslatorImpl.getSQLString());
+		System.out.println("sql is : " + queryTranslatorImpl.getSQLString());
 
 		System.out.println(queryTranslatorImpl.getReturnAliases()[0]);
 
