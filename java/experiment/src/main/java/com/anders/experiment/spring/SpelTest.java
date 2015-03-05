@@ -56,6 +56,7 @@ public class SpelTest {
 		System.out.println(ep.parseExpression("#user.name").getValue(context)
 				.getClass());
 		System.out.println(ep.parseExpression("#set[0]").getValue(context));
+		System.out.println(ep.parseExpression("#list").getValue(context));
 		System.out.println(ep.parseExpression("#list[0]").getValue(context));
 		System.out.println(ep.parseExpression("#map[a]").getValue(context));
 		System.out.println(ep.parseExpression("#map1[11L]").getValue(context));
