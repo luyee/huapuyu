@@ -7,17 +7,26 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="typeAliasesPackage" value="com.anders.ssh.bo"/>
         <property name="mapperLocations" value="classpath*:com/anders/ssh/mybatis/mybatis-*.xml" />
+        <property name="configLocation" value="mybatis-config.xml"></property>
         <property name="plugins">
         	<array>
-            	<ref bean="myInterceptor"/>
+            	<ref bean="executorInterceptor"/>
+            	<ref bean="statementHandlerInterceptor"/>
+            	<ref bean="resultSetHandlerInterceptor"/>
         	</array>
     	</property>
     </bean>
     
-    <bean id="myInterceptor" class="com.anders.ssh.mybatis.MyInterceptor">
+    <bean id="statementHandlerInterceptor" class="com.anders.ssh.mybatis.StatementHandlerInterceptor">
     	<property name="logCallPK">
 			<ref bean="logCallPK" />
 		</property>
+	</bean>
+	
+	<bean id="executorInterceptor" class="com.anders.ssh.mybatis.ExecutorInterceptor">
+	</bean>
+	
+	<bean id="resultSetHandlerInterceptor" class="com.anders.ssh.mybatis.ResultSetHandlerInterceptor">
 	</bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
