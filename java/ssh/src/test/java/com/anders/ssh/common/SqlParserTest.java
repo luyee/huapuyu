@@ -72,4 +72,19 @@ public class SqlParserTest {
 		Object value = (LongValue) ((EqualsTo) expression).getRightExpression();
 		System.out.println(value);
 	}
+
+	@Test
+	public void test2() throws JSQLParserException {
+		Statement statement = CCJSqlParserUtil.parse("SELECT * FROM tbuser a left join tt d where a.id = 1 and d.id = a.id");
+		if (statement instanceof Select) {
+			System.out.println("true");
+		}
+		Select selectStatement = (Select) statement;
+		TablesNamesFinder tablesNamesFinder = new TablesNamesFinder();
+
+		List<String> tableList = tablesNamesFinder.getTableList(selectStatement);
+		for (String table : tableList) {
+			System.out.println(table);
+		}
+	}
 }
