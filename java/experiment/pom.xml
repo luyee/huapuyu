@@ -283,6 +283,10 @@
 					<artifactId>snakeyaml</artifactId>
 					<groupId>org.yaml</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>antlr</artifactId>
+					<groupId>antlr</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency> 
 		
@@ -328,11 +332,24 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-compress</artifactId>
 			<version>1.8</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.3.6</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>antlr</groupId>
+			<artifactId>antlr</artifactId>
+			<version>2.7.6</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
