@@ -3,8 +3,6 @@ package com.anders.ssh.hibernate;
 import java.io.Serializable;
 import java.util.Iterator;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.CallbackException;
@@ -13,14 +11,12 @@ import org.hibernate.EntityMode;
 import org.hibernate.Transaction;
 import org.hibernate.type.Type;
 
-import com.anders.ssh.log.LogCallPK;
-
 public class MyEmptyInterceptor extends EmptyInterceptor {
 
 	private final static Log log = LogFactory.getLog(MyEmptyInterceptor.class);
 
-	@Resource
-	private LogCallPK logCallPK;
+	// @Resource
+	// private LogCallPK logCallPK;
 
 	private static final long serialVersionUID = -5004433133284088103L;
 
@@ -116,7 +112,7 @@ public class MyEmptyInterceptor extends EmptyInterceptor {
 
 	@Override
 	public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-		log.error(logCallPK.getLogCallPK() + " : onSave");
+		// log.error(logCallPK.getLogCallPK() + " : onSave");
 		return super.onSave(entity, id, state, propertyNames, types);
 	}
 
