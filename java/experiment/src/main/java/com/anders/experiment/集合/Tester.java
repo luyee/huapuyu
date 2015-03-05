@@ -14,6 +14,9 @@ public class Tester {
 		l.add("zhuzhen");
 		l.add("guolili");
 		l.add("guolili");
+		l.add("3");
+		l.add("1");
+		l.add("2");
 
 		for (String lTemp : l) {
 			System.out.println(lTemp);
@@ -65,8 +68,7 @@ public class Tester {
 					// list.remove("cat");add和remove都会产生异常
 				}
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
