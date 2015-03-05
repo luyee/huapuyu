@@ -21,7 +21,7 @@ import org.junit.Test;
 public class SqlParserTest {
 	@Test
 	public void test() throws JSQLParserException {
-		Statement statement = CCJSqlParserUtil.parse("SELECT * FROM MY_TABLE1 a, tableb b where a.id = b.id and a.id = 1");
+		Statement statement = CCJSqlParserUtil.parse("SELECT * FROM MY_TABLE1 a, tableb b where a.id = b.id");
 		if (statement instanceof Select) {
 			System.out.println("true");
 		}
