@@ -1,10 +1,10 @@
-package com.anders.ssh.jmx.impl;
+package com.anders.ssh.jmx;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
 import com.anders.ssh.jmx.AndersMBean;
 
-public class AndersMBeanImpl implements AndersMBean {
+public class Anders implements AndersMBean {
 
 	private long id;
 	private String name;
