@@ -12,24 +12,25 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 public class GetFileFromTar {
 
 	public static void visitTARGZ(File targzFile) throws IOException {
-		FileInputStream fileIn = null;
-		BufferedInputStream bufIn = null;
-		GZIPInputStream gzipIn = null;
-		TarArchiveInputStream taris = null;
+		FileInputStream fileInputStream = null;
+		BufferedInputStream bufferedInputStream = null;
+		GZIPInputStream gzipInputStream = null;
+		TarArchiveInputStream tarArchiveInputStream = null;
 		try {
-			fileIn = new FileInputStream(targzFile);
-			bufIn = new BufferedInputStream(fileIn);
-			gzipIn = new GZIPInputStream(bufIn);
-
-			taris = new TarArchiveInputStream(gzipIn);
+			fileInputStream = new FileInputStream(targzFile);
+			bufferedInputStream = new BufferedInputStream(fileInputStream);
+			gzipInputStream = new GZIPInputStream(bufferedInputStream);
+			tarArchiveInputStream = new TarArchiveInputStream(gzipInputStream);
 			TarArchiveEntry entry = null;
-			while ((entry = taris.getNextTarEntry()) != null) {
+
+			while ((entry = tarArchiveInputStream.getNextTarEntry()) != null) {
 				if (entry.isDirectory())
 					continue;
 				// configure(taris, ((TarArchiveEntry) entry).getFile());
 				// //process every entry in this tar file.
-				System.out.println(entry.getGroupId());
-				System.out.println(entry.getGroupName());
+
+				// System.out.println(entry.getGroupId());
+				// System.out.println(entry.getGroupName());
 				System.out.println(entry.getName());
 				File file = entry.getFile();
 				// System.out.println(file.getName());
@@ -44,10 +45,10 @@ public class GetFileFromTar {
 				// System.out.println(b);
 			}
 		} finally {
-			taris.close();
-			gzipIn.close();
-			bufIn.close();
-			fileIn.close();
+			tarArchiveInputStream.close();
+			gzipInputStream.close();
+			bufferedInputStream.close();
+			fileInputStream.close();
 		}
 	}
 
