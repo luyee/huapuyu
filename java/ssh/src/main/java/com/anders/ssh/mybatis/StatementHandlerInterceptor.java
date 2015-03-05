@@ -1,6 +1,7 @@
 package com.anders.ssh.mybatis;
 
 import java.sql.Connection;
+import java.sql.Statement;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
@@ -12,17 +13,14 @@ import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.session.ResultHandler;
 
 import com.anders.ssh.log.LogCallPK;
 
-@Intercepts({ /*
-			 * @Signature(method = "query", type = Executor.class, args = { MappedStatement.class,
-			 * Object.class, RowBounds.class, ResultHandler.class }),
-			 */
-@Signature(method = "prepare", type = StatementHandler.class, args = { Connection.class }) })
-public class MyInterceptor implements Interceptor {
+@Intercepts({ @Signature(method = "query", type = StatementHandler.class, args = { Statement.class, ResultHandler.class }), @Signature(method = "prepare", type = StatementHandler.class, args = { Connection.class }) })
+public class StatementHandlerInterceptor implements Interceptor {
 
-	private final static Log log = LogFactory.getLog(MyInterceptor.class);
+	private final static Log log = LogFactory.getLog(StatementHandlerInterceptor.class);
 
 	// @Resource
 	private LogCallPK logCallPK;

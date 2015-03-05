@@ -4,6 +4,10 @@ import static org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities
 import static org.mybatis.generator.internal.util.StringUtility.escapeStringForJava;
 import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.mybatis.generator.api.CommentGenerator;
@@ -20,6 +24,7 @@ import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.AbstractJavaGenerator;
+import org.mybatis.generator.internal.db.ConnectionFactory;
 import org.mybatis.generator.internal.util.JavaBeansUtil;
 
 public class MySQLPagePlugin extends PluginAdapter {
@@ -36,6 +41,23 @@ public class MySQLPagePlugin extends PluginAdapter {
 	public boolean modelExampleClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
 		addLimitFieldAndGetSet(topLevelClass, introspectedTable, "limitStart");
 		addLimitFieldAndGetSet(topLevelClass, introspectedTable, "limitCount");
+
+		try {
+			Connection connection = ConnectionFactory.getInstance().getConnection(introspectedTable.getContext().getJdbcConnectionConfiguration());
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery("show create table " + introspectedTable.getFullyQualifiedTableNameAtRuntime());
+			while (rs.next()) {
+				System.out.println(rs.getString(2));
+			}
+			// DatabaseMetaData databaseMetaData = connection.getMetaData();
+			// ResultSet rs = databaseMetaData.getIndexInfo(null, null, introspectedTable.getFullyQualifiedTableNameAtRuntime(), true, false);
+			// while (rs.next()) {
+			// System.out.println(rs.getString("INDEX_NAME"));
+			// }
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		// InnerClass criteria = null;
 		//
