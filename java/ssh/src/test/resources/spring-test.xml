@@ -61,6 +61,7 @@
 				<prop key="hibernate.cache.region_prefix">${hibernate.cache.region_prefix}</prop> 
 				<prop key="hibernate.memcached.servers">${memcached.servers}</prop>  
 				<prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+				<prop key="hibernate.use_sql_comments">true</prop>
 				<!-- 
 				<prop key="hibernate.memcached.memcacheClientFactory">${hibernate.memcached.memcacheClientFactory}</prop> 
 				-->

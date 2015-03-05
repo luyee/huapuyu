@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="GBK"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:security="http://www.springframework.org/schema/security"  
-       xmlns:account="http://www.anders.com/ssh/schema/account"  
-       xmlns:jaxws="http://cxf.apache.org/jaxws"
-	   xmlns:jaxrs="http://cxf.apache.org/jaxrs" 
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:account="http://www.anders.com/ssh/schema/account" xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        	   				   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
            				   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
            				   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
@@ -18,11 +13,124 @@
 						   http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 						   
 	<!-- property -->
-	<import resource="classpath:config/spring-property.xml"/>
-	
-	<context:component-scan base-package="com.anders.ssh.common"/>
-	
-	<account:account id="account" name="zhuzhen"/>
+	<import resource="classpath:config/spring-property.xml" />
+
+	<context:component-scan base-package="com.anders.ssh.common" />
+
+	<bean id="twoLevelMapConfig" class="com.anders.ssh.common.TwoLevelMapConfig">
+		<property name="twoLevelMap">
+			<map>
+				<entry key="rwds1">
+					<map>
+						<entry key="read01" value="read01" />
+						<entry key="read02" value="read02" />
+					</map>
+				</entry>
+				<entry key="rwds2">
+					<map key-type="java.lang.String">
+						<entry key="read03" value="read03" />
+						<entry key="read04" value="read04" />
+					</map>
+				</entry>
+				<entry key="rwds3">
+					<map key-type="java.lang.String">
+						<entry key="read05" value="read05" />
+						<entry key="read06" value="read06" />
+					</map>
+				</entry>
+			</map>
+		</property>
+		<property name="twoLevelUser2Map">
+			<map>
+				<entry key="rwds1">
+					<bean class="com.anders.ssh.common.UserMap">
+						<property name="name" value="guolili1" />
+						<property name="map">
+							<map>
+								<entry key="read01">
+									<bean class="com.anders.ssh.common.User">
+										<property name="name" value="guo1" />
+									</bean>
+								</entry>
+								<entry key="read02">
+									<bean class="com.anders.ssh.common.User">
+										<property name="name" value="guo2" />
+									</bean>
+								</entry>
+							</map>
+						</property>
+					</bean>
+				</entry>
+				<entry key="rwds2">
+					<bean class="com.anders.ssh.common.UserMap">
+						<property name="name" value="guolili2" />
+						<property name="map">
+							<map>
+								<entry key="read03">
+									<bean class="com.anders.ssh.common.User">
+										<property name="name" value="guo3" />
+									</bean>
+								</entry>
+								<entry key="read04">
+									<bean class="com.anders.ssh.common.User">
+										<property name="name" value="guo4" />
+									</bean>
+								</entry>
+							</map>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+		<property name="twoLevelUserMap">
+			<map>
+				<entry key="rwds1">
+					<map>
+						<entry key="read01">
+							<bean class="com.anders.ssh.common.User">
+								<property name="name" value="zhuzhen1" />
+							</bean>
+						</entry>
+						<entry key="read02">
+							<bean class="com.anders.ssh.common.User">
+								<property name="name" value="zhuzhen2" />
+							</bean>
+						</entry>
+					</map>
+				</entry>
+				<entry key="rwds2">
+					<map key-type="java.lang.String">
+						<entry key="read03">
+							<bean class="com.anders.ssh.common.User">
+								<property name="name" value="zhuzhen3" />
+							</bean>
+						</entry>
+						<entry key="read04">
+							<bean class="com.anders.ssh.common.User">
+								<property name="name" value="zhuzhen4" />
+							</bean>
+						</entry>
+					</map>
+				</entry>
+				<entry key="rwds3">
+					<map key-type="java.lang.String">
+						<entry key="read05">
+							<bean class="com.anders.ssh.common.User">
+								<property name="name" value="zhuzhen5" />
+							</bean>
+						</entry>
+						<entry key="read06">
+							<bean class="com.anders.ssh.common.User">
+								<property name="name" value="zhuzhen6" />
+							</bean>
+						</entry>
+					</map>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<account:account id="account" name="zhuzhen" />
 	
 	<bean id="parentClass" class="com.anders.ssh.common.ParentClass" />
 	<bean id="sonLoader" class="com.anders.ssh.common.SonLoader" init-method="load" /> 

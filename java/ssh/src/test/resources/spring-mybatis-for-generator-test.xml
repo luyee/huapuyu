@@ -35,12 +35,12 @@
         <property name="mapperLocations" value="classpath*:com/anders/ssh/mybatis/*Mapper.xml" />
         <property name="plugins">
         	<array>
-            	<ref bean="myInterceptor"/>
+            	<ref bean="statementHandlerInterceptor"/>
         	</array>
     	</property>
     </bean>
     
-    <bean id="myInterceptor" class="com.anders.ssh.mybatis.MyInterceptor">
+    <bean id="statementHandlerInterceptor" class="com.anders.ssh.mybatis.StatementHandlerInterceptor">
 	</bean>
     
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
