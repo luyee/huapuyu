@@ -52,6 +52,7 @@ tokens
 	private Map<String, List<Integer>> paramIndexMap = new HashMap<String, List<Integer>>();
 	private Map<String, List<String>> paramValueMap = new HashMap<String, List<String>>();
 	private Map<String, Table> tableMap = new HashMap<String, Table>();
+	private Map<Column, Column> columnEqualMap = new HashMap<Column, Column>();
 
 	public int getParamCount() {
 		return this.paramIndex;
@@ -63,6 +64,10 @@ tokens
 
 	public Map<String, List<String>> getParamValueMap() {
 		return this.paramValueMap;
+	}
+
+	public Map<Column, Column> getColumnEqualMap() {
+		return this.columnEqualMap;
 	}
 
 	public Statement getStatement() {
@@ -315,7 +320,9 @@ joinClause {
 		Table table = null;
 		Expression on = null;
 	}
-	: #(LEFT table=joinExpression on=onClause) {
+	: #(COMMA joinFromExpression) {
+	} |
+	#(LEFT table=joinExpression on=onClause) {
 		getSelect().addJoin(new Join(JoinType.LEFT, table, on));
 	} |
 	#(RIGHT table=joinExpression on=onClause) {
@@ -347,6 +354,17 @@ fromExpression
 			a2:IDENT
 		) {
 		statement.setFromItem(createTable(#c2, #a2, true));
+	}
+	;
+
+joinFromExpression
+	: c1:IDENT (a1:IDENT)? {
+		getSelect().addFromItem(createTable(#c1, #a1, false));
+	} | #(AS 
+			c2:IDENT 
+			a2:IDENT
+		) {
+		getSelect().addFromItem(createTable(#c2, #a2, true));
 	}
 	;
 	
@@ -526,9 +544,11 @@ setEqualsToExpression returns [Expression expr] {
 equalsToExpression returns [Expression expr] {
 		expr = null;
 		Expression rr = null;
+		Column column = null;
 	}
 	: #(EQ 
 			ll:IDENT {
+			column = createColumn(#ll.getText());
 		}
 			rr=constant {
 		}) {
@@ -548,6 +568,10 @@ equalsToExpression returns [Expression expr] {
 			}
 			values.add(rr.toStr());
 		} else if (rr instanceof Column) {
+			if (ll != null) {
+				columnEqualMap.put(column, (Column) rr);
+				columnEqualMap.put((Column) rr, column);
+			}
 		} else {
 			throw new UnsupportedOperationException();
 		}

@@ -169,11 +169,13 @@ aliasedExpression
 	;
 
 fromClause
-	: FROM^ aliasedExpression (joinClause)* 
+	: FROM^ aliasedExpression (joinClause)*
 	;
 
 joinClause
-	: LEFT^ JOIN! aliasedExpression onClause |
+	: 
+	COMMA^ aliasedExpression |
+	LEFT^ JOIN! aliasedExpression onClause |
 	RIGHT^ JOIN! aliasedExpression onClause |
 	JOIN^ aliasedExpression onClause
 	;
