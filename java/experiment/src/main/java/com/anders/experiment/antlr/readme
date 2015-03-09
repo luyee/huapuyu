@@ -1,0 +1,6 @@
+antlr2
+java -cp antlr2.jar antlr.Tool sql.g
+java -cp antlr2.jar antlr.Tool sqltree.g
+
+antlr3中任然有antlr2,所以上面命令任然可以运行，此外下面的命令是antlr3的新方法
+java -cp antlr3.jar org.antlr.Tool sql.g

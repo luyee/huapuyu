@@ -72,6 +72,7 @@ tokens
 	RIGHT="right";
 	INNER="inner";
 	CROSS="cross";
+	OUTER="outer";
 	JOIN="join";
 	ON="on";
 	//NULLS="nulls";
@@ -175,9 +176,9 @@ fromClause
 joinClause
 	: 
 	COMMA^ aliasedExpression |
-	LEFT^ JOIN! aliasedExpression onClause |
-	RIGHT^ JOIN! aliasedExpression onClause |
-	JOIN^ aliasedExpression onClause
+	LEFT^ (OUTER!)? JOIN! aliasedExpression onClause |
+	RIGHT^ (OUTER!)? JOIN! aliasedExpression onClause |
+	(INNER!)? JOIN^ aliasedExpression onClause
 	;
 
 onClause
