@@ -45,6 +45,7 @@ tokens
 	INSERT="insert";
 	INTO="into";
 	VALUES="values";
+	VALUE="value";
 	//IS="is";
 	//JOIN="join";
 	//LEFT="left";
@@ -200,7 +201,7 @@ insertRoot
 	;
 
 insertClause
-	: INSERT^ INTO! IDENT
+	: INSERT^ (INTO!)? IDENT
 	;
 
 columnList
@@ -210,7 +211,7 @@ columnList
 	;
 
 valuesClause
-	: VALUES^ OPEN! variable (COMMA! variable)* CLOSE!
+	: (VALUES^ | VALUE^) OPEN! variable (COMMA! variable)* CLOSE!
 	;
 
 deleteStatement

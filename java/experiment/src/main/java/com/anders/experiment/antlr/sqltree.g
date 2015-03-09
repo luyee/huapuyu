@@ -409,7 +409,8 @@ columnList
 	;
 
 valuesClause
-	: #(VALUES variable (variable)*)
+	: #(VALUES variable (variable)*) |
+	#(VALUE variable (variable)*)
 	;
 
 deleteStatement {
