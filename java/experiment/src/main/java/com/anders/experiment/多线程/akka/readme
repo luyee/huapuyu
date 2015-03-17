@@ -1,0 +1,4 @@
+ 运行HelloWorld类，akka提供了一个主actor类，可以通过这个类直接执行以上的方法，
+ 在eclipse中在helloworld类中点击 open run dailoge，然后在Main class 选项中输入akka.Main，
+ 然后选择arguments 在program arguments 中输入 com.anders.experiment.多线程.akka.HelloWorld，
+ 点击 apply 然后运行结果如下：
