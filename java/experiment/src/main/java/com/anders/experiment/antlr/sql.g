@@ -50,8 +50,11 @@ tokens
 	//JOIN="join";
 	//LEFT="left";
 	//LIKE="like";
-	//MAX="max";
-	//MIN="min";
+	MAX="max";
+	MIN="min";
+	AVG="avg";
+	SUM="sum";
+	COUNT="count";
 	//NEW="new";
 	//NOT="not";
 	//NULL="null";
@@ -76,6 +79,11 @@ tokens
 	OUTER="outer";
 	JOIN="join";
 	ON="on";
+	LIMIT="limit";
+	ORDER="order";
+	BY="by";
+	ASC="asc";
+	DESC="desc";
 	//NULLS="nulls";
 	//FIRST;
 	//LAST;
@@ -155,7 +163,7 @@ selectStatement
 	;
 	
 selectRoot
-	: selectClause fromClause whereClause
+	: selectClause fromClause whereClause (orderByClause)? (limitClause)?
 	;
 	
 selectClause
@@ -188,6 +196,18 @@ onClause
 	
 whereClause
 	: WHERE^ logicalExpression
+	;
+
+orderByClause
+	: ORDER^ BY! orderByExpr (COMMA orderByExpr)*
+	;
+
+orderByExpr
+	: IDENT (ASC^ | DESC^)?  
+	;
+
+limitClause
+	: LIMIT^ NUMERICAL (COMMA! NUMERICAL)? 
 	;
 
 insertStatement

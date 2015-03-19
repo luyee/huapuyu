@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.vip.venus.jdbc.parser.common.JoinType;
+import com.vip.venus.jdbc.parser.common.OrderByType;
 import com.vip.venus.jdbc.parser.exception.SQLParserException;
 import com.vip.venus.jdbc.parser.expression.Alias;
 import com.vip.venus.jdbc.parser.expression.Expression;
 import com.vip.venus.jdbc.parser.expression.ExpressionList;
+import com.vip.venus.jdbc.parser.expression.OrderByExpr;
 import com.vip.venus.jdbc.parser.expression.operators.conditional.AndExpression;
 import com.vip.venus.jdbc.parser.expression.operators.conditional.OrExpression;
 import com.vip.venus.jdbc.parser.expression.operators.relational.EqualsTo;
@@ -282,6 +284,8 @@ selectRoot {
 		s:selectClause
 		f:fromClause
 		where=whereClause {getSelect().setWhere(where);}
+		(orderByClause)?
+		(limitClause)?
 	) {
 	}
 	;
@@ -379,6 +383,36 @@ onClause returns [Expression expr] {
 		expr = null;
 	}
 	: #(ON expr=logicalExpression) {
+	}
+	;
+
+orderByClause
+	: #(ORDER
+		orderByExpr 
+		(COMMA! orderByExpr)*)
+	;
+
+orderByExpr
+	: i:IDENT {
+		getSelect().addOrderByExpr(new OrderByExpr(tableMap, #i.getText())); 
+	} | 
+	#(ASC a:IDENT) {
+		getSelect().addOrderByExpr(new OrderByExpr(tableMap, #a.getText(), OrderByType.ASC)); 
+	} | 
+	#(DESC d:IDENT) {
+		getSelect().addOrderByExpr(new OrderByExpr(tableMap, #d.getText(), OrderByType.DESC));
+	}
+	;
+
+limitClause 
+	: #(LIMIT 
+		i:NUMERICAL 
+		(j:NUMERICAL)?) {
+		if (#j == null) {
+			getSelect().setRowCount(new Numerical(#i.getText()));
+		} else {
+			getSelect().setLimit(new Numerical(#i.getText()), new Numerical(#j.getText()));
+		}
 	}
 	;
 
