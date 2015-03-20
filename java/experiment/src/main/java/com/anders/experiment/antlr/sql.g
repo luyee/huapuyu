@@ -167,15 +167,48 @@ selectRoot
 	;
 	
 selectClause
-	: SELECT^ selectedList
+	: SELECT^ selectList
 	;
 	
-selectedList
-	: STAR | (aliasedExpression (COMMA aliasedExpression)*)
+selectList
+	: (STAR | selectExpression) (COMMA selectExpression)*
+	;
+
+selectExpression
+	: aliasedExpression | 
+	maxFunc |
+	minFunc | 
+	sumFunc |
+	avgFunc |
+	countFunc
 	;
 	
 aliasedExpression
 	: IDENT (IDENT | (AS^ IDENT))?
+	;
+
+aliasedSuffix
+	: IDENT | (AS^ IDENT)
+	;
+
+maxFunc
+	: MAX^ OPEN! IDENT CLOSE! (aliasedSuffix)?
+	;
+
+minFunc
+	: MIN^ OPEN! IDENT CLOSE! (aliasedSuffix)?
+	;
+
+sumFunc
+	: SUM^ OPEN! IDENT CLOSE! (aliasedSuffix)?
+	;
+
+avgFunc
+	: AVG^ OPEN! IDENT CLOSE! (aliasedSuffix)?
+	;
+
+countFunc
+	: COUNT^ OPEN! (IDENT | STAR) CLOSE! (aliasedSuffix)?
 	;
 
 fromClause

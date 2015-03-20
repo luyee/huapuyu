@@ -14,6 +14,12 @@ import com.vip.venus.jdbc.parser.expression.Alias;
 import com.vip.venus.jdbc.parser.expression.Expression;
 import com.vip.venus.jdbc.parser.expression.ExpressionList;
 import com.vip.venus.jdbc.parser.expression.OrderByExpr;
+import com.vip.venus.jdbc.parser.expression.function.AvgFunc;
+import com.vip.venus.jdbc.parser.expression.function.CountFunc;
+import com.vip.venus.jdbc.parser.expression.function.Function;
+import com.vip.venus.jdbc.parser.expression.function.MaxFunc;
+import com.vip.venus.jdbc.parser.expression.function.MinFunc;
+import com.vip.venus.jdbc.parser.expression.function.SumFunc;
 import com.vip.venus.jdbc.parser.expression.operators.conditional.AndExpression;
 import com.vip.venus.jdbc.parser.expression.operators.conditional.OrExpression;
 import com.vip.venus.jdbc.parser.expression.operators.relational.EqualsTo;
@@ -127,6 +133,15 @@ tokens
 		return item;
 	}
 
+	public void addFunction(Function function, Alias alias) {
+		SelectExpression item = new SelectExpression();
+		item.setExpression(function);
+		if (alias != null) {
+			item.setAlias(alias);
+		}
+		getSelect().addSelectItem(item);
+	}
+
 	public Table createTable(AST table, AST alias, boolean useAs) {
 		Table item = new Table();
 		item.setName(table.getText());
@@ -152,7 +167,7 @@ tokens
 				throw new SQLParserException("left is null");
 			}
 			AST right = left.getNextSibling();
-			if (left == null) {
+			if (right == null) {
 				throw new SQLParserException("right is null");
 			}
 
@@ -293,18 +308,87 @@ selectRoot {
 selectClause
 	: #(SELECT { 
 	} 
-		selectedList
+		selectList
 	) {
 	}
 	;
 
-selectedList
-	: STAR {
+selectList
+	: (STAR {
 		getSelect().addSelectItem(new AllColumns());
-	} | (selectExpression (COMMA! selectExpression)*)
+	} | selectExpression) (COMMA! selectExpression)*
 	;
-	
+
 selectExpression
+	: selectExpr |
+	maxFunc |
+	minFunc | 
+	sumFunc |
+	avgFunc |
+	countFunc
+	;
+
+maxFunc {
+	Alias alias = null;
+	}
+	: #(MAX id:IDENT (alias=aliasedSuffix)?) {
+		Column column = createColumn(#id.getText());
+		addFunction(new MaxFunc(column), alias);
+	}
+	;
+
+minFunc {
+	Alias alias = null;
+	}
+	: #(MIN id:IDENT (alias=aliasedSuffix)?) {
+		Column column = createColumn(#id.getText());
+		addFunction(new MinFunc(column), alias);
+	}
+	;
+
+sumFunc {
+	Alias alias = null;
+	}
+	: #(SUM id:IDENT (alias=aliasedSuffix)?) {
+		Column column = createColumn(#id.getText());
+		addFunction(new SumFunc(column), alias);
+	}
+	;
+
+avgFunc {
+	Alias alias = null;
+	}
+	: #(AVG id:IDENT (alias=aliasedSuffix)?) {
+		Column column = createColumn(#id.getText());
+		addFunction(new AvgFunc(column), alias);
+	}
+	;
+
+countFunc {
+	Alias alias = null;
+	}
+	: #(COUNT 
+		((id:IDENT (alias=aliasedSuffix)?) {
+		Column column = createColumn(#id.getText());
+		addFunction(new CountFunc(column), alias);
+	} | 
+	(STAR (alias=aliasedSuffix)?) {
+		addFunction(new CountFunc(), alias);
+	}))
+	;
+
+aliasedSuffix returns [Alias alias] {
+		alias = null;
+	}
+	: i1:IDENT {
+		alias = new Alias(i1.getText(), false);
+	} |
+	#(AS i2:IDENT) {
+		alias = new Alias(i2.getText(), true);
+	}
+	;
+
+selectExpr
 	: c1:IDENT (a1:IDENT)? {
 		getSelect().addSelectItem(createSelectExpression(#c1, #a1, false));
 	} | #(AS 
