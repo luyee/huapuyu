@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.vip.venus.jdbc.parser.common.HintType;
 import com.vip.venus.jdbc.parser.common.JoinType;
 import com.vip.venus.jdbc.parser.common.OrderByType;
 import com.vip.venus.jdbc.parser.exception.SQLParserException;
@@ -82,32 +83,36 @@ tokens
 		return this.statement;
 	}
 
+	public HintType getHintType() {
+		return getSelect().getHintType();
+	}
+
 	public Select getSelect() {
 		if (statement instanceof Select) {
 			return (Select) statement;
 		}
-		throw new SQLParserException("only support select statement");
+		throw new UnsupportedOperationException("only support select statement");
 	}
 
 	public Insert getInsert() {
 		if (statement instanceof Insert) {
 			return (Insert) statement;
 		}
-		throw new SQLParserException("only support insert statement");
+		throw new UnsupportedOperationException("only support insert statement");
 	}
 
 	public Delete getDelete() {
 		if (statement instanceof Delete) {
 			return (Delete) statement;
 		}
-		throw new SQLParserException("only support delete statement");
+		throw new UnsupportedOperationException("only support delete statement");
 	}
 
 	public Update getUpdate() {
 		if (statement instanceof Update) {
 			return (Update) statement;
 		}
-		throw new SQLParserException("only support update statement");
+		throw new UnsupportedOperationException("only support update statement");
 	}
 
 	public void createStatement(int statementType) {
@@ -296,12 +301,19 @@ selectRoot {
 	: #(SELECT_ROOT { 
 		createStatement(SELECT); 
 	} 
+		(hintStatement)?
 		s:selectClause
 		f:fromClause
 		where=whereClause {getSelect().setWhere(where);}
 		(orderByClause)?
 		(limitClause)?
 	) {
+	}
+	;
+
+hintStatement
+	: FORCE_READ {
+		getSelect().setHintType(HintType.FORCE_READ);
 	}
 	;
 

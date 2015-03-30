@@ -84,6 +84,8 @@ tokens
 	BY="by";
 	ASC="asc";
 	DESC="desc";
+	HINT="hint";
+	FORCE_READ="force_read";
 	//NULLS="nulls";
 	//FIRST;
 	//LAST;
@@ -155,6 +157,14 @@ statement
 	exception 
 	catch [Throwable e] {throw new SQLParserException(e);}
 	;
+
+commentStatement
+	: OPEN_COMMENT! hintStatement CLOSE_COMMENT!
+	;
+
+hintStatement
+	: HINT! FORCE_READ
+	;
 	
 selectStatement
 	: selectRoot {
@@ -163,7 +173,7 @@ selectStatement
 	;
 	
 selectRoot
-	: selectClause fromClause whereClause (orderByClause)? (limitClause)?
+	: (commentStatement)? selectClause fromClause whereClause (orderByClause)? (limitClause)?
 	;
 	
 selectClause
@@ -382,6 +392,9 @@ MOD: '%';
 COLON: ':';
 PARAM: '?';
 DOT: '.';
+
+OPEN_COMMENT: "/*";
+CLOSE_COMMENT: "*/";
 
 IDENT options { testLiterals=true; }
 	: ID_START_LETTER ( ID_LETTER )*
