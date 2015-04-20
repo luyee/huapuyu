@@ -36,17 +36,16 @@ public class Future模式 {
 		}
 		System.out.println("线程池关闭");
 		exe1.shutdown();
+		// exe1.shutdownNow();
 
 		for (Future<String> fs : results) {
 			try {
 				// 使用fs.isDone()进行判断，确定任务是否完成，fs.get()会一直等待任务完成
 				// if (fs.isDone())
 				System.out.println(fs.get());
-			}
-			catch (InterruptedException e) {
+			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}
-			catch (ExecutionException e) {
+			} catch (ExecutionException e) {
 				e.printStackTrace();
 			}
 		}
@@ -65,8 +64,7 @@ class TaskWithResult implements Callable<String> {
 
 		try {
 			Thread.sleep(5000);
-		}
-		catch (InterruptedException e) {
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 

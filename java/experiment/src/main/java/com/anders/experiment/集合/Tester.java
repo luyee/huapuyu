@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Tester {
 	public static void main(String[] args) {
@@ -104,6 +106,28 @@ public class Tester {
 
 		for (Iterator<Integer> it = hm.keySet().iterator(); it.hasNext();) {
 			System.out.print(it.next().toString() + " ");
+		}
+
+		System.out.println("");
+
+		Set<String> treeSet = new TreeSet<String>();
+		treeSet.add("ds1");
+		treeSet.add("ds0");
+		treeSet.add("ds1");
+
+		System.out.println("TreeSet测试");
+		for (String dbname : treeSet) {
+			System.out.println(dbname);
+		}
+
+		Set<String> linkedHashSet = new LinkedHashSet<String>();
+		linkedHashSet.add("ds1");
+		linkedHashSet.add("ds0");
+		linkedHashSet.add("ds1");
+
+		System.out.println("LinkedHashSet测试");
+		for (String dbname : linkedHashSet) {
+			System.out.println(dbname);
 		}
 	}
 }
