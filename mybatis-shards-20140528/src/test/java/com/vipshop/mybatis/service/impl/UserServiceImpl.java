@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 		userDao.insert(user5);
 
 		User user6 = new User();
-		user6.setId(202);
+		user6.setId(201);
 		user6.setName("202");
 		userDao.insert(user6);
 
