@@ -22,7 +22,7 @@ public class HQLParserTest {
 
 	@Test
 	public void test1() throws RecognitionException, TokenStreamException {
-		String hql = "select new Map(id as id, name as name) from Account order by id";
+		String hql = "/* asdfasdfa */ select new Map(id as id, name as name) from Account order by id";
 		QueryTranslatorImpl queryTranslatorImpl = new QueryTranslatorImpl(hql, "select new Map(id as id, name as name) from com.anders.ssh.bo.test.Account order by id", new HashMap(), SesssessionFactory);
 		queryTranslatorImpl.compile(null, false);
 		System.out.println("sql is : " + queryTranslatorImpl.getSQLString());
