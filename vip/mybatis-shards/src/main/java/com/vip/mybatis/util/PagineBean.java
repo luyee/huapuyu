@@ -54,15 +54,15 @@ public class PagineBean implements Serializable {
 	private List dataList;
 
 	/**
-	 * 总记录数，TODO
+	 * 总记录数
 	 */
 	private Long totalRecNum;
-	
+
 	/**
 	 * 排序字段名称，多个使用','分隔
 	 */
 	private String sortBy;
-	
+
 	/**
 	 * 排序字段方式，为"asc"或"desc"，多个使用','分隔，与sortBy内容对应
 	 */

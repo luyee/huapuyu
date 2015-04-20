@@ -1,11 +1,9 @@
 package com.vip.mybatis.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.vip.mybatis.bo.User;
 import com.vip.mybatis.bo.UserCriteria;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     int countByCriteria(UserCriteria example);
