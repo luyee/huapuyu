@@ -1,0 +1,1 @@
+This is a J2EE project, include: Spring, Struts, Hibernate and so on.
