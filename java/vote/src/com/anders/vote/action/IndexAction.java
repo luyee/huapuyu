@@ -33,6 +33,11 @@ public class IndexAction extends BaseAction {
 	@Action(value = "index")
 	public String index() {
 		user = "index";
+
+		printBeanDefinitionNames();
+		printRequestNames();
+		printSessionNames();
+
 		return SUCCESS;
 	}
 

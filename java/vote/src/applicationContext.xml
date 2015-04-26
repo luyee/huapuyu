@@ -47,6 +47,7 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="typeAliasesPackage" value="com.anders.vote.bo"/>
         <property name="mapperLocations" value="classpath*:com/anders/vote/mapper/*Mapper.xml" />
+       	<property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -94,6 +95,7 @@
             <value>
                 /login.do = anon
                 /loginx.do = anon
+                /index.do = anon
                 /401.jsp = anon
                 /403.jsp = anon
                 /404.jsp = anon

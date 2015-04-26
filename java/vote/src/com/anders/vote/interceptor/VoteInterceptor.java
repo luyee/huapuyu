@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.StrutsStatics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.anders.vote.dao.PollDao;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
@@ -29,10 +31,15 @@ public class VoteInterceptor extends AbstractInterceptor {
 
 	private static final long serialVersionUID = -1248711503800167450L;
 
+	@Autowired
+	private PollDao pollDao;
+
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
 		ActionContext actionContext = invocation.getInvocationContext();
 		Map<String, Object> contextMap = actionContext.getContextMap();
+
+		pollDao.findAll();
 
 		Locale locale = actionContext.getLocale();
 		ResourceBundle resourceBundle = ResourceBundle.getBundle("resource", locale);

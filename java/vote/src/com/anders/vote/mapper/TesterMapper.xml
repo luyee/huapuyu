@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anders.vote.mapper.TesterMapper">
+	<resultMap id="resultMap" type="com.anders.vote.bo.Tester">
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="value" property="value" jdbcType="VARCHAR" />
+	    <result column="version" property="version" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="tableName" >
+    	tb_tester
+  	</sql>
+  	
+	<insert id="save" parameterType="com.anders.vote.bo.Tester" useGeneratedKeys="true" keyProperty="id">
+	    insert into 
+	    <include refid="tableName" />
+	    (value, version) 
+	    values 
+	    (#{value}, #{version})
+	</insert>
+	
+	<update id="update" parameterType="com.anders.vote.bo.Tester">
+	    update 
+		<include refid="tableName" /> 
+		set 
+	    value = #{value}, 
+	    version = #{version} 
+	    where id = #{id} 
+	</update>
+	
+	<delete id="delete" parameterType="com.anders.vote.bo.Tester">
+    	delete from 
+    	<include refid="tableName" />
+    	where id = #{id} 
+  	</delete>
+</mapper>
