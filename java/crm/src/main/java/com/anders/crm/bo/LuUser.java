@@ -38,6 +38,7 @@ import org.hibernate.search.annotations.Store;
 @Indexed(index = "lu_users")
 // @Analyzer(impl = MMSegAnalyzer.class)
 @XmlRootElement
+@Deprecated
 public class LuUser implements Serializable {
 
 	private static final long serialVersionUID = 6424414021596996848L;
