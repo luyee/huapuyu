@@ -60,8 +60,14 @@
 		<mapping class="com.anders.hibernate.model.maifang.Person" />
 		-->
 		
+		<!--  
 		<mapping class="com.anders.hibernate.model.vote.Poll" />
 		<mapping class="com.anders.hibernate.model.vote.PollItem" />
+		-->
+		<mapping class="com.anders.hibernate.model.crm.Contact" />
+		<mapping class="com.anders.hibernate.model.crm.ContactInfo" />
+		<mapping class="com.anders.hibernate.model.crm.Cust" />
+		<mapping class="com.anders.hibernate.model.crm.User" />
 		
 		<!--  
 		<mapping resource="com/anders/hibernate/model/User1.hbm.xml" />
