@@ -4,8 +4,10 @@ package com.anders.zhu.jdbc.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.anders.zhu.jdbc.parser.common.HintType;
 import com.anders.zhu.jdbc.parser.common.JoinType;
@@ -62,6 +64,7 @@ tokens
 	private Map<String, List<String>> paramValueMap = new HashMap<String, List<String>>();
 	private Map<String, Table> tableMap = new HashMap<String, Table>();
 	private Map<Column, Column> columnEqualMap = new HashMap<Column, Column>();
+	private Set<HintType> hintTypes = new HashSet<HintType>();
 
 	public int getParamCount() {
 		return this.paramIndex;
@@ -81,10 +84,6 @@ tokens
 
 	public Statement getStatement() {
 		return this.statement;
-	}
-
-	public HintType getHintType() {
-		return getSelect().getHintType();
 	}
 
 	public Select getSelect() {
@@ -127,6 +126,7 @@ tokens
 		} else {
 			throw new SQLParserException("not support statement type : " + statementType);
 		}
+		statement.setHintTypes(hintTypes);
 	}
 
 	public SelectExpression createSelectExpression(AST column, AST alias, boolean useAs) {
@@ -288,7 +288,7 @@ tokens
 }
 
 statement
-	: selectStatement | insertStatement | deleteStatement | updateStatement
+	: (hintStatement)? (selectStatement | insertStatement | deleteStatement | updateStatement)
 	;
 
 selectStatement
@@ -301,7 +301,6 @@ selectRoot {
 	: #(SELECT_ROOT { 
 		createStatement(SELECT); 
 	} 
-		(hintStatement)?
 		s:selectClause
 		f:fromClause
 		where=whereClause {getSelect().setWhere(where);}
@@ -312,8 +311,22 @@ selectRoot {
 	;
 
 hintStatement
+	: #(HINT 
+		(readWrite)? {
+		} 
+		(executeWay)? {
+		})
+	;
+
+readWrite
 	: FORCE_READ {
-		getSelect().setHintType(HintType.FORCE_READ);
+		hintTypes.add(HintType.FORCE_READ);
+	}
+	;
+
+executeWay
+	: PARALLEL_EXECUTE {
+		hintTypes.add(HintType.PARALLEL_EXECUTE);
 	}
 	;
 

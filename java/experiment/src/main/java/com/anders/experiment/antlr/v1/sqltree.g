@@ -236,9 +236,21 @@ tokens
 
 	public In createIn(AST exprAst, int preIndex) {
 		AST ast = exprAst.getFirstChild();
+
 		if (ast == null) {
 			throw new SQLParserException("column is null");
 		}
+
+		boolean useQQ = false;
+		if (ast.getType == QQ) {
+			useQQ = true;
+			ast = ast.getFirstChild();
+		} 
+
+		if (ast == null) {
+			throw new SQLParserException("column is null");
+		}
+
 		String column = ast.getText();
 		List<Integer> indexes = paramIndexMap.get(column);
 		if (indexes == null) {
@@ -274,16 +286,16 @@ tokens
 			ast = ast.getNextSibling();
 		} while (ast != null);
 
-		return new In(createColumn(column), expressionList);
+		return new In(createColumn(column, useQQ), expressionList);
 	}
 
-	public Column createColumn(String text) {
+	public Column createColumn(String text, boolean quasiQuote) {
 		//if (text.contains(".")) {
 		//	String[] str = text.split(".");
 		//	return new Column(str[0], str[1]);
 		//} 
 		//return new Column(text);
-		return new Column(tableMap, text);
+		return new Column(tableMap, text, quasiQuote);
 	}
 }
 
@@ -675,34 +687,36 @@ setEqualsToExpression returns [Expression expr] {
 equalsToExpression returns [Expression expr] {
 		expr = null;
 		Expression rr = null;
+		Expression ll = null;
 		Column column = null;
 	}
 	: #(EQ 
-			ll:IDENT {
-			column = createColumn(#ll.getText());
+			ll=column {
+			//column = createColumn(#ll.getText());
+			column = (Column) ll;
 		}
 			rr=constant {
 		}) {
-		expr = new EqualsTo(createColumn(#ll.getText()), rr);
+		expr = new EqualsTo(ll), rr);
 		if (rr instanceof Param) {
-			List<Integer> indexes = paramIndexMap.get(#ll.getText());
+			List<Integer> indexes = paramIndexMap.get(column.getName());
 			if (indexes == null) {
 				indexes = new ArrayList<Integer>();
-				paramIndexMap.put(#ll.getText(), indexes);
+				paramIndexMap.put(column.getName(), indexes);
 			}
 			indexes.add(++paramIndex);
 		} else if (rr instanceof Numerical) {
-			List<String> values = paramValueMap.get(#ll.getText());
+			List<String> values = paramValueMap.get(column.getName());
 			if (values == null) {
 				values = new ArrayList<String>();
-				paramValueMap.put(#ll.getText(), values);
+				paramValueMap.put(column.getName(), values);
 			}
 			values.add(rr.toStr());
 		} else if (rr instanceof Column) {
-			if (ll != null) {
+			//if (ll != null) {
 				columnEqualMap.put(column, (Column) rr);
 				columnEqualMap.put((Column) rr, column);
-			}
+			//}
 		} else {
 			throw new UnsupportedOperationException();
 		}
@@ -710,7 +724,7 @@ equalsToExpression returns [Expression expr] {
 	;
 
 inExpression 
-	: #(IN IDENT (variable)+) {
+	: #(IN column (variable)+) {
 	}
 	;
 
@@ -724,7 +738,8 @@ constant returns [Expression value] {
 column returns [Expression value] {
 		value = null;
 	}
-	: i:IDENT {value = createColumn(#i.getText());}
+	: i:IDENT {value = createColumn(#i.getText(), false);} 
+	| #(QQ j:IDENT) {value = createColumn(#j.getText(), true);}
 	;
 
 variable returns [Expression value] {

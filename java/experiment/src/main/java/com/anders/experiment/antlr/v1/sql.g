@@ -338,7 +338,7 @@ equalsToExpression
 	;
 
 inExpression
-	: IDENT IN^ OPEN! variable (COMMA! variable)* CLOSE!
+	: column IN^ OPEN! variable (COMMA! variable)* CLOSE!
 	;
 
 constant
@@ -348,6 +348,7 @@ constant
 
 column
 	: IDENT
+	| QQ^ IDENT QQ!
 	;
 
 variable
@@ -392,6 +393,7 @@ MOD: '%';
 COLON: ':';
 PARAM: '?';
 DOT: '.';
+QQ: '`';
 
 OPEN_COMMENT: "/*";
 CLOSE_COMMENT: "*/";

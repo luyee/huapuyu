@@ -86,6 +86,7 @@ tokens
 	DESC="desc";
 	HINT="hint";
 	FORCE_READ="force_read";
+	PARALLEL_EXECUTE="parallel_execute";
 	//NULLS="nulls";
 	//FIRST;
 	//LAST;
@@ -153,7 +154,7 @@ tokens
 }
 
 statement
-	: (selectStatement | insertStatement | deleteStatement | updateStatement) EOF 
+	: (commentStatement)? (selectStatement | insertStatement | deleteStatement | updateStatement) EOF 
 	exception 
 	catch [Throwable e] {throw new SQLParserException(e);}
 	;
@@ -163,9 +164,17 @@ commentStatement
 	;
 
 hintStatement
-	: HINT! FORCE_READ
+	: HINT^ (readWrite)? (executeWay)?
 	;
-	
+
+readWrite
+	: FORCE_READ
+	;
+
+executeWay
+	: PARALLEL_EXECUTE
+	;
+
 selectStatement
 	: selectRoot {
 		#selectStatement = #([SELECT_ROOT,"select_root"], #selectStatement);
@@ -173,7 +182,7 @@ selectStatement
 	;
 	
 selectRoot
-	: (commentStatement)? selectClause fromClause whereClause (orderByClause)? (limitClause)?
+	: selectClause fromClause whereClause (orderByClause)? (limitClause)?
 	;
 	
 selectClause
