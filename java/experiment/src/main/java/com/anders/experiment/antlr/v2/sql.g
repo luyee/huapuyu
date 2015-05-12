@@ -28,7 +28,7 @@ tokens
 	//COUNT="count";
 	DELETE="delete";
 	//DESCENDING="desc";
-	//DOT;
+	DOT;
 	//DISTINCT="distinct";
 	//ELEMENTS="elements";
 	//ESCAPE="escape";
@@ -151,6 +151,8 @@ tokens
 	//NUM_BIG_INTEGER;
 	//NUM_BIG_DECIMAL;
 	//JAVA_CONSTANT;
+	REAL_NUMBER;
+	NUMERICAL;
 }
 
 statement
@@ -360,7 +362,8 @@ column
 	;
 
 variable
-	: NUMERICAL
+	: REAL_NUMBER
+	| NUMERICAL
 	| QUOTED_STRING
 	| PARAM
 	;
@@ -400,13 +403,13 @@ DIV: '/';
 MOD: '%';
 COLON: ':';
 PARAM: '?';
-DOT: '.';
+//DOT: '.';
 
 OPEN_COMMENT: "/*";
 CLOSE_COMMENT: "*/";
 
 IDENT options { testLiterals=true; }
-	: ID_START_LETTER ( ID_LETTER )*
+	: ID_START_LETTER ( ID_LETTER )* ('.' ID_START_LETTER ( ID_LETTER )*)?
 	;
 
 protected
@@ -421,15 +424,24 @@ protected
 ID_LETTER
     :    ID_START_LETTER
     |    '0'..'9'
-    |	 DOT // FIXME Anders need to edit
     ;
 
 QUOTED_STRING
 	:	 '\'' ( (ESCqs)=> ESCqs | ~'\'' )* '\''
 	;
 
-NUMERICAL
-	:	 ('1'..'9') ('0'..'9')*
+NUM_INT
+	: 	'.' {_ttype = DOT;}
+		(	
+			('0'..'9')+ {_ttype = REAL_NUMBER;}
+		)?
+		|	
+		(
+			('0'..'9')+ {_ttype = NUMERICAL;}
+		)
+		(	
+			('.' ('0'..'9')*) {_ttype = REAL_NUMBER;}
+		)?
 	;
 
 protected

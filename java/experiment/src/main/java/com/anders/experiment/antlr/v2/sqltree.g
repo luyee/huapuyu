@@ -31,6 +31,7 @@ import com.anders.zhu.jdbc.parser.expression.variable.Column;
 import com.anders.zhu.jdbc.parser.expression.variable.Numerical;
 import com.anders.zhu.jdbc.parser.expression.variable.Param;
 import com.anders.zhu.jdbc.parser.expression.variable.QuotedString;
+import com.anders.zhu.jdbc.parser.expression.variable.RealNumber;
 import com.anders.zhu.jdbc.parser.expression.variable.Variable;
 import com.anders.zhu.jdbc.parser.statement.Statement;
 import com.anders.zhu.jdbc.parser.statement.delete.Delete;
@@ -179,6 +180,8 @@ tokens
 			Variable variable = null;
 			if (right.getType() == PARAM) {
 				variable = new Param();
+			} else if (right.getType() == REAL_NUMBER) {
+				variable = new RealNumber(right.getText());
 			} else if (right.getType() == NUMERICAL) {
 				variable = new Numerical(right.getText());
 			} else if (right.getType() == QUOTED_STRING) {
@@ -220,6 +223,8 @@ tokens
 			Variable variable = null;
 			if (ast.getType() == PARAM) {
 				variable = new Param();
+			} else if (ast.getType() == REAL_NUMBER) {
+				variable = new RealNumber(ast.getText());
 			} else if (ast.getType() == NUMERICAL) {
 				variable = new Numerical(ast.getText());
 			} else if (ast.getType() == QUOTED_STRING) {
@@ -262,6 +267,9 @@ tokens
 			if (ast.getType() == PARAM) {
 				expressionList.addExpression(new Param());
 				indexes.add(++index);
+			} else if (ast.getType() == REAL_NUMBER) {
+				expressionList.addExpression(new RealNumber(ast.getText()));
+				values.add(ast.getText());
 			} else if (ast.getType() == NUMERICAL) {
 				expressionList.addExpression(new Numerical(ast.getText()));
 				values.add(ast.getText());
@@ -678,6 +686,7 @@ setEqualsToExpression returns [Expression expr] {
 				paramIndexMap.put(#ll.getText(), indexes);
 			}
 			indexes.add(++paramIndex);
+		} else if (rr instanceof RealNumber) {
 		} else if (rr instanceof Numerical) {
 		} else {
 			throw new UnsupportedOperationException();
@@ -704,6 +713,13 @@ equalsToExpression returns [Expression expr] {
 				paramIndexMap.put(#ll.getText(), indexes);
 			}
 			indexes.add(++paramIndex);
+		} else if (rr instanceof RealNumber) {
+			List<String> values = paramValueMap.get(#ll.getText());
+			if (values == null) {
+				values = new ArrayList<String>();
+				paramValueMap.put(#ll.getText(), values);
+			}
+			values.add(rr.toStr());
 		} else if (rr instanceof Numerical) {
 			List<String> values = paramValueMap.get(#ll.getText());
 			if (values == null) {
@@ -743,7 +759,8 @@ column returns [Expression value] {
 variable returns [Expression value] {
 		value = null;
 	}
-	: n:NUMERICAL {value = new Numerical(#n.getText());}
+	: r:REAL_NUMBER {value = new RealNumber(#r.getText());}
+	| n:NUMERICAL {value = new Numerical(#n.getText());}
 	| q:QUOTED_STRING {value = new QuotedString(#q.getText());}
 	| PARAM {value = new Param();}
 	;
