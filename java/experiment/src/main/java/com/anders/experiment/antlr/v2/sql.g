@@ -186,6 +186,10 @@ selectStatement
 selectRoot
 	: selectClause fromClause whereClause (orderByClause)? (limitClause)?
 	;
+
+subQuery
+	: OPEN selectClause fromClause whereClause (orderByClause)? (limitClause)? CLOSE
+	;
 	
 selectClause
 	: SELECT^ selectList
@@ -206,6 +210,11 @@ selectExpression
 	
 aliasedExpression
 	: IDENT (IDENT | (AS^ IDENT))?
+	;
+
+selectTableExpression
+	: (IDENT (IDENT | (AS^ IDENT))?) 
+	| subQuery
 	;
 
 aliasedSuffix
@@ -233,7 +242,7 @@ countFunc
 	;
 
 fromClause
-	: FROM^ aliasedExpression (joinClause)*
+	: FROM^ selectTableExpression (joinClause)*
 	;
 
 joinClause
