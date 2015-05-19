@@ -84,6 +84,19 @@ public class HashMapTester {
 		System.out.println(map.get(user1));
 		System.out.println(map.get(value1));
 		System.out.println(map.get(value2));
+
+		System.out.println("********** index");
+		// 32768 : 1000 0000 0000 0000
+		// 00015 : 0000 0000 0000 1111
+		// 00000 : 0000 0000 0000 0000
+		System.out.println(32768);
+		System.out.println(32768 & 15);
+		// 35080 : 1000 1001 0000 1000
+		// 00015 : 0000 0000 0000 1111
+		// 00008 : 0000 0000 0000 1000
+		System.out.println(hash(32768));
+		System.out.println(hash(32768) & 15);
+
 	}
 
 	private int hash(int h) {
