@@ -60,6 +60,11 @@ public class SpelTest {
 		System.out.println(ep.parseExpression("#list[0]").getValue(context));
 		System.out.println(ep.parseExpression("#map[a]").getValue(context));
 		System.out.println(ep.parseExpression("#map1[11L]").getValue(context));
+		// 访问spring中的bean ： "@threadLocalBean.getId()"
+		// @RepositorySharding(strategy = "cust", key =
+		// "@threadLocalBean.getId()")
+		// @RepositorySharding(strategy = "cust", key =
+		// "T(com.vip.venus.data.mybatis.service.StaticBean).getId()")
 
 	}
 }

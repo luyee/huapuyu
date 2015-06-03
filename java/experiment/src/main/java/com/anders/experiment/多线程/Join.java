@@ -11,11 +11,12 @@ public class Join {
 
 		Join线程1 t1 = new Join线程1();
 		Join线程2 t2 = new Join线程2();
-		t1.start();
-		t2.start();
 
+		t2.start();
 		// t2执行完了才执行t1，t1执行完了才是主线程日志
 		t2.join();
+
+		t1.start();
 		t1.join();
 
 		LOG.debug("主线程结束");

@@ -4,6 +4,8 @@ import java.util.Stack;
 
 public class 各种集合 {
 	public static void main(String[] args) {
+		System.out.println(Math.abs("test".hashCode() % 2));
+
 		// 线程安全
 		// Collections.synchronizedMap(m);
 		// Collections.synchronizedSet(s);
@@ -21,16 +23,18 @@ public class 各种集合 {
 		stack.push(2L);
 		stack.push(3L);
 
-		System.out.println(stack.size());
-		System.out.println(stack.lastElement());
-		System.out.println(stack.firstElement());
+		System.out.println("size:" + stack.size());
+		System.out.println("lastElement:" + stack.lastElement());
+		System.out.println("size:" + stack.size());
+		System.out.println("lastElement:" + stack.lastElement());
+		System.out.println("firstElement:" + stack.firstElement());
 
-		for (int i = 0; i < stack.size(); i++) {
-			System.out.println(stack.pop());
+		for (int i = 0; i < 3; i++) {
+			System.out.println("pop " + i + ":" + stack.pop());
 		}
 
-		System.out.println(stack.lastElement());
-		System.out.println(stack.firstElement());
+		System.out.println("lastElement:" + stack.lastElement());
+		System.out.println("firstElement:" + stack.firstElement());
 
 	}
 }
