@@ -188,7 +188,7 @@ selectRoot
 	;
 
 subQuery
-	: OPEN selectClause fromClause whereClause (orderByClause)? (limitClause)? CLOSE
+	: OPEN^ selectRoot CLOSE! aliasedSuffix
 	;
 	
 selectClause
@@ -212,8 +212,8 @@ aliasedExpression
 	: IDENT (IDENT | (AS^ IDENT))?
 	;
 
-selectTableExpression
-	: (IDENT (IDENT | (AS^ IDENT))?) 
+fromExpression
+	: aliasedExpression 
 	| subQuery
 	;
 
@@ -242,15 +242,15 @@ countFunc
 	;
 
 fromClause
-	: FROM^ selectTableExpression (joinClause)*
+	: FROM^ fromExpression (joinClause)*
 	;
 
 joinClause
 	: 
-	COMMA^ aliasedExpression |
-	LEFT^ (OUTER!)? JOIN! aliasedExpression onClause |
-	RIGHT^ (OUTER!)? JOIN! aliasedExpression onClause |
-	(INNER!)? JOIN^ aliasedExpression onClause
+	COMMA^ fromExpression |
+	LEFT^ (OUTER!)? JOIN! fromExpression onClause |
+	RIGHT^ (OUTER!)? JOIN! fromExpression onClause |
+	(INNER!)? JOIN^ fromExpression onClause
 	;
 
 onClause

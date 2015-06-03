@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 import com.anders.zhu.jdbc.parser.common.HintType;
 import com.anders.zhu.jdbc.parser.common.JoinType;
@@ -33,11 +34,14 @@ import com.anders.zhu.jdbc.parser.expression.variable.Param;
 import com.anders.zhu.jdbc.parser.expression.variable.QuotedString;
 import com.anders.zhu.jdbc.parser.expression.variable.RealNumber;
 import com.anders.zhu.jdbc.parser.expression.variable.Variable;
+import com.anders.zhu.jdbc.parser.statement.SelectFragment;
 import com.anders.zhu.jdbc.parser.statement.Statement;
 import com.anders.zhu.jdbc.parser.statement.delete.Delete;
 import com.anders.zhu.jdbc.parser.statement.insert.Insert;
 import com.anders.zhu.jdbc.parser.statement.select.Join;
 import com.anders.zhu.jdbc.parser.statement.select.Select;
+import com.anders.zhu.jdbc.parser.statement.select.from.FromItem;
+import com.anders.zhu.jdbc.parser.statement.select.from.SubQuery;
 import com.anders.zhu.jdbc.parser.statement.select.from.Table;
 import com.anders.zhu.jdbc.parser.statement.select.select.AllColumns;
 import com.anders.zhu.jdbc.parser.statement.select.select.SelectExpression;
@@ -61,11 +65,33 @@ tokens
 {
 	private Statement statement;
 	private int paramIndex = 0;
+	private Stack<SelectFragment> selectFragmentStack = new Stack<SelectFragment>();
 	private Map<String, List<Integer>> paramIndexMap = new HashMap<String, List<Integer>>();
 	private Map<String, List<String>> paramValueMap = new HashMap<String, List<String>>();
 	private Map<String, Table> tableMap = new HashMap<String, Table>();
+	private Map<String, SubQuery> subQueryMap = new HashMap<String, SubQuery>();
 	private Map<Column, Column> columnEqualMap = new HashMap<Column, Column>();
 	private Set<HintType> hintTypes = new HashSet<HintType>();
+
+	public SelectFragment getCurrentSelectFragment() {
+		if (selectFragmentStack.size() <= 0) {
+			return null;
+		}
+		return selectFragmentStack.lastElement();
+	}
+
+	public SelectFragment getFirstSelectFragment() {
+		if (selectFragmentStack.size() <= 0) {
+			return null;
+		}
+		return selectFragmentStack.firstElement();
+	}
+
+	public SubQuery popSelectFragmentStack(Alias alias) {
+		SubQuery subQuery = (SubQuery) selectFragmentStack.pop();
+		subQueryMap.put(alias.getName(), subQuery);
+		return subQuery;
+	}
 
 	public int getParamCount() {
 		return this.paramIndex;
@@ -117,7 +143,15 @@ tokens
 
 	public void createStatement(int statementType) {
 		if (statementType == SELECT) {
+			SelectFragment selectFragment = getCurrentSelectFragment();
+			if (selectFragment != null) {
+				SubQuery subQuery = new SubQuery();
+				((SelectFragment) selectFragmentStack.lastElement()).setFromItem(subQuery);
+				selectFragmentStack.push(subQuery);
+				return;
+			}
 			statement = new Select();
+			selectFragmentStack.push((SelectFragment) statement);
 		} else if (statementType == INSERT) {
 			statement = new Insert();
 		} else if (statementType == DELETE) {
@@ -145,7 +179,7 @@ tokens
 		if (alias != null) {
 			item.setAlias(alias);
 		}
-		getSelect().addSelectItem(item);
+		getCurrentSelectFragment().addSelectItem(item);
 	}
 
 	public Table createTable(AST table, AST alias, boolean useAs) {
@@ -291,7 +325,7 @@ tokens
 		//	return new Column(str[0], str[1]);
 		//} 
 		//return new Column(text);
-		return new Column(tableMap, text);
+		return new Column(tableMap, subQueryMap, text);
 	}
 }
 
@@ -311,7 +345,7 @@ selectRoot {
 	} 
 		s:selectClause
 		f:fromClause
-		where=whereClause {getSelect().setWhere(where);}
+		where=whereClause {getCurrentSelectFragment().setWhere(where);}
 		(orderByClause)?
 		(limitClause)?
 	) {
@@ -348,7 +382,7 @@ selectClause
 
 selectList
 	: (STAR {
-		getSelect().addSelectItem(new AllColumns());
+		getCurrentSelectFragment().addSelectItem(new AllColumns());
 	} | selectExpression) (COMMA! selectExpression)*
 	;
 
@@ -423,51 +457,93 @@ aliasedSuffix returns [Alias alias] {
 
 selectExpr
 	: c1:IDENT (a1:IDENT)? {
-		getSelect().addSelectItem(createSelectExpression(#c1, #a1, false));
+		getCurrentSelectFragment().addSelectItem(createSelectExpression(#c1, #a1, false));
 	} | #(AS 
 			c2:IDENT 
 			a2:IDENT
 		) {
-		getSelect().addSelectItem(createSelectExpression(#c2, #a2, true));
+		getCurrentSelectFragment().addSelectItem(createSelectExpression(#c2, #a2, true));
 	}
 	;
 	
 fromClause
 	: #(FROM
-	fromExpression (joinClause)*)
+	selectFromExpression (joinClause)*)
 	;
 
 joinClause {
-		Table table = null;
+		FromItem fromItem = null;
 		Expression on = null;
 	}
 	: #(COMMA joinFromExpression) {
 	} |
-	#(LEFT table=joinExpression on=onClause) {
-		getSelect().addJoin(new Join(JoinType.LEFT, table, on));
+	#(LEFT fromItem=joinExpression on=onClause) {
+		getCurrentSelectFragment().addJoin(new Join(JoinType.LEFT, fromItem, on));
 	} |
-	#(RIGHT table=joinExpression on=onClause) {
-		getSelect().addJoin(new Join(JoinType.RIGHT, table, on));
+	#(RIGHT fromItem=joinExpression on=onClause) {
+		getCurrentSelectFragment().addJoin(new Join(JoinType.RIGHT, fromItem, on));
 	} |
-	#(JOIN table=joinExpression on=onClause) {
-		getSelect().addJoin(new Join(JoinType.INNER, table, on));
+	#(JOIN fromItem=joinExpression on=onClause) {
+		getCurrentSelectFragment().addJoin(new Join(JoinType.INNER, fromItem, on));
 	}
 	;
 
-joinExpression returns [Table table] {
-		table = null;
+joinExpression returns [FromItem fromItem] {
+	fromItem = null;
+	Expression where = null;
+	Alias alias = null;
 	}
 	: c1:IDENT (a1:IDENT)? {
-		table = createTable(#c1, #a1, false);
+		fromItem = createTable(#c1, #a1, false);
 	} | #(AS 
 			c2:IDENT 
 			a2:IDENT
 		) {
-		table = createTable(#c2, #a2, true);
-	}
+		fromItem = createTable(#c2, #a2, true);
+	} | #(OPEN { 
+			selectFragmentStack.push(new SubQuery());
+			}
+			s:selectClause
+			f:fromClause
+			where=whereClause {getCurrentSelectFragment().setWhere(where);}
+			(orderByClause)?
+			(limitClause)?
+			alias=aliasedSuffix {
+				((SubQuery)getCurrentSelectFragment()).setAlias(alias);
+			}
+		) {
+		fromItem = popSelectFragmentStack(alias);
+	} 
 	;
 
-fromExpression
+selectFromExpression {
+	Expression where = null;
+	Alias alias = null;
+}
+	: c1:IDENT (a1:IDENT)? {
+		getCurrentSelectFragment().setFromItem(createTable(#c1, #a1, false));
+	} | #(AS 
+			c2:IDENT 
+			a2:IDENT
+		) {
+		getCurrentSelectFragment().setFromItem(createTable(#c2, #a2, true));
+	} | #(OPEN { 
+			createStatement(SELECT); 
+			}
+			s:selectClause
+			f:fromClause
+			where=whereClause {getCurrentSelectFragment().setWhere(where);}
+			(orderByClause)?
+			(limitClause)?
+			alias=aliasedSuffix {
+				((SubQuery)getCurrentSelectFragment()).setAlias(alias);
+			}
+		) {
+		popSelectFragmentStack(alias);
+	} 
+	;
+
+updateFromExpression
 	: c1:IDENT (a1:IDENT)? {
 		statement.setFromItem(createTable(#c1, #a1, false));
 	} | #(AS 
@@ -478,15 +554,32 @@ fromExpression
 	}
 	;
 
-joinFromExpression
+
+joinFromExpression {
+	Expression where = null;
+	Alias alias = null;
+}
 	: c1:IDENT (a1:IDENT)? {
-		getSelect().addFromItem(createTable(#c1, #a1, false));
+		getFirstSelectFragment().addFromItem(createTable(#c1, #a1, false));
 	} | #(AS 
 			c2:IDENT 
 			a2:IDENT
 		) {
-		getSelect().addFromItem(createTable(#c2, #a2, true));
-	}
+		getFirstSelectFragment().addFromItem(createTable(#c2, #a2, true));
+	} | #(OPEN { 
+			selectFragmentStack.push(new SubQuery());
+			}
+			s:selectClause
+			f:fromClause
+			where=whereClause {getCurrentSelectFragment().setWhere(where);}
+			(orderByClause)?
+			(limitClause)?
+			alias=aliasedSuffix {
+				((SubQuery)getCurrentSelectFragment()).setAlias(alias);
+			}
+		) {
+		getFirstSelectFragment().addFromItem(popSelectFragmentStack(alias));
+	} 
 	;
 	
 whereClause returns [Expression expr] {
@@ -511,13 +604,13 @@ orderByClause
 
 orderByExpr
 	: i:IDENT {
-		getSelect().addOrderByExpr(new OrderByExpr(tableMap, #i.getText())); 
+		getCurrentSelectFragment().addOrderByExpr(new OrderByExpr(tableMap, subQueryMap, #i.getText())); 
 	} | 
 	#(ASC a:IDENT) {
-		getSelect().addOrderByExpr(new OrderByExpr(tableMap, #a.getText(), OrderByType.ASC)); 
+		getCurrentSelectFragment().addOrderByExpr(new OrderByExpr(tableMap, subQueryMap, #a.getText(), OrderByType.ASC)); 
 	} | 
 	#(DESC d:IDENT) {
-		getSelect().addOrderByExpr(new OrderByExpr(tableMap, #d.getText(), OrderByType.DESC));
+		getCurrentSelectFragment().addOrderByExpr(new OrderByExpr(tableMap, subQueryMap, #d.getText(), OrderByType.DESC));
 	}
 	;
 
@@ -526,9 +619,9 @@ limitClause
 		i:NUMERICAL 
 		(j:NUMERICAL)?) {
 		if (#j == null) {
-			getSelect().setRowCount(new Numerical(#i.getText()));
+			getCurrentSelectFragment().setRowCount(new Numerical(#i.getText()));
 		} else {
-			getSelect().setLimit(new Numerical(#i.getText()), new Numerical(#j.getText()));
+			getCurrentSelectFragment().setLimit(new Numerical(#i.getText()), new Numerical(#j.getText()));
 		}
 	}
 	;
@@ -598,7 +691,7 @@ updateStatement {
 updateClause
 	: #(UPDATE {
 	}
-		fromExpression) {
+		updateFromExpression) {
 	} 
 	;
 
