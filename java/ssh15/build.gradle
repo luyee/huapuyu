@@ -23,33 +23,73 @@ repositories {
 }
 
 dependencies {
+    // commons
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
-    compile group: 'org.springframework', name: 'spring-context-support', version: '4.1.6.RELEASE'
-    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.1.6.RELEASE'
-    compile group: 'org.springframework', name: 'spring-jdbc', version: '4.1.6.RELEASE'
-    compile group: 'org.springframework.data', name: 'spring-data-hadoop', version: '2.1.2.RELEASE'
-    compile group: 'org.mybatis', name: 'mybatis', version: '3.2.7'
-	compile group: 'org.mybatis', name: 'mybatis-spring', version: '1.2.2'
-	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
-	compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
-	compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.2'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.2'
 	compile group: 'commons-pool', name: 'commons-pool', version: '1.6+'
 	compile group: 'commons-io', name: 'commons-io', version: '2.4'
 	compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.1'
-	compile group: 'com.alibaba', name: 'druid', version: '1.0.5'
-	compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.0.1'
 	compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
+	compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
+	compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.0.1'
+    
+    // spring
+    compile group: 'org.springframework', name: 'spring-context-support', version: '4.1.6.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.1.6.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '4.1.6.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.10.0.RELEASE'
+    
+    // hadoop
+    compile group: 'org.springframework.data', name: 'spring-data-hadoop', version: '2.1.2.RELEASE'
+    
+    // redis
+    compile group: 'org.springframework.data', name: 'spring-data-redis', version: '1.5.0.RELEASE'
+    compile group: 'redis.clients', name: 'jedis', version: '2.7.2'
+    
+    // mongo
+    compile group: 'org.springframework.data', name: 'spring-data-mongodb-distribution', version: '1.7.0.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-mongodb-cross-store', version: '1.7.0.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '1.7.0.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-mongodb-log4j', version: '1.7.0.RELEASE'
+    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.0.2'
+    
+    // kafka
+    compile group: 'org.springframework.integration', name: 'spring-integration-kafka', version: '1.1.2.RELEASE'
+    
+    // mysql
+    compile group: 'org.mybatis', name: 'mybatis', version: '3.2.7'
+	compile group: 'org.mybatis', name: 'mybatis-spring', version: '1.2.2'
+	compile group: 'com.alibaba', name: 'druid', version: '1.0.5'
 	compile group: 'com.mchange', name: 'c3p0', version: '0.9.5-pre8'
 	//compile group: 'c3p0', name: 'c3p0', version: '0.9.1.2'
 	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.31'
-	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.3.3'
+	
+	// zk
+	compile group: 'org.apache.curator', name: 'curator-framework', version: '2.8.0'
+	compile group: 'org.apache.curator', name: 'curator-recipes', version: '2.8.0'
+	
+	// solr
+	compile group: 'org.springframework.data', name: 'spring-data-solr', version: '1.4.0.RELEASE'
+	
+	// es
+	compile group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '1.2.0.RELEASE'
+	
+	// servlet
 	compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
 	compile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.2.1'
+	
+	// log
 	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.7'
+	compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.2'
+	
+	// others
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.3.3'
 	compile group: 'antlr', name: 'antlr', version: '2.7.7'
 	compile group: 'com.alibaba', name: 'fastjson', version: '1.2.0'
 	compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.0.7'
-	compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.2'
+    
+    // test
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
