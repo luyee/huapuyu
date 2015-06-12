@@ -348,7 +348,7 @@
 	</bean>
 
 	<bean id="msqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource1" />
+		<property name="dataSource" ref="dataSource8" />
 		<property name="typeAliasesPackage" value="com.vip.jdbc.test.entity" />
 		<property name="mapperLocations" value="classpath*:com/vip/jdbc/test/mapper/*Mapper.xml" />
 	</bean>
@@ -357,7 +357,7 @@
 	<context:component-scan base-package="com.vip.jdbc.test.repository" />
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource1" />
+		<property name="dataSource" ref="dataSource8" />
 	</bean>
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/> 
@@ -375,5 +375,19 @@
 		<property name="testConnectionOnCheckin" value="true" /> 
 		<property name="checkoutTimeout" value="1000" />
 	</bean>
+	
+	<bean id="dataSource8" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="jdbcUrl" value="${db1.master.url}" />
+		<property name="user" value="${db1.master.username}" />
+		<property name="password" value="${db1.master.password}" />
+		<property name="driverClass" value="${db1.master.driver}" />
+		<property name="initialPoolSize" value="5" />
+		<!-- <property name="minPoolSize" value="3" /> -->
+		<!-- <property name="maxIdleTime" value="60" /> -->
+		<!--  <property name="maxPoolSize" value="10" /> -->
+		<!-- <property name="checkoutTimeout" value="60000" /> -->
+		<!-- <property name="acquireIncrement" value="2" /> --> 
+		<!-- <property name="idleConnectionTestPeriod" value="10" />  --> 
+	</bean> 
 	
 </beans>

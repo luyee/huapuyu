@@ -32,7 +32,6 @@ public class CustServiceImpl implements CustService {
 	@Transactional
 	public void insert(Cust cust) throws IOException {
 		custMapper.insert(cust);
-		throw new IOException();
 	}
 
 	@Transactional
