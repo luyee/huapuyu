@@ -24,6 +24,7 @@ class LockService {
 
 	public void lockTest() {
 		if (!lock.tryLock()) {
+			// lock.lock(); //没有抢到锁的线程挂起等待
 			System.out.println("获取不到锁，退出");
 			return;
 		}
@@ -31,11 +32,9 @@ class LockService {
 		try {
 			System.out.println("获取锁后Sleep10秒钟");
 			Thread.sleep(10000);
-		}
-		catch (Throwable e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e.getMessage());
-		}
-		finally {
+		} finally {
 			lock.unlock();
 			System.out.println("释放锁");
 		}

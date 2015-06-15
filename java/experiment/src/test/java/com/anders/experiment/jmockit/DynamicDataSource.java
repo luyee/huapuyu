@@ -3,11 +3,13 @@ package com.anders.experiment.jmockit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
@@ -169,5 +171,11 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Disp
 
 	public void destroy() throws Exception {
 		shutdownHeartBean();
+	}
+
+	@Override
+	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
