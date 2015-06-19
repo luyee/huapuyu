@@ -5,7 +5,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.InitializingBean;
 
 // 执行顺序如下
-// @PostConstruct
+// InitSequenceBean: constructor
+// InitSequenceBean: postConstruct
 // InitSequenceBean: afterPropertiesSet
 // InitSequenceBean: init-method
 public class InitSequenceBean implements InitializingBean {

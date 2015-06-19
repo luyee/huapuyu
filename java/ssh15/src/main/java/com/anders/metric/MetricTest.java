@@ -1,4 +1,4 @@
-package com.anders.metrics;
+package com.anders.metric;
 
 import java.util.concurrent.TimeUnit;
 
@@ -6,18 +6,18 @@ import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 
-public class MetricsTest {
-	static final MetricRegistry metrics = new MetricRegistry();
+public class MetricTest {
+	static final MetricRegistry metric = new MetricRegistry();
 	
     public static void main(String args[]) {
       startReport();
-      Meter requests = metrics.meter("requests");
+      Meter requests = metric.meter("requests");
       requests.mark();
       wait5Seconds();
     }
 
   static void startReport() {
-      ConsoleReporter reporter = ConsoleReporter.forRegistry(metrics)
+      ConsoleReporter reporter = ConsoleReporter.forRegistry(metric)
           .convertRatesTo(TimeUnit.SECONDS)
           .convertDurationsTo(TimeUnit.MILLISECONDS)
           .build();
