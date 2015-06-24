@@ -23,7 +23,6 @@ public class SimpleServer {
             }  
   
             public void failed(Throwable exc, Void att) {  
-  
             }  
         });  
   
@@ -34,15 +33,12 @@ public class SimpleServer {
         try {  
             ch.read(byteBuffer).get();  
         } catch (InterruptedException e) {  
-            // TODO Auto-generated catch block  
             e.printStackTrace();  
         } catch (ExecutionException e) {  
-            // TODO Auto-generated catch block  
             e.printStackTrace();  
         }  
         byteBuffer.flip();  
         System.out.println("recevied : " + byteBuffer.get());
-        // Do something  
     }  
       
 }  
