@@ -134,4 +134,6 @@
 	
 	<bean id="parentClass" class="com.anders.ssh.common.ParentClass" />
 	<bean id="sonLoader" class="com.anders.ssh.common.SonLoader" init-method="load" /> 
+	
+	<bean id="initSequenceBean" class="com.anders.ssh.common.InitSequenceBean" init-method="initMethod" /> 
 </beans>

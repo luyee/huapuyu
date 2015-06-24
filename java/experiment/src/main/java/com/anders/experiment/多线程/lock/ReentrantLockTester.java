@@ -1,4 +1,4 @@
-package com.anders.experiment.多线程;
+package com.anders.experiment.多线程.lock;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

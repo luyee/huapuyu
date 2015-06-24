@@ -1,4 +1,4 @@
-package com.anders.experiment.多线程;
+package com.anders.experiment.多线程.atomic;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

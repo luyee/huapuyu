@@ -41,7 +41,7 @@ public class SimpleServer {
             e.printStackTrace();  
         }  
         byteBuffer.flip();  
-        System.out.println(byteBuffer.get());  
+        System.out.println("recevied : " + byteBuffer.get());
         // Do something  
     }  
       

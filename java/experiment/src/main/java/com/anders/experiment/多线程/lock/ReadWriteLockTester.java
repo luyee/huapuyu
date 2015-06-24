@@ -1,5 +1,6 @@
 package com.anders.experiment.多线程.lock;
 
+import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.slf4j.Logger;
@@ -60,7 +61,7 @@ class Get线程 extends Thread {
 class 测试类 {
 	private static final Logger LOG = LoggerFactory.getLogger(测试类.class);
 
-	private ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+	private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
 	public void get() {
 		readWriteLock.readLock().lock();
