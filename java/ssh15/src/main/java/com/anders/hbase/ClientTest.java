@@ -17,7 +17,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.PoolMap.PoolType;
 import org.junit.Test;
 
-public class ClientTester {
+public class ClientTest {
 
 	@Test
 	public void test1() {
