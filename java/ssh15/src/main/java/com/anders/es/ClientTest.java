@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
-public class EsTest {
+public class ClientTest {
 	
 //	@Configuration
 //	@EnableElasticsearchRepositories(basePackages = "org/springframework/data/elasticsearch/repositories")
