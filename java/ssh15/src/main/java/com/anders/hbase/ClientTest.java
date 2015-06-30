@@ -3,6 +3,8 @@ package com.anders.hbase;
 import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
@@ -12,6 +14,7 @@ import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.HTableFactory;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.HTablePool;
+import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.PoolMap.PoolType;
@@ -82,38 +85,41 @@ public class ClientTest {
 	}
 
 	@Test
-	public void test4() {
+	public void test4() throws IOException {
 		System.setProperty("hadoop.home.dir", "C:\\Users\\Anders\\git\\hadoop-common-2.2.0-bin");
 		Configuration config = HBaseConfiguration.create();
 		config.set("hbase.master", "anders1:9000");
 		config.set("hbase.zookeeper.property.clientPort", "2181");
 		config.set("hbase.zookeeper.quorum", "anders1,anders2,anders3");
 
-		HConnection hConnection = null;
+		HConnection conn = null;
 		HTableInterface table = null;
 		Result result = null;
 
 		try {
-			hConnection = HConnectionManager.createConnection(config);
-			table = hConnection.getTable(Bytes.toBytes("order"));
+			conn = HConnectionManager.createConnection(config);
+			table = conn.getTable(Bytes.toBytes("order"));
 			result = table.get(new Get(Bytes.toBytes("row1")));
+
 			System.out.println(result);
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
+
+			Put put = new Put(Bytes.toBytes("row2"));
+			put.add(Bytes.toBytes("cf"), Bytes.toBytes("age"), Bytes.toBytes("1"));
+			put.add(Bytes.toBytes("cf"), Bytes.toBytes("name"), Bytes.toBytes("zhuyichen"));
+			table.put(put);
+
+			result = table.get(new Get(Bytes.toBytes("row2")).setMaxVersions(3));
+			for (Cell cell : result.rawCells()) {
+				System.out.println("Rowkey : " + Bytes.toString(cell.getRow()) + "   Familiy:Quilifier : "
+						+ Bytes.toString(CellUtil.cloneQualifier(cell)) + "   Value : "
+						+ Bytes.toString(CellUtil.cloneValue(cell)) + "   Time : " + cell.getTimestamp());
+			}
 		} finally {
 			if (table != null) {
-				try {
-					table.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				table.close();
 			}
-			if (hConnection != null) {
-				try {
-					hConnection.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			if (conn != null) {
+				conn.close();
 			}
 		}
 

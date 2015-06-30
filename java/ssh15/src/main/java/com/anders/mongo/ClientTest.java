@@ -7,6 +7,7 @@ import org.junit.Test;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoException;
+import com.mongodb.ServerAddress;
 
 public class ClientTest {
 	@Test
@@ -21,8 +22,8 @@ public class ClientTest {
 		MongoClientOptions myOptions = build.build();
 		MongoClient mongoClient = null;
 		try {
-			// mongoClient = new MongoClient("anders1", myOptions);
-			mongoClient = new MongoClient("anders1", 27018);
+			mongoClient = new MongoClient(new ServerAddress("anders1", 27018), myOptions);
+			// mongoClient = new MongoClient("anders1", 27018);
 			List<String> names = mongoClient.getDatabaseNames();
 			for (String name : names) {
 				System.out.println(name);
@@ -30,5 +31,11 @@ public class ClientTest {
 		} catch (MongoException e) {
 			e.printStackTrace();
 		}
+
+		// repl set
+		// MongoClient mongoClient = new MongoClient(Arrays.asList(
+		// new ServerAddress("localhost", 27017),
+		// new ServerAddress("localhost", 27018),
+		// new ServerAddress("localhost", 27019)));
 	}
 }
