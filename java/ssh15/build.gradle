@@ -57,6 +57,13 @@ dependencies {
     
     // kafka
     compile group: 'org.springframework.integration', name: 'spring-integration-kafka', version: '1.1.2.RELEASE'
+    compile group: 'org.apache.kafka', name: 'kafka-clients', version: '0.8.2.1'
+    
+    // rabbitmq
+    compile group: 'com.rabbitmq', name: 'amqp-client', version: '3.5.3'
+    
+    // activemq
+    compile group: 'org.apache.activemq', name: 'activemq-client', version: '5.11.1'
     
     // mysql
     compile group: 'org.mybatis', name: 'mybatis', version: '3.2.7'
