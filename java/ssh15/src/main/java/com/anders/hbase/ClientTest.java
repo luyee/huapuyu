@@ -1,11 +1,11 @@
 package com.anders.hbase;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.Cell;
-import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HConnection;
@@ -103,17 +103,25 @@ public class ClientTest {
 
 			System.out.println(result);
 
-			Put put = new Put(Bytes.toBytes("row2"));
-			put.add(Bytes.toBytes("cf"), Bytes.toBytes("age"), Bytes.toBytes("1"));
-			put.add(Bytes.toBytes("cf"), Bytes.toBytes("name"), Bytes.toBytes("zhuyichen"));
+			Put put = new Put(Bytes.toBytes("row3"));
+			put.add(Bytes.toBytes("cf"), Bytes.toBytes("age"), 556, Bytes.toBytes("1"));
+			put.add(Bytes.toBytes("cf"), Bytes.toBytes("name"), 556, Bytes.toBytes("zhuyichen"));
 			table.put(put);
 
-			result = table.get(new Get(Bytes.toBytes("row2")).setMaxVersions(3));
-			for (Cell cell : result.rawCells()) {
-				System.out.println("Rowkey : " + Bytes.toString(cell.getRow()) + "   Familiy:Quilifier : "
-						+ Bytes.toString(CellUtil.cloneQualifier(cell)) + "   Value : "
-						+ Bytes.toString(CellUtil.cloneValue(cell)) + "   Time : " + cell.getTimestamp());
-			}
+			Get get = new Get(Bytes.toBytes("row3"));
+			get.setMaxVersions(2);
+			result = table.get(get);
+			// for (Cell cell : result.rawCells()) {
+			// System.out.println("Rowkey : " + Bytes.toString(cell.getRow()) +
+			// " Familiy:Quilifier : "
+			// + Bytes.toString(CellUtil.cloneQualifier(cell)) + " Value : "
+			// + Bytes.toString(CellUtil.cloneValue(cell)) + " Time : " +
+			// cell.getTimestamp());
+			// }
+			List<KeyValue> kv = result.getColumn(Bytes.toBytes("cf"), Bytes.toBytes("age"));
+			System.out.println(kv);
+			System.out.println(kv.size());
+			// FIXME Anders 如何查询版本
 		} finally {
 			if (table != null) {
 				table.close();
