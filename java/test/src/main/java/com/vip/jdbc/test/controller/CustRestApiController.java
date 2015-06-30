@@ -1,7 +1,6 @@
 package com.vip.jdbc.test.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +46,12 @@ public class CustRestApiController {
 		// e.printStackTrace();
 		// }
 
+//		System.out.println(dataSource8);
+//		Method[] properties = dataSource8.getClass().getMethods();
+//		for (Method obj : properties) {
+//			System.out.println(obj.getName());
+//		}
+		
 		return new ResponseEntity<Cust>(cust, HttpStatus.OK);
 	}
 
