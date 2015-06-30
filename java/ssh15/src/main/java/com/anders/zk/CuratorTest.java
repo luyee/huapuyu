@@ -143,4 +143,5 @@ public class CuratorTest {
 		}).forPath("/test4", "just do it2".getBytes());
 		client.delete().forPath("/test4");
 	}
+
 }

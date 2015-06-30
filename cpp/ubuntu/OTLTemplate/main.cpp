@@ -17,6 +17,6 @@ int main(int argc, char *argv[])
 
 	dao.executeQuery("select * from tb_test1");
 
-	dao.executeQuery("select * from tb_test1", 0);
+	dao.executeQuery("select * from tb_test1", 0);
 	return 0;
 }
