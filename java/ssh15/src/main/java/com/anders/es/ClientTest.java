@@ -5,12 +5,16 @@ import java.util.Date;
 
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 import org.junit.Test;
 
 public class ClientTest {
@@ -36,6 +40,15 @@ public class ClientTest {
 
 		GetResponse getResponse = client.prepareGet("hint", "user", indexResponse.getId()).execute().actionGet();
 		System.out.println(getResponse.getSource());
+
+		SearchResponse searchResponse = client.prepareSearch("hint").setTypes("user")
+				.setSearchType(SearchType.DFS_QUERY_AND_FETCH).setQuery(QueryBuilders.termQuery("name", "tom"))
+				// .setPostFilter(FilterBuilders.rangeFilter("size").from(1).to(10))
+				.setFrom(0).setSize(10).setExplain(true).execute().actionGet();
+
+		for (SearchHit searchHit : searchResponse.getHits()) {
+			System.out.println(searchHit.getSourceAsString());
+		}
 
 		client.close();
 	}

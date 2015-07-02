@@ -2,12 +2,18 @@ package com.anders.mongo;
 
 import java.util.List;
 
+import org.bson.Document;
 import org.junit.Test;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
 
 public class ClientTest {
 	@Test
@@ -28,9 +34,31 @@ public class ClientTest {
 			for (String name : names) {
 				System.out.println(name);
 			}
+
+			MongoDatabase mongoDatabase = mongoClient.getDatabase("anders");
+			MongoCollection<Document> collection = mongoDatabase.getCollection("depart");
+			Document doc = new Document();
+			doc.put("name", "zhuzhen");
+			doc.put("age", 33);
+			collection.insertOne(doc);
+
+			BasicDBObject query = new BasicDBObject("name", "zhuzhen");
+			FindIterable<Document> iterable = collection.find(query);
+			MongoCursor<Document> cursor = iterable.iterator();
+
+			while (cursor.hasNext()) {
+				Document depart = cursor.next();
+				System.out.println(depart.get("name"));
+				System.out.println(depart.get("age"));
+				System.out.println(depart.toString());
+			}
+			cursor.close();
+
 		} catch (MongoException e) {
 			e.printStackTrace();
 		}
+
+		// FIXME Anders 添加增删改方法
 
 		// repl set
 		// MongoClient mongoClient = new MongoClient(Arrays.asList(
