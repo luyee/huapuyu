@@ -58,6 +58,8 @@ dependencies {
     // kafka
     compile group: 'org.springframework.integration', name: 'spring-integration-kafka', version: '1.1.2.RELEASE'
     compile group: 'org.apache.kafka', name: 'kafka-clients', version: '0.8.2.1'
+    // example jar, need to delete
+    compile group: 'org.apache.kafka', name: 'kafka-examples', version: '0.8.2.1'
     
     // rabbitmq
     compile group: 'com.rabbitmq', name: 'amqp-client', version: '3.5.3'
@@ -98,7 +100,7 @@ dependencies {
 	
 	// log
 	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.7'
-	compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.2'
+	//compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.2'
 	
 	// others
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.3.3'

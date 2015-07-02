@@ -1,0 +1,32 @@
+		Connection connection = rwds1_read1.getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery("select * from cust where id = 1");
+		while (rs.next()) {
+			System.out.println(rs.getString(2));
+		}
+
+		// ((BasicDataSource )rwds1_read1).close();
+
+		// BeanDefinition beanDefinition = new ChildBeanDefinition("rwds1_read1");
+		BeanDefinition beanDefinition = new RootBeanDefinition(BasicDataSource.class);
+		beanDefinition
+				.getPropertyValues()
+				.addPropertyValue(
+						"url",
+						"jdbc:mysql://10.101.18.72:3306/db1_slave1?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
+		beanDefinition.getPropertyValues().addPropertyValue("username", "vipuser");
+		beanDefinition.getPropertyValues().addPropertyValue("password", "xR54PUU8GWia");
+		beanDefinition.getPropertyValues().addPropertyValue("driverClassName", "com.mysql.jdbc.Driver");
+
+		DefaultListableBeanFactory acf = (DefaultListableBeanFactory) applicationContext
+				.getAutowireCapableBeanFactory();
+		acf.registerBeanDefinition("rwds1_read1", beanDefinition);
+
+		// ((BasicDataSource )rwds1_read1).setUrl();
+
+		connection = ((DataSource) applicationContext.getBean("rwds1_read1")).getConnection();
+		statement = connection.createStatement();
+		rs = statement.executeQuery("select * from cust where id = 1");
+		while (rs.next()) {
+			System.out.println(rs.getString(2));
+		}
