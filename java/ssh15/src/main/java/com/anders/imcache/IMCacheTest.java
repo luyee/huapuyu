@@ -23,17 +23,37 @@ public class IMCacheTest {
 		// .storage(bufferStore).build();
 		// VersionedItem<String> versionedItem = offHeapCache.get(12);
 
-		Thread.sleep(20000);
-
-		OffHeapByteBufferStore bufferStore = new OffHeapByteBufferStore(8388608, 10);
+		OffHeapByteBufferStore bufferStore = new OffHeapByteBufferStore(1048576, 1000);
 		final Cache<String, String> offHeapCache = CacheBuilder.offHeapCache().evictionListener(new MyListener())
-				.storage(bufferStore).build();
-		for (int i = 0; i < 1000000000; i++) {
+				.storage(bufferStore).evictionPeriod(1000).bufferCleanerPeriod(1000).build();
+
+		// OffHeapCacheBuilder offHeapCacheBuilder = CacheBuilder.offHeapCache();
+
+		// MyOffHeapCache myOffHeapCache = new MyOffHeapCache(CacheBuilder.offHeapCache(), new MyListener(),
+		// indexHandler, bufferStore, serializer, bufferCleanerPeriod, bufferCleanerThreshold, concurrencyLevel,
+		// evictionPeriod)
+
+		// Thread.sleep(20000);
+
+		for (int i = 0; i < 10000000; i++) {
 			offHeapCache.put("name" + i, "helloworld888888888888888888888888888888888888888888888888");
 			System.out.println(i);
 		}
+		// offHeapCache.put("name", "zhuzhen");
+		// System.out.println(offHeapCache.get("name"));
+		// System.out.println(offHeapCache.get("name"));
+		// System.out.println(offHeapCache.get("name"));
+		// offHeapCache.put("name", "guolili");
+		// System.out.println(offHeapCache.get("name"));
+		// System.out.println(offHeapCache.hitRatio());
+		//
+		//
+		//
+		// System.out.println(offHeapCache.get("name"));
+		// System.out.println(offHeapCache.get("name"));
+		// System.out.println(offHeapCache.get("name"));
+		// offHeapCache.put("name", "guolili");
 		System.out.println(offHeapCache.get("name"));
-
 	}
 }
 
