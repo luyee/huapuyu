@@ -90,9 +90,16 @@ dependencies {
 	compile group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '1.2.0.RELEASE'
 	compile group: 'org.elasticsearch', name: 'elasticsearch', version: '1.6.0'
 	
+	// memcached
+	compile group: 'net.spy', name: 'spymemcached', version: '2.12.0'
+	
 	// metrics
 	compile group: 'io.dropwizard.metrics', name: 'metrics-core', version: '3.1.2'
 	compile group: 'io.dropwizard.metrics', name: 'metrics-json', version: '3.1.2'
+	
+	// cache
+	compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.0'
+	compile group: 'com.cetsoft', name: 'imcache', version: '0.1.2'
 	
 	// servlet
 	compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
