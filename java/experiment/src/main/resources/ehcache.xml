@@ -41,7 +41,7 @@
         diskExpiryThreadIntervalSeconds="120"
 		memoryStoreEvictionPolicy="LRU">
         	
-		<cacheEventListenerFactory class="com.anders.ehcache.YoungCacheEventListenerFactory"/> 
+		<cacheEventListenerFactory class="com.anders.experiment.cache.ehcache.YoungCacheEventListenerFactory"/> 
 	</cache>
         	
 	<cache name="old" 
@@ -54,7 +54,7 @@
         diskExpiryThreadIntervalSeconds="120"
 		memoryStoreEvictionPolicy="LRU">
         	
-		<cacheEventListenerFactory class="com.anders.ehcache.OldCacheEventListenerFactory"/> 
+		<cacheEventListenerFactory class="com.anders.experiment.cache.ehcache.OldCacheEventListenerFactory"/> 
 	</cache>
         	
 	<cache name="hot" 
@@ -67,6 +67,6 @@
         diskExpiryThreadIntervalSeconds="120"
 		memoryStoreEvictionPolicy="FIFO">
         	
-        <cacheEventListenerFactory class="com.anders.ehcache.HotCacheEventListenerFactory"/> 
+        <cacheEventListenerFactory class="com.anders.experiment.cache.ehcache.HotCacheEventListenerFactory"/> 
 	</cache>   
 </ehcache>

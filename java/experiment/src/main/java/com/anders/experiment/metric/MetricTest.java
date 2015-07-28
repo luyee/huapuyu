@@ -1,4 +1,4 @@
-package com.anders.metric;
+package com.anders.experiment.metric;
 
 import java.util.concurrent.TimeUnit;
 

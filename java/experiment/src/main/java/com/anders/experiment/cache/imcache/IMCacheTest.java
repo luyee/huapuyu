@@ -1,4 +1,4 @@
-package com.anders.imcache;
+package com.anders.experiment.cache.imcache;
 
 import com.cetsoft.imcache.cache.Cache;
 import com.cetsoft.imcache.cache.CacheLoader;

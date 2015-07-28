@@ -1,4 +1,4 @@
-package com.anders.ehcache;
+package com.anders.experiment.cache.ehcache;
 
 import java.util.Set;
 
@@ -7,7 +7,7 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.event.CacheEventListener;
 
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 
 public class EhcacheTest {

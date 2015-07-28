@@ -1,4 +1,4 @@
-package com.anders.ehcache;
+package com.anders.experiment.cache.ehcache;
 
 import java.io.Serializable;
 
