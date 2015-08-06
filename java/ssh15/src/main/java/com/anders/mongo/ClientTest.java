@@ -1,7 +1,5 @@
 package com.anders.mongo;
 
-import java.util.List;
-
 import org.bson.Document;
 import org.junit.Test;
 
@@ -14,6 +12,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoIterable;
 
 public class ClientTest {
 	@Test
@@ -30,7 +29,7 @@ public class ClientTest {
 		try {
 			mongoClient = new MongoClient(new ServerAddress("anders1", 27018), myOptions);
 			// mongoClient = new MongoClient("anders1", 27018);
-			List<String> names = mongoClient.getDatabaseNames();
+			MongoIterable<String> names = mongoClient.listDatabaseNames();
 			for (String name : names) {
 				System.out.println(name);
 			}

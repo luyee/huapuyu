@@ -21,15 +21,20 @@ public class ClientTest {
 
 	@Test
 	public void test1() throws IOException {
-		Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "anders").build();
+		Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "anders")
+				.put("index.refresh_interval", "1s").build();
 		TransportClient client = new TransportClient(settings);
 		client.addTransportAddress(new InetSocketTransportAddress("lu1", 9300))
 				.addTransportAddress(new InetSocketTransportAddress("lu2", 9300))
 				.addTransportAddress(new InetSocketTransportAddress("lu3", 9300));
 
+		// Node node = nodeBuilder().client(true).node();
+		// Client client1 = node.client();
+
 		XContentBuilder builder = XContentFactory.jsonBuilder().startObject().field("name", "tom")
 				.field("time", new Date()).field("age", 33).endObject();
 
+		// client.prepareIndex("hint", "user").setSource(builder.string()).setRefresh(true);
 		IndexResponse indexResponse = client.prepareIndex("hint", "user").setSource(builder.string()).execute()
 				.actionGet();
 

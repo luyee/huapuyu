@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 import org.junit.After;
@@ -93,5 +95,29 @@ public class Tester {
 		while (it.hasNext()) {
 			System.out.println(it.next());
 		}
+	}
+
+	/**
+	 * 插入1000000万个long型id，检查Collections.sort()排序的性能
+	 */
+	@Test
+	public void test3() {
+		List<Long> ids = new ArrayList<Long>();
+		Random rand = new Random();
+		for (int i = 0; i < 1000000; i++) {
+			int value = rand.nextInt(1000000);
+			System.out.println(value);
+			ids.add((long) value);
+		}
+
+		Long beginTime = new Date().getTime();
+		Collections.sort(ids);
+		Long endTime = new Date().getTime();
+		// 用时327毫秒
+		System.out.println(endTime - beginTime);
+
+		// for (Long id : ids) {
+		// System.out.println(id);
+		// }
 	}
 }
