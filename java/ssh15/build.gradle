@@ -45,8 +45,13 @@ dependencies {
     compile group: 'org.apache.hadoop', name: 'hadoop-common', version: '2.2.0'
     
     // redis
-    compile group: 'org.springframework.data', name: 'spring-data-redis', version: '1.5.0.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-redis', version: '1.5.2.RELEASE'
     compile group: 'redis.clients', name: 'jedis', version: '2.7.2'
+    
+    // memcached
+    compile group: 'net.spy', name: 'spymemcached', version: '2.12.0'
+    compile group: 'com.googlecode.xmemcached', name: 'xmemcached', version: '2.0.0'
+    compile group: 'com.whalin', name: 'Memcached-Java-Client', version: '3.0.2'
     
     // mongo
     compile group: 'org.springframework.data', name: 'spring-data-mongodb-distribution', version: '1.7.0.RELEASE'
