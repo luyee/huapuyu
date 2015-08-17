@@ -1,6 +1,8 @@
 package com.anders.redis;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
@@ -10,6 +12,9 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisSentinelPool;
+import redis.clients.jedis.JedisShardInfo;
+import redis.clients.jedis.ShardedJedis;
+import redis.clients.jedis.ShardedJedisPool;
 
 public class ClientTest {
 	@Test
@@ -70,5 +75,30 @@ public class ClientTest {
 			System.out.println(e.getMessage());
 		} finally {
 		}
+	}
+
+	@Test
+	public void test3() {
+		// 分片信息
+		List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
+		JedisShardInfo si = new JedisShardInfo("localhost", 6379);
+		si.setPassword("foobared");
+		shards.add(si);
+		si = new JedisShardInfo("localhost", 6380);
+		si.setPassword("foobared");
+		shards.add(si);
+
+		// 池对象
+		ShardedJedisPool pool = new ShardedJedisPool(new JedisPoolConfig(), shards);
+
+		// 开始使用
+		ShardedJedis jedis = pool.getResource();
+		jedis.set("a", "foo");
+		pool.returnResource(jedis);
+
+		ShardedJedis jedis2 = pool.getResource();
+		jedis.set("z", "bar");
+		pool.returnResource(jedis);
+		pool.destroy();
 	}
 }
