@@ -1,4 +1,4 @@
-package com.vip.jdbc.test.service.impl;
+package com.anders.jdbc.test.service.impl;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -15,9 +15,9 @@ import javax.sql.DataSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.vip.jdbc.test.entity.Cust;
-import com.vip.jdbc.test.repository.CustMapper;
-import com.vip.jdbc.test.service.CustService;
+import com.anders.jdbc.test.entity.Cust;
+import com.anders.jdbc.test.repository.CustMapper;
+import com.anders.jdbc.test.service.CustService;
 
 @Transactional(rollbackFor = Throwable.class)
 @Service("custService")

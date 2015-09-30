@@ -1,8 +1,8 @@
-package com.vip.jdbc.test.repository;
+package com.anders.jdbc.test.repository;
 
 import java.util.List;
 
-import com.vip.jdbc.test.entity.Order;
+import com.anders.jdbc.test.entity.Order;
 
 public interface OrderMapper {
 	public List<Order> selectByIds(List<Long> ids);

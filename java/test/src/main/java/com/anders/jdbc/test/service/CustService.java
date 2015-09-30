@@ -1,4 +1,4 @@
-package com.vip.jdbc.test.service;
+package com.anders.jdbc.test.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import com.vip.jdbc.test.entity.Cust;
+import com.anders.jdbc.test.entity.Cust;
 
 public interface CustService {
 	void insert(Cust cust)throws IOException;

@@ -1,8 +1,8 @@
-package com.vip.jdbc.test.service;
+package com.anders.jdbc.test.service;
 
 import java.util.List;
 
-import com.vip.jdbc.test.entity.Order;
+import com.anders.jdbc.test.entity.Order;
 
 public interface OrderService {
 	void insert(Order order);

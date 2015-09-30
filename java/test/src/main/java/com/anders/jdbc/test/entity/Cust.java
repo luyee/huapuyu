@@ -1,6 +1,6 @@
-package com.vip.jdbc.test.entity;
+package com.anders.jdbc.test.entity;
 
-public class Order {
+public class Cust {
     private Long id;
 
     private String name;

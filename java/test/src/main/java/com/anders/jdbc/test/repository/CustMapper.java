@@ -1,10 +1,10 @@
-package com.vip.jdbc.test.repository;
+package com.anders.jdbc.test.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import com.vip.jdbc.test.entity.Cust;
+import com.anders.jdbc.test.entity.Cust;
 
 public interface CustMapper {
 	List<Cust> selectByIds(List<Long> ids);

@@ -1,4 +1,4 @@
-package com.vip.jdbc.test.controller;
+package com.anders.jdbc.test.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.vip.jdbc.test.entity.Cust;
-import com.vip.jdbc.test.service.CustService;
+import com.anders.jdbc.test.entity.Cust;
+import com.anders.jdbc.test.service.CustService;
 
 @Controller
 @RequestMapping("/test")
