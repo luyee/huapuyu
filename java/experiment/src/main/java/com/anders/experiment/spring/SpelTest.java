@@ -64,7 +64,7 @@ public class SpelTest {
 		// @RepositorySharding(strategy = "cust", key =
 		// "@threadLocalBean.getId()")
 		// @RepositorySharding(strategy = "cust", key =
-		// "T(com.vip.venus.data.mybatis.service.StaticBean).getId()")
+		// "T(com.anders.data.mybatis.service.StaticBean).getId()")
 
 	}
 }
