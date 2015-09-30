@@ -42,7 +42,7 @@
 	<bean id="msqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource222" />
 		<property name="typeAliasesPackage" value="com.anders.jdbc.test.entity" />
-		<property name="mapperLocations" value="classpath*:com/vip/jdbc/test/mapper/*Mapper.xml" />
+		<property name="mapperLocations" value="classpath*:com/anders/jdbc/test/mapper/*Mapper.xml" />
 	</bean>
 	
 	<context:component-scan base-package="com.anders.jdbc.test.service" />
