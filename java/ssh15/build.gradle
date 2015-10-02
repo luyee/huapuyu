@@ -98,6 +98,9 @@ dependencies {
 	// memcached
 	compile group: 'net.spy', name: 'spymemcached', version: '2.12.0'
 	
+	// netty
+	compile group: 'io.netty', name: 'netty-all', version: '5.0.0.Alpha2'
+	
 	// servlet
 	compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
 	compile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.2.1'
