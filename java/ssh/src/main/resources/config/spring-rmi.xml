@@ -34,14 +34,15 @@
 	 	<property name="interceptors">
 			<list><ref bean="securityInterceptor"/></list>
 		</property>
-		<property name="logCallPK" ref="logCallPK" />
+		<!-- <property name="logCallPK" ref="logCallPK" /> -->
 	</bean>
-
+	
 	<bean id="securityInterceptor" class="com.anders.ssh.rmi.SecurityInterceptor">
 		<!-- 这里配置允许访问RMI的客户端IP地址 -->
 	 	<property name="allowed">
 	 		<set>
 	 			<value>127.0.0.1</value>
+	 			<value>10.0.2.15</value>
 	 			<value>192.168.10.1</value>
 	 			<value>localhost</value>
 	 			<value>172.17.227.50</value>
