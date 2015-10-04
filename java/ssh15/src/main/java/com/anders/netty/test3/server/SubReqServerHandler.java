@@ -1,0 +1,37 @@
+package com.anders.netty.test3.server;
+
+import com.anders.netty.test3.api.RequestVO;
+import com.anders.netty.test3.api.ResponseVO;
+
+import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelHandlerContext;
+
+public class SubReqServerHandler extends ChannelHandlerAdapter {
+
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+			throws Exception {
+		ctx.close();
+	}
+
+	@Override
+	public void channelRead(ChannelHandlerContext ctx, Object msg)
+			throws Exception {
+		RequestVO requestVO = (RequestVO) msg;
+		System.out.println(
+				requestVO.getId() + requestVO.getDesc() + requestVO.isOk());
+
+		ResponseVO responseVO = new ResponseVO();
+		responseVO.setId(requestVO.getId());
+		responseVO.setName("zhuzhen");
+		responseVO.setAddress("zhenjiang");
+
+		ctx.writeAndFlush(responseVO);
+	}
+
+	@Override
+	public void channelReadComplete(ChannelHandlerContext ctx)
+			throws Exception {
+		ctx.flush();
+	}
+}
