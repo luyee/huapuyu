@@ -1,0 +1,2 @@
+C:\soft\protoc-2.6.1-win32>protoc --java_out=.\ .\request.proto
+C:\soft\protoc-2.6.1-win32>protoc --java_out=.\ .\response.proto

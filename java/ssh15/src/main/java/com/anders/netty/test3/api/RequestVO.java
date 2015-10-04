@@ -7,8 +7,8 @@ public class RequestVO implements Serializable {
 	private static final long serialVersionUID = 1250261178519899650L;
 
 	private Long id;
-	private Boolean ok;
-	private String desc;
+	private String name;
+	private String address;
 
 	public Long getId() {
 		return id;
@@ -18,19 +18,20 @@ public class RequestVO implements Serializable {
 		this.id = id;
 	}
 
-	public Boolean isOk() {
-		return ok;
+	public String getName() {
+		return name;
 	}
 
-	public void setOk(Boolean ok) {
-		this.ok = ok;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setAddress(String address) {
+		this.address = address;
 	}
+
 }

@@ -7,8 +7,8 @@ public class ResponseVO implements Serializable {
 	private static final long serialVersionUID = 6398690335298318681L;
 
 	private Long id;
-	private String name;
-	private String address;
+	private Boolean ok;
+	private String desc;
 
 	public Long getId() {
 		return id;
@@ -18,19 +18,19 @@ public class ResponseVO implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Boolean isOk() {
+		return ok;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setOk(Boolean ok) {
+		this.ok = ok;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getDesc() {
+		return desc;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 }

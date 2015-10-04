@@ -18,13 +18,13 @@ public class SubReqServerHandler extends ChannelHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg)
 			throws Exception {
 		RequestVO requestVO = (RequestVO) msg;
-		System.out.println(
-				requestVO.getId() + requestVO.getDesc() + requestVO.isOk());
+		System.out.println(String.format("%d %s %s", requestVO.getId(),
+				requestVO.getName(), requestVO.getAddress()));
 
 		ResponseVO responseVO = new ResponseVO();
 		responseVO.setId(requestVO.getId());
-		responseVO.setName("zhuzhen");
-		responseVO.setAddress("zhenjiang");
+		responseVO.setOk(true);
+		responseVO.setDesc("请求成功");
 
 		ctx.writeAndFlush(responseVO);
 	}

@@ -19,8 +19,8 @@ public class SubReqClientHandler extends ChannelHandlerAdapter {
 		for (long i = 0; i < 100; i++) {
 			RequestVO requestVO = new RequestVO();
 			requestVO.setId(i);
-			requestVO.setOk(true);
-			requestVO.setDesc("java序列化");
+			requestVO.setName("Anders");
+			requestVO.setAddress("镇江");
 			ctx.writeAndFlush(requestVO);
 		}
 	}
@@ -29,7 +29,9 @@ public class SubReqClientHandler extends ChannelHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg)
 			throws Exception {
 		ResponseVO responseVO = (ResponseVO) msg;
-		System.out.println(responseVO.getId() + responseVO.getName()
-				+ responseVO.getAddress());
+		if (responseVO.isOk()) {
+			System.out.println(String.format("%d %s", responseVO.getId(),
+					responseVO.getDesc()));
+		}
 	}
 }

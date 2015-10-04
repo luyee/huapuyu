@@ -1,0 +1,29 @@
+package netty;
+
+option java_package = "com.anders.netty.protobuf.protos";
+option java_outer_classname = "ResponseProtos";
+
+message Response {
+  //required int32 id = 1;
+  required int64 id = 1;
+  required bool ok = 2;
+  required string desc = 3;
+
+  //enum PhoneType {
+  //  MOBILE = 0;
+  //  HOME = 1;
+  //  WORK = 2;
+  //}
+
+  //message PhoneNumber {
+  //  required string number = 1;
+  //  required PhoneType type = 2;
+  //}
+
+  //repeated PhoneNumber phones = 4;
+}
+
+// Our address book file is just one of these.
+//message AddressBook {
+//  repeated Person people = 1;
+//}
