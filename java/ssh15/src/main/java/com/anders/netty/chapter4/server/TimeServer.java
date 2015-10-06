@@ -1,4 +1,4 @@
-package com.anders.netty.test3.server;
+package com.anders.netty.chapter4.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -8,13 +8,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.serialization.ClassResolvers;
-import io.netty.handler.codec.serialization.ObjectDecoder;
-import io.netty.handler.codec.serialization.ObjectEncoder;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
 
-public class SubReqServer {
+public class TimeServer {
 	public void bind(int port) throws Exception {
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -24,7 +21,6 @@ public class SubReqServer {
 			sb.group(bossGroup, workerGroup)
 					.channel(NioServerSocketChannel.class)
 					.option(ChannelOption.SO_BACKLOG, 1024)
-					.handler(new LoggingHandler(LogLevel.INFO))
 					.childHandler(new ChildChannelHandler());
 
 			ChannelFuture cf = sb.bind(port).sync();
@@ -39,16 +35,13 @@ public class SubReqServer {
 			extends ChannelInitializer<SocketChannel> {
 		@Override
 		protected void initChannel(SocketChannel arg0) throws Exception {
-			arg0.pipeline()
-					.addLast(new ObjectDecoder(1024 * 1024,
-							ClassResolvers.weakCachingConcurrentResolver(
-									this.getClass().getClassLoader())));
-			arg0.pipeline().addLast(new ObjectEncoder());
-			arg0.pipeline().addLast(new SubReqServerHandler());
+			arg0.pipeline().addLast(new LineBasedFrameDecoder(1024));
+			arg0.pipeline().addLast(new StringDecoder());
+			arg0.pipeline().addLast(new TimeServerHandler());
 		}
 	}
 
 	public static void main(String[] args) throws Exception {
-		new SubReqServer().bind(8080);
+		new TimeServer().bind(8080);
 	}
 }

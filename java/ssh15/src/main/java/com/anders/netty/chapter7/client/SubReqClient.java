@@ -1,4 +1,4 @@
-package com.anders.netty.test1.client;
+package com.anders.netty.chapter7.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -8,10 +8,11 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LineBasedFrameDecoder;
-import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.serialization.ClassResolvers;
+import io.netty.handler.codec.serialization.ObjectDecoder;
+import io.netty.handler.codec.serialization.ObjectEncoder;
 
-public class TimeClient {
+public class SubReqClient {
 	public void connect(int port, String host) throws Exception {
 		EventLoopGroup group = new NioEventLoopGroup();
 		try {
@@ -31,20 +32,14 @@ public class TimeClient {
 			extends ChannelInitializer<SocketChannel> {
 		@Override
 		protected void initChannel(SocketChannel arg0) throws Exception {
-			arg0.pipeline().addLast(new LineBasedFrameDecoder(1024));
-			arg0.pipeline().addLast(new StringDecoder());
-			arg0.pipeline().addLast(new TimeClientHandler());
+			arg0.pipeline().addLast(new ObjectDecoder(1024, ClassResolvers
+					.cacheDisabled(this.getClass().getClassLoader())));
+			arg0.pipeline().addLast(new ObjectEncoder());
+			arg0.pipeline().addLast(new SubReqClientHandler());
 		}
 	}
 
 	public static void main(String[] args) throws Exception {
-		// 13 CR 回车
-		// 10 LF 换行
-		// byte[] bytes = System.getProperty("line.separator").getBytes();
-		// for (byte b : bytes) {
-		// System.out.println(b);
-		// }
-
-		new TimeClient().connect(8080, "127.0.0.1");
+		new SubReqClient().connect(8080, "127.0.0.1");
 	}
 }

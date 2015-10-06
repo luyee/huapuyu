@@ -1,7 +1,7 @@
-package com.anders.netty.test3.client;
+package com.anders.netty.chapter7.client;
 
-import com.anders.netty.test3.api.RequestVO;
-import com.anders.netty.test3.api.ResponseVO;
+import com.anders.netty.chapter7.api.RequestVO;
+import com.anders.netty.chapter7.api.ResponseVO;
 
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;

@@ -1,4 +1,4 @@
-package com.anders.netty.test1.server;
+package com.anders.netty.chapter4.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

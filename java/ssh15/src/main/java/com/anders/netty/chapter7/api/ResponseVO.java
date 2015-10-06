@@ -1,4 +1,4 @@
-package com.anders.netty.test3.api;
+package com.anders.netty.chapter7.api;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.anders.netty.test2.client;
+package com.anders.netty.chapter5.client;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
