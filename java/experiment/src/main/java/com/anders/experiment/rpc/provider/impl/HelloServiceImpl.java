@@ -1,9 +1,12 @@
 package com.anders.experiment.rpc.provider.impl;
 
+import org.springframework.stereotype.Component;
+
 import com.anders.experiment.rpc.api.HelloService;
 import com.anders.experiment.rpc.server.RpcService;
 
-@RpcService(HelloService.class) // 指定远程接口
+@Component
+@RpcService(HelloService.class)
 public class HelloServiceImpl implements HelloService {
 
 	@Override

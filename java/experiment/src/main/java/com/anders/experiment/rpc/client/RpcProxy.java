@@ -24,13 +24,15 @@ public class RpcProxy {
 
 	@SuppressWarnings("unchecked")
 	public <T> T create(Class<?> interfaceClass) {
-		return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[] { interfaceClass },
-				new InvocationHandler() {
+		return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(),
+				new Class<?>[] { interfaceClass }, new InvocationHandler() {
 					@Override
-					public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+					public Object invoke(Object proxy, Method method,
+							Object[] args) throws Throwable {
 						RpcRequest request = new RpcRequest(); // 创建并初始化 RPC 请求
 						request.setRequestId(UUID.randomUUID().toString());
-						request.setClassName(method.getDeclaringClass().getName());
+						request.setClassName(method.getDeclaringClass()
+								.getName());
 						request.setMethodName(method.getName());
 						request.setParameterTypes(method.getParameterTypes());
 						request.setParameters(args);

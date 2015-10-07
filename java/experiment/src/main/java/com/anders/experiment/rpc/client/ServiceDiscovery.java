@@ -18,7 +18,8 @@ import io.netty.util.internal.ThreadLocalRandom;
 
 public class ServiceDiscovery {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceDiscovery.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ServiceDiscovery.class);
 
 	private CountDownLatch latch = new CountDownLatch(1);
 
@@ -53,14 +54,15 @@ public class ServiceDiscovery {
 	private ZooKeeper connectServer() {
 		ZooKeeper zk = null;
 		try {
-			zk = new ZooKeeper(registryAddress, Constant.ZK_SESSION_TIMEOUT, new Watcher() {
-				@Override
-				public void process(WatchedEvent event) {
-					if (event.getState() == Event.KeeperState.SyncConnected) {
-						latch.countDown();
-					}
-				}
-			});
+			zk = new ZooKeeper(registryAddress, Constant.ZK_SESSION_TIMEOUT,
+					new Watcher() {
+						@Override
+						public void process(WatchedEvent event) {
+							if (event.getState() == Event.KeeperState.SyncConnected) {
+								latch.countDown();
+							}
+						}
+					});
 			latch.await();
 		} catch (IOException | InterruptedException e) {
 			LOGGER.error("", e);
@@ -70,17 +72,19 @@ public class ServiceDiscovery {
 
 	private void watchNode(final ZooKeeper zk) {
 		try {
-			List<String> nodeList = zk.getChildren(Constant.ZK_REGISTRY_PATH, new Watcher() {
-				@Override
-				public void process(WatchedEvent event) {
-					if (event.getType() == Event.EventType.NodeChildrenChanged) {
-						watchNode(zk);
-					}
-				}
-			});
+			List<String> nodeList = zk.getChildren(Constant.ZK_REGISTRY_PATH,
+					new Watcher() {
+						@Override
+						public void process(WatchedEvent event) {
+							if (event.getType() == Event.EventType.NodeChildrenChanged) {
+								watchNode(zk);
+							}
+						}
+					});
 			List<String> dataList = new ArrayList<>();
 			for (String node : nodeList) {
-				byte[] bytes = zk.getData(Constant.ZK_REGISTRY_PATH + "/" + node, false, null);
+				byte[] bytes = zk.getData(Constant.ZK_REGISTRY_PATH + "/"
+						+ node, false, null);
 				dataList.add(new String(bytes));
 			}
 			LOGGER.debug("node data: {}", dataList);
