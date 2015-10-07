@@ -16,6 +16,7 @@ public class RpcEncoder extends MessageToByteEncoder {
 	public void encode(ChannelHandlerContext ctx, Object in, ByteBuf out) throws Exception {
 		if (genericClass.isInstance(in)) {
 			byte[] data = SerializationUtil.serialize(in);
+			// 先写四字节长度
 			out.writeInt(data.length);
 			out.writeBytes(data);
 		}

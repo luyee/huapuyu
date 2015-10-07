@@ -1,10 +1,10 @@
 package com.anders.experiment.rpc.common;
 
-import java.util.List;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+
+import java.util.List;
 
 public class RpcDecoder extends ByteToMessageDecoder {
 
@@ -24,6 +24,7 @@ public class RpcDecoder extends ByteToMessageDecoder {
 		if (dataLength < 0) {
 			ctx.close();
 		}
+		// 会不会出现拆包和粘包问题
 		if (in.readableBytes() < dataLength) {
 			in.resetReaderIndex();
 		}
