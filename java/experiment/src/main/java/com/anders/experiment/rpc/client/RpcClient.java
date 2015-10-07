@@ -3,10 +3,10 @@ package com.anders.experiment.rpc.client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.anders.experiment.rpc.server.util.RpcDecoder;
-import com.anders.experiment.rpc.server.util.RpcEncoder;
-import com.anders.experiment.rpc.server.util.RpcRequest;
-import com.anders.experiment.rpc.server.util.RpcResponse;
+import com.anders.experiment.rpc.common.RpcDecoder;
+import com.anders.experiment.rpc.common.RpcEncoder;
+import com.anders.experiment.rpc.common.RpcRequest;
+import com.anders.experiment.rpc.common.RpcResponse;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -63,14 +63,9 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse> {
 						public void initChannel(SocketChannel channel)
 								throws Exception {
 							channel.pipeline()
-									.addLast(new RpcEncoder(RpcRequest.class)) // 将
-																				// RPC
-																				// 请求进行编码（为了发送请求）
-									.addLast(new RpcDecoder(RpcResponse.class)) // 将
-																				// RPC
-																				// 响应进行解码（为了处理响应）
-									.addLast(RpcClient.this); // 使用 RpcClient 发送
-																// RPC 请求
+									.addLast(new RpcEncoder(RpcRequest.class)) 
+									.addLast(new RpcDecoder(RpcResponse.class))
+									.addLast(RpcClient.this); 
 						}
 					}).option(ChannelOption.SO_KEEPALIVE, true);
 

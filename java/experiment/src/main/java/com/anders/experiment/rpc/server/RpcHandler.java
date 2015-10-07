@@ -5,8 +5,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.anders.experiment.rpc.server.util.RpcRequest;
-import com.anders.experiment.rpc.server.util.RpcResponse;
+import com.anders.experiment.rpc.common.RpcRequest;
+import com.anders.experiment.rpc.common.RpcResponse;
 
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;

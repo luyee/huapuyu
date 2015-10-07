@@ -3,8 +3,8 @@ package com.anders.experiment.rpc.client;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
-import com.anders.experiment.rpc.server.util.RpcRequest;
-import com.anders.experiment.rpc.server.util.RpcResponse;
+import com.anders.experiment.rpc.common.RpcRequest;
+import com.anders.experiment.rpc.common.RpcResponse;
 
 import net.sf.cglib.proxy.InvocationHandler;
 import net.sf.cglib.proxy.Proxy;

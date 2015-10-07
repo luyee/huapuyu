@@ -1,4 +1,4 @@
-package com.anders.experiment.rpc.server.util;
+package com.anders.experiment.rpc.common;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

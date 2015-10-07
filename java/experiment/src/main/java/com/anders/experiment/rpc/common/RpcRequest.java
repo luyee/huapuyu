@@ -1,4 +1,4 @@
-package com.anders.experiment.rpc.server.util;
+package com.anders.experiment.rpc.common;
 
 public class RpcRequest {
 

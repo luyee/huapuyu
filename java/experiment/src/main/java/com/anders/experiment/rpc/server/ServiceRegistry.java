@@ -12,7 +12,7 @@ import org.apache.zookeeper.ZooKeeper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.anders.experiment.rpc.server.util.Constant;
+import com.anders.experiment.rpc.common.Constant;
 
 public class ServiceRegistry {
 

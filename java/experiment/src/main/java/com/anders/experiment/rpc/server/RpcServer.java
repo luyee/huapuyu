@@ -11,10 +11,10 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import com.anders.experiment.rpc.server.util.RpcDecoder;
-import com.anders.experiment.rpc.server.util.RpcEncoder;
-import com.anders.experiment.rpc.server.util.RpcRequest;
-import com.anders.experiment.rpc.server.util.RpcResponse;
+import com.anders.experiment.rpc.common.RpcDecoder;
+import com.anders.experiment.rpc.common.RpcEncoder;
+import com.anders.experiment.rpc.common.RpcRequest;
+import com.anders.experiment.rpc.common.RpcResponse;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -48,11 +48,8 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
 	public void setApplicationContext(ApplicationContext ctx)
 			throws BeansException {
 		Map<String, Object> serviceBeanMap = ctx
-				.getBeansWithAnnotation(RpcService.class); // 获取所有带有
-															// RpcService
-															// 注解的
-															// Spring
-															// Bean
+				.getBeansWithAnnotation(RpcService.class); 
+		
 		if (MapUtils.isNotEmpty(serviceBeanMap)) {
 			for (Object serviceBean : serviceBeanMap.values()) {
 				String interfaceName = serviceBean.getClass()
@@ -75,16 +72,9 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
 						public void initChannel(SocketChannel channel)
 								throws Exception {
 							channel.pipeline()
-									.addLast(new RpcDecoder(RpcRequest.class)) // 将
-																				// RPC
-																				// 请求进行解码（为了处理请求）
-									.addLast(new RpcEncoder(RpcResponse.class)) // 将
-																				// RPC
-																				// 响应进行编码（为了返回响应）
-									.addLast(new RpcHandler(handlerMap)); // 处理
-																			// RPC
-																			// 请求
-						}
+									.addLast(new RpcDecoder(RpcRequest.class)) 
+									.addLast(new RpcEncoder(RpcResponse.class))
+									.addLast(new RpcHandler(handlerMap)); 						}
 					}).option(ChannelOption.SO_BACKLOG, 128)
 					.childOption(ChannelOption.SO_KEEPALIVE, true);
 
