@@ -3,7 +3,7 @@ package com.anders.experiment.rpc.provider.impl;
 import org.springframework.stereotype.Component;
 
 import com.anders.experiment.rpc.api.HelloService;
-import com.anders.experiment.rpc.server.RpcService;
+import com.anders.experiment.rpc.common.RpcService;
 
 @Component
 @RpcService(HelloService.class)

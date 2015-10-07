@@ -1,4 +1,4 @@
-package com.anders.experiment.rpc.server;
+package com.anders.experiment.rpc.common;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
