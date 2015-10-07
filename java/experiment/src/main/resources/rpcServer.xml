@@ -15,20 +15,27 @@
 		http://www.springframework.org/schema/util/spring-util-4.0.xsd"
 	default-autowire="byName">
 
+	<context:component-scan base-package="com.anders.experiment.rpc" />
 
-	<context:component-scan base-package="com.anders.experiment.rpc"/>
+	<!-- 本项目是spring3，网上rpc代码所用版本为spring4，所以下面简化配置不能用 -->
+	<!-- 
+	<context:property-placeholder location="classpath:rpcServer.properties" />
+	-->
+	
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:rpcServer.properties</value>
+			</list>
+		</property>
+	</bean> 
 
-    <context:property-placeholder location="classpath:server.properties"/>
+	<bean id="serviceRegistry" class="com.anders.experiment.rpc.server.ServiceRegistry">
+		<constructor-arg name="registryAddress" value="${registry.address}" />
+	</bean>
 
-    <!-- 配置服务注册组件 -->
-    <bean id="serviceRegistry" class="com.xxx.rpc.registry.ServiceRegistry">
-        <constructor-arg name="registryAddress" value="${registry.address}"/>
-    </bean>
-
-    <!-- 配置 RPC 服务器 -->
-    <bean id="rpcServer" class="com.xxx.rpc.server.RpcServer">
-        <constructor-arg name="serverAddress" value="${server.address}"/>
-        <constructor-arg name="serviceRegistry" ref="serviceRegistry"/>
-    </bean>
-
+	<bean id="rpcServer" class="com.anders.experiment.rpc.server.RpcServer">
+		<constructor-arg name="serverAddress" value="${server.address}" />
+		<constructor-arg name="serviceRegistry" ref="serviceRegistry" />
+	</bean>
 </beans>

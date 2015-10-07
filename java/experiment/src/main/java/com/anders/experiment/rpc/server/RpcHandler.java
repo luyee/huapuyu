@@ -16,7 +16,8 @@ import net.sf.cglib.reflect.FastMethod;
 
 public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RpcHandler.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(RpcHandler.class);
 
 	private final Map<String, Object> handlerMap;
 
@@ -25,7 +26,8 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
 	}
 
 	@Override
-	public void channelRead0(final ChannelHandlerContext ctx, RpcRequest request) throws Exception {
+	public void channelRead0(final ChannelHandlerContext ctx, RpcRequest request)
+			throws Exception {
 		RpcResponse response = new RpcResponse();
 		response.setRequestId(request.getRequestId());
 		try {
@@ -53,7 +55,8 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
 		 */
 
 		FastClass serviceFastClass = FastClass.create(serviceClass);
-		FastMethod serviceFastMethod = serviceFastClass.getMethod(methodName, parameterTypes);
+		FastMethod serviceFastMethod = serviceFastClass.getMethod(methodName,
+				parameterTypes);
 		return serviceFastMethod.invoke(serviceBean, parameters);
 	}
 

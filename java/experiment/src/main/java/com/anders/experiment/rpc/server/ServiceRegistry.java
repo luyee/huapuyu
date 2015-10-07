@@ -16,7 +16,8 @@ import com.anders.experiment.rpc.server.util.Constant;
 
 public class ServiceRegistry {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceRegistry.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ServiceRegistry.class);
 
 	private CountDownLatch latch = new CountDownLatch(1);
 
@@ -38,14 +39,15 @@ public class ServiceRegistry {
 	private ZooKeeper connectServer() {
 		ZooKeeper zk = null;
 		try {
-			zk = new ZooKeeper(registryAddress, Constant.ZK_SESSION_TIMEOUT, new Watcher() {
-				@Override
-				public void process(WatchedEvent event) {
-					if (event.getState() == Event.KeeperState.SyncConnected) {
-						latch.countDown();
-					}
-				}
-			});
+			zk = new ZooKeeper(registryAddress, Constant.ZK_SESSION_TIMEOUT,
+					new Watcher() {
+						@Override
+						public void process(WatchedEvent event) {
+							if (event.getState() == Event.KeeperState.SyncConnected) {
+								latch.countDown();
+							}
+						}
+					});
 			latch.await();
 		} catch (IOException | InterruptedException e) {
 			LOGGER.error("", e);
@@ -56,7 +58,8 @@ public class ServiceRegistry {
 	private void createNode(ZooKeeper zk, String data) {
 		try {
 			byte[] bytes = data.getBytes();
-			String path = zk.create(Constant.ZK_DATA_PATH, bytes, ZooDefs.Ids.OPEN_ACL_UNSAFE,
+			String path = zk.create(Constant.ZK_DATA_PATH, bytes,
+					ZooDefs.Ids.OPEN_ACL_UNSAFE,
 					CreateMode.EPHEMERAL_SEQUENTIAL);
 			LOGGER.debug("create zookeeper node ({} => {})", path, data);
 		} catch (KeeperException | InterruptedException e) {
