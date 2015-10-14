@@ -17,7 +17,6 @@ import net.spy.memcached.ConnectionFactoryBuilder.Protocol;
 import net.spy.memcached.DefaultHashAlgorithm;
 import net.spy.memcached.FailureMode;
 import net.spy.memcached.MemcachedClient;
-import net.spy.memcached.transcoders.WhalinV1Transcoder;
 
 public class MemcachedTest {
 	public void test1() {
@@ -48,6 +47,9 @@ public class MemcachedTest {
 
 	@Test
 	public void test2() {
+		// List<InetSocketAddress> addrs =
+		// AddrUtil.getAddresses("10.101.137.135:11212,10.101.137.135:11213");
+
 		InetSocketAddress node1 = new InetSocketAddress("10.101.137.135", 11212);
 		InetSocketAddress node2 = new InetSocketAddress("10.101.137.135", 11213);
 		InetSocketAddress node3 = new InetSocketAddress("10.101.137.135", 11214);
@@ -68,29 +70,31 @@ public class MemcachedTest {
 		ConnectionFactoryBuilder builder = new ConnectionFactoryBuilder();
 		builder.setTimeoutExceptionThreshold(1998);
 		// builder.setMaxReconnectDelay(1);
+		builder.setDaemon(true);
 		builder.setProtocol(Protocol.BINARY);
 		builder.setFailureMode(FailureMode.Redistribute);
-		builder.setTranscoder(new WhalinV1Transcoder());
+		// builder.setTranscoder(new WhalinV1Transcoder());
 		builder.setHashAlg(DefaultHashAlgorithm.KETAMA_HASH);
 		builder.setLocatorType(Locator.CONSISTENT);
-		builder.setUseNagleAlgorithm(false);
+		// builder.setUseNagleAlgorithm(false);
+		// builder.setOpTimeout(1);
 		ConnectionFactory cf = builder.build();
 		MemcachedClient mc = null;
 		try {
 			mc = new MemcachedClient(cf, addrs);
+
+			mc.set("1", 1000, "eric.sun");
+			mc.set("name", 1000, "eric.sun");
+			mc.set("sunxien", 1000, "eric.sun");
+			mc.set("zhuzhen", 1000, "eric.sun");
+			mc.set("wangzhen", 1000, "eric.sun");
+			mc.set("lusong", 1000, "eric.sun");
+			mc.set("songlaoshi", 1000, "eric.sun");
+			mc.set("yaolaoban", 1000, "eric.sun");
+			mc.set("fage", 1000, "eric.sun");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mc.set("1", 1000, "eric.sun");
-		mc.set("name", 1000, "eric.sun");
-		mc.set("sunxien", 1000, "eric.sun");
-		mc.set("zhuzhen", 1000, "eric.sun");
-		mc.set("wangzhen", 1000, "eric.sun");
-		mc.set("lusong", 1000, "eric.sun");
-		mc.set("songlaoshi", 1000, "eric.sun");
-		mc.set("yaolaoban", 1000, "eric.sun");
-		mc.set("fage", 1000, "eric.sun");
 	}
 
 	public void test3() throws Exception {
