@@ -18,8 +18,10 @@ public class ClientRun {
 
 	@Test
 	public void helloTest() {
+		// for (int i = 0; i < 3; i++) {
 		HelloService helloService = rpcProxy.create(HelloService.class);
 		String result = helloService.hello("World");
 		Assert.assertEquals("Hello! World", result);
+		// }
 	}
 }

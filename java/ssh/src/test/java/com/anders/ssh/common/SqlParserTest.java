@@ -10,6 +10,7 @@ import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.insert.Insert;
 import net.sf.jsqlparser.statement.select.AllColumns;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 import net.sf.jsqlparser.statement.select.Select;
@@ -86,5 +87,27 @@ public class SqlParserTest {
 		for (String table : tableList) {
 			System.out.println(table);
 		}
+	}
+	
+	@Test
+	public void test3() throws JSQLParserException {
+		Statement statement = CCJSqlParserUtil.parse("/* hint force */ SELECT *, currenttime() FROM tbuser where name = '中文 ' limit 10,10");
+		if (statement instanceof Select) {
+			System.out.println("true");
+		}
+		Select selectStatement = (Select) statement;
+		System.out.println(selectStatement.getSelectBody());
+		
+		TablesNamesFinder tablesNamesFinder = new TablesNamesFinder();
+
+		List<String> tableList = tablesNamesFinder.getTableList(selectStatement);
+		for (String table : tableList) {
+			System.out.println(table);
+		}
+	}
+	
+	@Test(expected=JSQLParserException.class)
+	public void test4() throws JSQLParserException {
+		Statement statement = CCJSqlParserUtil.parse("INSERT INTO table1 (a,c) VALUES (1,3) ON DUPLICATE KEY UPDATE c=c+1");
 	}
 }
