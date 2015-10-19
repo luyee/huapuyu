@@ -13,9 +13,9 @@
 				.getPropertyValues()
 				.addPropertyValue(
 						"url",
-						"jdbc:mysql://10.101.18.72:3306/db1_slave1?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
-		beanDefinition.getPropertyValues().addPropertyValue("username", "vipuser");
-		beanDefinition.getPropertyValues().addPropertyValue("password", "xR54PUU8GWia");
+						"jdbc:mysql://127.0.0.1:3306/db1_slave1?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
+		beanDefinition.getPropertyValues().addPropertyValue("username", "root");
+		beanDefinition.getPropertyValues().addPropertyValue("password", "123");
 		beanDefinition.getPropertyValues().addPropertyValue("driverClassName", "com.mysql.jdbc.Driver");
 
 		DefaultListableBeanFactory acf = (DefaultListableBeanFactory) applicationContext

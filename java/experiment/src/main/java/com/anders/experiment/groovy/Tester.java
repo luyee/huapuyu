@@ -25,8 +25,8 @@ public class Tester {
 
 	public static String getGroovyRuleEngine() {
 		StringBuilder sb = new StringBuilder();
-		// sb.append("package com.vip.venus.jdbc.rule;");
-		// sb.append("import com.vip.venus.jdbc.rule.RuleEngine;");
+		// sb.append("package com.anders.jdbc.rule;");
+		// sb.append("import com.anders.jdbc.rule.RuleEngine;");
 		sb.append("class GroovyRuleEngine");
 		sb.append("{");
 		// sb.append("@Override\r\n");

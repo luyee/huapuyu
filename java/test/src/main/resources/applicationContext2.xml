@@ -35,18 +35,18 @@
 		</property>
 	</bean>
 <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.vip.jdbc.test.repository" />
+		<property name="basePackage" value="com.anders.jdbc.test.repository" />
 		<property name="sqlSessionFactoryBeanName" value="msqlSessionFactory" />
 	</bean>
 	
 	<bean id="msqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource222" />
-		<property name="typeAliasesPackage" value="com.vip.jdbc.test.entity" />
-		<property name="mapperLocations" value="classpath*:com/vip/jdbc/test/mapper/*Mapper.xml" />
+		<property name="typeAliasesPackage" value="com.anders.jdbc.test.entity" />
+		<property name="mapperLocations" value="classpath*:com/anders/jdbc/test/mapper/*Mapper.xml" />
 	</bean>
 	
-	<context:component-scan base-package="com.vip.jdbc.test.service" />
-	<context:component-scan base-package="com.vip.jdbc.test.repository" />
+	<context:component-scan base-package="com.anders.jdbc.test.service" />
+	<context:component-scan base-package="com.anders.jdbc.test.repository" />
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource222" />

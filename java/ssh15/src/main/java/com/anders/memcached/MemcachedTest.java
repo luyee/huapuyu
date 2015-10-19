@@ -48,14 +48,15 @@ public class MemcachedTest {
 	@Test
 	public void test2() {
 		// List<InetSocketAddress> addrs =
-		// AddrUtil.getAddresses("10.101.137.135:11212,10.101.137.135:11213");
+		// AddrUtil.getAddresses("127.0.0.1:11212,127.0.0.1:11213");
 
-		InetSocketAddress node1 = new InetSocketAddress("10.101.137.135", 11212);
-		InetSocketAddress node2 = new InetSocketAddress("10.101.137.135", 11213);
-		InetSocketAddress node3 = new InetSocketAddress("10.101.137.135", 11214);
-		InetSocketAddress node4 = new InetSocketAddress("10.101.137.135", 11215);
-		InetSocketAddress node5 = new InetSocketAddress("10.101.137.135", 11216);
-		InetSocketAddress node6 = new InetSocketAddress("10.101.137.135", 11217);
+		InetSocketAddress node1 = new InetSocketAddress("127.0.0.1", 11212);
+		InetSocketAddress node2 = new InetSocketAddress("127.0.0.1", 11213);
+		InetSocketAddress node3 = new InetSocketAddress("127.0.0.1", 11214);
+		InetSocketAddress node4 = new InetSocketAddress("127.0.0.1", 11215);
+		InetSocketAddress node5 = new InetSocketAddress("127.0.0.1", 11216);
+		InetSocketAddress node6 = new InetSocketAddress("127.0.0.1", 11217);
+
 		List<InetSocketAddress> addrs = new ArrayList<InetSocketAddress>();
 		addrs.add(node1);
 		addrs.add(node2);
@@ -99,9 +100,9 @@ public class MemcachedTest {
 
 	public void test3() throws Exception {
 		Map<InetSocketAddress, InetSocketAddress> addressMap = new HashMap<InetSocketAddress, InetSocketAddress>();
-		InetSocketAddress node1 = new InetSocketAddress("10.101.137.135", 11212);
-		InetSocketAddress node2 = new InetSocketAddress("10.101.137.135", 11213);
-		InetSocketAddress node3 = new InetSocketAddress("10.101.137.135", 11214);
+		InetSocketAddress node1 = new InetSocketAddress("127.0.0.1", 11212);
+		InetSocketAddress node2 = new InetSocketAddress("127.0.0.1", 11213);
+		InetSocketAddress node3 = new InetSocketAddress("127.0.0.1", 11214);
 		addressMap.put(node1, null);
 		addressMap.put(node2, null);
 		addressMap.put(node3, null);

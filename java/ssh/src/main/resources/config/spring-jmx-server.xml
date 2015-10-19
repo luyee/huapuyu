@@ -50,7 +50,7 @@
 			<value>connector:name=rmi</value>
 		</property>
 		<property name="serviceUrl">
-			<value>service:jmx:rmi://10.101.139.175/jndi/rmi://10.101.139.175:1099/jmxrmi</value>
+			<value>service:jmx:rmi://127.0.0.1/jndi/rmi://127.0.0.1:1099/jmxrmi</value>
 		</property>
 	</bean>
 	<bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean">

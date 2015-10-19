@@ -45,4 +45,10 @@
     	<property name="serviceClass" value="com.anders.ssh.webservice.cxf.ws.SingerService" />
     	<property name="address" value="http://127.0.0.1:5555/ssh/cxf/ws/singer" />
     </bean>
+    
+    <!-- 测试自定义的RMI RPC框架 -->
+    <bean id="andersRmi" class="com.anders.ssh.rmi.client.MyRmiProxyFactoryBean">  
+        <property name="serviceUrl" value="rmi://127.0.0.1:1199/AndersRmi" />  
+        <property name="serviceInterface" value="com.anders.ssh.rmi.AndersRmi" />  
+    </bean>
 </beans>

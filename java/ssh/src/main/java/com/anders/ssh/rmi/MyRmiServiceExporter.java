@@ -14,7 +14,7 @@ public class MyRmiServiceExporter extends RmiServiceExporter {
 	@Override
 	protected Object invoke(RemoteInvocation invocation, Object targetObject) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 		System.out.println(invocation.getAttribute("callpk"));
-		logCallPK.setLogCallPK();
+//		logCallPK.setLogCallPK();
 		return super.invoke(invocation, targetObject);
 	}
 

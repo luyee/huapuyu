@@ -9,7 +9,7 @@ public class GetFileFromWar {
 
 	public static void main(String[] args) throws IOException {
 		JarFile jarFile = new JarFile(
-				"e:/venus-samples-bestpractice-webapp.war");
+				"e:/webapp.war");
 		Enumeration<JarEntry> jarEntries = jarFile.entries();
 
 		while (jarEntries.hasMoreElements()) {

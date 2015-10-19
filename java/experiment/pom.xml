@@ -116,6 +116,11 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>3.0.7.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>3.0.7.RELEASE</version>
+		</dependency>
 		
 		<dependency>
 			<groupId>com.googlecode.jmockit</groupId>
@@ -393,7 +398,41 @@
     		<artifactId>metrics-json</artifactId>
     		<version>3.1.2</version>
 		</dependency>
+
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.0.32.Final</version>
+		</dependency>
 		
+		<!-- <dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>5.0.0.Alpha2</version>
+		</dependency> -->
+	
+		<dependency>
+			<groupId>com.dyuproject.protostuff</groupId>
+			<artifactId>protostuff-core</artifactId>
+			<version>1.0.8</version>
+		</dependency>
+		<dependency>
+			<groupId>com.dyuproject.protostuff</groupId>
+			<artifactId>protostuff-runtime</artifactId>
+			<version>1.0.8</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>3.4.6</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>org.objenesis</groupId>
+			<artifactId>objenesis</artifactId>
+			<version>2.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

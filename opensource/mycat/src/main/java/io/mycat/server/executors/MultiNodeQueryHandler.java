@@ -23,6 +23,18 @@
  */
 package io.mycat.server.executors;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.locks.ReentrantLock;
+
+import org.apache.log4j.Logger;
+
 import io.mycat.MycatConfig;
 import io.mycat.backend.BackendConnection;
 import io.mycat.backend.PhysicalDBNode;
@@ -45,25 +57,11 @@ import io.mycat.sqlengine.mpp.ColMeta;
 import io.mycat.sqlengine.mpp.DataMergeService;
 import io.mycat.sqlengine.mpp.MergeCol;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.locks.ReentrantLock;
-
-import org.apache.log4j.Logger;
-
 /**
  * @author mycat
  */
-public class MultiNodeQueryHandler extends MultiNodeHandler implements
-		LoadDataResponseHandler {
-	private static final Logger LOGGER = Logger
-			.getLogger(MultiNodeQueryHandler.class);
+public class MultiNodeQueryHandler extends MultiNodeHandler implements LoadDataResponseHandler {
+	private static final Logger LOGGER = Logger.getLogger(MultiNodeQueryHandler.class);
 
 	private final RouteResultset rrs;
 	private final NonBlockingSession session;
@@ -80,8 +78,7 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 	private int okCount;
 	private final boolean isCallProcedure;
 
-	public MultiNodeQueryHandler(int sqlType, RouteResultset rrs,
-			boolean autocommit, NonBlockingSession session) {
+	public MultiNodeQueryHandler(int sqlType, RouteResultset rrs, boolean autocommit, NonBlockingSession session) {
 		super(session);
 		if (rrs.getNodes() == null) {
 			throw new IllegalArgumentException("routeNode is null!");
@@ -152,8 +149,7 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 
 	@Override
 	public void connectionAcquired(final BackendConnection conn) {
-		final RouteResultsetNode node = (RouteResultsetNode) conn
-				.getAttachment();
+		final RouteResultsetNode node = (RouteResultsetNode) conn.getAttachment();
 		session.bindConnection(node, conn);
 		_execute(conn, node);
 	}
@@ -171,8 +167,7 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 	public void okResponse(byte[] data, BackendConnection conn) {
 		boolean executeResponse = conn.syncAndExcute();
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("received ok response ,executeResponse:"
-					+ executeResponse + " from " + conn);
+			LOGGER.debug("received ok response ,executeResponse:" + executeResponse + " from " + conn);
 		}
 		if (executeResponse) {
 			if (clearIfSessionClosed(session)) {
@@ -192,15 +187,13 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 					affectedRows = ok.affectedRows;
 				}
 				if (ok.insertId > 0) {
-					insertId = (insertId == 0) ? ok.insertId : Math.min(
-							insertId, ok.insertId);
+					insertId = (insertId == 0) ? ok.insertId : Math.min(insertId, ok.insertId);
 				}
 			} finally {
 				lock.unlock();
 			}
 			// 对于存储过程，其比较特殊，查询结果返回EndRow报文以后，还会再返回一个OK报文，才算结束
-			boolean isEndPacket = isCallProcedure ? decrementOkCountBy(1)
-					: decrementCountBy(1);
+			boolean isEndPacket = isCallProcedure ? decrementOkCountBy(1) : decrementCountBy(1);
 			if (isEndPacket) {
 				if (this.autocommit) {// clear all connections
 					session.releaseConnections(false);
@@ -213,11 +206,9 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 				lock.lock();
 				try {
 					if (rrs.isLoadData()) {
-						byte lastPackId = source.getLoadDataInfileHandler()
-								.getLastPackId();
+						byte lastPackId = source.getLoadDataInfileHandler().getLastPackId();
 						ok.packetId = ++lastPackId;// OK_PACKET
-						ok.message = ("Records: " + affectedRows + "  Deleted: 0  Skipped: 0  Warnings: 0")
-								.getBytes();// 此处信息只是为了控制台给人看的
+						ok.message = ("Records: " + affectedRows + "  Deleted: 0  Skipped: 0  Warnings: 0").getBytes();// 此处信息只是为了控制台给人看的
 						source.getLoadDataInfileHandler().clear();
 					} else {
 						ok.packetId = ++packetId;// OK_PACKET
@@ -272,6 +263,7 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 			if (dataMergeSvr != null) {
 				try {
 					dataMergeSvr.outputMergeResult(session, eof);
+					System.out.println("*****************************");
 				} catch (Exception e) {
 					handleDataProcessException(e);
 				}
@@ -292,12 +284,10 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 		}
 	}
 
-	public void outputMergeResult(final MySQLFrontConnection source,
-			final byte[] eof) {
+	public void outputMergeResult(final MySQLFrontConnection source, final byte[] eof) {
 		try {
 			lock.lock();
-			BufferArray bufferArray = NetSystem.getInstance().getBufferPool()
-					.allocateArray();
+			BufferArray bufferArray = NetSystem.getInstance().getBufferPool().allocateArray();
 			final DataMergeService dataMergeService = this.dataMergeSvr;
 			final RouteResultset rrs = dataMergeService.getRrs();
 
@@ -308,8 +298,7 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 			Collection<RowDataPacket> results = dataMergeSvr.getResults(eof);
 			Iterator<RowDataPacket> itor = results.iterator();
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("output merge result ,total data "
-						+ results.size() + " start :" + start + " end :" + end
+				LOGGER.debug("output merge result ,total data " + results.size() + " start :" + start + " end :" + end
 						+ " package id start:" + packetId);
 			}
 
@@ -333,7 +322,6 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("last packet id:" + packetId);
 			}
-			
 
 		} catch (Exception e) {
 			handleDataProcessException(e);
@@ -344,8 +332,7 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 	}
 
 	@Override
-	public void fieldEofResponse(byte[] header, List<byte[]> fields,
-			byte[] eof, BackendConnection conn) {
+	public void fieldEofResponse(byte[] header, List<byte[]> fields, byte[] eof, BackendConnection conn) {
 		MySQLFrontConnection source = null;
 		if (fieldsReturned) {
 			return;
@@ -357,24 +344,18 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 			}
 			fieldsReturned = true;
 
-			boolean needMerg = (dataMergeSvr != null)
-					&& dataMergeSvr.getRrs().needMerge();
+			boolean needMerg = (dataMergeSvr != null) && dataMergeSvr.getRrs().needMerge();
 			Set<String> shouldRemoveAvgField = new HashSet<>();
 			Set<String> shouldRenameAvgField = new HashSet<>();
 			if (needMerg) {
-				Map<String, Integer> mergeColsMap = dataMergeSvr.getRrs()
-						.getMergeCols();
+				Map<String, Integer> mergeColsMap = dataMergeSvr.getRrs().getMergeCols();
 				if (mergeColsMap != null) {
-					for (Map.Entry<String, Integer> entry : mergeColsMap
-							.entrySet()) {
+					for (Map.Entry<String, Integer> entry : mergeColsMap.entrySet()) {
 						String key = entry.getKey();
 						int mergeType = entry.getValue();
-						if (MergeCol.MERGE_AVG == mergeType
-								&& mergeColsMap.containsKey(key + "SUM")) {
-							shouldRemoveAvgField.add((key + "COUNT")
-									.toUpperCase());
-							shouldRenameAvgField.add((key + "SUM")
-									.toUpperCase());
+						if (MergeCol.MERGE_AVG == mergeType && mergeColsMap.containsKey(key + "SUM")) {
+							shouldRemoveAvgField.add((key + "COUNT").toUpperCase());
+							shouldRenameAvgField.add((key + "SUM").toUpperCase());
 						}
 					}
 				}
@@ -382,8 +363,7 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 			}
 
 			source = session.getSource();
-			BufferArray bufferArray = NetSystem.getInstance().getBufferPool()
-					.allocateArray();
+			BufferArray bufferArray = NetSystem.getInstance().getBufferPool().allocateArray();
 			fieldCount = fields.size();
 			if (shouldRemoveAvgField.size() > 0) {
 				ResultSetHeaderPacket packet = new ResultSetHeaderPacket();
@@ -402,8 +382,7 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 				primaryKey = items[1];
 			}
 
-			Map<String, ColMeta> columToIndx = new HashMap<String, ColMeta>(
-					fieldCount);
+			Map<String, ColMeta> columToIndx = new HashMap<String, ColMeta>(fieldCount);
 
 			for (int i = 0, len = fieldCount; i < len; ++i) {
 				boolean shouldSkip = false;
@@ -412,14 +391,12 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 					FieldPacket fieldPkg = new FieldPacket();
 					fieldPkg.read(field);
 					String fieldName = new String(fieldPkg.name).toUpperCase();
-					if (columToIndx != null
-							&& !columToIndx.containsKey(fieldName)) {
+					if (columToIndx != null && !columToIndx.containsKey(fieldName)) {
 						if (shouldRemoveAvgField.contains(fieldName)) {
 							shouldSkip = true;
 						}
 						if (shouldRenameAvgField.contains(fieldName)) {
-							String newFieldName = fieldName.substring(0,
-									fieldName.length() - 3);
+							String newFieldName = fieldName.substring(0, fieldName.length() - 3);
 							fieldPkg.name = newFieldName.getBytes();
 							fieldPkg.packetId = ++packetId;
 							shouldSkip = true;
@@ -427,8 +404,7 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 
 						}
 
-						columToIndx.put(fieldName,
-								new ColMeta(i, fieldPkg.type));
+						columToIndx.put(fieldName, new ColMeta(i, fieldPkg.type));
 					}
 				} else if (primaryKey != null && primaryKeyIndex == -1) {
 					// find primary key index
@@ -477,8 +453,7 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 		lock.lock();
 		try {
 			if (dataMergeSvr != null) {
-				final String dnName = ((RouteResultsetNode) conn
-						.getAttachment()).getName();
+				final String dnName = ((RouteResultsetNode) conn.getAttachment()).getName();
 				dataMergeSvr.onNewRecord(dnName, row);
 
 			} else {
@@ -487,12 +462,9 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 											// dataNode
 					RowDataPacket rowDataPkg = new RowDataPacket(fieldCount);
 					rowDataPkg.read(row);
-					String primaryKey = new String(
-							rowDataPkg.fieldValues.get(primaryKeyIndex));
-					LayerCachePool pool = MycatServer.getInstance()
-							.getRouterservice().getTableId2DataNodeCache();
-					String dataNode = ((RouteResultsetNode) conn
-							.getAttachment()).getName();
+					String primaryKey = new String(rowDataPkg.fieldValues.get(primaryKeyIndex));
+					LayerCachePool pool = MycatServer.getInstance().getRouterService().getTableId2DataNodeCache();
+					String dataNode = ((RouteResultsetNode) conn.getAttachment()).getName();
 					pool.putIfAbsent(priamaryKeyTable, primaryKey, dataNode);
 				}
 				row[3] = ++packetId;
@@ -514,7 +486,6 @@ public class MultiNodeQueryHandler extends MultiNodeHandler implements
 		}
 	}
 
-	
 	@Override
 	public void requestDataResponse(byte[] data, BackendConnection conn) {
 		LoadDataUtil.requestFileDataResponse(data, (MySQLBackendConnection) conn);
