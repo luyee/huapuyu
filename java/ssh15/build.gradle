@@ -68,6 +68,7 @@ dependencies {
     
     // rabbitmq
     compile group: 'com.rabbitmq', name: 'amqp-client', version: '3.5.3'
+    compile group: 'org.springframework.amqp', name: 'spring-amqp', version: '1.5.1.RELEASE'
     
     // activemq
     compile group: 'org.apache.activemq', name: 'activemq-client', version: '5.11.1'
