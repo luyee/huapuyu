@@ -1,0 +1,2 @@
+send只有exchange（fanout），没有binding和queue
+recv有exchange（fanout）、binding和匿名queue

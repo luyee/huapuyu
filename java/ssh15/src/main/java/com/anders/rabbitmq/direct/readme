@@ -1,0 +1,2 @@
+send只有exchange（direct+routingkey），没有binding和queue
+recv有exchange（direct+routingkey）、binding和匿名queue

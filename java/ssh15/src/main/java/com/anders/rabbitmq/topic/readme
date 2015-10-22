@@ -1,0 +1,2 @@
+send只有exchange（topic），没有binding和queue
+recv有exchange（topic）、binding和匿名queue
