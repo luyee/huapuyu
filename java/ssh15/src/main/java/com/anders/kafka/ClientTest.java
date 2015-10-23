@@ -11,8 +11,6 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.junit.Test;
-
 import kafka.api.FetchRequest;
 import kafka.api.FetchRequestBuilder;
 import kafka.api.PartitionOffsetRequestInfo;
@@ -34,6 +32,8 @@ import kafka.javaapi.producer.Producer;
 import kafka.message.MessageAndOffset;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
+
+import org.junit.Test;
 
 // 参考kafka例子jar
 public class ClientTest {
@@ -67,7 +67,8 @@ public class ClientTest {
 			// String ip = "192.168.2." + i;// rnd.nextInt(255);
 			// String msg = runtime + ",www.example.com," + ip;
 			// 如果topic不存在，则会自动创建，默认replication-factor为1，partitions为0
-			KeyedMessage<String, String> data = new KeyedMessage<String, String>("anders1", i + "", i + "\thelloworld");
+			KeyedMessage<String, String> data = new KeyedMessage<String, String>(
+					"anders1", i + "", i + "\thelloworld");
 			producer.send(data);
 		}
 		System.out.println("耗时:" + (System.currentTimeMillis() - start));
@@ -85,11 +86,13 @@ public class ClientTest {
 		// props.put("auto.commit.interval.ms", "1000");
 		ConsumerConfig config = new ConsumerConfig(props);
 
-		ConsumerConnector consumer = Consumer.createJavaConsumerConnector(config);
+		ConsumerConnector consumer = Consumer
+				.createJavaConsumerConnector(config);
 
 		Map<String, Integer> topicCountMap = new HashMap<String, Integer>();
 		topicCountMap.put("anders1", new Integer(3));
-		Map<String, List<KafkaStream<byte[], byte[]>>> consumerMap = consumer.createMessageStreams(topicCountMap);
+		Map<String, List<KafkaStream<byte[], byte[]>>> consumerMap = consumer
+				.createMessageStreams(topicCountMap);
 		List<KafkaStream<byte[], byte[]>> streams = consumerMap.get("anders1");
 
 		// now launch all the threads
@@ -114,8 +117,8 @@ public class ClientTest {
 	public void consumer1() throws Exception {
 
 		String topic = "anders1";
-		int partition = 3;
-		String brokers = "lu1:9092,lu2:9092,lu3:9092";
+		int partition = 1;
+		String brokers = "lu1:9092";
 		int maxReads = 100; // 读多少条数据
 		// 1.找leader
 		PartitionMetadata metadata = null;
@@ -124,7 +127,8 @@ public class ClientTest {
 			SimpleConsumer consumer = null;
 			try {
 				String[] ipPortArray = ipPort.split(":");
-				consumer = new SimpleConsumer(ipPortArray[0], Integer.parseInt(ipPortArray[1]), 100000, 64 * 1024,
+				consumer = new SimpleConsumer(ipPortArray[0],
+						Integer.parseInt(ipPortArray[1]), 100000, 64 * 1024,
 						"leaderLookup");
 				List<String> topics = new ArrayList<String>();
 				topics.add(topic);
@@ -145,8 +149,9 @@ public class ClientTest {
 					}
 				}
 			} catch (Exception e) {
-				System.out.println("Error communicating with Broker [" + ipPort + "] to find Leader for [" + topic
-						+ ", " + partition + "] Reason: " + e);
+				System.out.println("Error communicating with Broker [" + ipPort
+						+ "] to find Leader for [" + topic + ", " + partition
+						+ "] Reason: " + e);
 			} finally {
 				if (consumer != null)
 					consumer.close();
@@ -166,17 +171,21 @@ public class ClientTest {
 		// long whichTime = kafka.api.OffsetRequest.LatestTime();
 		System.out.println("lastTime:" + whichTime);
 		String clientName = "Client_" + topic + "_" + partition;
-		SimpleConsumer consumer = new SimpleConsumer(leadBroker.host(), leadBroker.port(), 100000, 64 * 1024,
-				clientName);
-		TopicAndPartition topicAndPartition = new TopicAndPartition(topic, partition);
+		SimpleConsumer consumer = new SimpleConsumer(leadBroker.host(),
+				leadBroker.port(), 100000, 64 * 1024, clientName);
+		TopicAndPartition topicAndPartition = new TopicAndPartition(topic,
+				partition);
 		Map<TopicAndPartition, PartitionOffsetRequestInfo> requestInfo = new HashMap<TopicAndPartition, PartitionOffsetRequestInfo>();
-		requestInfo.put(topicAndPartition, new PartitionOffsetRequestInfo(whichTime, 1));
-		OffsetRequest request = new OffsetRequest(requestInfo, kafka.api.OffsetRequest.CurrentVersion(), clientName);
+		requestInfo.put(topicAndPartition, new PartitionOffsetRequestInfo(
+				whichTime, 1));
+		OffsetRequest request = new OffsetRequest(requestInfo,
+				kafka.api.OffsetRequest.CurrentVersion(), clientName);
 		// 获取指定时间前有效的offset列表
 		OffsetResponse response = consumer.getOffsetsBefore(request);
 		if (response.hasError()) {
-			System.out.println(
-					"Error fetching data Offset Data the Broker. Reason: " + response.errorCode(topic, partition));
+			System.out
+					.println("Error fetching data Offset Data the Broker. Reason: "
+							+ response.errorCode(topic, partition));
 			return;
 		}
 		// 千万不要认为offset一定是从0开始的
@@ -187,8 +196,8 @@ public class ClientTest {
 		// 读数据
 		while (maxReads > 0) {
 			// 注意不要调用里面的replicaId()方法，这是内部使用的。
-			FetchRequest req = new FetchRequestBuilder().clientId(clientName).addFetch(topic, partition, offset, 100000)
-					.build();
+			FetchRequest req = new FetchRequestBuilder().clientId(clientName)
+					.addFetch(topic, partition, offset, 100000).build();
 			FetchResponse fetchResponse = consumer.fetch(req);
 			if (fetchResponse.hasError()) {
 				// 出错处理。这里只直接返回了。实际上可以根据出错的类型进行判断，如code ==
@@ -196,17 +205,20 @@ public class ClientTest {
 				// 一般出错处理可以再次拿offset,或重新找leader，重新建立consumer。可以将上面的操作都封装成方法。再在该循环来进行消费
 				// 当然，在取所有leader的同时可以用metadata.replicas()更新最新的节点信息。另外zookeeper可能不会立即检测到有节点挂掉，故如果发现老的leader和新的leader一样，可能是leader根本没挂，也可能是zookeeper还没检测到，总之需要等等。
 				short code = fetchResponse.errorCode(topic, partition);
-				System.out.println("Error fetching data from the Broker:" + leadBroker + " Reason: " + code);
+				System.out.println("Error fetching data from the Broker:"
+						+ leadBroker + " Reason: " + code);
 				return;
 			}
 			// 取一批消息
 			boolean empty = true;
-			for (MessageAndOffset messageAndOffset : fetchResponse.messageSet(topic, partition)) {
+			for (MessageAndOffset messageAndOffset : fetchResponse.messageSet(
+					topic, partition)) {
 				empty = false;
 				long curOffset = messageAndOffset.offset();
 				// 下面这个检测有必要，因为当消息是压缩的时候，通过fetch获取到的是一个整块数据。块中解压后不一定第一个消息就是offset所指定的。就是说存在再次取到已读过的消息。
 				if (curOffset < offset) {
-					System.out.println("Found an old offset: " + curOffset + " Expecting: " + offset);
+					System.out.println("Found an old offset: " + curOffset
+							+ " Expecting: " + offset);
 					continue;
 				}
 				// 可以通过当前消息知道下一条消息的offset是多少
@@ -214,7 +226,8 @@ public class ClientTest {
 				ByteBuffer payload = messageAndOffset.message().payload();
 				byte[] bytes = new byte[payload.limit()];
 				payload.get(bytes);
-				System.out.println(String.valueOf(messageAndOffset.offset()) + ": " + new String(bytes, "UTF-8"));
+				System.out.println(String.valueOf(messageAndOffset.offset())
+						+ ": " + new String(bytes, "UTF-8"));
 				maxReads++;
 			}
 			// 进入循环中，等待一会后获取下一批数据
