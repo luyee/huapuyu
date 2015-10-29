@@ -43,11 +43,9 @@ class 运动员1 extends Thread {
 			begin.await();
 			System.out.println(this.getName() + " : 正在跑");
 			Thread.sleep(5000);
-		}
-		catch (InterruptedException e1) {
+		} catch (InterruptedException e1) {
 			e1.printStackTrace();
-		}
-		catch (BrokenBarrierException e) {
+		} catch (BrokenBarrierException e) {
 			e.printStackTrace();
 		}
 		System.out.println(this.getName() + " : 跑完");

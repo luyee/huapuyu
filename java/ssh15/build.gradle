@@ -43,6 +43,15 @@ dependencies {
     // hadoop
     // compile group: 'org.springframework.data', name: 'spring-data-hadoop', version: '2.1.2.RELEASE'
     compile group: 'org.apache.hadoop', name: 'hadoop-common', version: '2.2.0'
+    // compile group: 'org.apache.hadoop', name: 'hadoop-core', version: '2.2.0'
+    compile group: 'org.apache.hadoop', name: 'hadoop-client', version: '2.2.0'
+    compile group: 'org.apache.hadoop', name: 'hadoop-hdfs', version: '2.2.0'
+    compile group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-common', version: '2.2.0'
+    
+    // spark
+    // compile group: 'org.apache.spark', name: 'spark-core_2.11', version: '1.5.1'
+    // compile group: 'org.apache.spark', name: 'spark-core_2.11', version: '1.2.0'
+    compile group: 'org.apache.spark', name: 'spark-core_2.10', version: '1.0.2'
     
     // redis
     compile group: 'org.springframework.data', name: 'spring-data-redis', version: '1.5.2.RELEASE'
