@@ -1,0 +1,4 @@
+dependencies {
+	// compile project(':my-lib')
+	compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+}
