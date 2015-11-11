@@ -1,0 +1,3 @@
+dependencies {
+	compile group: 'com.github.shyiko', name: 'mysql-binlog-connector-java', version: '0.2.4'
+}

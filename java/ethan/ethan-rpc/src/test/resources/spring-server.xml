@@ -4,38 +4,29 @@
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
 		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd
 		http://www.springframework.org/schema/tx
-		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
 		http://www.springframework.org/schema/aop
-		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+		http://www.springframework.org/schema/aop/spring-aop-4.2.xsd 
 		http://www.springframework.org/schema/util 
-		http://www.springframework.org/schema/util/spring-util-4.0.xsd"
+		http://www.springframework.org/schema/util/spring-util-4.2.xsd"
 	default-autowire="byName">
 
-	<context:component-scan base-package="com.anders.experiment.rpc" />
+	<context:component-scan base-package="com.anders.ethan.rpc" />
 
-	<!-- 本项目是spring3，网上rpc代码所用版本为spring4，所以下面简化配置不能用 -->
-	<!-- 
-	<context:property-placeholder location="classpath:rpcServer.properties" />
-	-->
+	<context:property-placeholder location="classpath:server.properties" />
 	
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:rpcServer.properties</value>
-			</list>
-		</property>
-	</bean> 
-
+	<!--  
 	<bean id="serviceRegistry" class="com.anders.experiment.rpc.server.ServiceRegistry">
 		<constructor-arg name="registryAddress" value="${registry.address}" />
 	</bean>
+	-->
 
-	<bean id="rpcServer" class="com.anders.experiment.rpc.server.RpcServer">
+	<bean id="rpcServer" class="com.anders.ethan.rpc.server.RpcServer">
 		<constructor-arg name="serverAddress" value="${server.address}" />
-		<constructor-arg name="serviceRegistry" ref="serviceRegistry" />
+		<!-- <constructor-arg name="serviceRegistry" ref="serviceRegistry" /> -->
 	</bean>
 </beans>

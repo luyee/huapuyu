@@ -1,6 +1,8 @@
-package com.anders.ethan.rpc.api;
+package com.anders.ethan.rpc.api.service;
 
 import java.util.List;
+
+import com.anders.ethan.rpc.api.entity.User;
 
 public interface UserService {
 	void insert(User user);

@@ -17,7 +17,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.springframework.util.Assert;
 
 import com.anders.ethan.rpc.common.Constants;
-import com.anders.ethan.rpc.common.Utils;
+import com.anders.ethan.rpc.common.ZKUtils;
 
 /**
  * 服务发现<br/>
@@ -63,7 +63,7 @@ public class ServiceDiscovery implements Constants {
 
 			// 获取/rpc/***.***Service/providers节点下的子节点名列表，如：127.0.0.1:1111（节点名后期需要修改）
 			Iterator<String> providersIt = client.getChildren()
-					.forPath(Utils.assembleProvidersFullPath(serviceName))
+					.forPath(ZKUtils.assembleProvidersFullPath(serviceName))
 					.iterator();
 			while (providersIt.hasNext()) {
 				providerName = providersIt.next();
@@ -73,11 +73,11 @@ public class ServiceDiscovery implements Constants {
 				providersSet.add(providerName);
 			}
 
-			providersMap.put(Utils.assembleServiceFullPath(serviceName),
+			providersMap.put(ZKUtils.assembleServiceFullPath(serviceName),
 					providersSet);
-			System.out.println(Utils.assembleServiceFullPath(serviceName));
+			System.out.println(ZKUtils.assembleServiceFullPath(serviceName));
 
-			registryWatcher(Utils.assembleProvidersFullPath(serviceName));
+			registryWatcher(ZKUtils.assembleProvidersFullPath(serviceName));
 		}
 		System.out.println("**************");
 
@@ -114,8 +114,9 @@ public class ServiceDiscovery implements Constants {
 			case INITIALIZED:
 				providerFullPath = event.getData().getPath();
 				if (StringUtils.isNotBlank(providerFullPath)) {
-					serviceName = Utils.extractServicePath(providerFullPath);
-					providerName = Utils.extractProviderName(providerFullPath);
+					serviceName = ZKUtils.extractServicePath(providerFullPath);
+					providerName = ZKUtils
+							.extractProviderName(providerFullPath);
 
 					System.out.println("ini\t" + serviceName);
 
@@ -128,8 +129,9 @@ public class ServiceDiscovery implements Constants {
 			case CHILD_ADDED:
 				providerFullPath = event.getData().getPath();
 				if (StringUtils.isNotBlank(providerFullPath)) {
-					serviceName = Utils.extractServicePath(providerFullPath);
-					providerName = Utils.extractProviderName(providerFullPath);
+					serviceName = ZKUtils.extractServicePath(providerFullPath);
+					providerName = ZKUtils
+							.extractProviderName(providerFullPath);
 
 					System.out.println("add\t" + serviceName);
 
@@ -144,8 +146,9 @@ public class ServiceDiscovery implements Constants {
 			case CHILD_REMOVED:
 				providerFullPath = event.getData().getPath();
 				if (StringUtils.isNotBlank(providerFullPath)) {
-					serviceName = Utils.extractServicePath(providerFullPath);
-					providerName = Utils.extractProviderName(providerFullPath);
+					serviceName = ZKUtils.extractServicePath(providerFullPath);
+					providerName = ZKUtils
+							.extractProviderName(providerFullPath);
 
 					System.out.println("remove\t" + serviceName);
 
@@ -166,14 +169,11 @@ public class ServiceDiscovery implements Constants {
 	public String discover(String serviceName) {
 		Assert.notEmpty(providersMap);
 
-		Set<String> providersSet = providersMap.get(serviceName);
+		Set<String> providersSet = providersMap.get(ZKUtils
+				.assembleServiceFullPath(serviceName));
 		Assert.notEmpty(providersSet);
 
 		// TODO Anders 添加路由策略
 		return providersSet.toArray(new String[providersSet.size()])[0];
-	}
-
-	public static void main(String[] args) throws Exception {
-		new ServiceDiscovery("127.0.0.1:2181");
 	}
 }

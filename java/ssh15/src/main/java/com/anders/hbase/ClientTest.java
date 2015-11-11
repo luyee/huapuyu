@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
@@ -26,7 +28,8 @@ public class ClientTest {
 
 	@Test
 	public void test1() {
-		System.setProperty("hadoop.home.dir", "C:\\Users\\Anders\\git\\hadoop-common-2.2.0-bin");
+		System.setProperty("hadoop.home.dir",
+				"C:\\Users\\Anders\\git\\hadoop-common-2.2.0-bin");
 		Configuration config = new HBaseConfiguration().create();
 		config.set("hbase.master", "anders1:9000");
 		config.set("hbase.zookeeper.property.clientPort", "2181");
@@ -44,7 +47,8 @@ public class ClientTest {
 
 	@Test
 	public void test2() {
-		System.setProperty("hadoop.home.dir", "C:\\Users\\Anders\\git\\hadoop-common-2.2.0-bin");
+		System.setProperty("hadoop.home.dir",
+				"C:\\Users\\Anders\\git\\hadoop-common-2.2.0-bin");
 		Configuration config = HBaseConfiguration.create();
 		config.set("hbase.master", "anders1:9000");
 		config.set("hbase.zookeeper.property.clientPort", "2181");
@@ -62,14 +66,16 @@ public class ClientTest {
 
 	@Test
 	public void test3() {
-		System.setProperty("hadoop.home.dir", "C:\\Users\\Anders\\git\\hadoop-common-2.2.0-bin");
+		System.setProperty("hadoop.home.dir",
+				"C:\\Users\\Anders\\git\\hadoop-common-2.2.0-bin");
 		Configuration config = new HBaseConfiguration().create();
 		config.set("hbase.master", "anders1:9000");
 		config.set("hbase.zookeeper.property.clientPort", "2181");
 		config.set("hbase.zookeeper.quorum", "anders1,anders2,anders3");
 
 		HTableFactory factory = new HTableFactory();
-		HTablePool pool = new HTablePool(config, 30, factory, PoolType.ThreadLocal);
+		HTablePool pool = new HTablePool(config, 30, factory,
+				PoolType.ThreadLocal);
 
 		HTableInterface table = null;
 		Result result = null;
@@ -88,7 +94,8 @@ public class ClientTest {
 
 	@Test
 	public void test4() throws IOException {
-		System.setProperty("hadoop.home.dir", "C:\\Users\\Anders\\git\\hadoop-common-2.2.0-bin");
+		System.setProperty("hadoop.home.dir",
+				"C:\\Users\\Anders\\git\\hadoop-common-2.2.0-bin");
 		Configuration config = HBaseConfiguration.create();
 		config.set("hbase.master", "anders1:9000");
 		config.set("hbase.zookeeper.property.clientPort", "2181");
@@ -104,7 +111,8 @@ public class ClientTest {
 
 	@Test
 	public void test5() throws IOException {
-		System.setProperty("hadoop.home.dir", "C:\\Users\\Anders\\git\\hadoop-common-2.2.0-bin");
+		System.setProperty("hadoop.home.dir",
+				"C:\\Users\\Anders\\git\\hadoop-common-2.2.0-bin");
 		Configuration config = HBaseConfiguration.create();
 		config.set("hbase.master", "anders1:9000");
 		config.set("hbase.zookeeper.property.clientPort", "2181");
@@ -122,31 +130,48 @@ public class ClientTest {
 			System.out.println(result);
 
 			Put put = new Put(Bytes.toBytes("row3"));
-			put.add(Bytes.toBytes("cf"), Bytes.toBytes("age"), 556, Bytes.toBytes("1"));
-			put.add(Bytes.toBytes("cf"), Bytes.toBytes("name"), 556, Bytes.toBytes("zhuyichen"));
+			put.add(Bytes.toBytes("cf"), Bytes.toBytes("age"), 556,
+					Bytes.toBytes("1"));
+			put.add(Bytes.toBytes("cf"), Bytes.toBytes("name"), 556,
+					Bytes.toBytes("zhuyichen"));
 			table.put(put);
 
 			put = new Put(Bytes.toBytes("row3"));
-			put.add(Bytes.toBytes("cf"), Bytes.toBytes("age"), 557, Bytes.toBytes("2"));
-			put.add(Bytes.toBytes("cf"), Bytes.toBytes("name"), 557, Bytes.toBytes("zhuzhen"));
+			put.add(Bytes.toBytes("cf"), Bytes.toBytes("age"), 557,
+					Bytes.toBytes("2"));
+			put.add(Bytes.toBytes("cf"), Bytes.toBytes("name"), 557,
+					Bytes.toBytes("zhuzhen"));
 			table.put(put);
 
 			put = new Put(Bytes.toBytes("row3"));
-			put.add(Bytes.toBytes("cf"), Bytes.toBytes("age"), 554, Bytes.toBytes("2"));
-			put.add(Bytes.toBytes("cf"), Bytes.toBytes("name"), 557, Bytes.toBytes("zhuzhen"));
+			put.add(Bytes.toBytes("cf"), Bytes.toBytes("age"), 554,
+					Bytes.toBytes("2"));
+			put.add(Bytes.toBytes("cf"), Bytes.toBytes("name"), 557,
+					Bytes.toBytes("zhuzhen"));
 			table.put(put);
+
+			for (int i = 4; i < 1000000; i++) {
+				put = new Put(Bytes.toBytes("row" + i));
+				put.add(Bytes.toBytes("cf"), Bytes.toBytes("age"), 554,
+						Bytes.toBytes("2"));
+				put.add(Bytes.toBytes("cf"), Bytes.toBytes("name"), 557,
+						Bytes.toBytes("zhuzhen"));
+				table.put(put);
+			}
 
 			Get get = new Get(Bytes.toBytes("row3"));
 			get.setMaxVersions(3);
 			result = table.get(get);
-			// for (Cell cell : result.rawCells()) {
-			// System.out.println("Rowkey : " + Bytes.toString(cell.getRow()) +
-			// " Familiy:Quilifier : "
-			// + Bytes.toString(CellUtil.cloneQualifier(cell)) + " Value : "
-			// + Bytes.toString(CellUtil.cloneValue(cell)) + " Time : " +
-			// cell.getTimestamp());
-			// }
-			List<KeyValue> kv = result.getColumn(Bytes.toBytes("cf"), Bytes.toBytes("age"));
+			for (Cell cell : result.rawCells()) {
+				System.out.println("Rowkey : " + Bytes.toString(cell.getRow())
+						+ " Familiy:Quilifier : "
+						+ Bytes.toString(CellUtil.cloneQualifier(cell))
+						+ " Value : "
+						+ Bytes.toString(CellUtil.cloneValue(cell))
+						+ " Time : " + cell.getTimestamp());
+			}
+			List<KeyValue> kv = result.getColumn(Bytes.toBytes("cf"),
+					Bytes.toBytes("age"));
 			// System.out.println(kv);
 			// System.out.println(kv.size());
 			System.out.println(result);

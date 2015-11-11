@@ -1,16 +1,30 @@
-package com.anders.ethan.rpc.api;
+package com.anders.ethan.rpc.api.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
+public class User implements Serializable {
 	private Long id;
 	private String name;
 	private Integer age;
 	private String address;
 	private String mail;
-	private Date createTime;
-	private Date updateTime;
-	private Integer version;
+	private Date createTime = new Date();
+	private Date updateTime = new Date();;
+	private Integer version = 0;
+
+	public User() {
+	}
+
+	public User(Long id, String name, Integer age, String address, String mail) {
+		this.id = id;
+		this.name = name;
+		this.age = age;
+		this.address = address;
+		this.mail = mail;
+	}
 
 	public Long getId() {
 		return id;
@@ -74,6 +88,11 @@ public class User {
 
 	public void setVersion(Integer version) {
 		this.version = version;
+	}
+
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
 	}
 
 }
