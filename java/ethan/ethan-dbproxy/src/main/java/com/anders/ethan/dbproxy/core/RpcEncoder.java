@@ -6,27 +6,51 @@ import io.netty.handler.codec.MessageToByteEncoder;
 
 import com.anders.ethan.dbproxy.mysql.Capabilities;
 import com.anders.ethan.dbproxy.mysql.SecurityUtil;
+import com.anders.ethan.dbproxy.mysql.SeqUtils;
 import com.anders.ethan.dbproxy.protocol.mysql.AuthPacket;
+import com.anders.ethan.dbproxy.protocol.mysql.CommandPacket;
 import com.anders.ethan.dbproxy.protocol.mysql.HandshakePacket;
+import com.anders.ethan.dbproxy.protocol.mysql.OkPacket;
 
 public class RpcEncoder extends MessageToByteEncoder {
 
 	@Override
 	public void encode(ChannelHandlerContext ctx, Object in, ByteBuf out)
 			throws Exception {
-		if (in instanceof HandshakePacket) {
-			HandshakePacket handshakePacket = (HandshakePacket) in;
+		if (SeqUtils.getGlobalSeq() == 0) {
+			if (in instanceof HandshakePacket) {
+				HandshakePacket handshakePacket = (HandshakePacket) in;
 
-			AuthPacket authPacket = new AuthPacket();
-			authPacket.packetId = 1;
-			authPacket.clientFlags = initClientFlags();
-			authPacket.maxPacketSize = 16 * 1024 * 1024;
-			authPacket.charsetIndex = 33;
-			authPacket.user = "root";
-			authPacket.password = passwd("123", handshakePacket);
-			// authPacket.database = "anders";
+				AuthPacket authPacket = new AuthPacket();
+				authPacket.packetId = 1;
+				authPacket.clientFlags = initClientFlags();
+				authPacket.maxPacketSize = 16 * 1024 * 1024;
+				authPacket.charsetIndex = 33;
+				authPacket.user = "root";
+				authPacket.password = passwd("123", handshakePacket);
+				// authPacket.database = "anders";
 
-			authPacket.write(out);
+				authPacket.write(out);
+			} else if (in instanceof OkPacket) {
+				SeqUtils.setGlobalSeq((byte) 1);
+				
+				CommandPacket commandPacket = new CommandPacket();
+				commandPacket.packetId = 0;
+				commandPacket.command = 2;
+				commandPacket.arg = "anders".getBytes();
+
+				commandPacket.write(out);
+			}
+		} else if (SeqUtils.getGlobalSeq() == 1) {
+			SeqUtils.setGlobalSeq((byte)2);
+			
+			CommandPacket commandPacket = new CommandPacket();
+			commandPacket.packetId = 0;
+			commandPacket.command = 3;
+			commandPacket.arg = "select * from tb_test".getBytes();
+			
+			commandPacket.write(out);
+		} else if (SeqUtils.getGlobalSeq() == 2) {
 		}
 	}
 
@@ -42,7 +66,7 @@ public class RpcEncoder extends MessageToByteEncoder {
 		System.arraycopy(hs.restOfScrambleBuff, 0, seed, sl1, sl2);
 		return SecurityUtil.scramble411(passwd, seed);
 	}
-	
+
 	private long initClientFlags() {
 		int flag = 0;
 
@@ -70,11 +94,11 @@ public class RpcEncoder extends MessageToByteEncoder {
 		// client extension
 		flag |= Capabilities.CLIENT_MULTI_STATEMENTS;
 		flag |= Capabilities.CLIENT_MULTI_RESULTS;
-//		flag |= 65536 * 4;
-//		flag |= 65536 * 8;
-//		flag |= 65536 * 16;
-//		flag |= 65536 * 32;
-//		flag |= 65536 * 64;
+		// flag |= 65536 * 4;
+		// flag |= 65536 * 8;
+		// flag |= 65536 * 16;
+		// flag |= 65536 * 32;
+		// flag |= 65536 * 64;
 
 		return flag;
 	}
