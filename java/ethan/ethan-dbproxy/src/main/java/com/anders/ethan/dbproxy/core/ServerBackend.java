@@ -25,7 +25,7 @@ public class ServerBackend extends SimpleChannelInboundHandler<Object> {
 					.option(ChannelOption.SO_KEEPALIVE, true)
 					.handler(new ClientInitializer());
 
-			ChannelFuture future = bootstrap.connect("192.168.2.71", 3306)
+			ChannelFuture future = bootstrap.connect("10.101.137.135", 3306)
 					.sync();
 
 			future.channel().closeFuture().sync();
@@ -38,12 +38,9 @@ public class ServerBackend extends SimpleChannelInboundHandler<Object> {
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, Object msg)
 			throws Exception {
-		System.out.println(msg);
-
 		// if (msg instanceof HandshakePacket) {
 		ctx.writeAndFlush(msg).sync();
 		// }
-
 	}
 
 	@Override

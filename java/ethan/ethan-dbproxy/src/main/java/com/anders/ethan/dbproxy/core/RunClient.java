@@ -3,15 +3,16 @@ package com.anders.ethan.dbproxy.core;
 import com.anders.ethan.dbproxy.mysql.SecurityUtil;
 
 public class RunClient {
-	public static void main(String[] args) throws Exception {
-//		System.out.println(passwd());
-//		
-//		byte[] password = passwd();
-//		for (byte b : password) {
-//			System.out.println(b);
-//		}
 
-		 new ServerBackend().connect();
+	public static void main(String[] args) throws Exception {
+		// System.out.println(passwd());
+		//
+		// byte[] password = passwd();
+		// for (byte b : password) {
+		// System.out.println(b);
+		// }
+
+		new ServerBackend().connect();
 	}
 
 	public static byte[] passwd() throws Exception {
