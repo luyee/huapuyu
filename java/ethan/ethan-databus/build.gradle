@@ -2,7 +2,7 @@ dependencies {
 	// compile group: 'open-replicator', name: 'open-replicator', version: '1.0.7'
 	// compile group: 'com.github.shyiko', name: 'mysql-binlog-connector-java', version: '0.2.4'
 	
-	compile group: 'com.zendesk', name: 'open-replicator', version: '1.3.5'
+	// compile group: 'com.zendesk', name: 'open-replicator', version: '1.3.5'
 	
 	compile files('libs/open-replicator-1.0.7.jar')
 }
