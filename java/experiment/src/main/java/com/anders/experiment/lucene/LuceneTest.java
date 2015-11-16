@@ -46,4 +46,10 @@ public class LuceneTest {
 		LuceneUtil.index文件_自定义内容();
 		LuceneUtil.search文件_自定义内容();
 	}
+
+	@Test
+	public void testNtr() throws IOException, ParseException {
+		LuceneUtil.ntr();
+	}
+
 }

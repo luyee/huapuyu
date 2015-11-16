@@ -89,8 +89,7 @@ public class LuceneUtil {
 				}
 			}
 			numIndexed = indexWriter.numDocs();
-		}
-		finally {
+		} finally {
 			indexWriter.close();
 		}
 
@@ -160,8 +159,7 @@ public class LuceneUtil {
 				}
 			}
 			numIndexed = indexWriter.numDocs();
-		}
-		finally {
+		} finally {
 			indexWriter.close();
 		}
 
@@ -236,8 +234,7 @@ public class LuceneUtil {
 				indexWriter.addDocument(doc);
 			}
 			numIndexed = indexWriter.numDocs();
-		}
-		finally {
+		} finally {
 			indexWriter.close();
 		}
 
@@ -246,5 +243,183 @@ public class LuceneUtil {
 		System.out.println("Indexing " + numIndexed + " files took " + (end - start) + " milliseconds");
 
 		return dir;
+	}
+
+	public static void ntr() throws IOException {
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("name", "zhuzhen");
+		map.put("desc", "i like coffee");
+		list.add(map);
+
+		map = new HashMap<String, String>();
+		map.put("name", "guolili");
+		map.put("desc", "zhuzhen like coffee, me too");
+		list.add(map);
+
+		String indexDir = LuceneUtil.class.getResource("index2").getPath();
+
+		Directory dir = FSDirectory.open(new File(indexDir));
+		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_35, new StandardAnalyzer(Version.LUCENE_35));
+		IndexWriter indexWriter = new IndexWriter(dir, indexWriterConfig);
+		indexWriter.deleteAll();
+
+		try {
+			for (Map<String, String> mapTemp : list) {
+				Document doc = new Document();
+				doc.add(new Field("desc", mapTemp.get("desc"), Field.Store.YES, Field.Index.ANALYZED));
+				doc.add(new Field("name", mapTemp.get("name"), Field.Store.YES, Field.Index.NOT_ANALYZED));
+				indexWriter.addDocument(doc);
+			}
+			indexWriter.commit();
+		} finally {
+		}
+
+		// 提交情况下查询
+		IndexReader indexReader = IndexReader.open(dir);
+		IndexSearcher indexSearcher = new IndexSearcher(indexReader);
+		TermQuery termQuery = new TermQuery(new Term("desc", "coffee"));
+
+		TopDocs topDocs = indexSearcher.search(termQuery, 10);
+
+		System.out.println("提交情况下查询");
+		for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+			Document doc = indexSearcher.doc(scoreDoc.doc);
+			System.out.println(doc.get("name"));
+		}
+
+		// 第一次索引但不提交
+		list.clear();
+		map = new HashMap<String, String>();
+		map.put("name", "zhuyichen1");
+		map.put("desc", "zhuyichen like coffee, me too");
+		list.add(map);
+
+		try {
+			for (Map<String, String> mapTemp : list) {
+				Document doc = new Document();
+				doc.add(new Field("desc", mapTemp.get("desc"), Field.Store.YES, Field.Index.ANALYZED));
+				doc.add(new Field("name", mapTemp.get("name"), Field.Store.YES, Field.Index.NOT_ANALYZED));
+				indexWriter.addDocument(doc);
+			}
+		} finally {
+		}
+
+		// 不提交情况下查询
+		topDocs = indexSearcher.search(termQuery, 10);
+
+		System.out.println("不提交情况下查询");
+		for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+			Document doc = indexSearcher.doc(scoreDoc.doc);
+			System.out.println(doc.get("name"));
+		}
+
+		indexWriter.commit();
+
+		// 提交后下查询
+		topDocs = indexSearcher.search(termQuery, 10);
+
+		System.out.println("提交后查询");
+		for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+			Document doc = indexSearcher.doc(scoreDoc.doc);
+			System.out.println(doc.get("name"));
+		}
+
+		// 第二次索引且提交
+		list.clear();
+		map = new HashMap<String, String>();
+		map.put("name", "zhuyichen2");
+		map.put("desc", "zhuyichen like coffee, me too");
+		list.add(map);
+
+		try {
+			for (Map<String, String> mapTemp : list) {
+				Document doc = new Document();
+				doc.add(new Field("desc", mapTemp.get("desc"), Field.Store.YES, Field.Index.ANALYZED));
+				doc.add(new Field("name", mapTemp.get("name"), Field.Store.YES, Field.Index.NOT_ANALYZED));
+				indexWriter.addDocument(doc);
+			}
+		} finally {
+			indexWriter.commit();
+		}
+
+		indexSearcher.close();
+		// openifchange下查询
+		indexReader = IndexReader.openIfChanged(indexReader);
+		indexSearcher = new IndexSearcher(indexReader);
+
+		topDocs = indexSearcher.search(termQuery, 10);
+
+		System.out.println("openifchange下查询");
+		for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+			Document doc = indexSearcher.doc(scoreDoc.doc);
+			System.out.println(doc.get("name"));
+		}
+
+		// 第三次索引且提交
+		list.clear();
+		map = new HashMap<String, String>();
+		map.put("name", "zhuyichen3");
+		map.put("desc", "zhuyichen like coffee, me too");
+		list.add(map);
+
+		try {
+			for (Map<String, String> mapTemp : list) {
+				Document doc = new Document();
+				doc.add(new Field("desc", mapTemp.get("desc"), Field.Store.YES, Field.Index.ANALYZED));
+				doc.add(new Field("name", mapTemp.get("name"), Field.Store.YES, Field.Index.NOT_ANALYZED));
+				indexWriter.addDocument(doc);
+			}
+		} finally {
+			indexWriter.commit();
+		}
+
+		indexSearcher.close();
+		// reopen下查询
+		indexReader = IndexReader.open(dir);
+		indexSearcher = new IndexSearcher(indexReader);
+
+		topDocs = indexSearcher.search(termQuery, 10);
+
+		System.out.println("reopen下查询");
+		for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+			Document doc = indexSearcher.doc(scoreDoc.doc);
+			System.out.println(doc.get("name"));
+		}
+
+		// 第四次索引且提交
+		list.clear();
+		map = new HashMap<String, String>();
+		map.put("name", "zhuyichen4");
+		map.put("desc", "zhuyichen like coffee, me too");
+		list.add(map);
+
+		try {
+			for (Map<String, String> mapTemp : list) {
+				Document doc = new Document();
+				doc.add(new Field("desc", mapTemp.get("desc"), Field.Store.YES, Field.Index.ANALYZED));
+				doc.add(new Field("name", mapTemp.get("name"), Field.Store.YES, Field.Index.NOT_ANALYZED));
+				indexWriter.addDocument(doc);
+			}
+		} finally {
+		}
+
+		indexSearcher.close();
+		// 不提交，通过indexWriter查询
+		indexReader = IndexReader.open(indexWriter, false);
+		indexSearcher = new IndexSearcher(indexReader);
+
+		topDocs = indexSearcher.search(termQuery, 10);
+
+		System.out.println("不提交，通过indexWriter查询");
+		for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+			Document doc = indexSearcher.doc(scoreDoc.doc);
+			System.out.println(doc.get("name"));
+		}
+
+		indexWriter.close();
+		indexSearcher.close();
+		indexReader.close();
 	}
 }
