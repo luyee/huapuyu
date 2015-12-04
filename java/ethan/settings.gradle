@@ -7,4 +7,6 @@ include "ethan-cfgcenter",
 		"ethan-rpc", 
 		"ethan-sharding",
 		"ethan-codegen",
-		"ethan-databus"
+		"ethan-databus",
+		"ethan-job",
+		"ethan-storage"

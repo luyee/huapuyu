@@ -20,8 +20,6 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
 import org.junit.Test;
 
 public class ClientTest {
@@ -102,8 +100,7 @@ public class ClientTest {
 	public void test3() throws IOException {
 		Settings settings = ImmutableSettings.settingsBuilder()
 		// .put("client.transport.sniff", true)
-				.put("cluster.name", "dev64")
-				// .put("index.translog.flush_threshold_ops", "100000")
+				.put("cluster.name", "dev64").put("index.translog.flush_threshold_ops", "100000")
 				// index.translog.flush_threshold_size
 				// index.translog.flush_threshold_period
 				.put("node.name", "ethan").put("index.refresh_interval", "-1").build();
@@ -184,7 +181,12 @@ public class ClientTest {
 	// 以节点方式运行，查询数据
 	@Test
 	public void test4() throws IOException {
-		Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "dev64").put("index.refresh_interval", "-1").build();
+		Settings settings = ImmutableSettings.settingsBuilder()
+		// .put("client.transport.sniff", true)
+				.put("cluster.name", "dev64").put("index.translog.flush_threshold_ops", "100000")
+				// index.translog.flush_threshold_size
+				// index.translog.flush_threshold_period
+				.put("node.name", "lili").put("index.refresh_interval", "-1").build();
 
 		Node node = NodeBuilder.nodeBuilder().settings(settings).client(true).node();
 		Client client = node.client();
@@ -221,8 +223,8 @@ public class ClientTest {
 				// .setPostFilter(FilterBuilders.rangeFilter("size").from(1).to(10))
 				.setFrom(0).setSize(10).setExplain(true).execute().actionGet();
 
-		SortBuilders sortBuilders = new SortBuilders();
-		SortBuilders.fieldSort("_id").order(SortOrder.ASC);
+		// SortBuilders sortBuilders = new SortBuilders();
+		// SortBuilders.fieldSort("_id").order(SortOrder.ASC);
 
 		for (SearchHit searchHit : searchResponse.getHits()) {
 			System.out.println(searchHit.getId() + ":\t" + searchHit.getSourceAsString());
