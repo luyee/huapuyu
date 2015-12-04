@@ -7,8 +7,40 @@ dependencies {
 	compile group: 'org.javassist', name: 'javassist', version: '3.19.0-GA'
 	compile group: 'com.alibaba', name: 'fastjson', version: '1.1.41'
 	compile group: 'com.github.sgroschupf', name: 'zkclient', version: '0.1'
+	compile group: 'io.netty', name: 'netty-all', version: '4.0.13.Final'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.6.3'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.6.3'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.26'
+    compile group: 'com.netflix.curator', name: 'curator-framework', version: '1.1.10'
+    compile group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.4.5'
+    compile group: 'commons-dbutils', name: 'commons-dbutils', version: '1.6'
+    compile group: 'com.alibaba', name: 'druid', version: '1.0.14'
+    compile group: 'com.caucho', name: 'hessian', version: '4.0.38'
+    compile group: 'org.apache.mina', name: 'mina-core', version: '2.0.9'
+    compile group: 'org.mapdb', name: 'mapdb', version: '2.0-beta10'
+    compile group: 'com.sleepycat', name: 'je', version: '5.0.73'
+    compile group: 'org.rocksdb', name: 'rocksdbjni', version: '3.10.1'
+    compile group: 'com.esotericsoftware', name: 'reflectasm', version: '1.11.0'
+    compile group: 'com.h2database', name: 'h2', version: '1.4.189'
+    compile group: 'org.fusesource.leveldbjni', name: 'leveldbjni-all', version: '1.8'
+    compile group: 'commons-logging', name: 'commons-logging-api', version: '1.1'
 	
 	compile files('libs/lts-tasktracker-1.6.3-SNAPSHOT.jar')
 	compile files('libs/lts-jobclient-1.6.3-SNAPSHOT.jar')
 	compile files('libs/lts-core-1.6.3-SNAPSHOT.jar')
+	compile files('libs/lts-logger-api-1.6.3-SNAPSHOT.jar')
+	compile files('libs/lts-logger-console-1.6.3-SNAPSHOT.jar')
+	compile files('libs/lts-logger-mysql-1.6.3-SNAPSHOT.jar')
+	compile files('libs/lts-queue-api-1.6.3-SNAPSHOT.jar')
+	compile files('libs/lts-queue-mysql-1.6.3-SNAPSHOT.jar')
+	//compile files('libs/lts-startup-jobtracker-1.6.3-SNAPSHOT.jar')
+	
+	//compile group: 'com.lts', name: 'lts-tasktracker', version: '1.6.3-SNAPSHOT'
+	//compile group: 'com.lts', name: 'lts-jobclient', version: '1.6.3-SNAPSHOT'
+	//compile group: 'com.lts', name: 'lts-core', version: '1.6.3-SNAPSHOT'
+	//compile group: 'com.lts', name: 'lts-logger-api', version: '1.6.3-SNAPSHOT'
+	//compile group: 'com.lts', name: 'lts-logger-console', version: '1.6.3-SNAPSHOT'
+	//compile group: 'com.lts', name: 'lts-logger-mysql', version: '1.6.3-SNAPSHOT'
+	//compile group: 'com.lts', name: 'lts-queue-api', version: '1.6.3-SNAPSHOT'
+	//compile group: 'com.lts', name: 'lts-queue-mysql', version: '1.6.3-SNAPSHOT'
 }

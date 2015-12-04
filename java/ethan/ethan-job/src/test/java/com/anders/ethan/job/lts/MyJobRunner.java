@@ -12,8 +12,7 @@ public class MyJobRunner implements JobRunner {
 	    @Override
 	    public Result run(Job job) throws Throwable {
 	        try {
-	            // TODO 业务逻辑
-	            // 会发送到 LTS (JobTracker上)
+	         System.out.println(job);
 	            bizLogger.info("测试，业务日志啊啊啊啊啊");
 
 	        } catch (Exception e) {
