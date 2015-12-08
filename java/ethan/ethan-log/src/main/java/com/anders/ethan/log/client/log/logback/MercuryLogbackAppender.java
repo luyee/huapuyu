@@ -2,7 +2,13 @@ package com.anders.ethan.log.client.log.logback;
 
 import java.io.StringWriter;
 
+import com.anders.ethan.log.client.api.TraceGenFactory;
+import com.anders.ethan.log.client.api.spi.TraceGenerator;
+import com.anders.ethan.log.client.common.LogSpan;
+
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.classic.spi.IThrowableProxy;
 import ch.qos.logback.core.AppenderBase;
 
 
@@ -14,7 +20,7 @@ public class MercuryLogbackAppender extends AppenderBase<ILoggingEvent> {
 	protected void append(ILoggingEvent event) {
 		if (event == null)
 			return;
-        if (!mercurySwitch()) return;
+//        if (!mercurySwitch()) return;
 		try {
 			LogSpan span = new LogSpan();
 			//span.setSample(true);
@@ -25,12 +31,12 @@ public class MercuryLogbackAppender extends AppenderBase<ILoggingEvent> {
 			span.setLevel(event.getLevel().toString());
 			span.setThreadId(event.getThreadName());
 			span.setTimestamp(System.currentTimeMillis());
-			span.setApp(AppTraceConfig.getLocalConfig().getAppName());
-			span.setHostName(AppTraceConfig.getLocalConfig().getHostName());
-			span.setIp(AppTraceConfig.getLocalConfig().getIp());
+//			span.setApp(AppTraceConfig.getLocalConfig().getAppName());
+//			span.setHostName(AppTraceConfig.getLocalConfig().getHostName());
+//			span.setIp(AppTraceConfig.getLocalConfig().getIp());
 			span.setLogDatail(String.valueOf(event.getFormattedMessage()));
 			span.setEventType(String.valueOf(event.getMessage()));
-			span.setProcessId(AppTraceConfig.getLocalConfig().getProcessId());
+//			span.setProcessId(AppTraceConfig.getLocalConfig().getProcessId());
 //			if (LogManager.getLogManager()!=null &&LogManager.getLogManager().getLogger(event.getLoggerName())!=null) {
 //				span.setFile(LogManager.getLogManager().getLogger(event.getLoggerName()).getResourceBundleName());
 //			}
@@ -70,9 +76,9 @@ public class MercuryLogbackAppender extends AppenderBase<ILoggingEvent> {
 		}
 	}
 
-    private boolean mercurySwitch() {
-        return AppTraceConfig.getLocalConfig().isMercurySwitch();
-    }
+//    private boolean mercurySwitch() {
+//        return AppTraceConfig.getLocalConfig().isMercurySwitch();
+//    }
 
     private TraceGenerator getTracer(){
         return traceGenerator;

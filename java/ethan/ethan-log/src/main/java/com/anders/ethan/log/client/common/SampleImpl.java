@@ -2,12 +2,12 @@ package com.anders.ethan.log.client.common;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-public class SampleImp implements Sample {
+public class SampleImpl implements Sample {
 	private AtomicLong count = new AtomicLong();
 	private int baseNumber = 100;
 	private Long lastTime = -1L;
 
-	public SampleImp() {
+	public SampleImpl() {
 		lastTime = System.currentTimeMillis();
 	}
 
