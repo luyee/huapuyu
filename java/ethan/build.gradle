@@ -9,6 +9,7 @@ subprojects {
     dependencies {
 		compile 'org.apache.commons:commons-collections4:4.0'
 		compile 'org.apache.commons:commons-lang3:3.4'
+		compile 'commons-collections:commons-collections:3.2.2'
 		
 		// compile 'commons-beanutils:commons-beanutils:1.9.2'
 		

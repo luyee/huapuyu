@@ -24,6 +24,16 @@ public class Tester {
 			System.out.println(lTemp);
 		}
 
+		System.out.println("移动位置");
+
+		l.add(l.remove(0));
+
+		for (String lTemp : l) {
+			System.out.println(lTemp);
+		}
+
+		System.out.println("移动位置结束");
+
 		Set<String> s = new HashSet<String>();
 		s.add("zhuzhen");
 		s.add("guolili");
@@ -53,10 +63,12 @@ public class Tester {
 
 		// 下面两种方法抛出异常
 		// Exception in thread "main" java.util.ConcurrentModificationException
-		// at java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
+		// at
+		// java.util.AbstractList$Itr.checkForComodification(AbstractList.java:372)
 		// at java.util.AbstractList$Itr.next(AbstractList.java:343)
 		// at 集合.Tester.main(Tester.java:48)
-		// for (Iterator<String> iterator = list.iterator(); iterator.hasNext();) {
+		// for (Iterator<String> iterator = list.iterator();
+		// iterator.hasNext();) {
 		// String string = iterator.next();
 		// if (string.equals("cat")) {
 		// list.add("cat5555");
