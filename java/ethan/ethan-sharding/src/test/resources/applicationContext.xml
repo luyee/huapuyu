@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:data="http://www.anders.com/schema/data"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"
+	default-autowire="byName">
+
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:db.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- <bean id="parentDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="url" value="${db.master.url}" />
+		<property name="username" value="${db.master.username}" />
+		<property name="password" value="${db.master.password}" />
+		<property name="driverClassName" value="${db.master.driver}" />
+	</bean> -->
+
+	<bean id="parentDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${db.master.driver}" />
+		<property name="url" value="${db.master.url}" />
+		<property name="username" value="${db.master.username}" />
+		<property name="password" value="${db.master.password}" />
+	</bean> 
+
+	<bean id="write" parent="parentDataSource" />
+
+	<bean id="read01" destroy-method="close" parent="parentDataSource"/>
+
+	<bean id="read02" destroy-method="close" parent="parentDataSource"/>
+
+	
+	<bean id="dataSource" class="com.anders.ethan.sharding.datasource.ReadWriteDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry key="write" value-ref="write" />
+				<entry key="read01" value-ref="read01" />
+				<entry key="read02" value-ref="read02" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="write" />
+		<property name="readWriteKey" ref="readWriteKey" />
+	</bean>
+
+	<bean id="readWriteKey" class="com.anders.ethan.sharding.common.ReadWriteKey">
+		<property name="readDateSources">
+			<map key-type="java.lang.String">
+				<entry key="read01" value="read01" />
+				<entry key="read02" value="read02" />
+			</map>
+		</property>
+		<property name="writeKey">
+			<value>write</value>
+		</property>
+		<property name="LB" ref="roundRobinLB" />
+	</bean>
+
+	<bean id="roundRobinLB" class="com.anders.ethan.sharding.lb.RoundRobinLB">
+		<constructor-arg>
+			<map key-type="java.lang.String" value-type="java.lang.Integer">
+				<entry key="read01" value="1" />
+				<entry key="read02" value="1" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- <bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">  
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="get*">PROPAGATION_SUPPORTS,readOnly</prop>
+				<prop key="find*">PROPAGATION_SUPPORTS,readOnly</prop>
+				<prop key="count*">PROPAGATION_SUPPORTS,readOnly</prop>
+				<prop key="save*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="update*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="findByIdWithNewReadTrans">PROPAGATION_REQUIRES_NEW,readOnly</prop>
+				<prop key="saveWithNewTrans">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="deleteByIdWithNewTrans">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="updateWithNewTrans">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="*">PROPAGATION_SUPPORTS,readOnly</prop>
+			</props>
+		</property>
+	</bean>   -->
+	
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributeSource">
+			<bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+		</property>
+	</bean>
+	
+	<!-- <bean id="transactionAttributeSourceAdvisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+		<property name="transactionInterceptor" ref="transactionInterceptor" />
+	</bean> -->
+	
+	<!-- <tx:annotation-driven transaction-manager="transactionManager"/> -->
+	<!-- <data:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />    -->
+
+	<!--  
+	<bean id="readWriteDataSourceInterceptor" class="com.vip.venus.data.datasource.interceptor.ReadWriteDataSourceInterceptor">
+		<property name="attributes">
+			<props>
+				<prop key="get*">read</prop>
+				<prop key="find*">read</prop>
+				<prop key="count*">read</prop>
+				<prop key="save*">write</prop>
+				<prop key="delete*">write</prop>
+				<prop key="update*">write</prop>
+				<prop key="*">read</prop>
+			</props>
+		</property>
+		<property name="dataSourceKey">
+			<ref bean="readWriteDataSourceKey1" />
+		</property>
+	</bean>
+	-->
+	
+	<bean id="readWriteInterceptor" class="com.anders.ethan.sharding.interceptor.ReadWriteInterceptor">
+		<property name="readWriteKey">
+			<ref bean="readWriteKey" />
+		</property>
+		<!-- <property name="readWriteDataSourceKeys">
+			<map key-type="java.lang.String">
+				<entry key="rwds1" value-ref="readWriteDataSourceKey1" />
+				<entry key="rwds2" value-ref="readWriteDataSourceKey2" />
+				<entry key="rwds3" value-ref="readWriteDataSourceKey3" />
+			</map>
+		</property> -->
+	</bean>
+
+	<!-- <bean id="repositoryShardingDataSourceInterceptor" class="com.vip.venus.data.datasource.interceptor.RepositoryShardingDataSourceInterceptor">
+		<property name="repositoryShardingStrategies">
+			<ref bean="repositoryShardingStrategies" />
+		</property>
+		<property name="shardingDataSourceKeys">
+			<map key-type="java.lang.String">
+				<entry key="dataSource1" value-ref="readWriteDataSourceKey1" />
+				<entry key="dataSource2" value-ref="readWriteDataSourceKey2" />
+				<entry key="dataSource3" value-ref="readWriteDataSourceKey3" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="tableShardingDataSourceInterceptor" class="com.vip.venus.data.datasource.interceptor.TableShardingDataSourceForCriteriaInterceptor">
+		<property name="tableShardingStrategies">
+			<ref bean="tableShardingStrategies" />
+		</property>
+	</bean>
+	
+	<bean id="userRepositoryShardingStrategy" class="com.vip.venus.data.common.strategy.repository.UserRepositoryShardingStrategy">
+	</bean>
+	
+	<bean id="custRepositoryShardingStrategy" class="com.vip.venus.data.common.strategy.repository.CustRepositoryShardingStrategy">
+	</bean>
+	
+	<bean id="userTableShardingStrategy" class="com.vip.venus.data.common.strategy.table.UserTableShardingStrategy" />
+	
+	<bean id="orderTableShardingStrategy" class="com.vip.venus.data.common.strategy.table.OrderTableShardingStrategy" />
+
+	<util:map id="repositoryShardingStrategies">
+		<entry key="user" value-ref="userRepositoryShardingStrategy" />
+		<entry key="cust" value-ref="custRepositoryShardingStrategy" />
+	</util:map>
+	
+	<util:map id="tableShardingStrategies">
+		<entry key="user" value-ref="userTableShardingStrategy" />
+		<entry key="order" value-ref="orderTableShardingStrategy" />
+	</util:map> -->
+
+	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<!-- <value>repositoryShardingDataSourceInterceptor</value> -->
+				<!-- <value>readWriteDataSourceInterceptor</value> -->
+				<value>readWriteInterceptor</value>
+				<!-- <value>com.vip.venus.data.datasource.test.MyTransactionInterceptor#0</value>  -->
+				<value>transactionInterceptor</value>  
+			</list>
+		</property>
+	</bean>
+	<!-- <bean id="orikaBeanMapper" class="com.vip.venus.core.beans.mapping.orika.OrikaBeanMapper">
+		<property name="basePackage" value="com.vip.venus.data.**"></property>
+	</bean> -->
+
+	<!-- <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*Dao</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>tableShardingDataSourceInterceptor</value>
+			</list>
+		</property>
+	</bean> -->
+
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.anders.ethan.sharding.service" />
+
+	<!-- <bean id="shardingPlugin" class="com.vip.venus.data.mybatis.plugin.ShardingPlugin">
+		<property name="sqlConverter" ref="sqlConverter" />
+	</bean>
+
+	<bean id="sqlConverter" class="com.vip.venus.data.mybatis.converter.DefaultSqlConverter" />
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.vip.venus.data.mybatis.repository" />
+		<property name="sqlSessionFactoryBeanName" value="msqlSessionFactory" />
+		<property name="annotationClass" value="org.springframework.stereotype.Repository" /> 
+	</bean>
+
+	<bean id="msqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="typeAliasesPackage" value="com.vip.venus.data.mybatis.entity" />
+		<property name="mapperLocations" value="classpath*:com/vip/venus/data/mybatis/mapper/*Mapper.xml" />
+		<property name="plugins">
+			<array>
+				<ref bean="shardingPlugin" />
+			</array>
+		</property>
+	</bean> -->
+	
+	<!-- <bean id="proxy" class="org.springframework.jmx.access.MBeanProxyFactoryBean">  
+        <property name="connectOnStartup" value="true" />  
+        <property name="objectName" value="com.alibaba.druid:type=DruidDataSource" />  
+        <property name="proxyInterface">  
+            <value>com.alibaba.druid.pool.DruidDataSourceMBean</value>  
+        </property>  
+        <property name="serviceUrl">  
+            <value>service:jmx:rmi://localhost/jndi/rmi://localhost:1099/jmxrmi</value>  
+        </property>  
+    </bean> -->
+</beans>

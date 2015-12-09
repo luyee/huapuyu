@@ -1,4 +1,15 @@
 dependencies {
 	// compile project(':my-lib')
 	compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+	compile group: 'org.springframework', name: 'spring-core', version: '3.2.9.RELEASE'
+	compile group: 'org.springframework', name: 'spring-aop', version: '3.2.9.RELEASE'
+	compile group: 'org.springframework', name: 'spring-tx', version: '3.2.9.RELEASE'
+	compile group: 'org.springframework', name: 'spring-jdbc', version: '3.2.9.RELEASE'
+	compile group: 'org.springframework', name: 'spring-beans', version: '3.2.9.RELEASE'
+	compile group: 'org.springframework', name: 'spring-context', version: '3.2.9.RELEASE'
+	compile group: 'org.springframework', name: 'spring-context-support', version: '3.2.9.RELEASE'
+	compile group: 'org.springframework', name: 'spring-test', version: '3.2.9.RELEASE'
+	compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.1.1'
+	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.38'
+	// compile group: 'com.alibaba', name: 'druid', version: '1.0.16'
 }
