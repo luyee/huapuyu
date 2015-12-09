@@ -3,8 +3,9 @@ package com.anders.ethan.job.lts.domain;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.anders.ethan.job.lts.client.DataProcess;
 import com.anders.ethan.job.lts.common.JobType;
+import com.anders.ethan.job.lts.process.DataProcess;
+import com.lts.core.commons.utils.Assert;
 import com.lts.core.commons.utils.StringUtils;
 import com.lts.core.domain.Job;
 
@@ -14,7 +15,7 @@ public class JobEx extends Job {
 
 	private JobType jobType = JobType.SIMPLE;
 	// TODO Anders 后期自动计算分片数
-	private int shardingNum = 1;
+	private int shardingCount = 1;
 	private DataProcess dataProcess;
 
 	public JobEx() {
@@ -31,14 +32,26 @@ public class JobEx extends Job {
 		}
 	}
 
-	public int getShardingNum() {
-		return shardingNum;
+	public int getShardingCount() {
+		return shardingCount;
 	}
 
-	public void setShardingNum(int shardingNum) {
-		if (shardingNum > 1) {
-			this.shardingNum = shardingNum;
+	public void setShardingCount(int shardingCount) {
+		if (shardingCount > 1) {
+			this.shardingCount = shardingCount;
 		}
+	}
+
+	public DataProcess getDataProcess() {
+		return dataProcess;
+	}
+
+	public void setDataProcess(DataProcess dataProcess) {
+		Assert.notNull(dataProcess, "dataProcess is null");
+
+		this.dataProcess = dataProcess;
+		this.dataProcess.setShardingCount(shardingCount);
+		this.dataProcess.setOriginalParams(getExtParams());
 	}
 
 	public Job clone() {
@@ -55,20 +68,18 @@ public class JobEx extends Job {
 		job.setTriggerTime(getTriggerTime());
 		job.setTaskId(getTaskId());
 
-		Map<String, String> newExtParams = new HashMap<String, String>();
-		Map<String, String> originExtParams = getExtParams();
-		if (originExtParams != null && !originExtParams.isEmpty()) {
-			for (String key : originExtParams.keySet()) {
-				newExtParams.put(key, originExtParams.get(key));
+		if (jobType.equals(JobType.SIMPLE) || dataProcess == null) {
+			Map<String, String> newExtParams = new HashMap<String, String>();
+			Map<String, String> originExtParams = getExtParams();
+			if (originExtParams != null && !originExtParams.isEmpty()) {
+				for (String key : originExtParams.keySet()) {
+					newExtParams.put(key, originExtParams.get(key));
+				}
 			}
+
+			job.setExtParams(newExtParams);
 		}
 
-		job.setExtParams(newExtParams);
-
 		return job;
-	}
-
-	public void setDataProcess(DataProcess dataProcess) {
-		this.dataProcess = dataProcess;
 	}
 }

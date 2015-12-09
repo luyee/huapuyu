@@ -26,7 +26,7 @@ public class TraceGenFactory {
     public static final String[] COMPATIBLE_VERSION = new String[]{"0.1"};
     //静态绑定实现类
     private static final String TRACE_GEN_IMPL_CLASS_NAME =
-            "com/vipshop/mercury/client/common/service/StaticTraceGenBinder.class";
+            "com/anders/ethan/log/client/api/StaticTraceGenBinder.class";
     //没有找到实现类时使用的默认实现，什么也不做
     private static final DefaultFactory DEFAULT_FACTORY = new DefaultFactory();
 

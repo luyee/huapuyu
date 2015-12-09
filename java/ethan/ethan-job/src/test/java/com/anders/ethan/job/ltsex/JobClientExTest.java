@@ -1,7 +1,6 @@
 package com.anders.ethan.job.ltsex;
 
 import com.anders.ethan.job.lts.client.JobClientEx;
-import com.anders.ethan.job.lts.common.JobType;
 import com.anders.ethan.job.lts.domain.JobEx;
 import com.lts.jobclient.domain.Response;
 
@@ -15,13 +14,14 @@ public class JobClientExTest {
 
 		JobEx jobEx = new JobEx();
 		jobEx.setTaskId("asdfasdf");
-		jobEx.setParam("orderId", "1,2,3,4,5,6,7,8");
+		jobEx.setParam("orderId", "1,2,3,4,5,6,7,8,98,0,45,45,5,6,7,8");
 		jobEx.setTaskTrackerNodeGroup("test_task_tracker");
 		jobEx.setNeedFeedback(false);
 		jobEx.setReplaceOnExist(true);
-		jobEx.setShardingNum(30);
-		jobEx.setJobType(JobType.SHARDING);
-		// job.setCronExpression("0 0/1 * * * ?");
+		jobEx.setShardingCount(5);
+		// jobEx.setJobType(JobType.SHARDING);
+		// jobEx.setDataProcess(new SplitProcessImpl());
+		jobEx.setCronExpression("*/1 * * * * ?");
 		// job.setTriggerTime(DateUtils.addDay(new Date(), 1));
 		Response response = jobClientEx.submitJobEx(jobEx);
 

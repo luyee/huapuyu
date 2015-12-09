@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.anders.ethan.job.lts.domain.JobEx;
+import com.anders.ethan.job.lts.process.DataProcess;
 import com.lts.core.commons.utils.Assert;
 import com.lts.core.commons.utils.CollectionUtils;
 import com.lts.core.domain.Job;
@@ -118,10 +119,18 @@ public class JobClientEx extends JobClient<JobClientNode, JobClientApplication> 
 	}
 
 	private List<Job> splitJob(JobEx jobEx) {
+		DataProcess dataProcess = jobEx.getDataProcess();
+		if (dataProcess != null) {
+			dataProcess.process();
+		}
+
 		List<Job> jobs = new ArrayList<>();
-		for (int i = 1; i <= jobEx.getShardingNum(); i++) {
+		for (int i = 0; i < jobEx.getShardingCount(); i++) {
 			Job job = jobEx.clone();
 			job.setTaskId(job.getTaskId() + "_" + i);
+			if (dataProcess != null) {
+				job.setExtParams(jobEx.getDataProcess().getSliceParams(i));
+			}
 
 			jobs.add(job);
 		}
@@ -132,4 +141,5 @@ public class JobClientEx extends JobClient<JobClientNode, JobClientApplication> 
 
 		return jobs;
 	}
+
 }
