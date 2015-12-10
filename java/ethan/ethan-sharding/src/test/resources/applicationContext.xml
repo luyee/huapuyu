@@ -78,7 +78,26 @@
 		<property name="transactionAttributeSource">
 			<bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
 		</property>
-	</bean>
+	</bean> 
+	
+	<!-- <bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">  
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="get*">PROPAGATION_SUPPORTS,readOnly</prop>
+				<prop key="find*">PROPAGATION_SUPPORTS,readOnly</prop>
+				<prop key="count*">PROPAGATION_SUPPORTS,readOnly</prop>
+				<prop key="save*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="update*">PROPAGATION_REQUIRED,-Throwable</prop>
+				<prop key="findByIdWithNewReadTrans">PROPAGATION_REQUIRES_NEW,readOnly</prop>
+				<prop key="saveWithNewTrans">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="deleteByIdWithNewTrans">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="updateWithNewTrans">PROPAGATION_REQUIRES_NEW,-Throwable</prop>
+				<prop key="*">PROPAGATION_SUPPORTS,readOnly</prop>
+			</props>
+		</property>
+	</bean> -->
 
 	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
 		<property name="beanNames">
