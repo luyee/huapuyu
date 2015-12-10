@@ -1,9 +1,7 @@
 package com.anders.ethan.sharding.service;
 
-public interface UserService {
+public interface NestedService {
 	void insert(Long id);
 
 	Long findById(Long id);
-	
-	Long find(Long id);
 }

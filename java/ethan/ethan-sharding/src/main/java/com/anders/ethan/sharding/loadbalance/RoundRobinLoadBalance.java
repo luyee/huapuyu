@@ -1,9 +1,8 @@
-package com.anders.ethan.sharding.lb;
+package com.anders.ethan.sharding.loadbalance;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,10 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-public class RoundRobinLB implements LB<String> {
+public class RoundRobinLoadBalance implements LoadBalance<String> {
 
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(RoundRobinLB.class);
+			.getLogger(RoundRobinLoadBalance.class);
 
 	private static final int MIN_LB_FACTOR = 1;
 
@@ -24,16 +23,17 @@ public class RoundRobinLB implements LB<String> {
 	private int currentPos;
 
 	private Map<String, Integer> currentTargets;
-	private Map<String, Integer> failedTargets;
 
-	public RoundRobinLB(Map<String, Integer> lbFactors) {
+	// private Map<String, Integer> failedTargets;
+
+	public RoundRobinLoadBalance(Map<String, Integer> lbFactors) {
 		// Assert.notNull(lbFactors);
 		Assert.notEmpty(lbFactors);
 		currentTargets = Collections.synchronizedMap(lbFactors);
 		// Assert.notEmpty(lbFactors);
-		failedTargets = Collections
-				.synchronizedMap(new HashMap<String, Integer>(currentTargets
-						.size()));
+		// failedTargets = Collections
+		// .synchronizedMap(new HashMap<String, Integer>(currentTargets
+		// .size()));
 		reInitTargets(currentTargets);
 	}
 
@@ -63,12 +63,12 @@ public class RoundRobinLB implements LB<String> {
 		return buildBalanceTargets(lbFactors, MIN_LB_FACTOR);
 	}
 
-	protected synchronized List<String> getTargets() {
-		if (targets == null) {
-			targets = new ArrayList<String>();
-		}
-		return targets;
-	}
+	// protected synchronized List<String> getTargets() {
+	// if (targets == null) {
+	// targets = new ArrayList<String>();
+	// }
+	// return targets;
+	// }
 
 	private void fixFactor(Map<String, Integer> lbFactors) {
 		for (Map.Entry<String, Integer> entry : lbFactors.entrySet()) {
@@ -112,21 +112,21 @@ public class RoundRobinLB implements LB<String> {
 		return targets.get(currentPos++);
 	}
 
-	@Override
-	public synchronized void removeTarget(String key) {
-		if (currentTargets.containsKey(key)) {
-			failedTargets.put(key, currentTargets.get(key));
-			currentTargets.remove(key);
-			reInitTargets(currentTargets);
-		}
-	}
-
-	@Override
-	public synchronized void recoverTarget(String key) {
-		if (failedTargets.containsKey(key)) {
-			currentTargets.put(key, failedTargets.get(key));
-			failedTargets.remove(key);
-			reInitTargets(currentTargets);
-		}
-	}
+	// @Override
+	// public synchronized void removeTarget(String key) {
+	// if (currentTargets.containsKey(key)) {
+	// failedTargets.put(key, currentTargets.get(key));
+	// currentTargets.remove(key);
+	// reInitTargets(currentTargets);
+	// }
+	// }
+	//
+	// @Override
+	// public synchronized void recoverTarget(String key) {
+	// if (failedTargets.containsKey(key)) {
+	// currentTargets.put(key, failedTargets.get(key));
+	// failedTargets.remove(key);
+	// reInitTargets(currentTargets);
+	// }
+	// }
 }

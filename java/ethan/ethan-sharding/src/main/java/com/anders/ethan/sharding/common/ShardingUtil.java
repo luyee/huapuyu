@@ -3,8 +3,14 @@ package com.anders.ethan.sharding.common;
 import java.util.Stack;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ShardingUtil {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ShardingUtil.class);
+
 	private static final ThreadLocal<Stack<ShardingHolder>> REPOSITORY_HOLDER_STACK = new ThreadLocal<Stack<ShardingHolder>>();
 
 	// private static final ThreadLocal<Map<String, TableShardingStrategy>>
@@ -48,16 +54,20 @@ public class ShardingUtil {
 	// // }
 	// }
 
-	public static void removeShardingHolder() {
+	public static void removeCurrent() {
 		Stack<ShardingHolder> stack = REPOSITORY_HOLDER_STACK.get();
 		if (CollectionUtils.isEmpty(stack)) {
 			REPOSITORY_HOLDER_STACK.remove();
 			return;
 		}
+		printStack("before removeCurrent");
 		stack.pop();
+		printStack("after removeCurrent");
 	}
 
 	public static void setReadWriteKey(String key) {
+		printStack("before setReadWriteKey");
+
 		Stack<ShardingHolder> stack = REPOSITORY_HOLDER_STACK.get();
 		if (stack == null) {
 			stack = new Stack<ShardingHolder>();
@@ -66,14 +76,31 @@ public class ShardingUtil {
 		ShardingHolder holder = new ShardingHolder();
 		holder.setReadWriteKey(key);
 		stack.push(holder);
+
+		printStack("after setReadWriteKey");
 	}
 
 	public static String getReadWriteKey() {
+		printStack("getReadWriteKey");
 		Stack<ShardingHolder> stack = REPOSITORY_HOLDER_STACK.get();
 		if (CollectionUtils.isEmpty(stack)) {
 			return null;
 		}
 		return stack.peek().getReadWriteKey();
+	}
+
+	private static void printStack(String methodName) {
+		Stack<ShardingHolder> stack = REPOSITORY_HOLDER_STACK.get();
+		if (CollectionUtils.isEmpty(stack)) {
+			LOGGER.debug("{} : keys in stack :", methodName);
+			return;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (ShardingHolder shardingHolder : stack) {
+			sb.append(shardingHolder.getReadWriteKey() + " ");
+		}
+		LOGGER.debug("{} : keys in stack : {}", methodName, sb.toString());
 	}
 
 	// public static TableShardingStrategy getTableShardingStrategy(String key)

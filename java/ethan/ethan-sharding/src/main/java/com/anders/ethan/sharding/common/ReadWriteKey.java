@@ -1,36 +1,27 @@
 package com.anders.ethan.sharding.common;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.anders.ethan.sharding.loadbalance.LoadBalance;
 
-import org.springframework.beans.factory.InitializingBean;
+public class ReadWriteKey /* implements InitializingBean */{
 
-import com.anders.ethan.sharding.lb.LB;
-import com.anders.ethan.sharding.lb.RandomLB;
-
-public class ReadWriteKey implements InitializingBean {
-
-	private Map<String, String> readKey2DsName = new HashMap<String, String>();
+	// private Map<String, String> readKey2DsName = new HashMap<String,
+	// String>();
 	// private Map<String, String> failedKey2DataSourceMap = new
 	// ConcurrentHashMap<String, String>();
-	private boolean alwaysReplace = false;
-	private LB<String> lb;
+	private LoadBalance<String> loadBalance;
 	private String writeKey;
 
-	public void setReadDateSources(Map<String, String> readDateSources) {
-		this.readKey2DsName = Collections.synchronizedMap(readDateSources);
-	}
-
-	public String getReadDataSource(String key) {
-		return readKey2DsName.get(key);
-	}
-
-	public Map<String, String> getReadDataSources() {
-		return readKey2DsName;
-	}
+	// public void setReadDateSources(Map<String, String> readDateSources) {
+	// this.readKey2DsName = Collections.synchronizedMap(readDateSources);
+	// }
+	//
+	// public String getReadDataSource(String key) {
+	// return readKey2DsName.get(key);
+	// }
+	//
+	// public Map<String, String> getReadDataSources() {
+	// return readKey2DsName;
+	// }
 
 	public String getWriteKey() {
 		return writeKey;
@@ -45,21 +36,25 @@ public class ReadWriteKey implements InitializingBean {
 	}
 
 	public void setReadKey() {
-//		if (!alwaysReplace && ShardingUtil.getReadWriteKey() != null) {
-//			return;
-//		}
-		ShardingUtil.setReadWriteKey(lb.elect());
-	}
-
-	public void setKey(String key) {
-		// if (!alwaysReplace && ShardingUtil.getReadWriteKey() != null
-		// && !writeKey.equals(key)) {
-		if (!alwaysReplace && !writeKey.equals(key)) {
-			return;
+		// if (!alwaysReplace && ShardingUtil.getReadWriteKey() != null) {
+		// return;
+		// }
+		if (loadBalance == null) {
+			ShardingUtil.setReadWriteKey(writeKey);
+		} else {
+			ShardingUtil.setReadWriteKey(loadBalance.elect());
 		}
-
-		ShardingUtil.setReadWriteKey(readKey2DsName.get(key));
 	}
+
+	// public void setKey(String key) {
+	// if (!alwaysReplace && ShardingUtil.getReadWriteKey() != null
+	// && !writeKey.equals(key)) {
+	// if (!alwaysReplace && !writeKey.equals(key)) {
+	// return;
+	// }
+	//
+	// ShardingUtil.setReadWriteKey(readKey2DsName.get(key));
+	// }
 
 	public String getKey() {
 		if (ShardingUtil.getReadWriteKey() == null) {
@@ -73,20 +68,12 @@ public class ReadWriteKey implements InitializingBean {
 		return ShardingUtil.getReadWriteKey();
 	}
 
-	public boolean isAlwaysReplace() {
-		return alwaysReplace;
+	public LoadBalance<String> getLoadBalance() {
+		return loadBalance;
 	}
 
-	public void setAlwaysReplace(boolean alwaysReplace) {
-		this.alwaysReplace = alwaysReplace;
-	}
-
-	public LB<String> getLB() {
-		return lb;
-	}
-
-	public void setLB(LB<String> lb) {
-		this.lb = lb;
+	public void setLoadBalance(LoadBalance<String> loadBalance) {
+		this.loadBalance = loadBalance;
 	}
 
 	// public synchronized void removeDataSourceKey(String key) {
@@ -130,11 +117,11 @@ public class ReadWriteKey implements InitializingBean {
 	// return failedKey2DataSourceMap;
 	// }
 
-	public void afterPropertiesSet() throws Exception {
-		if (lb == null) {
-			List<String> list = new ArrayList<String>(readKey2DsName.values());
-			lb = new RandomLB(list);
-		}
-	}
+	// public void afterPropertiesSet() throws Exception {
+	// if (loadBalance == null) {
+	// List<String> list = new ArrayList<String>(readKey2DsName.values());
+	// loadBalance = new RandomLoadBalance(list);
+	// }
+	// }
 
 }

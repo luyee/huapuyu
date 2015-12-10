@@ -1,5 +1,6 @@
 package com.anders.ethan.sharding.common;
 
+// TODO Anders 后期添加分库
 public class ShardingHolder {
 	// private String repositoryShardingKey;
 	private String readWriteKey;

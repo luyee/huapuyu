@@ -16,7 +16,7 @@ public class ReadWriteDataSource extends AbstractRoutingDataSource {
 	@Override
 	protected Object determineCurrentLookupKey() {
 		String key = readWriteKey.getKey();
-		LOGGER.debug("read write key is :　{}", key);
+		LOGGER.debug("current key is :　{}", key);
 		return key;
 	}
 

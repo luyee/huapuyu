@@ -35,14 +35,10 @@ public class ReadWriteInterceptor implements MethodInterceptor {
 					.getAnnotation(Transactional.class);
 		}
 
-		if (tx != null) {
-			if (tx.readOnly()) {
-				readWriteKey.setReadKey();
-			} else {
-				readWriteKey.setWriteKey();
-			}
+		if (tx != null && tx.readOnly()) {
+			readWriteKey.setReadKey();
 		} else {
-			LOGGER.debug("no transaction {}", debugInfo);
+			readWriteKey.setWriteKey();
 		}
 
 		try {
@@ -50,7 +46,7 @@ public class ReadWriteInterceptor implements MethodInterceptor {
 		} catch (Throwable e) {
 			throw e;
 		} finally {
-			ShardingUtil.removeShardingHolder();
+			ShardingUtil.removeCurrent();
 			LOGGER.debug("get out read/write interceptor {}", debugInfo);
 		}
 	}

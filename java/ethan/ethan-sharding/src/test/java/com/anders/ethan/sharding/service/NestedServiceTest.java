@@ -9,19 +9,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" }, inheritLocations = true)
-public class UserServiceTest {
+public class NestedServiceTest {
 
 	@Resource
-	private UserService userService;
+	private NestedService nestedService;
 
 	@Test
 	public void testInsert() {
-		userService.insert(1L);
+		nestedService.insert(1L);
 	}
 
 	@Test
 	public void testFindById() {
-		userService.findById(1L);
-		userService.findById(1L);
+		nestedService.findById(1L);
 	}
 }
