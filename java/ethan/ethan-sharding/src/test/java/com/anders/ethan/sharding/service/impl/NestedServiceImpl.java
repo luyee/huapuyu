@@ -10,7 +10,7 @@ import com.anders.ethan.sharding.service.UserService;
 
 @Service("nestedService")
 public class NestedServiceImpl implements NestedService {
-	
+
 	@Resource
 	private UserService userService;
 

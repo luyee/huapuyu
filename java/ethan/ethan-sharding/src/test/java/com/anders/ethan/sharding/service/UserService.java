@@ -4,6 +4,6 @@ public interface UserService {
 	void insert(Long id);
 
 	Long findById(Long id);
-	
+
 	Long find(Long id);
 }

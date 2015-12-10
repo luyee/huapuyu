@@ -4,7 +4,7 @@ public interface LoadBalance<T> {
 
 	T elect();
 
-//	void removeTarget(T t);
-//
-//	void recoverTarget(T t);
+	// void removeTarget(T t);
+	//
+	// void recoverTarget(T t);
 }

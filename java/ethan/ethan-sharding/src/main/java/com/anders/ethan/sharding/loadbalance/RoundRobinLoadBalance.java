@@ -8,44 +8,43 @@ import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 public class RoundRobinLoadBalance implements LoadBalance<String> {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(RoundRobinLoadBalance.class);
+	// private static final Logger LOGGER = LoggerFactory
+	// .getLogger(RoundRobinLoadBalance.class);
 
 	private static final int MIN_LB_FACTOR = 1;
 
 	private List<String> targets;
-	private int currentPos;
+	private int currentPos = 0;
 
-	private Map<String, Integer> currentTargets;
+	// private Map<String, Integer> lbFactors;
 
 	// private Map<String, Integer> failedTargets;
 
 	public RoundRobinLoadBalance(Map<String, Integer> lbFactors) {
 		// Assert.notNull(lbFactors);
 		Assert.notEmpty(lbFactors);
-		currentTargets = Collections.synchronizedMap(lbFactors);
+		// this.lbFactors = lbFactors;
+		// currentTargets = Collections.synchronizedMap(lbFactors);
 		// Assert.notEmpty(lbFactors);
 		// failedTargets = Collections
 		// .synchronizedMap(new HashMap<String, Integer>(currentTargets
 		// .size()));
-		reInitTargets(currentTargets);
+		// reInitTargets(currentTargets);
+		this.targets = initTargets(lbFactors);
 	}
 
-	private void reInitTargets(Map<String, Integer> lbFactors) {
-		targets = initTargets(lbFactors);
-		// TODO Anders 抛错还是日志提示
-		// Assert.notEmpty(targets);
-		if (CollectionUtils.isEmpty(targets)) {
-			LOGGER.error("targets is empty");
-		}
-		currentPos = 0;
-	}
+	// private void reInitTargets(Map<String, Integer> lbFactors) {
+	// targets = initTargets(lbFactors);
+	// Assert.notEmpty(targets);
+	// if (CollectionUtils.isEmpty(targets)) {
+	// LOGGER.error("targets is empty");
+	// }
+	// currentPos = 0;
+	// }
 
 	public List<String> initTargets(Map<String, Integer> lbFactors) {
 		if (MapUtils.isEmpty(lbFactors)) {
@@ -98,6 +97,11 @@ public class RoundRobinLoadBalance implements LoadBalance<String> {
 				targets.add(entry.getKey());
 			}
 		}
+
+		// if (CollectionUtils.isNotEmpty(targets)) {
+		// Collections.shuffle(targets);
+		// }
+
 		return targets;
 	}
 
@@ -120,7 +124,7 @@ public class RoundRobinLoadBalance implements LoadBalance<String> {
 	// reInitTargets(currentTargets);
 	// }
 	// }
-	//
+
 	// @Override
 	// public synchronized void recoverTarget(String key) {
 	// if (failedTargets.containsKey(key)) {
