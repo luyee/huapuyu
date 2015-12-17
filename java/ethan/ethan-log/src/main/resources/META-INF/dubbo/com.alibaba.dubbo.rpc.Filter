@@ -1,0 +1,2 @@
+dubboConsumerFilter=com.anders.ethan.log.cat.client.dubbo.DubboConsumerFilter
+dubboProviderFilter=com.anders.ethan.log.cat.client.dubbo.DubboProviderFilter

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://code.alibabatech.com/schema/dubbo 
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+	<!-- dubbo -->
+	<bean id="userService" class="com.anders.ethan.log.cat.service.impl.UserServiceImpl" />
+	
+	<dubbo:application name="dubbo_provider_test" />
+
+	<dubbo:registry address="zookeeper://192.168.56.101:2181" />
+	
+	<dubbo:protocol name="dubbo" port="20880" />
+	
+	<dubbo:service interface="com.anders.ethan.log.cat.service.api.UserService" ref="userService" />
+	
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:db.properties</value>
+			</list>
+		</property>
+	</bean> 
+	
+	<!-- read/write -->
+	<bean id="write" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${db.write.driver}" />
+		<property name="url" value="${db.write.url}" />
+		<property name="username" value="${db.write.username}" />
+		<property name="password" value="${db.write.password}" />
+	</bean>
+	
+	<bean id="read01" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${db.read01.driver}" />
+		<property name="url" value="${db.read01.url}" />
+		<property name="username" value="${db.read01.username}" />
+		<property name="password" value="${db.read01.password}" />
+	</bean>
+	
+	<bean id="read02" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${db.read02.driver}" />
+		<property name="url" value="${db.read02.url}" />
+		<property name="username" value="${db.read02.username}" />
+		<property name="password" value="${db.read02.password}" />
+	</bean>
+	
+	<bean id="dataSource" class="com.eif.framework.data.datasource.ReadWriteDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry key="write" value-ref="write" />
+				<entry key="read01" value-ref="read01" />
+				<entry key="read02" value-ref="read02" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="write" />
+		<property name="readWriteKey" ref="readWriteKey" />
+	</bean>
+	
+	<bean id="readWriteKey" class="com.eif.framework.data.common.ReadWriteKey">
+		<property name="writeKey" value="write" />
+		<property name="loadBalance" ref="roundRobinLoadBalance" />
+	</bean>
+
+	<bean id="roundRobinLoadBalance" class="com.eif.framework.data.loadbalance.RoundRobinLoadBalance">
+		<constructor-arg>
+			<map key-type="java.lang.String" value-type="java.lang.Integer">
+				<entry key="read01" value="1" />
+				<entry key="read02" value="1" />
+			</map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="readWriteInterceptor" class="com.eif.framework.data.interceptor.ReadWriteInterceptor">
+		<property name="readWriteKey" ref="readWriteKey" />
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributeSource">
+			<bean class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+		</property>
+	</bean>
+	
+	<bean id="serviceInterceptor" class="com.anders.ethan.log.cat.client.spring.ServiceInterceptor" />
+	
+	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>serviceInterceptor</value>
+				<value>readWriteInterceptor</value>
+				<value>transactionInterceptor</value>  
+			</list>
+		</property>
+	</bean>
+
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.anders.ethan.log.cat.service" />
+	<context:component-scan base-package="com.anders.ethan.log.cat.mapper" />
+	
+	<!-- mybatis -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.anders.ethan.log.cat.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<property name="annotationClass" value="org.springframework.stereotype.Repository" /> 
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="typeAliasesPackage" value="com.anders.ethan.log.cat.entity" />
+		<property name="mapperLocations" value="classpath*:mapper/*Mapper.xml" />
+		<property name="plugins">
+			<array>
+				<ref bean="mybatisInterceptor" />
+			</array>
+		</property> 
+	</bean>
+	
+	<bean id="mybatisInterceptor" class="com.anders.ethan.log.cat.client.mybatis.MyBatisInterceptor" />
+	
+</beans>

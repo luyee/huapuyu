@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">   
+   
+<log4j:configuration>   
+   
+ <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">   
+  <layout class="org.apache.log4j.PatternLayout">   
+   <param name="ConversionPattern"   
+    value="%d - %c -%-4r [%t] %-5p %x - %m%n" />   
+  </layout>   
+     
+  <!--限制输出级别-->   
+  <!-- <filter class="org.apache.log4j.varia.LevelRangeFilter">   
+   <param name="LevelMax" value="ERROR"/>   
+   <param name="LevelMin" value="TRACE"/>   
+  </filter> -->   
+ </appender>   
+ 
+ <appender name="FILE" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="D:/log/test.log" />
+        <param name="BufferSize" value="512" />
+        <param name="Append" value="true" />     
+        <param name="MaxFileSize" value="1GB"></param>
+        <param name="MaxBackupIndex" value="10" />   
+         <layout class="org.apache.log4j.PatternLayout">
+             <param name="ConversionPattern"
+                    value="%m%n" />
+         </layout>
+    </appender>
+    
+ <appender name="catAppender" class="com.dianping.cat.log4j.CatAppender"></appender>   
+ <appender name="myCatAppender" class="com.anders.ethan.log.cat.client.log.MyCatAppender"></appender>
+    
+  <root>
+       <level value="ERROR" />
+       <appender-ref ref="CONSOLE" />   
+       <!-- <appender-ref ref="catAppender" /> -->
+       <appender-ref ref="FILE" /> 
+  </root>
+  
+  <!-- <logger name="com.dianping.api.location" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="locationAppender"/>
+        <appender-ref ref="catAppender"/>
+      </logger> -->
+   
+   
+</log4j:configuration>   

@@ -1,0 +1,14 @@
+D:\>java -cp antlr-2.7.7.jar antlr.Tool sql.g
+ANTLR Parser Generator   Version 2.7.7 (20060906)   1989-2005
+
+D:\>java -cp antlr-2.7.7.jar antlr.Tool sqltree.g
+ANTLR Parser Generator   Version 2.7.7 (20060906)   1989-2005
+sqltree.g:550:25: warning:Rule 'column' returns a value
+sqltree.g:550:33: warning:Rule 'column' returns a value
+sqltree.g:554:20: warning:Rule 'variable' returns a value
+sqltree.g:554:30: warning:Rule 'variable' returns a value
+sqltree.g:555:17: warning:Rule 'variable' returns a value
+sqltree.g:555:27: warning:Rule 'variable' returns a value
+sqltree.g:598:18: warning:Rule 'setEqualityExpression' returns a value
+sqltree.g:727:16: warning:Rule 'column' returns a value
+sqltree.g:727:24: warning:Rule 'variable' returns a value

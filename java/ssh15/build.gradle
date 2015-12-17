@@ -82,6 +82,11 @@ dependencies {
     // activemq
     compile group: 'org.apache.activemq', name: 'activemq-client', version: '5.11.1'
     
+    // rocketmq
+    compile group: 'com.alibaba.rocketmq', name: 'rocketmq-all', version: '3.2.6'
+    compile group: 'com.alibaba.rocketmq', name: 'rocketmq-common', version: '3.2.6'
+    compile group: 'com.alibaba.rocketmq', name: 'rocketmq-client', version: '3.2.6'
+    
     // mysql
     compile group: 'org.mybatis', name: 'mybatis', version: '3.2.7'
 	compile group: 'org.mybatis', name: 'mybatis-spring', version: '1.2.2'
