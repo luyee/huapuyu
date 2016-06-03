@@ -1,0 +1,9 @@
+<aspectj>
+	<weaver>
+        <include within="redis.clients.jedis..*"/>
+    </weaver>
+	<aspects>
+		<aspect name="com.anders.ethan.log.cat.client.aspect.aj.RedisAspect" />
+	</aspects>
+</aspectj>
+
