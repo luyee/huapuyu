@@ -9,10 +9,10 @@
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	-->
 	<bean id="dataSourceTarget" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${driver}" />
-		<property name="url" value="${url}" />
-		<property name="username" value="${username}" />
-		<property name="password" value="${password}" />
+		<property name="driverClassName" value="${dev.driver}" />
+		<property name="url" value="${dev.url}" />
+		<property name="username" value="${dev.username}" />
+		<property name="password" value="${dev.password}" />
 		<!-- 连接池启动时的初始值 -->
 		<!-- 
 		<property name="initialSize" value="1" /> 

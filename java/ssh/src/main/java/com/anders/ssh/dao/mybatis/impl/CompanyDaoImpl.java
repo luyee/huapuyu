@@ -51,8 +51,7 @@ public class CompanyDaoImpl extends MybatisDao<Long, Company> implements Company
 
 	@Override
 	public void save(Company company) {
-		Assert.notNull(company);
-		throw new RuntimeException("没有实现");
+		companyMapper.insert(company);
 	}
 
 	@Override

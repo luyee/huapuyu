@@ -8,13 +8,13 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			classpath:spring-xsd-all.xml
+			classpath:applicationContext.xml
 		</param-value>
-	</context-param>
+	</context-param> 
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+	</listener> 
 
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -32,14 +32,27 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	
 
 	<filter>
 		<filter-name>HiddenHttpMethodFilter</filter-name>
 		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
 	</filter>
+	<filter>
+		<description>
+		</description>
+		<display-name>MyFilter</display-name>
+		<filter-name>MyFilter</filter-name>
+		<filter-class>com.anders.jdbc.test.MyFilter</filter-class>
+	</filter>
 	<filter-mapping>
 		<filter-name>HiddenHttpMethodFilter</filter-name>
 		<servlet-name>mvc</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>MyFilter</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
 	<servlet>

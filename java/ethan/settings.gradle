@@ -9,4 +9,6 @@ include "ethan-cfgcenter",
 		"ethan-codegen",
 		"ethan-databus",
 		"ethan-job",
-		"ethan-storage"
+		"ethan-storage",
+		"ethan-tcc",
+		"ethan-dubbo"

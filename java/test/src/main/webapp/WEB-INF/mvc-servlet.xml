@@ -1,47 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xsi:schemaLocation="
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
-        
-    <context:component-scan base-package="com.anders.jdbc.test.controller" use-default-filters="false">
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+
+	<bean id="catHandlerMethodArgumentResolver"
+		class="com.anders.jdbc.test.controller.CatHandlerMethodArgumentResolver" />
+
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="synchronizeOnSession" value="true" />
+		<!-- <property name="customArgumentResolvers">
+			<list>
+				<ref bean="catHandlerMethodArgumentResolver" />
+			</list>
+		</property> -->
+	</bean>
+
+	<mvc:annotation-driven>
+		<!-- <mvc:argument-resolvers> <bean class="com.anders.jdbc.test.controller.CatHandlerMethodArgumentResolver" 
+			/> </mvc:argument-resolvers> -->
+	</mvc:annotation-driven>
+
+	<context:component-scan base-package="com.anders.jdbc.test.controller"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
-	
-	<mvc:annotation-driven/>
-	
-    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-		<property name="ignoreAcceptHeader" value="false"/>
-		<property name="defaultContentType" value="text/html"/>
+
+
+
+	<mvc:interceptors>
+		<bean class="com.anders.jdbc.test.ControllerInterceptor" />
+	</mvc:interceptors>
+
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="ignoreAcceptHeader" value="false" />
+		<property name="defaultContentType" value="text/html" />
 		<property name="mediaTypes">
-	        <map>
-	            <entry key="html" value="text/html"/>
-	            <entry key="json" value="application/json"/>
-	        </map>
-	    </property>
+			<map>
+				<entry key="html" value="text/html" />
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
 		<property name="viewResolvers">
 			<list>
 				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
-				<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
-			    	<property name="prefix" value="/WEB-INF/views/"/>  
-			    	<property name="suffix" value=".jsp"/>
-			    	<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />  
-			   </bean>
+				<bean
+					class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<property name="prefix" value="/WEB-INF/views/" />
+					<property name="suffix" value=".jsp" />
+					<property name="viewClass"
+						value="org.springframework.web.servlet.view.JstlView" />
+				</bean>
 			</list>
 		</property>
 		<property name="defaultViews">
 			<list>
-				<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+				<bean
+					class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	</bean>
 </beans>

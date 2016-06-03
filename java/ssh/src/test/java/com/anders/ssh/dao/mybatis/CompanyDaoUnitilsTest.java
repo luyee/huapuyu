@@ -89,4 +89,13 @@ public class CompanyDaoUnitilsTest extends UnitilsJUnit4 {
 		List<CompanyInfo> list = companyDao.getCompanyInfoById(1L);
 		Assert.assertEquals(2, list.size());
 	}
+	
+	@Test
+	@Transactional(transactionManagerName = "mybatisTxManager")
+	public void testInsert() {
+		Company company = new Company();
+		company.setName("zhuzhen");
+		companyDao.save(company);
+		System.out.println(company.getId());
+	}
 }

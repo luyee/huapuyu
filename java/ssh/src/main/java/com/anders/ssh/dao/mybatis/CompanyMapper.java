@@ -11,6 +11,8 @@ public interface CompanyMapper extends GenericMapper<Long, Company> {
 
 	void batchUpdate(List<Company> list);
 
+	void insert(Company company);
+	
 	List<Company> batchSelect(List<Long> list);
 
 	List<CompanyInfo> getCompanyInfoById(Long id);

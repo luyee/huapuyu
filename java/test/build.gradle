@@ -63,3 +63,11 @@ uploadArchives {
        }
     }
 }
+
+jettyRun{  
+    webAppSourceDirectory file("$projectDir/src/main/webapp")  
+    httpPort 8787  
+    contextPath project.name  
+    scanIntervalSeconds 0  
+    reload "automatic"  
+}  

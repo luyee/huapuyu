@@ -68,6 +68,17 @@
     	WHERE a.company_info_id = b.id AND a.id = c.company_id AND a.id = e.company_id AND e.account_id = d.id
   	</select>
   	
+  	<insert id="insert" parameterType="com.anders.ssh.bo.test.Company">  
+    <selectKey resultType="long" keyProperty="id" order="BEFORE">  
+        SELECT LAST_INSERT_ID()  
+    </selectKey>  
+    insert into tb_company (id,name) values (#{id}, #{name})  
+	</insert>  
+	
+	<!-- <insert id="insert" parameterType="com.anders.ssh.bo.test.Company" useGeneratedKeys="true" keyProperty="id">  
+    insert into tb_company (id,name) values (#{id}, #{name})  
+	</insert>  -->
+  	
   	<!-- <insert id="batchAdd" useGeneratedKeys="true" parameterType="java.util.List">  
     <selectKey resultType="long" keyProperty="id" order="AFTER">  
         SELECT  

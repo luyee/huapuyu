@@ -23,4 +23,13 @@ public class Tester {
 		System.out.println(Pattern.matches(regex, "-.01") + "\t-.01");
 		System.out.println(Pattern.matches(regex, "100.00") + "\t100.00");
 	}
+
+	@Test
+	public void test1() throws IOException {
+		System.out.println("asdfasdf[afdads".replaceAll("\\[", ""));
+		System.out.println("asdfasdf{afdads".replaceAll("\\{", ""));
+		System.out.println("asd\"fasdf\"afdads".replaceAll("\"", ""));
+		System.out.println("asd''fasdf'''''afd'''ads".replaceAll("'", ""));
+		System.out.println("asd:fasdf:::afdads".replaceAll(":", ""));
+	}
 }

@@ -11,9 +11,9 @@ public class LogAroundAdvice implements MethodInterceptor {
 	private LogCallPK logCallPK;
 
 	public Object invoke(MethodInvocation invocation) throws Throwable {
-		log.error(logCallPK.getLogCallPK() + " : " + invocation.getMethod().getName());
+//		log.error(logCallPK.getLogCallPK() + " : " + invocation.getMethod().getName());
 		Object result = invocation.proceed();
-		log.error(logCallPK.getLogCallPK() + " : " + invocation.getMethod().getName());
+//		log.error(logCallPK.getLogCallPK() + " : " + invocation.getMethod().getName());
 		return result;
 	}
 

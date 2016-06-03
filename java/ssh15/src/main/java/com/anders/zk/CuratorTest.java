@@ -25,9 +25,7 @@ public class CuratorTest {
 		retryPolicy = new RetryOneTime(1000);
 		retryPolicy = new RetryUntilElapsed(1000, 1000);
 
-		CuratorFramework client = CuratorFrameworkFactory.builder()
-				.connectString("anders1:2181,anders2:2181,anders3:2181").namespace("anders_test")
-				.retryPolicy(retryPolicy).connectionTimeoutMs(5000).sessionTimeoutMs(5000).build();
+		CuratorFramework client = CuratorFrameworkFactory.builder().connectString("anders1:2181,anders2:2181,anders3:2181").namespace("anders_test").retryPolicy(retryPolicy).connectionTimeoutMs(5000).sessionTimeoutMs(5000).build();
 		client.start();
 
 		System.out.println(client.getState());
@@ -37,9 +35,7 @@ public class CuratorTest {
 	@Test
 	public void test2() throws Exception {
 		RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-		CuratorFramework client = CuratorFrameworkFactory.builder()
-				.connectString("anders1:2181,anders2:2181,anders3:2181").namespace("anders_test")
-				.retryPolicy(retryPolicy).connectionTimeoutMs(5000).sessionTimeoutMs(5000).build();
+		CuratorFramework client = CuratorFrameworkFactory.builder().connectString("anders1:2181,anders2:2181,anders3:2181").namespace("anders_test").retryPolicy(retryPolicy).connectionTimeoutMs(5000).sessionTimeoutMs(5000).build();
 		client.start();
 		client.create().creatingParentsIfNeeded().forPath("/test1", "helloworld".getBytes());
 
@@ -53,9 +49,7 @@ public class CuratorTest {
 	@Test
 	public void test3() throws Exception {
 		RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-		CuratorFramework client = CuratorFrameworkFactory.builder()
-				.connectString("anders1:2181,anders2:2181,anders3:2181").retryPolicy(retryPolicy)
-				.connectionTimeoutMs(5000).sessionTimeoutMs(5000).build();
+		CuratorFramework client = CuratorFrameworkFactory.builder().connectString("anders1:2181,anders2:2181,anders3:2181").retryPolicy(retryPolicy).connectionTimeoutMs(5000).sessionTimeoutMs(5000).build();
 		client.start();
 		client.create().creatingParentsIfNeeded().forPath("/anders_test/test2", "sayhello".getBytes());
 
@@ -75,25 +69,19 @@ public class CuratorTest {
 	@Test
 	public void test4() throws Exception {
 		RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-		CuratorFramework client = CuratorFrameworkFactory.builder()
-				.connectString("anders1:2181,anders2:2181,anders3:2181").retryPolicy(retryPolicy)
-				.connectionTimeoutMs(5000).sessionTimeoutMs(5000).build();
+		CuratorFramework client = CuratorFrameworkFactory.builder().connectString("anders1:2181,anders2:2181,anders3:2181").retryPolicy(retryPolicy).connectionTimeoutMs(5000).sessionTimeoutMs(5000).build();
 		client.start();
-		client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath("/anders_test/test3/user/name",
-				"zhuzhen".getBytes());
+		client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath("/anders_test/test3/user/name", "zhuzhen".getBytes());
 	}
 
 	// 创建序列节点并删除，不指定namespace
 	@Test
 	public void test5() throws Exception {
 		RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-		CuratorFramework client = CuratorFrameworkFactory.builder()
-				.connectString("anders1:2181,anders2:2181,anders3:2181").retryPolicy(retryPolicy)
-				.connectionTimeoutMs(5000).sessionTimeoutMs(5000).build();
+		CuratorFramework client = CuratorFrameworkFactory.builder().connectString("anders1:2181,anders2:2181,anders3:2181").retryPolicy(retryPolicy).connectionTimeoutMs(5000).sessionTimeoutMs(5000).build();
 		client.start();
 
-		String path = client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT_SEQUENTIAL)
-				.forPath("/anders_test/test3/user/name", "zhuzhen".getBytes());
+		String path = client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT_SEQUENTIAL).forPath("/anders_test/test3/user/name", "zhuzhen".getBytes());
 
 		client.delete().forPath(path);
 	}
@@ -101,26 +89,24 @@ public class CuratorTest {
 	// 创建序列节点并删除
 	@Test
 	public void test6() throws Exception {
-		RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-		CuratorFramework client = CuratorFrameworkFactory.builder()
-				.connectString("anders1:2181,anders2:2181,anders3:2181").namespace("anders_test")
-				.retryPolicy(retryPolicy).connectionTimeoutMs(5000).sessionTimeoutMs(5000).build();
-		client.start();
+		for (int i = 0; i < 1000; i++) {
+			RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
+			CuratorFramework client = CuratorFrameworkFactory.builder().connectString("192.168.56.101:2181").namespace("anders_test").retryPolicy(retryPolicy).connectionTimeoutMs(5000000).sessionTimeoutMs(5000000).build();
+			client.start();
 
-		String path = client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT_SEQUENTIAL)
-				.forPath("/test3/user/name", "zhuzhen".getBytes());
+			String path = client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT_SEQUENTIAL).forPath("/test3/user/name", "zhuzhen".getBytes());
 
-		System.out.println(path);
+			System.out.println(path);
 
-		client.delete().forPath(path);
+		}
+
+		// client.delete().forPath(path);
 	}
 
 	@Test
 	public void test7() throws Exception {
 		RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-		CuratorFramework client = CuratorFrameworkFactory.builder()
-				.connectString("anders1:2181,anders2:2181,anders3:2181").namespace("anders_test")
-				.retryPolicy(retryPolicy).connectionTimeoutMs(5000).sessionTimeoutMs(5000).build();
+		CuratorFramework client = CuratorFrameworkFactory.builder().connectString("anders1:2181,anders2:2181,anders3:2181").namespace("anders_test").retryPolicy(retryPolicy).connectionTimeoutMs(5000).sessionTimeoutMs(5000).build();
 		client.start();
 		ExecutorService tp = Executors.newFixedThreadPool(2);
 		client.create().creatingParentsIfNeeded().inBackground(new BackgroundCallback() {

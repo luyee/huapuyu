@@ -15,8 +15,8 @@ import com.dianping.cat.Cat;
 import com.dianping.cat.message.Transaction;
 
 // @Activate(group = {Constants.PROVIDER, Constants.CONSUMER})
-@Activate(group = { com.alibaba.dubbo.common.Constants.PROVIDER })
-public class DubboProviderFilter implements Filter {
+//@Activate(group = { com.alibaba.dubbo.common.Constants.PROVIDER })
+public class DubboProviderFilter implements Filter, Constants {
 
 	private static Logger LOGGER = LoggerFactory
 			.getLogger(DubboProviderFilter.class);
@@ -47,14 +47,12 @@ public class DubboProviderFilter implements Filter {
 			transaction = Cat.newTransaction(Constants.TRANS_TYPE_PROVIDER,
 					methodName);
 
-			debugLog(">>>>>>>>>>>>>>>> " + methodName, consumerIp);
+			LOGGER.debug(LOG_DUBBO_PROVIDER_IN_MSG, methodName, consumerIp);
 
 			Cat.logEvent(Constants.TRANS_TYPE_PROVIDER + ".client", consumerIp);
 		} catch (Throwable e) {
-			// TODO Anders 是否要添加cat error log
-			// LOGGER.error("failed to create cat transaction", e);
 			Cat.logError(e);
-			errorLog("failed to create cat transaction", e);
+			LOGGER.error(LOG_FAILED_TO_CREATE_TRANS, e);
 			return invoker.invoke(invocation);
 		}
 
@@ -65,32 +63,12 @@ public class DubboProviderFilter implements Filter {
 			return result;
 		} catch (Throwable e) {
 			Cat.logError(e);
-			errorLog(null, e);
+			LOGGER.error(LOG_DUBBO_CONSUMER_EX_MSG, methodName, consumerIp, e);
 			transaction.setStatus(e);
 			throw e;
 		} finally {
 			transaction.complete();
-			debugLog("<<<<<<<<<<<<<<<< " + methodName, consumerIp);
+			LOGGER.debug(LOG_DUBBO_PROVIDER_OUT_MSG, methodName, consumerIp);
 		}
-	}
-
-	private void debugLog(String log, String info) {
-		LOGGER.debug(log
-				+ " [type:"
-				+ Constants.TRANS_TYPE_PROVIDER
-				+ ", info:"
-				+ info
-				+ ", traceId:"
-				+ Cat.getManager().getThreadLocalMessageTree()
-						.getParentMessageId() + "]");
-	}
-
-	private void errorLog(String log, Throwable e) {
-		LOGGER.error(log
-				+ " [type:"
-				+ Constants.TRANS_TYPE_PROVIDER
-				+ ", traceId:"
-				+ Cat.getManager().getThreadLocalMessageTree()
-						.getParentMessageId() + "]", e);
 	}
 }

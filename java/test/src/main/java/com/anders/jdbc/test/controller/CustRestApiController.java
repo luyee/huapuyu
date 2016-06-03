@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.anders.jdbc.test.entity.Cust;
 import com.anders.jdbc.test.service.CustService;
@@ -31,7 +32,23 @@ public class CustRestApiController {
 		list.add(id + 2);
 		list.add(id + 3);
 
-		List<Cust> custs = custService.selectByIds(list);
+//		List<Cust> custs = custService.selectByIds(list);
+		
+		List<Cust> custs = new ArrayList<Cust>();
+		Cust cust = new Cust();
+		cust.setId(1L);
+		cust.setName("zhuzhen");
+		custs.add(cust);
+		
+		cust = new Cust();
+		cust.setId(2L);
+		cust.setName("guolili");
+		custs.add(cust);
+		
+		int i = 0;
+		int j = 0;
+//		System.out.println(i /j);
+		
 
 		return new ResponseEntity<List<Cust>>(custs, HttpStatus.OK);
 	}
@@ -79,6 +96,15 @@ public class CustRestApiController {
 	public ResponseEntity<Cust> updateUserByPrimaryKeySelective(@RequestBody Cust cust) throws InterruptedException {
 		custService.update(cust);
 		return new ResponseEntity<Cust>(cust, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/test", method = RequestMethod.POST)
+	@ResponseBody
+	public Cust test(@RequestBody Cust cust)  {
+		 Cust c = new Cust();
+		 c.setId(cust.getId());
+		 c.setName(cust.getName()+"hhhh");
+		return c;
 	}
 
 }

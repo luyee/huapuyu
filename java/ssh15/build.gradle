@@ -57,6 +57,10 @@ dependencies {
     compile group: 'org.springframework.data', name: 'spring-data-redis', version: '1.5.2.RELEASE'
     compile group: 'redis.clients', name: 'jedis', version: '2.7.2'
     
+    // codis
+    // compile group: 'com.wandoulabs.nedis', name: 'codis-client', version: '0.1.1'
+    compile group: 'com.wandoulabs.jodis', name: 'jodis', version: '0.2.2'
+    
     // memcached
     compile group: 'net.spy', name: 'spymemcached', version: '2.12.0'
     compile group: 'com.googlecode.xmemcached', name: 'xmemcached', version: '2.0.0'
@@ -144,6 +148,9 @@ dependencies {
     
     // test
     testCompile group: 'junit', name: 'junit', version: '4.+'
+    
+    //compile group: 'com.anders', name: 'aspect', version: '0.0.1-SNAPSHOT'
+    compile files('libs/aspect-0.0.1-SNAPSHOT.jar')
 }
 
 test {
