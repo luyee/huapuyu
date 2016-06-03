@@ -1,0 +1,9 @@
+<aspectj>
+	<weaver>
+        <include within="com.anders.ethan.log.cat.service..*"/>
+    </weaver>
+	<aspects>
+		<aspect name="com.anders.ethan.log.cat.client.aspect.aj.ServiceAspect" />
+	</aspects>
+</aspectj>
+
