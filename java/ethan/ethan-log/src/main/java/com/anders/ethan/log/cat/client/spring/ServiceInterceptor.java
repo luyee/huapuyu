@@ -10,7 +10,7 @@ import com.anders.ethan.log.cat.client.common.Constants;
 import com.dianping.cat.Cat;
 import com.dianping.cat.message.Transaction;
 
-public class ServiceInterceptor implements MethodInterceptor {
+public class ServiceInterceptor implements MethodInterceptor, Constants {
 
 	private static Logger LOGGER = LoggerFactory
 			.getLogger(ServiceInterceptor.class);
@@ -26,14 +26,14 @@ public class ServiceInterceptor implements MethodInterceptor {
 			transaction = Cat.newTransaction(Constants.TRANS_TYPE_SERVICE,
 					methodName);
 
-			debugLog(">>>>>>>>>>>>>>>> " + methodName, methodName);
+			LOGGER.debug(LOG_SERVICE_IN_MSG, methodName);
 
 			Assert.notNull(transaction);
 		} catch (Throwable e) {
 			// TODO Anders 是否要添加cat error log
 			// LOGGER.error("failed to create cat transaction", e);
 			Cat.logError(e);
-			errorLog("failed to create cat transaction", e);
+			LOGGER.error(LOG_FAILED_TO_CREATE_TRANS, e);
 			return invocation.proceed();
 		}
 
@@ -43,32 +43,12 @@ public class ServiceInterceptor implements MethodInterceptor {
 			return object;
 		} catch (Throwable e) {
 			Cat.logError(e);
-			errorLog(null, e);
+			LOGGER.error(LOG_SERVICE_EX_MSG, methodName, e);
 			transaction.setStatus(e);
 			throw e;
 		} finally {
 			transaction.complete();
-			debugLog("<<<<<<<<<<<<<<<< " + methodName, methodName);
+			LOGGER.debug(LOG_SERVICE_OUT_MSG, methodName);
 		}
-	}
-
-	private void debugLog(String log, String info) {
-		LOGGER.debug(log
-				+ " [type:"
-				+ Constants.TRANS_TYPE_SERVICE
-				+ ", info:"
-				+ info
-				+ ", traceId:"
-				+ Cat.getManager().getThreadLocalMessageTree()
-						.getParentMessageId() + "]");
-	}
-
-	private void errorLog(String log, Throwable e) {
-		LOGGER.error(log
-				+ " [type:"
-				+ Constants.TRANS_TYPE_SERVICE
-				+ ", traceId:"
-				+ Cat.getManager().getThreadLocalMessageTree()
-						.getParentMessageId() + "]", e);
 	}
 }

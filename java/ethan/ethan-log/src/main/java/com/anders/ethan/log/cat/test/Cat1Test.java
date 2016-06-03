@@ -1,4 +1,4 @@
-package com.anders.ethan.log.cat;
+package com.anders.ethan.log.cat.test;
 
 import java.io.IOException;
 
