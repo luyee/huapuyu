@@ -5,7 +5,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
 
-public class Recv {
+public class Recv1 {
 	private final static String EXCHANGE_NAME = "topic";
 
 	public static void main(String[] argv) throws Exception {
@@ -20,7 +20,7 @@ public class Recv {
 		System.out.println(anonymousName);
 
 		// 接收所有与kernel相关的消息
-		channel.queueBind(anonymousName, EXCHANGE_NAME, "kernel.*");
+		channel.queueBind(anonymousName, EXCHANGE_NAME, "auth.*");
 
 		System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
