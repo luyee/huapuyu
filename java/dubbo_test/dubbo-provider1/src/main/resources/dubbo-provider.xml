@@ -41,7 +41,13 @@
 	
 	<!-- <dubbo:registry file="${user.home}/output/dubbo.cache" /> -->
 	
-	<dubbo:service interface="com.anders.ethan.dubbo.service.UserService" ref="userService" />
+	<dubbo:protocol name="dubbo">
+		<dubbo:parameter key="dockerhost" value="192.168.56.101" />
+	</dubbo:protocol>
+	
+	<dubbo:service interface="com.anders.ethan.dubbo.service.UserService" ref="userService">
+		
+	</dubbo:service>
 	<!-- <dubbo:service filter="catFilter" interface="com.alibaba.dubbo.demo.DemoService" ref="demoService" group="demo" /> 
 	<dubbo:service filter="catFilter" interface="com.alibaba.dubbo.demo.DemoService" ref="demo1Service" group="demo1" />  -->
 	

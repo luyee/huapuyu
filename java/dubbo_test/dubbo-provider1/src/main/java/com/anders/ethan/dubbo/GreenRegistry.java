@@ -2,6 +2,7 @@ package com.anders.ethan.dubbo;
 
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.registry.zookeeper.ZookeeperRegistry;
 import com.alibaba.dubbo.remoting.zookeeper.ZookeeperTransporter;
 
@@ -12,10 +13,10 @@ public class GreenRegistry extends ZookeeperRegistry {
 	}
 
 	private URL addGroup(URL url) {
-		System.out.println(url.getHost());
+		String dockerHost = url.getParameter("dockerhost");
 		String side = url.getParameter(Constants.SIDE_KEY);
-		if (Constants.PROVIDER_SIDE.equals(side) || Constants.CONSUMER_SIDE.equals(side)) {
-			url = url.setHost("192.168.56.101");
+		if (StringUtils.isNotEmpty(dockerHost) && Constants.PROVIDER_SIDE.equals(side)) {
+			url = url.setHost(dockerHost);
 		}
 		return url;
 	}

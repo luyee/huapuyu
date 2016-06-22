@@ -46,14 +46,14 @@
 	
 	<dubbo:registry file="${user.home}/output/dubbo.cache" check="false" /> 
 	
-	<dubbo:reference interface="com.anders.ethan.dubbo.service.DemoService" 
+	<dubbo:reference interface="com.anders.ethan.dubbo.service.UserService" 
 		connections="5" 
 		retries="1" 
 		actives="10"
 		timeout="60000" 
 		mock="false"
 		stub="false"
-		id="demoService"
+		id="userService"
 		cluster="forking"
 		cache="false"
 		check="true"
