@@ -1,5 +1,8 @@
 package com.anders.ethan.dubbo;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.common.utils.StringUtils;
@@ -15,10 +18,22 @@ public class GreenRegistry extends ZookeeperRegistry {
 	private URL addGroup(URL url) {
 		String dockerHost = url.getParameter("dockerhost");
 		String side = url.getParameter(Constants.SIDE_KEY);
-		if (StringUtils.isNotEmpty(dockerHost) && Constants.PROVIDER_SIDE.equals(side)) {
+		if (StringUtils.isNotEmpty(dockerHost)
+				&& Constants.PROVIDER_SIDE.equals(side)) {
 			url = url.setHost(dockerHost);
 		}
 		return url;
+	}
+
+	public String getIP(String name) {
+		InetAddress address = null;
+		try {
+			address = InetAddress.getByName(name);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return address.getHostAddress().toString();
 	}
 
 	@Override
