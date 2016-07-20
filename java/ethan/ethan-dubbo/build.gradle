@@ -16,7 +16,7 @@ dependencies {
 	
 	compile 'org.apache.zookeeper:zookeeper:3.4.6'
 	//compile 'com.alibaba:dubbo:2.8.4'
-	compile 'com.alibaba:dubbo:2.8.5-SNAPSHOT'
+	compile 'com.alibaba:dubbo:2.8.4'
 	//compile files('libs/dubbo-2.8.4.jar')
 	compile 'com.github.sgroschupf:zkclient:0.1'
 	//compile 'com.caucho:hessian:4.0.7'

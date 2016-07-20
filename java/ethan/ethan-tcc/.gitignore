@@ -1,1 +1,5 @@
 /.settings
+/build
+/bin
+/.classpath
+/.project
