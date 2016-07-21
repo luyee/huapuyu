@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.google.code.or.OpenReplicator;
@@ -13,18 +14,21 @@ import com.google.code.or.binlog.BinlogEventV4;
 import com.google.code.or.binlog.impl.event.FormatDescriptionEvent;
 import com.google.code.or.binlog.impl.event.QueryEvent;
 import com.google.code.or.binlog.impl.event.RotateEvent;
+import com.google.code.or.binlog.impl.event.WriteRowsEventV2;
 import com.google.code.or.binlog.impl.event.XidEvent;
+import com.google.code.or.common.glossary.Column;
+import com.google.code.or.common.glossary.Row;
 
 public class MainTest {
 	public static void main(String[] args) throws Exception {
 		final OpenReplicator or = new OpenReplicator();
 		or.setUser("anders");
 		or.setPassword("123");
-		or.setHost("127.0.0.1");
-		or.setPort(3307);
+		or.setHost("192.168.56.101");
+		or.setPort(3306);
 		or.setServerId(8394);
-		or.setBinlogPosition(4);
-		or.setBinlogFileName("xp-bin.000001");
+		or.setBinlogPosition(120);
+		or.setBinlogFileName("mysql-bin.000002");
 		or.setBinlogEventListener(new BinlogEventListener() {
 			public void onEvents(BinlogEventV4 event) {
 				System.out.println("*****************************");
@@ -55,6 +59,19 @@ public class MainTest {
 					System.out.println(rotateEvent.getBinlogPosition());
 					System.out.println(getChars(rotateEvent
 							.getBinlogFileName().getValue()));
+				} else if (event instanceof WriteRowsEventV2) {
+					WriteRowsEventV2 writeRowsEventV2 = (WriteRowsEventV2) event;
+					List<Row> rows = writeRowsEventV2.getRows();
+					System.out.println(writeRowsEventV2.getReserved());
+					System.out.println(writeRowsEventV2.getTableId());
+					System.out.println(writeRowsEventV2.getUsedColumns());
+					System.out.println(writeRowsEventV2.getColumnCount());
+					for (Row row:rows) {
+						List<Column> columns = row.getColumns();
+						for (Column column : columns) {
+							System.out.println(column.getClass() + ":" + column.getValue());
+						}
+					}
 				}
 			}
 		});
