@@ -1,4 +1,4 @@
-package com.anders.ethan.databus.core;
+package com.anders.ethan.databus.openreplicator;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
