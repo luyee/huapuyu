@@ -9,7 +9,6 @@ public class RunQuartzCluster {
 	@Test
 	public void testSave() throws IOException {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:quartz-cluster.xml");
-
 		System.in.read();
 	}
 }
