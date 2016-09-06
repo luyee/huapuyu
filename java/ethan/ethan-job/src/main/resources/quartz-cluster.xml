@@ -29,14 +29,15 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<!-- <bean name="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
-		<property name="triggers"> <list> <ref bean="myJobTrigger" /> </list> </property> 
-		</bean> -->
+	<!-- <bean name="executor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"> 
+		<property name="corePoolSize" value="15" /> <property name="maxPoolSize" 
+		value="25" /> <property name="queueCapacity" value="100" /> </bean> -->
 
-	<bean name="quartzScheduler"
+	<bean name="quartzScheduler" lazy-init="false"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="configLocation" value="classpath:quartz.properties" />
 		<property name="autoStartup" value="true" />
+		<property name="startupDelay" value="15" />
 		<property name="dataSource" ref="dataSource" />
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="schedulerName" value="baseScheduler" />
@@ -54,18 +55,20 @@
 				<ref bean="rollbackOrderStatus" />
 			</list>
 		</property>
-		<!-- <property name="taskExecutor" ref="executor"/> -->
+		<!-- <property name="taskExecutor" ref="executor" /> -->
 	</bean>
 
 
-	<!-- quartz-2.x -->
 	<bean id="myJobTrigger"
-		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		class="com.anders.ethan.job.quartz.PersistableCronTriggerFactoryBean">
 		<property name="jobDetail">
 			<ref bean="rollbackOrderStatus" />
 		</property>
 		<property name="cronExpression">
-			<value>0/1 * * * * ?</value>
+			<value>0/5 * * * * ?</value>
+		</property>
+		<property name="timeZone">
+			<value>GMT+8:00</value>
 		</property>
 	</bean>
 
@@ -78,6 +81,7 @@
 		<property name="jobClass"
 			value="com.anders.ethan.job.quartz.ReleaseQtyAndUpdateOrderStatusSchedule" />
 		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="false" />
 	</bean>
 
 </beans>
