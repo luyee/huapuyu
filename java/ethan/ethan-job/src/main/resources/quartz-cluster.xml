@@ -10,79 +10,74 @@
 	http://www.springframework.org/schema/tx/spring-tx.xsd
 	http://www.springframework.org/schema/aop
 	http://www.springframework.org/schema/aop/spring-aop.xsd">
-	
-	<!-- <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1:3306/quartz" />
+		<property name="url" value="jdbc:mysql://192.168.56.101:3306/quartz" />
 		<property name="username" value="root" />
 		<property name="password" value="123" />
-	</bean> -->
-	
-	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:~/test" />
-		<property name="username" value="sa" />
-		<property name="password" value="" />
 	</bean>
-	
-	<bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
 
-	<bean name="startQuertz" lazy-init="false" autowire="no"
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" 
+		destroy-method="close"> <property name="driverClassName" value="org.h2.Driver" 
+		/> <property name="url" value="jdbc:h2:~/test" /> <property name="username" 
+		value="sa" /> <property name="password" value="" /> </bean> -->
+
+	<bean name="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- <bean name="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
+		<property name="triggers"> <list> <ref bean="myJobTrigger" /> </list> </property> 
+		</bean> -->
+
+	<bean name="quartzScheduler"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="configLocation" value="classpath:quartz.properties" />
+		<property name="autoStartup" value="true" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="schedulerName" value="baseScheduler" />
+		<property name="overwriteExistingJobs" value="true" />
+		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+		<!-- <property name="jobFactory"> <bean class="com.aaron.clusterquartz.autowired.AutowiringSpringBeanJobFactory"/> 
+			</property> -->
 		<property name="triggers">
 			<list>
 				<ref bean="myJobTrigger" />
 			</list>
 		</property>
+		<property name="jobDetails">
+			<list>
+				<ref bean="rollbackOrderStatus" />
+			</list>
+		</property>
+		<!-- <property name="taskExecutor" ref="executor"/> -->
 	</bean>
-	
-	<bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="configLocation" value="classpath:quartz.properties"/>
-        <property name="dataSource" ref="dataSource"/>
-        <property name="transactionManager" ref="transactionManager"/>
-        <property name="schedulerName" value="baseScheduler"/>
-        <!-- <property name="overwriteExistingJobs" value="true"/>
-        <property name="applicationContextSchedulerContextKey" value="appli"/> -->
-       <!--  <property name="jobFactory">
-            <bean class="com.aaron.clusterquartz.autowired.AutowiringSpringBeanJobFactory"/>
-        </property> -->
-        <property name="triggers">
-            <list>
-                <ref bean="myJobTrigger"/>
-            </list>
-        </property>
-      <!--   <property name="jobDetails">
-            <list>
-                <ref bean="printCurrentTimeJobs"/>
-            </list>
-        </property> -->
-        <!-- <property name="taskExecutor" ref="executor"/> -->
-    </bean>
-	
+
 
 	<!-- quartz-2.x -->
 	<bean id="myJobTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail">
-			<ref bean="myJobDetail" />
+			<ref bean="rollbackOrderStatus" />
 		</property>
 		<property name="cronExpression">
 			<value>0/1 * * * * ?</value>
 		</property>
 	</bean>
 
-	<bean id="myJobDetail"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject">
-			<ref bean="myJob" />
-		</property>
-		<property name="targetMethod">
-			<value>work</value>
-		</property>
-	</bean>
+	<!-- <bean id="myJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> 
+		<property name="targetObject"> <ref bean="myJob" /> </property> <property 
+		name="targetMethod"> <value>work</value> </property> </bean> -->
 
-	<bean id="myJob" class="com.anders.ethan.job.quartz.MyJob" />
+	<bean id="rollbackOrderStatus"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.anders.ethan.job.quartz.ReleaseQtyAndUpdateOrderStatusSchedule" />
+		<property name="durability" value="true" />
+	</bean>
 
 </beans>
