@@ -78,6 +78,10 @@
 		<module>springcloud-zk-register</module>
 		<module>springcloud-zk-register-02</module>
 		<module>springcloud-zk-client</module>
+		<!-- consul -->
+		<module>springcloud-consul-register</module>
+		<module>springcloud-consul-register-02</module>
+		<module>springcloud-consul-client</module>
 	</modules>
 
 </project>
