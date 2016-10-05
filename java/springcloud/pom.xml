@@ -82,6 +82,8 @@
 		<module>springcloud-consul-register</module>
 		<module>springcloud-consul-register-02</module>
 		<module>springcloud-consul-client</module>
+		<!-- hystrix -->
+		<module>springcloud-hystrix</module>
 	</modules>
 
 </project>
