@@ -84,6 +84,11 @@
 		<module>springcloud-consul-client</module>
 		<!-- hystrix -->
 		<module>springcloud-hystrix</module>
+		<!-- turbine -->
+		<module>springcloud-turbine</module>
+		<module>springcloud-turbine-eureka</module>
+		<module>springcloud-turbine-node</module>
+		<module>springcloud-turbine-node-02</module>
 	</modules>
 
 </project>
