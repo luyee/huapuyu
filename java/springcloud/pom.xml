@@ -89,6 +89,9 @@
 		<module>springcloud-turbine-eureka</module>
 		<module>springcloud-turbine-node</module>
 		<module>springcloud-turbine-node-02</module>
+		<!-- zuul -->
+		<module>springcloud-zuul-service</module>
+		<module>springcloud-zuul-gateway</module>
 	</modules>
 
 </project>
