@@ -39,6 +39,7 @@ public class RPCServer {
 			BasicProperties replyProps = new BasicProperties.Builder().correlationId(props.getCorrelationId()).build();
 			// 获取回调队列名字
 			String callQueueName = props.getReplyTo();
+			System.out.println(callQueueName);
 
 			String message = new String(delivery.getBody(), "UTF-8");
 

@@ -29,6 +29,7 @@ public class RPCClient {
 
 		// 为每一个客户端获取一个随机的回调队列
 		replyQueueName = channel.queueDeclare().getQueue();
+		System.out.println(replyQueueName);
 		// 为每一个客户端创建一个消费者（用于监听回调队列，获取结果）
 		consumer = new QueueingConsumer(channel);
 		// 消费者与队列关联
