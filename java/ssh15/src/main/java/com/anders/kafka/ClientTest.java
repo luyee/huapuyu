@@ -240,4 +240,35 @@ public class ClientTest {
 			consumer.close();
 
 	}
+	
+	@Test
+	public void test111() {
+		Properties props = new Properties();
+		props.put("serializer.class", "kafka.serializer.DefaultEncoder");
+		props.put("metadata.broker.list", "192.168.56.102:9092,192.168.56.103:9092,192.168.56.104:9092,192.168.56.105:9092,192.168.56.106:9092");
+		props.put("key.serializer.class", "kafka.serializer.StringEncoder");
+//		props.put("partitioner.class", "com.anders.kafka.PartitionerDemo");
+		props.put("request.required.acks", "1");
+		ProducerConfig config = new ProducerConfig(props);
+		
+		List<User> list = new ArrayList<User>();
+		User user = new User();
+		user.setName("zhuzhen");
+		list.add(user);
+
+		Producer<String, List<User>> producer = new Producer<String, List<User>>(config);
+		KeyedMessage<String, List<User>> data = new KeyedMessage<String, List<User>>(
+				"my-test-topic", list);
+		try {
+			producer.send(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				producer.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
