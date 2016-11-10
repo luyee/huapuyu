@@ -13,4 +13,6 @@ include "ethan-cfgcenter",
 		"ethan-dubbo",
 		"ethan-rocketmq",
 		"ethan-kafka",
-		"ethan-rabbitmq"		
+		"ethan-rabbitmq",
+		"ethan-otter",
+		"ethan-hbase"
