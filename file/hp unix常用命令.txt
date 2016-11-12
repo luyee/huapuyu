@@ -1,2 +1,0 @@
-machinfo
-查看操作系统和cpu等信息

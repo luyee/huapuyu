@@ -1,3 +1,0 @@
-可以如下访问
-select * from OPENDATASOURCE ('SQLOLEDB',   'Data Source=10.201.64.10;User ID=sa;Password=sa' ).oaserver.dbo.WEB_OPERATOR
-                       连接字符串                                                                                                                                     数据库              表

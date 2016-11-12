@@ -1,4 +1,0 @@
-首先从codegear上下载5M左右的试用版安装程序，在下载前会要求注册，免费注册的，然后codegear会给你的mail发一封注册吗；使用5M的安装程序安装，安装程序会从网上下载整个安装程序放在一个你自己指定的文件夹内，然后在网上下载delphi2007 Update1的安装程序，全部拷贝到刚才安装c++builder2007时你自己指定的文件夹内，然后使用在开始菜单上选择运行安装程序或者在程序组选择Modify Repair Uninstall，在安装选项中选择Upgrade，输入一个Delphi2007注册码注册后重新安装，在安装时请告诉安装程序下载的要指定到那个全部结合在一起的文件夹，这样的话不会再去从internet上下载什么就可以同时得到BCB2007和Delphi2007，最后在安装好后使用网上下载的950K的BDS.exe覆盖Program Files\CodeGear\RAD Studio\5.0\bin文件夹内的BDS.exe文件实现破解
-c＋＋builder2007版本是CodeGear&#8482; C++Builder&reg; Version 11.0.2709.7128
-delphi2007版本是CodeGear&#8482; Delphi&reg; for Win32&reg; Version 11.0.2709.7128
-哈哈哈！

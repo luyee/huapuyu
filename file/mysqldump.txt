@@ -1,2 +1,0 @@
-mysqldump -u root -p myweb > d:\myweb.sql
-将数据库及库中表结构导出到文本文件中
