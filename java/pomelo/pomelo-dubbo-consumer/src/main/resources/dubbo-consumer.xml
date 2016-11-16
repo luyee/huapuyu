@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- <dubbo:registry address="zookeeper://192.168.4.161:2181" /> -->
+	
+	<!-- <dubbo:protocol name="dubbo" port="20880" /> -->
+
+	<!-- 
+	<dubbo:reference id="demoService" 
+		interface="com.alibaba.dubbo.demo.DemoService" 
+		check="false" 
+		// init proxy
+		init="true" 
+		loadbalance="roundrobin"
+		// p2p
+		url="dubbo://localhost:20890"
+		group="*" or group="group1"
+		version="1.0.0"
+		validation="true"
+		/> 
+	-->
+	
+	<!-- <dubbo:reference id="demoService" filter="catFilter" interface="com.alibaba.dubbo.demo.DemoService" group="demo" />
+	<dubbo:reference id="demo1Service" filter="catFilter" interface="com.alibaba.dubbo.demo.DemoService" group="demo1" cache="lru" /> -->
+	
+	<!--  
+	<dubbo:registry file="${user.home}/output/dubbo.cache" check="false" />
+	--> 
+	
+	<!-- <dubbo:reference interface="com.anders.pomelo.dubbo.service.UserService" 
+		connections="5" 
+		retries="1" 
+		actives="10"
+		timeout="60000" 
+		mock="false"
+		stub="false"
+		id="userService"
+		cluster="forking"
+		cache="false"
+		check="true"
+		init="true" />  -->
+		
+	<dubbo:reference interface="com.anders.pomelo.dubbo.service.UserService" 
+		timeout="60000" 
+		id="userService"
+		check="true"
+		init="true" />
+	
+	<!--  
+	<dubbo:reference id="demoService" interface="com.alibaba.dubbo.demo.DemoService" 
+		group="demo,demo1">
+		<dubbo:method name="sayHello" merger="myMerger" async="true" />
+	</dubbo:reference>
+	-->
+
+</beans>

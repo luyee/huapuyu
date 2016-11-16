@@ -15,7 +15,6 @@
 	<name>dubbo api</name>
 	
 	<build>
-		<finalName>dubbo-api</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
