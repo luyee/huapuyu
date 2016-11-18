@@ -20,48 +20,16 @@
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-clients</artifactId>
+			<groupId>com.anders</groupId>
+			<artifactId>pomelo-dubbo-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka_2.9.2</artifactId>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.msgpack</groupId>
-			<artifactId>msgpack-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.msgpack</groupId>
-			<artifactId>msgpack</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.hbase</groupId>
-			<artifactId>hbase-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba.otter</groupId>
-			<artifactId>shared.etl</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>guava</artifactId>
-					<groupId>com.google.guava</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba.otter</groupId>
-			<artifactId>node.etl</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>guava</artifactId>
-					<groupId>com.google.guava</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
+			<groupId>com.github.sgroschupf</groupId>
+			<artifactId>zkclient</artifactId>
 		</dependency>
 	</dependencies>
 
