@@ -24,11 +24,14 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- self -->
 			<dependency>
 				<groupId>com.anders</groupId>
 				<artifactId>pomelo-dubbo-api</artifactId>
 				<version>1.0-SNAPSHOT</version>
 			</dependency>
+
+			<!-- dubbo -->
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>dubbo</artifactId>
@@ -40,16 +43,7 @@
 				<version>0.1</version>
 			</dependency>
 
-			<dependency>
-				<groupId>org.apache.kafka</groupId>
-				<artifactId>kafka-clients</artifactId>
-				<version>0.8.2.2</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.kafka</groupId>
-				<artifactId>kafka_2.9.2</artifactId>
-				<version>0.8.2.2</version>
-			</dependency>
+			<!-- msgpack -->
 			<dependency>
 				<groupId>org.msgpack</groupId>
 				<artifactId>msgpack-core</artifactId>
@@ -60,11 +54,8 @@
 				<artifactId>msgpack</artifactId>
 				<version>0.6.12</version>
 			</dependency>
-			<dependency>
-				<groupId>org.apache.hbase</groupId>
-				<artifactId>hbase-client</artifactId>
-				<version>1.2.2</version>
-			</dependency>
+
+			<!-- otter -->
 			<dependency>
 				<groupId>com.alibaba.otter</groupId>
 				<artifactId>shared.etl</artifactId>
@@ -104,6 +95,7 @@
 
 	<modules>
 		<module>pomelo-otter</module>
+		<module>pomelo-otter-hdp2.5</module>
 		<module>pomelo-dubbo-api</module>
 		<module>pomelo-dubbo-provider1</module>
 		<module>pomelo-dubbo-provider2</module>

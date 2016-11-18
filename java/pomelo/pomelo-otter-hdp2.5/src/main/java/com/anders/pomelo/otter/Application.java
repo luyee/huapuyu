@@ -1,4 +1,4 @@
-package com.anders.pomelo;
+package com.anders.pomelo.otter;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -45,6 +45,7 @@ public class Application {
 		config1.set("hbase.zookeeper.property.clientPort", "2181");
 		config1.set("hbase.zookeeper.quorum", "192.168.56.111");
 		// config1.set("zookeeper.znode.parent","/hbase");
+		
 
 		// kafka
 		Properties props = new Properties();

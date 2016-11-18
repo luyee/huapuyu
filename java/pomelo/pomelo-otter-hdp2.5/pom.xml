@@ -10,9 +10,9 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>pomelo-otter</artifactId>
+	<artifactId>pomelo-otter-hdp2.5</artifactId>
 	<packaging>jar</packaging>
-	<name>otter message consumer</name>
+	<name>otter message consumer for hdp2.5</name>
 
 	<dependencies>
 		<dependency>
@@ -22,12 +22,12 @@
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
 			<artifactId>kafka-clients</artifactId>
-			<version>0.8.2.2</version>
+			<version>0.10.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka_2.9.2</artifactId>
-			<version>0.8.2.2</version>
+			<artifactId>kafka_2.10</artifactId>
+			<version>0.10.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.msgpack</groupId>
@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase-client</artifactId>
-			<version>1.2.2</version>
+			<version>1.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba.otter</groupId>
