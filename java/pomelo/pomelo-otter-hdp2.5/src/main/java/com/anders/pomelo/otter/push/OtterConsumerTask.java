@@ -1,13 +1,15 @@
-package com.anders.pomelo.otter;
+package com.anders.pomelo.otter.push;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Put;
@@ -21,17 +23,21 @@ import com.alibaba.otter.node.etl.load.loader.db.Message;
 import com.alibaba.otter.shared.etl.model.EventColumn;
 import com.alibaba.otter.shared.etl.model.EventData;
 
-public class ConsumerTask implements Runnable {
+public class OtterConsumerTask implements Runnable {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerTask.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(OtterConsumerTask.class);
 
 	private KafkaStream<byte[], byte[]> stream;
 	private Connection connection;
+	private Admin admin;
 	private MessagePack messagePack;
 
-	public ConsumerTask(KafkaStream<byte[], byte[]> stream, Connection connection, MessagePack messagePack) throws IOException {
+	private final CopyOnWriteArraySet<String> tableNameCache = new CopyOnWriteArraySet<String>();
+
+	public OtterConsumerTask(KafkaStream<byte[], byte[]> stream, Connection connection, Admin admin, MessagePack messagePack) throws IOException {
 		this.stream = stream;
 		this.connection = connection;
+		this.admin = admin;
 		this.messagePack = messagePack;
 	}
 
@@ -44,7 +50,7 @@ public class ConsumerTask implements Runnable {
 			Message message;
 			try {
 				message = messagePack.read(content, Message.class);
-			} catch (IOException ex) {
+			} catch (Throwable ex) {
 				LOGGER.error("failed to read message [{}]", ex.getMessage());
 				throw new RuntimeException(ex);
 			}
@@ -52,10 +58,23 @@ public class ConsumerTask implements Runnable {
 
 			if (CollectionUtils.isNotEmpty(eventDatas)) {
 				for (EventData eventData : eventDatas) {
+					TableName tableName = TableName.valueOf(eventData.getTableName());
+
+					// try {
+					// if (!admin.tableExists(tableName)) {
+					// HTableDescriptor hTableDescriptor = new HTableDescriptor(tableName);
+					// hTableDescriptor.addFamily(new HColumnDescriptor("source"));
+					// admin.createTable(hTableDescriptor);
+					// }
+					// } catch (Throwable ex) {
+					// LOGGER.error("failed to create table [{}]", ex.getMessage());
+					// throw new RuntimeException(ex);
+					// }
+
 					Table table;
 					try {
-						table = connection.getTable(TableName.valueOf(eventData.getTableName()));
-					} catch (IOException ex) {
+						table = connection.getTable(tableName);
+					} catch (Throwable ex) {
 						LOGGER.error("failed to get table name [{}]", ex.getMessage());
 						throw new RuntimeException(ex);
 					}
@@ -64,18 +83,24 @@ public class ConsumerTask implements Runnable {
 						List<EventColumn> eventColumns = eventData.getKeys();
 						Put put = new Put(Bytes.toBytes(eventColumns.get(0).getColumnValue()));
 
-						LOGGER.error("event type : {}", eventData.getEventType().getValue());
-						LOGGER.error("rowkey name : {}, rowkey value : {}", eventColumns.get(0).getColumnName(), eventColumns.get(0).getColumnValue());
+						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
+						LOGGER.debug("rowkey name : {}, rowkey value : {}", eventColumns.get(0).getColumnName(), eventColumns.get(0).getColumnValue());
+
+						if (tableNameCache.contains(eventColumns.get(0).getColumnValue())) {
+							LOGGER.error("rowkey is exist : {}", eventColumns.get(0).getColumnValue());
+						} else {
+							tableNameCache.add(eventColumns.get(0).getColumnValue());
+						}
 
 						eventColumns = eventData.getColumns();
 						for (EventColumn eventColumn : eventColumns) {
 							put.addColumn(Bytes.toBytes("source"), Bytes.toBytes(eventColumn.getColumnName()), Bytes.toBytes(eventColumn.getColumnValue()));
 
-							LOGGER.error("colnum name : {}, colnum value : {}", eventColumn.getColumnName(), eventColumn.getColumnValue());
+							LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(), eventColumn.getColumnValue());
 						}
 						try {
 							table.put(put);
-						} catch (IOException ex) {
+						} catch (Throwable ex) {
 							LOGGER.error("failed to put data [{}]", ex.getMessage());
 							throw new RuntimeException(ex);
 						}
@@ -83,12 +108,12 @@ public class ConsumerTask implements Runnable {
 						List<EventColumn> eventColumns = eventData.getKeys();
 						Delete delete = new Delete(Bytes.toBytes(eventColumns.get(0).getColumnValue()));
 
-						LOGGER.error("event type : {}", eventData.getEventType().getValue());
-						LOGGER.error("rowkey name : {}, rowkey value : {}", eventColumns.get(0).getColumnName(), eventColumns.get(0).getColumnValue());
+						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
+						LOGGER.debug("rowkey name : {}, rowkey value : {}", eventColumns.get(0).getColumnName(), eventColumns.get(0).getColumnValue());
 
 						try {
 							table.delete(delete);
-						} catch (IOException ex) {
+						} catch (Throwable ex) {
 							throw new RuntimeException(ex);
 						}
 					} else {
@@ -96,7 +121,7 @@ public class ConsumerTask implements Runnable {
 						throw new RuntimeException("can not support the event type [" + eventData.getEventType().getValue() + "]");
 					}
 
-					LOGGER.error("sql : {}", eventData.getSql());
+					LOGGER.debug("sql : {}", eventData.getSql());
 				}
 			}
 		}
