@@ -8,6 +8,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import kafka.utils.ShutdownableThread;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.Connection;
@@ -25,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.otter.node.etl.load.loader.db.Message;
 import com.alibaba.otter.shared.etl.model.EventColumn;
 import com.alibaba.otter.shared.etl.model.EventData;
+import com.anders.pomelo.otter.cfg.KafkaProps;
 
 public class Consumer extends ShutdownableThread {
 
@@ -32,40 +35,42 @@ public class Consumer extends ShutdownableThread {
 
 	private final KafkaConsumer<String, byte[]> consumer;
 	private final Connection connection;
-	@SuppressWarnings("unused")
 	private final Admin admin;
 	private final MessagePack messagePack;
 	// TODO Anders 下面代码需要删除
 	private final CopyOnWriteArraySet<String> tableNameCache = new CopyOnWriteArraySet<String>();
 
-	public Consumer(String broker, String groupId, String topic, Connection connection, Admin admin, MessagePack messagePack) {
+	public Consumer(KafkaProps kafkaProperties, Connection connection, Admin admin, MessagePack messagePack) {
 		super("otterConsumer", false);
 
 		Properties props = new Properties();
-		props.put("bootstrap.servers", broker);
+		props.put("bootstrap.servers", kafkaProperties.getBrokers());
 		props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 		props.put("value.deserializer", "org.apache.kafka.common.serialization.ByteArrayDeserializer");
 		// kafkaProps.put("fetch.min.bytes", "1");
-		props.put("group.id", groupId);
+		props.put("group.id", kafkaProperties.getGroupId());
 		// kafkaProps.put("heartbeat.interval.ms", "3000");
 		// kafkaProps.put("max.partition.fetch.bytes", "");
-		props.put("session.timeout.ms", "30000");
+		props.put("session.timeout.ms", kafkaProperties.getSessionTimeoutMs());
 		// kafkaProps.put("auto.offset.reset", "");
 		// kafkaProps.put("connections.max.idle.ms", "");
-		props.put("enable.auto.commit", "true");
-		props.put("auto.commit.interval.ms", "1000");
+		props.put("enable.auto.commit", kafkaProperties.getEnableAutoCommit());
+		props.put("auto.commit.interval.ms", kafkaProperties.getAutoCommitIntervalMs());
+		props.put("max.poll.records", kafkaProperties.getMaxPollRecords());
 
 		this.connection = connection;
 		this.admin = admin;
 		this.messagePack = messagePack;
 
-		consumer = new KafkaConsumer<>(props);
-		consumer.subscribe(Collections.singletonList(topic));
+		consumer = new KafkaConsumer<String, byte[]>(props);
+		consumer.subscribe(Collections.singletonList(kafkaProperties.getTopic()));
 	}
 
 	@Override
 	public void doWork() {
 		ConsumerRecords<String, byte[]> consumerRecords = consumer.poll(1000);
+		System.out.println("************************************** records : " + consumerRecords.count());
+
 		for (ConsumerRecord<String, byte[]> consumerRecord : consumerRecords) {
 			Message message;
 			try {
@@ -76,21 +81,22 @@ public class Consumer extends ShutdownableThread {
 			}
 
 			List<EventData> eventDatas = message.getEventDatas();
+			System.out.println("************************************** eventDatas : " + eventDatas.size());
 
 			if (CollectionUtils.isNotEmpty(eventDatas)) {
 				for (EventData eventData : eventDatas) {
 					TableName tableName = TableName.valueOf(eventData.getTableName());
 
-					// try {
-					// if (!admin.tableExists(tableName)) {
-					// HTableDescriptor hTableDescriptor = new HTableDescriptor(tableName);
-					// hTableDescriptor.addFamily(new HColumnDescriptor("source"));
-					// admin.createTable(hTableDescriptor);
-					// }
-					// } catch (Throwable ex) {
-					// LOGGER.error("failed to create table [{}]", ex.getMessage());
-					// throw new RuntimeException(ex);
-					// }
+					try {
+						if (!admin.tableExists(tableName)) {
+							HTableDescriptor hTableDescriptor = new HTableDescriptor(tableName);
+							hTableDescriptor.addFamily(new HColumnDescriptor("source"));
+							admin.createTable(hTableDescriptor);
+						}
+					} catch (Throwable ex) {
+						LOGGER.error("failed to create table [{}]", ex.getMessage());
+						throw new RuntimeException(ex);
+					}
 
 					Table table;
 					try {
@@ -105,11 +111,12 @@ public class Consumer extends ShutdownableThread {
 						Put put = new Put(Bytes.toBytes(eventColumns.get(0).getColumnValue()));
 
 						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
-						LOGGER.debug("rowkey name : {}, rowkey value : {}", eventColumns.get(0).getColumnName(), eventColumns.get(0).getColumnValue());
+						LOGGER.error("rowkey name : {}, rowkey value : {}", eventColumns.get(0).getColumnName(), eventColumns.get(0).getColumnValue());
 
 						// TODO Anders 此处需要删除
 						if (tableNameCache.contains(eventColumns.get(0).getColumnValue())) {
 							LOGGER.error("rowkey is exist : {}", eventColumns.get(0).getColumnValue());
+							// throw new RuntimeException();
 						} else {
 							tableNameCache.add(eventColumns.get(0).getColumnValue());
 						}
@@ -143,7 +150,7 @@ public class Consumer extends ShutdownableThread {
 						throw new RuntimeException("can not support the event type [" + eventData.getEventType().getValue() + "]");
 					}
 
-					LOGGER.debug("sql : {}", eventData.getSql());
+					LOGGER.error("sql : {}", eventData.getSql());
 				}
 			}
 		}
