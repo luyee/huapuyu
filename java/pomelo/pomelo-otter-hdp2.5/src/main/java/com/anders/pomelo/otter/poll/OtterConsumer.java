@@ -28,25 +28,25 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OtterConsumer.class);
 
 	@Autowired
-	private KafkaProps kafkaProperties;
+	private KafkaProps kafkaProps;
 	@Autowired
-	private HBaseProps hBaseProperties;
+	private HBaseProps hBaseProps;
 
 	private Connection connection;
 	private Admin admin;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		LOGGER.error("hbase.zk.port : {}", hBaseProperties.getZkProps().getPort());
-		LOGGER.error("hbase.zk.host : {}", hBaseProperties.getZkProps().getHost());
+		LOGGER.error("hbase.zk.port : {}", hBaseProps.getZkProps().getPort());
+		LOGGER.error("hbase.zk.host : {}", hBaseProps.getZkProps().getHost());
 
-		LOGGER.error("kafka.brokers : {}", kafkaProperties.getBrokers());
-		LOGGER.error("kafka.groupId : {}", kafkaProperties.getGroupId());
-		LOGGER.error("kafka.topic : {}", kafkaProperties.getTopic());
-		LOGGER.error("kafka.sessionTimeoutMs : {}", kafkaProperties.getSessionTimeoutMs());
-		LOGGER.error("kafka.enableAutoCommit : {}", kafkaProperties.getEnableAutoCommit());
-		LOGGER.error("kafka.autoCommitIntervalMs : {}", kafkaProperties.getAutoCommitIntervalMs());
-		LOGGER.error("kafka.maxPollRecords : {}", kafkaProperties.getMaxPollRecords());
+		LOGGER.error("kafka.brokers : {}", kafkaProps.getBrokers());
+		LOGGER.error("kafka.groupId : {}", kafkaProps.getGroupId());
+		LOGGER.error("kafka.topic : {}", kafkaProps.getTopic());
+		LOGGER.error("kafka.sessionTimeoutMs : {}", kafkaProps.getSessionTimeoutMs());
+		LOGGER.error("kafka.enableAutoCommit : {}", kafkaProps.getEnableAutoCommit());
+		LOGGER.error("kafka.autoCommitIntervalMs : {}", kafkaProps.getAutoCommitIntervalMs());
+		LOGGER.error("kafka.maxPollRecords : {}", kafkaProps.getMaxPollRecords());
 
 		MessagePack messagePack = new MessagePack();
 		messagePack.register(EventType.class);
@@ -62,15 +62,15 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		// hbase
 		Configuration hbaseCfg = HBaseConfiguration.create();
 		// hbaseCfg.set("hbase.master", "192.168.56.101:16000");
-		hbaseCfg.set("hbase.zookeeper.property.clientPort", hBaseProperties.getZkProps().getPort());
-		hbaseCfg.set("hbase.zookeeper.quorum", hBaseProperties.getZkProps().getHost());
-		hbaseCfg.set("zookeeper.znode.parent", hBaseProperties.getZkProps().getParent());
+		hbaseCfg.set("hbase.zookeeper.property.clientPort", hBaseProps.getZkProps().getPort());
+		hbaseCfg.set("hbase.zookeeper.quorum", hBaseProps.getZkProps().getHost());
+		hbaseCfg.set("zookeeper.znode.parent", hBaseProps.getZkProps().getParent());
 		// hbaseCfg.set("zookeeper.znode.parent","/hbase");
 
 		connection = ConnectionFactory.createConnection(hbaseCfg);
 		admin = connection.getAdmin();
 
-		Consumer consumer = new Consumer(kafkaProperties, connection, admin, messagePack);
+		Consumer consumer = new Consumer(kafkaProps, connection, admin, messagePack);
 		consumer.start();
 	}
 

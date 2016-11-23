@@ -96,6 +96,7 @@
 	<modules>
 		<module>pomelo-otter</module>
 		<module>pomelo-otter-hdp2.5</module>
+		<module>pomelo-otter-es</module>
 		<module>pomelo-dubbo-api</module>
 		<module>pomelo-dubbo-provider1</module>
 		<module>pomelo-dubbo-provider2</module>
