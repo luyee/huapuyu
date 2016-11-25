@@ -8,6 +8,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import kafka.utils.ShutdownableThread;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
@@ -122,16 +123,22 @@ public class ConsumerThread extends ShutdownableThread {
 						}
 
 						eventColumns = eventData.getColumns();
-						for (EventColumn eventColumn : eventColumns) {
-							put.addColumn(Bytes.toBytes("source"), Bytes.toBytes(eventColumn.getColumnName()), Bytes.toBytes(eventColumn.getColumnValue()));
+						if (eventColumns.size() > 0) {
+							for (EventColumn eventColumn : eventColumns) {
+								String fieldValue = eventColumn.getColumnValue();
+								if (fieldValue == null) {
+									fieldValue = StringUtils.EMPTY;
+								}
+								put.addColumn(Bytes.toBytes("source"), Bytes.toBytes(eventColumn.getColumnName()), Bytes.toBytes(fieldValue));
 
-							LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(), eventColumn.getColumnValue());
-						}
-						try {
-							table.put(put);
-						} catch (Throwable ex) {
-							LOGGER.error("failed to put data to hbase [{}]", ex.getMessage());
-							throw new RuntimeException(ex);
+								LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(), fieldValue);
+							}
+							try {
+								table.put(put);
+							} catch (Throwable ex) {
+								LOGGER.error("failed to put data to hbase [{}]", ex.getMessage());
+								throw new RuntimeException(ex);
+							}
 						}
 					} else if (eventData.getEventType().isDelete()) {
 						List<EventColumn> eventColumns = eventData.getKeys();

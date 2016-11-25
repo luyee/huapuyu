@@ -2,7 +2,10 @@ package com.anders.pomelo.otter.poll;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
+import java.sql.Types;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -10,6 +13,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import kafka.utils.ShutdownableThread;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -100,15 +104,31 @@ public class ConsumerThread extends ShutdownableThread {
 						}
 
 						try {
-							XContentBuilder xContentBuilder = jsonBuilder().startObject();
 							eventColumns = eventData.getColumns();
-							for (EventColumn eventColumn : eventColumns) {
-								xContentBuilder.field(eventColumn.getColumnName(), eventColumn.getColumnValue());
+							if (eventColumns.size() > 0) {
+								XContentBuilder xContentBuilder = jsonBuilder().startObject();
+								for (EventColumn eventColumn : eventColumns) {
+									String fieldValue = eventColumn.getColumnValue();
+									if (StringUtils.isNotBlank(fieldValue)) {
+										if (eventColumn.getColumnType() == Types.DATE || eventColumn.getColumnType() == Types.TIMESTAMP) {
+											Date date;
+											try {
+												date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fieldValue);
+											} catch (Throwable ex) {
+												date = new SimpleDateFormat("yyyy-MM-dd").parse(fieldValue);
+											}
+											xContentBuilder.field(eventColumn.getColumnName(), date);
+										} else {
+											xContentBuilder.field(eventColumn.getColumnName(), fieldValue);
+										}
 
-								LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(), eventColumn.getColumnValue());
+									}
+
+									LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(), fieldValue);
+								}
+
+								IndexResponse indexResponse = indexRequestBuilder.setSource(xContentBuilder.endObject()).get();
 							}
-
-							IndexResponse indexResponse = indexRequestBuilder.setSource(xContentBuilder.endObject()).get();
 						} catch (Throwable ex) {
 							LOGGER.error("failed to put data to es [{}]", ex.getMessage());
 							throw new RuntimeException(ex);
