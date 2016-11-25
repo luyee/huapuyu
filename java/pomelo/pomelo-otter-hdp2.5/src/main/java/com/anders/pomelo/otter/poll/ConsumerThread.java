@@ -29,9 +29,9 @@ import com.alibaba.otter.shared.etl.model.EventColumn;
 import com.alibaba.otter.shared.etl.model.EventData;
 import com.anders.pomelo.otter.cfg.KafkaProps;
 
-public class Consumer extends ShutdownableThread {
+public class ConsumerThread extends ShutdownableThread {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(Consumer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerThread.class);
 
 	private final KafkaConsumer<String, byte[]> consumer;
 	private final Connection connection;
@@ -40,7 +40,7 @@ public class Consumer extends ShutdownableThread {
 	// TODO Anders 下面代码需要删除
 	private final CopyOnWriteArraySet<String> tableNameCache = new CopyOnWriteArraySet<String>();
 
-	public Consumer(KafkaProps kafkaProperties, Connection connection, Admin admin, MessagePack messagePack) {
+	public ConsumerThread(KafkaProps kafkaProperties, Connection connection, Admin admin, MessagePack messagePack) {
 		super("otterConsumer", false);
 
 		Properties props = new Properties();
@@ -85,7 +85,7 @@ public class Consumer extends ShutdownableThread {
 
 			if (CollectionUtils.isNotEmpty(eventDatas)) {
 				for (EventData eventData : eventDatas) {
-					TableName tableName = TableName.valueOf(eventData.getTableName());
+					TableName tableName = TableName.valueOf(eventData.getSchemaName() + ":" + eventData.getTableName());
 
 					try {
 						if (!admin.tableExists(tableName)) {

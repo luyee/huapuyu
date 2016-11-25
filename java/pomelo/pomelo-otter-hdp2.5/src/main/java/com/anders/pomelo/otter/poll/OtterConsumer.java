@@ -70,7 +70,7 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		connection = ConnectionFactory.createConnection(hbaseCfg);
 		admin = connection.getAdmin();
 
-		Consumer consumer = new Consumer(kafkaProps, connection, admin, messagePack);
+		ConsumerThread consumer = new ConsumerThread(kafkaProps, connection, admin, messagePack);
 		consumer.start();
 	}
 
