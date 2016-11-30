@@ -18,9 +18,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.elasticsearch.action.delete.DeleteRequestBuilder;
-import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.msgpack.MessagePack;
@@ -40,8 +38,8 @@ public class ConsumerThread extends ShutdownableThread {
 	private final TransportClient client;
 	// private final Client client;
 	private final MessagePack messagePack;
-	// TODO Anders 下面代码需要删除
-	private final CopyOnWriteArraySet<String> tableNameCache = new CopyOnWriteArraySet<String>();
+	// TODO Anders 下面代码需要删除，注意oom
+	private final CopyOnWriteArraySet<String> pkCache = new CopyOnWriteArraySet<String>();
 
 	public ConsumerThread(KafkaProps kafkaProperties, TransportClient client, MessagePack messagePack) {
 		super("otterConsumer", false);
@@ -71,7 +69,7 @@ public class ConsumerThread extends ShutdownableThread {
 	@Override
 	public void doWork() {
 		ConsumerRecords<String, byte[]> consumerRecords = consumer.poll(1000);
-		System.out.println("************************************** records : " + consumerRecords.count());
+		LOGGER.debug("kafka records size : {}", consumerRecords.count());
 
 		for (ConsumerRecord<String, byte[]> consumerRecord : consumerRecords) {
 			Message message;
@@ -83,7 +81,7 @@ public class ConsumerThread extends ShutdownableThread {
 			}
 
 			List<EventData> eventDatas = message.getEventDatas();
-			System.out.println("************************************** eventDatas : " + eventDatas.size());
+			LOGGER.debug("otter eventDatas size : {}", eventDatas.size());
 
 			if (CollectionUtils.isNotEmpty(eventDatas)) {
 				for (EventData eventData : eventDatas) {
@@ -93,14 +91,14 @@ public class ConsumerThread extends ShutdownableThread {
 						IndexRequestBuilder indexRequestBuilder = client.prepareIndex(eventData.getSchemaName(), eventData.getTableName(), eventColumns.get(0).getColumnValue());
 
 						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
-						LOGGER.error("rowkey name : {}, rowkey value : {}", eventColumns.get(0).getColumnName(), eventColumns.get(0).getColumnValue());
+						LOGGER.debug("pk name : {}, pk value : {}", eventColumns.get(0).getColumnName(), eventColumns.get(0).getColumnValue());
 
 						// TODO Anders 此处需要删除
-						if (tableNameCache.contains(eventColumns.get(0).getColumnValue())) {
-							LOGGER.error("rowkey is exist : {}", eventColumns.get(0).getColumnValue());
+						if (pkCache.contains(eventColumns.get(0).getColumnValue())) {
+							LOGGER.debug("pk is exist : {}", eventColumns.get(0).getColumnValue());
 							// throw new RuntimeException();
 						} else {
-							tableNameCache.add(eventColumns.get(0).getColumnValue());
+							pkCache.add(eventColumns.get(0).getColumnValue());
 						}
 
 						try {
@@ -127,7 +125,8 @@ public class ConsumerThread extends ShutdownableThread {
 									LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(), fieldValue);
 								}
 
-								IndexResponse indexResponse = indexRequestBuilder.setSource(xContentBuilder.endObject()).get();
+								// IndexResponse indexResponse = indexRequestBuilder.setSource(xContentBuilder.endObject()).get();
+								indexRequestBuilder.setSource(xContentBuilder.endObject()).get();
 							}
 						} catch (Throwable ex) {
 							LOGGER.error("failed to put data to es [{}]", ex.getMessage());
@@ -139,10 +138,11 @@ public class ConsumerThread extends ShutdownableThread {
 						DeleteRequestBuilder deleteRequestBuilder = client.prepareDelete(eventData.getSchemaName(), eventData.getTableName(), eventColumns.get(0).getColumnValue());
 
 						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
-						LOGGER.debug("rowkey name : {}, rowkey value : {}", eventColumns.get(0).getColumnName(), eventColumns.get(0).getColumnValue());
+						LOGGER.debug("pk name : {}, pk value : {}", eventColumns.get(0).getColumnName(), eventColumns.get(0).getColumnValue());
 
 						try {
-							DeleteResponse deleteResponse = deleteRequestBuilder.get();
+							// DeleteResponse deleteResponse = deleteRequestBuilder.get();
+							deleteRequestBuilder.get();
 						} catch (Throwable ex) {
 							LOGGER.error("failed to delete data from es [{}]", ex.getMessage());
 							throw new RuntimeException(ex);
@@ -152,7 +152,7 @@ public class ConsumerThread extends ShutdownableThread {
 						throw new RuntimeException("can not support the event type [" + eventData.getEventType().getValue() + "]");
 					}
 
-					LOGGER.error("sql : {}", eventData.getSql());
+					LOGGER.debug("sql : {}", eventData.getSql());
 				}
 			}
 		}

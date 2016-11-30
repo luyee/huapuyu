@@ -38,15 +38,16 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		LOGGER.error("es.clusterName : {}", esProps.getClusterName());
+		LOGGER.debug("es.clusterName : {}", esProps.getClusterName());
+		LOGGER.debug("es.host : {}", esProps.getHost());
 
-		LOGGER.error("kafka.brokers : {}", KafkaProps.getBrokers());
-		LOGGER.error("kafka.groupId : {}", KafkaProps.getGroupId());
-		LOGGER.error("kafka.topic : {}", KafkaProps.getTopic());
-		LOGGER.error("kafka.sessionTimeoutMs : {}", KafkaProps.getSessionTimeoutMs());
-		LOGGER.error("kafka.enableAutoCommit : {}", KafkaProps.getEnableAutoCommit());
-		LOGGER.error("kafka.autoCommitIntervalMs : {}", KafkaProps.getAutoCommitIntervalMs());
-		LOGGER.error("kafka.maxPollRecords : {}", KafkaProps.getMaxPollRecords());
+		LOGGER.debug("kafka.brokers : {}", KafkaProps.getBrokers());
+		LOGGER.debug("kafka.groupId : {}", KafkaProps.getGroupId());
+		LOGGER.debug("kafka.topic : {}", KafkaProps.getTopic());
+		LOGGER.debug("kafka.sessionTimeoutMs : {}", KafkaProps.getSessionTimeoutMs());
+		LOGGER.debug("kafka.enableAutoCommit : {}", KafkaProps.getEnableAutoCommit());
+		LOGGER.debug("kafka.autoCommitIntervalMs : {}", KafkaProps.getAutoCommitIntervalMs());
+		LOGGER.debug("kafka.maxPollRecords : {}", KafkaProps.getMaxPollRecords());
 
 		MessagePack messagePack = new MessagePack();
 		messagePack.register(EventType.class);
@@ -56,17 +57,24 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		messagePack.register(EventData.class);
 		messagePack.register(Message.class);
 
-		// TODO Anders 以下需要注释掉
-		// System.setProperty("hadoop.home.dir",
-		// "C:\\Users\\Anders\\opensource\\hadoop-common-2.6.0-bin");
-
 		Settings settings = Settings.builder().put("cluster.name", esProps.getClusterName()).put("client.transport.sniff", true).build();
 
-		// TODO Anders 这块代码要改写下
-		byte[] address = { (byte) 172, (byte) 16, (byte) 57, (byte) 143 };
-		client = TransportClient.builder().settings(settings).build().addTransportAddress((new InetSocketTransportAddress(InetAddress.getByAddress(address), 9300)));
-		// Node node = NodeBuilder.nodeBuilder().settings(settings).client(true).node();
-		// client = node.client();
+		String[] hosts = esProps.getHost().split(",");
+
+		client = TransportClient.builder().settings(settings).build();
+		for (String host : hosts) {
+			String[] address = host.split(":");
+			String[] ipStrs = address[0].split("\\.");
+			byte[] ip = new byte[4];
+			for (int i = 0; i < 4; i++) {
+				ip[i] = (byte) (Integer.parseInt(ipStrs[i]) & 0xff);
+			}
+			int port = Integer.parseInt(address[1]);
+
+			client = client.addTransportAddress((new InetSocketTransportAddress(InetAddress.getByAddress(ip), port)));
+			// Node node = NodeBuilder.nodeBuilder().settings(settings).client(true).node();
+			// client = node.client();
+		}
 
 		ConsumerThread consumer = new ConsumerThread(KafkaProps, client, messagePack);
 		consumer.start();
