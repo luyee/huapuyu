@@ -88,21 +88,31 @@ public class ConsumerThread extends ShutdownableThread {
 					if (eventData.getEventType().isInsert() || eventData.getEventType().isUpdate()) {
 						List<EventColumn> eventColumns = eventData.getKeys();
 
-						IndexRequestBuilder indexRequestBuilder = client.prepareIndex(eventData.getSchemaName(), eventData.getTableName(), eventColumns.get(0).getColumnValue());
+						StringBuilder pkNames = new StringBuilder();
+						StringBuilder pkValues = new StringBuilder();
+						for (EventColumn eventColumn : eventColumns) {
+							pkNames.append(eventColumn.getColumnName() + "-");
+							pkValues.append(eventColumn.getColumnValue() + "-");
+						}
+
+						String pkName = StringUtils.chop(pkNames.toString());
+						String pkValue = StringUtils.chop(pkValues.toString());
+
+						IndexRequestBuilder indexRequestBuilder = client.prepareIndex(eventData.getSchemaName(), eventData.getTableName(), pkValue);
 
 						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
-						LOGGER.debug("pk name : {}, pk value : {}", eventColumns.get(0).getColumnName(), eventColumns.get(0).getColumnValue());
+						LOGGER.debug("pk name : {}, pk value : {}", pkName, pkValue);
 
 						// TODO Anders 此处需要删除
-						if (pkCache.contains(eventColumns.get(0).getColumnValue())) {
-							LOGGER.debug("pk is exist : {}", eventColumns.get(0).getColumnValue());
+						if (pkCache.contains(pkValue)) {
+							LOGGER.debug("pk is exist : {}", pkValue);
 							// throw new RuntimeException();
 						} else {
-							pkCache.add(eventColumns.get(0).getColumnValue());
+							pkCache.add(pkValue);
 						}
 
 						try {
-							eventColumns = eventData.getColumns();
+							eventColumns.addAll(eventData.getColumns());
 							if (eventColumns.size() > 0) {
 								XContentBuilder xContentBuilder = jsonBuilder().startObject();
 								for (EventColumn eventColumn : eventColumns) {
