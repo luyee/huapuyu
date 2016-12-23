@@ -16,4 +16,5 @@ include "ethan-cfgcenter",
 		"ethan-kafka-0-10-0-0",
 		"ethan-rabbitmq",
 		"ethan-otter",
-		"ethan-hbase"
+		"ethan-hbase",
+		"ethan-es"
