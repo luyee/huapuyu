@@ -1,4 +1,0 @@
-如何将中文的netbeans改为英文
-修改etc目录下的netbeans.conf文件(ubuntu中全路径为/usr/local/netbeans-6.5.1/etc/netbeans.conf)
-在netbeans_default_options=的最后面加上-J-Duser.language=en
-注意：在ubuntu中需要使用sudo gedit netbeans.conf打开 

@@ -1,0 +1,10 @@
+dependencies {
+	compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+	compile 'org.apache.hbase:hbase-client:1.2.2'
+}
+
+repositories {
+    mavenLocal()
+    // mavenCentral()
+    // mavenRepo urls: "http://repository.sonatype.org/content/groups/forge/"
+}

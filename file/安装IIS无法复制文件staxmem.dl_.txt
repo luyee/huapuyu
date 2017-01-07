@@ -1,5 +1,0 @@
-xp sp2 pro 安装IIS时候出现 安装程序无法复制文件staxmem.dl_ 
-开始菜单中运行 esentutl /p %windir%/security/database/secedit.sdb 就PASS 了。过程中要出现个提示不甩他。
-
-
-看了我的解决了问题要回复哈。

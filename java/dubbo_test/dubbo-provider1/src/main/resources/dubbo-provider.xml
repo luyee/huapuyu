@@ -41,9 +41,11 @@
 	
 	<!-- <dubbo:registry file="${user.home}/output/dubbo.cache" /> -->
 	
+	<!--  
 	<dubbo:protocol name="dubbo">
 		<dubbo:parameter key="dockerhost" value="192.168.56.101" />
 	</dubbo:protocol>
+	-->
 	
 	<dubbo:service interface="com.anders.ethan.dubbo.service.UserService" ref="userService">
 		

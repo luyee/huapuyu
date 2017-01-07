@@ -1,1 +1,0 @@
-Preference-->Java-->CodeStyle-->Formatter    点击Active profile栏右边的edit按扭后 选择Brace页 Brace option 的Class or interface declaration项选next line然后该名字保存为另一个profile 然后在使用它就可以了 

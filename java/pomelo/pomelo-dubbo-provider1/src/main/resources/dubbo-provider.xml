@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+	<!-- <dubbo:registry address="zookeeper://192.168.56.101:2181" dynamic="false" /> -->
+	<!-- <dubbo:registry address="zookeeper://192.168.56.101:2181?dynamic=false" /> -->
+	
+	<bean id="userService" class="com.anders.pomelo.dubbo.service.impl.UserServiceImpl" />
+	<!-- <bean id="demo1Service" class="com.alibaba.dubbo.demo.provider.Demo1ServiceImpl" /> -->
+	
+	<!--  
+	<dubbo:registry address="10.101.137.135:1234" 
+		register="false" 
+		dynamic="false"
+		/>
+	-->
+	
+	<!--  
+	<dubbo:service interface="com.alibaba.dubbo.demo.DemoService" ref="demoService" 
+		group="group1"
+		version="1.0.0"
+		/>
+	-->
+	
+	<!-- <dubbo:monitor protocol="registry" /> -->
+	
+	<!-- <dubbo:registry file="${user.home}/output/dubbo.cache" /> -->
+	
+	<!-- 
+	<dubbo:protocol name="dubbo">
+		<dubbo:parameter key="dockerhost" value="192.168.56.101" />
+	</dubbo:protocol>
+	-->
+	
+	<dubbo:service interface="com.anders.pomelo.dubbo.service.UserService" ref="userService">
+	</dubbo:service>
+	
+	<!-- 
+	<dubbo:service filter="catFilter" interface="com.alibaba.dubbo.demo.DemoService" ref="demoService" group="demo" /> 
+	<dubbo:service filter="catFilter" interface="com.alibaba.dubbo.demo.DemoService" ref="demo1Service" group="demo1" />  
+	-->
+	
+</beans>

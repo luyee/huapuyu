@@ -1,3 +1,0 @@
-string str = "ÎÄ±¾×Ö·û´®";
-string htmlStr;
-htmlStr = str.Replace("&lt;br&gt;", "<br>").Replace("&amp;nbsp;", "&nbsp;").Replace("&amp;", "").Replace("\r\n", "<br>");

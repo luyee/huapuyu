@@ -1,0 +1,20 @@
+dependencies {
+	compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+	compile 'org.apache.kafka:kafka-clients:0.8.2.2'
+	compile 'org.apache.kafka:kafka_2.9.2:0.8.2.2'
+	compile 'org.msgpack:msgpack-core:0.8.11'
+	compile 'org.msgpack:msgpack:0.6.12'
+	compile ('com.alibaba.otter:shared.etl:4.2.14-SNAPSHOT') {
+    	exclude group:'com.google.guava', module: 'guava'
+	}
+	compile ('com.alibaba.otter:node.etl:4.2.14-SNAPSHOT') {
+    	exclude group:'com.google.guava', module: 'guava'
+	}
+	compile 'org.apache.hbase:hbase-client:1.2.2'
+}
+
+repositories {
+    mavenLocal()
+    // mavenCentral()
+    // mavenRepo urls: "http://repository.sonatype.org/content/groups/forge/"
+}

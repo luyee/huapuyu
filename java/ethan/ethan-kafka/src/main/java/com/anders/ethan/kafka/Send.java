@@ -1,18 +1,19 @@
 package com.anders.ethan.kafka;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import org.apache.commons.collections4.CollectionUtils;
 
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 
+import org.msgpack.MessagePack;
+
 public class Send {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		List<EventData> datas = new ArrayList<EventData>();
 
 		EventData eventData;
@@ -22,13 +23,17 @@ public class Send {
 			datas.add(eventData);
 		}
 
-		sendToKafka(datas);
+		Message message = new Message();
+		message.setDatas(datas);
+		
+		sendToKafka(message);
 	}
 
-	private static void sendToKafka(List<EventData> datas) {
-		if (CollectionUtils.isEmpty(datas)) {
-			return;
-		}
+	private static void sendToKafka(Message message) throws IOException {
+		MessagePack messagePack = new MessagePack();
+		messagePack.register(EventData.class);
+		messagePack.register(Message.class);
+		byte[] content = messagePack.write(message);
 
 		Properties props = new Properties();
 		props.put("serializer.class", "kafka.serializer.DefaultEncoder");
@@ -39,8 +44,8 @@ public class Send {
 		props.put("request.required.acks", "1");
 		ProducerConfig config = new ProducerConfig(props);
 
-		Producer<String, List<EventData>> producer = new Producer<String, List<EventData>>(config);
-		KeyedMessage<String, List<EventData>> data = new KeyedMessage<String, List<EventData>>("my-test-topic", datas);
+		Producer<String, byte[]> producer = new Producer<String, byte[]>(config);
+		KeyedMessage<String, byte[]> data = new KeyedMessage<String, byte[]>("my-test-topic", content);
 		try {
 			producer.send(data);
 		} catch (Exception e) {

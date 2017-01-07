@@ -1,5 +1,0 @@
-select * into new_table from old_table
- 
-new_table是新表，要求没有和它重名的表 
-old_table是已经存在的表
-
