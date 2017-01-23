@@ -16,4 +16,6 @@ include "ethan-cfgcenter",
 		"ethan-rabbitmq",
 		"ethan-otter",
 		"ethan-hbase",
-		"ethan-redis-proxy"
+		"ethan-redis-proxy",
+		"ethan-fs",
+		"ethan-template"
