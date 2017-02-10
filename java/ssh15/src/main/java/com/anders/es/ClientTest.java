@@ -64,7 +64,7 @@ public class ClientTest {
 	public void test2() throws IOException {
 		Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "dev64").put("index.refresh_interval", "60s").build();
 		TransportClient client = new TransportClient(settings);
-		client.addTransportAddress(new InetSocketTransportAddress("127.0.0.1", 9300));
+		client.addTransportAddress(new InetSocketTransportAddress("192.168.56.101", 9300));
 
 		// Node node = nodeBuilder().client(true).node();
 		// Client client1 = node.client();
@@ -73,17 +73,17 @@ public class ClientTest {
 
 		// client.prepareIndex("hint",
 		// "user").setSource(builder.string()).setRefresh(true);
-		IndexResponse indexResponse = client.prepareIndex("hint", "user").setSource(builder.string()).execute().actionGet();
+		IndexResponse indexResponse = client.prepareIndex("ni-database-zhuzhen", "user").setSource(builder.string()).execute().actionGet();
 
 		System.out.println(indexResponse.getId());
 		System.out.println(indexResponse.getVersion());
 		System.out.println(indexResponse.getIndex());
 		System.out.println(indexResponse.getType());
 
-		GetResponse getResponse = client.prepareGet("hint", "user", indexResponse.getId()).execute().actionGet();
+		GetResponse getResponse = client.prepareGet("ni-database-zhuzhen", "user", indexResponse.getId()).execute().actionGet();
 		System.out.println(getResponse.getSource());
 
-		SearchResponse searchResponse = client.prepareSearch("hint").setTypes("user").setSearchType(SearchType.DFS_QUERY_AND_FETCH)
+		SearchResponse searchResponse = client.prepareSearch("ni-database-zhuzhen").setTypes("user").setSearchType(SearchType.DFS_QUERY_AND_FETCH)
 				.setQuery(QueryBuilders.termQuery("name", "tom"))
 				// .setPostFilter(FilterBuilders.rangeFilter("size").from(1).to(10))
 				.setFrom(0).setSize(10).setExplain(true).execute().actionGet();

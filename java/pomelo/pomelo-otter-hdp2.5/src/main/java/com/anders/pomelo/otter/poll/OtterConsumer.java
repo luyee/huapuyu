@@ -57,7 +57,7 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		messagePack.register(Message.class);
 
 		// TODO Anders 以下需要注释掉
-		// System.setProperty("hadoop.home.dir", "C:\\Users\\Anders\\opensource\\hadoop-common-2.6.0-bin");
+		System.setProperty("hadoop.home.dir", "C:\\Users\\Anders\\opensource\\hadoop-common-2.6.0-bin");
 
 		// hbase
 		Configuration hbaseCfg = HBaseConfiguration.create();
