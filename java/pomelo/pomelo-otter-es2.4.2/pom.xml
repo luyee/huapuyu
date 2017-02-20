@@ -10,9 +10,9 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>pomelo-otter-es</artifactId>
+	<artifactId>pomelo-otter-es2.4.2</artifactId>
 	<packaging>jar</packaging>
-	<name>otter message consumer for es</name>
+	<name>otter message consumer for es 2.4.2</name>
 
 	<dependencies>
 		<dependency>

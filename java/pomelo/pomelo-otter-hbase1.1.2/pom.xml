@@ -10,9 +10,9 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>pomelo-otter-hdp2.5</artifactId>
+	<artifactId>pomelo-otter-hbase1.1.2</artifactId>
 	<packaging>jar</packaging>
-	<name>otter message consumer for hdp2.5</name>
+	<name>otter message consumer for hbase 1.1.2</name>
 
 	<dependencies>
 		<dependency>

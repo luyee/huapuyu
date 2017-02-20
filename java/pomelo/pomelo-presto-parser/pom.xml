@@ -10,12 +10,12 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<!-- <artifactId>pomelo-presto-parser</artifactId>
+	<artifactId>pomelo-presto-parser</artifactId>
 	<packaging>jar</packaging>
-	<name>presto parser</name> -->
+	<name>presto parser</name>
 	
-	<artifactId>presto-parser</artifactId>
-    <name>presto-parser</name>
+	<!-- <artifactId>presto-parser</artifactId>
+    <name>presto-parser</name> -->
 
 	<dependencies>
 		<dependency>
