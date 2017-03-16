@@ -19,7 +19,7 @@ import com.alibaba.otter.shared.common.model.config.channel.ChannelParameter.Syn
 import com.alibaba.otter.shared.etl.model.EventColumn;
 import com.alibaba.otter.shared.etl.model.EventData;
 import com.alibaba.otter.shared.etl.model.EventType;
-import com.anders.pomelo.otter.cfg.ESProps;
+import com.anders.pomelo.otter.cfg.EsProps;
 import com.anders.pomelo.otter.cfg.KafkaProps;
 
 @Component
@@ -30,7 +30,7 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 	@Autowired
 	private KafkaProps KafkaProps;
 	@Autowired
-	private ESProps esProps;
+	private EsProps esProps;
 
 	private TransportClient client;
 

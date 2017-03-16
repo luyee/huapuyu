@@ -7,11 +7,11 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-import com.anders.pomelo.otter.cfg.ESProps;
+import com.anders.pomelo.otter.cfg.EsProps;
 import com.anders.pomelo.otter.cfg.KafkaProps;
 
 @EnableAutoConfiguration
-@EnableConfigurationProperties({ KafkaProps.class, ESProps.class })
+@EnableConfigurationProperties({ KafkaProps.class, EsProps.class })
 @SpringBootApplication
 public class Application {
 

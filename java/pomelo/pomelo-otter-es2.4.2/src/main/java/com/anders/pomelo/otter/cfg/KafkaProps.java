@@ -68,5 +68,4 @@ public class KafkaProps {
 	public void setTopic(String topic) {
 		this.topic = topic;
 	}
-
 }
