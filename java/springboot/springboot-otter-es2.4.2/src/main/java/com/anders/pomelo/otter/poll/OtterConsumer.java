@@ -57,7 +57,7 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		messagePack.register(EventData.class);
 		messagePack.register(Message.class);
 
-		Settings settings = Settings.builder().put("cluster.name", esProps.getClusterName()).put("client.transport.sniff", true).build();
+		Settings settings = Settings.builder().put("cluster.name", esProps.getClusterName()).put("client.transport.sniff", false).build();
 
 		String[] hosts = esProps.getHost().split(",");
 
