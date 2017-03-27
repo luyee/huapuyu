@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class KafkaProps {
 
 	private String brokers;
-	private String groupId = "esConsumer";
+	private String groupId = "hbaseConsumer";
 	private String topic;
 	private String sessionTimeoutMs = "30000";
 	private String enableAutoCommit = "true";
@@ -68,4 +68,5 @@ public class KafkaProps {
 	public void setTopic(String topic) {
 		this.topic = topic;
 	}
+
 }

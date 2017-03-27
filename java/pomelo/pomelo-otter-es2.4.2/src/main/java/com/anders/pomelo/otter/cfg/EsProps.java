@@ -3,7 +3,7 @@ package com.anders.pomelo.otter.cfg;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "es")
-public class ESProps {
+public class EsProps {
 
 	private String clusterName = "elasticsearch";
 	private String host;
