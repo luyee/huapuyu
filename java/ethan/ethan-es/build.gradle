@@ -4,8 +4,8 @@ repositories {
 
 dependencies {
 	compile 'org.nlpcn:elasticsearch-sql:2.4.1.0'
-	compile 'org.elasticsearch:elasticsearch:2.4.1'
-	compile 'org.elasticsearch.plugin:delete-by-query:2.4.1'
+	compile 'org.elasticsearch:elasticsearch:2.4.4'
+	compile 'org.elasticsearch.plugin:delete-by-query:2.4.4'
 	compile 'log4j:log4j:1.2.16'
 	compile 'javax.servlet:servlet-api:2.5'
 }
