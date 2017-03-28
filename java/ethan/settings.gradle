@@ -19,4 +19,5 @@ include "ethan-cfgcenter",
 		"ethan-es",
 		"ethan-redis-proxy",
 		"ethan-fs",
-		"ethan-template"
+		"ethan-template",
+		"ethan-ejob"
