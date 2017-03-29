@@ -102,6 +102,7 @@
 		<module>pomelo-dubbo-provider2</module>
 		<module>pomelo-dubbo-consumer</module>
 		<module>pomelo-presto-parser</module>
+		<module>pomelo-saturn</module>
 	</modules>
 
 </project>
