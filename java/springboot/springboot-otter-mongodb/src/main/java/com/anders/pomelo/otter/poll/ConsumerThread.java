@@ -1,7 +1,5 @@
 package com.anders.pomelo.otter.poll;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-
 import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -9,17 +7,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import kafka.utils.ShutdownableThread;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.elasticsearch.action.delete.DeleteRequestBuilder;
-import org.elasticsearch.action.index.IndexRequestBuilder;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.bson.Document;
 import org.msgpack.MessagePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,20 +21,20 @@ import com.alibaba.otter.node.etl.load.loader.db.Message;
 import com.alibaba.otter.shared.etl.model.EventColumn;
 import com.alibaba.otter.shared.etl.model.EventData;
 import com.anders.pomelo.otter.cfg.KafkaProps;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+import kafka.utils.ShutdownableThread;
 
 public class ConsumerThread extends ShutdownableThread {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerThread.class);
 
 	private final KafkaConsumer<String, byte[]> consumer;
-	private final TransportClient client;
-	// private final Client client;
+	private final MongoDatabase mongoDatabase;
 	private final MessagePack messagePack;
 
-	// TODO Anders 下面代码需要删除，注意oom
-	// private final CopyOnWriteArraySet<String> pkCache = new CopyOnWriteArraySet<String>();
-
-	public ConsumerThread(KafkaProps kafkaProperties, TransportClient client, MessagePack messagePack) {
+	public ConsumerThread(KafkaProps kafkaProperties, MongoDatabase mongoDatabase, MessagePack messagePack) {
 		super("otterConsumer", false);
 
 		Properties props = new Properties();
@@ -59,7 +52,7 @@ public class ConsumerThread extends ShutdownableThread {
 		props.put("auto.commit.interval.ms", kafkaProperties.getAutoCommitIntervalMs());
 		props.put("max.poll.records", kafkaProperties.getMaxPollRecords());
 
-		this.client = client;
+		this.mongoDatabase = mongoDatabase;
 		this.messagePack = messagePack;
 
 		consumer = new KafkaConsumer<String, byte[]>(props);
@@ -98,68 +91,76 @@ public class ConsumerThread extends ShutdownableThread {
 						String pkName = StringUtils.chop(pkNames.toString());
 						String pkValue = StringUtils.chop(pkValues.toString());
 
-						IndexRequestBuilder indexRequestBuilder = client.prepareIndex(eventData.getSchemaName(), eventData.getTableName(), pkValue);
-
 						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
 						LOGGER.debug("pk name : {}, pk value : {}", pkName, pkValue);
 
-						// TODO Anders 此处需要删除
-						// if (pkCache.contains(pkValue)) {
-						// LOGGER.debug("pk is exist : {}", pkValue);
-						// // throw new RuntimeException();
-						// } else {
-						// pkCache.add(pkValue);
-						// }
+						Document doc = new Document();
+						doc.put("_id", pkValue);
+
+						MongoCollection<Document> collection = mongoDatabase.getCollection(eventData.getTableName());
 
 						try {
 							eventColumns.addAll(eventData.getColumns());
 							if (eventColumns.size() > 0) {
-								XContentBuilder xContentBuilder = jsonBuilder().startObject();
 								for (EventColumn eventColumn : eventColumns) {
 									String fieldValue = eventColumn.getColumnValue();
 									if (StringUtils.isNotBlank(fieldValue)) {
-										if (eventColumn.getColumnType() == Types.DATE || eventColumn.getColumnType() == Types.TIMESTAMP) {
+										if (eventColumn.getColumnType() == Types.DATE
+												|| eventColumn.getColumnType() == Types.TIMESTAMP) {
 											Date date;
 											try {
 												date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fieldValue);
 											} catch (Throwable ex) {
 												date = new SimpleDateFormat("yyyy-MM-dd").parse(fieldValue);
 											}
-											xContentBuilder.field(eventColumn.getColumnName(), date);
+											doc.put(eventColumn.getColumnName(), date);
 										} else {
-											xContentBuilder.field(eventColumn.getColumnName(), fieldValue);
+											doc.put(eventColumn.getColumnName(), fieldValue);
 										}
 
 									}
 
-									LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(), fieldValue);
+									LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(),
+											fieldValue);
 								}
 
-								// IndexResponse indexResponse = indexRequestBuilder.setSource(xContentBuilder.endObject()).get();
-								indexRequestBuilder.setSource(xContentBuilder.endObject()).get();
+								collection.insertOne(doc);
 							}
 						} catch (Throwable ex) {
-							LOGGER.error("failed to put data to es [{}]", ex.getMessage());
+							LOGGER.error("failed to put data to mongo [{}]", ex.getMessage());
 							throw new RuntimeException(ex);
 						}
 					} else if (eventData.getEventType().isDelete()) {
 						List<EventColumn> eventColumns = eventData.getKeys();
 
-						DeleteRequestBuilder deleteRequestBuilder = client.prepareDelete(eventData.getSchemaName(), eventData.getTableName(), eventColumns.get(0).getColumnValue());
+						StringBuilder pkNames = new StringBuilder();
+						StringBuilder pkValues = new StringBuilder();
+						for (EventColumn eventColumn : eventColumns) {
+							pkNames.append(eventColumn.getColumnName() + "-");
+							pkValues.append(eventColumn.getColumnValue() + "-");
+						}
+
+						String pkName = StringUtils.chop(pkNames.toString());
+						String pkValue = StringUtils.chop(pkValues.toString());
 
 						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
-						LOGGER.debug("pk name : {}, pk value : {}", eventColumns.get(0).getColumnName(), eventColumns.get(0).getColumnValue());
+						LOGGER.debug("pk name : {}, pk value : {}", pkName, pkValue);
+
+						Document doc = new Document();
+						doc.put("_id", pkValue);
+
+						MongoCollection<Document> collection = mongoDatabase.getCollection(eventData.getTableName());
 
 						try {
-							// DeleteResponse deleteResponse = deleteRequestBuilder.get();
-							deleteRequestBuilder.get();
+							collection.deleteOne(doc);
 						} catch (Throwable ex) {
-							LOGGER.error("failed to delete data from es [{}]", ex.getMessage());
+							LOGGER.error("failed to delete data from mongo [{}]", ex.getMessage());
 							throw new RuntimeException(ex);
 						}
 					} else {
 						LOGGER.error("can not support the event type [{}]", eventData.getEventType().getValue());
-						throw new RuntimeException("can not support the event type [" + eventData.getEventType().getValue() + "]");
+						throw new RuntimeException(
+								"can not support the event type [" + eventData.getEventType().getValue() + "]");
 					}
 
 					LOGGER.debug("sql : {}", eventData.getSql());
