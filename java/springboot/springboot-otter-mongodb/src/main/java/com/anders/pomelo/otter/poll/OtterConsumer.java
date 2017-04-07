@@ -20,7 +20,6 @@ import com.alibaba.otter.shared.etl.model.EventType;
 import com.anders.pomelo.otter.cfg.KafkaProps;
 import com.anders.pomelo.otter.cfg.MongoProps;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
 
@@ -40,6 +39,7 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		LOGGER.debug("mongo.address : {}", mongoProps.getAddress());
+		LOGGER.debug("mongo.database : {}", mongoProps.getDatabase());
 
 		LOGGER.debug("kafka.brokers : {}", KafkaProps.getBrokers());
 		LOGGER.debug("kafka.groupId : {}", KafkaProps.getGroupId());
@@ -64,16 +64,16 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 			serverAddresses.add(new ServerAddress(host[0], Integer.parseInt(host[1])));
 		}
 
-		MongoClientOptions.Builder build = new MongoClientOptions.Builder();
-		build.connectionsPerHost(50);
+		// MongoClientOptions.Builder build = new MongoClientOptions.Builder();
+		// build.connectionsPerHost(50);
 		// build.autoConnectRetry(true);
-		build.threadsAllowedToBlockForConnectionMultiplier(50);
-		build.maxWaitTime(1000 * 60 * 2);
-		build.connectTimeout(1000 * 60 * 1);
+		// build.threadsAllowedToBlockForConnectionMultiplier(50);
+		// build.maxWaitTime(1000 * 60 * 2);
+		// build.connectTimeout(1000 * 60 * 1);
+		// MongoClientOptions myOptions = build.build();
 
-		MongoClientOptions myOptions = build.build();
-
-		mongoClient = new MongoClient(serverAddresses, myOptions);
+		// mongoClient = new MongoClient(serverAddresses, myOptions);
+		mongoClient = new MongoClient(serverAddresses);
 		mongoDatabase = mongoClient.getDatabase(mongoProps.getDatabase());
 
 		ConsumerThread consumer = new ConsumerThread(KafkaProps, mongoDatabase, messagePack);
@@ -86,4 +86,32 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 			mongoClient.close();
 		}
 	}
+
+	// public static void main(String[] args) throws IOException {
+	// MongoClient mongoClient = new MongoClient(new
+	// ServerAddress("192.168.56.121", 27017));
+	// MongoDatabase mongoDatabase = mongoClient.getDatabase("eif_market");
+	// MongoCollection<Document> collection =
+	// mongoDatabase.getCollection("test");
+	// Document doc = new Document();
+	// doc.put("_id", "4567");
+	// doc.put("now", new Date());
+	// collection.insertOne(doc);
+	//
+	// FindIterable<Document> iter = collection.find(new Document("_id",
+	// "4567"));
+	// iter.forEach(new Block<Document>() {
+	//
+	// @Override
+	// public void apply(Document t) {
+	// Date date = (Date) t.get("now");
+	//
+	// System.out.println(new SimpleDateFormat("yyyy-MM-dd
+	// HH:mm:ss").format(date));
+	// }
+	//
+	// });
+	//
+	// mongoClient.close();
+	// }
 }
