@@ -57,7 +57,7 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		messagePack.register(EventData.class);
 		messagePack.register(Message.class);
 
-		Settings settings = Settings.builder().put("cluster.name", esProps.getClusterName()).put("client.transport.sniff", false).build();
+		Settings settings = Settings.builder().put("cluster.name", esProps.getClusterName()).build();
 
 		String[] hosts = esProps.getHost().split(",");
 
@@ -72,7 +72,8 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 			int port = Integer.parseInt(address[1]);
 
 			client = client.addTransportAddress((new InetSocketTransportAddress(InetAddress.getByAddress(ip), port)));
-			// Node node = NodeBuilder.nodeBuilder().settings(settings).client(true).node();
+			// Node node =
+			// NodeBuilder.nodeBuilder().settings(settings).client(true).node();
 			// client = node.client();
 		}
 

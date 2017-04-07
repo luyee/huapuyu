@@ -33,6 +33,8 @@ public class ConsumerThread extends ShutdownableThread {
 	private final KafkaConsumer<String, byte[]> consumer;
 	private final MongoDatabase mongoDatabase;
 	private final MessagePack messagePack;
+	private final SimpleDateFormat ymdhms = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private final SimpleDateFormat ymd = new SimpleDateFormat("yyyy-MM-dd");
 
 	public ConsumerThread(KafkaProps kafkaProperties, MongoDatabase mongoDatabase, MessagePack messagePack) {
 		super("otterConsumer", false);
@@ -91,8 +93,7 @@ public class ConsumerThread extends ShutdownableThread {
 						String pkName = StringUtils.chop(pkNames.toString());
 						String pkValue = StringUtils.chop(pkValues.toString());
 
-						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
-						LOGGER.debug("pk name : {}, pk value : {}", pkName, pkValue);
+						LOGGER.debug("event type : {}, pk name : {}, pk value : {}", eventData.getEventType().getValue(), pkName, pkValue);
 
 						Document doc = new Document();
 						doc.put("_id", pkValue);
@@ -105,23 +106,32 @@ public class ConsumerThread extends ShutdownableThread {
 								for (EventColumn eventColumn : eventColumns) {
 									String fieldValue = eventColumn.getColumnValue();
 									if (StringUtils.isNotBlank(fieldValue)) {
-										if (eventColumn.getColumnType() == Types.DATE
-												|| eventColumn.getColumnType() == Types.TIMESTAMP) {
+										if (eventColumn.getColumnType() == Types.DATE || eventColumn.getColumnType() == Types.TIMESTAMP) {
 											Date date;
 											try {
-												date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fieldValue);
+												date = ymdhms.parse(fieldValue);
 											} catch (Throwable ex) {
-												date = new SimpleDateFormat("yyyy-MM-dd").parse(fieldValue);
+												date = ymd.parse(fieldValue);
 											}
 											doc.put(eventColumn.getColumnName(), date);
+										} else if (eventColumn.getColumnType() == Types.INTEGER) {
+											doc.put(eventColumn.getColumnName(), Integer.parseInt(fieldValue));
+										} else if (eventColumn.getColumnType() == Types.BIGINT) {
+											doc.put(eventColumn.getColumnName(), Long.parseLong(fieldValue));
+										} else if (eventColumn.getColumnType() == Types.TINYINT) {
+											doc.put(eventColumn.getColumnName(), Short.parseShort(fieldValue));
+										} else if (eventColumn.getColumnType() == Types.FLOAT) {
+											doc.put(eventColumn.getColumnName(), Float.parseFloat(fieldValue));
+										} else if (eventColumn.getColumnType() == Types.DOUBLE) {
+											doc.put(eventColumn.getColumnName(), Double.parseDouble(fieldValue));
 										} else {
 											doc.put(eventColumn.getColumnName(), fieldValue);
 										}
-
+									} else {
+										doc.put(eventColumn.getColumnName(), StringUtils.EMPTY);
 									}
 
-									LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(),
-											fieldValue);
+									LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(), fieldValue);
 								}
 
 								collection.insertOne(doc);
@@ -143,8 +153,7 @@ public class ConsumerThread extends ShutdownableThread {
 						String pkName = StringUtils.chop(pkNames.toString());
 						String pkValue = StringUtils.chop(pkValues.toString());
 
-						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
-						LOGGER.debug("pk name : {}, pk value : {}", pkName, pkValue);
+						LOGGER.debug("event type : {}, pk name : {}, pk value : {}", eventData.getEventType().getValue(), pkName, pkValue);
 
 						Document doc = new Document();
 						doc.put("_id", pkValue);
@@ -159,8 +168,7 @@ public class ConsumerThread extends ShutdownableThread {
 						}
 					} else {
 						LOGGER.error("can not support the event type [{}]", eventData.getEventType().getValue());
-						throw new RuntimeException(
-								"can not support the event type [" + eventData.getEventType().getValue() + "]");
+						throw new RuntimeException("can not support the event type [" + eventData.getEventType().getValue() + "]");
 					}
 
 					LOGGER.debug("sql : {}", eventData.getSql());

@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class KafkaProps {
 
 	private String brokers;
-	private String groupId = "esConsumer";
+	private String groupId = "mongoConsumer";
 	private String topic;
 	private String sessionTimeoutMs = "30000";
 	private String enableAutoCommit = "true";

@@ -35,11 +35,7 @@ public class ConsumerThread extends ShutdownableThread {
 
 	private final KafkaConsumer<String, byte[]> consumer;
 	private final TransportClient client;
-	// private final Client client;
 	private final MessagePack messagePack;
-	// TODO Anders 下面代码需要删除，注意oom
-	// private final CopyOnWriteArraySet<String> pkCache = new
-	// CopyOnWriteArraySet<String>();
 	private final SimpleDateFormat ymdthmszz = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZ");
 	private final SimpleDateFormat ymdhms = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private final SimpleDateFormat ymd = new SimpleDateFormat("yyyy-MM-dd");
@@ -101,19 +97,9 @@ public class ConsumerThread extends ShutdownableThread {
 						String pkName = StringUtils.chop(pkNames.toString());
 						String pkValue = StringUtils.chop(pkValues.toString());
 
-						IndexRequestBuilder indexRequestBuilder = client.prepareIndex(eventData.getSchemaName(),
-								eventData.getTableName(), pkValue);
+						IndexRequestBuilder indexRequestBuilder = client.prepareIndex(eventData.getSchemaName(), eventData.getTableName(), pkValue);
 
-						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
-						LOGGER.debug("pk name : {}, pk value : {}", pkName, pkValue);
-
-						// TODO Anders 此处需要删除
-						// if (pkCache.contains(pkValue)) {
-						// LOGGER.debug("pk is exist : {}", pkValue);
-						// throw new RuntimeException();
-						// } else {
-						// pkCache.add(pkValue);
-						// }
+						LOGGER.debug("event type : {}, pk name : {}, pk value : {}", eventData.getEventType().getValue(), pkName, pkValue);
 
 						try {
 							eventColumns.addAll(eventData.getColumns());
@@ -122,8 +108,7 @@ public class ConsumerThread extends ShutdownableThread {
 								for (EventColumn eventColumn : eventColumns) {
 									String fieldValue = eventColumn.getColumnValue();
 									if (StringUtils.isNotBlank(fieldValue)) {
-										if (eventColumn.getColumnType() == Types.DATE
-												|| eventColumn.getColumnType() == Types.TIMESTAMP) {
+										if (eventColumn.getColumnType() == Types.DATE || eventColumn.getColumnType() == Types.TIMESTAMP) {
 											String dateString = null;
 											try {
 												Date date = ymdhms.parse(fieldValue);
@@ -139,8 +124,7 @@ public class ConsumerThread extends ShutdownableThread {
 
 									}
 
-									LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(),
-											fieldValue);
+									LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(), fieldValue);
 								}
 
 								// IndexResponse indexResponse =
@@ -154,12 +138,19 @@ public class ConsumerThread extends ShutdownableThread {
 					} else if (eventData.getEventType().isDelete()) {
 						List<EventColumn> eventColumns = eventData.getKeys();
 
-						DeleteRequestBuilder deleteRequestBuilder = client.prepareDelete(eventData.getSchemaName(),
-								eventData.getTableName(), eventColumns.get(0).getColumnValue());
+						StringBuilder pkNames = new StringBuilder();
+						StringBuilder pkValues = new StringBuilder();
+						for (EventColumn eventColumn : eventColumns) {
+							pkNames.append(eventColumn.getColumnName() + "-");
+							pkValues.append(eventColumn.getColumnValue() + "-");
+						}
 
-						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
-						LOGGER.debug("pk name : {}, pk value : {}", eventColumns.get(0).getColumnName(),
-								eventColumns.get(0).getColumnValue());
+						String pkName = StringUtils.chop(pkNames.toString());
+						String pkValue = StringUtils.chop(pkValues.toString());
+
+						LOGGER.debug("event type : {}, pk name : {}, pk value : {}", eventData.getEventType().getValue(), pkName, pkValue);
+
+						DeleteRequestBuilder deleteRequestBuilder = client.prepareDelete(eventData.getSchemaName(), eventData.getTableName(), pkValue);
 
 						try {
 							// DeleteResponse deleteResponse =
@@ -171,8 +162,7 @@ public class ConsumerThread extends ShutdownableThread {
 						}
 					} else {
 						LOGGER.error("can not support the event type [{}]", eventData.getEventType().getValue());
-						throw new RuntimeException(
-								"can not support the event type [" + eventData.getEventType().getValue() + "]");
+						throw new RuntimeException("can not support the event type [" + eventData.getEventType().getValue() + "]");
 					}
 
 					LOGGER.debug("sql : {}", eventData.getSql());

@@ -8,9 +8,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.CopyOnWriteArraySet;
-
-import kafka.utils.ShutdownableThread;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -30,16 +27,18 @@ import com.alibaba.otter.shared.etl.model.EventColumn;
 import com.alibaba.otter.shared.etl.model.EventData;
 import com.anders.pomelo.otter.cfg.KafkaProps;
 
+import kafka.utils.ShutdownableThread;
+
 public class ConsumerThread extends ShutdownableThread {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerThread.class);
 
 	private final KafkaConsumer<String, byte[]> consumer;
 	private final TransportClient client;
-	// private final Client client;
 	private final MessagePack messagePack;
-	// TODO Anders 下面代码需要删除，注意oom
-	private final CopyOnWriteArraySet<String> pkCache = new CopyOnWriteArraySet<String>();
+	private final SimpleDateFormat ymdthmszz = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZ");
+	private final SimpleDateFormat ymdhms = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private final SimpleDateFormat ymd = new SimpleDateFormat("yyyy-MM-dd");
 
 	public ConsumerThread(KafkaProps kafkaProperties, TransportClient client, MessagePack messagePack) {
 		super("otterConsumer", false);
@@ -100,16 +99,7 @@ public class ConsumerThread extends ShutdownableThread {
 
 						IndexRequestBuilder indexRequestBuilder = client.prepareIndex(eventData.getSchemaName(), eventData.getTableName(), pkValue);
 
-						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
-						LOGGER.debug("pk name : {}, pk value : {}", pkName, pkValue);
-
-						// TODO Anders 此处需要删除
-						if (pkCache.contains(pkValue)) {
-							LOGGER.debug("pk is exist : {}", pkValue);
-							// throw new RuntimeException();
-						} else {
-							pkCache.add(pkValue);
-						}
+						LOGGER.debug("event type : {}, pk name : {}, pk value : {}", eventData.getEventType().getValue(), pkName, pkValue);
 
 						try {
 							eventColumns.addAll(eventData.getColumns());
@@ -119,23 +109,37 @@ public class ConsumerThread extends ShutdownableThread {
 									String fieldValue = eventColumn.getColumnValue();
 									if (StringUtils.isNotBlank(fieldValue)) {
 										if (eventColumn.getColumnType() == Types.DATE || eventColumn.getColumnType() == Types.TIMESTAMP) {
-											Date date;
+											String dateString = null;
 											try {
-												date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fieldValue);
+												Date date = ymdhms.parse(fieldValue);
+												dateString = ymdthmszz.format(date);
 											} catch (Throwable ex) {
-												date = new SimpleDateFormat("yyyy-MM-dd").parse(fieldValue);
+												Date date = ymd.parse(fieldValue);
+												dateString = ymd.format(date);
 											}
-											xContentBuilder.field(eventColumn.getColumnName(), date);
+											xContentBuilder.field(eventColumn.getColumnName(), dateString);
+										} else if (eventColumn.getColumnType() == Types.INTEGER) {
+											xContentBuilder.field(eventColumn.getColumnName(), Integer.parseInt(fieldValue));
+										} else if (eventColumn.getColumnType() == Types.BIGINT) {
+											xContentBuilder.field(eventColumn.getColumnName(), Long.parseLong(fieldValue));
+										} else if (eventColumn.getColumnType() == Types.TINYINT) {
+											xContentBuilder.field(eventColumn.getColumnName(), Short.parseShort(fieldValue));
+										} else if (eventColumn.getColumnType() == Types.FLOAT) {
+											xContentBuilder.field(eventColumn.getColumnName(), Float.parseFloat(fieldValue));
+										} else if (eventColumn.getColumnType() == Types.DOUBLE) {
+											xContentBuilder.field(eventColumn.getColumnName(), Double.parseDouble(fieldValue));
 										} else {
 											xContentBuilder.field(eventColumn.getColumnName(), fieldValue);
 										}
-
+									} else {
+										xContentBuilder.field(eventColumn.getColumnName(), StringUtils.EMPTY);
 									}
 
 									LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(), fieldValue);
 								}
 
-								// IndexResponse indexResponse = indexRequestBuilder.setSource(xContentBuilder.endObject()).get();
+								// IndexResponse indexResponse =
+								// indexRequestBuilder.setSource(xContentBuilder.endObject()).get();
 								indexRequestBuilder.setSource(xContentBuilder.endObject()).get();
 							}
 						} catch (Throwable ex) {
@@ -145,13 +149,23 @@ public class ConsumerThread extends ShutdownableThread {
 					} else if (eventData.getEventType().isDelete()) {
 						List<EventColumn> eventColumns = eventData.getKeys();
 
-						DeleteRequestBuilder deleteRequestBuilder = client.prepareDelete(eventData.getSchemaName(), eventData.getTableName(), eventColumns.get(0).getColumnValue());
+						StringBuilder pkNames = new StringBuilder();
+						StringBuilder pkValues = new StringBuilder();
+						for (EventColumn eventColumn : eventColumns) {
+							pkNames.append(eventColumn.getColumnName() + "-");
+							pkValues.append(eventColumn.getColumnValue() + "-");
+						}
 
-						LOGGER.debug("event type : {}", eventData.getEventType().getValue());
-						LOGGER.debug("pk name : {}, pk value : {}", eventColumns.get(0).getColumnName(), eventColumns.get(0).getColumnValue());
+						String pkName = StringUtils.chop(pkNames.toString());
+						String pkValue = StringUtils.chop(pkValues.toString());
+
+						LOGGER.debug("event type : {}, pk name : {}, pk value : {}", eventData.getEventType().getValue(), pkName, pkValue);
+
+						DeleteRequestBuilder deleteRequestBuilder = client.prepareDelete(eventData.getSchemaName(), eventData.getTableName(), pkValue);
 
 						try {
-							// DeleteResponse deleteResponse = deleteRequestBuilder.get();
+							// DeleteResponse deleteResponse =
+							// deleteRequestBuilder.get();
 							deleteRequestBuilder.get();
 						} catch (Throwable ex) {
 							LOGGER.error("failed to delete data from es [{}]", ex.getMessage());
