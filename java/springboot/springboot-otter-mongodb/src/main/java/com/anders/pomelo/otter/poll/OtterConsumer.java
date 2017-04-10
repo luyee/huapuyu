@@ -3,6 +3,7 @@ package com.anders.pomelo.otter.poll;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.msgpack.MessagePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import com.alibaba.otter.shared.etl.model.EventType;
 import com.anders.pomelo.otter.cfg.KafkaProps;
 import com.anders.pomelo.otter.cfg.MongoProps;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
 
@@ -40,6 +42,7 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 	public void afterPropertiesSet() throws Exception {
 		LOGGER.debug("mongo.address : {}", mongoProps.getAddress());
 		LOGGER.debug("mongo.database : {}", mongoProps.getDatabase());
+		LOGGER.debug("mongo.username : {}", mongoProps.getUsername());
 
 		LOGGER.debug("kafka.brokers : {}", KafkaProps.getBrokers());
 		LOGGER.debug("kafka.groupId : {}", KafkaProps.getGroupId());
@@ -73,7 +76,16 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		// MongoClientOptions myOptions = build.build();
 
 		// mongoClient = new MongoClient(serverAddresses, myOptions);
-		mongoClient = new MongoClient(serverAddresses);
+
+		if (StringUtils.isBlank(mongoProps.getUsername())) {
+			mongoClient = new MongoClient(serverAddresses);
+		} else {
+			MongoCredential credentials = MongoCredential.createCredential(mongoProps.getUsername(), mongoProps.getDatabase(), mongoProps.getPassword().toCharArray());
+			List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
+			credentialsList.add(credentials);
+
+			mongoClient = new MongoClient(serverAddresses, credentialsList);
+		}
 		mongoDatabase = mongoClient.getDatabase(mongoProps.getDatabase());
 
 		ConsumerThread consumer = new ConsumerThread(KafkaProps, mongoDatabase, messagePack);
@@ -88,13 +100,19 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 	}
 
 	// public static void main(String[] args) throws IOException {
+	// MongoCredential credentials =
+	// MongoCredential.createCredential("u_databus", "eif_market",
+	// "DataBUSPW".toCharArray());
+	// List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
+	// credentialsList.add(credentials);
+	//
 	// MongoClient mongoClient = new MongoClient(new
-	// ServerAddress("192.168.56.121", 27017));
+	// ServerAddress("172.16.59.119", 47017), credentialsList);
 	// MongoDatabase mongoDatabase = mongoClient.getDatabase("eif_market");
 	// MongoCollection<Document> collection =
 	// mongoDatabase.getCollection("test");
 	// Document doc = new Document();
-	// doc.put("_id", "4567");
+	// doc.put("_id", "45678");
 	// doc.put("now", new Date());
 	// collection.insertOne(doc);
 	//
