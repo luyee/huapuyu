@@ -7,11 +7,20 @@ public class EsProps {
 
 	private String clusterName = "elasticsearch";
 	private String host;
+	private String index;
 	private String username;
 	private String password;
 
 	public String getClusterName() {
 		return clusterName;
+	}
+
+	public String getIndex() {
+		return index;
+	}
+
+	public void setIndex(String index) {
+		this.index = index;
 	}
 
 	public String getUsername() {

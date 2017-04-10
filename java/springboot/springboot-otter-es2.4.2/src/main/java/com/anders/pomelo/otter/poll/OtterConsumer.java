@@ -41,6 +41,7 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 	public void afterPropertiesSet() throws Exception {
 		LOGGER.debug("es.clusterName : {}", esProps.getClusterName());
 		LOGGER.debug("es.host : {}", esProps.getHost());
+		LOGGER.debug("es.index : {}", esProps.getIndex());
 		LOGGER.debug("es.username : {}", esProps.getUsername());
 
 		LOGGER.debug("kafka.brokers : {}", KafkaProps.getBrokers());
@@ -82,7 +83,7 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 			// client = node.client();
 		}
 
-		ConsumerThread consumer = new ConsumerThread(KafkaProps, client, messagePack);
+		ConsumerThread consumer = new ConsumerThread(KafkaProps, client, messagePack, esProps.getIndex());
 		consumer.start();
 	}
 

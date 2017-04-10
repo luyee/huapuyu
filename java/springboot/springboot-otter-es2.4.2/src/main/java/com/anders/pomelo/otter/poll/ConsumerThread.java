@@ -39,8 +39,9 @@ public class ConsumerThread extends ShutdownableThread {
 	private final SimpleDateFormat ymdthmszz = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZ");
 	private final SimpleDateFormat ymdhms = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private final SimpleDateFormat ymd = new SimpleDateFormat("yyyy-MM-dd");
+	private final String index;
 
-	public ConsumerThread(KafkaProps kafkaProperties, TransportClient client, MessagePack messagePack) {
+	public ConsumerThread(KafkaProps kafkaProperties, TransportClient client, MessagePack messagePack, String index) {
 		super("otterConsumer", false);
 
 		Properties props = new Properties();
@@ -60,6 +61,7 @@ public class ConsumerThread extends ShutdownableThread {
 
 		this.client = client;
 		this.messagePack = messagePack;
+		this.index = index;
 
 		consumer = new KafkaConsumer<String, byte[]>(props);
 		consumer.subscribe(Collections.singletonList(kafkaProperties.getTopic()));
@@ -97,7 +99,7 @@ public class ConsumerThread extends ShutdownableThread {
 						String pkName = StringUtils.chop(pkNames.toString());
 						String pkValue = StringUtils.chop(pkValues.toString());
 
-						IndexRequestBuilder indexRequestBuilder = client.prepareIndex(eventData.getSchemaName(), eventData.getTableName(), pkValue);
+						IndexRequestBuilder indexRequestBuilder = client.prepareIndex(this.index, eventData.getTableName(), pkValue);
 
 						LOGGER.debug("event type : {}, pk name : {}, pk value : {}", eventData.getEventType().getValue(), pkName, pkValue);
 
@@ -161,7 +163,7 @@ public class ConsumerThread extends ShutdownableThread {
 
 						LOGGER.debug("event type : {}, pk name : {}, pk value : {}", eventData.getEventType().getValue(), pkName, pkValue);
 
-						DeleteRequestBuilder deleteRequestBuilder = client.prepareDelete(eventData.getSchemaName(), eventData.getTableName(), pkValue);
+						DeleteRequestBuilder deleteRequestBuilder = client.prepareDelete(this.index, eventData.getTableName(), pkValue);
 
 						try {
 							// DeleteResponse deleteResponse =
