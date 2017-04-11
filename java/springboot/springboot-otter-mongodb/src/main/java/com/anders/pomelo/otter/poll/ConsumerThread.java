@@ -13,6 +13,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.msgpack.MessagePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,8 @@ import com.alibaba.otter.shared.etl.model.EventData;
 import com.anders.pomelo.otter.cfg.KafkaProps;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UpdateOptions;
 
 import kafka.utils.ShutdownableThread;
 
@@ -35,6 +38,7 @@ public class ConsumerThread extends ShutdownableThread {
 	private final MessagePack messagePack;
 	private final SimpleDateFormat ymdhms = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private final SimpleDateFormat ymd = new SimpleDateFormat("yyyy-MM-dd");
+	private final UpdateOptions options = new UpdateOptions();
 
 	public ConsumerThread(KafkaProps kafkaProperties, MongoDatabase mongoDatabase, MessagePack messagePack) {
 		super("otterConsumer", false);
@@ -56,6 +60,8 @@ public class ConsumerThread extends ShutdownableThread {
 
 		this.mongoDatabase = mongoDatabase;
 		this.messagePack = messagePack;
+
+		options.upsert(true);
 
 		consumer = new KafkaConsumer<String, byte[]>(props);
 		consumer.subscribe(Collections.singletonList(kafkaProperties.getTopic()));
@@ -98,6 +104,8 @@ public class ConsumerThread extends ShutdownableThread {
 						Document doc = new Document();
 						doc.put("_id", pkValue);
 
+						Bson filter = Filters.eq("_id", pkValue);
+
 						MongoCollection<Document> collection = mongoDatabase.getCollection(eventData.getTableName());
 
 						try {
@@ -134,7 +142,8 @@ public class ConsumerThread extends ShutdownableThread {
 									LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(), fieldValue);
 								}
 
-								collection.insertOne(doc);
+								// collection.insertOne(doc);
+								collection.updateOne(filter, new Document("$set", doc), options);
 							}
 						} catch (Throwable ex) {
 							LOGGER.error("failed to put data to mongo [{}]", ex.getMessage());

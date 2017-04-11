@@ -1,9 +1,14 @@
 package com.anders.pomelo.otter.poll;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.msgpack.MessagePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +25,15 @@ import com.alibaba.otter.shared.etl.model.EventData;
 import com.alibaba.otter.shared.etl.model.EventType;
 import com.anders.pomelo.otter.cfg.KafkaProps;
 import com.anders.pomelo.otter.cfg.MongoProps;
+import com.mongodb.Block;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UpdateOptions;
 
 @Component
 public class OtterConsumer implements InitializingBean, DisposableBean {
@@ -99,37 +109,36 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		}
 	}
 
-	// public static void main(String[] args) throws IOException {
-	// MongoCredential credentials =
-	// MongoCredential.createCredential("u_databus", "eif_market",
-	// "DataBUSPW".toCharArray());
-	// List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
-	// credentialsList.add(credentials);
-	//
-	// MongoClient mongoClient = new MongoClient(new
-	// ServerAddress("172.16.59.119", 47017), credentialsList);
-	// MongoDatabase mongoDatabase = mongoClient.getDatabase("eif_market");
-	// MongoCollection<Document> collection =
-	// mongoDatabase.getCollection("test");
-	// Document doc = new Document();
-	// doc.put("_id", "45678");
-	// doc.put("now", new Date());
-	// collection.insertOne(doc);
-	//
-	// FindIterable<Document> iter = collection.find(new Document("_id",
-	// "4567"));
-	// iter.forEach(new Block<Document>() {
-	//
-	// @Override
-	// public void apply(Document t) {
-	// Date date = (Date) t.get("now");
-	//
-	// System.out.println(new SimpleDateFormat("yyyy-MM-dd
-	// HH:mm:ss").format(date));
-	// }
-	//
-	// });
-	//
-	// mongoClient.close();
-	// }
+	public static void main(String[] args) throws IOException {
+		MongoCredential credentials = MongoCredential.createCredential("u_databus", "eif_market", "DataBUSPW".toCharArray());
+		List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
+		credentialsList.add(credentials);
+
+		MongoClient mongoClient = new MongoClient(new ServerAddress("172.16.59.119", 47017), credentialsList);
+		MongoDatabase mongoDatabase = mongoClient.getDatabase("eif_market");
+		MongoCollection<Document> collection = mongoDatabase.getCollection("test");
+		Document doc = new Document();
+		doc.put("_id", "45678910");
+		doc.put("now", new Date());
+
+		Bson filter = Filters.eq("_id", "45678910");
+		// collection.insertOne(doc);
+		UpdateOptions options = new UpdateOptions();
+		options.upsert(true);
+		collection.updateOne(filter, new Document("$set", doc), options);
+
+		FindIterable<Document> iter = collection.find(new Document("_id", "4567"));
+		iter.forEach(new Block<Document>() {
+
+			@Override
+			public void apply(Document t) {
+				Date date = (Date) t.get("now");
+
+				System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
+			}
+
+		});
+
+		mongoClient.close();
+	}
 }
