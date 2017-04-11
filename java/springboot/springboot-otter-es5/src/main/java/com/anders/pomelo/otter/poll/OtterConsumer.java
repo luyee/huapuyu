@@ -2,6 +2,7 @@ package com.anders.pomelo.otter.poll;
 
 import java.net.InetAddress;
 
+import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -40,6 +41,8 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 	public void afterPropertiesSet() throws Exception {
 		LOGGER.debug("es.clusterName : {}", esProps.getClusterName());
 		LOGGER.debug("es.host : {}", esProps.getHost());
+		LOGGER.debug("es.index : {}", esProps.getIndex());
+		LOGGER.debug("es.username : {}", esProps.getUsername());
 
 		LOGGER.debug("kafka.brokers : {}", KafkaProps.getBrokers());
 		LOGGER.debug("kafka.groupId : {}", KafkaProps.getGroupId());
@@ -61,6 +64,9 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		// esProps.getClusterName()).put("client.transport.sniff",
 		// false).build();
 		Settings settings = Settings.builder().put("cluster.name", esProps.getClusterName()).build();
+		if (StringUtils.isNotBlank(esProps.getUsername())) {
+			// TODO Anders 增加权限
+		}
 
 		String[] hosts = esProps.getHost().split(",");
 
@@ -80,7 +86,7 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 			// client = node.client();
 		}
 
-		ConsumerThread consumer = new ConsumerThread(KafkaProps, client, messagePack);
+		ConsumerThread consumer = new ConsumerThread(KafkaProps, client, messagePack, esProps.getIndex());
 		consumer.start();
 	}
 
