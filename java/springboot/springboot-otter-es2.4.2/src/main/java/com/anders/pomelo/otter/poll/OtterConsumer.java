@@ -3,6 +3,12 @@ package com.anders.pomelo.otter.poll;
 import java.net.InetAddress;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.recipes.leader.LeaderLatch;
+import org.apache.curator.framework.recipes.leader.LeaderLatchListener;
+import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.curator.utils.CloseableUtils;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -22,6 +28,7 @@ import com.alibaba.otter.shared.etl.model.EventData;
 import com.alibaba.otter.shared.etl.model.EventType;
 import com.anders.pomelo.otter.cfg.EsProps;
 import com.anders.pomelo.otter.cfg.KafkaProps;
+import com.anders.pomelo.otter.cfg.ZkProps;
 
 @Component
 public class OtterConsumer implements InitializingBean, DisposableBean {
@@ -32,8 +39,13 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 	private KafkaProps KafkaProps;
 	@Autowired
 	private EsProps esProps;
+	@Autowired
+	private ZkProps zkProps;
 
-	private TransportClient client;
+	private TransportClient transportClient;
+	private LeaderLatch leaderLatch;
+	private CuratorFramework curatorFramework;
+	private ConsumerThread consumerThread;
 
 	// private Client client;
 
@@ -52,6 +64,9 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		LOGGER.debug("kafka.autoCommitIntervalMs : {}", KafkaProps.getAutoCommitIntervalMs());
 		LOGGER.debug("kafka.maxPollRecords : {}", KafkaProps.getMaxPollRecords());
 
+		LOGGER.debug("zk.address : {}", zkProps.getAddress());
+		LOGGER.debug("zk.node : {}", zkProps.getNode());
+
 		MessagePack messagePack = new MessagePack();
 		messagePack.register(EventType.class);
 		messagePack.register(EventColumn.class);
@@ -67,7 +82,7 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 
 		String[] hosts = esProps.getHost().split(",");
 
-		client = TransportClient.builder().settings(settings).build();
+		transportClient = TransportClient.builder().settings(settings).build();
 		for (String host : hosts) {
 			String[] address = host.split(":");
 			String[] ipStrs = address[0].split("\\.");
@@ -77,20 +92,48 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 			}
 			int port = Integer.parseInt(address[1]);
 
-			client = client.addTransportAddress((new InetSocketTransportAddress(InetAddress.getByAddress(ip), port)));
+			transportClient = transportClient.addTransportAddress((new InetSocketTransportAddress(InetAddress.getByAddress(ip), port)));
 			// Node node =
 			// NodeBuilder.nodeBuilder().settings(settings).client(true).node();
 			// client = node.client();
 		}
 
-		ConsumerThread consumer = new ConsumerThread(KafkaProps, client, messagePack, esProps.getIndex());
-		consumer.start();
+		curatorFramework = CuratorFrameworkFactory.builder().connectString(zkProps.getAddress()).retryPolicy(new ExponentialBackoffRetry(1000, 3)).sessionTimeoutMs(5000).build();
+		leaderLatch = new LeaderLatch(curatorFramework, zkProps.getNode());
+		leaderLatch.addListener(new LeaderLatchListener() {
+			@Override
+			public void isLeader() {
+				LOGGER.debug("is leader");
+				consumerThread = new ConsumerThread(KafkaProps, transportClient, messagePack, esProps.getIndex());
+				consumerThread.start();
+			}
+
+			@Override
+			public void notLeader() {
+				LOGGER.debug("not leader");
+				if (consumerThread != null) {
+					consumerThread.shutdown();
+				}
+			}
+		});
+
+		curatorFramework.start();
+		leaderLatch.start();
 	}
 
 	@Override
 	public void destroy() throws Exception {
-		if (client != null) {
-			client.close();
+		if (leaderLatch != null) {
+			CloseableUtils.closeQuietly(leaderLatch);
+		}
+		if (curatorFramework != null) {
+			CloseableUtils.closeQuietly(curatorFramework);
+		}
+		if (consumerThread != null) {
+			consumerThread.shutdown();
+		}
+		if (transportClient != null) {
+			transportClient.close();
 		}
 	}
 }

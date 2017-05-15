@@ -1,11 +1,17 @@
 package com.anders.pomelo.otter.poll;
 
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+
+import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.msgpack.MessagePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,14 +69,14 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		// Settings settings = Settings.builder().put("cluster.name",
 		// esProps.getClusterName()).put("client.transport.sniff",
 		// false).build();
-		Settings settings = Settings.builder().put("cluster.name", esProps.getClusterName()).build();
+		Settings.Builder builder = Settings.builder().put("cluster.name", esProps.getClusterName());
 		if (StringUtils.isNotBlank(esProps.getUsername())) {
-			// TODO Anders 增加权限
+			builder.put("xpack.security.user", esProps.getUsername() + ":" + esProps.getPassword());
 		}
 
 		String[] hosts = esProps.getHost().split(",");
 
-		client = TransportClient.builder().settings(settings).build();
+		client = TransportClient.builder().settings(builder.build()).build();
 		for (String host : hosts) {
 			String[] address = host.split(":");
 			String[] ipStrs = address[0].split("\\.");
@@ -95,5 +101,22 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		if (client != null) {
 			client.close();
 		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		Settings.Builder builder = Settings.builder().put("cluster.name", "elasticsearch");
+		builder.put("xpack.security.user", "elastic:changeme");
+
+		TransportClient client = TransportClient.builder().settings(builder.build()).build();
+		String[] ipStrs = "192.168.56.121".split("\\.");
+		byte[] ip = new byte[4];
+		for (int i = 0; i < 4; i++) {
+			ip[i] = (byte) (Integer.parseInt(ipStrs[i]) & 0xff);
+		}
+		client = client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByAddress(ip), 9300));
+		IndexRequestBuilder indexRequestBuilder = client.prepareIndex("zhuzhen-test", "zhuzhen", "123");
+		XContentBuilder xContentBuilder = jsonBuilder().startObject();
+		xContentBuilder.field("age", (new Date()).getTime());
+		indexRequestBuilder.setSource(xContentBuilder.endObject()).get();
 	}
 }

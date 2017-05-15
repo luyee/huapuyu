@@ -134,7 +134,7 @@ public class ConsumerThread extends ShutdownableThread {
 											xContentBuilder.field(eventColumn.getColumnName(), fieldValue);
 										}
 									} else {
-										xContentBuilder.field(eventColumn.getColumnName(), StringUtils.EMPTY);
+										xContentBuilder.field(eventColumn.getColumnName(), fieldValue);
 									}
 
 									LOGGER.debug("colnum name : {}, colnum value : {}", eventColumn.getColumnName(), fieldValue);

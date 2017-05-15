@@ -9,9 +9,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 import com.anders.pomelo.otter.cfg.EsProps;
 import com.anders.pomelo.otter.cfg.KafkaProps;
+import com.anders.pomelo.otter.cfg.ZkProps;
 
 @EnableAutoConfiguration
-@EnableConfigurationProperties({ KafkaProps.class, EsProps.class })
+@EnableConfigurationProperties({ KafkaProps.class, EsProps.class, ZkProps.class })
 @SpringBootApplication
 public class Application {
 
