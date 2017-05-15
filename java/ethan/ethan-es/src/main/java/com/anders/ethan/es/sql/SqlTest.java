@@ -7,22 +7,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.index.query.ExistsQueryBuilder;
+import org.elasticsearch.index.query.IdsQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.junit.Test;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.ElasticSearchDruidDataSourceFactory;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class SqlTest {
 
@@ -36,7 +35,6 @@ public class SqlTest {
 		PreparedStatement ps = connection
 				.prepareStatement("SELECT * from ni-database-zhuzhen where empname='emp11'");
 		ResultSet resultSet = ps.executeQuery();
-		List<String> result = new ArrayList<String>();
 		while (resultSet.next()) {
 			System.out.println(resultSet.getString("empname"));
 		}
@@ -54,7 +52,7 @@ public class SqlTest {
 				.build();
 
 		try {
-			String[] ipStrs = "172.16.1.29".split("\\.");
+			String[] ipStrs = "172.16.1.33".split("\\.");
 			byte[] ip = new byte[4];
 			for (int i = 0; i < 4; i++) {
 				ip[i] = (byte) (Integer.parseInt(ipStrs[i]) & 0xff);
@@ -82,11 +80,13 @@ public class SqlTest {
 		// filterBuilder)
 
 		for (int i = 0; i < 100000; i++) {
-			rangeTimeQuery(client);
+//			rangeQuery(client);
+//			existsQuery(client);
+			idsQuery(client);
 		}
 	}
 
-	private void rangeTimeQuery(TransportClient client) throws ParseException {
+	private void rangeQuery(TransportClient client) throws ParseException {
 		String from = "2020-02-13 00:00:00";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 				"yyyy-MM-dd HH:mm:ss");
@@ -107,6 +107,33 @@ public class SqlTest {
 //			System.out.println(searchResponse.getHits().getHits()[i]
 //					.getSourceAsString());
 //		}
+	}
+	
+	private void existsQuery(TransportClient client) throws ParseException {
+		ExistsQueryBuilder existsQueryBuilder =  QueryBuilders.existsQuery("issue_dpt");
+
+		long begin = new Date().getTime();
+		SearchResponse searchResponse = client.prepareSearch("eif_market")
+				.setTypes("t_market_coupon_user").setQuery(existsQueryBuilder).setExplain(true)
+				.setSize(10000).execute().actionGet();
+		
+		System.out.println("count : "
+				+ searchResponse.getHits().getHits().length + "; time : "
+				+ (new Date().getTime() - begin));
+	}
+	
+	private void idsQuery(TransportClient client) throws ParseException {
+		IdsQueryBuilder  idsQueryBuilder  =  QueryBuilders.idsQuery("t_market_coupon_user").addIds("96550620");
+
+		long begin = new Date().getTime();
+		SearchResponse searchResponse = client.prepareSearch("eif_market")
+				.setTypes("t_market_coupon_user").setQuery(idsQueryBuilder)
+				.setSize(10000).execute().actionGet();
+		
+		System.out.println("count : "
+				+ searchResponse.getHits().getHits().length + "; time : "
+				+ (new Date().getTime() - begin));
+		System.out.println(searchResponse.getHits().getHits()[0].getSourceAsString());
 	}
 
 }
