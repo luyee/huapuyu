@@ -7,6 +7,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.recipes.leader.LeaderLatch;
+import org.apache.curator.framework.recipes.leader.LeaderLatchListener;
+import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.curator.utils.CloseableUtils;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.msgpack.MessagePack;
@@ -25,6 +31,7 @@ import com.alibaba.otter.shared.etl.model.EventData;
 import com.alibaba.otter.shared.etl.model.EventType;
 import com.anders.pomelo.otter.cfg.KafkaProps;
 import com.anders.pomelo.otter.cfg.MongoProps;
+import com.anders.pomelo.otter.cfg.ZkProps;
 import com.mongodb.Block;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
@@ -44,9 +51,14 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 	private KafkaProps KafkaProps;
 	@Autowired
 	private MongoProps mongoProps;
+	@Autowired
+	private ZkProps zkProps;
 
 	private MongoClient mongoClient;
 	private MongoDatabase mongoDatabase;
+	private LeaderLatch leaderLatch;
+	private CuratorFramework curatorFramework;
+	private ConsumerThread consumerThread;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -61,6 +73,9 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		LOGGER.debug("kafka.enableAutoCommit : {}", KafkaProps.getEnableAutoCommit());
 		LOGGER.debug("kafka.autoCommitIntervalMs : {}", KafkaProps.getAutoCommitIntervalMs());
 		LOGGER.debug("kafka.maxPollRecords : {}", KafkaProps.getMaxPollRecords());
+
+		LOGGER.debug("zk.address : {}", zkProps.getAddress());
+		LOGGER.debug("zk.node : {}", zkProps.getNode());
 
 		MessagePack messagePack = new MessagePack();
 		messagePack.register(EventType.class);
@@ -98,14 +113,42 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		}
 		mongoDatabase = mongoClient.getDatabase(mongoProps.getDatabase());
 
-		ConsumerThread consumer = new ConsumerThread(KafkaProps, mongoDatabase, messagePack);
-		consumer.start();
+		curatorFramework = CuratorFrameworkFactory.builder().connectString(zkProps.getAddress()).retryPolicy(new ExponentialBackoffRetry(1000, 3)).sessionTimeoutMs(5000).build();
+		leaderLatch = new LeaderLatch(curatorFramework, zkProps.getNode());
+		leaderLatch.addListener(new LeaderLatchListener() {
+			@Override
+			public void isLeader() {
+				LOGGER.debug("is leader");
+				consumerThread = new ConsumerThread(KafkaProps, mongoDatabase, messagePack);
+				consumerThread.start();
+			}
+
+			@Override
+			public void notLeader() {
+				LOGGER.debug("not leader");
+				if (consumerThread != null) {
+					consumerThread.shutdown();
+				}
+			}
+		});
+
+		curatorFramework.start();
+		leaderLatch.start();
 	}
 
 	@Override
 	public void destroy() throws Exception {
+		if (consumerThread != null) {
+			consumerThread.shutdown();
+		}
 		if (mongoClient != null) {
 			mongoClient.close();
+		}
+		if (leaderLatch != null) {
+			CloseableUtils.closeQuietly(leaderLatch);
+		}
+		if (curatorFramework != null) {
+			CloseableUtils.closeQuietly(curatorFramework);
 		}
 	}
 

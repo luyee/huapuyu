@@ -123,17 +123,17 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 
 	@Override
 	public void destroy() throws Exception {
-		if (leaderLatch != null) {
-			CloseableUtils.closeQuietly(leaderLatch);
-		}
-		if (curatorFramework != null) {
-			CloseableUtils.closeQuietly(curatorFramework);
-		}
 		if (consumerThread != null) {
 			consumerThread.shutdown();
 		}
 		if (transportClient != null) {
 			transportClient.close();
+		}
+		if (leaderLatch != null) {
+			CloseableUtils.closeQuietly(leaderLatch);
+		}
+		if (curatorFramework != null) {
+			CloseableUtils.closeQuietly(curatorFramework);
 		}
 	}
 }
