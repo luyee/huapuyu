@@ -147,7 +147,7 @@ public class SqlTest {
 			// client = node.client();
 		}
 
-		IndexRequestBuilder indexRequestBuilder = transportClient.prepareIndex("hello", "hello", "567");
+		IndexRequestBuilder indexRequestBuilder = transportClient.prepareIndex("hello", "hello", "5678");
 		XContentBuilder xContentBuilder = jsonBuilder().startObject();
 		xContentBuilder.field("name", "zhuzhen");
 		indexRequestBuilder.setSource(xContentBuilder.endObject()).get();
