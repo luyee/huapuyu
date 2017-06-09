@@ -113,7 +113,10 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 		}
 		mongoDatabase = mongoClient.getDatabase(mongoProps.getDatabase());
 
-		curatorFramework = CuratorFrameworkFactory.builder().connectString(zkProps.getAddress()).retryPolicy(new ExponentialBackoffRetry(1000, 3)).sessionTimeoutMs(5000).build();
+		// curatorFramework =
+		// CuratorFrameworkFactory.builder().connectString(zkProps.getAddress()).retryPolicy(new
+		// ExponentialBackoffRetry(1000, 3)).sessionTimeoutMs(5000).build();
+		curatorFramework = CuratorFrameworkFactory.builder().connectString(zkProps.getAddress()).retryPolicy(new ExponentialBackoffRetry(1000, 3)).build();
 		leaderLatch = new LeaderLatch(curatorFramework, zkProps.getNode());
 		leaderLatch.addListener(new LeaderLatchListener() {
 			@Override
