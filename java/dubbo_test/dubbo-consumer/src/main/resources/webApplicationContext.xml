@@ -37,7 +37,7 @@
 		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<!-- <property name="customArgumentResolvers">
 			<list>
-				<bean class="com.eif.xxx.CatHandlerMethodArgumentResolver" />
+				<bean class="com.e2f.xxx.CatHandlerMethodArgumentResolver" />
 			</list>
 		</property> -->
 		<property name="messageConverters">
