@@ -13,7 +13,7 @@
 				<!-- <jsonFormatter
 					class="com.anders.ethan.log.cat.client.log.logback.JacksonJsonFormatterEx"> -->
 				<jsonFormatter
-					class="com.eif.framework.log.client.logback.JacksonJsonFormatterEx">
+					class="com.e2f.framework.log.client.logback.JacksonJsonFormatterEx">
 					<!-- <prettyPrint>true</prettyPrint> -->
 				</jsonFormatter>
 				<timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSS</timestampFormat>
@@ -37,7 +37,7 @@
 				<!-- <layout class="com.anders.ethan.log.cat.client.log.logback.LogbackLayout"> -->
 				<!-- <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter"> -->
 				<jsonFormatter
-					class="com.eif.framework.log.client.logback.JacksonJsonFormatterEx">
+					class="com.e2f.framework.log.client.logback.JacksonJsonFormatterEx">
 					<!-- <prettyPrint>true</prettyPrint> -->
 				</jsonFormatter>
 				<timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSS</timestampFormat>

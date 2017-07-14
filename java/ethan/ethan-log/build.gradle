@@ -68,7 +68,5 @@ dependencies {
 	
 	// compile group: 'com.anders', name: 'aspect', version: '0.0.1-SNAPSHOT'
 	
-	compile group: 'com.eif.framework', name: 'eif-framework-data', version: '1.0-SNAPSHOT'
-	compile group: 'com.eif.framework', name: 'eif-framework-cache', version: '1.0-SNAPSHOT'
-	compile group: 'com.eif.framework', name: 'eif-framework-log', version: '1.0-SNAPSHOT'
+	
 }

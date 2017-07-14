@@ -20,7 +20,7 @@ public class SqlTest {
 			e.printStackTrace();
 		}
 
-		String url = "jdbc:mysql://172.16.1.29:3306/eif_market";
+		String url = "jdbc:mysql://192.168.56.101:3306/market";
 		String username = "root";
 		String password = "123";
 		Connection con = null;

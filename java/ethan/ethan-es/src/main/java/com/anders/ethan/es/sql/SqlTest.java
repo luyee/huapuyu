@@ -51,7 +51,7 @@ public class SqlTest {
 		TransportClient client = TransportClient.builder().settings(settings).build();
 
 		try {
-			String[] ipStrs = "172.16.1.33".split("\\.");
+			String[] ipStrs = "192.168.56.101".split("\\.");
 			byte[] ip = new byte[4];
 			for (int i = 0; i < 4; i++) {
 				ip[i] = (byte) (Integer.parseInt(ipStrs[i]) & 0xff);
@@ -91,7 +91,7 @@ public class SqlTest {
 		RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery("expripration_time").gte(fromDate.getTime());
 
 		long begin = new Date().getTime();
-		SearchResponse searchResponse = client.prepareSearch("eif_market").setTypes("t_market_coupon_user")
+		SearchResponse searchResponse = client.prepareSearch("market").setTypes("user")
 				.setQuery(rangeQueryBuilder).setSize(10000).execute().actionGet();
 		System.out.println(
 				"count : " + searchResponse.getHits().getHits().length + "; time : " + (new Date().getTime() - begin));
@@ -106,7 +106,7 @@ public class SqlTest {
 		ExistsQueryBuilder existsQueryBuilder = QueryBuilders.existsQuery("issue_dpt");
 
 		long begin = new Date().getTime();
-		SearchResponse searchResponse = client.prepareSearch("eif_market").setTypes("t_market_coupon_user")
+		SearchResponse searchResponse = client.prepareSearch("market").setTypes("user")
 				.setQuery(existsQueryBuilder).setExplain(true).setSize(10000).execute().actionGet();
 
 		System.out.println(
@@ -114,10 +114,10 @@ public class SqlTest {
 	}
 
 	private void idsQuery(TransportClient client) throws ParseException {
-		IdsQueryBuilder idsQueryBuilder = QueryBuilders.idsQuery("t_market_coupon_user").addIds("96550620");
+		IdsQueryBuilder idsQueryBuilder = QueryBuilders.idsQuery("user").addIds("96550620");
 
 		long begin = new Date().getTime();
-		SearchResponse searchResponse = client.prepareSearch("eif_market").setTypes("t_market_coupon_user")
+		SearchResponse searchResponse = client.prepareSearch("market").setTypes("t_market_coupon_user")
 				.setQuery(idsQueryBuilder).setSize(10000).execute().actionGet();
 
 		System.out.println(

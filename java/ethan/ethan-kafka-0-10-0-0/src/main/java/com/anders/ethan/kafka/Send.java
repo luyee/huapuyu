@@ -48,7 +48,7 @@ public class Send {
 
 		Properties props = new Properties();
 		props.put("bootstrap.servers",
-				"172.16.57.130:6667,172.16.57.137:6667,172.16.57.132:6667");
+				"192.168.56.101:6667,192.168.56.101:6667,192.168.56.101:6667");
 		props.put("client.id", "DemoProducer");
 		props.put("key.serializer",
 				"org.apache.kafka.common.serialization.StringSerializer");

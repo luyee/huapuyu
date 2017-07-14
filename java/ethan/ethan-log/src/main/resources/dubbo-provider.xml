@@ -57,7 +57,7 @@
 		<property name="password" value="${db.read02.password}" />
 	</bean>
 	
-	<bean id="dataSource" class="com.eif.framework.data.datasource.ReadWriteDataSource">
+	<bean id="dataSource" class="com.e2f.framework.data.datasource.ReadWriteDataSource">
 		<property name="targetDataSources">
 			<map key-type="java.lang.String">
 				<entry key="write" value-ref="write" />
@@ -69,12 +69,12 @@
 		<property name="readWriteKey" ref="readWriteKey" />
 	</bean>
 	
-	<bean id="readWriteKey" class="com.eif.framework.data.common.ReadWriteKey">
+	<bean id="readWriteKey" class="com.e2f.framework.data.common.ReadWriteKey">
 		<property name="writeKey" value="write" />
 		<property name="loadBalance" ref="roundRobinLoadBalance" />
 	</bean>
 
-	<bean id="roundRobinLoadBalance" class="com.eif.framework.data.loadbalance.RoundRobinLoadBalance">
+	<bean id="roundRobinLoadBalance" class="com.e2f.framework.data.loadbalance.RoundRobinLoadBalance">
 		<constructor-arg>
 			<map key-type="java.lang.String" value-type="java.lang.Integer">
 				<entry key="read01" value="1" />
@@ -83,7 +83,7 @@
 		</constructor-arg>
 	</bean>
 	
-	<bean id="readWriteInterceptor" class="com.eif.framework.data.interceptor.ReadWriteInterceptor">
+	<bean id="readWriteInterceptor" class="com.e2f.framework.data.interceptor.ReadWriteInterceptor">
 		<property name="readWriteKey" ref="readWriteKey" />
 	</bean>
 
