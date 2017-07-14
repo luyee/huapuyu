@@ -117,7 +117,7 @@ public class SqlTest {
 		IdsQueryBuilder idsQueryBuilder = QueryBuilders.idsQuery("user").addIds("96550620");
 
 		long begin = new Date().getTime();
-		SearchResponse searchResponse = client.prepareSearch("market").setTypes("t_market_coupon_user")
+		SearchResponse searchResponse = client.prepareSearch("market").setTypes("user")
 				.setQuery(idsQueryBuilder).setSize(10000).execute().actionGet();
 
 		System.out.println(

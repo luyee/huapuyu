@@ -45,7 +45,7 @@ public class SqlTest {
 			stmt = con.createStatement();
 			long begin = new Date().getTime();
 			rs = stmt
-					.executeQuery("SELECT * FROM t_market_coupon_user WHERE expripration_time >= '2020-02-13 00:00:00'");
+					.executeQuery("SELECT * FROM user WHERE expripration_time >= '2020-02-13 00:00:00'");
 			System.out.println("time : " + (new Date().getTime() - begin));
 
 			// while (rs.next()) {
