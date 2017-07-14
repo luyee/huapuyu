@@ -156,12 +156,12 @@ public class OtterConsumer implements InitializingBean, DisposableBean {
 	}
 
 	public static void main(String[] args) throws IOException {
-		MongoCredential credentials = MongoCredential.createCredential("u_databus", "eif_market", "DataBUSPW".toCharArray());
+		MongoCredential credentials = MongoCredential.createCredential("anders", "market", "123".toCharArray());
 		List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
 		credentialsList.add(credentials);
 
-		MongoClient mongoClient = new MongoClient(new ServerAddress("172.16.59.119", 47017), credentialsList);
-		MongoDatabase mongoDatabase = mongoClient.getDatabase("eif_market");
+		MongoClient mongoClient = new MongoClient(new ServerAddress("192.168.56.121", 47017), credentialsList);
+		MongoDatabase mongoDatabase = mongoClient.getDatabase("market");
 		MongoCollection<Document> collection = mongoDatabase.getCollection("test");
 		Document doc = new Document();
 		doc.put("_id", "45678910");
