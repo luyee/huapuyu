@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<classPathEntry
+		location="C:/Users/ander/.m2/repository/mysql/mysql-connector-java/5.1.41/mysql-connector-java-5.1.41.jar" />
+
+	<context id="context1">
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/information_schema"
+			userId="root" password="123" />
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<javaModelGenerator targetPackage="com.anders.pomelo.databus.dao.bo"
+			targetProject="C:/Users/ander/git/huapuyu/java/springboot/springboot-databus-server/src/main/java/" />
+
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="C:/Users/ander/git/huapuyu/java/springboot/springboot-databus-server/src/main/resources/" />
+
+		<javaClientGenerator targetPackage="com.anders.pomelo.databus.dao.mapper"
+			targetProject="C:/Users/ander/git/huapuyu/java/springboot/springboot-databus-server/src/main/java/"
+			type="XMLMAPPER">
+		</javaClientGenerator>
+
+		<table schema="information_schema" tableName="COLUMNS"
+			domainObjectName="Columns" enableInsert="false"
+			enableSelectByPrimaryKey="true" enableSelectByExample="false"
+			enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
+			enableDeleteByExample="false" enableCountByExample="false"
+			enableUpdateByExample="false" selectByPrimaryKeyQueryId="false"
+			selectByExampleQueryId="false">
+		</table>
+	</context>
+
+</generatorConfiguration>
