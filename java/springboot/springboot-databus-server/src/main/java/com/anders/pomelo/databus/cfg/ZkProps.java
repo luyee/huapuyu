@@ -1,4 +1,4 @@
-package com.anders.pomelo.otter.cfg;
+package com.anders.pomelo.databus.cfg;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ZkProps {
 
 	private String address;
-	private String node = "/otter-consumer/es/leader";
+	private String node = "/databus/server/leader";
 
 	public String getAddress() {
 		return address;

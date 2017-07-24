@@ -1,4 +1,4 @@
-package com.anders.pomelo.otter.cfg;
+package com.anders.pomelo.databus.cfg;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
