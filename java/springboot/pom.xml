@@ -79,6 +79,7 @@
 		<module>springboot-otter-es2.4.2</module>
 		<module>springboot-otter-es5</module>
 		<module>springboot-otter-mongodb</module>
+		<module>springboot-databus-server</module>
 	</modules>
 
 </project>

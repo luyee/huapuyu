@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>./log.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>./log.%d.log</fileNamePattern>
+			<maxHistory>14</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n
+			</pattern>
+			<charset class="java.nio.charset.Charset">UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<!-- <root level="ERROR"> <appender-ref ref="STDOUT" /> </root> <logger 
+		name="com.anders" level="DEBUG" additivity="false"> <appender-ref ref="STDOUT" 
+		/> </logger> -->
+
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>1000</queueSize>
+		<appender-ref ref="FILE" />
+	</appender>
+
+	<springProfile name="dev">
+		<root level="DEBUG">
+			<appender-ref ref="FILE" />
+		</root>
+	</springProfile>
+
+	<springProfile name="prod">
+		<root level="ERROR">
+			<appender-ref ref="ASYNC" />
+		</root>
+	</springProfile>
+</configuration>
