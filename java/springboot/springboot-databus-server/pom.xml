@@ -37,11 +37,7 @@
 			<artifactId>kafka_2.10</artifactId>
 			<version>0.10.0.0</version>
 			<exclusions>
-				<exclusion>
-					<artifactId>slf4j-log4j12</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-				<exclusion>
+h				<exclusion>
 					<groupId>org.apache.zookeeper</groupId>
 					<artifactId>zookeeper</artifactId>
 				</exclusion>
@@ -87,6 +83,11 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot</artifactId>
+			<version>1.1.0</version>
 		</dependency>
 	</dependencies>
 

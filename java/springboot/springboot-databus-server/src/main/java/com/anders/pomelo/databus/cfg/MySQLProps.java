@@ -9,7 +9,8 @@ public class MySQLProps {
 	private int port;
 	private String username;
 	private String password;
-	private String binlogPosition;
+	private String binlogFilename;
+	private int binlogPosition;
 	private String includeDatabases;
 
 	public String getHost() {
@@ -44,11 +45,19 @@ public class MySQLProps {
 		this.password = password;
 	}
 
-	public String getBinlogPosition() {
+	public String getBinlogFilename() {
+		return binlogFilename;
+	}
+
+	public void setBinlogFilename(String binlogFilename) {
+		this.binlogFilename = binlogFilename;
+	}
+
+	public int getBinlogPosition() {
 		return binlogPosition;
 	}
 
-	public void setBinlogPosition(String binlogPosition) {
+	public void setBinlogPosition(int binlogPosition) {
 		this.binlogPosition = binlogPosition;
 	}
 

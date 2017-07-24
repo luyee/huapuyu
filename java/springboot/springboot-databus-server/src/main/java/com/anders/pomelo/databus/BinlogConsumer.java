@@ -35,8 +35,8 @@ public class BinlogConsumer implements InitializingBean, DisposableBean {
 		binaryLogClient = new BinaryLogClient(mySQLProps.getHost(), mySQLProps.getPort(), mySQLProps.getUsername(),
 				mySQLProps.getPassword());
 
-		binaryLogClient.setBinlogFilename("mysql-bin.000447");
-		binaryLogClient.setBinlogPosition(3296);
+		binaryLogClient.setBinlogFilename(mySQLProps.getBinlogFilename());
+		binaryLogClient.setBinlogPosition(mySQLProps.getBinlogPosition());
 		binaryLogClient.registerEventListener(new EventListener() {
 			@Override
 			public void onEvent(Event event) {
