@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anders.pomelo.databus.dao.mapper.SchemataMapper">
+	<resultMap id="BaseResultMap" type="com.anders.pomelo.databus.dao.bo.Schemata">
+		<result column="SCHEMA_NAME" jdbcType="VARCHAR" property="schemaName" />
+		<result column="DEFAULT_CHARACTER_SET_NAME" jdbcType="VARCHAR"
+			property="defaultCharacterSetName" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		SELECT SCHEMA_NAME, DEFAULT_CHARACTER_SET_NAME
+		FROM `information_schema`.`SCHEMATA`
+	</select>
+</mapper>
