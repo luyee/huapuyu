@@ -4,13 +4,21 @@
 	<classPathEntry
 		location="C:/Users/ander/.m2/repository/mysql/mysql-connector-java/5.1.41/mysql-connector-java-5.1.41.jar" />
 
-	<context id="context1">
+	<context id="mybatis" targetRuntime="MyBatis3Simple"
+		defaultModelType="flat">
+		<property name="beginningDelimiter" value="`" />
+		<property name="endingDelimiter" value="`" />
+		<property name="javaFileEncoding" value="UTF-8" />
+		<commentGenerator>
+			<property name="suppressDate" value="false" />
+			<property name="suppressAllComments" value="false" />
+		</commentGenerator>
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
 			connectionURL="jdbc:mysql://localhost:3306/information_schema"
 			userId="root" password="123" />
 
 		<javaTypeResolver>
-			<property name="forceBigDecimals" value="false" />
+			<property name="forceBigDecimals" value="true" />
 		</javaTypeResolver>
 
 		<javaModelGenerator targetPackage="com.anders.pomelo.databus.dao.bo"
@@ -24,14 +32,13 @@
 			type="XMLMAPPER">
 		</javaClientGenerator>
 
-		<table schema="information_schema" tableName="COLUMNS"
-			domainObjectName="Columns" enableInsert="false"
-			enableSelectByPrimaryKey="true" enableSelectByExample="false"
-			enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
-			enableDeleteByExample="false" enableCountByExample="false"
-			enableUpdateByExample="false" selectByPrimaryKeyQueryId="false"
-			selectByExampleQueryId="false">
-		</table>
+		<!-- <table schema="information_schema" tableName="TABLES" domainObjectName="Tables" 
+			enableInsert="false" enableSelectByPrimaryKey="true" enableSelectByExample="true" 
+			enableUpdateByPrimaryKey="false" enableDeleteByPrimaryKey="false" enableDeleteByExample="false" 
+			enableCountByExample="false" enableUpdateByExample="false" selectByPrimaryKeyQueryId="false" 
+			selectByExampleQueryId="false"> </table> -->
+		<table schema="information_schema" tableName="SCHEMATA"
+			domainObjectName="Schemata" />
 	</context>
 
 </generatorConfiguration>

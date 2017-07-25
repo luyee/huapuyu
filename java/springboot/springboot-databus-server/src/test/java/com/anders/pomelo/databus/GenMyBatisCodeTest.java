@@ -19,7 +19,7 @@ public class GenMyBatisCodeTest {
 	@Test
 	public void test() throws IOException, XMLParserException, InvalidConfigurationException, SQLException, InterruptedException {
 		List<String> warnings = new ArrayList<String>();
-		boolean overwrite = true;
+		boolean overwrite = false;
 		File configFile = new File(
 				"C:/Users/ander/git/huapuyu/java/springboot/springboot-databus-server/src/test/resources/generatorConfig.xml");
 		ConfigurationParser cp = new ConfigurationParser(warnings);
