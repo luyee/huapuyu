@@ -1,11 +1,14 @@
 package com.anders.pomelo.databus;
 
+import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.anders.pomelo.databus.cfg.MySQLProps;
+import com.anders.pomelo.databus.cfg.BinlogProps;
 import com.github.shyiko.mysql.binlog.BinaryLogClient;
 import com.github.shyiko.mysql.binlog.BinaryLogClient.EventListener;
 import com.github.shyiko.mysql.binlog.event.DeleteRowsEventData;
@@ -16,12 +19,16 @@ import com.github.shyiko.mysql.binlog.event.UpdateRowsEventData;
 import com.github.shyiko.mysql.binlog.event.WriteRowsEventData;
 
 @Component
-public class BinlogConsumer implements InitializingBean, DisposableBean {
+public class BinlogConsumer implements DisposableBean {
+
+	private static Logger LOGGER = LoggerFactory.getLogger(BinlogConsumer.class);
 
 	private BinaryLogClient binaryLogClient;
 
 	@Autowired
-	private MySQLProps mySQLProps;
+	private BinlogProps mySQLProps;
+	@Autowired
+	private DatabaseMetadata databaseMetadata;
 
 	@Override
 	public void destroy() throws Exception {
@@ -30,13 +37,14 @@ public class BinlogConsumer implements InitializingBean, DisposableBean {
 		}
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void start() throws IOException {
+		databaseMetadata.genMetadata();
+
 		binaryLogClient = new BinaryLogClient(mySQLProps.getHost(), mySQLProps.getPort(), mySQLProps.getUsername(),
 				mySQLProps.getPassword());
 
-		binaryLogClient.setBinlogFilename(mySQLProps.getBinlogFilename());
-		binaryLogClient.setBinlogPosition(mySQLProps.getBinlogPosition());
+		binaryLogClient.setBinlogFilename(mySQLProps.getFilename());
+		binaryLogClient.setBinlogPosition(mySQLProps.getPosition());
 		binaryLogClient.registerEventListener(new EventListener() {
 			@Override
 			public void onEvent(Event event) {

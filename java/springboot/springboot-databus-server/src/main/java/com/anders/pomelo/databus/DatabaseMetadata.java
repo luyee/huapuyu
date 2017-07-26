@@ -1,35 +1,206 @@
 package com.anders.pomelo.databus;
 
-import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class DatabaseMetadata {
-	
-	private static Logger LOGGER = LoggerFactory.getLogger(DatabaseMetadata.class); 
-	
-	private final static DatabaseMetadata DATABASE_METADATA = new DatabaseMetadata();
-	private Connection connection;
-	
-	private DatabaseMetadata() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			LOGGER.error(e.getMessage(), e);
+import com.anders.pomelo.databus.cfg.BinlogProps;
+import com.anders.pomelo.databus.dao.bo.Columns;
+import com.anders.pomelo.databus.dao.bo.Schemata;
+import com.anders.pomelo.databus.dao.bo.Tables;
+import com.anders.pomelo.databus.dao.mapper.ColumnsMapper;
+import com.anders.pomelo.databus.dao.mapper.DatabaseMapper;
+import com.anders.pomelo.databus.dao.mapper.KeyColumnUsageMapper;
+import com.anders.pomelo.databus.dao.mapper.SchemataMapper;
+import com.anders.pomelo.databus.dao.mapper.TablesMapper;
+import com.anders.pomelo.databus.model.Column;
+import com.anders.pomelo.databus.model.Database;
+import com.anders.pomelo.databus.model.Table;
+import com.anders.pomelo.databus.model.column.BigIntColumn;
+import com.anders.pomelo.databus.model.column.BitColumn;
+import com.anders.pomelo.databus.model.column.DateColumn;
+import com.anders.pomelo.databus.model.column.DateTimeColumn;
+import com.anders.pomelo.databus.model.column.DecimalColumn;
+import com.anders.pomelo.databus.model.column.FloatColumn;
+import com.anders.pomelo.databus.model.column.IntColumn;
+import com.anders.pomelo.databus.model.column.StringColumn;
+import com.anders.pomelo.databus.model.column.TimeColumn;
+import com.anders.pomelo.databus.model.column.YearColumn;
+
+@Component
+public class DatabaseMetadata implements InitializingBean {
+
+	private static Logger LOGGER = LoggerFactory.getLogger(DatabaseMetadata.class);
+
+	@Autowired
+	private BinlogProps binlogProps;
+
+	@Autowired
+	private ColumnsMapper columnsMapper;
+	@Autowired
+	private DatabaseMapper databaseMapper;
+	@Autowired
+	private KeyColumnUsageMapper keyColumnUsageMapper;
+	@Autowired
+	private SchemataMapper schemataMapper;
+	@Autowired
+	private TablesMapper tablesMapper;
+
+	public final static Set<String> IGNORED_DATABASES = new HashSet<String>(
+			Arrays.asList(new String[] { "performance_schema", "information_schema" }));
+
+	private Set<String> includedDatabases;
+	private Set<String> ignoredTables;
+
+	public synchronized void genMetadata() {
+		if (CollectionUtils.isEmpty(includedDatabases)) {
+			LOGGER.error("includeDatabases is empty");
+			throw new RuntimeException("includeDatabases is empty");
 		}
-		 
-//		Connection conn;
-//		try {
-//			conn = DriverManager.getConnection("jdbc:mysql://192.168.56.101:3306","root","123");
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		  Statement stmt = conn.createStatement();
+
+		List<Schemata> schemataList = schemataMapper.selectAll();
+		if (CollectionUtils.isEmpty(schemataList)) {
+			LOGGER.warn("schemataList is empty");
+			throw new RuntimeException("schemataList is empty");
+		}
+
+		List<Database> databaseList = new ArrayList<Database>();
+		for (Schemata schemata : schemataList) {
+			if (IGNORED_DATABASES.contains(schemata.getSchemaName())) {
+				continue;
+			}
+
+			if (includedDatabases.contains(schemata.getSchemaName())) {
+				databaseList.add(new Database(schemata.getSchemaName(), schemata.getDefaultCharacterSetName()));
+			}
+		}
+
+		if (CollectionUtils.isEmpty(databaseList)) {
+			LOGGER.warn("databaseList is empty");
+			throw new RuntimeException("databaseList is empty");
+		}
+
+		for (Database database : databaseList) {
+			genDatabase(database);
+		}
 	}
-	
-	public static DatabaseMetadata getInstance() {
-		return DATABASE_METADATA;
+
+	public synchronized void genDatabase(Database database) {
+		List<Tables> tablesList = tablesMapper.selectByTableSchema(database.getName());
+		if (CollectionUtils.isEmpty(tablesList)) {
+			LOGGER.warn("tablesList is empty");
+			return;
+		}
+
+		List<Table> tableList = new ArrayList<Table>();
+		for (Tables tables : tablesList) {
+			if (ignoredTables.contains(tables.getTableName())) {
+				continue;
+			}
+
+			tableList.add(new Table(database.getName(), tables.getTableName(), tables.getCharacterSetName()));
+		}
+		database.setTables(tableList);
+
+		genTable(database, tableList);
+	}
+
+	public synchronized void genTable(Database database, List<Table> tables) {
+		List<Columns> columnsList = columnsMapper.selectByTableSchema(database.getName());
+		if (CollectionUtils.isEmpty(columnsList)) {
+			LOGGER.warn("columnsList is empty");
+			return;
+		}
+
+		List<Column> columnList = new ArrayList<Column>();
+		for (Columns columns : columnsList) {
+
+			switch (columns.getDataType()) {
+			case "tinyint":
+			case "smallint":
+			case "mediumint":
+			case "int":
+				columnList.add(new IntColumn(columns.getColumnName(), columns.getColumnType(),
+						columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
+			case "bigint":
+				columnList.add(new BigIntColumn(columns.getColumnName(), columns.getColumnType(),
+						columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
+			case "tinytext":
+			case "text":
+			case "mediumtext":
+			case "longtext":
+			case "varchar":
+			case "char":
+				columnList.add(new StringColumn(columns.getColumnName(), columns.getColumnType(),
+						columns.getOrdinalPosition() - 1, columns.getCharacterSetName()));
+			case "tinyblob":
+			case "blob":
+			case "mediumblob":
+			case "longblob":
+			case "binary":
+			case "varbinary":
+				// return new StringColumnDef(name, type, pos, "binary");
+				throw new RuntimeException("unsupported column type : " + columns.getDataType());
+			case "geometry":
+			case "geometrycollection":
+			case "linestring":
+			case "multilinestring":
+			case "multipoint":
+			case "multipolygon":
+			case "polygon":
+			case "point":
+				// return new GeometryColumnDef(name, type, pos);
+				throw new RuntimeException("unsupported column type : " + columns.getDataType());
+			case "float":
+			case "double":
+				columnList.add(new FloatColumn(columns.getColumnName(), columns.getColumnType(),
+						columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
+			case "decimal":
+				columnList.add(new DecimalColumn(columns.getColumnName(), columns.getColumnType(),
+						columns.getOrdinalPosition() - 1));
+			case "date":
+				columnList.add(new DateColumn(columns.getColumnName(), columns.getColumnType(),
+						columns.getOrdinalPosition() - 1));
+			case "datetime":
+			case "timestamp":
+				columnList.add(new DateTimeColumn(columns.getColumnName(), columns.getColumnType(),
+						columns.getOrdinalPosition() - 1));
+			case "time":
+				columnList.add(new TimeColumn(columns.getColumnName(), columns.getColumnType(),
+						columns.getOrdinalPosition() - 1));
+			case "year":
+				columnList.add(new YearColumn(columns.getColumnName(), columns.getColumnType(),
+						columns.getOrdinalPosition() - 1));
+			case "enum":
+				// return new EnumColumnDef(name, type, pos, enumValues);
+				throw new RuntimeException("unsupported column type : " + columns.getDataType());
+			case "set":
+				// return new SetColumnDef(name, type, pos, enumValues);
+				throw new RuntimeException("unsupported column type : " + columns.getDataType());
+			case "bit":
+				columnList.add(new BitColumn(columns.getColumnName(), columns.getColumnType(),
+						columns.getOrdinalPosition() - 1));
+			case "json":
+				// return new JsonColumnDef(name, type, pos);
+				throw new RuntimeException("unsupported column type : " + columns.getDataType());
+			default:
+				throw new RuntimeException("unsupported column type : " + columns.getDataType());
+			}
+		}
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		includedDatabases = binlogProps.getIncludedDatabases();
+		ignoredTables = binlogProps.getIgnoredTables();
 	}
 }

@@ -1,10 +1,6 @@
 package com.anders.pomelo.databus.dao.bo;
 
-import java.io.Serializable;
-
-public class Tables implements Serializable {
-
-	private static final long serialVersionUID = 5861413427631301102L;
+public class Tables {
 
 	private String tableName;
 	private String characterSetName;

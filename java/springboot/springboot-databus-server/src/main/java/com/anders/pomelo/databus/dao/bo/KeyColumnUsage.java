@@ -1,10 +1,6 @@
 package com.anders.pomelo.databus.dao.bo;
 
-import java.io.Serializable;
-
-public class KeyColumnUsage implements Serializable {
-
-	private static final long serialVersionUID = -7055489710206745870L;
+public class KeyColumnUsage {
 
 	private String tableName;
 	private String columnName;

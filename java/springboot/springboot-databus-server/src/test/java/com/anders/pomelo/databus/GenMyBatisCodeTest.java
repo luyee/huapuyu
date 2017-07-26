@@ -17,7 +17,8 @@ import org.mybatis.generator.internal.DefaultShellCallback;
 public class GenMyBatisCodeTest {
 
 	@Test
-	public void test() throws IOException, XMLParserException, InvalidConfigurationException, SQLException, InterruptedException {
+	public void test()
+			throws IOException, XMLParserException, InvalidConfigurationException, SQLException, InterruptedException {
 		List<String> warnings = new ArrayList<String>();
 		boolean overwrite = false;
 		File configFile = new File(

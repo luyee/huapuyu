@@ -1,17 +1,23 @@
 package com.anders.pomelo.databus.cfg;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "mysql")
-public class MySQLProps {
+@ConfigurationProperties(prefix = "binlog")
+public class BinlogProps {
 
 	private String host;
 	private int port;
 	private String username;
 	private String password;
-	private String binlogFilename;
-	private int binlogPosition;
-	private String includeDatabases;
+	private String filename;
+	private int position;
+	private String includedDatabases;
+	private String ignoredTables;
 
 	public String getHost() {
 		return host;
@@ -45,28 +51,43 @@ public class MySQLProps {
 		this.password = password;
 	}
 
-	public String getBinlogFilename() {
-		return binlogFilename;
+	public String getFilename() {
+		return filename;
 	}
 
-	public void setBinlogFilename(String binlogFilename) {
-		this.binlogFilename = binlogFilename;
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
-	public int getBinlogPosition() {
-		return binlogPosition;
+	public int getPosition() {
+		return position;
 	}
 
-	public void setBinlogPosition(int binlogPosition) {
-		this.binlogPosition = binlogPosition;
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
-	public String getIncludeDatabases() {
-		return includeDatabases;
+	public Set<String> getIncludedDatabases() {
+		if (StringUtils.isBlank(includedDatabases)) {
+			return new HashSet<String>();
+		}
+
+		return new HashSet<String>(Arrays.asList(includedDatabases.split(",")));
 	}
 
-	public void setIncludeDatabases(String includeDatabases) {
-		this.includeDatabases = includeDatabases;
+	public void setIncludedDatabases(String includedDatabases) {
+		this.includedDatabases = includedDatabases;
 	}
 
+	public Set<String> getIgnoredTables() {
+		if (StringUtils.isBlank(ignoredTables)) {
+			return new HashSet<String>();
+		}
+
+		return new HashSet<String>(Arrays.asList(ignoredTables.split(",")));
+	}
+
+	public void setIgnoredTables(String ignoredTables) {
+		this.ignoredTables = ignoredTables;
+	}
 }

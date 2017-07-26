@@ -1,11 +1,7 @@
 package com.anders.pomelo.databus.dao.bo;
 
-import java.io.Serializable;
+public class Schemata  {
 
-public class Schemata implements Serializable {
-
-	private static final long serialVersionUID = 3186649422000609938L;
-	
 	private String schemaName;
 	private String defaultCharacterSetName;
 
