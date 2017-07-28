@@ -8,6 +8,6 @@ import com.anders.pomelo.databus.dao.bo.Schemata;
 
 @Mapper
 public interface SchemataMapper {
-  
-    List<Schemata> selectAll();
+
+	List<Schemata> selectAll();
 }

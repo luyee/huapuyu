@@ -27,5 +27,6 @@
 		<include refid="Base_Column_List" />
 		FROM `information_schema`.`COLUMNS`
 		WHERE TABLE_SCHEMA = #{tableSchema}
+		ORDER BY TABLE_SCHEMA, TABLE_NAME, ORDINAL_POSITION
 	</select>
 </mapper>

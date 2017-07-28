@@ -21,5 +21,6 @@
 		FROM `information_schema`.`KEY_COLUMN_USAGE`
 		WHERE CONSTRAINT_NAME =
 		'PRIMARY' AND TABLE_SCHEMA = #{tableSchema}
+		ORDER BY TABLE_NAME, ORDINAL_POSITION
 	</select>
 </mapper>

@@ -2,8 +2,10 @@ package com.anders.pomelo.databus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.anders.pomelo.databus.cfg.BinlogProps;
 import com.anders.pomelo.databus.dao.bo.Columns;
+import com.anders.pomelo.databus.dao.bo.KeyColumnUsage;
 import com.anders.pomelo.databus.dao.bo.Schemata;
 import com.anders.pomelo.databus.dao.bo.Tables;
 import com.anders.pomelo.databus.dao.mapper.ColumnsMapper;
@@ -35,6 +38,8 @@ import com.anders.pomelo.databus.model.column.IntColumn;
 import com.anders.pomelo.databus.model.column.StringColumn;
 import com.anders.pomelo.databus.model.column.TimeColumn;
 import com.anders.pomelo.databus.model.column.YearColumn;
+
+// bigint, varchar, tinyint, timestamp, bit, int, decimal, double, char, date, time, datetime, smallint, bigint unsigned, text
 
 @Component
 public class DatabaseMetadata implements InitializingBean {
@@ -61,7 +66,7 @@ public class DatabaseMetadata implements InitializingBean {
 	private Set<String> includedDatabases;
 	private Set<String> ignoredTables;
 
-	public synchronized void genMetadata() {
+	public synchronized void genDatabases() {
 		if (CollectionUtils.isEmpty(includedDatabases)) {
 			LOGGER.error("includeDatabases is empty");
 			throw new RuntimeException("includeDatabases is empty");
@@ -90,58 +95,67 @@ public class DatabaseMetadata implements InitializingBean {
 		}
 
 		for (Database database : databaseList) {
-			genDatabase(database);
+			genTables(database);
 		}
+
+		System.out.println("dsfdgf");
 	}
 
-	public synchronized void genDatabase(Database database) {
+	public synchronized void genTables(Database database) {
 		List<Tables> tablesList = tablesMapper.selectByTableSchema(database.getName());
 		if (CollectionUtils.isEmpty(tablesList)) {
 			LOGGER.warn("tablesList is empty");
 			return;
 		}
 
-		List<Table> tableList = new ArrayList<Table>();
+		Map<String, Table> tableMap = new HashMap<String, Table>();
 		for (Tables tables : tablesList) {
 			if (ignoredTables.contains(tables.getTableName())) {
 				continue;
 			}
 
-			tableList.add(new Table(database.getName(), tables.getTableName(), tables.getCharacterSetName()));
+			tableMap.put(tables.getTableName(),
+					new Table(database.getName(), tables.getTableName(), tables.getCharacterSetName()));
 		}
-		database.setTables(tableList);
+		database.setTables(tableMap);
 
-		genTable(database, tableList);
+		genColumns(database, tableMap);
+		genPkColumns(database, tableMap);
+		
+		System.out.println("afasfasd");
 	}
 
-	public synchronized void genTable(Database database, List<Table> tables) {
+	public synchronized void genColumns(Database database, Map<String, Table> tableMap) {
 		List<Columns> columnsList = columnsMapper.selectByTableSchema(database.getName());
 		if (CollectionUtils.isEmpty(columnsList)) {
 			LOGGER.warn("columnsList is empty");
 			return;
 		}
 
-		List<Column> columnList = new ArrayList<Column>();
 		for (Columns columns : columnsList) {
-
 			switch (columns.getDataType()) {
 			case "tinyint":
 			case "smallint":
 			case "mediumint":
 			case "int":
-				columnList.add(new IntColumn(columns.getColumnName(), columns.getColumnType(),
-						columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
+				tableMap.get(columns.getTableName())
+						.addColumn(new IntColumn(columns.getColumnName(), columns.getColumnType(),
+								columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
+				break;
 			case "bigint":
-				columnList.add(new BigIntColumn(columns.getColumnName(), columns.getColumnType(),
-						columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
+				tableMap.get(columns.getTableName())
+						.addColumn(new BigIntColumn(columns.getColumnName(), columns.getColumnType(),
+								columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
+				break;
 			case "tinytext":
 			case "text":
 			case "mediumtext":
 			case "longtext":
 			case "varchar":
 			case "char":
-				columnList.add(new StringColumn(columns.getColumnName(), columns.getColumnType(),
-						columns.getOrdinalPosition() - 1, columns.getCharacterSetName()));
+				tableMap.get(columns.getTableName()).addColumn(new StringColumn(columns.getColumnName(),
+						columns.getColumnType(), columns.getOrdinalPosition() - 1, columns.getCharacterSetName()));
+				break;
 			case "tinyblob":
 			case "blob":
 			case "mediumblob":
@@ -162,24 +176,31 @@ public class DatabaseMetadata implements InitializingBean {
 				throw new RuntimeException("unsupported column type : " + columns.getDataType());
 			case "float":
 			case "double":
-				columnList.add(new FloatColumn(columns.getColumnName(), columns.getColumnType(),
-						columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
+				tableMap.get(columns.getTableName())
+						.addColumn(new FloatColumn(columns.getColumnName(), columns.getColumnType(),
+								columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
+				break;
 			case "decimal":
-				columnList.add(new DecimalColumn(columns.getColumnName(), columns.getColumnType(),
-						columns.getOrdinalPosition() - 1));
+				tableMap.get(columns.getTableName()).addColumn(new DecimalColumn(columns.getColumnName(),
+						columns.getColumnType(), columns.getOrdinalPosition() - 1));
+				break;
 			case "date":
-				columnList.add(new DateColumn(columns.getColumnName(), columns.getColumnType(),
-						columns.getOrdinalPosition() - 1));
+				tableMap.get(columns.getTableName()).addColumn(new DateColumn(columns.getColumnName(),
+						columns.getColumnType(), columns.getOrdinalPosition() - 1));
+				break;
 			case "datetime":
 			case "timestamp":
-				columnList.add(new DateTimeColumn(columns.getColumnName(), columns.getColumnType(),
-						columns.getOrdinalPosition() - 1));
+				tableMap.get(columns.getTableName()).addColumn(new DateTimeColumn(columns.getColumnName(),
+						columns.getColumnType(), columns.getOrdinalPosition() - 1));
+				break;
 			case "time":
-				columnList.add(new TimeColumn(columns.getColumnName(), columns.getColumnType(),
-						columns.getOrdinalPosition() - 1));
+				tableMap.get(columns.getTableName()).addColumn(new TimeColumn(columns.getColumnName(),
+						columns.getColumnType(), columns.getOrdinalPosition() - 1));
+				break;
 			case "year":
-				columnList.add(new YearColumn(columns.getColumnName(), columns.getColumnType(),
-						columns.getOrdinalPosition() - 1));
+				tableMap.get(columns.getTableName()).addColumn(new YearColumn(columns.getColumnName(),
+						columns.getColumnType(), columns.getOrdinalPosition() - 1));
+				break;
 			case "enum":
 				// return new EnumColumnDef(name, type, pos, enumValues);
 				throw new RuntimeException("unsupported column type : " + columns.getDataType());
@@ -187,14 +208,36 @@ public class DatabaseMetadata implements InitializingBean {
 				// return new SetColumnDef(name, type, pos, enumValues);
 				throw new RuntimeException("unsupported column type : " + columns.getDataType());
 			case "bit":
-				columnList.add(new BitColumn(columns.getColumnName(), columns.getColumnType(),
-						columns.getOrdinalPosition() - 1));
+				tableMap.get(columns.getTableName()).addColumn(new BitColumn(columns.getColumnName(),
+						columns.getColumnType(), columns.getOrdinalPosition() - 1));
+				break;
 			case "json":
 				// return new JsonColumnDef(name, type, pos);
+				throw new RuntimeException("unsupported column type : " + columns.getDataType());
+			case "bool":
+			case "boolean":
+			case "numeric":
+			case "real":
+				// return new JsonColumnDef(name, type, pos);
+				// TODO Anders 这两种类型maxwell没有实现
 				throw new RuntimeException("unsupported column type : " + columns.getDataType());
 			default:
 				throw new RuntimeException("unsupported column type : " + columns.getDataType());
 			}
+		}
+	}
+
+	public synchronized void genPkColumns(Database database, Map<String, Table> tableMap) {
+		List<KeyColumnUsage> keyColumnUsageList = keyColumnUsageMapper.selectByTableSchema(database.getName());
+		if (CollectionUtils.isEmpty(keyColumnUsageList)) {
+			LOGGER.warn("keyColumnUsageList is empty");
+			return;
+		}
+
+		for (KeyColumnUsage keyColumnUsage : keyColumnUsageList) {
+			Table table = tableMap.get(keyColumnUsage.getTableName());
+			List<Column> columns = table.getColumns();
+			table.addPkColumn(columns.get(keyColumnUsage.getOrdinalPosition().intValue()));
 		}
 	}
 

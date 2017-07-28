@@ -20,7 +20,7 @@ public class KeyColumnUsageMapperTest {
 
 	@Test
 	public void test() {
-		List<KeyColumnUsage> keyColumnUsageList = keyColumnUsageMapper.selectByTableSchema("eif_test");
+		List<KeyColumnUsage> keyColumnUsageList = keyColumnUsageMapper.selectByTableSchema("anders");
 		for (KeyColumnUsage keyColumnUsage : keyColumnUsageList) {
 			System.out.println(keyColumnUsage.getColumnName());
 			System.out.println(keyColumnUsage.getTableName());

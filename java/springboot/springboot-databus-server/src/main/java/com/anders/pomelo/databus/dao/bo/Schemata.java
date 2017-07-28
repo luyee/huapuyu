@@ -1,6 +1,6 @@
 package com.anders.pomelo.databus.dao.bo;
 
-public class Schemata  {
+public class Schemata {
 
 	private String schemaName;
 	private String defaultCharacterSetName;

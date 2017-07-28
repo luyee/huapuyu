@@ -7,7 +7,7 @@ import com.anders.pomelo.databus.model.Column;
 public class BigIntColumn extends Column implements Serializable {
 
 	private static final long serialVersionUID = 6617775472727821679L;
-	
+
 	private boolean signed;
 
 	public BigIntColumn(String name, String type, long pos, boolean signed) {

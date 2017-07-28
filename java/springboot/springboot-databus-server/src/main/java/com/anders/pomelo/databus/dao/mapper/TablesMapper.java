@@ -8,6 +8,6 @@ import com.anders.pomelo.databus.dao.bo.Tables;
 
 @Mapper
 public interface TablesMapper {
-	
+
 	List<Tables> selectByTableSchema(String tableSchema);
 }

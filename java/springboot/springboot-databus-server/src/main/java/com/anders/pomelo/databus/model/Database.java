@@ -2,7 +2,11 @@ package com.anders.pomelo.databus.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections4.MapUtils;
 
 public class Database implements Serializable {
 
@@ -10,7 +14,7 @@ public class Database implements Serializable {
 
 	private String name;
 	private String charset;
-	private List<Table> tables = new ArrayList<Table>();
+	private Map<String, Table> tables;
 
 	public Database(String name, String charset) {
 		this.name = name;
@@ -33,12 +37,27 @@ public class Database implements Serializable {
 		this.name = name;
 	}
 
-	public void setTables(List<Table> tables) {
+	public Map<String, Table> getTables() {
+		if (MapUtils.isEmpty(tables)) {
+			tables = new HashMap<String, Table>();
+		}
+		return tables;
+	}
+
+	public void setTables(Map<String, Table> tables) {
 		this.tables = tables;
 	}
 
-	public List<Table> getTables() {
-		return tables;
+	public void addTable(String tableName, Table table) {
+		getTables().put(tableName, table);
+	}
+
+	public Table getTable(String tableName) {
+		return getTables().get(tableName);
+	}
+
+	public Table removeTable(String tableName) {
+		return getTables().remove(tableName);
 	}
 
 }
