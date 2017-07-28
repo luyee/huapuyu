@@ -41,7 +41,7 @@ public class BinlogConsumer implements DisposableBean {
 	}
 
 	public void start() throws IOException {
-		 databaseMetadata.genDatabases();
+		databaseMetadata.genDatabases();
 
 		binaryLogClient = new BinaryLogClient(binlogProps.getHost(), binlogProps.getPort(), binlogProps.getUsername(),
 				binlogProps.getPassword());

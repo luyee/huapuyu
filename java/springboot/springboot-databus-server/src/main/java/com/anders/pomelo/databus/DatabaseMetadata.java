@@ -121,7 +121,7 @@ public class DatabaseMetadata implements InitializingBean {
 
 		genColumns(database, tableMap);
 		genPkColumns(database, tableMap);
-		
+
 		System.out.println("afasfasd");
 	}
 
