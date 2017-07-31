@@ -1,6 +1,5 @@
 package com.anders.pomelo.databus;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -27,6 +27,7 @@ import com.anders.pomelo.databus.dao.mapper.SchemataMapper;
 import com.anders.pomelo.databus.dao.mapper.TablesMapper;
 import com.anders.pomelo.databus.model.Column;
 import com.anders.pomelo.databus.model.Database;
+import com.anders.pomelo.databus.model.Schema;
 import com.anders.pomelo.databus.model.Table;
 import com.anders.pomelo.databus.model.column.BigIntColumn;
 import com.anders.pomelo.databus.model.column.BitColumn;
@@ -66,7 +67,7 @@ public class DatabaseMetadata implements InitializingBean {
 	private Set<String> includedDatabases;
 	private Set<String> ignoredTables;
 
-	public synchronized void genDatabases() {
+	public synchronized Schema generate() {
 		if (CollectionUtils.isEmpty(includedDatabases)) {
 			LOGGER.error("includeDatabases is empty");
 			throw new RuntimeException("includeDatabases is empty");
@@ -78,27 +79,28 @@ public class DatabaseMetadata implements InitializingBean {
 			throw new RuntimeException("schemataList is empty");
 		}
 
-		List<Database> databaseList = new ArrayList<Database>();
+		Map<String, Database> databaseMap = new HashMap<String, Database>();
 		for (Schemata schemata : schemataList) {
 			if (IGNORED_DATABASES.contains(schemata.getSchemaName())) {
 				continue;
 			}
 
 			if (includedDatabases.contains(schemata.getSchemaName())) {
-				databaseList.add(new Database(schemata.getSchemaName(), schemata.getDefaultCharacterSetName()));
+				databaseMap.put(schemata.getSchemaName(),
+						new Database(schemata.getSchemaName(), schemata.getDefaultCharacterSetName()));
 			}
 		}
 
-		if (CollectionUtils.isEmpty(databaseList)) {
+		if (MapUtils.isEmpty(databaseMap)) {
 			LOGGER.warn("databaseList is empty");
 			throw new RuntimeException("databaseList is empty");
 		}
 
-		for (Database database : databaseList) {
+		for (Database database : databaseMap.values()) {
 			genTables(database);
 		}
 
-		System.out.println("dsfdgf");
+		return new Schema(databaseMap);
 	}
 
 	public synchronized void genTables(Database database) {
@@ -121,8 +123,6 @@ public class DatabaseMetadata implements InitializingBean {
 
 		genColumns(database, tableMap);
 		genPkColumns(database, tableMap);
-
-		System.out.println("afasfasd");
 	}
 
 	public synchronized void genColumns(Database database, Map<String, Table> tableMap) {
@@ -237,7 +237,8 @@ public class DatabaseMetadata implements InitializingBean {
 		for (KeyColumnUsage keyColumnUsage : keyColumnUsageList) {
 			Table table = tableMap.get(keyColumnUsage.getTableName());
 			List<Column> columns = table.getColumns();
-			table.addPkColumn(columns.get(keyColumnUsage.getOrdinalPosition().intValue()));
+			table.addPkColumn(columns.get(keyColumnUsage.getOrdinalPosition().intValue() - 1),
+					keyColumnUsage.getOrdinalPosition().intValue() - 1);
 		}
 	}
 

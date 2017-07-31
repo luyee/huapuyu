@@ -1,9 +1,7 @@
 package com.anders.pomelo.databus.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.MapUtils;

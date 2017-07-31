@@ -2,9 +2,12 @@ package com.anders.pomelo.databus.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 
 public class Table implements Serializable {
 
@@ -14,7 +17,7 @@ public class Table implements Serializable {
 	private String name;
 	private String charset;
 	private List<Column> columns;
-	private List<Column> pkColumns;
+	private Map<Column, Integer> pkColumns;
 
 	public Table(String databaseName, String name, String charset) {
 		this.databaseName = databaseName;
@@ -62,20 +65,20 @@ public class Table implements Serializable {
 		getColumns().add(column);
 	}
 
-	public List<Column> getPkColumns() {
-		if (CollectionUtils.isEmpty(pkColumns)) {
-			pkColumns = new ArrayList<Column>();
+	public Map<Column, Integer> getPkColumns() {
+		if (MapUtils.isEmpty(pkColumns)) {
+			pkColumns = new HashMap<Column, Integer>();
 		}
 
 		return pkColumns;
 	}
 
-	public void setPkColumns(List<Column> pkColumns) {
+	public void setPkColumns(Map<Column, Integer> pkColumns) {
 		this.pkColumns = pkColumns;
 	}
 
-	public void addPkColumn(Column column) {
-		getPkColumns().add(column);
+	public void addPkColumn(Column column, Integer ordinalPosition) {
+		getPkColumns().put(column, ordinalPosition);
 	}
 
 }
