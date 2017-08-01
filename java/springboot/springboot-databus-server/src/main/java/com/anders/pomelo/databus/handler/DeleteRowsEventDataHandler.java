@@ -1,10 +1,16 @@
 package com.anders.pomelo.databus.handler;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Blob;
+import java.sql.Clob;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
@@ -71,8 +77,41 @@ public class DeleteRowsEventDataHandler implements EventDataHandler {
 								stmt.setString(i + 1, (String) row[entry.getValue()]);
 							} else if (row[entry.getValue()] instanceof Integer) {
 								stmt.setInt(i + 1, (Integer) row[entry.getValue()]);
+							}  else if (row[entry.getValue()] instanceof BigDecimal) {
+								stmt.setBigDecimal(i + 1, (BigDecimal) row[i]);
+							} else if (row[entry.getValue()] instanceof Boolean) {
+								stmt.setBoolean(i + 1, (boolean) row[i]);
+							} else if (row[i] instanceof byte[]) {
+								stmt.setBytes(i + 1, (byte[]) row[i]);
+							} else if (row[i] instanceof Double) {
+								stmt.setDouble(i + 1, (Double) row[i]);
+							} else if (row[i] instanceof Float) {
+								stmt.setFloat(i + 1, (Float) row[i]);
+							} else if (row[i] instanceof Long) {
+								stmt.setLong(i + 1, (Long) row[i]);
+							} else if (row[i] instanceof Short) {
+								stmt.setShort(i + 1, (Short) row[i]);
+							} else if (row[i] instanceof Blob) {
+								// stmt.setBlob(i + 1, (Blob) row[i]);
+								throw new RuntimeException("unsupported the type : " + Blob.class.getTypeName());
+							} else if (row[i] instanceof Clob) {
+								// stmt.setClob(i + 1, (Clob) row[i]);
+								throw new RuntimeException("unsupported the type : " + Clob.class.getTypeName());
+							} else if (row[i] instanceof Byte) {
+								// stmt.setByte(i + 1, (Byte) row[i]);
+								throw new RuntimeException("unsupported the type : " + Byte.class.getTypeName());
+							} else if (row[i] instanceof BitSet) {
+								stmt.setBoolean(i + 1, ((BitSet) row[i]).get(0));
+							} else if (row[i] instanceof Date) {
+								stmt.setDate(i + 1, new Date(((Date) row[i]).getTime() - tz.getRawOffset()));
+							} else if (row[i] instanceof Time) {
+								stmt.setTime(i + 1, new Time(((Time) row[i]).getTime() - tz.getRawOffset()));
+							} else if (row[i] instanceof Timestamp) {
+								stmt.setTimestamp(i + 1, (Timestamp) row[i]);
+							} else if (row[i] instanceof java.util.Date) {
+								stmt.setTimestamp(i + 1, new Timestamp(((java.util.Date) row[i]).getTime() - tz.getRawOffset()));
 							} else {
-								System.out.println(row[entry.getValue()].getClass());
+								throw new RuntimeException("unsupported the type : " + row[i].getClass().getTypeName());
 							}
 						} else {
 							// stmt.setNull(i + 1, JDBCType.VARCHAR.ordinal());
