@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
@@ -46,6 +47,7 @@ public class DeleteRowsEventDataHandler implements EventDataHandler {
 		Table table = schema.getTable(tableId);
 		// List<Column> columns = table.getColumns();
 		Map<Column, Integer> pkColumns = table.getPkColumns();
+		 TimeZone tz = TimeZone.getDefault();  
 
 		StringBuilder where = new StringBuilder();
 		for (Entry<Column, Integer> entry : pkColumns.entrySet()) {
@@ -63,8 +65,8 @@ public class DeleteRowsEventDataHandler implements EventDataHandler {
 
 				Class.forName("com.mysql.jdbc.Driver");
 				Connection conn = DriverManager.getConnection(
-						"jdbc:mysql://127.0.0.1:3306/databus_to?useUnicode=true&characterEncoding=UTF-8&useSSL=false", "root",
-						"123");
+						"jdbc:mysql://127.0.0.1:3306/databus_to?useUnicode=true&characterEncoding=UTF-8&useSSL=false",
+						"root", "123");
 
 				for (Serializable[] row : rows) {
 					PreparedStatement stmt = conn.prepareStatement(sql);
@@ -77,41 +79,42 @@ public class DeleteRowsEventDataHandler implements EventDataHandler {
 								stmt.setString(i + 1, (String) row[entry.getValue()]);
 							} else if (row[entry.getValue()] instanceof Integer) {
 								stmt.setInt(i + 1, (Integer) row[entry.getValue()]);
-							}  else if (row[entry.getValue()] instanceof BigDecimal) {
-								stmt.setBigDecimal(i + 1, (BigDecimal) row[i]);
+							} else if (row[entry.getValue()] instanceof BigDecimal) {
+								stmt.setBigDecimal(i + 1, (BigDecimal) row[entry.getValue()]);
 							} else if (row[entry.getValue()] instanceof Boolean) {
-								stmt.setBoolean(i + 1, (boolean) row[i]);
-							} else if (row[i] instanceof byte[]) {
-								stmt.setBytes(i + 1, (byte[]) row[i]);
-							} else if (row[i] instanceof Double) {
-								stmt.setDouble(i + 1, (Double) row[i]);
-							} else if (row[i] instanceof Float) {
-								stmt.setFloat(i + 1, (Float) row[i]);
-							} else if (row[i] instanceof Long) {
-								stmt.setLong(i + 1, (Long) row[i]);
-							} else if (row[i] instanceof Short) {
-								stmt.setShort(i + 1, (Short) row[i]);
-							} else if (row[i] instanceof Blob) {
-								// stmt.setBlob(i + 1, (Blob) row[i]);
+								stmt.setBoolean(i + 1, (boolean) row[entry.getValue()]);
+							} else if (row[entry.getValue()] instanceof byte[]) {
+								stmt.setBytes(i + 1, (byte[]) row[entry.getValue()]);
+							} else if (row[entry.getValue()] instanceof Double) {
+								stmt.setDouble(i + 1, (Double) row[entry.getValue()]);
+							} else if (row[entry.getValue()] instanceof Float) {
+								stmt.setFloat(i + 1, (Float) row[entry.getValue()]);
+							} else if (row[entry.getValue()] instanceof Long) {
+								stmt.setLong(i + 1, (Long) row[entry.getValue()]);
+							} else if (row[entry.getValue()] instanceof Short) {
+								stmt.setShort(i + 1, (Short) row[entry.getValue()]);
+							} else if (row[entry.getValue()] instanceof Blob) {
 								throw new RuntimeException("unsupported the type : " + Blob.class.getTypeName());
-							} else if (row[i] instanceof Clob) {
-								// stmt.setClob(i + 1, (Clob) row[i]);
+							} else if (row[entry.getValue()] instanceof Clob) {
 								throw new RuntimeException("unsupported the type : " + Clob.class.getTypeName());
-							} else if (row[i] instanceof Byte) {
-								// stmt.setByte(i + 1, (Byte) row[i]);
+							} else if (row[entry.getValue()] instanceof Byte) {
 								throw new RuntimeException("unsupported the type : " + Byte.class.getTypeName());
-							} else if (row[i] instanceof BitSet) {
-								stmt.setBoolean(i + 1, ((BitSet) row[i]).get(0));
-							} else if (row[i] instanceof Date) {
-								stmt.setDate(i + 1, new Date(((Date) row[i]).getTime() - tz.getRawOffset()));
-							} else if (row[i] instanceof Time) {
-								stmt.setTime(i + 1, new Time(((Time) row[i]).getTime() - tz.getRawOffset()));
-							} else if (row[i] instanceof Timestamp) {
-								stmt.setTimestamp(i + 1, (Timestamp) row[i]);
-							} else if (row[i] instanceof java.util.Date) {
-								stmt.setTimestamp(i + 1, new Timestamp(((java.util.Date) row[i]).getTime() - tz.getRawOffset()));
+							} else if (row[entry.getValue()] instanceof BitSet) {
+								stmt.setBoolean(i + 1, ((BitSet) row[entry.getValue()]).get(0));
+							} else if (row[entry.getValue()] instanceof Date) {
+								stmt.setDate(i + 1,
+										new Date(((Date) row[entry.getValue()]).getTime() - tz.getRawOffset()));
+							} else if (row[entry.getValue()] instanceof Time) {
+								stmt.setTime(i + 1,
+										new Time(((Time) row[entry.getValue()]).getTime() - tz.getRawOffset()));
+							} else if (row[entry.getValue()] instanceof Timestamp) {
+								stmt.setTimestamp(i + 1, (Timestamp) row[entry.getValue()]);
+							} else if (row[entry.getValue()] instanceof java.util.Date) {
+								stmt.setTimestamp(i + 1, new Timestamp(
+										((java.util.Date) row[entry.getValue()]).getTime() - tz.getRawOffset()));
 							} else {
-								throw new RuntimeException("unsupported the type : " + row[i].getClass().getTypeName());
+								throw new RuntimeException(
+										"unsupported the type : " + row[entry.getValue()].getClass().getTypeName());
 							}
 						} else {
 							// stmt.setNull(i + 1, JDBCType.VARCHAR.ordinal());

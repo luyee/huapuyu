@@ -61,8 +61,7 @@ public class DatabaseMetadata implements InitializingBean {
 	@Autowired
 	private TablesMapper tablesMapper;
 
-	public final static Set<String> IGNORED_DATABASES = new HashSet<String>(
-			Arrays.asList(new String[] { "performance_schema", "information_schema" }));
+	public final static Set<String> IGNORED_DATABASES = new HashSet<String>(Arrays.asList(new String[] { "performance_schema", "information_schema" }));
 
 	private Set<String> includedDatabases;
 	private Set<String> ignoredTables;
@@ -86,8 +85,7 @@ public class DatabaseMetadata implements InitializingBean {
 			}
 
 			if (includedDatabases.contains(schemata.getSchemaName())) {
-				databaseMap.put(schemata.getSchemaName(),
-						new Database(schemata.getSchemaName(), schemata.getDefaultCharacterSetName()));
+				databaseMap.put(schemata.getSchemaName(), new Database(schemata.getSchemaName(), schemata.getDefaultCharacterSetName()));
 			}
 		}
 
@@ -116,8 +114,7 @@ public class DatabaseMetadata implements InitializingBean {
 				continue;
 			}
 
-			tableMap.put(tables.getTableName(),
-					new Table(database.getName(), tables.getTableName(), tables.getCharacterSetName()));
+			tableMap.put(tables.getTableName(), new Table(database.getName(), tables.getTableName(), tables.getCharacterSetName()));
 		}
 		database.setTables(tableMap);
 
@@ -138,14 +135,10 @@ public class DatabaseMetadata implements InitializingBean {
 			case "smallint":
 			case "mediumint":
 			case "int":
-				tableMap.get(columns.getTableName())
-						.addColumn(new IntColumn(columns.getColumnName(), columns.getColumnType(),
-								columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
+				tableMap.get(columns.getTableName()).addColumn(new IntColumn(columns.getColumnName(), columns.getColumnType(), columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
 				break;
 			case "bigint":
-				tableMap.get(columns.getTableName())
-						.addColumn(new BigIntColumn(columns.getColumnName(), columns.getColumnType(),
-								columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
+				tableMap.get(columns.getTableName()).addColumn(new BigIntColumn(columns.getColumnName(), columns.getColumnType(), columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
 				break;
 			case "tinytext":
 			case "text":
@@ -153,8 +146,7 @@ public class DatabaseMetadata implements InitializingBean {
 			case "longtext":
 			case "varchar":
 			case "char":
-				tableMap.get(columns.getTableName()).addColumn(new StringColumn(columns.getColumnName(),
-						columns.getColumnType(), columns.getOrdinalPosition() - 1, columns.getCharacterSetName()));
+				tableMap.get(columns.getTableName()).addColumn(new StringColumn(columns.getColumnName(), columns.getColumnType(), columns.getOrdinalPosition() - 1, columns.getCharacterSetName()));
 				break;
 			case "tinyblob":
 			case "blob":
@@ -176,30 +168,23 @@ public class DatabaseMetadata implements InitializingBean {
 				throw new RuntimeException("unsupported column type : " + columns.getDataType());
 			case "float":
 			case "double":
-				tableMap.get(columns.getTableName())
-						.addColumn(new FloatColumn(columns.getColumnName(), columns.getColumnType(),
-								columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
+				tableMap.get(columns.getTableName()).addColumn(new FloatColumn(columns.getColumnName(), columns.getColumnType(), columns.getOrdinalPosition() - 1, !columns.getColumnType().matches(".* unsigned$")));
 				break;
 			case "decimal":
-				tableMap.get(columns.getTableName()).addColumn(new DecimalColumn(columns.getColumnName(),
-						columns.getColumnType(), columns.getOrdinalPosition() - 1));
+				tableMap.get(columns.getTableName()).addColumn(new DecimalColumn(columns.getColumnName(), columns.getColumnType(), columns.getOrdinalPosition() - 1));
 				break;
 			case "date":
-				tableMap.get(columns.getTableName()).addColumn(new DateColumn(columns.getColumnName(),
-						columns.getColumnType(), columns.getOrdinalPosition() - 1));
+				tableMap.get(columns.getTableName()).addColumn(new DateColumn(columns.getColumnName(), columns.getColumnType(), columns.getOrdinalPosition() - 1));
 				break;
 			case "datetime":
 			case "timestamp":
-				tableMap.get(columns.getTableName()).addColumn(new DateTimeColumn(columns.getColumnName(),
-						columns.getColumnType(), columns.getOrdinalPosition() - 1));
+				tableMap.get(columns.getTableName()).addColumn(new DateTimeColumn(columns.getColumnName(), columns.getColumnType(), columns.getOrdinalPosition() - 1));
 				break;
 			case "time":
-				tableMap.get(columns.getTableName()).addColumn(new TimeColumn(columns.getColumnName(),
-						columns.getColumnType(), columns.getOrdinalPosition() - 1));
+				tableMap.get(columns.getTableName()).addColumn(new TimeColumn(columns.getColumnName(), columns.getColumnType(), columns.getOrdinalPosition() - 1));
 				break;
 			case "year":
-				tableMap.get(columns.getTableName()).addColumn(new YearColumn(columns.getColumnName(),
-						columns.getColumnType(), columns.getOrdinalPosition() - 1));
+				tableMap.get(columns.getTableName()).addColumn(new YearColumn(columns.getColumnName(), columns.getColumnType(), columns.getOrdinalPosition() - 1));
 				break;
 			case "enum":
 				// return new EnumColumnDef(name, type, pos, enumValues);
@@ -208,8 +193,7 @@ public class DatabaseMetadata implements InitializingBean {
 				// return new SetColumnDef(name, type, pos, enumValues);
 				throw new RuntimeException("unsupported column type : " + columns.getDataType());
 			case "bit":
-				tableMap.get(columns.getTableName()).addColumn(new BitColumn(columns.getColumnName(),
-						columns.getColumnType(), columns.getOrdinalPosition() - 1));
+				tableMap.get(columns.getTableName()).addColumn(new BitColumn(columns.getColumnName(), columns.getColumnType(), columns.getOrdinalPosition() - 1));
 				break;
 			case "json":
 				// return new JsonColumnDef(name, type, pos);
@@ -237,8 +221,7 @@ public class DatabaseMetadata implements InitializingBean {
 		for (KeyColumnUsage keyColumnUsage : keyColumnUsageList) {
 			Table table = tableMap.get(keyColumnUsage.getTableName());
 			List<Column> columns = table.getColumns();
-			table.addPkColumn(columns.get(keyColumnUsage.getOrdinalPosition().intValue() - 1),
-					keyColumnUsage.getOrdinalPosition().intValue() - 1);
+			table.addPkColumn(columns.get(keyColumnUsage.getOrdinalPosition().intValue() - 1), keyColumnUsage.getOrdinalPosition().intValue() - 1);
 		}
 	}
 

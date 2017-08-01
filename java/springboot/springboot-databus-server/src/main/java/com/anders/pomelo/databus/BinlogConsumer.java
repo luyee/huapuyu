@@ -59,8 +59,7 @@ public class BinlogConsumer implements DisposableBean {
 	public void start() throws IOException {
 		schema = databaseMetadata.generate();
 
-		binaryLogClient = new BinaryLogClient(binlogProps.getHost(), binlogProps.getPort(), binlogProps.getUsername(),
-				binlogProps.getPassword());
+		binaryLogClient = new BinaryLogClient(binlogProps.getHost(), binlogProps.getPort(), binlogProps.getUsername(), binlogProps.getPassword());
 
 		binaryLogClient.setBinlogFilename(binlogProps.getFilename());
 		binaryLogClient.setBinlogPosition(binlogProps.getPosition());
@@ -75,7 +74,6 @@ public class BinlogConsumer implements DisposableBean {
 					if (binlogProps.getIncludedDatabases().contains(queryEventData.getDatabase())) {
 						queryEventDataHandler.execute(queryEventData, schema);
 						schema = databaseMetadata.generate();
-						System.out.println(queryEventData.getSql());
 					}
 				} else if (event.getData() instanceof UpdateRowsEventData) {
 					UpdateRowsEventData updateRowsEventData = event.getData();
@@ -167,8 +165,7 @@ public class BinlogConsumer implements DisposableBean {
 					// System.out.println(i);
 					// }
 
-					schema.addTableId(tableMapEventData.getTableId(), tableMapEventData.getDatabase(),
-							tableMapEventData.getTable());
+					schema.addTableId(tableMapEventData.getTableId(), tableMapEventData.getDatabase(), tableMapEventData.getTable());
 				} else if (event.getData() instanceof XidEventData) {
 					// XidEventData xidEventData = event.getData();
 					// System.out.println(xidEventData.getXid());
