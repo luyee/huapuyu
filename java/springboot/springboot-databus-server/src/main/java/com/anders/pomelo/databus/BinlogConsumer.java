@@ -1,9 +1,9 @@
 package com.anders.pomelo.databus;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.BitSet;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.anders.pomelo.databus.cfg.BinlogProps;
+import com.anders.pomelo.databus.cfg.SlavedbProps;
 import com.anders.pomelo.databus.handler.DeleteRowsEventDataHandler;
 import com.anders.pomelo.databus.handler.QueryEventDataHandler;
 import com.anders.pomelo.databus.handler.UpdateRowsEventDataHandler;
@@ -37,6 +38,8 @@ public class BinlogConsumer implements DisposableBean {
 	@Autowired
 	private BinlogProps binlogProps;
 	@Autowired
+	private SlavedbProps slavedbProps;
+	@Autowired
 	private DatabaseMetadata databaseMetadata;
 	@Autowired
 	private WriteRowsEventDataHandler writeRowsEventDataHandler;
@@ -56,102 +59,142 @@ public class BinlogConsumer implements DisposableBean {
 		}
 	}
 
-	public void start() throws IOException {
+	public void start() throws IOException, SQLException, ClassNotFoundException {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection connection = DriverManager.getConnection(slavedbProps.getUrl(), slavedbProps.getUsername(), slavedbProps.getPassword());
+
 		schema = databaseMetadata.generate();
 
 		binaryLogClient = new BinaryLogClient(binlogProps.getHost(), binlogProps.getPort(), binlogProps.getUsername(), binlogProps.getPassword());
-
 		binaryLogClient.setBinlogFilename(binlogProps.getFilename());
 		binaryLogClient.setBinlogPosition(binlogProps.getPosition());
 		binaryLogClient.registerEventListener(new EventListener() {
 			@Override
 			public void onEvent(Event event) {
-				System.out.println("*****************************begin******************************");
-				System.out.println(event.getHeader().getClass() + " : " + event.getData().getClass());
+				LOGGER.error("{}:{} {}:{}", binaryLogClient.getBinlogFilename(), binaryLogClient.getBinlogPosition(), event.getHeader().getClass(), event.getData().getClass());
 
 				if (event.getData() instanceof QueryEventData) {
 					QueryEventData queryEventData = event.getData();
 					if (binlogProps.getIncludedDatabases().contains(queryEventData.getDatabase())) {
-						queryEventDataHandler.execute(queryEventData, schema);
+						try {
+							queryEventDataHandler.execute(queryEventData, schema, connection);
+						} catch (SQLException e) {
+							// throw new RuntimeException(e);
+							try {
+								binaryLogClient.disconnect();
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+						}
 						schema = databaseMetadata.generate();
 					}
 				} else if (event.getData() instanceof UpdateRowsEventData) {
 					UpdateRowsEventData updateRowsEventData = event.getData();
-					System.out.println(updateRowsEventData.getIncludedColumns());
-					System.out.println(updateRowsEventData.getIncludedColumnsBeforeUpdate());
-					System.out.println(updateRowsEventData.getTableId());
-					for (Map.Entry<Serializable[], Serializable[]> entry : updateRowsEventData.getRows()) {
-						for (Serializable s : entry.getKey()) {
-							if (s != null) {
-								if (s instanceof String) {
-									System.out.println(s.getClass() + " " + (String) s);
-								} else if (s instanceof Integer) {
-									System.out.println(s.getClass() + " " + (Integer) s);
-								} else {
-									System.out.println(s.getClass());
-								}
-							} else {
-								System.out.println("null");
-							}
+					// System.out.println(updateRowsEventData.getIncludedColumns());
+					// System.out.println(updateRowsEventData.getIncludedColumnsBeforeUpdate());
+					// System.out.println(updateRowsEventData.getTableId());
+					// for (Map.Entry<Serializable[], Serializable[]> entry :
+					// updateRowsEventData.getRows()) {
+					// for (Serializable s : entry.getKey()) {
+					// if (s != null) {
+					// if (s instanceof String) {
+					// System.out.println(s.getClass() + " " + (String) s);
+					// } else if (s instanceof Integer) {
+					// System.out.println(s.getClass() + " " + (Integer) s);
+					// } else {
+					// System.out.println(s.getClass());
+					// }
+					// } else {
+					// System.out.println("null");
+					// }
+					// }
+					// System.out.println("---------------");
+					// for (Serializable s : entry.getValue()) {
+					// if (s != null) {
+					// if (s instanceof String) {
+					// System.out.println(s.getClass() + " " + (String) s);
+					// } else if (s instanceof Integer) {
+					// System.out.println(s.getClass() + " " + (Integer) s);
+					// } else {
+					// System.out.println(s.getClass());
+					// }
+					// } else {
+					// System.out.println("null");
+					// }
+					// }
+					// System.out.println("===============");
+					// }
+					try {
+						updateRowsEventDataHandler.execute(updateRowsEventData, schema, connection);
+					} catch (SQLException e) {
+						// throw new RuntimeException(e);
+						try {
+							binaryLogClient.disconnect();
+						} catch (IOException e1) {
+							e1.printStackTrace();
 						}
-						System.out.println("---------------");
-						for (Serializable s : entry.getValue()) {
-							if (s != null) {
-								if (s instanceof String) {
-									System.out.println(s.getClass() + " " + (String) s);
-								} else if (s instanceof Integer) {
-									System.out.println(s.getClass() + " " + (Integer) s);
-								} else {
-									System.out.println(s.getClass());
-								}
-							} else {
-								System.out.println("null");
-							}
-						}
-						System.out.println("===============");
 					}
-					updateRowsEventDataHandler.execute(updateRowsEventData, schema);
 				} else if (event.getData() instanceof DeleteRowsEventData) {
 					DeleteRowsEventData deleteRowsEventData = event.getData();
-					System.out.println(deleteRowsEventData.getIncludedColumns());
-					System.out.println(deleteRowsEventData.getTableId());
-					for (Serializable[] serializable : deleteRowsEventData.getRows()) {
-						for (Serializable s : serializable) {
-							if (s != null) {
-								if (s instanceof String) {
-									System.out.println(s.getClass() + " " + (String) s);
-								} else if (s instanceof Integer) {
-									System.out.println(s.getClass() + " " + (Integer) s);
-								} else {
-									System.out.println(s.getClass());
-								}
-							} else {
-								System.out.println("null");
-							}
+					// System.out.println(deleteRowsEventData.getIncludedColumns());
+					// System.out.println(deleteRowsEventData.getTableId());
+					// for (Serializable[] serializable :
+					// deleteRowsEventData.getRows()) {
+					// for (Serializable s : serializable) {
+					// if (s != null) {
+					// if (s instanceof String) {
+					// System.out.println(s.getClass() + " " + (String) s);
+					// } else if (s instanceof Integer) {
+					// System.out.println(s.getClass() + " " + (Integer) s);
+					// } else {
+					// System.out.println(s.getClass());
+					// }
+					// } else {
+					// System.out.println("null");
+					// }
+					// }
+					// }
+					try {
+						deleteRowsEventDataHandler.execute(deleteRowsEventData, schema, connection);
+					} catch (SQLException e) {
+						// throw new RuntimeException(e);
+						try {
+							binaryLogClient.disconnect();
+						} catch (IOException e1) {
+							e1.printStackTrace();
 						}
 					}
-					deleteRowsEventDataHandler.execute(deleteRowsEventData, schema);
 				} else if (event.getData() instanceof WriteRowsEventData) {
 					WriteRowsEventData writeRowsEventData = event.getData();
-					BitSet bitSet = writeRowsEventData.getIncludedColumns();
-					for (int i = 0; i < bitSet.length(); i++) {
-						System.out.println(bitSet.get(i));
-					}
-					System.out.println(writeRowsEventData.getTableId());
-					for (Serializable[] serializable : writeRowsEventData.getRows()) {
-						for (Serializable s : serializable) {
-							if (s instanceof String) {
-								System.out.println(s.getClass() + " " + (String) s);
-							} else if (s instanceof Integer) {
-								System.out.println(s.getClass() + " " + (Integer) s);
-							} else if (s == null) {
-								System.out.println("null");
-							} else {
-								System.out.println(s.getClass());
-							}
+					// BitSet bitSet = writeRowsEventData.getIncludedColumns();
+					// for (int i = 0; i < bitSet.length(); i++) {
+					// System.out.println(bitSet.get(i));
+					// }
+					// System.out.println(writeRowsEventData.getTableId());
+					// for (Serializable[] serializable :
+					// writeRowsEventData.getRows()) {
+					// for (Serializable s : serializable) {
+					// if (s instanceof String) {
+					// System.out.println(s.getClass() + " " + (String) s);
+					// } else if (s instanceof Integer) {
+					// System.out.println(s.getClass() + " " + (Integer) s);
+					// } else if (s == null) {
+					// System.out.println("null");
+					// } else {
+					// System.out.println(s.getClass());
+					// }
+					// }
+					// }
+					try {
+						writeRowsEventDataHandler.execute(writeRowsEventData, schema, connection);
+					} catch (SQLException e) {
+						// throw new RuntimeException(e);
+						try {
+							binaryLogClient.disconnect();
+						} catch (IOException e1) {
+							e1.printStackTrace();
 						}
 					}
-					writeRowsEventDataHandler.execute(writeRowsEventData, schema);
 				} else if (event.getData() instanceof TableMapEventData) {
 					TableMapEventData tableMapEventData = event.getData();
 					// System.out.println(tableMapEventData.getDatabase());

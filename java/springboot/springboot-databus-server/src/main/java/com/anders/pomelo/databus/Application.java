@@ -10,10 +10,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 import com.anders.pomelo.databus.cfg.BinlogProps;
 import com.anders.pomelo.databus.cfg.KafkaProps;
+import com.anders.pomelo.databus.cfg.SlavedbProps;
 import com.anders.pomelo.databus.cfg.ZkProps;
 
 @EnableAutoConfiguration
-@EnableConfigurationProperties({ KafkaProps.class, BinlogProps.class, ZkProps.class })
+@EnableConfigurationProperties({ KafkaProps.class, BinlogProps.class, ZkProps.class, SlavedbProps.class })
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 

@@ -40,7 +40,7 @@ import com.anders.pomelo.databus.model.column.StringColumn;
 import com.anders.pomelo.databus.model.column.TimeColumn;
 import com.anders.pomelo.databus.model.column.YearColumn;
 
-// bigint, varchar, tinyint, timestamp, bit, int, decimal, double, char, date, time, datetime, smallint, bigint unsigned, text
+// TODO Anders bigint, varchar, tinyint, timestamp, bit, int, decimal, double, char, date, time, datetime, smallint, bigint unsigned, text
 
 @Component
 public class DatabaseMetadata implements InitializingBean {
@@ -49,7 +49,6 @@ public class DatabaseMetadata implements InitializingBean {
 
 	@Autowired
 	private BinlogProps binlogProps;
-
 	@Autowired
 	private ColumnsMapper columnsMapper;
 	@Autowired

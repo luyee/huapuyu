@@ -10,6 +10,7 @@ public class SlavedbProps {
 	private String username;
 	private String password;
 	private String dbname;
+	private String url;
 
 	public String getHost() {
 		return host;
@@ -49,6 +50,14 @@ public class SlavedbProps {
 
 	public void setDbname(String dbname) {
 		this.dbname = dbname;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }
