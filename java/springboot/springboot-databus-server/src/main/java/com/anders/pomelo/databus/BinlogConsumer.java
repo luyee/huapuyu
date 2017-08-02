@@ -219,8 +219,20 @@ public class BinlogConsumer implements DisposableBean {
 					// for (byte i : tableMapEventData.getColumnTypes()) {
 					// System.out.println(i);
 					// }
-
-					schema.addTableId(tableMapEventData.getTableId(), tableMapEventData.getDatabase(), tableMapEventData.getTable());
+					try {
+						if (binlogProps.getIncludedDatabases().contains(tableMapEventData.getDatabase())) {
+							schema.addTableId(tableMapEventData.getTableId(), tableMapEventData.getDatabase(), tableMapEventData.getTable());
+						}
+					} catch (Throwable e) {
+						LOGGER.error("failed to add tableId", e);
+						try {
+							if (binaryLogClient != null && binaryLogClient.isConnected()) {
+								binaryLogClient.disconnect();
+							}
+						} catch (IOException e1) {
+							LOGGER.error("failed to disconnect", e1);
+						}
+					}
 				} else if (event.getData() instanceof XidEventData) {
 					// XidEventData xidEventData = event.getData();
 					// System.out.println(xidEventData.getXid());
