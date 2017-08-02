@@ -17,6 +17,7 @@ public class BinlogProps {
 	private String filename;
 	private int position;
 	private String includedDatabases;
+	// TODO Anders 添加通配符方式，可以忽略多个表
 	private String ignoredTables;
 
 	public String getHost() {
