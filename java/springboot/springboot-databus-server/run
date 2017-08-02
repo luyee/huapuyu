@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export PATH=$JAVA_8_HOME/bin:$PATH
-java -jar springboot-databus-server-1.0-SNAPSHOT.jar --spring.profiles.active=prod
+#java -jar springboot-databus-server-1.0-SNAPSHOT.jar --spring.profiles.active=prod
 java -jar springboot-databus-server-1.0-SNAPSHOT.jar --spring.profiles.active=dev
