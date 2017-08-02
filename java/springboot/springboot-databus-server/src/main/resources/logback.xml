@@ -31,12 +31,8 @@
 		<appender-ref ref="FILE" />
 	</appender>
 	
-		<root level="ERROR">
-			<appender-ref ref="STDOUT" />
-		</root>
-
 	<springProfile name="dev">
-		<root level="DEBUG">
+		<root level="WARN">
 			<appender-ref ref="FILE" />
 		</root>
 	</springProfile>

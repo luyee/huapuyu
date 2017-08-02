@@ -30,7 +30,7 @@ public class QueryEventDataHandler implements EventDataHandler {
 		stmt.executeUpdate(sql);
 		stmt.close();
 
-		LOGGER.error(queryEventData.getSql());
+		LOGGER.warn(queryEventData.getSql());
 
 	}
 }

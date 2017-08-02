@@ -61,7 +61,7 @@ public class WriteRowsEventDataHandler implements EventDataHandler {
 
 		if (binlogProps.getIncludedDatabases().contains(databaseName)) {
 			String sql = String.format("INSERT INTO `%s` (%s) VALUES (%s)", tableName, StringUtils.stripEnd(fields.toString(), ","), StringUtils.stripEnd(values.toString(), ","));
-			LOGGER.error(sql);
+			LOGGER.warn(sql);
 
 			for (Serializable[] row : rows) {
 				PreparedStatement stmt = connection.prepareStatement(sql);

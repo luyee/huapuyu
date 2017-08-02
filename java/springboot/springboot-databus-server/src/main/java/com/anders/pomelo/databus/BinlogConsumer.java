@@ -71,7 +71,7 @@ public class BinlogConsumer implements DisposableBean {
 		binaryLogClient.registerEventListener(new EventListener() {
 			@Override
 			public void onEvent(Event event) {
-				LOGGER.error("{}:{} {}:{}", binaryLogClient.getBinlogFilename(), binaryLogClient.getBinlogPosition(), event.getHeader().getClass(), event.getData().getClass());
+				LOGGER.warn("{}:{} {}:{}", binaryLogClient.getBinlogFilename(), binaryLogClient.getBinlogPosition(), event.getHeader().getClass(), event.getData().getClass());
 
 				if (event.getData() instanceof QueryEventData) {
 					QueryEventData queryEventData = event.getData();

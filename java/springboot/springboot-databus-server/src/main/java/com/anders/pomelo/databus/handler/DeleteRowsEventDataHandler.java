@@ -66,7 +66,7 @@ public class DeleteRowsEventDataHandler implements EventDataHandler {
 
 			for (Serializable[] row : rows) {
 				PreparedStatement stmt = connection.prepareStatement(sql);
-				LOGGER.error(sql);
+				LOGGER.warn(sql);
 
 				int i = 0;
 				for (Entry<Column, Integer> entry : pkColumns.entrySet()) {

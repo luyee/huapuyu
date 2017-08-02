@@ -72,7 +72,7 @@ public class UpdateRowsEventDataHandler implements EventDataHandler {
 
 		if (binlogProps.getIncludedDatabases().contains(databaseName)) {
 			String sql = String.format("UPDATE `%s` SET %s WHERE %s", tableName, StringUtils.stripEnd(sets.toString(), ","), StringUtils.stripEnd(where.toString(), " AND "));
-			LOGGER.error(sql);
+			LOGGER.warn(sql);
 
 			for (Entry<Serializable[], Serializable[]> row : rows) {
 				PreparedStatement stmt = connection.prepareStatement(sql);
