@@ -80,10 +80,13 @@ public class BinlogConsumer implements DisposableBean {
 							queryEventDataHandler.execute(queryEventData, schema, connection);
 						} catch (SQLException e) {
 							// throw new RuntimeException(e);
+							LOGGER.error("failed to execute query event", e);
 							try {
-								binaryLogClient.disconnect();
+								if (binaryLogClient != null && binaryLogClient.isConnected()) {
+									binaryLogClient.disconnect();
+								}
 							} catch (IOException e1) {
-								e1.printStackTrace();
+								LOGGER.error("failed to disconnect", e1);
 							}
 						}
 						schema = databaseMetadata.generate();
@@ -128,10 +131,13 @@ public class BinlogConsumer implements DisposableBean {
 						updateRowsEventDataHandler.execute(updateRowsEventData, schema, connection);
 					} catch (SQLException e) {
 						// throw new RuntimeException(e);
+						LOGGER.error("failed to execute update rows event", e);
 						try {
-							binaryLogClient.disconnect();
+							if (binaryLogClient != null && binaryLogClient.isConnected()) {
+								binaryLogClient.disconnect();
+							}
 						} catch (IOException e1) {
-							e1.printStackTrace();
+							LOGGER.error("failed to disconnect", e1);
 						}
 					}
 				} else if (event.getData() instanceof DeleteRowsEventData) {
@@ -158,10 +164,13 @@ public class BinlogConsumer implements DisposableBean {
 						deleteRowsEventDataHandler.execute(deleteRowsEventData, schema, connection);
 					} catch (SQLException e) {
 						// throw new RuntimeException(e);
+						LOGGER.error("failed to execute delete rows event", e);
 						try {
-							binaryLogClient.disconnect();
+							if (binaryLogClient != null && binaryLogClient.isConnected()) {
+								binaryLogClient.disconnect();
+							}
 						} catch (IOException e1) {
-							e1.printStackTrace();
+							LOGGER.error("failed to disconnect", e1);
 						}
 					}
 				} else if (event.getData() instanceof WriteRowsEventData) {
@@ -189,10 +198,13 @@ public class BinlogConsumer implements DisposableBean {
 						writeRowsEventDataHandler.execute(writeRowsEventData, schema, connection);
 					} catch (SQLException e) {
 						// throw new RuntimeException(e);
+						LOGGER.error("failed to execute write rows event", e);
 						try {
-							binaryLogClient.disconnect();
+							if (binaryLogClient != null && binaryLogClient.isConnected()) {
+								binaryLogClient.disconnect();
+							}
 						} catch (IOException e1) {
-							e1.printStackTrace();
+							LOGGER.error("failed to disconnect", e1);
 						}
 					}
 				} else if (event.getData() instanceof TableMapEventData) {
