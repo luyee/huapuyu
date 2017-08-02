@@ -125,7 +125,7 @@ public class DatabaseMetadata implements InitializingBean {
 		List<Columns> columnsList = columnsMapper.selectByTableSchema(database.getName());
 		if (CollectionUtils.isEmpty(columnsList)) {
 			LOGGER.warn("columnsList is empty");
-			return;
+			throw new RuntimeException("columnsList is empty");
 		}
 
 		for (Columns columns : columnsList) {
@@ -214,7 +214,7 @@ public class DatabaseMetadata implements InitializingBean {
 		List<KeyColumnUsage> keyColumnUsageList = keyColumnUsageMapper.selectByTableSchema(database.getName());
 		if (CollectionUtils.isEmpty(keyColumnUsageList)) {
 			LOGGER.warn("keyColumnUsageList is empty");
-			return;
+			throw new RuntimeException("keyColumnUsageList is empty");
 		}
 
 		for (KeyColumnUsage keyColumnUsage : keyColumnUsageList) {

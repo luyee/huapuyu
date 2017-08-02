@@ -70,7 +70,7 @@ public class UpdateRowsEventDataHandler implements EventDataHandler {
 			where.append("`" + entry.getKey().getName() + "`=? AND ");
 		}
 
-		if (binlogProps.getIncludedDatabases().contains(databaseName)) {
+		if (binlogProps.getIncludedDatabases().contains(databaseName) && !binlogProps.getIgnoredTables().contains(tableName)) {
 			String sql = String.format("UPDATE `%s` SET %s WHERE %s", tableName, StringUtils.stripEnd(sets.toString(), ","), StringUtils.stripEnd(where.toString(), " AND "));
 			LOGGER.warn(sql);
 

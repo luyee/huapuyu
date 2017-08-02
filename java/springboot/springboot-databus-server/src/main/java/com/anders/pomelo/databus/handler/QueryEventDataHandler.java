@@ -3,6 +3,9 @@ package com.anders.pomelo.databus.handler;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +20,14 @@ public class QueryEventDataHandler implements EventDataHandler {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(QueryEventDataHandler.class);
 
+	private final static Set<String> IGNORED_SQL = new HashSet<String>(Arrays.asList(new String[] { "BEGIN" }));
+
 	@Override
 	public void execute(EventData eventData, Schema schema, Connection connection) throws SQLException {
 		QueryEventData queryEventData = (QueryEventData) eventData;
 
 		String sql = queryEventData.getSql();
-		if (sql.equalsIgnoreCase("BEGIN")) {
+		if (IGNORED_SQL.contains(sql)) {
 			return;
 		}
 

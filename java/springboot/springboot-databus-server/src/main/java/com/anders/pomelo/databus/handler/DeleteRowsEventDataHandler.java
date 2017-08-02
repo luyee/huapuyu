@@ -61,7 +61,7 @@ public class DeleteRowsEventDataHandler implements EventDataHandler {
 			where.append("`" + entry.getKey().getName() + "`=? AND ");
 		}
 
-		if (binlogProps.getIncludedDatabases().contains(databaseName)) {
+		if (binlogProps.getIncludedDatabases().contains(databaseName) && !binlogProps.getIgnoredTables().contains(tableName)) {
 			String sql = String.format("DELETE FROM `%s` WHERE %s", tableName, StringUtils.stripEnd(where.toString(), " AND "));
 
 			for (Serializable[] row : rows) {

@@ -59,7 +59,7 @@ public class WriteRowsEventDataHandler implements EventDataHandler {
 			}
 		}
 
-		if (binlogProps.getIncludedDatabases().contains(databaseName)) {
+		if (binlogProps.getIncludedDatabases().contains(databaseName) && !binlogProps.getIgnoredTables().contains(tableName)) {
 			String sql = String.format("INSERT INTO `%s` (%s) VALUES (%s)", tableName, StringUtils.stripEnd(fields.toString(), ","), StringUtils.stripEnd(values.toString(), ","));
 			LOGGER.warn(sql);
 
