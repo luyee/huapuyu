@@ -109,9 +109,9 @@ public class DatabaseMetadata implements InitializingBean {
 
 		Map<String, Table> tableMap = new HashMap<String, Table>();
 		for (Tables tables : tablesList) {
-			if (ignoredTables.contains(tables.getTableName())) {
-				continue;
-			}
+			// if (ignoredTables.contains(tables.getTableName())) {
+			// continue;
+			// }
 
 			tableMap.put(tables.getTableName(), new Table(database.getName(), tables.getTableName(), tables.getCharacterSetName()));
 		}
@@ -129,6 +129,10 @@ public class DatabaseMetadata implements InitializingBean {
 		}
 
 		for (Columns columns : columnsList) {
+			if (ignoredTables.contains(columns.getTableName())) {
+				continue;
+			}
+
 			switch (columns.getDataType()) {
 			case "tinyint":
 			case "smallint":
@@ -218,6 +222,10 @@ public class DatabaseMetadata implements InitializingBean {
 		}
 
 		for (KeyColumnUsage keyColumnUsage : keyColumnUsageList) {
+			if (ignoredTables.contains(keyColumnUsage.getTableName())) {
+				continue;
+			}
+
 			Table table = tableMap.get(keyColumnUsage.getTableName());
 			List<Column> columns = table.getColumns();
 			table.addPkColumn(columns.get(keyColumnUsage.getOrdinalPosition().intValue() - 1), keyColumnUsage.getOrdinalPosition().intValue() - 1);

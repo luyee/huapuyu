@@ -48,6 +48,11 @@ public class UpdateRowsEventDataHandler implements EventDataHandler {
 		List<Entry<Serializable[], Serializable[]>> rows = updateRowsEventData.getRows();
 		String databaseName = schema.getDatabaseName(tableId);
 		String tableName = schema.getTableName(tableId);
+
+		if (!binlogProps.getIncludedDatabases().contains(databaseName) || binlogProps.getIgnoredTables().contains(tableName)) {
+			return;
+		}
+
 		// Database database = schema.getDatabase(tableId);
 		Table table = schema.getTable(tableId);
 		List<Column> columns = table.getColumns();
@@ -70,108 +75,106 @@ public class UpdateRowsEventDataHandler implements EventDataHandler {
 			where.append("`" + entry.getKey().getName() + "`=? AND ");
 		}
 
-		if (binlogProps.getIncludedDatabases().contains(databaseName) && !binlogProps.getIgnoredTables().contains(tableName)) {
-			String sql = String.format("UPDATE `%s` SET %s WHERE %s", tableName, StringUtils.stripEnd(sets.toString(), ","), StringUtils.stripEnd(where.toString(), " AND "));
-			LOGGER.warn(sql);
+		String sql = String.format("UPDATE `%s` SET %s WHERE %s", tableName, StringUtils.stripEnd(sets.toString(), ","), StringUtils.stripEnd(where.toString(), " AND "));
+		LOGGER.warn(sql);
 
-			for (Entry<Serializable[], Serializable[]> row : rows) {
-				PreparedStatement stmt = connection.prepareStatement(sql);
+		for (Entry<Serializable[], Serializable[]> row : rows) {
+			PreparedStatement stmt = connection.prepareStatement(sql);
 
-				for (int i = 0; i < row.getValue().length; i++) {
-					if (row.getValue()[i] != null) {
-						if (row.getValue()[i] instanceof String) {
-							stmt.setString(i + 1, (String) row.getValue()[i]);
-						} else if (row.getValue()[i] instanceof Integer) {
-							stmt.setInt(i + 1, (Integer) row.getValue()[i]);
-						} else if (row.getValue()[i] instanceof BigDecimal) {
-							stmt.setBigDecimal(i + 1, (BigDecimal) row.getValue()[i]);
-						} else if (row.getValue()[i] instanceof Boolean) {
-							stmt.setBoolean(i + 1, (boolean) row.getValue()[i]);
-						} else if (row.getValue()[i] instanceof byte[]) {
-							stmt.setBytes(i + 1, (byte[]) row.getValue()[i]);
-						} else if (row.getValue()[i] instanceof Double) {
-							stmt.setDouble(i + 1, (Double) row.getValue()[i]);
-						} else if (row.getValue()[i] instanceof Float) {
-							stmt.setFloat(i + 1, (Float) row.getValue()[i]);
-						} else if (row.getValue()[i] instanceof Long) {
-							stmt.setLong(i + 1, (Long) row.getValue()[i]);
-						} else if (row.getValue()[i] instanceof Short) {
-							stmt.setShort(i + 1, (Short) row.getValue()[i]);
-						} else if (row.getValue()[i] instanceof Blob) {
-							throw new RuntimeException("unsupported the type : " + Blob.class.getTypeName());
-						} else if (row.getValue()[i] instanceof Clob) {
-							throw new RuntimeException("unsupported the type : " + Clob.class.getTypeName());
-						} else if (row.getValue()[i] instanceof Byte) {
-							throw new RuntimeException("unsupported the type : " + Byte.class.getTypeName());
-						} else if (row.getValue()[i] instanceof BitSet) {
-							stmt.setBoolean(i + 1, ((BitSet) row.getValue()[i]).get(0));
-						} else if (row.getValue()[i] instanceof Date) {
-							stmt.setDate(i + 1, new Date(((Date) row.getValue()[i]).getTime() - tz.getRawOffset()));
-						} else if (row.getValue()[i] instanceof Time) {
-							stmt.setTime(i + 1, new Time(((Time) row.getValue()[i]).getTime() - tz.getRawOffset()));
-						} else if (row.getValue()[i] instanceof Timestamp) {
-							stmt.setTimestamp(i + 1, (Timestamp) row.getValue()[i]);
-						} else if (row.getValue()[i] instanceof java.util.Date) {
-							stmt.setTimestamp(i + 1, new Timestamp(((java.util.Date) row.getValue()[i]).getTime() - tz.getRawOffset()));
-						} else {
-							throw new RuntimeException("unsupported the type : " + row.getValue()[i].getClass().getTypeName());
-						}
+			for (int i = 0; i < row.getValue().length; i++) {
+				if (row.getValue()[i] != null) {
+					if (row.getValue()[i] instanceof String) {
+						stmt.setString(i + 1, (String) row.getValue()[i]);
+					} else if (row.getValue()[i] instanceof Integer) {
+						stmt.setInt(i + 1, (Integer) row.getValue()[i]);
+					} else if (row.getValue()[i] instanceof BigDecimal) {
+						stmt.setBigDecimal(i + 1, (BigDecimal) row.getValue()[i]);
+					} else if (row.getValue()[i] instanceof Boolean) {
+						stmt.setBoolean(i + 1, (boolean) row.getValue()[i]);
+					} else if (row.getValue()[i] instanceof byte[]) {
+						stmt.setBytes(i + 1, (byte[]) row.getValue()[i]);
+					} else if (row.getValue()[i] instanceof Double) {
+						stmt.setDouble(i + 1, (Double) row.getValue()[i]);
+					} else if (row.getValue()[i] instanceof Float) {
+						stmt.setFloat(i + 1, (Float) row.getValue()[i]);
+					} else if (row.getValue()[i] instanceof Long) {
+						stmt.setLong(i + 1, (Long) row.getValue()[i]);
+					} else if (row.getValue()[i] instanceof Short) {
+						stmt.setShort(i + 1, (Short) row.getValue()[i]);
+					} else if (row.getValue()[i] instanceof Blob) {
+						throw new RuntimeException("unsupported the type : " + Blob.class.getTypeName());
+					} else if (row.getValue()[i] instanceof Clob) {
+						throw new RuntimeException("unsupported the type : " + Clob.class.getTypeName());
+					} else if (row.getValue()[i] instanceof Byte) {
+						throw new RuntimeException("unsupported the type : " + Byte.class.getTypeName());
+					} else if (row.getValue()[i] instanceof BitSet) {
+						stmt.setBoolean(i + 1, ((BitSet) row.getValue()[i]).get(0));
+					} else if (row.getValue()[i] instanceof Date) {
+						stmt.setDate(i + 1, new Date(((Date) row.getValue()[i]).getTime() - tz.getRawOffset()));
+					} else if (row.getValue()[i] instanceof Time) {
+						stmt.setTime(i + 1, new Time(((Time) row.getValue()[i]).getTime() - tz.getRawOffset()));
+					} else if (row.getValue()[i] instanceof Timestamp) {
+						stmt.setTimestamp(i + 1, (Timestamp) row.getValue()[i]);
+					} else if (row.getValue()[i] instanceof java.util.Date) {
+						stmt.setTimestamp(i + 1, new Timestamp(((java.util.Date) row.getValue()[i]).getTime() - tz.getRawOffset()));
 					} else {
-						// stmt.setNull(i + 1, JDBCType.VARCHAR.ordinal());
-						stmt.setObject(i + 1, null);
+						throw new RuntimeException("unsupported the type : " + row.getValue()[i].getClass().getTypeName());
 					}
+				} else {
+					// stmt.setNull(i + 1, JDBCType.VARCHAR.ordinal());
+					stmt.setObject(i + 1, null);
 				}
-
-				int i = row.getValue().length;
-				for (Entry<Column, Integer> entry : pkColumns.entrySet()) {
-					if (row.getValue()[entry.getValue()] != null) {
-						if (row.getValue()[entry.getValue()] instanceof String) {
-							stmt.setString(i + 1, (String) row.getValue()[entry.getValue()]);
-						} else if (row.getValue()[entry.getValue()] instanceof Integer) {
-							stmt.setInt(i + 1, (Integer) row.getValue()[entry.getValue()]);
-						} else if (row.getValue()[entry.getValue()] instanceof BigDecimal) {
-							stmt.setBigDecimal(i + 1, (BigDecimal) row.getValue()[entry.getValue()]);
-						} else if (row.getValue()[entry.getValue()] instanceof Boolean) {
-							stmt.setBoolean(i + 1, (boolean) row.getValue()[entry.getValue()]);
-						} else if (row.getValue()[entry.getValue()] instanceof byte[]) {
-							stmt.setBytes(i + 1, (byte[]) row.getValue()[entry.getValue()]);
-						} else if (row.getValue()[entry.getValue()] instanceof Double) {
-							stmt.setDouble(i + 1, (Double) row.getValue()[entry.getValue()]);
-						} else if (row.getValue()[entry.getValue()] instanceof Float) {
-							stmt.setFloat(i + 1, (Float) row.getValue()[entry.getValue()]);
-						} else if (row.getValue()[entry.getValue()] instanceof Long) {
-							stmt.setLong(i + 1, (Long) row.getValue()[entry.getValue()]);
-						} else if (row.getValue()[entry.getValue()] instanceof Short) {
-							stmt.setShort(i + 1, (Short) row.getValue()[entry.getValue()]);
-						} else if (row.getValue()[entry.getValue()] instanceof Blob) {
-							throw new RuntimeException("unsupported the type : " + Blob.class.getTypeName());
-						} else if (row.getValue()[entry.getValue()] instanceof Clob) {
-							throw new RuntimeException("unsupported the type : " + Clob.class.getTypeName());
-						} else if (row.getValue()[entry.getValue()] instanceof Byte) {
-							throw new RuntimeException("unsupported the type : " + Byte.class.getTypeName());
-						} else if (row.getValue()[entry.getValue()] instanceof BitSet) {
-							stmt.setBoolean(i + 1, ((BitSet) row.getValue()[entry.getValue()]).get(0));
-						} else if (row.getValue()[entry.getValue()] instanceof Date) {
-							stmt.setDate(i + 1, new Date(((Date) row.getValue()[entry.getValue()]).getTime() - tz.getRawOffset()));
-						} else if (row.getValue()[entry.getValue()] instanceof Time) {
-							stmt.setTime(i + 1, new Time(((Time) row.getValue()[entry.getValue()]).getTime() - tz.getRawOffset()));
-						} else if (row.getValue()[entry.getValue()] instanceof Timestamp) {
-							stmt.setTimestamp(i + 1, (Timestamp) row.getValue()[entry.getValue()]);
-						} else if (row.getValue()[entry.getValue()] instanceof java.util.Date) {
-							stmt.setTimestamp(i + 1, new Timestamp(((java.util.Date) row.getValue()[entry.getValue()]).getTime() - tz.getRawOffset()));
-						} else {
-							throw new RuntimeException("unsupported the type : " + row.getValue()[entry.getValue()].getClass().getTypeName());
-						}
-					} else {
-						// stmt.setNull(i + 1, JDBCType.VARCHAR.ordinal());
-						stmt.setObject(i + 1, null);
-					}
-					i++;
-				}
-
-				stmt.execute();
-				stmt.close();
 			}
+
+			int i = row.getValue().length;
+			for (Entry<Column, Integer> entry : pkColumns.entrySet()) {
+				if (row.getValue()[entry.getValue()] != null) {
+					if (row.getValue()[entry.getValue()] instanceof String) {
+						stmt.setString(i + 1, (String) row.getValue()[entry.getValue()]);
+					} else if (row.getValue()[entry.getValue()] instanceof Integer) {
+						stmt.setInt(i + 1, (Integer) row.getValue()[entry.getValue()]);
+					} else if (row.getValue()[entry.getValue()] instanceof BigDecimal) {
+						stmt.setBigDecimal(i + 1, (BigDecimal) row.getValue()[entry.getValue()]);
+					} else if (row.getValue()[entry.getValue()] instanceof Boolean) {
+						stmt.setBoolean(i + 1, (boolean) row.getValue()[entry.getValue()]);
+					} else if (row.getValue()[entry.getValue()] instanceof byte[]) {
+						stmt.setBytes(i + 1, (byte[]) row.getValue()[entry.getValue()]);
+					} else if (row.getValue()[entry.getValue()] instanceof Double) {
+						stmt.setDouble(i + 1, (Double) row.getValue()[entry.getValue()]);
+					} else if (row.getValue()[entry.getValue()] instanceof Float) {
+						stmt.setFloat(i + 1, (Float) row.getValue()[entry.getValue()]);
+					} else if (row.getValue()[entry.getValue()] instanceof Long) {
+						stmt.setLong(i + 1, (Long) row.getValue()[entry.getValue()]);
+					} else if (row.getValue()[entry.getValue()] instanceof Short) {
+						stmt.setShort(i + 1, (Short) row.getValue()[entry.getValue()]);
+					} else if (row.getValue()[entry.getValue()] instanceof Blob) {
+						throw new RuntimeException("unsupported the type : " + Blob.class.getTypeName());
+					} else if (row.getValue()[entry.getValue()] instanceof Clob) {
+						throw new RuntimeException("unsupported the type : " + Clob.class.getTypeName());
+					} else if (row.getValue()[entry.getValue()] instanceof Byte) {
+						throw new RuntimeException("unsupported the type : " + Byte.class.getTypeName());
+					} else if (row.getValue()[entry.getValue()] instanceof BitSet) {
+						stmt.setBoolean(i + 1, ((BitSet) row.getValue()[entry.getValue()]).get(0));
+					} else if (row.getValue()[entry.getValue()] instanceof Date) {
+						stmt.setDate(i + 1, new Date(((Date) row.getValue()[entry.getValue()]).getTime() - tz.getRawOffset()));
+					} else if (row.getValue()[entry.getValue()] instanceof Time) {
+						stmt.setTime(i + 1, new Time(((Time) row.getValue()[entry.getValue()]).getTime() - tz.getRawOffset()));
+					} else if (row.getValue()[entry.getValue()] instanceof Timestamp) {
+						stmt.setTimestamp(i + 1, (Timestamp) row.getValue()[entry.getValue()]);
+					} else if (row.getValue()[entry.getValue()] instanceof java.util.Date) {
+						stmt.setTimestamp(i + 1, new Timestamp(((java.util.Date) row.getValue()[entry.getValue()]).getTime() - tz.getRawOffset()));
+					} else {
+						throw new RuntimeException("unsupported the type : " + row.getValue()[entry.getValue()].getClass().getTypeName());
+					}
+				} else {
+					// stmt.setNull(i + 1, JDBCType.VARCHAR.ordinal());
+					stmt.setObject(i + 1, null);
+				}
+				i++;
+			}
+
+			stmt.execute();
+			stmt.close();
 		}
 	}
 }

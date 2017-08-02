@@ -26,6 +26,7 @@ public class QueryEventDataHandler implements EventDataHandler {
 	public void execute(EventData eventData, Schema schema, Connection connection) throws SQLException {
 		QueryEventData queryEventData = (QueryEventData) eventData;
 
+		// TODO Anders 分析sql语句，ignored table不执行
 		String sql = queryEventData.getSql();
 		if (IGNORED_SQL.contains(sql)) {
 			return;
