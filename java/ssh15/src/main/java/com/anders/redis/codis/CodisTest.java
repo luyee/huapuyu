@@ -1,4 +1,4 @@
-package com.anders.codis;
+package com.anders.redis.codis;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPoolConfig;
