@@ -1,0 +1,5 @@
+dependencies {
+	compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+	// compile 'org.redisson:redisson:2.10.0'
+    compile 'org.redisson:redisson:3.5.0'  
+}

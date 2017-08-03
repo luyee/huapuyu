@@ -21,4 +21,5 @@ include "ethan-cfgcenter",
 		"ethan-fs",
 		"ethan-template",
 		"ethan-ejob",
-		"ethan-saturn"
+		"ethan-saturn",
+		"ethan-redisson"
