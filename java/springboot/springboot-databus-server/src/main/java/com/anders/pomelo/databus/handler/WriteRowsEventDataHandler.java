@@ -65,9 +65,9 @@ public class WriteRowsEventDataHandler implements EventDataHandler {
 		}
 
 		String sql = String.format("INSERT INTO `%s` (%s) VALUES (%s)", tableName, StringUtils.stripEnd(fields.toString(), ","), StringUtils.stripEnd(values.toString(), ","));
-		LOGGER.warn(sql);
 
 		for (Serializable[] row : rows) {
+			LOGGER.warn(sql);
 			PreparedStatement stmt = connection.prepareStatement(sql);
 
 			for (int i = 0; i < row.length; i++) {
