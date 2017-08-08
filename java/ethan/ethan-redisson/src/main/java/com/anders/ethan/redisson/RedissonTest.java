@@ -32,7 +32,7 @@ public class RedissonTest {
 		// }
 
 		String keyname = "";
-		for (int i = 0; i < 500000; i++) {
+		for (int i = 0; i < 1000000; i++) {
 			try {
 				keyname = "keys" + i;
 				RBucket<String> bucket = redisson.getBucket(keyname);
