@@ -61,7 +61,6 @@ public class BinlogConsumer implements DisposableBean {
 
 	public void start() throws IOException, SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection connection = DriverManager.getConnection(slavedbProps.getUrl(), slavedbProps.getUsername(), slavedbProps.getPassword());
 
 		schema = databaseMetadata.generate();
 
@@ -75,18 +74,29 @@ public class BinlogConsumer implements DisposableBean {
 
 				if (event.getData() instanceof QueryEventData) {
 					QueryEventData queryEventData = event.getData();
+					Connection connection = null;
 					if (binlogProps.getIncludedDatabases().contains(queryEventData.getDatabase())) {
 						try {
+							// TODO Anders 用线程池代替
+							connection = DriverManager.getConnection(slavedbProps.getUrl(), slavedbProps.getUsername(), slavedbProps.getPassword());
 							queryEventDataHandler.execute(queryEventData, schema, connection);
 						} catch (SQLException e) {
 							// throw new RuntimeException(e);
-							LOGGER.error("failed to execute query event", e);
+							LOGGER.error("failed to execute query event [{}:{}]", binaryLogClient.getBinlogFilename(), binaryLogClient.getBinlogPosition(), e);
 							try {
 								if (binaryLogClient != null && binaryLogClient.isConnected()) {
 									binaryLogClient.disconnect();
 								}
 							} catch (IOException e1) {
 								LOGGER.error("failed to disconnect", e1);
+							}
+						} finally {
+							if (connection != null) {
+								try {
+									connection.close();
+								} catch (SQLException e) {
+									LOGGER.error("failed to close connection", e);
+								}
 							}
 						}
 						schema = databaseMetadata.generate();
@@ -127,17 +137,30 @@ public class BinlogConsumer implements DisposableBean {
 					// }
 					// System.out.println("===============");
 					// }
+					Connection connection = null;
 					try {
+						// TODO Anders 用线程池代替
+						connection = DriverManager.getConnection(slavedbProps.getUrl(), slavedbProps.getUsername(), slavedbProps.getPassword());
+						connection.setAutoCommit(false);
 						updateRowsEventDataHandler.execute(updateRowsEventData, schema, connection);
+						connection.commit();
 					} catch (SQLException e) {
 						// throw new RuntimeException(e);
-						LOGGER.error("failed to execute update rows event", e);
+						LOGGER.error("failed to execute update rows event [{}:{}]", binaryLogClient.getBinlogFilename(), binaryLogClient.getBinlogPosition(), e);
 						try {
 							if (binaryLogClient != null && binaryLogClient.isConnected()) {
 								binaryLogClient.disconnect();
 							}
 						} catch (IOException e1) {
 							LOGGER.error("failed to disconnect", e1);
+						}
+					} finally {
+						if (connection != null) {
+							try {
+								connection.close();
+							} catch (SQLException e) {
+								LOGGER.error("failed to close connection", e);
+							}
 						}
 					}
 				} else if (event.getData() instanceof DeleteRowsEventData) {
@@ -160,17 +183,30 @@ public class BinlogConsumer implements DisposableBean {
 					// }
 					// }
 					// }
+					Connection connection = null;
 					try {
+						// TODO Anders 用线程池代替
+						connection = DriverManager.getConnection(slavedbProps.getUrl(), slavedbProps.getUsername(), slavedbProps.getPassword());
+						connection.setAutoCommit(false);
 						deleteRowsEventDataHandler.execute(deleteRowsEventData, schema, connection);
+						connection.commit();
 					} catch (SQLException e) {
 						// throw new RuntimeException(e);
-						LOGGER.error("failed to execute delete rows event", e);
+						LOGGER.error("failed to execute delete rows event [{}:{}]", binaryLogClient.getBinlogFilename(), binaryLogClient.getBinlogPosition(), e);
 						try {
 							if (binaryLogClient != null && binaryLogClient.isConnected()) {
 								binaryLogClient.disconnect();
 							}
 						} catch (IOException e1) {
 							LOGGER.error("failed to disconnect", e1);
+						}
+					} finally {
+						if (connection != null) {
+							try {
+								connection.close();
+							} catch (SQLException e) {
+								LOGGER.error("failed to close connection", e);
+							}
 						}
 					}
 				} else if (event.getData() instanceof WriteRowsEventData) {
@@ -194,17 +230,30 @@ public class BinlogConsumer implements DisposableBean {
 					// }
 					// }
 					// }
+					Connection connection = null;
 					try {
+						// TODO Anders 用线程池代替
+						connection = DriverManager.getConnection(slavedbProps.getUrl(), slavedbProps.getUsername(), slavedbProps.getPassword());
+						connection.setAutoCommit(false);
 						writeRowsEventDataHandler.execute(writeRowsEventData, schema, connection);
+						connection.commit();
 					} catch (SQLException e) {
 						// throw new RuntimeException(e);
-						LOGGER.error("failed to execute write rows event", e);
+						LOGGER.error("failed to execute write rows event [{}:{}]", binaryLogClient.getBinlogFilename(), binaryLogClient.getBinlogPosition(), e);
 						try {
 							if (binaryLogClient != null && binaryLogClient.isConnected()) {
 								binaryLogClient.disconnect();
 							}
 						} catch (IOException e1) {
 							LOGGER.error("failed to disconnect", e1);
+						}
+					} finally {
+						if (connection != null) {
+							try {
+								connection.close();
+							} catch (SQLException e) {
+								LOGGER.error("failed to close connection", e);
+							}
 						}
 					}
 				} else if (event.getData() instanceof TableMapEventData) {
@@ -224,7 +273,7 @@ public class BinlogConsumer implements DisposableBean {
 							schema.addTableId(tableMapEventData.getTableId(), tableMapEventData.getDatabase(), tableMapEventData.getTable());
 						}
 					} catch (Throwable e) {
-						LOGGER.error("failed to add tableId", e);
+						LOGGER.error("failed to add tableId [{}:{}]", binaryLogClient.getBinlogFilename(), binaryLogClient.getBinlogPosition(), e);
 						try {
 							if (binaryLogClient != null && binaryLogClient.isConnected()) {
 								binaryLogClient.disconnect();
