@@ -76,9 +76,9 @@ public class UpdateRowsEventDataHandler implements EventDataHandler {
 		}
 
 		String sql = String.format("UPDATE `%s` SET %s WHERE %s", tableName, StringUtils.stripEnd(sets.toString(), ","), StringUtils.stripEnd(where.toString(), " AND "));
-		LOGGER.warn(sql);
 
 		for (Entry<Serializable[], Serializable[]> row : rows) {
+			LOGGER.warn(sql);
 			PreparedStatement stmt = connection.prepareStatement(sql);
 
 			for (int i = 0; i < row.getValue().length; i++) {
