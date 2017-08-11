@@ -57,6 +57,13 @@ public class BinlogConsumer implements DisposableBean {
 		if (binaryLogClient != null && binaryLogClient.isConnected()) {
 			binaryLogClient.disconnect();
 		}
+
+		// TODO TODO 此处代码要删除掉
+		while (binaryLogClient.isConnected()) {
+			Thread.sleep(100);
+		}
+
+		System.out.println(String.format("last event is %s:%s", binaryLogClient.getBinlogFilename(), binaryLogClient.getBinlogPosition()));
 	}
 
 	public void start() throws IOException, SQLException, ClassNotFoundException {
