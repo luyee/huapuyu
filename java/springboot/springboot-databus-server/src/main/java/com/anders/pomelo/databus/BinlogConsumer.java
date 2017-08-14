@@ -89,7 +89,7 @@ public class BinlogConsumer implements DisposableBean {
 							queryEventDataHandler.execute(queryEventData, schema, connection);
 						} catch (SQLException e) {
 							// throw new RuntimeException(e);
-							LOGGER.error("failed to execute query event [{}:{}]", binaryLogClient.getBinlogFilename(), binaryLogClient.getBinlogPosition(), e);
+							LOGGER.error("failed to execute query event [{}:{}:{}:{}]", binaryLogClient.getBinlogFilename(), binaryLogClient.getBinlogPosition(), queryEventData.getDatabase(), queryEventData.getSql(), e);
 							try {
 								if (binaryLogClient != null && binaryLogClient.isConnected()) {
 									binaryLogClient.disconnect();
