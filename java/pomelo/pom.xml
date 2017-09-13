@@ -59,12 +59,12 @@
 			<dependency>
 				<groupId>com.alibaba.otter</groupId>
 				<artifactId>shared.etl</artifactId>
-				<version>4.2.14-SNAPSHOT</version>
+				<version>4.2.15-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba.otter</groupId>
 				<artifactId>node.etl</artifactId>
-				<version>4.2.14-SNAPSHOT</version>
+				<version>4.2.15-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
