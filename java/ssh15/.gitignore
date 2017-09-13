@@ -4,3 +4,5 @@
 /.settings/
 /.classpath
 /.project
+/metastore_db/
+/derby.log
