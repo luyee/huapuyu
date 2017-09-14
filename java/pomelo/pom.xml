@@ -103,6 +103,7 @@
 		<module>pomelo-dubbo-consumer</module>
 		<module>pomelo-presto-parser</module>
 		<module>pomelo-saturn</module>
+		<module>pomelo-spark</module>
 	</modules>
 
 </project>
