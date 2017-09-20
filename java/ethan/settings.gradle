@@ -22,4 +22,5 @@ include "ethan-cfgcenter",
 		"ethan-template",
 		"ethan-ejob",
 		"ethan-saturn",
-		"ethan-redisson"
+		"ethan-redisson",
+		"ethan-calcite"

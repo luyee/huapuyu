@@ -1,0 +1,6 @@
+dependencies {
+	compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+	compile 'commons-io:commons-io:2.5'
+	compile 'org.apache.calcite:calcite-mongodb:1.13.0'
+	compile 'org.apache.calcite:calcite-elasticsearch:1.13.0'
+}
