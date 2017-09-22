@@ -3,6 +3,7 @@ package com.anders.ssh.datasource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -203,5 +204,10 @@ public class DynamicDataSource extends AbstractRoutingDataSource implements Disp
 	public void destroy() throws Exception {
 		shutdownHeartBean();
 
+	}
+
+	@Override
+	public java.util.logging.Logger getParentLogger() throws SQLFeatureNotSupportedException {
+		return null;
 	}
 }
