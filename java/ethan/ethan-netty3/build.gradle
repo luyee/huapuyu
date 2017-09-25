@@ -1,4 +1,4 @@
 dependencies {
 	compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
-	compile 'io.netty:netty:3.10.6.Final'
+	compile 'org.jboss.netty:netty:3.2.10.Final'
 }
