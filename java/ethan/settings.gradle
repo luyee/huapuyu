@@ -23,4 +23,6 @@ include "ethan-cfgcenter",
 		"ethan-ejob",
 		"ethan-saturn",
 		"ethan-redisson",
-		"ethan-calcite"
+		"ethan-calcite",
+		"ethan-netty3",
+		"ethan-netty4"
