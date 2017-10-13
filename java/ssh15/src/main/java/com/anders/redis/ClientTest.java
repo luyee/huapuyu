@@ -1,15 +1,19 @@
 package com.anders.redis;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.junit.Test;
 
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisSentinelPool;
 import redis.clients.jedis.JedisShardInfo;
@@ -100,5 +104,55 @@ public class ClientTest {
 		jedis.set("z", "bar");
 		pool.returnResource(jedis);
 		pool.destroy();
+	}
+	
+	@Test
+	public void test4() {
+		JedisPoolConfig config = new JedisPoolConfig();
+		config.setMaxIdle(10);
+		config.setMaxTotal(50);
+		config.setMaxWaitMillis(3 * 1000);
+
+		JedisPool pool = new JedisPool(config, "192.168.56.121", 6379);
+		
+		ExecutorService p = Executors.newFixedThreadPool(400);
+
+		for (int i=0; i< 40; i++)
+			p.execute(new MyThread(pool, i));
+
+		// pool.shutdown();
+		// pool.close();
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+
+class MyThread extends Thread {
+
+	private JedisPool pool;
+	private int i;
+
+	public MyThread(JedisPool pool, int i) {
+		this.pool = pool;
+		this.i = i;
+	}
+
+	@Override
+	public void run() {
+		Jedis client = pool.getResource();
+		while (true) {
+			try {
+				String result = client.set("name" + i, "guolili");
+				System.out.println(result);
+				Thread.sleep(60000);
+				String value = client.get("name" + i);
+				System.out.println(value);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			} 
+		}
 	}
 }

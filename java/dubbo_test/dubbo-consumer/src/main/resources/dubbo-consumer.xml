@@ -44,9 +44,9 @@
 	<!-- <dubbo:reference id="demoService" filter="catFilter" interface="com.alibaba.dubbo.demo.DemoService" group="demo" />
 	<dubbo:reference id="demo1Service" filter="catFilter" interface="com.alibaba.dubbo.demo.DemoService" group="demo1" cache="lru" /> -->
 	
-	<dubbo:registry file="${user.home}/output/dubbo.cache" check="false" /> 
+	<!-- <dubbo:registry file="${user.home}/output/dubbo.cache" check="false" />  -->
 	
-	<dubbo:reference interface="com.anders.ethan.dubbo.service.UserService" 
+	<!-- <dubbo:reference interface="com.anders.ethan.dubbo.service.UserService" 
 		connections="5" 
 		retries="1" 
 		actives="10"
@@ -57,7 +57,11 @@
 		cluster="forking"
 		cache="false"
 		check="true"
-		init="true" /> 
+		init="true" /> -->
+		
+	<dubbo:reference interface="com.anders.ethan.dubbo.service.UserService" 
+		timeout="60000" 
+		id="userService" /> 
 	
 	<!--  
 	<dubbo:reference id="demoService" interface="com.alibaba.dubbo.demo.DemoService" 
