@@ -9,8 +9,13 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-import com.anders.pomelo.databus.cfg.BinlogProps;
 import com.anders.pomelo.databus.cfg.RedisProps;
+import com.moilioncircle.redis.replicator.RedisReplicator;
+import com.moilioncircle.redis.replicator.Replicator;
+import com.moilioncircle.redis.replicator.cmd.Command;
+import com.moilioncircle.redis.replicator.cmd.CommandListener;
+import com.moilioncircle.redis.replicator.rdb.RdbListener;
+import com.moilioncircle.redis.replicator.rdb.datatype.KeyValuePair;
 
 @EnableAutoConfiguration
 @EnableConfigurationProperties({ RedisProps.class })
@@ -40,5 +45,8 @@ public class Application implements CommandLineRunner {
             }
         });
         replicator.open();
+        
+        System.in.read();
+        replicator.close();
 	}
 }
