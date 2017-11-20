@@ -80,6 +80,7 @@
 		<module>springboot-otter-es5</module>
 		<module>springboot-otter-mongodb</module>
 		<module>springboot-databus-server</module>
+		<module>springboot-databus-redis</module>
 	</modules>
 
 </project>
