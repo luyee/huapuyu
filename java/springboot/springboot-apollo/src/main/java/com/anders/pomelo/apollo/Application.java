@@ -1,4 +1,4 @@
-package com.anders.pomelo.otter;
+package com.anders.pomelo.apollo;
 
 import java.io.IOException;
 
