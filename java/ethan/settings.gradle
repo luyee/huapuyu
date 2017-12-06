@@ -26,4 +26,5 @@ include "ethan-cfgcenter",
 		"ethan-calcite",
 		"ethan-netty3",
 		"ethan-netty4",
-		"ethan-activemq"
+		"ethan-activemq",
+		"ethan-mgr"
