@@ -51,7 +51,7 @@ class MyThread extends Thread {
 	public void run() {
 		Connection con = null;
 		Statement stmt = null;
-		for (int i = starter; i < 10000000; i = i + 100) {
+		for (int i = starter; i < 10000; i = i + 100) {
 			try {
 				con = DriverManager.getConnection(url, username, password);
 				stmt = con.createStatement();
