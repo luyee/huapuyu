@@ -9,6 +9,12 @@ import java.util.concurrent.Executors;
 
 import org.junit.Test;
 
+/**
+ * 多线程测试
+ * 
+ * @author Anders
+ *
+ */
 public class SqlTest {
 
 	@Test

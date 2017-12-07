@@ -7,6 +7,12 @@ import java.sql.Statement;
 
 import org.junit.Test;
 
+/**
+ * 单线程测试
+ * 
+ * @author Anders
+ *
+ */
 public class SqlTest2 {
 
 	@Test
