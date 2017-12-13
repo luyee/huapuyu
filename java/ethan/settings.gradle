@@ -27,4 +27,5 @@ include "ethan-cfgcenter",
 		"ethan-netty3",
 		"ethan-netty4",
 		"ethan-activemq",
-		"ethan-mgr"
+		"ethan-mgr",
+		"ethan-netty-4-0-54"
