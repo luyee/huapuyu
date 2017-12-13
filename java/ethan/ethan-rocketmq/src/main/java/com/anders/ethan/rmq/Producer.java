@@ -11,7 +11,9 @@ public class Producer {
 	public static void main(String[] args)
 			throws MQClientException, RemotingException, MQBrokerException, InterruptedException {
 		DefaultMQProducer producer = new DefaultMQProducer("rmq_test123");
-		producer.setNamesrvAddr("192.168.56.121:9876");
+		// producer.setNamesrvAddr("192.168.56.121:9876");
+		producer.setNamesrvAddr(
+				"192.168.56.101:9876,192.168.56.102:9876,192.168.56.103:9876,192.168.56.104:9876,192.168.56.105:9876");
 		producer.start();
 
 		Message msg = new Message("TopicTest", // topic
