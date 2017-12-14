@@ -1,5 +1,8 @@
 package com.anders.ethan.netty.server;
 
+import com.anders.ethan.netty.common.NettyDecoder;
+import com.anders.ethan.netty.common.NettyEncoder;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -33,8 +36,11 @@ public final class EchoServer {
 						@Override
 						public void initChannel(SocketChannel ch) throws Exception {
 							ChannelPipeline p = ch.pipeline();
-							p.addLast(new LoggingHandler(LogLevel.INFO));
-							p.addLast(new EchoServerHandler());
+							p.addLast(new NettyEncoder());
+							p.addLast(new NettyDecoder());
+//							p.addLast(new LoggingHandler(LogLevel.INFO));
+//							p.addLast(new EchoServerHandler());
+							p.addLast(new NettyServerHandler());
 						}
 					});
 

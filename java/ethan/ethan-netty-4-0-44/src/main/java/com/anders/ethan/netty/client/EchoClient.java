@@ -1,5 +1,9 @@
 package com.anders.ethan.netty.client;
 
+import com.anders.ethan.netty.common.NettyDecoder;
+import com.anders.ethan.netty.common.NettyEncoder;
+import com.anders.ethan.netty.common.RemotingCommand;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -30,12 +34,21 @@ public final class EchoClient {
 						@Override
 						public void initChannel(SocketChannel ch) throws Exception {
 							ChannelPipeline p = ch.pipeline();
-							p.addLast(new LoggingHandler(LogLevel.INFO));
-							p.addLast(new EchoClientHandler());
+							p.addLast(new NettyEncoder());
+							p.addLast(new NettyDecoder());
+//							p.addLast(new LoggingHandler(LogLevel.INFO));
+//							p.addLast(new EchoClientHandler());
+							p.addLast(new NettyClientHandler());
 						}
 					});
 
 			ChannelFuture f = b.connect(HOST, PORT).sync();
+			
+			RemotingCommand remotingCommand = new RemotingCommand();
+			remotingCommand.setHead("zhuzhen".getBytes());
+			remotingCommand.setBody("hello world".getBytes());
+			
+			f.channel().writeAndFlush(remotingCommand);
 
 			// Wait until the connection is closed.
 			f.channel().closeFuture().sync();

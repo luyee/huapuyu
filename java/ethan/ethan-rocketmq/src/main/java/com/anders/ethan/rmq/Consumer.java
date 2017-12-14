@@ -32,11 +32,9 @@ import com.alibaba.rocketmq.common.message.MessageExt;
 public class Consumer {
 
     public static void main(String[] args) throws InterruptedException, MQClientException {
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("please_rename_unique_group_name_4");
-        /**
-         * 设置Consumer第一次启动是从队列头部开始消费还是队列尾部开始消费<br>
-         * 如果非第一次启动，那么按照上次消费的位置继续消费
-         */
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("test_consumer");
+        consumer.setNamesrvAddr(
+				"192.168.56.101:9876;192.168.56.102:9876;192.168.56.103:9876;192.168.56.104:9876;192.168.56.105:9876");
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
 
         consumer.subscribe("TopicTest", "*");
