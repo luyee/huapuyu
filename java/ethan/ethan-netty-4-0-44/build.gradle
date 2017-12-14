@@ -1,0 +1,4 @@
+dependencies {
+	compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+	compile 'io.netty:netty-all:4.0.44.Final'
+}
